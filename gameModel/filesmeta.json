@@ -1,0 +1,56 @@
+{
+  "/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/high_pain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/horrible_pain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/low_pain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/mild_pain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/no_pain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/sleepy_face.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  }
+}

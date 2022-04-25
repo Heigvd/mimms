@@ -1,0 +1,402 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "subtitle",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'staticTextDescriptor'))",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import {getPatientAsChoices} from './WegasHelper'\nconst choices = getPatientAsChoices();\t\nchoices;",
+              "language" : "typescript"
+            },
+            "className" : "",
+            "flexGrow" : 1,
+            "id" : "patientSelector",
+            "layoutStyle" : { },
+            "name" : "patient Select",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'whoAmI')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getScenariosAsChoices } from \"./WegasHelper\";\nconst choices = getScenariosAsChoices();\t\nchoices;",
+              "language" : "typescript"
+            },
+            "flexGrow" : 1,
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'currentScenario')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAutonomicNervousSystemModelsAsChoices } from \"./WegasHelper\";\nconst choices = getAutonomicNervousSystemModelsAsChoices();\t\nchoices;",
+              "language" : "typescript"
+            },
+            "flexGrow" : 1,
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'ansModel')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : { },
+        "name" : "env setup",
+        "onVariableChange" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Context.item.variable.getLabel());",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "displayValues" : "NumberInput",
+                "layoutStyle" : { },
+                "name" : "",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.item.variable;",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "NumberSlider"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, \"env\").getItems().map(e => ({id: e.getId(), variable: e}))",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "icon" : "eraser",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { dropObjectInstance } from \"./WegasHelper\";\n\ndropObjectInstance(Variable.find(gameModel, 'output').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputCardio').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputOther').getInstance(self));",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "clear",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "icon" : "play",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { run } from \"./RUN\";\n\nrun();",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "run",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "",
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "name" : "Tools"
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<h1>Poumons</h1>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "let config;\nif (Context.graph.id === 'para|ortho'){\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":-100, max:100}}\n} else {\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":0}}\n}\nconfig;",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.graph.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "className" : "r",
+        "exposeAs" : "graph",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getVitalsSeries } from \"./WegasHelper\";\ngetVitalsSeries();",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "name" : "vitals",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<h1>Cardio</h1>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "let config;\nif (Context.graph.id === 'para|ortho'){\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":-100, max:100}}\n} else {\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":0}}\n}\nconfig;",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.graph.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "className" : "r",
+        "exposeAs" : "graph",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getCardioVitalsSeries } from \"./WegasHelper\";\ngetCardioVitalsSeries();",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "name" : "vitals",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<h1>Others</h1>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "let config;\nif (Context.graph.id === 'ortho'){\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":0, max:100}}\n} else {\n\tconfig = {\"x\":{\"min\":0},\"y\":{\"min\":0}}\n}\nconfig;",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.graph.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "className" : "r",
+        "exposeAs" : "graph",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getOtherVitalsSeries } from \"./WegasHelper\";\ngetOtherVitalsSeries();",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "name" : "vitals",
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

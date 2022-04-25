@@ -1,0 +1,62 @@
+{
+  "defaultPageId" : "5",
+  "root" : {
+    "@class" : "Folder",
+    "items" : [ {
+      "@class" : "Page",
+      "id" : "5",
+      "name" : "HUMAN Map",
+      "scenaristPage" : false,
+      "trainerPage" : null
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "4",
+        "name" : "setup",
+        "scenaristPage" : true,
+        "trainerPage" : true
+      } ],
+      "name" : "TrainerPages"
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "1",
+        "name" : "HUMAn for tests",
+        "scenaristPage" : true,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "2",
+        "name" : "Data Edition",
+        "scenaristPage" : true,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "3",
+        "name" : "(para)SympatheticSystem",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "7",
+        "name" : "spy",
+        "scenaristPage" : true,
+        "trainerPage" : false
+      } ],
+      "name" : "Scenarist"
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "6",
+        "name" : "patientPage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      } ],
+      "name" : "PatientPage"
+    } ],
+    "name" : null
+  }
+}

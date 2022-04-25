@@ -1,0 +1,128 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'inSim_ref')",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Number"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'coagulation'))",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'coagulation')",
+          "language" : "JavaScript"
+        },
+        "style" : { },
+        "type" : "checkbox"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'vasoconstriction'))",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'vasoconstriction')",
+          "language" : "JavaScript"
+        },
+        "style" : { },
+        "type" : "checkbox"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'vasoconstrictionLungs'))",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'vasoconstrictionLungs')",
+          "language" : "JavaScript"
+        },
+        "style" : { },
+        "type" : "checkbox"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'running').getValue(self) === true;",
+          "language" : "JavaScript"
+        },
+        "icon" : "play",
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "TimeManager.start();",
+            "language" : "JavaScript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'running').getValue(self) === false;",
+          "language" : "JavaScript"
+        },
+        "icon" : "pause",
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "TimeManager.pause();",
+            "language" : "JavaScript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

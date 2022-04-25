@@ -1,0 +1,28 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "flexValues" : { },
+        "layoutStyle" : { },
+        "list" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'data')",
+          "language" : "JavaScript"
+        },
+        "style" : {
+          "overflow" : "auto"
+        }
+      },
+      "type" : "Variable tree"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

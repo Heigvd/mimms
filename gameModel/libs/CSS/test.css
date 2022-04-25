@@ -1,0 +1,71 @@
+.body_picto {
+	max-width: 250px;
+	max-height: 250px;
+}
+
+.body_picto .mouth_neutral,
+.body_picto .mouth_happy,
+.body_picto .blood,
+.body_picto .eyes_dead,
+.body_picto .eyes_N-A,
+.body_picto .eyes_AlertMinus,
+.body_picto .eyes_AlertPlus {
+	display: none;
+}
+
+
+.body_picto.mouth_neutral .mouth_neutral {
+	display: block;
+}
+
+.body_picto.mouth_happy .mouth_happy{
+	display: block;
+}
+
+.body_picto.blood .blood {
+	display: block;
+}
+
+.body_picto.eyes_dead .eyes_dead {
+	display: block;
+}
+
+.body_picto.eyes_N-A .eyes_N-A {
+	display: block;
+}
+
+.body_picto.eyes_AlertMinus .eyes_AlertMinus {
+	display: block;
+}
+
+.body_picto.eyes_AlertPlus .eyes_AlertPlus {
+	display: none;
+}
+
+
+.patientConsole .selected {
+	border : 2px solid hotpink;
+}
+
+.face-color {
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	height:20px;
+	background: linear-gradient(90deg, rgba(210,210,210,1) 0%, rgba(128,128,128,1) 50%, rgba(0,0,0,1) 100%); 
+}
+
+.face-color .tick {
+	position: absolute;
+	top: 20px;
+	/*left: 50px;*/
+	width: 0; 
+ 	height: 0; 
+  	border-left: 4px solid transparent;
+  	border-right: 4px solid transparent;
+  	border-bottom: 10px solid rgb(255, 0, 0);
+}
+
+.modalPatient {
+	max-height: 100%;
+}

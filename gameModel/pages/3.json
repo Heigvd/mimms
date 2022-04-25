@@ -1,0 +1,160 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<strong>Sympathetic System Activation</strong>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "height" : 300,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "({\"x\":{},\"y\":{\n\t\"min\":0,\n\t\"max\":100,\n\ttitle: {\n\t\tdisplay: true,\n\t\ttext: 'ortho',\n\t}\n\t}});",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.item.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getSystemSeries } from \"./WegasHelper\";\ngetSystemSeries();",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : false,
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<strong>(para)Sympathetic System Effects</strong>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "height" : 300,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "({\"x\":{\n\t\"min\":0,\n\t\"max\":100,\n\ttitle: {\n\t\tdisplay: true,\n\t\ttext: 'ortho',\n\t}\n},\"y\":{\n\t\n\t\n\t}});",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.item.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getCompensationSeries } from \"./WegasHelper\";\ngetCompensationSeries();",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : false,
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
