@@ -16,7 +16,7 @@ export type Phone = {
 	phoneName : string;
 	phoneId : number;
 	//other phone ids present in contact
-	contactIds : number[];
+	//contactIds : number[];
 }
 
 export type CommunicationEvent = BaseEvent & {
@@ -55,12 +55,6 @@ export type PhoneCommunicationEvent = CommunicationEvent & {
 export type PhoneCreationEvent = BaseEvent & {
 	type : 'PhoneCreation';
 	phoneTemplate : Phone;
-}
-
-export type PhoneContactExchangeEvent = BaseEvent & {
-	type : 'PhoneContactExchange';
-	phoneId1 : number;
-	phoneId2: number;
 }
 
 const commLogger = Helpers.getLogger("communication");
@@ -195,24 +189,13 @@ export function processPhoneCommunication(event : PhoneCommunicationEvent){
 	}
 }
 
-export function processPhoneContactExchange(event : PhoneContactExchangeEvent){
-	const id1 = event.phoneId1;
-	const id2 = event.phoneId2;
-	if(phones[id1]){
-		phones[id1].contactIds.push(id2);
-	}
-	if(phones[id2]){
-		phones[id2].contactIds.push(id1);
-	}
-}
-
 export function processPhoneCreation(event : PhoneCreationEvent){
 	commLogger.warn(`processing phone creation event (${event.id}) : ${event.phoneTemplate}`);
 	const id = event.id;
 	if(!phones[id]){
 		phones[id] = event.phoneTemplate;
 		phones[id].phoneId = id;//assign event id as phone id
-		phones[id].contactIds = phones[id].contactIds || [];
+		//phones[id].contactIds = phones[id].contactIds || [];
 		phoneMessages[id] = [];
 	}else{
 		commLogger.warn(`Ignoring phone creation of ${event.phoneTemplate}, already exists`);
@@ -220,19 +203,28 @@ export function processPhoneCreation(event : PhoneCreationEvent){
 
 }
 
-export function getPhones(): Phone[] {
-	//commLogger.warn(phones);
-	return Object.values(phones);
+export function getPhones(filterFunc? : ((p :Phone) => boolean)): Phone[] {
+	if(filterFunc){
+		return Object.values(phones).filter(p => filterFunc(p));
+	}else{
+		return Object.values(phones)
+	}
+}
+
+export function getOtherPhones(): Phone[] {
+	const mine = getMyPhone();
+	return getPhones((p) => p.phoneId !== mine?.phoneId);
 }
 
 export function getPhoneDropDownList(): {label: string, value: string}[] {
-	const phones = getPhones();
+	const phones = getOtherPhones();
+	commLogger.warn('other phones ', phones);
 	return phones.map(p => ({label : p.phoneName, value: p.phoneId.toString()}));
 }
 
 export function getUserPhone(name: string): Phone | undefined {
-	const phones = getPhones();
-	return phones.find(p => p.phoneName?.startsWith(name));
+	const phones = getPhones(p => p.phoneName?.startsWith(name));
+	return phones.length > 0 ? phones[0]: undefined;
 }
 
 export function userHasPhone(name?: string): boolean {
@@ -254,17 +246,13 @@ export function getRadioMessages(channel: Channel): string[] {
 // get messages sent to a phone from another phone to current patient
 export function getPhoneMessages(fromPhoneId : number): string[] {
 
-	const recipient = Variable.find(gameModel, 'currentPatient').getValue(self);
-	const rPhone = getUserPhone(recipient);
+	const myPhone = getMyPhone();
 
-	//const fromPhone = phones[fromPhoneId];
-	//const fromName = fromPhone?.phoneName || fromPhoneId;
-
-	if(rPhone){
-		commLogger.warn(rPhone);
-		if(phoneMessages[rPhone.phoneId])
+	if(myPhone){
+		commLogger.warn(myPhone);
+		if(phoneMessages[myPhone.phoneId])
 		{
-			const messages = phoneMessages[rPhone.phoneId];
+			const messages = phoneMessages[myPhone.phoneId];
 			commLogger.warn(messages);
 			const filtered = messages.filter(m => m.senderPhoneId === fromPhoneId);
 			return filtered.map(m => {return `${m.time} : ${m.message}`;});
@@ -273,18 +261,17 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
 		}
 
 	}else{
-		return [recipient + ' has no phone'];
+		return [whoAmI() + ' has no phone'];
 	}
 }
 
 /**
- * @return the messages heard recently by the current patient 
+ * @return the messages heard recently
  */
 export function getDirectMessages(): string[] {
-	//Note : should be whoAmI. current patient here for test purposes
-	const selected = Variable.find(gameModel, 'currentPatient').getValue(self);
-	if(directMessages[selected]){
-		const filtered = filterByTime(directMessages[selected]);
+	const me = whoAmI();//Variable.find(gameModel, 'currentPatient').getValue(self);
+	if(directMessages[me]){
+		const filtered = filterByTime(directMessages[me]);
 		return filtered.map(m => `(${m.time}) ${m.sender} : ${m.message}`);
 	}
 	return [];
@@ -293,6 +280,6 @@ export function getDirectMessages(): string[] {
 function filterByTime<E extends BaseEvent>(events: E[]): E[]{
 	const currentTime = getCurrentSimulationTime();
 	return events.filter( e => e.time > currentTime - messageTTLsec);
-} 
+}
 
 

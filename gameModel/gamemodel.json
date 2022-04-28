@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1649945085344,
+  "createdTime" : 1651154190797,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -606,7 +606,7 @@
       "maxSelectable" : 1,
       "name" : "whoAmI",
       "refId" : "StringDescriptor:22373417:5wvBQV",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -664,7 +664,7 @@
       "maxSelectable" : 1,
       "name" : "currentPatient",
       "refId" : "StringDescriptor:24035451:Y9DD7s",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -695,7 +695,7 @@
       },
       "name" : "showPatientModal",
       "refId" : "BooleanDescriptor:24041344:DCh828",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1595,6 +1595,32 @@
       "validationPattern" : null,
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:49699:pW4CQv",
+        "value" : -1.0
+      },
+      "defaultValue" : -1.0,
+      "editorTag" : "recipientPhoneId",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:49700:TrTLVf",
+        "translations" : { }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "recipientPhoneId",
+      "refId" : "NumberDescriptor:49698:FGjC60",
+      "scopeType" : "PlayerScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1914,7 +1940,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn (2)",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
