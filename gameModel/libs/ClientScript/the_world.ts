@@ -177,9 +177,9 @@ let currentProcessedEvents: Event[] = [];
 let fogType: FogType = 'SIGHT';
 
 // TODO: line of sight: 
-const radius = 100;
+export const lineOfSightRadius = 250;
 
-const sqRadius = radius * radius;
+const sqRadius = lineOfSightRadius * lineOfSightRadius;
 
 ///////////////////////////////////////////////////////////////////////////
 // Helpers & Utils

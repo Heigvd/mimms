@@ -1,6 +1,6 @@
 import { add, interpolate, normalize, Point } from "./helper";
 import { BodyPosition, Glasgow, HumanBody } from "./HUMAn";
-import { getHuman, getHumans, Located } from "./the_world";
+import { getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 
 export interface HumanOverview {
@@ -23,13 +23,13 @@ export function getFogOfWar() {
 	if (myLocation != null) {
 		const x = myLocation.x;
 		const y = myLocation.y;
-		const radius = 100;
+		const radius = lineOfSightRadius;
 
-		return `<svg width="500px" height="500px" class="fogOfWar">                                                                                                                                                                                                                                  
-	<path class="rect1176" style="opacity:0.8;fill:#ececec;"                                                                                                                                        
-    d="M 0 0 L 0 500 L 500 500 L 500 0 L 0 0 z 
+		return `<svg width="1000px" height="500px" class="fogOfWar">
+	<path class="rect1176" style="opacity:0.8;fill:#849784;"
+    d="M 0 0 L 0 500 L 1000 500 L 1000 0 L 0 0 z 
     M ${x - radius} ${y} 
-    A 100 100 0 0 1 ${x + radius} ${y}                               
+    A 100 100 0 0 1 ${x + radius} ${y}
     A 100 100 0 0 1 ${x - radius} ${y}
     z " />
 	</svg>`;
