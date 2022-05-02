@@ -94,7 +94,6 @@ var EventManager = ((function () {
 			phoneTemplate :{
 				//id will be determined by event id itself
 				phoneName: whoAmI() + "'s phone",
-				contactIds: []
 			}
 		}
 	}
@@ -174,12 +173,12 @@ var EventManager = ((function () {
 			var event = buildRadioChannelUpdateEvent(radioId, newChannelId);
 			sendEvent(event);
 		},
-		phoneCommunication: function(senderPhoneId, recipientPhoneId){
+		phoneCommunication: function(senderPhoneId){
 			lock();
 			var event = buildCommunicationEvent('PhoneCommunication', 'lastPhoneMsg');
-			event.recipientPhoneId = recipientPhoneId;
+			event.recipientPhoneId = Variable.find(gameModel, 'recipientPhoneId').getValue(self);
 			event.senderPhoneId = senderPhoneId;
-			sendEvent(event);			
+			sendEvent(event);	
 		},
 		phoneCreation: function(){
 			lock();

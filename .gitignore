@@ -1,0 +1,10 @@
+#Mac extensions
+.DS_Store*
+
+#vim
+*.swo
+*.swp
+
+#zip files
+*.zip
+

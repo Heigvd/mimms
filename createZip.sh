@@ -2,7 +2,7 @@
 
 VERBOSE=false
 CURRENT_BRANCH=$(git branch --show-current)
-DATE=$(date +%s)
+DATE=$(date +%Y-%m-%d_%Hh%M)
 
 
 function show_help {
@@ -37,7 +37,7 @@ done
 
 ## Read arguments
 shift $(($OPTIND - 1))
-ARG_BRANCH=$2
+ARG_BRANCH=$1
 
 BRANCH=${ARG_BRANCH:-${CURRENT_BRANCH}}
 

@@ -15,8 +15,8 @@ import { BaseEvent} from "./baseEvent";
 import { DirectCommunicationEvent, RadioChannelUpdateEvent,
 		RadioCreationEvent,
 		RadioCommunicationEvent, PhoneCommunicationEvent,
-		PhoneContactExchangeEvent, PhoneCreationEvent,
-		processPhoneContactExchange, processPhoneCreation,
+		PhoneCreationEvent,
+		processPhoneCreation,
 		processDirectMessageEvent, processRadioChannelUpdate,
 		processRadioCommunication, processRadioCreationEvent,
 		processPhoneCommunication
@@ -127,7 +127,7 @@ type Event = FollowPathEvent | TeleportEvent |
 PathologyEvent | OnHumanActionEvent |
 DirectCommunicationEvent | RadioCommunicationEvent |  
 RadioChannelUpdateEvent | RadioCreationEvent |
-PhoneCommunicationEvent | PhoneContactExchangeEvent |
+PhoneCommunicationEvent |
 PhoneCreationEvent;
 
 type EventType = Event['type'];
@@ -883,13 +883,13 @@ function processDirectCommunicationEvent(event :DirectCommunicationEvent): void 
 
 /*
 // test code, display selected patient's heard messages
-	const myHumanId = Variable.find(gameModel, 'currentPatient').getValue(self);
+/*
+	const myHumanId = whoAmI();//Variable.find(gameModel, 'currentPatient').getValue(self);
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 */
 
-//	real code with current player, but could be performed with all characters 
-//	if the player can change character
+	//could be performed with all characters if the player can change character live
 	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
@@ -899,7 +899,7 @@ function processDirectCommunicationEvent(event :DirectCommunicationEvent): void 
 
 	let distanceSquared = Infinity;
 	
-	if(myPosition && myPosition.mostRecent && senderPosition && senderPosition.mostRecent){
+	if(myPosition?.mostRecent?.state?.location && senderPosition?.mostRecent?.state?.location){
 		const vec = sub(myPosition.mostRecent.state.location, senderPosition.mostRecent.state.location);
 		distanceSquared = norm(vec, vec);
 	}
@@ -942,9 +942,6 @@ function processEvent(event: Event) {
 			break;
 		case 'PhoneCommunication':
 			processPhoneCommunication(event);
-			break;
-		case 'PhoneContactExchange':
-			processPhoneContactExchange(event);
 			break;
 		case 'PhoneCreation':
 			processPhoneCreation(event);
