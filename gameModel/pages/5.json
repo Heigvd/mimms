@@ -100,7 +100,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "let svg = '';\nif (Context.human.location) {\n\tconst { x, y } = Context.human.location;\n\tconst left = `${x - 18}px`;\n\tconst top = `${y - 18}px`;\n\n\n\tsvg = `<svg \nstyle=\"position:absolute; top:${top}; left: ${left}\" \nwidth=\"10mm\" \nheight=\"10mm\" \nviewBox=\"0 0 10 10\" version=\"1.1\" id=\"svg5\" \nxmlns=\"http://www.w3.org/2000/svg\" \nxmlns:svg=\"http://www.w3.org/2000/svg\">\n<g id=\"layer1\" transform=\"translate(-6.977376,-6.450983)\">\n\t<circle style=\"fill:#ffda44;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1\" id=\"path846\" cx=\"11.977376\" cy=\"11.450983\" r=\"5\" />\n\t<circle style=\"fill:#000000;stroke:none;stroke-width:0.1\" id=\"path1052\" cx=\"10.535248\" cy=\"10.362354\" r=\"0.73735136\" />\n\t<circle style=\"fill:#000000;stroke:none;stroke-width:0.1\" id=\"path1052-9\" cx=\"13.470585\" cy=\"10.390603\" r=\"0.73735136\" />\n    <path id=\"rect1227\" style=\"stroke-width:0.1\" d=\"m 9.8773345,13.00539 c 1.5194485,0.375003 2.8864495,0.400968 4.2755345,0 v 0 c -0.939746,1.191507 -3.019034,1.270674 -4.2755345,0 z\" />\n</g>\n<text style=\"font-size:3px;stroke-width:0.1\"                                                                                                                          \n     x=\"0.61097282\"\n     y=\"9.563179\"\n>${Context.human.id}</text>\n</svg>\t`;\n}\nsvg;",
+                                      "content" : "import { getLocatedSmiley } from \"./graphics\";\ngetLocatedSmiley(Context.human);",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -133,6 +133,7 @@
                                 "layoutStyle" : {
                                   "pointerEvents" : "none"
                                 },
+                                "name" : "Fog of War",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -141,6 +142,51 @@
                                 }
                               },
                               "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "exposeAs" : "item",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "",
+                                      "language" : "JavaScript"
+                                    },
+                                    "impactVariable" : {
+                                      "impact" : {
+                                        "@class" : "Script",
+                                        "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);",
+                                        "language" : "JavaScript"
+                                      }
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : { },
+                                    "layoutStyle" : {
+                                      "position" : "absolute"
+                                    },
+                                    "stopPropagation" : true,
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocatedBubble } from \"./graphics\";\ngetLocatedBubble(Context.human);",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "exposeAs" : "human",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getHumans } from \"./the_world\";\ngetHumans();",
+                                  "language" : "JavaScript"
+                                },
+                                "itemKey" : "id",
+                                "itemsOnly" : true,
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "For each"
                             }, {
                               "props" : {
                                 "className" : "",
@@ -593,6 +639,596 @@
                 "style" : { }
               },
               "type" : "FlexList"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<strong>Communication Type</strong>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "choices" : [ ],
+                "layoutStyle" : { },
+                "name" : "comm type",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'communicationType')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "Direct Comm",
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "const selected = I18n.toString(Variable.find(gameModel, 'whoAmI'));\n\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "\"Type a message\"",
+                          "language" : "JavaScript"
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Variable.find(gameModel,'lastMsg')",
+                          "language" : "JavaScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "String input"
+                    }, {
+                      "props" : {
+                        "icon" : "microphone",
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.directCommunication();\nVariable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Speak\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "Speak",
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "",
+                    "name" : ""
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Heard Messages",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getDirectMessages } from \"./communication\";\nimport { whoAmI } from \"./WegasHelper\";\nconst selected = whoAmI();\nconst title = `<h3>Heard Messages ${selected}</h3>`;\ntitle + getDirectMessages().join('<br>');",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
+                  "language" : "JavaScript"
+                },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Direct comm",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Direct Comm",
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "`<strong>Radio Communication</strong>`;",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "flex-start",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getRadios } from \"./communication\";\ngetRadios().length > 0",
+                          "language" : "JavaScript"
+                        },
+                        "icon" : "air-freshener",
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.radioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nEventManager.radioCreation('Renard balafré', ['A', 'B', 'C'], 'B');",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Create Radios\"",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Create radio",
+                        "onVariableChange" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import {getRadios} from './communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
+                              "language" : "typescript"
+                            },
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "wlog(Context.radioId)\nContext.radioState.setState({selectedRadioId: Context.radioId})",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"radioId\"",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Context.radioState.state.selectedRadioId;",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getChannelChoices } from \"./communication\";\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
+                              "language" : "typescript"
+                            },
+                            "exposeAs" : "item",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "onCancel" : { },
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newChannel\"",
+                                "language" : "JavaScript"
+                              },
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "EventManager.radioChannelUpdate(Context.radioState.state.selectedRadioId, Context.newChannel);",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { getRadio } from \"./communication\";\ngetRadio(Context.radioState.state.selectedRadioId).channel;",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"Type a message\"",
+                              "language" : "JavaScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'lastRadioMsg')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        }, {
+                          "props" : {
+                            "icon" : "microphone",
+                            "impactVariable" : {
+                              "impact" : {
+                                "@class" : "Script",
+                                "content" : "EventManager.radioCommunication(Context.radioState.state.selectedRadioId, Context.radioState.state.selectedChannel);\nVariable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"Speak\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "Speak",
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "",
+                        "name" : ""
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "JSON.stringify(Context.radioState.state);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Radio Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<span style=\\\"font-size: 12pt;\\\"><strong>Heard Radio Messages</strong></span>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Radio Messages",
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getRadio, getRadioMessages } from \"./communication\";\nconst radioId = Context.radioState.state.selectedRadioId;\nconst channel = getRadio(radioId).channel;\ngetRadioMessages(channel).join('<br>')",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Radio comm",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "radioState",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Radio\");",
+                  "language" : "JavaScript"
+                },
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getInitialRadioState } from \"./communication\";\ngetInitialRadioState();",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localState" : true,
+                "name" : " Radio",
+                "style" : { }
+              },
+              "type" : "State"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<strong>Phone Communication</strong>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "flex-start",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getMyPhone } from \"./communication\";\ngetMyPhone() !== undefined;",
+                          "language" : "JavaScript"
+                        },
+                        "icon" : "phone",
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.phoneCreation();",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { whoAmI } from \"./WegasHelper\";\n\"Create Phone for \" + whoAmI();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Create phone",
+                        "onVariableChange" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Send to\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "onVariableChange" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'recipientPhoneId')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "row"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"Type a message\"",
+                              "language" : "JavaScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'lastPhoneMsg')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        }, {
+                          "props" : {
+                            "icon" : "microphone",
+                            "impactVariable" : {
+                              "impact" : {
+                                "@class" : "Script",
+                                "content" : "EventManager.phoneCommunication(Context.phoneState.state.myPhoneId);\nVariable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"Speak\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "Speak",
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<strong>Received messages<br /><br /></strong>from\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "onVariableChange" : { },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Variable.find(gameModel,'fromPhone')",
+                          "language" : "JavaScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "msg list",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPhoneMessages } from \"./communication\";\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\ngetPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "id" : "",
+                    "layoutStyle" : { },
+                    "name" : "debug state",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.phoneState.state);",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "exposeAs" : "phoneState",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Phone\");",
+                  "language" : "JavaScript"
+                },
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getMyPhone } from \"./communication\";\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localState" : true,
+                "name" : "Phone",
+                "style" : { }
+              },
+              "type" : "State"
             } ],
             "layout" : {
               "flexDirection" : "column"
@@ -610,596 +1246,6 @@
         },
         "layoutStyle" : { },
         "localState" : true,
-        "style" : { }
-      },
-      "type" : "State"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "\"<strong>Communication Type</strong>\"",
-          "language" : "JavaScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "choices" : [ ],
-        "layoutStyle" : { },
-        "name" : "comm type",
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'communicationType')",
-          "language" : "JavaScript"
-        },
-        "style" : { }
-      },
-      "type" : "Select input"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutStyle" : { },
-            "name" : "Direct Comm",
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "const selected = I18n.toString(Variable.find(gameModel, 'whoAmI'));\n\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : { },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "\"Type a message\"",
-                  "language" : "JavaScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'lastMsg')",
-                  "language" : "JavaScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            }, {
-              "props" : {
-                "icon" : "microphone",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "EventManager.directCommunication();\nVariable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                    "language" : "JavaScript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"Speak\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "name" : "Speak",
-                "onCancel" : { },
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
-            } ],
-            "className" : "",
-            "name" : ""
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
-              "language" : "JavaScript"
-            },
-            "layoutStyle" : { },
-            "name" : "Heard Messages",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getDirectMessages } from \"./communication\";\nimport { whoAmI } from \"./WegasHelper\";\nconst selected = whoAmI();\nconst title = `<h3>Heard Messages ${selected}</h3>`;\ntitle + getDirectMessages().join('<br>');",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
-          "language" : "JavaScript"
-        },
-        "layout" : {
-          "flexDirection" : "column"
-        },
-        "layoutStyle" : { },
-        "name" : "Direct comm",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "Direct Comm",
-                "onCancel" : { },
-                "onVariableChange" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "`<strong>Radio Communication</strong>`;",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "alignSelf" : "flex-start",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { getRadios } from \"./communication\";\ngetRadios().length > 0",
-                  "language" : "JavaScript"
-                },
-                "icon" : "air-freshener",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "EventManager.radioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nEventManager.radioCreation('Renard balafré', ['A', 'B', 'C'], 'B');",
-                    "language" : "JavaScript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"Create Radios\"",
-                  "language" : "JavaScript"
-                },
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "Create radio",
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import {getRadios} from './communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
-                      "language" : "typescript"
-                    },
-                    "exposeAs" : "state",
-                    "initialState" : {
-                      "@class" : "Script",
-                      "content" : "({})",
-                      "language" : "TypeScript"
-                    },
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "localState" : false,
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "wlog(Context.radioId)\nContext.radioState.setState({selectedRadioId: Context.radioId})",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"radioId\"",
-                        "language" : "JavaScript"
-                      }
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.radioState.state.selectedRadioId;",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                }, {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import { getChannelChoices } from \"./communication\";\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
-                      "language" : "typescript"
-                    },
-                    "exposeAs" : "item",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "id",
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"newChannel\"",
-                        "language" : "JavaScript"
-                      },
-                      "server" : {
-                        "@class" : "Script",
-                        "content" : "EventManager.radioChannelUpdate(Context.radioState.state.selectedRadioId, Context.newChannel);",
-                        "language" : "JavaScript"
-                      }
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "import { getRadio } from \"./communication\";\ngetRadio(Context.radioState.state.selectedRadioId).channel;",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                } ]
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "exposeAs" : "state",
-                    "initialState" : {
-                      "@class" : "Script",
-                      "content" : "({})",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localState" : false,
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Type a message\"",
-                      "language" : "JavaScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'lastRadioMsg')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                }, {
-                  "props" : {
-                    "icon" : "microphone",
-                    "impactVariable" : {
-                      "impact" : {
-                        "@class" : "Script",
-                        "content" : "EventManager.radioCommunication(Context.radioState.state.selectedRadioId, Context.radioState.state.selectedChannel);\nVariable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                        "language" : "JavaScript"
-                      }
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"Speak\"",
-                      "language" : "JavaScript"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "Speak",
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "",
-                "name" : ""
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "JSON.stringify(Context.radioState.state);",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : " Radio Title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<span style=\\\"font-size: 12pt;\\\"><strong>Heard Radio Messages</strong></span>\"",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : " Radio Messages",
-                "onVariableChange" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getRadio, getRadioMessages } from \"./communication\";\nconst radioId = Context.radioState.state.selectedRadioId;\nconst channel = getRadio(radioId).channel;\ngetRadioMessages(channel).join('<br>')",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "Radio comm",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "exposeAs" : "radioState",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Radio\");",
-          "language" : "JavaScript"
-        },
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "import { getInitialRadioState } from \"./communication\";\ngetInitialRadioState();",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localState" : true,
-        "name" : " Radio",
-        "style" : { }
-      },
-      "type" : "State"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : " Title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<strong>Phone Communication</strong>\"",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "alignSelf" : "flex-start",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { getMyPhone } from \"./communication\";\ngetMyPhone() !== undefined;",
-                  "language" : "JavaScript"
-                },
-                "icon" : "phone",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "EventManager.phoneCreation();",
-                    "language" : "JavaScript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { whoAmI } from \"./WegasHelper\";\n\"Create Phone for \" + whoAmI();",
-                  "language" : "JavaScript"
-                },
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "Create phone",
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Send to\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : { },
-                    "onVariableChange" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'recipientPhoneId')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
-                  "language" : "JavaScript"
-                },
-                "layout" : {
-                  "flexDirection" : "row"
-                },
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "exposeAs" : "state",
-                    "initialState" : {
-                      "@class" : "Script",
-                      "content" : "({})",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localState" : false,
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Type a message\"",
-                      "language" : "JavaScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'lastPhoneMsg')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                }, {
-                  "props" : {
-                    "icon" : "microphone",
-                    "impactVariable" : {
-                      "impact" : {
-                        "@class" : "Script",
-                        "content" : "EventManager.phoneCommunication(Context.phoneState.state.myPhoneId);\nVariable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                        "language" : "JavaScript"
-                      }
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"Speak\"",
-                      "language" : "JavaScript"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "Speak",
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
-                  "language" : "JavaScript"
-                },
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : "title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<strong>Received messages<br /><br /></strong>from\"",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "onVariableChange" : { },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'fromPhone')",
-                  "language" : "JavaScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "name" : "msg list",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getPhoneMessages } from \"./communication\";\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\ngetPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "id" : "",
-            "layoutStyle" : { },
-            "name" : "debug state",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "JSON.stringify(Context.phoneState.state);",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "exposeAs" : "phoneState",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Phone\");",
-          "language" : "JavaScript"
-        },
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "import { getMyPhone } from \"./communication\";\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localState" : true,
-        "name" : "Phone",
         "style" : { }
       },
       "type" : "State"

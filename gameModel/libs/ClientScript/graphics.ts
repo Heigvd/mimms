@@ -1,6 +1,6 @@
 import { add, interpolate, normalize, Point } from "./helper";
 import { BodyPosition, Glasgow, HumanBody } from "./HUMAn";
-import { getHuman, getHumans } from "./the_world";
+import { getHuman, getHumans, Located } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 
 export interface HumanOverview {
@@ -39,17 +39,64 @@ export function getFogOfWar() {
 	}
 }
 
-interface PictoConfig {
-	blood?: boolean;
-	eyes: 'DEAD' | 'CLOSED' | 'OPEN_BAD' | 'OPEN_GOOD';
+export function getLocatedBubble(human :{id: string} & Located) : string | undefined {
+	let svg = '';
+	if (human.location) {
+		const { x, y } = Context.human.location;
+		const left = `${x - 18}px`;
+		const top = `${y - 18}px`;
+	
+	
+		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
+		<div class='smile talkbubble'>Salut</div>
+		<svg 
+	width="10mm" 
+	height="10mm" 
+	viewBox="0 0 10 10" version="1.1" id="svg5" 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:svg="http://www.w3.org/2000/svg">
+	</svg></div>`;
+	}
+	return svg
 }
+
+export function getLocatedSmiley(human :{id: string} & Located) : string | undefined {
+	let svg = '';
+	if (human.location) {
+		const { x, y } = Context.human.location;
+		const left = `${x - 18}px`;
+		const top = `${y - 18}px`;
+	
+	
+		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
+		<svg 
+	width="10mm" 
+	height="10mm" 
+	viewBox="0 0 10 10" version="1.1" id="svg5" 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:svg="http://www.w3.org/2000/svg">
+	<g id="layer1" transform="translate(-6.977376,-6.450983)">
+		<circle style="fill:#ffda44;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1" id="path846" cx="11.977376" cy="11.450983" r="5" />
+		<circle style="fill:#000000;stroke:none;stroke-width:0.1" id="path1052" cx="10.535248" cy="10.362354" r="0.73735136" />
+		<circle style="fill:#000000;stroke:none;stroke-width:0.1" id="path1052-9" cx="13.470585" cy="10.390603" r="0.73735136" />
+	    <path id="rect1227" style="stroke-width:0.1" d="m 9.8773345,13.00539 c 1.5194485,0.375003 2.8864495,0.400968 4.2755345,0 v 0 c -0.939746,1.191507 -3.019034,1.270674 -4.2755345,0 z" />
+	</g>
+	<text style="font-size:3px;stroke-width:0.1"                                                                                                                          
+	     x="0.61097282"
+	     y="9.563179"
+	>${human.id}</text>
+	</svg></div>`;
+	}
+	return svg
+}
+
 
 interface PictoConfig {
 	className: string;
 	bloodRatio: number
 };
 
-function getPicoClassNames(overview: HumanOverview) {
+function getPicoClassNames(overview: HumanOverview) : PictoConfig {
 	const classes: string[] = ["mouth_neutral"];
 	// Eyes
 	if (overview.looksDead) {
