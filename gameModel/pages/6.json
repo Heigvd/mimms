@@ -361,18 +361,16 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "Context.patientConsole.state.selectedActionType === 'ActionBodyEffect' && Context.patientConsole.state.selectedBlock == null;",
+                      "language" : "JavaScript"
+                    },
                     "exposeAs" : "state",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "Context.patientConsole.state.selectedActionType !== 'ActionBodyMeasure';",
+                      "content" : "false;",
                       "language" : "JavaScript"
-                    },
-                    "impactVariable" : {
-                      "impact" : {
-                        "@class" : "Script",
-                        "content" : "print(Context);",
-                        "language" : "JavaScript"
-                      }
                     },
                     "initialState" : {
                       "@class" : "Script",
@@ -381,7 +379,7 @@
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"do Action (m)\"",
+                      "content" : "\"do Action\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
@@ -399,15 +397,10 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "Context.patientConsole.state.selectedBlock == null;",
-                      "language" : "JavaScript"
-                    },
                     "exposeAs" : "state",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "Context.patientConsole.state.selectedActionType !== 'ActionBodyEffect';",
+                      "content" : "true;",
                       "language" : "JavaScript"
                     },
                     "impactVariable" : {

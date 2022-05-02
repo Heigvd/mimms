@@ -221,6 +221,7 @@ export function doItemAction({ state, setState }: FullState) {
 			switch (action.type) {
 				case 'ActionBodyEffect':
 					wlog("Do Action: ", item.id, action.name, block);
+					APIMethods.runScript("PatientActionFromContext.doItemAction();", Context);
 					break;
 				case 'ActionBodyMeasure':
 					// TODO disposable item may be destroyed by action
@@ -236,13 +237,12 @@ export function doItemAction({ state, setState }: FullState) {
 	}
 }
 
-
-
 export function doAct(act: ActDefinition, setState: SetZoomState) {
 	const action = act.action;
 	switch (action.type) {
 		case 'ActionBodyEffect':
 			wlog("Do Action: ", action.name);
+			APIMethods.runScript("PatientActionFromContext.doAct();", Context);
 			break;
 		case 'ActionBodyMeasure':
 			doMeasure(action, setState);

@@ -899,5 +899,16 @@ function init() {
 			metricName: ['vitals.canWalk'],
 		}
 	});
+
+	registerAct({
+		id: 'areYouDead?',
+		name: "Are you dead?",
+		action: {
+			type: 'ActionBodyMeasure',
+			name: 'dead',
+			targetedObject: 'HumanBody',
+			metricName: ['vitals.cardiacArrest'],
+		}
+	});
 }
 

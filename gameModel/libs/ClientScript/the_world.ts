@@ -881,18 +881,19 @@ function processDirectCommunicationEvent(event :DirectCommunicationEvent): void 
 	//TODO perform for all players (supposing a change of player)
 	const time = event.time;
 
+/*
 // test code, display selected patient's heard messages
 	const myHumanId = Variable.find(gameModel, 'currentPatient').getValue(self);
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
+*/
 
-/*
-	real code with current player, but could be performed with all characters 
-	if the player can change character
+//	real code with current player, but could be performed with all characters 
+//	if the player can change character
 	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
-*/
+
 	const senderId = { objectId: event.sender, objectType: 'Human' };
 	const senderPosition = getMostRecentSnapshot(locationsSnapshots, senderId, time);
 

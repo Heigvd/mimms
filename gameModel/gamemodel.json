@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1649945085344,
+  "createdTime" : 1651485419522,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -606,7 +606,7 @@
       "maxSelectable" : 1,
       "name" : "whoAmI",
       "refId" : "StringDescriptor:22373417:5wvBQV",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -664,7 +664,7 @@
       "maxSelectable" : 1,
       "name" : "currentPatient",
       "refId" : "StringDescriptor:24035451:Y9DD7s",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -695,7 +695,7 @@
       },
       "name" : "showPatientModal",
       "refId" : "BooleanDescriptor:24041344:DCh828",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -742,7 +742,7 @@
     "oneShot" : false,
     "postTriggerEvent" : {
       "@class" : "Script",
-      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"quarter_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"tenth_vc\", [\"HEAD\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 180,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 200,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 220,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);",
+      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"quarter_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"tenth_vc\", [\"HEAD\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 180,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 280,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 240,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);",
       "language" : "JavaScript"
     },
     "refId" : "TriggerDescriptor:22373431:Ds1eRV",

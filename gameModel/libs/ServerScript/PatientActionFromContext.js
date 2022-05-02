@@ -27,5 +27,8 @@ var PatientActionFromContext = ((function () {
 			print(Context);
 			EventManager.doItemAction(humanId, item, blocks);
 		},
+		doAct: function() {
+			print("Context:" + JSON.stringify(Context));
+		}
 	};
 })());

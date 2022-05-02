@@ -282,7 +282,7 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
  */
 export function getDirectMessages(): string[] {
 	//Note : should be whoAmI. current patient here for test purposes
-	const selected = Variable.find(gameModel, 'currentPatient').getValue(self);
+	const selected = Variable.find(gameModel, 'whoAmI').getValue(self);
 	if(directMessages[selected]){
 		const filtered = filterByTime(directMessages[selected]);
 		return filtered.map(m => `(${m.time}) ${m.sender} : ${m.message}`);
