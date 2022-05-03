@@ -1,3 +1,4 @@
+import { getDirectMessagesFrom } from "./communication";
 import { add, interpolate, normalize, Point } from "./helper";
 import { BodyPosition, Glasgow, HumanBody } from "./HUMAn";
 import { getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
@@ -11,8 +12,6 @@ export interface HumanOverview {
 	looksDead: boolean;
 	totalExternalBloodLosses_ml: number;
 }
-
-
 
 export function getFogOfWar() {
 	const hId = whoAmI();
@@ -41,21 +40,23 @@ export function getFogOfWar() {
 
 export function getLocatedBubble(human :{id: string} & Located) : string | undefined {
 	let svg = '';
-	if (human.location) {
+	const msgs = getDirectMessagesFrom(human.id);
+
+	if (msgs?.length > 0 && human.location) {
 		const { x, y } = Context.human.location;
 		const left = `${x - 18}px`;
 		const top = `${y - 18}px`;
-	
+		const mergedMsgs = msgs.join(' | ');
 	
 		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
-		<div class='smile talkbubble'>Salut</div>
+		<div class='smile talkbubble'>${mergedMsgs}</div>
 		<svg 
-	width="10mm" 
-	height="10mm" 
-	viewBox="0 0 10 10" version="1.1" id="svg5" 
-	xmlns="http://www.w3.org/2000/svg" 
-	xmlns:svg="http://www.w3.org/2000/svg">
-	</svg></div>`;
+			width="10mm" 
+			height="10mm" 
+			viewBox="0 0 10 10" version="1.1" id="svg5" 
+			xmlns="http://www.w3.org/2000/svg" 
+			xmlns:svg="http://www.w3.org/2000/svg">
+		</svg></div>`;
 	}
 	return svg
 }

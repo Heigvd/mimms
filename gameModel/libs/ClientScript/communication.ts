@@ -65,31 +65,28 @@ const noMessages = 'no messages';
 
 //// DIRECT COMMM
 
-const directMessages : Record<string, DirectCommunicationEvent[]> = {};
+let directMessages : Record<string, DirectCommunicationEvent[]> = {};
 
-export function processDirectMessageEvent(event: DirectCommunicationEvent, selectedPatient: string){
+export function processDirectMessageEvent(event: DirectCommunicationEvent, senderId: string){
 	//commLogger.warn(`processing direct com event (${event.id}) : ${event.message}`);
-	if(!directMessages[selectedPatient]){
-		directMessages[selectedPatient] = [];
+	if(!directMessages[senderId]){
+		directMessages[senderId] = [];
 	}
 	//TODO time filtering could occur here
-	directMessages[selectedPatient].push(event);
+	directMessages[senderId].push(event);
 }
 
 //// RADIO /////
 
 //radios by id
-const radios : Record<string, Radio> = {};
+let radios : Record<string, Radio> = {};
 // indexed by channel
-const radioMessages : Record<string, RadioCommunicationEvent[]>= {};
+let radioMessages : Record<string, RadioCommunicationEvent[]>= {};
 
 export type RadioSelectionState = {
 	selectedRadioId: number
 }
 
-/*export type PhoneSelectionState = {
-	selectedPhoneId : number
-}*/
 
 export function getInitialRadioState(): RadioSelectionState {
 	const radios = getRadios();
@@ -170,9 +167,9 @@ export function processRadioCommunication(event : RadioCommunicationEvent): void
 //// PHONE //////
 
 // phones by id
-const phones : Record<number, Phone> = {};
+let phones : Record<number, Phone> = {};
 //by recipient id
-const phoneMessages : Record<number, PhoneCommunicationEvent[]> = {};
+let phoneMessages : Record<number, PhoneCommunicationEvent[]> = {};
 
 export function processPhoneCommunication(event : PhoneCommunicationEvent){
 	const rcpId = event.recipientPhoneId;
@@ -266,13 +263,12 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
 }
 
 /**
- * @return the messages heard recently
+ * @return the recent messages from a given player
  */
-export function getDirectMessages(): string[] {
-	const me = whoAmI();//Variable.find(gameModel, 'currentPatient').getValue(self);
-	if(directMessages[me]){
-		const filtered = filterByTime(directMessages[me]);
-		return filtered.map(m => `(${m.time}) ${m.sender} : ${m.message}`);
+export function getDirectMessagesFrom(senderId: string): string[] {
+	if(directMessages[senderId]){
+		const filtered = filterByTime(directMessages[senderId]);
+		return filtered.map(m => `(${m.time}) ${m.message}`);
 	}
 	return [];
 }
@@ -280,6 +276,17 @@ export function getDirectMessages(): string[] {
 function filterByTime<E extends BaseEvent>(events: E[]): E[]{
 	const currentTime = getCurrentSimulationTime();
 	return events.filter( e => e.time > currentTime - messageTTLsec);
+}
+
+/**
+ * Clears all the local communication state 
+ */
+export function clearAllCommunicationState(){
+	directMessages = {};
+	radios = {};
+	radioMessages = {};
+	phoneMessages = {};
+	phones = {};
 }
 
 
