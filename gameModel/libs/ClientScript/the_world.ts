@@ -19,7 +19,7 @@ import { DirectCommunicationEvent, RadioChannelUpdateEvent,
 		processPhoneCreation,
 		processDirectMessageEvent, processRadioChannelUpdate,
 		processRadioCommunication, processRadioCreationEvent,
-		processPhoneCommunication
+		processPhoneCommunication, clearAllCommunicationState
 		} from "./communication";
 
 ///////////////////////////////////////////////////////////////////////////
@@ -877,17 +877,9 @@ function processDirectCommunicationEvent(event :DirectCommunicationEvent): void 
 	// sender always gets his own messages
 	//processMessageEvent(event, event.sender);
 
-	//check distance between sender and current player
+	//check distance between sender and player
 	//TODO perform for all players (supposing a change of player)
 	const time = event.time;
-
-/*
-// test code, display selected patient's heard messages
-/*
-	const myHumanId = whoAmI();//Variable.find(gameModel, 'currentPatient').getValue(self);
-	const myId = { objectId: myHumanId, objectType: 'Human' };
-	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
-*/
 
 	//could be performed with all characters if the player can change character live
 	const myHumanId = whoAmI();
@@ -906,7 +898,7 @@ function processDirectCommunicationEvent(event :DirectCommunicationEvent): void 
 
 	worldLogger.debug("Computed distance : " + Math.sqrt(distanceSquared))
 	if(distanceSquared < sqRadius){
-		processDirectMessageEvent(event, myHumanId);
+		processDirectMessageEvent(event, event.sender);
 	}else{
 		worldLogger.warn(`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`)
 	}
@@ -1083,6 +1075,8 @@ export function clearState() {
 	locationsSnapshots = {};
 	worldState.humans = {};
 	healths = {};
+	clearAllCommunicationState();
+
 }
 
 
