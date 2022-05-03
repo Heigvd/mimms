@@ -1,7 +1,7 @@
 import { checkUnreachable } from "./helper";
 import { Block, BodyEffect, BodyStateKeys, readKey } from "./HUMAn";
 import { logger } from "./logger";
-import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, ItemDefinition, PathologyDefinition } from "./pathology";
+import { ActDefinition, ActionBodyMeasure, ItemDefinition, PathologyDefinition } from "./pathology";
 import { getItem, getPathology } from "./registries";
 import { getCurrentPatientBody, getHealth, getHuman, getMyInventory, getMyMedicalActs } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";

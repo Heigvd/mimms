@@ -20,8 +20,8 @@ import {
 	BodyStateKeys,
 	readKey,
 	Bound,
-getPain,
-canWalk,
+	getPain,
+	canWalk,
 } from "./HUMAn";
 import { logger, calcLogger, compLogger, respLogger } from "./logger";
 // import { computePaO2 } from "./quarticSolver";
@@ -159,7 +159,7 @@ function getLowerAirways(
 		bodyState,
 		"LUNG",
 		(block) => {
-			respLogger.debug("Visit ", block, " for units");
+			respLogger.info("Visit ", block, " for units");
 
 			const upperResistance = resistance[0] || 0;
 
@@ -171,6 +171,7 @@ function getLowerAirways(
 			resistance.unshift(selfResistance);
 
 			if (block.name.startsWith("UNIT_")) {
+				respLogger.info("Found Unit: ", qPercent[0]);
 				units.push({
 					compliance: Math.min(
 						externalCompliance,
@@ -189,13 +190,13 @@ function getLowerAirways(
 			leaveBlock: (b) => {
 				resistance.shift();
 				qPercent.shift();
-				respLogger.debug(`Leave ${b.name}: `, qPercent);
+				respLogger.info(`Leave ${b.name}: `, qPercent);
 			},
 			shouldWalk: (c) => {
 				if (c.params.o2) {
-					const qP = qPercent[0] || 1;
-					qPercent.unshift((c.params.blood || 0) * qP);
-					respLogger.debug(`Enter ${c.to}: `, qPercent);
+					const qP = qPercent[0] ?? 1;
+					qPercent.unshift((c.params.blood ?? 0) * qP);
+					respLogger.info(`Enter ${c.to}: `, qPercent);
 					return c.params.o2;
 				} else {
 					return false;
@@ -486,10 +487,28 @@ export function compute(
 			effectiveVolumesPerUnit_L[i]! * body.vitals.respiration.rr;
 		const vco2InUnit = vco2_LPerMin * unit.qPercent;
 
-		const ratio_vco2Va = vco2InUnit / Va_LperMin;
+		if (unit.qPercent <= 0) {
+			respLogger.log("NO PERFUSION");
+			return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
+		}
 
-		// Compute partial arterial CO2 saturation [mmHG]
-		const PACO2 = 1000 * K * ratio_vco2Va;
+
+		let PACO2 = unit.block.params.PACO2 ?? 0;
+
+		if (Va_LperMin <= 0) {
+			// No ventilation! 
+			respLogger.warn("NO AIR");
+			PACO2 += duration_min * 100;
+			//return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
+		} else {
+			// Ventilation: formula is fine
+			respLogger.log("VCO2 / VA = ", vco2InUnit, Va_LperMin, unit.qPercent);
+
+			const ratio_vco2Va = vco2InUnit / Va_LperMin;
+			// Compute partial arterial CO2 saturation [mmHG]
+			PACO2 = 1000 * K * ratio_vco2Va;
+		}
+		unit.block.params.PACO2 = PACO2;
 
 		/**
 		 * vapour pressure of water in mmHg
@@ -504,16 +523,19 @@ export function compute(
 		const pH2O_mmHg = 47; /// =~ f(37C°)
 
 		// Compute partial arterial oxygen saturation [mmHG]
-		respLogger.debug(` PAO2=`, {
+		const PAO2_raw = (upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
+			PACO2 / body.vitals.respiration.QR;
+
+		respLogger.log(` PAO2=`, PAO2_raw, {
 			pAtm: upperAirways.atmosphericPressureInmmHg,
 			pH2O_mmHg,
 			Fio2: upperAirways.FIO2,
 			PACO2,
 			qr: body.vitals.respiration.QR,
+
 		});
-		const PAO2 = normalize(
-			(upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
-			PACO2 / body.vitals.respiration.QR,
+
+		const PAO2 = normalize(PAO2_raw,
 			{ min: 0 }
 		);
 
@@ -527,10 +549,9 @@ export function compute(
 
 		const CaO2 = 1.34 * SaO2 * hb_gPerL + PaO2_mmHg * 0.03;
 
-		respLogger.debug(` * Unit #${i}`, {
+		respLogger.log(` * Unit #${i}`, {
 			Va_LperMin,
 			vco2InUnit,
-			ratio_vco2Va,
 			PACO2,
 			pH2O_mmHg,
 			PAO2,
@@ -581,10 +602,10 @@ export function compute(
 
 		let i = nbConnection - 1;
 		unitOutputs.reverse().forEach((unitResult) => {
-			sao2Tree[i] = unitResult.SaO2;
+			sao2Tree[i] = Math.pow(unitResult.PaO2_mmHg, 4);
 			i--;
 		});
-		logger.info("Update QFactors: ", { sao2Tree, nbConnection, i });
+		respLogger.log("Update QFactors: ", { sao2Tree, nbConnection, i });
 
 		for (; i >= 0; i--) {
 			const leftChildIndex = 2 * i + 1;
@@ -602,7 +623,7 @@ export function compute(
 				qTree[leftChildIndex] = 0.5;
 				qTree[rightChildIndex] = 0.5;
 			}
-			logger.info("Process Tree: ", {
+			respLogger.log("Process Tree: ", {
 				leftChildIndex,
 				rightChildIndex,
 				leftSaO2,
@@ -613,7 +634,7 @@ export function compute(
 		if (qTree.length > 1) {
 			qTree[0] = qTree[1]! + qTree[2]!;
 		}
-		logger.info("Updated QFactors: ", { qTree, sao2Tree });
+		respLogger.log("Updated QFactors: ", { qTree, sao2Tree });
 
 		const blockNames: string[] = [];
 		for (i = 0; i < nbConnection; i++) {
@@ -643,7 +664,7 @@ export function compute(
 		}
 	}
 
-	if (!stabilize) {
+	if (false && !stabilize) {
 		// review
 		// delay SaO2 and CaO2 according to cardiac output
 		// delay is the time the heart needs to pump 40% of the blood
@@ -874,9 +895,9 @@ export function computeOrthoLevel(
 		level *= 0.99;
 	}
 	level = normalize(level, {
-			min: 0,
-			max: 100,
-		});
+		min: 0,
+		max: 100,
+	});
 	compLogger.log("SympLevel: ", level);
 	state.variables.paraOrthoLevel = level;
 }
@@ -952,8 +973,8 @@ export function compensate(
 	state: BodyState,
 	meta: HumanBody["meta"],
 	duration_min: number) {
-		computeOrthoLevel(state, meta, duration_min);
-		doCompensate(state, meta, duration_min);
+	computeOrthoLevel(state, meta, duration_min);
+	doCompensate(state, meta, duration_min);
 }
 
 export function inferExtraOutputs(human: HumanBody) {
@@ -965,14 +986,14 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.canWalk = canWalk(human);
 	human.state.vitals.pain = getPain(human);
 
-	if (!human.state.vitals.canWalk){
-		if (human.state.variables.bodyPosition === 'STANDING'){
+	if (!human.state.vitals.canWalk) {
+		if (human.state.variables.bodyPosition === 'STANDING') {
 			human.state.variables.bodyPosition = 'SITTING';
 		}
 	}
 
-	if (human.state.vitals.glasgow.eye < 4 || human.state.vitals.glasgow.motor < 6){
-		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING'){
+	if (human.state.vitals.glasgow.eye < 4 || human.state.vitals.glasgow.motor < 6) {
+		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING') {
 			human.state.variables.bodyPosition = 'SUPINE_DECUBITUS';
 		}
 	}

@@ -452,6 +452,11 @@ export interface Block {
 		 * pain level
 		 */
 		pain?: number;
+
+		/**
+		 * Partial Pressus CO2
+		 */
+		PACO2?: number;
 	};
 	connections: Connection[];
 }
@@ -680,7 +685,7 @@ const brainWeightModel = [
 ];
 const ageToQbr = (age: number) => interpolate(age, brainWeightModel) * 0.0005;
 
-const orthoModel: Point[] = [{ x: 0, y: 23 }, { x: 100, y: 40 }];
+const orthoModel: Point[] = [{ x: 0, y: 20 }, { x: 100, y: 38 }];
 const orthoLevelFromAge = (age: number) => interpolate(age, orthoModel);
 
 export function createHumanBody(

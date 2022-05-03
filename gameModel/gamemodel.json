@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1651501340150,
+  "createdTime" : 1651594840418,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -495,7 +495,7 @@
         "properties" : {
           "vitals.cardio.DO2Sys" : "[{\"x\":0,\"y\":100},{\"x\":900,\"y\":0},{\"x\":1100,\"y\":0},{\"x\":2000,\"y\":0}]",
           "vitals.cardio.MAP" : "[{\"x\":0,\"y\":100},{\"x\":40,\"y\":35},{\"x\":70,\"y\":0},{\"x\":90,\"y\":0},{\"x\":180,\"y\":0},{\"x\":200,\"y\":0}]",
-          "vitals.respiration.PaO2" : "[{\"x\":0,\"y\":100},{\"y\":100,\"x\":60},{\"x\":70,\"y\":20},{\"y\":0,\"x\":90}]"
+          "vitals.respiration.PaO2" : "[{\"x\":0,\"y\":100},{\"y\":100,\"x\":0},{\"x\":50,\"y\":50},{\"x\":70,\"y\":20},{\"y\":0,\"x\":90}]"
         },
         "refId" : "ObjectDescriptor:24033351:fwNoc7",
         "scopeType" : "TeamScope",

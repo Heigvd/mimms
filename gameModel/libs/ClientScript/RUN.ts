@@ -119,7 +119,7 @@ function extractMetric(body: BodyState, time: number,
 
 	pushMetric("CRT [s]", time, body.vitals.capillaryRefillTime_s, outputCardio);
 
-	pushMetric("Qc [mL/min]", time, body.vitals.cardio.cardiacOutput_LPerMin, outputCardio);
+	pushMetric("Qc [L/min]", time, body.vitals.cardio.cardiacOutput_LPerMin, outputCardio);
 	//pushMetric("Qrv [mL/min]", time, body.vitals.cardio.cardiacOutputRv_LPerMin, output);
 
 	pushMetric("QBr [mL/min]", time, body.vitals.cardio.cerebralBloodOutput_mLperMin, outputCardio);
