@@ -719,23 +719,6 @@
                     "name" : ""
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
-                      "language" : "JavaScript"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "Heard Messages",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getDirectMessages } from \"./communication\";\nimport { whoAmI } from \"./WegasHelper\";\nconst selected = whoAmI();\nconst title = `<h3>Heard Messages ${selected}</h3>`;\ntitle + getDirectMessages().join('<br>');",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
