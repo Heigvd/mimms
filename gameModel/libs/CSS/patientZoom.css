@@ -42,6 +42,9 @@
 	display: none;
 }
 
+.patientWheel .selected {
+	border : 2px solid hotpink;
+}
 
 .patientConsole .selected {
 	border : 2px solid hotpink;
@@ -66,59 +69,36 @@
   	border-bottom: 10px solid rgb(255, 0, 0);
 }
 
-.modalPatient {
-	max-height: 100%;
+
+.patientConsole .tagCategory {
+	padding: 10px;
+	width: 200px;
+	text-align: center;
+	font-weight: bolder;
+	border: 2px solid black;
+}
+
+.patientConsole .tagSystemCategories.sacco {
+	flex-direction: row  !important /* override inline style */;
+	flex-wrap: wrap;
+}
+
+.patientConsole .tagSystemCategories.sacco > div {
+	display: block;
 }
 
 
-.the_map {
-	background-color: rgb(191, 242, 191);
+.patientConsole .tagSystemCategories.sacco .tagCategory{
+	width: 50px;
 }
 
-.smile.talkbubble {
-	position: absolute;
-	left: 50px;
-	top: 26px;
-	transform: translate(0, -100%);
+.patientConsole .tagCategory.clickable {
+	cursor: pointer;
 }
 
-
-.talkbubble {
-      min-width: 60px;
-	  width: max-content;
-      max-width: 200px;
-      /*min-height: 80px;*/
-      background: #fff;
-      position: relative;
-      border-radius: 10px;
-      border: 1px solid black;
-      text-align: center;
-      padding: 2px;
-      font-size: 15px;
+.patientConsole .tagCategory.clickable:hover {
+	border-color: pink;
 }
 
-.talkbubble::before {
-    content: "";
-    position: absolute;
-    right: 100%;
-    top: calc(100% - 16px);
-    width: 0; 
-    height: 0;
-    border-top: 12px solid transparent;
-    border-right: 18px solid black;
-    border-bottom: 0px solid transparent;
-}
-
-.talkbubble::after {
-    content: "";
-    position: absolute;
-    right: 100%;
-    top: calc(100% - 15px);
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-right: 15px solid #fff;
-    border-bottom: 0px solid transparent;
-}
-
-
+.patientConsole .tagCategory.current:hover {
+	border-color: hotpink;

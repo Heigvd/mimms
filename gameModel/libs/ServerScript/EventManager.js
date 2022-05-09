@@ -140,11 +140,17 @@ var EventManager = ((function () {
 			sendEvent(event);
 		},
 		
-		doItemAction: function (humanId, item, blocks, time) {
+		/**
+		 * source: {type: 'act', actId} | {type: 'itemAction', itemId, actionId}
+		 */
+		doHumanTreatment: function (humanId, source, blocks, time) {
 			lock();
+			print("HUMAN: " + humanId);
+			print("source: " + source);
+			print("blocks: " + blocks);
 			var event = buildHumanEvent(humanId, time);
-			event.type = 'ItemActionOnHuman';
-			event.item = item;
+			event.type = 'HumanTreatment';
+			event.source = source;
 			event.blocks = blocks;
 
 			sendEvent(event);

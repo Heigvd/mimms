@@ -1,38 +1,84 @@
 import { checkUnreachable } from "./helper";
 import { Block, BodyEffect, BodyStateKeys, readKey } from "./HUMAn";
 import { logger } from "./logger";
-import { ActDefinition, ActionBodyMeasure, ItemDefinition, PathologyDefinition } from "./pathology";
-import { getItem, getPathology } from "./registries";
-import { getCurrentPatientBody, getHealth, getHuman, getMyInventory, getMyMedicalActs } from "./the_world";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, PathologyDefinition } from "./pathology";
+import { getAct, getItem, getPathology } from "./registries";
+import { getCurrentPatientBody, getHealth, getHuman, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
+
+
+/////////////////////////////////
+// The Wheel
+/////////////////////////////////
+
+interface BaseItem {
+	id: string;
+	label: string;
+	icon?: string;
+}
+
+interface WithActionType {
+	actionType: HumanAction['type'];
+	actionCategory: HumanAction['category'];
+}
+
+type WheelItemAction = BaseItem & WithActionType & {
+	type: "WheelItemAction",
+
+	itemActionId: {
+		itemId: string;
+		actionId: string;
+	};
+	counter: Number | 'infinity';
+}
+
+type WheelAct = BaseItem & WithActionType & {
+	type: "WheelAct";
+}
+
+type WheelAction = WheelItemAction | WheelAct;
+
+type SubMenu = BaseItem & {
+	type: "WheelSubMenu";
+	id: string;
+	items: WheelAction[];
+}
+
+type WheelItem = SubMenu | WheelAction;
+
+type Wheel = WheelItem[];
+
+
+
+/////////////////////////////////
+// The State
+/////////////////////////////////
 
 export interface PatientZoomState {
 	logs: string[];
 	currentPatient: string | undefined;
-	selectedItem: string | undefined;
-	selectedAction: string | undefined;
-	selectedActionType: ItemDefinition['actions'][number]['type'] | undefined;
+	selectedAction: WheelAction | undefined;
+	selectedMenu: string;
 	selectedBlock: string | undefined;
-	blockRequired: boolean;
-}
-
-type SetZoomState = (state: PatientZoomState | ((currentState: PatientZoomState) => PatientZoomState)) => void;
-
-interface FullState {
-	state: PatientZoomState;
-	setState: SetZoomState;
+	availableBlocks: string[];
 }
 
 export function getInitialPatientZoomState(): PatientZoomState {
 	return {
+		selectedAction: undefined,
+		selectedMenu: "",
+		availableBlocks: [],
+		selectedBlock: undefined,
 		logs: [],
 		currentPatient: undefined,
-		selectedItem: undefined,
-		selectedAction: undefined,
-		selectedActionType: undefined,
-		selectedBlock: undefined,
-		blockRequired: false,
-	}
+	};
+}
+
+export type SetZoomState = (state: PatientZoomState | ((currentState: PatientZoomState) => PatientZoomState)) => void;
+
+interface FullState {
+	state: PatientZoomState;
+	setState: SetZoomState;
 }
 
 export function keepStateAlive({ state, setState }: FullState) {
@@ -46,114 +92,352 @@ export function keepStateAlive({ state, setState }: FullState) {
 	}
 }
 
-export interface PreparedItem {
-	itemId: string;
-	item: ItemDefinition;
-	count: number | 'infinity'
+export function clearConsole(setState: SetZoomState){
+	setState(state => {
+		return {...state, logs: []};
+	});
 }
 
-export interface PreparedAction {
-	itemId: string;
-	actionId: string;
-	actionType: ItemDefinition['actions'][number]['type'];
-	name: string;
-	blockRequired: boolean;
+function getActionIcon(action: HumanAction): string {
+	if (action.type === 'ActionBodyEffect') {
+		return "syringe";
+	} else if (action.type === 'ActionBodyMeasure') {
+		return "ruler";
+	}
+	return "";
 }
 
-export function getAvailableItems(): PreparedItem[] {
-	const inventory = getMyInventory();
+function getWheelActionFromInventory(inventory: InventoryEntry[]): WheelAction[] {
+	return inventory.flatMap(inventoryItem => {
+		const item = getItem(inventoryItem.itemId);
 
-	return inventory.flatMap(item => {
-		const itemDef = getItem(item.itemId);
+		if (item != null) {
+			return Object.entries(item.actions).map(([key, action]) => {
+				return {
+					id: `${item.id}::${key}`,
+					label: `${item.name} ${action.name}`,
+					type: 'WheelItemAction',
+					actionType: action.type,
+					actionCategory: action.category,
+					itemActionId: {
+						itemId: item.id,
+						actionId: key,
+					},
+					icon: getActionIcon(action),
+					counter: inventoryItem.count,
+				};
+			});
+		}
 
-		if (itemDef != null) {
-			return [{
-				itemId: item.itemId,
-				item: itemDef,
-				count: item.count,
-			}];
-		} else {
-			return [];
+		return [];
+	})
+}
+
+
+function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
+	return acts.map(act => {
+		return {
+			type: 'WheelAct',
+			actionType: act.action.type,
+			actionCategory: act.action.category,
+			id: act.id,
+			label: act.name,
+			icon: getActionIcon(act.action),
+		};
+	});
+}
+
+function getItemsWheel(): Wheel {
+	const itemActions = getWheelActionFromInventory(getMyInventory());
+	const actActions = getWheelActionFromActs(getMyMedicalActs());
+
+	return [{
+		type: 'WheelSubMenu',
+		id: 'itemsMenu',
+		label: 'Items',
+		icon: 'briefcase-medical',
+		items: itemActions,
+	}, {
+		type: 'WheelSubMenu',
+		id: 'actsMenu',
+		label: 'Acts',
+		icon: 'hand-sparkles',
+		items: actActions,
+	}];
+}
+
+interface ByType {
+	measures: WheelAction[],
+	treatments: WheelAction[],
+}
+
+function populateByTypes(actions: WheelAction[], bag: ByType) {
+	actions.forEach(a => {
+		if (a.actionType === "ActionBodyEffect") {
+			bag.treatments.push({ ...a, icon: 'syringe' });
+		} else if (a.actionType === "ActionBodyMeasure") {
+			bag.measures.push({ ...a, icon: 'ruler' });
 		}
 	});
 }
 
-export function getAvailableActions({ selectedItem }: PatientZoomState): PreparedAction[] {
-	if (selectedItem != null) {
-		const itemDef = getItem(selectedItem);
-		if (itemDef != null) {
-			return Object.entries(itemDef.actions).map(([key, action]) => {
-				return {
-					itemId: selectedItem,
-					actionId: key,
-					name: action.name,
-					actionType: action.type,
-					blockRequired: action.type === 'ActionBodyEffect',
-				};
-			});
-		}
+function getActionsWheel(): Wheel {
+	const itemActions = getWheelActionFromInventory(getMyInventory());
+	const actActions = getWheelActionFromActs(getMyMedicalActs());
+
+	const byTypes: ByType = {
+		measures: [],
+		treatments: [],
+	};
+
+	populateByTypes(itemActions, byTypes);
+	populateByTypes(actActions, byTypes);
+
+	return [{
+		type: 'WheelSubMenu',
+		id: 'measureMenu',
+		label: 'Measures',
+		items: byTypes.measures,
+		icon: 'ruler',
+	}, {
+		type: 'WheelSubMenu',
+		id: 'treatmentMenu',
+		label: 'Treatments',
+		items: byTypes.treatments,
+		icon: 'syringe',
+	}];
+}
+
+function getABCDEWheel(): Wheel {
+	const itemActions = getWheelActionFromInventory(getMyInventory());
+	const actActions = getWheelActionFromActs(getMyMedicalActs());
+
+	const categories: Record<ABCDECategory, SubMenu> = {
+		'A': {
+			id: 'aMenu',
+			label: 'A',
+			icon: 'wind',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+		'B': {
+			id: 'bMenu',
+			label: 'B',
+			icon: 'lungs',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+		'C': {
+			id: 'cMenu',
+			label: 'C',
+			icon: 'heartbeat',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+		'D': {
+			id: 'dMenu',
+			label: 'D',
+			icon: 'dizzy',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+		'E': {
+			id: 'eMenu',
+			label: 'E',
+			icon: 'stethoscope',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+		'Z': {
+			id: 'zMenu',
+			label: 'F',
+			icon: 'comments',
+			items: [],
+			type: 'WheelSubMenu'
+		},
+	};
+
+	itemActions.forEach(a => {
+		categories[a.actionCategory].items.push(a);
+	});
+
+	actActions.forEach(a => {
+		categories[a.actionCategory].items.push(a);
+	})
+
+	return Object.values(categories);
+}
+
+/**
+ *
+ */
+type WheelType = 'ABCDE' | 'ITEMS' | 'ACTIONS';
+
+function getWheelType(): WheelType {
+	return Variable.find(gameModel, "patientWheelType").getValue(self) as WheelType || 'ITEMS';
+}
+
+export function getWheel(): Wheel {
+	const wType = getWheelType();
+	switch (wType) {
+		case 'ABCDE':
+			return getABCDEWheel();
+		case 'ITEMS':
+			return getItemsWheel();
+		case 'ACTIONS':
+			return getActionsWheel();
+	}
+}
+
+
+
+/////////////////////////////////
+// The Wheel Helpers
+/////////////////////////////////
+
+export function getButtonLabel(item: WheelItem) {
+	switch (item.type) {
+		case 'WheelAct':
+			return item.label;
+		case 'WheelItemAction':
+			return `${item.label} (${item.counter === 'infinity' ? "∞" : item.counter})`;
+		case 'WheelSubMenu':
+			return item.label
+	}
+}
+
+export function getWheelSubmenuTitle(state: PatientZoomState): string {
+	const wheel = getWheel();
+	const menu = wheel.find(item =>
+		item.type === 'WheelSubMenu' && item.id === state.selectedMenu
+	);
+	if (menu != null) {
+		return menu.label;
+	}
+	return "nothing selected";
+}
+
+
+export function getWheelSubmenu(state: PatientZoomState,): WheelAction[] {
+	const wheel = getWheel();
+	const menu = wheel.find(item =>
+		item.type === 'WheelSubMenu' && item.id === state.selectedMenu
+	);
+	if (menu != null) {
+		return (menu as SubMenu).items;
 	}
 	return [];
 }
 
-export function getAvailableBlocks({ selectedAction, selectedItem }: PatientZoomState): { id: string }[] | undefined {
-	if (selectedItem != null && selectedAction != null) {
-		const itemDef = getItem(selectedItem);
-		if (itemDef != null) {
-			const action = itemDef.actions[selectedAction];
-			if (action != null) {
-				if (action.type === 'ActionBodyEffect') {
-					return action.blocks.map(b => ({ id: b }));
-				} else {
-					return [];
+export function selectWheelMenu(menuId: string, setState: SetZoomState) {
+	setState(state => {
+		return { ...state, selectedMenu: menuId }
+	})
+}
+
+export function selectWheelAction(action: WheelAction | undefined, setState: SetZoomState) {
+	if (action?.actionType === 'ActionBodyEffect') {
+		const rAction = resolveAction<ActionBodyEffect>(action, "ActionBodyEffect");
+
+		const blocks = rAction?.blocks || [];
+		const block = blocks.length === 1 ? blocks[0] : undefined;
+
+		setState(state => {
+			return {
+				...state,
+				selectedAction: action,
+				selectedBlock: block,
+				availableBlocks: blocks,
+			};
+		});
+	} else {
+		setState(state => {
+			return {
+				...state,
+				selectedAction: action,
+				selectedBlock: undefined,
+				availableBlocks: []
+			};
+		});
+	}
+}
+
+export function selectWheelItem(item: WheelItem, setState: SetZoomState) {
+	if (item.type === 'WheelSubMenu') {
+		selectWheelMenu(item.id, setState);
+	} else {
+		selectWheelAction(item, setState);
+	}
+}
+
+export function selectWheelBlock(block: string, setState: SetZoomState) {
+	setState(state => {
+		return {
+			...state,
+			selectedBlock: state.availableBlocks.includes(block) ? block : undefined,
+		};
+	});
+}
+
+/////////////////////////////////
+// Do Action
+/////////////////////////////////
+
+function resolveAction<T extends HumanAction>(wheelAction: WheelAction, aType: T['type']): T | undefined {
+	if (wheelAction.actionType === aType) {
+		if (wheelAction.type === 'WheelAct') {
+			const act = getAct(wheelAction.id);
+			if (act?.action?.type === aType) {
+				return act.action as T;
+			}
+		} else if (wheelAction.type === 'WheelItemAction') {
+			const item = getItem(wheelAction.itemActionId.itemId);
+			if (item != null) {
+				const action = item.actions[wheelAction.itemActionId.actionId];
+				if (action?.type === aType) {
+					return action as T;
 				}
 			}
 		}
 	}
-	return undefined;
+}
+
+function postEvent(measure: WheelAction) {
+
+}
+
+export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
+	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
+
+	if (action != null) {
+		doMeasure(action, setState);
+	}
 }
 
 
+export function doWheelTreatment(treatment: WheelAction, block: string, setState: SetZoomState) {
+	const action = resolveAction<ActionBodyEffect>(treatment, 'ActionBodyEffect');
 
-export function selectItem({ item }: PreparedItem, setState: SetZoomState) {
-
-	const actions = Object.keys(item.actions);
-	const selectedAction = actions.length === 1 ? actions[0] : undefined;
-
-	const action = selectedAction ? item.actions[selectedAction] : undefined;
-
-	setState(state => {
-		const newState = { ...state };
-		newState.selectedItem = item.id;
-		newState.selectedAction = selectedAction;
-		newState.selectedActionType = action?.type;
-		newState.selectedBlock = undefined;
-		newState.blockRequired = action?.type === 'ActionBodyEffect';
-		return newState;
-	})
-}
-
-
-export function selectAction({ itemId, actionId, blockRequired, actionType }: PreparedAction, setState: SetZoomState) {
-	setState(state => {
-		const newState = { ...state };
-		newState.selectedItem = itemId;
-		newState.selectedAction = actionId;
-		newState.selectedActionType = actionType;
-		newState.selectedBlock = undefined;
-		newState.blockRequired = blockRequired
-		return newState;
-	});
-}
-
-
-
-export function selectBlock(block: string, setState: SetZoomState) {
-	setState(state => {
-		const newState = { ...state };
-		newState.selectedBlock = block;
-		return newState;
-	})
+	if (action != null) {
+		const source = treatment.type === 'WheelAct' ? {
+			type: 'act',
+			actId: treatment.id,
+		} : {
+			type: 'itemAction',
+			...treatment.itemActionId
+		};
+		APIMethods.runScript(`EventManager.doHumanTreatment(
+				Context.humanId, {
+					type: Context.source.type,
+					actId: Context.source.actId,
+					itemId: Context.source.itemId,
+					actionId: Context.source.actionId,
+				}, block ? [Context.block]: []);`, {
+			humanId: Context.patientConsole.state.currentPatient,
+			source: source,
+			block: block,
+		});
+	}
 }
 
 function prettyPrintKey(key: BodyStateKeys): string {
@@ -211,45 +495,6 @@ function doMeasure(action: ActionBodyMeasure, setState: SetZoomState) {
 	}))
 }
 
-export function doItemAction({ state, setState }: FullState) {
-	if (state.selectedItem != null && state.selectedAction != null) {
-		const item = getItem(state.selectedItem);
-		if (item != null) {
-			const action = item.actions[state.selectedAction];
-			const block = state.selectedBlock;
-
-			switch (action.type) {
-				case 'ActionBodyEffect':
-					wlog("Do Action: ", item.id, action.name, block);
-					APIMethods.runScript("PatientActionFromContext.doItemAction();", Context);
-					break;
-				case 'ActionBodyMeasure':
-					// TODO disposable item may be destroyed by action
-					doMeasure(action, setState);
-					break;
-			}
-		}
-	} else {
-		setState(state => {
-			return { ...state, logs: [...state.logs, "Woohps..."] };
-		});
-
-	}
-}
-
-export function doAct(act: ActDefinition, setState: SetZoomState) {
-	const action = act.action;
-	switch (action.type) {
-		case 'ActionBodyEffect':
-			wlog("Do Action: ", action.name);
-			APIMethods.runScript("PatientActionFromContext.doAct();", Context);
-			break;
-		case 'ActionBodyMeasure':
-			doMeasure(action, setState);
-			break;
-	}
-}
-
 
 function getBlockDetails(block: Block | undefined): string[] {
 	const output: string[] = [];
@@ -257,7 +502,7 @@ function getBlockDetails(block: Block | undefined): string[] {
 		output.push(`<h4>${block.name}</h4>`);
 		logger.info("Block: ", block.params);
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
-			output.push("<h5>Hemmoragia</h5>");
+			output.push("<h5>Hemorrhage</h5>");
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
 				const arterialLoss = (block.params.arterialBleedingFactor ?? 0) - (block.params.arterialBleedingReductionFactor ?? 0) > 0;
 				const venousLoss = (block.params.venousBleedingFactor ?? 0) - (block.params.venousBleedingReductionFactor ?? 0) > 0;
@@ -265,7 +510,7 @@ function getBlockDetails(block: Block | undefined): string[] {
 				output.push("<div>Arterial: " + arterialLoss + "</div>");
 				output.push("<div>Venous: " + venousLoss + "</div>");
 
-				output.push("<div>Active: " + block.params.extLossesFlow_mlPerMin + " mL/min</div>");
+				output.push("<div>Active: " + (block.params.extLossesFlow_mlPerMin ?? 0).toFixed() + " mL/min</div>");
 
 			} else {
 				output.push("<div>Hemostasis</div>");
@@ -335,7 +580,7 @@ export function getDetails() {
 				//output.push(`<h4>${blockName}</h4>`);
 				//output.push(...data.pathologies.map(p => p.name));
 				output.push(...data.effects.map(e => {
-					return `${e.item.name}/${e.action.name}`;
+					return `${e.source.name}/${e.action.name}`;
 				}));
 			});
 		} else {

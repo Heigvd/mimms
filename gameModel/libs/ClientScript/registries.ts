@@ -270,6 +270,7 @@ function init() {
 				name: 'strangle',
 				variablePatch: {},
 				blockPatch: {
+					pain: 2,
 					airResistance: 0.5
 				}
 			}],
@@ -290,6 +291,7 @@ function init() {
 				name: 'strangle',
 				variablePatch: {},
 				blockPatch: {
+					pain: 2,
 					airResistance: 1
 				}
 			}],
@@ -373,6 +375,7 @@ function init() {
 				name: 'resistance',
 				variablePatch: {},
 				blockPatch: {
+					pain: 3,
 					airResistance: 1,
 				}
 			}],
@@ -395,6 +398,7 @@ function init() {
 				name: 'resistance',
 				variablePatch: {},
 				blockPatch: {
+					pain: 3,
 					airResistanceDelta: 0.05,
 				}
 			}],
@@ -416,6 +420,7 @@ function init() {
 				name: 'comp',
 				variablePatch: {},
 				blockPatch: {
+					pain: 3,
 					compliance: 0,
 				}
 			}],
@@ -438,7 +443,9 @@ function init() {
 				variablePatch: {
 					ICP_deltaPerMin: 1,
 				},
-				blockPatch: {}
+				blockPatch: {
+					pain: 5,
+				}
 			}],
 		handler: [],
 		actions: [],
@@ -458,6 +465,7 @@ function init() {
 				name: 'burn',
 				variablePatch: {},
 				blockPatch: {
+					pain: 7,
 					complianceDelta: -0.01
 				}
 			}],
@@ -492,6 +500,7 @@ function init() {
 			setup: {
 				type: 'ActionBodyEffect',
 				name: "apply",
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_LEG', 'RIGHT_LEG',
 					'LEFT_THIGH', 'RIGHT_THIGH',
@@ -522,6 +531,7 @@ function init() {
 			pack: {
 				type: 'ActionBodyEffect',
 				name: "pack",
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['ABDOMEN'],
 				rules: [
@@ -542,6 +552,7 @@ function init() {
 			pressureBandage: {
 				type: 'ActionBodyEffect',
 				name: "pressureBandage",
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
@@ -575,6 +586,7 @@ function init() {
 			israeli: {
 				type: 'ActionBodyEffect',
 				name: 'apply',
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
@@ -610,6 +622,7 @@ function init() {
 				name: 'inject',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
+				category: 'C',
 				rules: [
 					{
 						id: 'inject',
@@ -637,6 +650,7 @@ function init() {
 			inject: {
 				type: 'ActionBodyEffect',
 				name: 'Inject oneshot',
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
 				rules: [
@@ -662,6 +676,7 @@ function init() {
 			inject: {
 				type: 'ActionBodyEffect',
 				name: 'fill (oneshot)',
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
 				rules: [
@@ -687,6 +702,7 @@ function init() {
 			inject: {
 				type: 'ActionBodyEffect',
 				name: 'inject (oneshot)',
+				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
 				rules: [
@@ -718,6 +734,7 @@ function init() {
 				name: "apply",
 				targetedObject: 'HumanBody',
 				blocks: ['HEAD'],
+				category: 'B',
 				rules: [
 					{
 						id: 'mask',
@@ -743,6 +760,7 @@ function init() {
 				type: 'ActionBodyEffect',
 				name: "intubate",
 				targetedObject: 'HumanBody',
+				category: 'A',
 				blocks: ['NECK'],
 				rules: [
 					{
@@ -768,6 +786,7 @@ function init() {
 			setup: {
 				type: 'ActionBodyEffect',
 				name: 'do surgery',
+				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
 				rules: [
@@ -795,6 +814,7 @@ function init() {
 			measure: {
 				type: 'ActionBodyMeasure',
 				name: 'SpO2',
+				category: 'C',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.respiration.SaO2'],
 				formatter: ['PERCENT'],
@@ -807,6 +827,7 @@ function init() {
 		name: "Blood Pressure gauge",
 		actions: {
 			measure: {
+				category: 'C',
 				type: 'ActionBodyMeasure',
 				name: 'Measure MAP (mmHg)',
 				targetedObject: 'HumanBody',
@@ -822,12 +843,13 @@ function init() {
 	////////////////////////////////////////
 	registerAct({
 		id: 'recoveryPosition',
-		name: "Placing in recovery position",
+		name: "Recovery position",
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
 			name: 'move',
 			blocks: [],
+			category: 'E',
 			rules: [{
 				id: '',
 				name: '',
@@ -841,11 +863,102 @@ function init() {
 		}
 	});
 
+	registerAct({
+		id: 'sitDown',
+		name: "Sit down",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'E',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'SITTING'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+	registerAct({
+		id: 'proneDecubitus',
+		name: "Prone decubitus",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'E',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'PRONE_DECUBITUS'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+
+	registerAct({
+		id: 'supineDecubitus',
+		name: "Supine decubitus",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'E',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'SUPINE_DECUBITUS'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+	registerAct({
+		id: 'getUp',
+		name: "Get UP",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'E',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'STANDING'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+
 	// Acts : measure
 	registerAct({
 		id: 'measureRR',
 		name: "Respiratory Rate",
 		action: {
+			category: 'B',
 			type: 'ActionBodyMeasure',
 			name: 'RR',
 			targetedObject: 'HumanBody',
@@ -859,7 +972,8 @@ function init() {
 		name: "Heart Rate",
 		action: {
 			type: 'ActionBodyMeasure',
-			name: 'RR',
+			name: 'HR',
+			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardio.hr'],
 			formatter: ['INT'],
@@ -872,6 +986,7 @@ function init() {
 		action: {
 			type: 'ActionBodyMeasure',
 			name: 'CRT',
+			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.capillaryRefillTime_s'],
 			formatter: ['.2'],
@@ -884,6 +999,7 @@ function init() {
 		action: {
 			type: 'ActionBodyMeasure',
 			name: 'GCS',
+			category: 'D',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.glasgow.total', 'vitals.glasgow.eye', 'vitals.glasgow.verbal', 'vitals.glasgow.motor'],
 		}
@@ -894,6 +1010,7 @@ function init() {
 		name: "Can you walk?",
 		action: {
 			type: 'ActionBodyMeasure',
+			category: 'E',
 			name: 'walk',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.canWalk'],
@@ -904,6 +1021,7 @@ function init() {
 		id: 'areYouDead?',
 		name: "Are you dead?",
 		action: {
+			category: 'Z',
 			type: 'ActionBodyMeasure',
 			name: 'dead',
 			targetedObject: 'HumanBody',

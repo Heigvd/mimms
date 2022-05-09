@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1651568901876,
+  "createdTime" : 1652073127355,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -435,6 +435,7 @@
         "Bronche bouchée" : "{\"description\":\"\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"},\"blocks\":[\"BRONCHUS_1\"]}]}",
         "LT femoral 100" : "{\"description\":\"\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_THIGH\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"full_ac\"}}]}",
         "airways_r50" : "{\"description\":\"Rés trachée 50%\",\"events\":[{\"time\":10,\"blocks\":[\"NECK\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"half_strangle\"}}]}",
+        "bothBruchusBouchée" : "{\"events\":[{\"time\":10,\"blocks\":[\"BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"}},{\"time\":10,\"blocks\":[\"BRONCHUS_2\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"}}],\"description\":\"\"}",
         "bronche_r5pm" : "{\"description\":\"\",\"events\":[{\"time\":10,\"blocks\":[\"BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}},{\"time\":200,\"blocks\":[\"BRONCHUS_2\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}}]}",
         "cityHunter" : "{\"description\":\"un bon gros coup sur le crâne\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"cityHunter\"}}]}",
         "flyMeToTheMoon " : "{\"description\":\"FiO2=0%\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"flyMeToTheMoon\"}}]}",
@@ -710,51 +711,6 @@
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
-    "@class" : "TriggerDescriptor",
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "FSMInstance",
-      "currentStateId" : 1,
-      "enabled" : false,
-      "refId" : "StateMachineInstance:22373432:STjuu1",
-      "transitionHistory" : [ ]
-    },
-    "dependencies" : [ ],
-    "dependsOnStrategy" : "AUTO",
-    "disableSelf" : true,
-    "editorTag" : "première vague",
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:22373433:e2DWFm",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:22373433:e2DWFm::EN",
-          "status" : "",
-          "translation" : ""
-        }
-      }
-    },
-    "name" : "sandbox",
-    "oneShot" : false,
-    "postTriggerEvent" : {
-      "@class" : "Script",
-      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"quarter_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"tenth_vc\", [\"HEAD\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 180,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 280,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 240,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);",
-      "language" : "JavaScript"
-    },
-    "refId" : "TriggerDescriptor:22373431:Ds1eRV",
-    "scopeType" : "TeamScope",
-    "triggerEvent" : {
-      "@class" : "Script",
-      "content" : "",
-      "language" : "JavaScript"
-    },
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
     "allowedTypes" : [ ],
@@ -767,64 +723,6 @@
     "editorTag" : "setup",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "BooleanInstance",
-        "refId" : "BooleanInstance:24034116:1HIGo7",
-        "value" : true
-      },
-      "editorTag" : "",
-      "isolation" : "SECURED",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034117:Mi5BbN",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034117:Mi5BbN::EN",
-            "status" : "",
-            "translation" : "vasoconstriction"
-          }
-        }
-      },
-      "name" : "vasoconstriction",
-      "refId" : "BooleanDescriptor:24034115:xHN0wL",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "BooleanInstance",
-        "refId" : "BooleanInstance:24034127:0423hF",
-        "value" : true
-      },
-      "editorTag" : "",
-      "isolation" : "SECURED",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034128:VpoRft",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034128:VpoRft::EN",
-            "status" : "",
-            "translation" : "coagulation"
-          }
-        }
-      },
-      "name" : "coagulation",
-      "refId" : "BooleanDescriptor:24034126:zLbBDJ",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "WhQuestionDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "",
@@ -880,6 +778,64 @@
       "name" : "setup",
       "refId" : "WhQuestionDescriptor:24034120:xK1MBy",
       "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:24034116:1HIGo7",
+        "value" : true
+      },
+      "editorTag" : "",
+      "isolation" : "SECURED",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24034117:Mi5BbN",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24034117:Mi5BbN::EN",
+            "status" : "",
+            "translation" : "vasoconstriction"
+          }
+        }
+      },
+      "name" : "vasoconstriction",
+      "refId" : "BooleanDescriptor:24034115:xHN0wL",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:24034127:0423hF",
+        "value" : true
+      },
+      "editorTag" : "",
+      "isolation" : "SECURED",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24034128:VpoRft",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24034128:VpoRft::EN",
+            "status" : "",
+            "translation" : "coagulation"
+          }
+        }
+      },
+      "name" : "coagulation",
+      "refId" : "BooleanDescriptor:24034126:zLbBDJ",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -951,6 +907,241 @@
       "maxSelectable" : 1,
       "name" : "ansModel",
       "refId" : "StringDescriptor:24035111:RmSOQQ",
+      "scopeType" : "TeamScope",
+      "sortable" : false,
+      "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24046906:caFC5I",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24046906:caFC5I::EN",
+              "status" : "",
+              "translation" : "ABCDE"
+            }
+          }
+        },
+        "name" : "ABCDE",
+        "refId" : "EnumItem:24046905:vEAOsU"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24046908:6Cu4pO",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24046908:6Cu4pO::EN",
+              "status" : "",
+              "translation" : "ITEMS"
+            }
+          }
+        },
+        "name" : "ITEMS",
+        "refId" : "EnumItem:24046907:gUEoVe"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24046910:aw9hYX",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24046910:aw9hYX::EN",
+              "status" : "",
+              "translation" : "ACTIONS"
+            }
+          }
+        },
+        "name" : "ACTIONS",
+        "refId" : "EnumItem:24046909:U1luM6"
+      } ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:24046902:uxRc02",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24046903:PTuKnH",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24046903:PTuKnH::EN",
+              "status" : "",
+              "translation" : "ITEMS"
+            }
+          }
+        }
+      },
+      "editorTag" : "patientWheelType",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24046904:4jgSaY",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24046904:4jgSaY::EN",
+            "status" : "",
+            "translation" : ""
+          }
+        }
+      },
+      "maxSelectable" : 1,
+      "name" : "patientWheelType",
+      "refId" : "StringDescriptor:24046901:UJUKPJ",
+      "scopeType" : "TeamScope",
+      "sortable" : false,
+      "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047306:tfmjN5",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047306:tfmjN5::EN",
+              "status" : "",
+              "translation" : "SwissPre"
+            }
+          }
+        },
+        "name" : "swissNew",
+        "refId" : "EnumItem:24047305:2m1Pl5"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047308:Akfao5",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047308:Akfao5::EN",
+              "status" : "",
+              "translation" : "SAP"
+            }
+          }
+        },
+        "name" : "swissOld",
+        "refId" : "EnumItem:24047307:wQuQUs"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047313:HN5XSd",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047313:HN5XSd::EN",
+              "status" : "",
+              "translation" : "SIEVE"
+            }
+          }
+        },
+        "name" : "SIEVE",
+        "refId" : "EnumItem:#2:LRlhc5"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047315:XfaezY",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047315:XfaezY::EN",
+              "status" : "",
+              "translation" : "START"
+            }
+          }
+        },
+        "name" : "START",
+        "refId" : "EnumItem:#3:rtQH6v"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047321:939la1",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047321:939la1::EN",
+              "status" : "",
+              "translation" : "SACCO"
+            }
+          }
+        },
+        "name" : "SACCO",
+        "refId" : "EnumItem:#4:J7OwFg"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047323:VokOsm",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047323:VokOsm::EN",
+              "status" : "",
+              "translation" : "CareFlight"
+            }
+          }
+        },
+        "name" : "CareFlight",
+        "refId" : "EnumItem:#5:LbbWPB"
+      } ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:24047302:RfX4Mn",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24047303:6o8K5v",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24047303:6o8K5v::EN",
+              "status" : "",
+              "translation" : "swissNew"
+            }
+          }
+        }
+      },
+      "editorTag" : "tagSystem",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24047304:2aFaVx",
+        "translations" : { }
+      },
+      "maxSelectable" : 1,
+      "name" : "tagSystem",
+      "refId" : "StringDescriptor:24047301:ksdlVY",
       "scopeType" : "TeamScope",
       "sortable" : false,
       "validationPattern" : null,
@@ -1722,6 +1913,51 @@
     },
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "TriggerDescriptor",
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "FSMInstance",
+      "currentStateId" : 1,
+      "enabled" : false,
+      "refId" : "StateMachineInstance:22373432:STjuu1",
+      "transitionHistory" : [ ]
+    },
+    "dependencies" : [ ],
+    "dependsOnStrategy" : "AUTO",
+    "disableSelf" : true,
+    "editorTag" : "première vague",
+    "isolation" : "OPEN",
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:22373433:e2DWFm",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:22373433:e2DWFm::EN",
+          "status" : "",
+          "translation" : ""
+        }
+      }
+    },
+    "name" : "sandbox",
+    "oneShot" : false,
+    "postTriggerEvent" : {
+      "@class" : "Script",
+      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"semi_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_1\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_2\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 180,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 280,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 240,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);",
+      "language" : "JavaScript"
+    },
+    "refId" : "TriggerDescriptor:22373431:Ds1eRV",
+    "scopeType" : "TeamScope",
+    "triggerEvent" : {
+      "@class" : "Script",
+      "content" : "",
+      "language" : "JavaScript"
+    },
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -1888,6 +2124,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "triage",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24046951:nJSvVn",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "WegasHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -1897,10 +2142,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "test",
+    "contentKey" : "patientZoom",
     "contentType" : "text/css",
     "libraryType" : "CSS",
-    "refId" : "gamemodelcontent:338565nb7Ogp",
+    "refId" : "GameModelContent:24047318:v37hFN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "the_map",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:24047319:znunT3",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

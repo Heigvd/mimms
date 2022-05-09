@@ -2,19 +2,6 @@
  * Event from context helper
  */
 
-// interface Context {
-// 	patientConsole: {
-// 		state: {
-// 			logs: string[],
-// 			currentPatient: string,
-// 			selectedItem: string,
-// 			selectedAction: string,
-// 			blockRequired: boolean,
-// 			selectedBlock: string,
-// 		}
-// 	}
-// };
-
 var PatientActionFromContext = ((function () {
 	return {
 		doItemAction: function () {

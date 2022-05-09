@@ -148,486 +148,411 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "exposeAs" : "item",
-                                "getItemsFn" : {
-                                  "@class" : "Script",
-                                  "content" : "",
-                                  "language" : "JavaScript"
-                                },
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "itemKey" : "id",
-                                "layout" : { },
-                                "layoutStyle" : {
-                                  "position" : "absolute"
-                                },
-                                "stopPropagation" : true,
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getLocatedSmiley } from \"./graphics\";\ngetLocatedSmiley(Context.human);",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "exposeAs" : "human",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getHumans } from \"./the_world\";\ngetHumans();",
-                              "language" : "JavaScript"
-                            },
-                            "itemKey" : "id",
-                            "itemsOnly" : true,
-                            "layout" : { },
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "For each"
-                        }, {
-                          "props" : {
-                            "exposeAs" : "item",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "",
-                              "language" : "JavaScript"
-                            },
-                            "id" : "",
-                            "itemKey" : "id",
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "pointerEvents" : "none"
-                            },
-                            "name" : "Fog of War",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getFogOfWar } from \"./graphics\";\ngetFogOfWar();",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "exposeAs" : "item",
-                                "getItemsFn" : {
-                                  "@class" : "Script",
-                                  "content" : "",
-                                  "language" : "JavaScript"
-                                },
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "itemKey" : "id",
-                                "layout" : { },
-                                "layoutStyle" : {
-                                  "position" : "absolute"
-                                },
-                                "stopPropagation" : true,
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getLocatedBubble } from \"./graphics\";\ngetLocatedBubble(Context.human);",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "exposeAs" : "human",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getHumans } from \"./the_world\";\ngetHumans();",
-                              "language" : "JavaScript"
-                            },
-                            "itemKey" : "id",
-                            "itemsOnly" : true,
-                            "layout" : { },
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "For each"
-                        }, {
-                          "props" : {
-                            "className" : "",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "Variable.find(gameModel, 'running').getValue(self);",
-                              "language" : "JavaScript"
-                            },
-                            "icon" : "pause",
-                            "layoutStyle" : {
-                              "pointerEvents" : "none"
-                            },
-                            "style" : {
-                              "height" : "200px",
-                              "left" : "450px",
-                              "opacity" : "0.2",
-                              "position" : "absolute",
-                              "top" : "150px",
-                              "width" : "revert"
-                            }
-                          },
-                          "type" : "Icon"
-                        } ],
-                        "className" : "the_map",
-                        "id" : "",
-                        "layout" : { },
-                        "layoutStyle" : {
-                          "boxShadow" : "rgb(255, 255, 255) 0px 0px 0px 25px, rgb(81, 28, 28) 0px 0px 0px 27px",
-                          "height" : "500px",
-                          "margin" : "20px",
-                          "padding" : "0",
-                          "position" : "relative",
-                          "width" : "1000px"
+                        "exposeAs" : "item",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "",
+                          "language" : "JavaScript"
                         },
-                        "onAbsoluteClick" : {
-                          "client" : {
+                        "impactVariable" : {
+                          "impact" : {
                             "@class" : "Script",
-                            "content" : "import { handleClickOnMap } from \"./the_world\";\n\nconst point = Context.coord;\nwlog(\"Coord: \", point);\nhandleClickOnMap(Context.coord);",
-                            "language" : "TypeScript"
-                          },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"coord\"",
+                            "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);",
                             "language" : "JavaScript"
                           }
                         },
-                        "style" : { }
-                      },
-                      "type" : "AbsoluteLayout"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 250,\n  \"y\": 250,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T 250;250\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "Variable.find(gameModel, 'sandbox').enable(self);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"1e vague\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "Variable.find(gameModel, 'triggerDescriptor').enable(self);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"2e vague\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "",
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "8avril",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Marie T 100;100\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 460,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Marie T 0;450\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 450,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Marie T 100;100 -&gt; 0;450\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.afflictPathology(\"Marie\", \"flyMeToTheMoon\", [\"HEAD\"], undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Marie T FiO2 0%\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.doItemAction(\"Marie\", {\n  \"itemId\": \"mask\",\n  \"actionId\": \"setup\"\n}, [\"HEAD\"], undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Marie T Mask FiO2 65%\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "false;",
-                              "language" : "JavaScript"
-                            },
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "marie",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 150,\n  \"y\": 150,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T 150;150\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T 500;0\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 0,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T FullDiag\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T br;tr\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "EventManager.afflictPathology(\"oscar\", \"semi_ac\", [\"LEFT_LEG\"], undefined);",
-                                    "language" : "JavaScript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Oscar T AC\"",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "false;",
-                              "language" : "JavaScript"
-                            },
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "oscar",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"Clear State\"",
-                              "language" : "JavaScript"
-                            },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "Script",
-                                "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
-                                "language" : "TypeScript"
-                              }
-                            }
-                          },
-                          "type" : "Button"
-                        } ],
+                        "itemKey" : "id",
                         "layout" : { },
+                        "layoutStyle" : {
+                          "position" : "absolute"
+                        },
+                        "stopPropagation" : true,
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocatedSmiley } from \"./graphics\";\ngetLocatedSmiley(Context.human);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "exposeAs" : "human",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getHumans } from \"./the_world\";\ngetHumans();",
+                      "language" : "JavaScript"
+                    },
+                    "itemKey" : "id",
+                    "itemsOnly" : true,
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "",
+                      "language" : "JavaScript"
+                    },
+                    "id" : "",
+                    "itemKey" : "id",
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "pointerEvents" : "none"
+                    },
+                    "name" : "Fog of War",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getFogOfWar } from \"./graphics\";\ngetFogOfWar();",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "exposeAs" : "item",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "",
+                          "language" : "JavaScript"
+                        },
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "itemKey" : "id",
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "position" : "absolute"
+                        },
+                        "stopPropagation" : true,
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocatedBubble } from \"./graphics\";\ngetLocatedBubble(Context.human);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "exposeAs" : "human",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getHumans } from \"./the_world\";\ngetHumans();",
+                      "language" : "JavaScript"
+                    },
+                    "itemKey" : "id",
+                    "itemsOnly" : true,
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel, 'running').getValue(self);",
+                      "language" : "JavaScript"
+                    },
+                    "icon" : "pause",
+                    "layoutStyle" : {
+                      "pointerEvents" : "none"
+                    },
+                    "style" : {
+                      "height" : "200px",
+                      "left" : "450px",
+                      "opacity" : "0.2",
+                      "position" : "absolute",
+                      "top" : "150px",
+                      "width" : "revert"
+                    }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "the_map",
+                "id" : "",
+                "layout" : { },
+                "layoutStyle" : {
+                  "boxShadow" : "rgb(255, 255, 255) 0px 0px 0px 25px, rgb(81, 28, 28) 0px 0px 0px 27px",
+                  "height" : "500px",
+                  "margin" : "20px",
+                  "padding" : "0",
+                  "position" : "relative",
+                  "width" : "1000px"
+                },
+                "onAbsoluteClick" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { handleClickOnMap } from \"./the_world\";\n\nconst point = Context.coord;\nwlog(\"Coord: \", point);\nhandleClickOnMap(Context.coord);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"coord\"",
+                    "language" : "JavaScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "AbsoluteLayout"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 250,\n  \"y\": 250,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Oscar T 250;250\"",
+                          "language" : "JavaScript"
+                        },
                         "layoutStyle" : { },
                         "style" : { }
                       },
-                      "type" : "FlexList"
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "Variable.find(gameModel, 'sandbox').enable(self);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"1e vague\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "Variable.find(gameModel, 'triggerDescriptor').enable(self);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"2e vague\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
                     } ],
+                    "className" : "",
                     "layout" : {
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : { },
-                    "name" : "Map",
+                    "name" : "8avril",
                     "style" : { }
                   },
                   "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Marie T 100;100\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 460,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Marie T 0;450\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 450,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Marie T 100;100 -&gt; 0;450\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "false;",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "marie",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 150,\n  \"y\": 150,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Oscar T 150;150\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Oscar T 500;0\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 0,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Oscar T FullDiag\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "impactVariable" : {
+                          "impact" : {
+                            "@class" : "Script",
+                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Oscar T br;tr\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "false;",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "oscar",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Clear State\"",
+                      "language" : "JavaScript"
+                    },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
+                        "language" : "TypeScript"
+                      }
+                    }
+                  },
+                  "type" : "Button"
                 } ],
-                "layout" : {
-                  "flexDirection" : "row"
-                },
+                "layout" : { },
                 "layoutStyle" : { },
-                "name" : "Map",
+                "name" : "old buttons...",
                 "style" : { }
               },
               "type" : "FlexList"

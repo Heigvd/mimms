@@ -96,6 +96,8 @@ export interface AfflictedPathology {
 	pathologyId: string;
 }
 
+export type ABCDECategory = 'A' | 'B' | 'C' | 'D' | 'E' | 'Z';
+
 export interface ActionBodyEffect {
 	targetedObject: "HumanBody";
 	type: 'ActionBodyEffect',
@@ -112,7 +114,8 @@ export interface ActionBodyEffect {
 	/**
 	 * onDo, install those action on the target
 	 */
-	createActions: Action[];
+	createActions: HumanAction[];
+	category: ABCDECategory;
 }
 
 export interface ActionBodyMeasure {
@@ -122,9 +125,10 @@ export interface ActionBodyMeasure {
 	name: string;
 	metricName: BodyStateKeys[];
 	formatter?: ('PERCENT' | 'INT' | '.2')[];
+	category: ABCDECategory;
 }
 
-type Action = ActionBodyEffect | ActionBodyMeasure;
+export type HumanAction = ActionBodyEffect | ActionBodyMeasure;
 
 /**
  * Definition of an Item
@@ -141,7 +145,7 @@ export interface ItemDefinition {
 	/**
 	 *
 	 */
-	actions: Record<string, Action>;
+	actions: Record<string, HumanAction>;
 }
 
 
@@ -157,7 +161,7 @@ export interface ActDefinition {
 	/**
 	 * Actions
 	 */
-	action: Action;
+	action: HumanAction;
 }
 
 

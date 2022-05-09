@@ -32,15 +32,15 @@ import { getCompensationModel, getSystemModel } from "./registries";
 
 
 export function detectCardiacArrest(bodyState: BodyState) {
-	logger.debug("Detect cardiac arrest");
+	logger.log("Detect cardiac arrest");
 	if (
 		bodyState.vitals.cardiacArrest! > 0 ||
 		bodyState.vitals.cardio.hr < 30 ||
 		bodyState.vitals.cardio.MAP < 40 ||
 		bodyState.vitals.respiration.rr < 4 ||
-		bodyState.vitals.respiration.SaO2 < 0.4
+		bodyState.vitals.respiration.SaO2 < 0.7
 	) {
-		logger.debug("Cardiac Arrest");
+		logger.log("Cardiac Arrest");
 		bodyState.vitals.cardiacArrest =
 			bodyState.vitals.cardiacArrest || bodyState.time;
 		bodyState.vitals.cardio.hr = 0;
@@ -52,7 +52,7 @@ export function detectCardiacArrest(bodyState: BodyState) {
 		bodyState.vitals.respiration.tidalVolume_L = 0;
 		bodyState.vitals.brain.DO2 = 0;
 	} else {
-		logger.debug("Not dead yet");
+		logger.log("Not dead yet");
 	}
 }
 
@@ -343,7 +343,6 @@ export function compute(
 	meta: HumanBody["meta"],
 	env: Environnment,
 	duration_min: number,
-	stabilize: boolean
 ): BodyState["vitals"] {
 	//const newVitals = cloneDeep(body.vitals);
 	const newVitals = body.vitals;
@@ -431,6 +430,11 @@ export function compute(
 	});
 
 	newVitals.cardio.MAP = MAP;
+
+	const systolicPressure = 3 * MAP / 2;
+	newVitals.cardio.radialPulse = systolicPressure > 80;
+	//const diastolicPressure = x;
+
 	newVitals.cardio.cardiacOutput_LPerMin = Qc_LPerMin;
 	//newVitals.cardio.cardiacOutputRv_LPerMin = Qrv_LPerMin;
 
@@ -450,8 +454,8 @@ export function compute(
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// todo: ideal of effective ?
-	const vo2_LperMin = meta.VO2_LperKgMin * meta.effectiveWeight_kg;
-	const vco2_LPerMin = vo2_LperMin * body.vitals.respiration.QR;
+	const vo2_mLperMin = meta.VO2_mLperKgMin * meta.effectiveWeight_kg;
+	const vco2_mLPerMin = vo2_mLperMin * body.vitals.respiration.QR;
 
 	const upperAirways = getUpperAirwaysInput(body, env);
 	const units = getLowerAirways(body, upperAirways.resistance);
@@ -474,8 +478,10 @@ export function compute(
 			: 0;
 
 	respLogger.log("Respiration Step1: ", {
-		vo2_LperMin,
-		vco2_LPerMin,
+		vo2_mLkgperMin: meta.VO2_mLperKgMin,
+		weight: meta.effectiveWeight_kg,
+		vo2_mLperMin,
+		vco2_mLPerMin,
 		effectiveVolumesPerUnit_L,
 		hb_gPerL,
 	});
@@ -485,7 +491,7 @@ export function compute(
 	const unitOutputs = units.map((unit, i) => {
 		const Va_LperMin =
 			effectiveVolumesPerUnit_L[i]! * body.vitals.respiration.rr;
-		const vco2InUnit = vco2_LPerMin * unit.qPercent;
+		const vco2InUnit_mlPerMin = vco2_mLPerMin * unit.qPercent;
 
 		if (unit.qPercent <= 0) {
 			respLogger.log("NO PERFUSION");
@@ -497,17 +503,30 @@ export function compute(
 
 		if (Va_LperMin <= 0) {
 			// No ventilation! 
-			respLogger.warn("NO AIR");
-			PACO2 += duration_min * 100;
+			const inLungs_mL = meta.inspiratoryCapacity_mL * 0.66;
+			const CO2delta_mL = vco2InUnit_mlPerMin * duration_min;
+			const co2Percent = CO2delta_mL / inLungs_mL;
+			const PACO2_delta = PACO2 * co2Percent;
+			PACO2 += PACO2_delta;
 			//return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
+
+			respLogger.log("NO AIR: PACO2=", PACO2," + ", PACO2_delta, {
+				vco2_mLPerMin,
+				vco2InUnit_mlPerMin,
+				inLungs_mL,
+				CO2delta_mL,
+				co2Percent,
+				});
 		} else {
 			// Ventilation: formula is fine
-			respLogger.log("VCO2 / VA = ", vco2InUnit, Va_LperMin, unit.qPercent);
+			const Va_mlPerMin = Va_LperMin * 1000;
+			respLogger.log("VCO2 / VA = ", vco2InUnit_mlPerMin, Va_mlPerMin, unit.qPercent);
 
-			const ratio_vco2Va = vco2InUnit / Va_LperMin;
-			// Compute partial arterial CO2 saturation [mmHG]
+			const ratio_vco2Va = vco2InUnit_mlPerMin / Va_mlPerMin;
+			// Compute partial alveolar CO2 saturation [mmHG]
 			PACO2 = 1000 * K * ratio_vco2Va;
 		}
+		respLogger.log("PACO2 => ", PACO2);
 		unit.block.params.PACO2 = PACO2;
 
 		/**
@@ -522,7 +541,7 @@ export function compute(
 		 */
 		const pH2O_mmHg = 47; /// =~ f(37C°)
 
-		// Compute partial arterial oxygen saturation [mmHG]
+		// Compute partial alveolar oxygen saturation [mmHG]
 		const PAO2_raw = (upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
 			PACO2 / body.vitals.respiration.QR;
 
@@ -551,7 +570,7 @@ export function compute(
 
 		respLogger.log(` * Unit #${i}`, {
 			Va_LperMin,
-			vco2InUnit,
+			vco2InUnit_mlPerMin,
 			PACO2,
 			pH2O_mmHg,
 			PAO2,
@@ -588,7 +607,7 @@ export function compute(
 	//const recomputedSaO2 = computeSaO2(computedPaO2_v2);
 
 	//respLogger.debug(`Glob : 1\t${SaO2}\t${recomputedSaO2}\t${CaO2}\t${computedPaO2}\t${computedPaO2_v2}`);
-	respLogger.log("log : ", { SaO2, CaO2, PaO2_mmHg, stabilize });
+	respLogger.log("log : ", { SaO2, CaO2, PaO2_mmHg });
 
 	if (isLungsVasoconstrictionEnabled()) {
 		// update qFactors
@@ -664,7 +683,7 @@ export function compute(
 		}
 	}
 
-	if (false && !stabilize) {
+	if (false) {
 		// review
 		// delay SaO2 and CaO2 according to cardiac output
 		// delay is the time the heart needs to pump 40% of the blood
@@ -710,6 +729,8 @@ export function compute(
 		PaO2_mmHg = delayedPaO2;
 	}
 
+	newVitals.respiration.stridor = upperAirways.resistance > 0.25;
+
 	newVitals.respiration.SaO2 = SaO2;
 	newVitals.respiration.CaO2 = CaO2;
 
@@ -720,8 +741,8 @@ export function compute(
 	newVitals.respiration.PaO2 = PaO2_mmHg;
 	respLogger.log("Final SaO2,CaO2, PaO2:", { SaO2, CaO2, PaO2_mmHg });
 
-	logger.log("VO2 VS DO2", vo2_LperMin * 1000, do2Sys);
-	if (do2Sys < vo2_LperMin * 800) {
+	logger.log("VO2 VS DO2", vo2_mLperMin, do2Sys);
+	if (do2Sys < vo2_mLperMin * 0.8) {
 		logger.log("CHOC");
 	}
 
@@ -862,6 +883,7 @@ export function computeOrthoLevel(
 	meta: HumanBody["meta"],
 	duration_min: number) {
 	if (state.vitals.cardiacArrest! > 0) {
+		state.variables.paraOrthoLevel = 0;
 		return;
 	}
 	/*
@@ -909,6 +931,10 @@ export function doCompensate(
 	state: BodyState,
 	meta: HumanBody["meta"],
 	duration_min: number) {
+	
+	if (state.vitals.cardiacArrest! > 0) {
+		return;
+	}
 	const level = state.variables.paraOrthoLevel;
 
 	/*
@@ -978,6 +1004,7 @@ export function compensate(
 }
 
 export function inferExtraOutputs(human: HumanBody) {
+	logger.log("Infer Extra Outputs");
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// Compute/infer extra outputs
 	/////////////////////////////////////////////////////////////////////////////////////////////////
