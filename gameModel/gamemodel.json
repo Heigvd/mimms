@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1652073127355,
+  "createdTime" : 1651737803647,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1485,7 +1485,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:47997:Xw7EHy::EN",
               "status" : "",
-              "translation" : "hoi hoi"
+              "translation" : ""
             }
           }
         }

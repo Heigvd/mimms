@@ -68,7 +68,6 @@ const noMessages = 'no messages';
 let directMessages : Record<string, DirectCommunicationEvent[]> = {};
 
 export function processDirectMessageEvent(event: DirectCommunicationEvent, senderId: string){
-	//commLogger.warn(`processing direct com event (${event.id}) : ${event.message}`);
 	if(!directMessages[senderId]){
 		directMessages[senderId] = [];
 	}
@@ -115,11 +114,6 @@ export function getChannelChoices(radioId: number): {label: string, value: strin
 
 export function processRadioChannelUpdate(event : RadioChannelUpdateEvent){
 
-	commLogger.warn(`processing radio channel change event (${event.id}) : ${event.newChannel}`);
-
-	commLogger.warn(radios);
-	commLogger.warn(event.targetRadio);
-
 	const radio = radios[event.targetRadio]
 	if(radio){
 		if(radio.availableChannels.find((s) => event.newChannel === s)){
@@ -133,7 +127,6 @@ export function processRadioChannelUpdate(event : RadioChannelUpdateEvent){
 }
 
 export function processRadioCreationEvent(event : RadioCreationEvent): void{
-	commLogger.warn(`processing radio creation event (${event.id}) : ${event}`);
 
 	if(event.radioTemplate){
 		if(Object.values(radios).find(r => r.name === event.radioTemplate.name)){
@@ -173,9 +166,6 @@ let phoneMessages : Record<number, PhoneCommunicationEvent[]> = {};
 
 export function processPhoneCommunication(event : PhoneCommunicationEvent){
 	const rcpId = event.recipientPhoneId;
-	commLogger.warn(rcpId);
-	commLogger.warn(phones);
-	commLogger.warn(phoneMessages);
 	if(event.recipientPhoneId && phones[rcpId]){
 		//if(!phoneMessages[rcpId]){
 		//	phoneMessages[rcpId] = [];
@@ -187,7 +177,6 @@ export function processPhoneCommunication(event : PhoneCommunicationEvent){
 }
 
 export function processPhoneCreation(event : PhoneCreationEvent){
-	commLogger.warn(`processing phone creation event (${event.id}) : ${event.phoneTemplate}`);
 	const id = event.id;
 	if(!phones[id]){
 		phones[id] = event.phoneTemplate;
@@ -215,7 +204,6 @@ export function getOtherPhones(): Phone[] {
 
 export function getPhoneDropDownList(): {label: string, value: string}[] {
 	const phones = getOtherPhones();
-	commLogger.warn('other phones ', phones);
 	return phones.map(p => ({label : p.phoneName, value: p.phoneId.toString()}));
 }
 
