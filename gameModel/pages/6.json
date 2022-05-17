@@ -96,7 +96,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patientConsole.state.logs.join(\"<br />\");",
+                      "content" : "import { getPatientConsole } from \"./currentPatientZoom\";\ngetPatientConsole();",
                       "language" : "JavaScript"
                     }
                   },

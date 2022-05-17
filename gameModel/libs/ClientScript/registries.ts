@@ -817,7 +817,6 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.respiration.SaO2'],
-				formatter: ['PERCENT'],
 			}
 		}
 	});
@@ -832,7 +831,6 @@ function init() {
 				name: 'Measure MAP (mmHg)',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.cardio.MAP'],
-				formatter: ['INT']
 			}
 		}
 	});
@@ -963,7 +961,6 @@ function init() {
 			name: 'RR',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.respiration.rr'],
-			formatter: ['INT'],
 		}
 	});
 
@@ -976,7 +973,6 @@ function init() {
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardio.hr'],
-			formatter: ['INT'],
 		}
 	});
 
@@ -989,7 +985,6 @@ function init() {
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.capillaryRefillTime_s'],
-			formatter: ['.2'],
 		}
 	});
 

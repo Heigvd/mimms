@@ -1,9 +1,8 @@
-import { checkUnreachable } from "./helper";
-import { Block, BodyEffect, BodyStateKeys, readKey } from "./HUMAn";
+import { Block, BodyEffect, BodyStateKeys } from "./HUMAn";
 import { logger } from "./logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, PathologyDefinition } from "./pathology";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, PathologyDefinition } from "./pathology";
 import { getAct, getItem, getPathology } from "./registries";
-import { getCurrentPatientBody, getHealth, getHuman, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
+import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 
 
@@ -55,7 +54,7 @@ type Wheel = WheelItem[];
 /////////////////////////////////
 
 export interface PatientZoomState {
-	logs: string[];
+	//logs: string[];
 	currentPatient: string | undefined;
 	selectedAction: WheelAction | undefined;
 	selectedMenu: string;
@@ -69,7 +68,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		selectedMenu: "",
 		availableBlocks: [],
 		selectedBlock: undefined,
-		logs: [],
+		//logs: [],
 		currentPatient: undefined,
 	};
 }
@@ -92,9 +91,9 @@ export function keepStateAlive({ state, setState }: FullState) {
 	}
 }
 
-export function clearConsole(setState: SetZoomState){
+export function clearConsole(setState: SetZoomState) {
 	setState(state => {
-		return {...state, logs: []};
+		return { ...state, logs: [] };
 	});
 }
 
@@ -402,15 +401,27 @@ function resolveAction<T extends HumanAction>(wheelAction: WheelAction, aType: T
 	}
 }
 
-function postEvent(measure: WheelAction) {
-
-}
-
 export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
 
 	if (action != null) {
-		doMeasure(action, setState);
+		const source = measure.type === 'WheelAct' ? {
+			type: 'act',
+			actId: measure.id,
+		} : {
+			type: 'itemAction',
+			...measure.itemActionId
+		};
+		APIMethods.runScript(`EventManager.doHumanMeasure(
+				Context.humanId, {
+					type: Context.source.type,
+					actId: Context.source.actId,
+					itemId: Context.source.itemId,
+					actionId: Context.source.actionId,
+				});`, {
+			humanId: Context.patientConsole.state.currentPatient,
+			source: source,
+		});
 	}
 }
 
@@ -438,61 +449,6 @@ export function doWheelTreatment(treatment: WheelAction, block: string, setState
 			block: block,
 		});
 	}
-}
-
-function prettyPrintKey(key: BodyStateKeys): string {
-	switch (key) {
-		case 'vitals.canWalk':
-			return '';
-		case 'vitals.cardio.MAP':
-			return 'MAP';
-		case 'vitals.cardio.hr':
-			return 'Heart rate';
-		case 'vitals.respiration.SaO2':
-			return "SpO2";
-		default:
-			return key;
-	}
-}
-
-function doMeasure(action: ActionBodyMeasure, setState: SetZoomState) {
-	const name = action.name;
-	const metrics = action.metricName;
-	const body = getCurrentPatientBody();
-	const values = metrics.map((metric, i) => {
-		let value = readKey(body.state, metric);
-		if (action.formatter) {
-			const formatter = action.formatter[i];
-			if (formatter) {
-				if (formatter === 'PERCENT') {
-					if (typeof value === 'number') {
-						value = (value * 100).toFixed() + " %";
-					} else {
-						wlog("Value is not a number (PERCENT formatter)");
-					}
-				} else if (formatter === 'INT') {
-					if (typeof value === 'number') {
-						value = value.toFixed();
-					} else {
-						wlog("Value is not a number (int formatter)");
-					}
-				} else if (formatter === '.2') {
-					if (typeof value === 'number') {
-						value = value.toFixed(2);
-					} else {
-						wlog("Value is not a number (.2 formatter)");
-					}
-				} else {
-					checkUnreachable(formatter);
-				}
-			}
-		}
-		return `${prettyPrintKey(metric)}: ${value}`;
-	}).join("<br />");
-	setState(state => ({
-		...state,
-		logs: [...state.logs, name, values]
-	}))
 }
 
 
@@ -592,6 +548,78 @@ export function getDetails() {
 
 
 	return output.join("");
+}
+
+function percentFormatter(value: unknown): string {
+	if (typeof value === 'number') {
+		return (value * 100).toFixed() + " %";
+	} else {
+		wlog("Value is not a number (PERCENT formatter)");
+		return "unknown";
+	}
+}
+
+
+function intFormatter(value: unknown): string {
+	if (typeof value === 'number') {
+		return value.toFixed();
+	} else {
+		wlog("Value is not a number (int formatter)");
+		return "unknown";
+	}
+}
+
+function twoDecimalFormatter(value: unknown): string {
+	if (typeof value === 'number') {
+		return value.toFixed(2);
+	} else {
+		wlog("Value is not a number (.2 formatter)");
+		return "unknown";
+	}
+}
+
+function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
+	switch (metric) {
+		case 'vitals.canWalk':
+			return ['Walks?', value === true ? "true" : "false"];
+		case 'vitals.cardiacArrest':
+			return ['Dead?', value || 0 > 0 ? "true" : "false"];
+		case 'vitals.cardio.MAP':
+			return ['MAP', intFormatter(value)];
+		case 'vitals.cardio.hr':
+			return ['Heart rate', intFormatter(value)];
+		case 'vitals.respiration.SaO2':
+			return ["SpO2", percentFormatter(value)];
+		case 'vitals.respiration.rr':
+			return ["RR", intFormatter(value)];
+		case 'vitals.capillaryRefillTime_s':
+			return ["CRT", twoDecimalFormatter(value)];
+	}
+
+	return [String(metric), String(value)];
+}
+
+
+function formatLog(log: ConsoleLog): string {
+
+	const time = `<span class='time'>${log.time}</span>`;
+	if (log.type === 'MessageLog') {
+		return `${time} <span class='message'>${log.message}</span>`;
+	} else if (log.type === 'MeasureLog') {
+		const lines = log.metrics.map(metric => {
+			const r = formatMetric(metric.metric, metric.value);
+			return `<li>${r[0]} ${r[1]}</li>`;
+		});
+		return `${time} <ul>${lines}</ul>`;
+	}
+	return `${time}: UNKWOWN LOG TYPE: ${(log as any).type}`;
+}
+
+export function getPatientConsole(): string {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+
+	const console = getHumanConsole(id);
+	return console.map(formatLog).join("");
 }
 
 // const acts = getMyMedicalActs();

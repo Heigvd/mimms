@@ -145,13 +145,18 @@ var EventManager = ((function () {
 		 */
 		doHumanTreatment: function (humanId, source, blocks, time) {
 			lock();
-			print("HUMAN: " + humanId);
-			print("source: " + source);
-			print("blocks: " + blocks);
 			var event = buildHumanEvent(humanId, time);
 			event.type = 'HumanTreatment';
 			event.source = source;
 			event.blocks = blocks;
+
+			sendEvent(event);
+		},
+		doHumanMeasure: function (humanId, source, time) {
+			lock();
+			var event = buildHumanEvent(humanId, time);
+			event.type = 'HumanMeasure';
+			event.source = source;
 
 			sendEvent(event);
 		},
