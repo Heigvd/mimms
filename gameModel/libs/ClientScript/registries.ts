@@ -814,7 +814,7 @@ function init() {
 			measure: {
 				type: 'ActionBodyMeasure',
 				name: 'SpO2',
-				category: 'C',
+				category: 'B',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.respiration.SaO2'],
 			}

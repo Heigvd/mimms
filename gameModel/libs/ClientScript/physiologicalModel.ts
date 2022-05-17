@@ -935,6 +935,7 @@ export function doCompensate(
 	if (state.vitals.cardiacArrest! > 0) {
 		return;
 	}
+
 	const level = state.variables.paraOrthoLevel;
 
 	/*

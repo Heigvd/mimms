@@ -28,13 +28,6 @@ type SAP2020_CATEGORY =
 	| typeof INVOLVED
 	| typeof SECONDARY_TRIAGE;
 
-type SIEVE_CATEGORY =
-	| typeof DEAD
-	| typeof IMMEDIATE
-	| typeof URGENT
-	| typeof NON_URGENT
-	| typeof INVOLVED;
-
 type STANDARD_CATEGORY =
 	| typeof DEAD
 	| typeof IMMEDIATE
@@ -56,7 +49,7 @@ type SACCO_CATEGORY =
 	| "eleven"
 	| "twelve";
 
-interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	id: T;
 	bgColor: string;
 	color: string;
@@ -70,7 +63,7 @@ type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE' | '
 
 
 
-interface TagSystem<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+interface TagSystem<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	categories: Category<T>[];
 }
 
@@ -170,16 +163,8 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 }
 
 
-const sieveSystem: TagSystem<SIEVE_CATEGORY> = {
+const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
-		{
-			id: INVOLVED,
-			bgColor: 'blue',
-			color: 'white',
-			name: 'SURVIVOR RECEPTION CENTER',
-			shouldBeHandledBy: 'ES',
-			priority: 4,
-		},
 		{
 			id: NON_URGENT,
 			bgColor: 'green',
@@ -530,8 +515,8 @@ const explanations = {
 
 type Explanation = keyof typeof explanations;
 
-interface PreTriageResult<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
-	categoryId: T;
+interface PreTriageResult<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+	categoryId: T | undefined;
 	actions: PreTriageAction[];
 	explanations: Explanation[],
 }
@@ -565,8 +550,7 @@ function runOneStep({ human, env, health }: PreTriageData): void {
 }
 
 function isUnconscious(data: PreTriageData) {
-	// TODO: 
-	return data.human.state.vitals.glasgow.total < 10;
+	return data.human.state.vitals.glasgow.total < 11;
 }
 
 function notCompatibleWithLife(data: PreTriageData) {
@@ -736,7 +720,7 @@ export function doCareFlightPreTriage(data: PreTriageData): PreTriageResult<STAN
 	}
 }
 
-export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CATEGORY> {
+export function doSievePreTriage(data: PreTriageData): PreTriageResult<STANDARD_CATEGORY> {
 	const { human, actions } = data;
 
 	if (massiveHemorrhage(data)) {
@@ -750,7 +734,7 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 
 	if (!isInjured(data)) {
 		return {
-			categoryId: 'involved',
+			categoryId: undefined,
 			explanations: ["NOT_INJURED"],
 			actions,
 		}
@@ -1172,7 +1156,7 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 
 }
 
-function getCategory(category: string): Category<string> | undefined {
+function getCategory(category: string | undefined): Category<string> | undefined {
 	const categories = getTagSystemCategories();
 	if (categories != null) {
 		return categories.categories.find(c => c.id === category)

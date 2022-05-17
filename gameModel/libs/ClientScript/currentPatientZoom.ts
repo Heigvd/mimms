@@ -443,7 +443,7 @@ export function doWheelTreatment(treatment: WheelAction, block: string, setState
 					actId: Context.source.actId,
 					itemId: Context.source.itemId,
 					actionId: Context.source.actionId,
-				}, block ? [Context.block]: []);`, {
+				}, Context.block ? [Context.block]: []);`, {
 			humanId: Context.patientConsole.state.currentPatient,
 			source: source,
 			block: block,
