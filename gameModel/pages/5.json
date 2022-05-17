@@ -285,11 +285,12 @@
                 "layout" : { },
                 "layoutStyle" : {
                   "boxShadow" : "rgb(255, 255, 255) 0px 0px 0px 25px, rgb(81, 28, 28) 0px 0px 0px 27px",
-                  "height" : "500px",
+                  "display" : "none",
+                  "height" : "10px",
                   "margin" : "20px",
                   "padding" : "0",
                   "position" : "relative",
-                  "width" : "1000px"
+                  "width" : "10px"
                 },
                 "onAbsoluteClick" : {
                   "client" : {
@@ -308,231 +309,165 @@
               "type" : "AbsoluteLayout"
             }, {
               "props" : {
+                "OSMLayer" : false,
                 "children" : [ {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 250,\n  \"y\": 250,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Oscar T 250;250\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getHumanLayer } from \"./mapLayers\";\ngetHumanLayer();",
+                        "language" : "typescript"
                       },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "Variable.find(gameModel, 'sandbox').enable(self);",
-                            "language" : "JavaScript"
-                          }
+                      "type" : "VectorLayer"
+                    },
+                    "layerStyle" : {
+                      "image" : {
+                        "fill" : {
+                          "color" : "blue",
+                          "type" : "FillStyle"
                         },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"1e vague\"",
-                          "language" : "JavaScript"
+                        "radius" : 3,
+                        "stroke" : {
+                          "color" : "black",
+                          "lineCap" : "round",
+                          "lineJoin" : "round",
+                          "miterLimit" : 10,
+                          "type" : "StrokeStyle",
+                          "width" : 1
                         },
-                        "layoutStyle" : { },
-                        "style" : { }
+                        "type" : "CircleStyle"
                       },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "Variable.find(gameModel, 'triggerDescriptor').enable(self);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"2e vague\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "",
-                    "layout" : {
-                      "flexDirection" : "column"
+                      "zIndex" : 5
                     },
                     "layoutStyle" : { },
-                    "name" : "8avril",
+                    "name" : "humans",
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "WegasMapVectorLayer"
                 }, {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Marie T 100;100\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getBubbleLayer } from \"./mapLayers\";\ngetBubbleLayer();",
+                        "language" : "typescript"
                       },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 460,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Marie T 0;450\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"Marie\"\n}, {\n  \"x\": 100,\n  \"y\": 100,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 450,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Marie T 100;100 -&gt; 0;450\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "false;",
-                      "language" : "JavaScript"
+                      "type" : "VectorLayer"
                     },
-                    "layout" : {
-                      "flexDirection" : "column"
+                    "layerStyle" : {
+                      "@class" : "Script",
+                      "content" : "(feature) => ({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})",
+                      "language" : "typescript"
                     },
                     "layoutStyle" : { },
-                    "name" : "marie",
+                    "name" : "bubbles",
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "WegasMapVectorLayer"
                 }, {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 150,\n  \"y\": 150,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Oscar T 150;150\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Oscar T 500;0\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 0,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Oscar T FullDiag\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.followPath({\n  \"objectType\": \"Human\",\n  \"objectId\": \"oscar\"\n}, {\n  \"x\": 500,\n  \"y\": 500,\n  \"mapId\": \"the_world\"\n}, {\n  \"x\": 500,\n  \"y\": 0,\n  \"mapId\": \"the_world\"\n}, undefined);",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"Oscar T br;tr\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "false;",
-                      "language" : "JavaScript"
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : "/bat.geojson",
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer"
                     },
-                    "layout" : {
-                      "flexDirection" : "column"
+                    "layerStyle" : {
+                      "fill" : {
+                        "color" : "grey",
+                        "type" : "FillStyle"
+                      },
+                      "zIndex" : 10
                     },
                     "layoutStyle" : { },
-                    "name" : "oscar",
+                    "name" : "bati",
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer();",
+                        "language" : "typescript"
+                      },
+                      "type" : "VectorLayer"
+                    },
+                    "layerStyle" : {
+                      "fill" : {
+                        "color" : "#8f96a3c9",
+                        "type" : "FillStyle"
+                      },
+                      "zIndex" : 1
+                    },
+                    "layoutStyle" : { },
+                    "name" : "fogOfWar",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                } ],
+                "debug" : false,
+                "layoutStyle" : {
+                  "flexGrow" : "1",
+                  "height" : "500px",
+                  "width" : "100%"
+                },
+                "mapOptions" : {
+                  "onClick" : {
+                    "@class" : "Script",
+                    "content" : "import { handleClickOnMap } from \"./the_world\";\n(coord, features) => handleClickOnMap({x: coord[0], y: coord[1]}, features);",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { },
+                "viewOptions" : {
+                  "center" : [ 2539119, 1181103 ],
+                  "projection" : "EPSG:2056"
+                }
+              },
+              "type" : "WegasMap"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "impactVariable" : {
+                      "impact" : {
+                        "@class" : "Script",
+                        "content" : "Variable.find(gameModel, 'sandbox').enable(self);",
+                        "language" : "JavaScript"
+                      }
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"1e vague\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "impactVariable" : {
+                      "impact" : {
+                        "@class" : "Script",
+                        "content" : "Variable.find(gameModel, 'triggerDescriptor').enable(self);",
+                        "language" : "JavaScript"
+                      }
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"2e vague\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Button"
                 }, {
                   "props" : {
                     "label" : {
@@ -1133,7 +1068,9 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
             "style" : { }
           },
           "type" : "FlexList"
@@ -1144,7 +1081,10 @@
           "content" : "({time: 0});",
           "language" : "TypeScript"
         },
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flexDirection" : "column",
+          "flexGrow" : "1"
+        },
         "localState" : true,
         "style" : { }
       },

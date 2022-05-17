@@ -185,7 +185,7 @@ let currentProcessedEvents: Event[] = [];
 let fogType: FogType = 'SIGHT';
 
 // TODO: line of sight: 
-export const lineOfSightRadius = 250;
+export const lineOfSightRadius = 100;
 
 const sqRadius = lineOfSightRadius * lineOfSightRadius;
 
@@ -261,7 +261,7 @@ function proj(a: Point, b: Point): Point {
 }
 
 /**
- * speed: px/sec
+ * speed: unit/sec
  */
 function computeCurrentLocation(location: PositionAtTime | undefined, currentTime: number, speed: number): Location | undefined {
 	// TODO multi map
@@ -499,7 +499,7 @@ function rebuildState(time: number, env: Environnment) {
 		if (positionS.mostRecent != null && positionS.mostRecent.time < time) {
 			if (positionS.mostRecent.state.direction) {
 				// Object is moving
-				const speed = 20; // TODO speed is dependent of HumanS
+				const speed = 1; // TODO speed is dependent of HumanS
 				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, speed);
 				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey].splice(positionS.mostRecentIndex + 1, 0, {
@@ -776,7 +776,7 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 
 	// Update futures
 	futures.forEach(snapshot => {
-		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 20);
+		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 1);
 		worldLogger.log("Update Future: ", { snapshot, loc });
 		snapshot.state.location = loc;
 		snapshot.state.location = event.destination;
@@ -1045,7 +1045,7 @@ export function getHuman(id: string): HumanBody | undefined {
 	return undefined;
 }
 
-export function handleClickOnMap(point: Point): void {
+export function handleClickOnMap(point: Point, features:{features: Record<string, unknown>, layerId?: string}[]): void {
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };

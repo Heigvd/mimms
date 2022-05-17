@@ -5,6 +5,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/bat.geojson" : {
+    "description" : "",
+    "mimeType" : "application/geo+json",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
