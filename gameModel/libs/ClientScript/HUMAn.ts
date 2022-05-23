@@ -715,7 +715,7 @@ export function createHumanBody(
 			effectiveWeight_kg: effectiveWeight_kg,
 			inspiratoryCapacity_mL: inspiratoryCapacity_mL,
 			// VO2: calm=>4.5; highEffort(sedentary)=>40; highEffort(elite)=>65
-			VO2_mLperKgMin: 4.5, // TODO define: vo2Min & vo2Max
+			VO2_mLperKgMin: 4.5, // 4.5, // TODO define: vo2Min & vo2Max
 			// ajouter valeur RF HR cible ?
 			hematocrit: blood_mL.hematocrit, // valeur cible pour équilibre eau ?
 			deadSpace_L: 0.0022 * idealWeight_kg, // Marieb p954
@@ -917,13 +917,13 @@ export function createHumanBody(
 }
 
 function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
-	logger.log("Stabilize Orthjo level");
+	logger.warn("Stabilize Orthjo level");
 	let orthoDelta = 0;
 
 	let adjust = 5;
 	let way = 0;
 
-	const epsilon = 0.3;
+	const epsilon = 0.25;
 
 	let iterate : boolean = false;
 
@@ -935,7 +935,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 		// update the body to have up-to-date vitals
 		body.state = updateVitals(body.state, body.meta, env, 0);
 		orthoDelta = body.state.variables.paraOrthoLevel - currentOrthoLevel;
-		logger.info("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
+		logger.warn("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
 		iterate = Math.abs(orthoDelta) > epsilon && adjust > 0.25; 
 		if (iterate) {
 			if (way === 0) {
@@ -947,11 +947,11 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 				adjust /= 2;
 			}
 			body.state.variables.paraOrthoLevel = currentOrthoLevel + adjust * way;
-			logger.log("Adjust: ", { adjust, way, currentLevel: body.state.variables.paraOrthoLevel });
+			logger.warn("Adjust: ", { adjust, way, currentLevel: body.state.variables.paraOrthoLevel });
 		}
 	} while (iterate);
 
-	logger.info("Stabilize DONE");
+	logger.warn("Stabilize DONE");
 }
 
 
