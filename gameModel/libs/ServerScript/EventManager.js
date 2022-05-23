@@ -160,6 +160,14 @@ var EventManager = ((function () {
 
 			sendEvent(event);
 		},
+		logMessageToPatientConsole: function (humanId, message, time) {
+			lock();
+			var event = buildHumanEvent(humanId, time);
+			event.type = 'HumanLogMessage';
+			event.message = message;
+
+			sendEvent(event);
+		},
 		directCommunication: function(){
 			lock();
 			var event = buildCommunicationEvent('DirectCommunication', 'lastMsg');

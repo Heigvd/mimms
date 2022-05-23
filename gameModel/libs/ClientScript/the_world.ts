@@ -1,4 +1,6 @@
 import { Point } from "./helper";
+
+
 import {
 	afflictPathology, BlockName, BodyEffect, BodyState,
 	BodyStateKeys,
@@ -23,6 +25,9 @@ import {
 	processRadioCommunication, processRadioCreationEvent,
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -53,7 +58,7 @@ export type LocationState = Located & {
 }
 
 interface BaseLog {
-	time: string;
+	time: number;
 }
 
 type MessageLog = BaseLog & {
@@ -136,6 +141,11 @@ type PathologyEvent = BaseEvent & {
 	blocks: BlockName[],
 }
 
+type HumanLogMessageEvent = BaseEvent & {
+	type: 'HumanLogMessage';
+	message: string;
+}
+
 type HumanMeasureEvent = BaseEvent & {
 	type: 'HumanMeasure';
 	source: ({
@@ -167,6 +177,7 @@ type HumanTreatmentEvent = BaseEvent & {
 type Event = FollowPathEvent | TeleportEvent |
 	PathologyEvent |
 	HumanTreatmentEvent | HumanMeasureEvent |
+	HumanLogMessageEvent |
 	DirectCommunicationEvent | RadioCommunicationEvent |
 	RadioChannelUpdateEvent | RadioCreationEvent |
 	PhoneCommunicationEvent |
@@ -962,13 +973,14 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 
 	const logEntry: MeasureLog = {
 		type: 'MeasureLog',
-		time: `${time}`,
+		time: time,
 		metrics: values,
 	};
 	currentSnapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
+		snapshot.state.console.sort((a,b) => a.time - b.time );
 	})
 }
 
@@ -988,6 +1000,55 @@ function processHumanMeasureEvent(event: HumanMeasureEvent) {
 	} else {
 		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.source)}" does not exist`);
 	}
+}
+
+function processHumanLogMessageEvent(event: HumanLogMessageEvent) {
+	const time = event.time;
+
+	const objId = {
+		objectType: event.targetType,
+		objectId: event.targetId
+	};
+	const oKey = getObjectKey(objId);
+
+	// Fetch most recent human snapshot
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, event.time);
+
+	let currentSnapshot: { time: number; state: HumanState; };
+
+	if (mostRecent == null) {
+		mostRecent = {
+			time: 0,
+			state: initHuman(objId.objectId)
+		};
+		humanSnapshots[oKey].unshift(mostRecent);
+	}
+
+	if (mostRecent.time < time) {
+		// catch-up human state
+		const env = getEnv();
+		currentSnapshot = {
+			time: time,
+			state: computeHumanState(mostRecent.state, time, env)
+		}
+		// register new snapshot
+		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+	} else {
+		// update mostRecent snapshot in place
+		currentSnapshot = mostRecent;
+	}
+
+	const logEntry: ConsoleLog = {
+		type: 'MessageLog',
+		time: time,
+		message: event.message,
+	};
+	currentSnapshot.state.console.push(logEntry);
+
+	futures.forEach(snapshot => {
+		snapshot.state.console.push({ ...logEntry });
+		snapshot.state.console.sort((a,b) => a.time - b.time );
+	})
 }
 
 function processHumanTreatmentEvent(event: HumanTreatmentEvent) {
@@ -1068,6 +1129,9 @@ function processEvent(event: Event) {
 			break;
 		case 'HumanMeasure':
 			processHumanMeasureEvent(event);
+			break;
+		case 'HumanLogMessage':
+			processHumanLogMessageEvent(event);
 			break;
 		case 'DirectCommunication':
 			processDirectCommunicationEvent(event);

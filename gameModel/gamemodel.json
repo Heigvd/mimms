@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1652184442699,
+  "createdTime" : 1653310537865,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2079,15 +2079,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "quarticSolver",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24035201:xZME0Z",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "registries",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2164,15 +2155,6 @@
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24034258:gJ8AN1",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "PatientActionFromContext",
-    "contentType" : "application/javascript",
-    "libraryType" : "ServerScript",
-    "refId" : "GameModelContent:24037605:OJ1A5r",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
