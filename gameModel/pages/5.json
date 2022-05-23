@@ -72,7 +72,7 @@
                   "props" : {
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\";",
+                      "content" : "true;",
                       "language" : "JavaScript"
                     },
                     "icon" : "stethoscope",
@@ -312,6 +312,7 @@
                 "OSMLayer" : false,
                 "children" : [ {
                   "props" : {
+                    "layerId" : "",
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : {
@@ -319,7 +320,8 @@
                         "content" : "import { getHumanLayer } from \"./mapLayers\";\ngetHumanLayer();",
                         "language" : "typescript"
                       },
-                      "type" : "VectorLayer"
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
                     },
                     "layerStyle" : {
                       "image" : {
@@ -345,6 +347,64 @@
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getVisualOverviewForHumanId } from \"./graphics\";\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "stethoscope",
+                            "impactVariable" : {
+                              "impact" : {
+                                "@class" : "Script",
+                                "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"&nbsp;\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutClassName" : "stethoscope",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "humanOverlay",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposedValueKeys" : {
+                      "exposePayloadAs" : "human",
+                      "exposeResolutionAs" : "resolution"
+                    },
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getHumanOverlays } from \"./mapLayers\";\ngetHumanOverlays();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layoutStyle" : { },
+                    "name" : "Human Picto",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapOverlays"
                 }, {
                   "props" : {
                     "layerSource" : {
@@ -410,8 +470,9 @@
                   },
                   "type" : "WegasMapVectorLayer"
                 } ],
-                "debug" : false,
+                "debug" : true,
                 "layoutStyle" : {
+                  "backgroundColor" : "rgb(191, 242, 191)",
                   "flexGrow" : "1",
                   "height" : "500px",
                   "width" : "100%"

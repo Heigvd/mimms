@@ -37,12 +37,12 @@ export function getFogOfWarLayer() {
 	if (myLocation != null) {
 		const x = myLocation.x;
 		const y = myLocation.y;
-		
+
 		layer.features[0].coordinates.push([]);
 		const hole = layer.features[0].coordinates[1];
 
 		const nbPoint = 28;
-		for (let i=0, angle=0;i<nbPoint;i++,angle -= 2*Math.PI / nbPoint){
+		for (let i = 0, angle = 0; i < nbPoint; i++, angle -= 2 * Math.PI / nbPoint) {
 			const holeX = x + Math.sin(angle) * lineOfSightRadius;
 			const holeY = y + Math.cos(angle) * lineOfSightRadius;
 			hole.push([holeX, holeY]);
@@ -108,6 +108,28 @@ export function getHumanLayer() {
 					return [];
 				}
 			})
-
 	};
+}
+
+export function getHumanOverlays(): OverlayItem[] {
+	const humans = getHumans();
+
+	return humans.flatMap((human) => {
+		if (human.location) {
+			return [
+				{
+					payload: {
+						id: human.id,
+					},
+					overlayProps: {
+						overlayId: human.id,
+						className: 'human-overlay',
+						position: [human.location.x, human.location.y],
+						positioning: 'bottom-center',
+					}
+				} as OverlayItem];
+		} else {
+			return [];
+		}
+	});
 }
