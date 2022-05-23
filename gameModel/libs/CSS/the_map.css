@@ -54,8 +54,8 @@
     border-bottom: 0px solid transparent;
 }
 
-.human-overlay {
-	pointer-events: none ;
+.human-overlay > * {
+	pointer-events: auto;
 }
 
 .humanOverlay:hover .stethoscope {
