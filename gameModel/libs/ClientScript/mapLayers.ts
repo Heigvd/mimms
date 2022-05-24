@@ -1,4 +1,5 @@
 import { getDirectMessagesFrom } from "./communication";
+import { computeVisionPolygon, getBuildingInExtent } from "./geoData";
 import { getHumans, lineOfSightRadius } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 
@@ -12,7 +13,6 @@ export function getFogOfWarLayer() {
 	const hId = whoAmI();
 	const humans = getHumans();
 	const me = humans.find(h => h.id === hId);
-	const myLocation = me?.location;
 
 	const layer = {
 		"type": "FeatureCollection",
@@ -34,21 +34,20 @@ export function getFogOfWarLayer() {
 		]
 	};
 
-	if (myLocation != null) {
-		const x = myLocation.x;
-		const y = myLocation.y;
+	const hole: [number, number][] = []
+	layer.features[0].coordinates.push(hole)
 
-		layer.features[0].coordinates.push([]);
-		const hole = layer.features[0].coordinates[1];
 
-		const nbPoint = 28;
-		for (let i = 0, angle = 0; i < nbPoint; i++, angle -= 2 * Math.PI / nbPoint) {
-			const holeX = x + Math.sin(angle) * lineOfSightRadius;
-			const holeY = y + Math.cos(angle) * lineOfSightRadius;
-			hole.push([holeX, holeY]);
-		}
-		hole.push([hole[0][0], hole[0][1]]);
+	const visionPoints = me?.lineOfSight || [];
+
+	visionPoints.forEach(point => {
+		hole.push([point.x, point.y])
+	})
+
+	if (visionPoints[0] != null) {
+		hole.push(hole[0])
 	}
+
 	return layer;
 
 }
@@ -132,4 +131,48 @@ export function getHumanOverlays(): OverlayItem[] {
 			return [];
 		}
 	});
+}
+
+export function getDebugBuildingLayer() {
+	const hId = whoAmI();
+	const humans = getHumans();
+	const me = humans.find(h => h.id === hId);
+	const myLocation = me?.location;
+
+	const layer = {
+		"type": "FeatureCollection",
+		"name": "debugBuildings",
+		"features": []
+	};
+
+	if (myLocation != null) {
+		const x = myLocation.x;
+		const y = myLocation.y;
+
+		const extentAroundPlayer: ExtentLikeObject = [
+			x - lineOfSightRadius,
+			y - lineOfSightRadius,
+			x + lineOfSightRadius,
+			y + lineOfSightRadius
+		]
+		const buildings = getBuildingInExtent(extentAroundPlayer)
+		buildings.forEach(building => layer.features.push({
+			type: 'Feature',
+			geometry: {
+				type: 'Polygon',
+				coordinates: [building]
+			}
+		} as never))
+
+	}
+	return layer;
+
+}
+
+export function getEmptyLayer() {
+	return {
+		"type": "FeatureCollection",
+		"name": "empty",
+		"features": []
+	};
 }

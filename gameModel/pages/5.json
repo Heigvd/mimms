@@ -313,6 +313,9 @@
                 "children" : [ {
                   "props" : {
                     "layerId" : "",
+                    "layerProps" : {
+                      "zIndex" : 15
+                    },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : {
@@ -344,6 +347,11 @@
                     },
                     "layoutStyle" : { },
                     "name" : "humans",
+                    "onLayerReady" : {
+                      "@class" : "Script",
+                      "content" : "import { setEmptyLayer } from \"./buildingData\";\nsetEmptyLayer;",
+                      "language" : "typescript"
+                    },
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"
@@ -428,11 +436,14 @@
                   "type" : "WegasMapVectorLayer"
                 }, {
                   "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : "/bat.geojson",
                       "sourceProjection" : "EPSG:2056",
-                      "type" : "VectorLayer"
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
                     },
                     "layerStyle" : {
                       "fill" : {
@@ -443,11 +454,52 @@
                     },
                     "layoutStyle" : { },
                     "name" : "bati",
+                    "onLayerReady" : {
+                      "@class" : "Script",
+                      "content" : "import { setBuildingLayer } from \"./buildingData\";\nsetBuildingLayer",
+                      "language" : "typescript"
+                    },
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"
                 }, {
                   "props" : {
+                    "layerId" : "",
+                    "layerProps" : {
+                      "zIndex" : 1000
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "fill" : {
+                        "color" : "green",
+                        "type" : "FillStyle"
+                      },
+                      "zIndex" : 10
+                    },
+                    "layoutStyle" : { },
+                    "name" : "bati debug",
+                    "onLayerReady" : {
+                      "@class" : "Script",
+                      "content" : "import { setBuildingDebugLayer } from \"./buildingData\";\nsetBuildingDebugLayer",
+                      "language" : "typescript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : {
@@ -455,7 +507,9 @@
                         "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer();",
                         "language" : "typescript"
                       },
-                      "type" : "VectorLayer"
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : false
                     },
                     "layerStyle" : {
                       "fill" : {
@@ -1151,12 +1205,6 @@
       },
       "type" : "State"
     } ],
-    "exposeAs" : "",
-    "initialState" : {
-      "@class" : "",
-      "content" : "",
-      "language" : ""
-    },
     "layout" : {
       "flexDirection" : "column"
     },
@@ -1165,7 +1213,6 @@
       "overflow" : "auto",
       "width" : "100%"
     },
-    "localState" : false,
     "style" : { }
   },
   "type" : "FlexList"

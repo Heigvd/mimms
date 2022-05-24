@@ -1980,6 +1980,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "buildingData",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:424951:x0OClM",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "communication",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2020,6 +2029,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032621:Jryctw",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "geoData",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:424897:M8hntW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2185,7 +2203,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn with Map",
+  "name" : "HUMAn with maps (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
