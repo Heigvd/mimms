@@ -22,6 +22,7 @@ import {
 	processRadioCommunication, processRadioCreationEvent,
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
+import { caluculateLOS, isPointInPolygon } from "./geoData";
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -49,6 +50,7 @@ export type LocationState = Located & {
 	type: 'Human';
 	id: string;
 	time: number;
+	lineOfSight: Point[] | undefined;
 }
 
 export interface HumanState {
@@ -61,7 +63,7 @@ export interface HumanState {
 
 export interface WorldState {
 	// id to human
-	humans: Record<string, HumanState & Located>;
+	humans: Record<string, HumanState & LocationState>;
 
 }
 
@@ -154,6 +156,8 @@ type Snapshots<T> = Record<string, Snapshot<T>[]>
 ///////////////////////////////////////////////////////////////////////////
 
 // const spatialIndex: PositionState = {};
+
+const humanSpeed = 20; // unit/s
 
 const humanMetas: Record<string, HumanMeta> = {};
 
@@ -499,8 +503,8 @@ function rebuildState(time: number, env: Environnment) {
 		if (positionS.mostRecent != null && positionS.mostRecent.time < time) {
 			if (positionS.mostRecent.state.direction) {
 				// Object is moving
-				const speed = 1; // TODO speed is dependent of HumanS
-				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, speed);
+				// TODO speed is dependent of HumanS
+				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, humanSpeed);
 				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey].splice(positionS.mostRecentIndex + 1, 0, {
 					time: time,
@@ -508,6 +512,7 @@ function rebuildState(time: number, env: Environnment) {
 						...positionS.mostRecent.state,
 						time: time,
 						location: newLocation,
+						lineOfSight:undefined,
 					}
 				});
 			}
@@ -545,6 +550,11 @@ function rebuildState(time: number, env: Environnment) {
 		const visibles: ObjectId[] = [];
 		let outOfSight: ObjectId[] = [];
 
+		if(myPosition.mostRecent.state.lineOfSight == null){
+			myPosition.mostRecent.state.lineOfSight = caluculateLOS(myPosition.mostRecent.state.location!);
+		}
+		const lineOfSight = myPosition.mostRecent.state.lineOfSight!;
+
 		if (fogType === 'NONE') {
 			// no fog: update all objects
 			visibles.push(...objectList);
@@ -562,7 +572,7 @@ function rebuildState(time: number, env: Environnment) {
 				const [type, id] = key.split("::");
 				const oId = { objectType: type, objectId: id };
 				const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
-				if (mostRecent != null && isPointInCircle(myPosition.mostRecent.state.location, sqRadius, mostRecent.state.location)) {
+				if (mostRecent != null && isPointInPolygon(mostRecent.state.location, lineOfSight)) {
 					visibles.push(oId);
 				} else {
 					outOfSight.push(oId);
@@ -607,7 +617,7 @@ function rebuildState(time: number, env: Environnment) {
 						// last time I saw this object, it was moving
 						current.location = undefined;
 						current.direction = undefined;
-					} else if (isPointInCircle(myPosition.mostRecent.state.location, sqRadius, current.location)) {
+					} else if (isPointInPolygon(current.location, lineOfSight)) {
 						// Last known location was here but object is not here any longer
 						current.location = undefined;
 						current.direction = undefined;
@@ -717,6 +727,7 @@ function processTeleportEvent(event: TeleportEvent): boolean {
 				time: event.time,
 				location: event.location,
 				direction: undefined,
+				lineOfSight: undefined,
 			}
 		}
 		// register new snapshot
@@ -727,12 +738,14 @@ function processTeleportEvent(event: TeleportEvent): boolean {
 		currentSnapshot = mostRecent;
 		currentSnapshot.state.location = event.location;
 		currentSnapshot.state.direction = undefined;
+		currentSnapshot.state.lineOfSight = undefined;
 	}
 
 	// Update futures
 	futures.forEach(snapshot => {
 		snapshot.state.location = event.location;
-		currentSnapshot.state.direction = undefined;
+		snapshot.state.direction = undefined;
+		snapshot.state.lineOfSight = undefined;
 	});
 
 	return false;
@@ -762,6 +775,7 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 				time: event.time,
 				location: event.from,
 				direction: event.destination,
+				lineOfSight: undefined
 			}
 		}
 		// register snapshot
@@ -772,14 +786,16 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 		currentSnapshot = mostRecent;
 		currentSnapshot.state.location = event.from;
 		currentSnapshot.state.direction = event.destination;
+		currentSnapshot.state.lineOfSight = undefined;
 	}
 
 	// Update futures
 	futures.forEach(snapshot => {
-		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 1);
+		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, humanSpeed);
 		worldLogger.log("Update Future: ", { snapshot, loc });
 		snapshot.state.location = loc;
-		snapshot.state.location = event.destination;
+		snapshot.state.direction = event.destination;
+		snapshot.state.lineOfSight = undefined;
 	});
 	return false;
 }
@@ -1029,6 +1045,7 @@ export function getHumans() {
 		id: h.id,
 		location: h.location,
 		direction: h.direction,
+		lineOfSight: h.lineOfSight
 	}));
 }
 
@@ -1045,7 +1062,7 @@ export function getHuman(id: string): HumanBody | undefined {
 	return undefined;
 }
 
-export function handleClickOnMap(point: Point, features:{features: Record<string, unknown>, layerId?: string}[]): void {
+export function handleClickOnMap(point: Point, features: { features: Record<string, unknown>, layerId?: string }[]): void {
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
@@ -1053,7 +1070,7 @@ export function handleClickOnMap(point: Point, features:{features: Record<string
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
-		wlog("HandleOn: ", { objectId, destination, currentLocation, myState });
+		worldLogger.info("HandleOn: ", { objectId, destination, currentLocation, myState });
 		if (currentLocation != null) {
 			// Move from current location to given point
 			const from: Location = { ...currentLocation, mapId: 'the_world' };
