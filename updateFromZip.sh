@@ -92,7 +92,7 @@ TMP_DIR=$(mktemp -d ./gameModel.XXXXXX)
 
 mv ./gameModel $TMP_DIR
 
-unzip -qq $ZIP_FILE "gameModel/*"
+unzip -qq $ZIP_FILE "gameModel/**"
 
 if [ $? -ne 0 ]; then
     mv $TMP_DIR/gameModel .
