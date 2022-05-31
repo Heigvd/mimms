@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654008237839,
+  "createdTime" : 1654008400208,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1823,141 +1823,6 @@
     "scopeType" : "PlayerScope",
     "version" : null,
     "visibility" : "PRIVATE"
-  }, {
-    "@class" : "StringDescriptor",
-    "allowedValues" : [ ],
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "StringInstance",
-      "refId" : "StringInstance:24036611:m1sWhE",
-      "trValue" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24036612:ObTVuj",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24036612:ObTVuj::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      }
-    },
-    "editorTag" : "aString",
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:24036613:4mhQcj",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:24036613:4mhQcj::EN",
-          "status" : "",
-          "translation" : ""
-        }
-      }
-    },
-    "maxSelectable" : 1,
-    "name" : "aString",
-    "refId" : "StringDescriptor:24036610:7uq16L",
-    "scopeType" : "TeamScope",
-    "sortable" : false,
-    "validationPattern" : null,
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "TriggerDescriptor",
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "FSMInstance",
-      "currentStateId" : 1,
-      "enabled" : false,
-      "refId" : "StateMachineInstance:24037936:r080Go",
-      "transitionHistory" : [ ]
-    },
-    "dependencies" : [ ],
-    "dependsOnStrategy" : "AUTO",
-    "disableSelf" : true,
-    "editorTag" : "deuxième vague",
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:24037937:yXbumx",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:24037937:yXbumx::EN",
-          "status" : "",
-          "translation" : ""
-        }
-      }
-    },
-    "name" : "triggerDescriptor",
-    "oneShot" : false,
-    "postTriggerEvent" : {
-      "@class" : "Script",
-      "content" : "EventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-4\"\n}, {\n  \"x\": 170,\n  \"y\": 215,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-5\"\n}, {\n  \"x\": 210,\n  \"y\": 215,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-6\"\n}, {\n  \"x\": 250,\n  \"y\": 215,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-7\"\n}, {\n  \"x\": 290,\n  \"y\": 215,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-8\"\n}, {\n  \"x\": 330,\n  \"y\": 215,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-9\"\n}, {\n  \"x\": 170,\n  \"y\": 250,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"2-10\"\n}, {\n  \"x\": 210,\n  \"y\": 250,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.afflictPathology(\"2-10\", \"full_ac\", undefined, undefined);\nEventManager.afflictPathology(\"2-4\", \"tenth_vc\", [\"RIGHT_LEG\"], undefined);\nEventManager.afflictPathology(\"2-5\", \"tenth_vc\", [\"RIGHT_FOREARM\"], undefined);\nEventManager.afflictPathology(\"2-6\", \"20p_vc\", [\"RIGHT_LEG\"], undefined);\nEventManager.afflictPathology(\"2-7\", \"cityHunter\", [\"RIGHT_LEG\"], undefined);\nEventManager.afflictPathology(\"2-9\", \"tenth_vc\", [\"ABDOMEN\"], undefined);\nEventManager.afflictPathology(\"2-9\", \"tenth_ih\", [\"ABDOMEN\"], undefined);\nEventManager.afflictPathology(\"2-10\", \"tenth_vc\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"2-10\", \"tenth_ih\", [\"THORAX\"], undefined);",
-      "language" : "JavaScript"
-    },
-    "refId" : "TriggerDescriptor:24037935:EC4a7B",
-    "scopeType" : "TeamScope",
-    "triggerEvent" : {
-      "@class" : "Script",
-      "content" : "",
-      "language" : "JavaScript"
-    },
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "TriggerDescriptor",
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "FSMInstance",
-      "currentStateId" : 1,
-      "enabled" : false,
-      "refId" : "StateMachineInstance:22373432:STjuu1",
-      "transitionHistory" : [ ]
-    },
-    "dependencies" : [ ],
-    "dependsOnStrategy" : "AUTO",
-    "disableSelf" : true,
-    "editorTag" : "première vague",
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:22373433:e2DWFm",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:22373433:e2DWFm::EN",
-          "status" : "",
-          "translation" : ""
-        }
-      }
-    },
-    "name" : "sandbox",
-    "oneShot" : false,
-    "postTriggerEvent" : {
-      "@class" : "Script",
-      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"semi_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_1\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_2\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 180,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 280,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 240,\n  \"y\": 180,\n  \"mapId\": \"the_world\"\n}, undefined);",
-      "language" : "JavaScript"
-    },
-    "refId" : "TriggerDescriptor:22373431:Ds1eRV",
-    "scopeType" : "TeamScope",
-    "triggerEvent" : {
-      "@class" : "Script",
-      "content" : "",
-      "language" : "JavaScript"
-    },
-    "version" : null,
-    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -2011,6 +1876,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034201:e0dXYH",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "EventManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24049824:epY4oR",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2092,6 +1966,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033057:Kcnfxm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "scenario",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24049849:6Sh9Xt",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

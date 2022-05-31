@@ -1,7 +1,8 @@
 import { getDirectMessagesFrom } from "./communication";
 import { add, interpolate, normalize, Point } from "./helper";
 import { BodyPosition, Glasgow, HumanBody } from "./HUMAn";
-import { getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
+import { Categorization, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
+import { Category, getCategory } from "./triage";
 import { whoAmI } from "./WegasHelper";
 
 export interface HumanOverview {
@@ -11,6 +12,7 @@ export interface HumanOverview {
 	cyanosis: boolean;
 	looksDead: boolean;
 	totalExternalBloodLosses_ml: number;
+	category: Category<string> | undefined;
 }
 
 export function getFogOfWar() {
@@ -369,11 +371,13 @@ const colorfulModel: Point[] = [
 	{ x: 0.85, y: 1 }
 ]
 
-export function getOverview(human: HumanBody): HumanOverview {
+export function getOverview(human: (HumanBody & {category: Categorization | undefined})): HumanOverview {
 
 	const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
 
 	const looksDead = (human.state.vitals.cardiacArrest ?? 0) > 0;
+
+	const category = getCategory(human.category?.category);
 
 	return {
 		gcs: human.state.vitals.glasgow,
@@ -382,6 +386,7 @@ export function getOverview(human: HumanBody): HumanOverview {
 		cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
 		looksDead: looksDead,
 		totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
+		category: category,
 	};
 }
 

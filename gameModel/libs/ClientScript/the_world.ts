@@ -13,8 +13,8 @@ import {
 import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition } from "./pathology";
 import { getAct, getActs, getItem, getPathology, setCompensationModel, setSystemModel } from "./registries";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { getBodyParam, getEnv, loadCompensationModel, loadSystem, parse, whoAmI } from "./WegasHelper";
-import { BaseEvent } from "./baseEvent";
+import { getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
+import { initEmitterIds, TargetedEvent } from "./baseEvent";
 import {
 	DirectCommunicationEvent, RadioChannelUpdateEvent,
 	RadioCreationEvent,
@@ -25,6 +25,8 @@ import {
 	processRadioCommunication, processRadioCreationEvent,
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
+import { FullEvent, getAllEvents, sendEvent } from "./EventManager";
+import { Category, SystemName } from "./triage";
 
 
 
@@ -76,12 +78,18 @@ type MeasureLog = BaseLog & {
 
 export type ConsoleLog = MessageLog | MeasureLog;
 
+export interface Categorization {
+	system: SystemName;
+	category: Category<string>['id'];
+}
+
 export interface HumanState {
 	type: 'Human';
 	id: string;
 	time: number;
 	bodyState: BodyState;
-	console: ConsoleLog[],
+	console: ConsoleLog[];
+	category: Categorization | undefined;
 };
 
 
@@ -122,31 +130,31 @@ type FogType = 'NONE' | 'SIGHT' | 'FULL';
  * Walk, drive, fly to destination
  * TODO: path to follow
  */
-interface FollowPathEvent extends BaseEvent {
+interface FollowPathEvent extends TargetedEvent {
 	type: 'FollowPath';
 	from: Location;
 	destination: Location;
 }
 
 /** Aka teleportation */
-type TeleportEvent = BaseEvent & {
+interface TeleportEvent extends TargetedEvent {
 	type: 'Teleport';
 	location: Location;
 }
 
 /** */
-type PathologyEvent = BaseEvent & {
+interface PathologyEvent extends TargetedEvent {
 	type: 'HumanPathology';
 	pathologyId: string;
 	blocks: BlockName[],
 }
 
-type HumanLogMessageEvent = BaseEvent & {
+interface HumanLogMessageEvent extends TargetedEvent {
 	type: 'HumanLogMessage';
 	message: string;
 }
 
-type HumanMeasureEvent = BaseEvent & {
+interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
 	source: ({
 		type: 'act',
@@ -160,7 +168,7 @@ type HumanMeasureEvent = BaseEvent & {
 }
 
 
-type HumanTreatmentEvent = BaseEvent & {
+interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
 	source: ({
 		type: 'act',
@@ -174,18 +182,24 @@ type HumanTreatmentEvent = BaseEvent & {
 	blocks: BlockName[],
 }
 
-type Event = FollowPathEvent | TeleportEvent |
+interface CategorizeEvent extends TargetedEvent, Categorization {
+	type: 'Categorize';
+}
+
+
+export type EventPayload = FollowPathEvent | TeleportEvent |
 	PathologyEvent |
 	HumanTreatmentEvent | HumanMeasureEvent |
 	HumanLogMessageEvent |
+	CategorizeEvent |
 	DirectCommunicationEvent | RadioCommunicationEvent |
 	RadioChannelUpdateEvent | RadioCreationEvent |
 	PhoneCommunicationEvent |
 	PhoneCreationEvent;
 
-type EventType = Event['type'];
+export type EventType = EventPayload['type'];
 
-type EventStore = Record<string, Event[]>;
+type EventStore = Record<string, EventPayload[]>;
 
 interface Snapshot<T> {
 	time: number;
@@ -221,7 +235,7 @@ let healths: HumanHealthState = {};
  */
 let processedEvent: Record<number, boolean> = {};
 
-let currentProcessedEvents: Event[] = [];
+let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
 // const eventStore: EventStore = {};
 
@@ -361,32 +375,11 @@ function isPointInCircle(c: Point | undefined, sqRadius: number, p: Point | unde
 	return deltaX * deltaX + deltaY * deltaY < sqRadius;
 }
 
-
-
-
-
-function getAllEvents(): Event[] {
-	const eventsInstance = Variable.find(gameModel, 'events').getInstance(self);
-	const rawMessages = eventsInstance.getEntity().messages;
-
-	const events = rawMessages.map(message => {
-		const json = I18n.translate(message.body);
-		const event = parse<Event>(json);
-		return {
-			id: message.id,
-			timestamp: message.time,
-			...event,
-		} as Event;
-	});
-
-	return events;
-}
-
-function filterOutFutureEvents(events: Event[], time: number) {
+function filterOutFutureEvents(events: FullEvent<EventPayload>[], time: number) {
 	return events.filter(ev => ev.time <= time);
 }
 
-function compareEvent(a: Event, b: Event): number {
+function compareEvent(a: FullEvent<EventPayload>, b: FullEvent<EventPayload>): number {
 	if (a.time < b.time) {
 		return -1;
 	} else if (a.time > b.time) {
@@ -398,8 +391,8 @@ function compareEvent(a: Event, b: Event): number {
 	}
 }
 
-function extractNotYetProcessedEvents(events: Event[]) {
-	return events.reduce<{ processed: Event[], not: Event[] }>((acc, cur) => {
+function extractNotYetProcessedEvents(events: FullEvent<EventPayload>[]) {
+	return events.reduce<{ processed: FullEvent<EventPayload>[], not: FullEvent<EventPayload>[] }>((acc, cur) => {
 		if (processedEvent[cur.id]) {
 			acc.processed.push(cur);
 		} else {
@@ -411,17 +404,17 @@ function extractNotYetProcessedEvents(events: Event[]) {
 	});
 }
 
-function mapLastLocationEventByObject(events: Event[]) {
-	return events.reduce<Record<string, Event>>((acc, event) => {
-		if (event.type === 'FollowPath' || event.type === 'Teleport') {
-			const key = getObjectKey({ objectType: event.targetType, objectId: event.targetId });
+function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
+	return events.reduce<Record<string, FullEvent<TeleportEvent | FollowPathEvent>>>((acc, event) => {
+		if (event.payload.type === 'FollowPath' || event.payload.type === 'Teleport') {
+			const key = getObjectKey({ objectType: event.payload.targetType, objectId: event.payload.targetId });
 			const current = acc[key];
 			if (current) {
 				if (compareEvent(current, event) < 0) {
-					acc[key] = event;
+					acc[key] = event as FullEvent<TeleportEvent | FollowPathEvent>;
 				}
 			} else {
-				acc[key] = event;
+				acc[key] = event as FullEvent<TeleportEvent | FollowPathEvent>;
 			}
 			return acc;
 		}
@@ -430,15 +423,19 @@ function mapLastLocationEventByObject(events: Event[]) {
 }
 
 
-function findNextEvent(events: Event[], currentEvent: Event, eventTypes: EventType[], target: ObjectId): Event | undefined {
-	const futureEvents = events.filter(event => {
-		return event.targetType === target.objectType
-			&& event.targetId === target.objectId
-			&& eventTypes.includes(event.type)
-			&& compareEvent(event, currentEvent) > 0;
-	});
+function findNextTargetedEvent(events: FullEvent<EventPayload>[], currentEvent: FullEvent<EventPayload>, eventTypes: EventType[], target: ObjectId): FullEvent<EventPayload> | undefined {
+	const futureEvents = events
+		.filter(event => {
+			const cEvent = event.payload as Partial<TargetedEvent>;
+
+			return cEvent.targetType === target.objectType
+				&& cEvent.targetId === target.objectId
+				&& eventTypes.includes(event.payload.type)
+				&& compareEvent(event, currentEvent) > 0;
+		});
 	return futureEvents.sort(compareEvent)[0];
 }
+
 
 /**
  * Compute spatial index at given type
@@ -457,24 +454,24 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 		const key = getObjectKey(obj);
 		const event = mappedEvent[key];
 		if (event != null) {
-			if (event.type === 'Teleport') {
+			if (event.payload.type === 'Teleport') {
 				// object is static on this position
-				event.location;
+				event.payload.location;
 				spatialIndex[key] = {
 					objectType: obj.objectType,
 					objectId: obj.objectId,
 					time: time,
-					location: event.location,
+					location: event.payload.location,
 					direction: undefined
 				};
-			} if (event.type === 'FollowPath') {
+			} if (event.payload.type === 'FollowPath') {
 				// object is moving
 				spatialIndex[key] = {
 					objectType: obj.objectType,
 					objectId: obj.objectId,
 					time: event.time,
-					location: event.from,
-					direction: event.destination,
+					location: event.payload.from,
+					direction: event.payload.destination,
 				};
 			}
 		}
@@ -503,6 +500,7 @@ function initHuman(humanId: string): HumanState {
 		bodyState: humanBody.state,
 		time: 0,
 		console: [],
+		category: undefined,
 	};
 }
 
@@ -656,7 +654,7 @@ function rebuildState(time: number, env: Environnment) {
 
 function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: number, options: {
 	strictTime?: boolean;
-	before?: Event;
+	before?: FullEvent<EventPayload>;
 } = {}): {
 	mostRecent: Snapshot<T> | undefined,
 	mostRecentIndex: number;
@@ -731,12 +729,12 @@ function computeHumanState(state: HumanState, to: number, env: Environnment) {
 }
 
 
-function processTeleportEvent(event: TeleportEvent): boolean {
+function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 	// TODO: is object an obstacle ?
-	const objId = { objectType: event.targetType, objectId: event.targetId };
+	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
 	const oKey = getObjectKey(objId);
 
-	const next = findNextEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
+	const next = findNextTargetedEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
 
 	// TODO: update location state between current
 	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(locationsSnapshots, objId, event.time, { before: next });
@@ -747,10 +745,10 @@ function processTeleportEvent(event: TeleportEvent): boolean {
 		currentSnapshot = {
 			time: event.time,
 			state: {
-				type: event.targetType,
-				id: event.targetId,
+				type: event.payload.targetType,
+				id: event.payload.targetId,
 				time: event.time,
-				location: event.location,
+				location: event.payload.location,
 				direction: undefined,
 			}
 		}
@@ -760,13 +758,13 @@ function processTeleportEvent(event: TeleportEvent): boolean {
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
-		currentSnapshot.state.location = event.location;
+		currentSnapshot.state.location = event.payload.location;
 		currentSnapshot.state.direction = undefined;
 	}
 
 	// Update futures
 	futures.forEach(snapshot => {
-		snapshot.state.location = event.location;
+		snapshot.state.location = event.payload.location;
 		currentSnapshot.state.direction = undefined;
 	});
 
@@ -774,12 +772,12 @@ function processTeleportEvent(event: TeleportEvent): boolean {
 }
 
 
-function processFollowPathEvent(event: FollowPathEvent): boolean {
+function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// TODO: is object an obstacle ?
-	const objId = { objectType: event.targetType, objectId: event.targetId };
+	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
 	const oKey = getObjectKey(objId);
 
-	const next = findNextEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
+	const next = findNextTargetedEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
 
 
 	// TODO: update location state between current
@@ -792,11 +790,11 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 		currentSnapshot = {
 			time: event.time,
 			state: {
-				type: event.targetType,
-				id: event.targetId,
+				type: event.payload.targetType,
+				id: event.payload.targetId,
 				time: event.time,
-				location: event.from,
-				direction: event.destination,
+				location: event.payload.from,
+				direction: event.payload.destination,
 			}
 		}
 		// register snapshot
@@ -805,8 +803,8 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
-		currentSnapshot.state.location = event.from;
-		currentSnapshot.state.direction = event.destination;
+		currentSnapshot.state.location = event.payload.from;
+		currentSnapshot.state.direction = event.payload.destination;
 	}
 
 	// Update futures
@@ -814,7 +812,7 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 20);
 		worldLogger.log("Update Future: ", { snapshot, loc });
 		snapshot.state.location = loc;
-		snapshot.state.location = event.destination;
+		snapshot.state.location = event.payload.destination;
 	});
 	return false;
 }
@@ -865,22 +863,22 @@ export function getHealth(humanId: string) {
 	return healths[humanId] || { effects: [], pathologies: [] };
 }
 
-function processPathologyEvent(event: PathologyEvent) {
-	const pathology = getPathology(event.pathologyId);
+function processPathologyEvent(event: FullEvent<PathologyEvent>) {
+	const pathology = getPathology(event.payload.pathologyId);
 	if (pathology != null) {
 		worldLogger.log("Afflict Pathology: ", { pathology, time: event.time });
 		//const meta = humanMetas[event.targetId];
 
 		// push pathology in human health state
-		const p = afflictPathology(pathology, event.time, event.blocks);
+		const p = afflictPathology(pathology, event.time, event.payload.blocks);
 
-		const health = getHealth(event.targetId);
+		const health = getHealth(event.payload.targetId);
 		health.pathologies.push(p);
-		healths[event.targetId] = health;
+		healths[event.payload.targetId] = health;
 
-		updateHumanSnapshots(event.targetId, event.time);
+		updateHumanSnapshots(event.payload.targetId, event.time);
 	} else {
-		worldLogger.info(`Afflict Pathology Failed: Pathology "${event.pathologyId}" does not exist`);
+		worldLogger.info(`Afflict Pathology Failed: Pathology "${event.payload.pathologyId}" does not exist`);
 	}
 }
 
@@ -924,11 +922,12 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 
 
 
-function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMeasure, event: HumanMeasureEvent) {
+function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMeasure, fEvent: FullEvent<HumanMeasureEvent>) {
 	const name = action.name;
 	const metrics = action.metricName;
-	const time = event.time;
+	const time = fEvent.time;
 
+	const event = fEvent.payload;
 	const objId = {
 		objectType: event.targetType,
 		objectId: event.targetId
@@ -936,7 +935,7 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, event.time);
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, fEvent.time);
 
 	let currentSnapshot: { time: number; state: HumanState; };
 
@@ -980,34 +979,34 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
-		snapshot.state.console.sort((a,b) => a.time - b.time );
+		snapshot.state.console.sort((a, b) => a.time - b.time);
 	})
 }
 
 
-function processHumanMeasureEvent(event: HumanMeasureEvent) {
+function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 
-	const resolvedAction = resolveAction(event);
+	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
 		const { source, action } = resolvedAction;
 		if (resolvedAction.action.type === "ActionBodyMeasure") {
-			worldLogger.log("Do Act Item: ", { time: event.time, source: event.source, action }, event);
+			worldLogger.log("Do Act Item: ", { time: event.time, source: event.payload.source, action }, event);
 			doMeasure(source, action as ActionBodyMeasure, event);
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
 	} else {
-		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.source)}" does not exist`);
+		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`);
 	}
 }
 
-function processHumanLogMessageEvent(event: HumanLogMessageEvent) {
+function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 	const time = event.time;
 
 	const objId = {
-		objectType: event.targetType,
-		objectId: event.targetId
+		objectType: event.payload.targetType,
+		objectId: event.payload.targetId
 	};
 	const oKey = getObjectKey(objId);
 
@@ -1041,37 +1040,87 @@ function processHumanLogMessageEvent(event: HumanLogMessageEvent) {
 	const logEntry: ConsoleLog = {
 		type: 'MessageLog',
 		time: time,
-		message: event.message,
+		message: event.payload.message,
 	};
 	currentSnapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
-		snapshot.state.console.sort((a,b) => a.time - b.time );
+		snapshot.state.console.sort((a, b) => a.time - b.time);
 	})
 }
 
-function processHumanTreatmentEvent(event: HumanTreatmentEvent) {
+function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
+	const time = event.time;
 
-	const resolvedAction = resolveAction(event);
+	const objId = {
+		objectType: event.payload.targetType,
+		objectId: event.payload.targetId
+	};
+	const oKey = getObjectKey(objId);
+
+
+	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
+
+	// Fetch most recent human snapshot
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, event.time, { before: next });
+
+	let currentSnapshot: { time: number; state: HumanState; };
+
+	if (mostRecent == null) {
+		mostRecent = {
+			time: 0,
+			state: initHuman(objId.objectId)
+		};
+		humanSnapshots[oKey].unshift(mostRecent);
+	}
+
+	if (mostRecent.time < time) {
+		// catch-up human state
+		const env = getEnv();
+		currentSnapshot = {
+			time: time,
+			state: computeHumanState(mostRecent.state, time, env)
+		}
+		// register new snapshot
+		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+	} else {
+		// update mostRecent snapshot in place
+		currentSnapshot = mostRecent;
+	}
+
+	const category : Categorization = {
+		category: event.payload.category,
+		system: event.payload.system,
+	}
+	currentSnapshot.state.category = category;
+
+	futures.forEach(snapshot => {
+		snapshot.state.category = { ...category };
+	})
+}
+
+function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
+
+	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
 		const { source, action } = resolvedAction;
 		if (resolvedAction.action.type === "ActionBodyEffect") {
-			worldLogger.log("Apply Item: ", { time: event.time, source: event.source, action }, event);
-			const effect = doItemActionOnHumanBody(source, action as ActionBodyEffect, event.blocks, event.time);
+			worldLogger.log("Apply Item: ", { time: event.time, source: event.payload.source, action }, event);
+			const effect = doItemActionOnHumanBody(source, action as ActionBodyEffect, event.payload.blocks, event.time);
 			if (effect != null) {
-				const health = getHealth(event.targetId);
+				const health = getHealth(event.payload.targetId);
 				health.effects.push(effect);
-				healths[event.targetId] = health;
+				healths[event.payload.targetId] = health;
 
-				updateHumanSnapshots(event.targetId, event.time);
+				updateHumanSnapshots(event.payload.targetId, event.time);
 			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
 	} else {
-		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.source)}" does not exist`);
+		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`);
 	}
 }
 
@@ -1079,7 +1128,7 @@ function unreachable(x: never) {
 	worldLogger.error("Unreachable ", x);
 }
 
-function processDirectCommunicationEvent(event: DirectCommunicationEvent): void {
+function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEvent>): void {
 
 	// sender always gets his own messages
 	//processMessageEvent(event, event.sender);
@@ -1093,7 +1142,7 @@ function processDirectCommunicationEvent(event: DirectCommunicationEvent): void 
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 
-	const senderId = { objectId: event.sender, objectType: 'Human' };
+	const senderId = { objectId: event.payload.sender, objectType: 'Human' };
 	const senderPosition = getMostRecentSnapshot(locationsSnapshots, senderId, time);
 
 	let distanceSquared = Infinity;
@@ -1105,54 +1154,59 @@ function processDirectCommunicationEvent(event: DirectCommunicationEvent): void 
 
 	worldLogger.debug("Computed distance : " + Math.sqrt(distanceSquared))
 	if (distanceSquared < sqRadius) {
-		processDirectMessageEvent(event, event.sender);
+		processDirectMessageEvent(event, event.payload.sender);
 	} else {
 		worldLogger.warn(`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`)
 	}
 }
 
-function processEvent(event: Event) {
+function processEvent(event: FullEvent<EventPayload>) {
 	worldLogger.debug("ProcessEvent: ", event);
 
-	switch (event.type) {
+	const eType = event.payload.type;
+
+	switch (eType) {
 		case 'Teleport':
-			processTeleportEvent(event);
+			processTeleportEvent(event as FullEvent<TeleportEvent>);
 			break;
 		case 'FollowPath':
-			processFollowPathEvent(event);
+			processFollowPathEvent(event as FullEvent<FollowPathEvent>);
 			break;
 		case 'HumanPathology':
-			processPathologyEvent(event);
+			processPathologyEvent(event as FullEvent<PathologyEvent>);
 			break;
 		case 'HumanTreatment':
-			processHumanTreatmentEvent(event);
+			processHumanTreatmentEvent(event as FullEvent<HumanTreatmentEvent>);
 			break;
 		case 'HumanMeasure':
-			processHumanMeasureEvent(event);
+			processHumanMeasureEvent(event as FullEvent<HumanMeasureEvent>);
+			break;
+		case 'Categorize':
+			processCategorizeEvent(event as FullEvent<CategorizeEvent>);
 			break;
 		case 'HumanLogMessage':
-			processHumanLogMessageEvent(event);
+			processHumanLogMessageEvent(event as FullEvent<HumanLogMessageEvent>);
 			break;
 		case 'DirectCommunication':
-			processDirectCommunicationEvent(event);
+			processDirectCommunicationEvent(event as FullEvent<DirectCommunicationEvent>);
 			break;
 		case 'RadioCommunication':
-			processRadioCommunication(event);
+			processRadioCommunication(event as FullEvent<RadioCommunicationEvent>);
 			break;
 		case 'RadioChannelUpdate':
-			processRadioChannelUpdate(event);
+			processRadioChannelUpdate(event as FullEvent<RadioChannelUpdateEvent>);
 			break;
 		case 'RadioCreation':
-			processRadioCreationEvent(event);
+			processRadioCreationEvent(event as FullEvent<RadioCreationEvent>);
 			break;
 		case 'PhoneCommunication':
-			processPhoneCommunication(event);
+			processPhoneCommunication(event as FullEvent<PhoneCommunicationEvent>);
 			break;
 		case 'PhoneCreation':
-			processPhoneCreation(event);
+			processPhoneCreation(event as FullEvent<PhoneCreationEvent>);
 			break;
 		default:
-			unreachable(event);
+			unreachable(eType);
 	}
 	processedEvent[event.id] = true;
 }
@@ -1211,13 +1265,16 @@ export function getHumans() {
 	}));
 }
 
-export function getHuman(id: string): HumanBody | undefined {
+export function getHuman(id: string): (HumanBody & {
+	category : Categorization | undefined
+})| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
 	if (human && meta) {
 		return {
 			meta,
 			state: human.bodyState,
+			category: human.category
 		}
 	}
 
@@ -1242,14 +1299,27 @@ export function handleClickOnMap(point: Point): void {
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
-		wlog("HandleOn: ", { objectId, destination, currentLocation, myState });
+		worldLogger.info("HandleOn: ", { objectId, destination, currentLocation, myState });
 		if (currentLocation != null) {
 			// Move from current location to given point
 			const from: Location = { ...currentLocation, mapId: 'the_world' };
-			APIMethods.runScript("EventManager.followPath(Context.objectId, Context.from, Context.destination);", { objectId, from, destination });
+			sendEvent({
+				...initEmitterIds(),
+				type: 'FollowPath',
+				targetType: 'Human',
+				targetId: myId,
+				from: from,
+				destination: destination,
+			});
 		} else {
 			// No known location => Teleport
-			APIMethods.runScript("EventManager.teleport(Context.objectId, Context.destination);", { objectId, destination });
+			sendEvent({
+				...initEmitterIds(),
+				type: 'Teleport',
+				targetType: 'Human',
+				targetId: myId,
+				location: destination,
+			});
 		}
 	}
 }

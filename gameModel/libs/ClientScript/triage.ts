@@ -1,4 +1,6 @@
+import { initEmitterIds } from "./baseEvent";
 import { SetZoomState } from "./currentPatientZoom";
+import { sendEvent } from "./EventManager";
 import { checkUnreachable, normalize } from "./helper";
 import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from "./HUMAn";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientHealth, getHumanConsole, HumanHealth } from "./the_world";
@@ -50,7 +52,7 @@ type SACCO_CATEGORY =
 	| "eleven"
 	| "twelve";
 
-interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+export interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	id: T;
 	bgColor: string;
 	color: string;
@@ -60,9 +62,7 @@ interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGOR
 }
 
 
-type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE' | 'START';
-
-
+export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE' | 'START';
 
 interface TagSystem<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	categories: Category<T>[];
@@ -1190,7 +1190,7 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 
 }
 
-function getCategory(category: string | undefined): Category<string> | undefined {
+export function getCategory(category: string | undefined): Category<string> | undefined {
 	const categories = getTagSystemCategories();
 	if (categories != null) {
 		return categories.categories.find(c => c.id === category)
@@ -1233,18 +1233,28 @@ export function doAutomaticTriageAndLogToConsole(setState: SetZoomState) {
 		}
 		output.push("</div>")
 
-		APIMethods.runScript(`EventManager.logMessageToPatientConsole(${JSON.stringify(patientId)}, ${JSON.stringify(output.join(""))});`, {});
+		sendEvent({
+			...initEmitterIds(),
+			type: 'HumanLogMessage',
+			targetType: 'Human',
+			targetId: patientId,
+			message: output.join(''),
+		});
+
 		wlog("PreTriage: " + output.join(""));
 		/*setState(state => {
 			return { ...state, logs: [...state.logs, output.join("")] };
 		});*/
 	} else {
 		wlog(`PreTriage "${tagSystem}": Not Yet Implements]`);
-		APIMethods.runScript(`EventManager.logMessageToPatientConsole(${JSON.stringify(patientId)}, PreTriage "${tagSystem}": Not Yet Implements]);`, {});
 
-		/*setState(state => {
-			return { ...state, logs: [...state.logs, `PreTriage "${tagSystem}": Not Yet Implements]`] };
-		});*/
+		sendEvent({
+			...initEmitterIds(),
+			type: 'HumanLogMessage',
+			targetType: 'Human',
+			targetId: patientId,
+			message: `PreTriage "${tagSystem}": Not Yet Implemented`,
+		});
 	}
 }
 
