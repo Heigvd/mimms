@@ -1,9 +1,12 @@
-import { Block, BodyEffect, BodyStateKeys } from "./HUMAn";
+import { initEmitterIds } from "./baseEvent";
+import { sendEvent } from "./EventManager";
+import { Block, BlockName, BodyEffect, BodyStateKeys } from "./HUMAn";
 import { logger } from "./logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, PathologyDefinition } from "./pathology";
 import { getAct, getItem, getPathology } from "./registries";
 import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
+import { Category, getCategory, getTagSystem } from "./triage";
 
 
 /////////////////////////////////
@@ -406,47 +409,41 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
 
 	if (action != null) {
 		const source = measure.type === 'WheelAct' ? {
-			type: 'act',
+			type: 'act' as 'act',
 			actId: measure.id,
 		} : {
-			type: 'itemAction',
+			type: 'itemAction' as 'itemAction',
 			...measure.itemActionId
 		};
-		APIMethods.runScript(`EventManager.doHumanMeasure(
-				Context.humanId, {
-					type: Context.source.type,
-					actId: Context.source.actId,
-					itemId: Context.source.itemId,
-					actionId: Context.source.actionId,
-				});`, {
-			humanId: Context.patientConsole.state.currentPatient,
-			source: source,
+		sendEvent({
+			...initEmitterIds(),
+			type: 'HumanMeasure',
+			targetType: 'Human',
+			targetId: Context.patientConsole.state.currentPatient,
+			source: source
 		});
 	}
 }
 
 
-export function doWheelTreatment(treatment: WheelAction, block: string, setState: SetZoomState) {
+export function doWheelTreatment(treatment: WheelAction, block: BlockName, setState: SetZoomState) {
 	const action = resolveAction<ActionBodyEffect>(treatment, 'ActionBodyEffect');
 
 	if (action != null) {
 		const source = treatment.type === 'WheelAct' ? {
-			type: 'act',
+			type: 'act' as 'act',
 			actId: treatment.id,
 		} : {
-			type: 'itemAction',
+			type: 'itemAction' as 'itemAction',
 			...treatment.itemActionId
 		};
-		APIMethods.runScript(`EventManager.doHumanTreatment(
-				Context.humanId, {
-					type: Context.source.type,
-					actId: Context.source.actId,
-					itemId: Context.source.itemId,
-					actionId: Context.source.actionId,
-				}, Context.block ? [Context.block]: []);`, {
-			humanId: Context.patientConsole.state.currentPatient,
+		sendEvent({
+			...initEmitterIds(),
+			type: 'HumanTreatment',
+			targetType: 'Human',
+			targetId: Context.patientConsole.state.currentPatient,
 			source: source,
-			block: block,
+			blocks: block ? [block] : [],
 		});
 	}
 }
@@ -620,6 +617,22 @@ export function getPatientConsole(): string {
 
 	const console = getHumanConsole(id);
 	return console.map(formatLog).join("");
+}
+
+export function categorize(category: string) {
+	debugger;
+	const system = getTagSystem();
+	const resolved = getCategory(category);
+	if (resolved != null) {
+		sendEvent({
+			...initEmitterIds(),
+			type: 'Categorize',
+			targetType: 'Human',
+			targetId: Context.patientConsole.state.currentPatient,
+			category: resolved.id,
+			system: system,
+		});
+	}
 }
 
 // const acts = getMyMedicalActs();

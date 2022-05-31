@@ -917,7 +917,7 @@ export function createHumanBody(
 }
 
 function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
-	logger.warn("Stabilize Orthjo level");
+	logger.info("Stabilize Para/Ortho level");
 	let orthoDelta = 0;
 
 	let adjust = 5;
@@ -935,7 +935,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 		// update the body to have up-to-date vitals
 		body.state = updateVitals(body.state, body.meta, env, 0);
 		orthoDelta = body.state.variables.paraOrthoLevel - currentOrthoLevel;
-		logger.warn("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
+		logger.info("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
 		iterate = Math.abs(orthoDelta) > epsilon && adjust > 0.25; 
 		if (iterate) {
 			if (way === 0) {
@@ -947,11 +947,11 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 				adjust /= 2;
 			}
 			body.state.variables.paraOrthoLevel = currentOrthoLevel + adjust * way;
-			logger.warn("Adjust: ", { adjust, way, currentLevel: body.state.variables.paraOrthoLevel });
+			logger.info("Adjust: ", { adjust, way, currentLevel: body.state.variables.paraOrthoLevel });
 		}
 	} while (iterate);
 
-	logger.warn("Stabilize DONE");
+	logger.info("Stabilize DONE");
 }
 
 

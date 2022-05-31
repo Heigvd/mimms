@@ -522,8 +522,8 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "wlog(\"Do Categorize: \", Context.tagCategory.name);",
-                            "language" : "TypeScript"
+                            "content" : "import { categorize } from \"./currentPatientZoom\";\n\ncategorize(Context.tagCategory.id);",
+                            "language" : "typescript"
                           }
                         },
                         "style" : { },

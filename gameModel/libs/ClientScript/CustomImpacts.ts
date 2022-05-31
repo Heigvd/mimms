@@ -113,38 +113,38 @@ Helpers.registerEffect(() => {
 	/**
 	 * afflictPathology: function (humanId, pathologyId, blocks, time); 
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'afflictPathology', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'afflictPathology', {
 		label: 'Afflict',
 		parameters: [humanSelector, pathologiesChoices, blocksSelector, optionalTime],
 		returns: undefined,
-	});
+	});*/
 
 	/**
 	 * doItemAction: function (humanId, {itemId, actionId}, blocks, time)
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'doItemAction', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'doItemAction', {
 		label: 'Use item on Human',
 		parameters: [humanSelector, itemSelector, blocksSelector, optionalTime],
 		returns: undefined,
-	});
+	});*/
 
 	/**
 	 * object : {objectType: string, objectId: string}
 	 * location: {mapId: string, x: number, y: number}
 	 * teleport: function (object, location, time)
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'teleport', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'teleport', {
 		label: 'Teleport',
 		parameters: [moveableObjectSelector, locationParam(), optionalTime],
 		returns: undefined,
-	});
+	});*/
 
 	/**
 	 * object : {objectType: string, objectId: string}
 	 * destination: {mapId: string, x: number, y: number}
 	 * moveTo: function (object, location, time) {
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'followPath', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'followPath', {
 		label: 'Move From/To (walk / drive)',
 		parameters: [moveableObjectSelector, locationParam('from'), locationParam('to'), optionalTime],
 		returns: undefined,
@@ -154,7 +154,7 @@ Helpers.registerEffect(() => {
 		label: 'Speak in the wild',
 		parameters: [],
 		returns: undefined,
-    });
+    });*/
 });
 
 // delay customization to make sure every others modules are available
