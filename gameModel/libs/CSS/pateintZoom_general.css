@@ -1,0 +1,59 @@
+.patientConsole .title_container {
+	border-bottom: 1px solid var(--colors-disabledcolor);
+	padding: 5px 10px;
+	background: var(--colors-backgroundcolor);
+}
+.patientConsole .title_container .title {
+	font-weight: bold;
+	font-size: 16pt;
+}
+
+.patientConsole .title_container .subtitle {
+	color: gray;
+}
+
+.patientConsole .column {
+	padding: 0;
+	border: 1px solid var(--colors-disabledcolor);
+	background: #fbfbfb;
+	height: 100%;
+	width: 33.3%;
+	min-width: 300px;
+	flex-grow: 1;
+}
+
+/* CONSOLE */
+.patientConsole .console .log_container{
+	margin: 3px;
+	display: flex;
+	border-bottom: 1px solid #eee;
+}
+.patientConsole .console .log_container .time{
+	color: var(--colors-disabledcolor);
+	margin: 1px 10px 0 0;
+}
+.patientConsole .console .log_container .msr_list{
+	margin: 3px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+.patientConsole .console .log_container .msr_label{
+	margin-right: 5px;
+}
+.patientConsole .console .log_container .msr_value{
+	font-weight: bold;
+}
+.patientConsole .console .log_container .message{
+	background: #fee;
+	padding: 10px;
+}
+.patientConsole .console .log_container .message h3{
+	margin: 5px 0;
+}
+.patientConsole .console .log_container .message ul{
+	margin: 5px 0;
+}
+.patientConsole .console .log_container .message div{
+	margin: 5px 0 0 0;
+}

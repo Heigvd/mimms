@@ -42,6 +42,42 @@
 	display: none;
 }
 
+.coloration_triangle {
+	-webkit-clip-path: polygon(0 50%, 100% 100%, 100% 0); 
+	clip-path: polygon(0 50%, 100% 100%, 100% 0);
+	position: relative;
+	width: 70px;
+	height: 80px;
+	background: black;
+}
+.coloration_triangle .cyanosis {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(red, blue);
+		-webkit-clip-path: polygon(0 50%, 100% 100%, 100% 0); 
+	clip-path: polygon(1% 50%, 99% 99%, 99% 1%);
+}
+.coloration_triangle .pallor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(to right, white 15%, transparent);
+	z-index: 1;
+}
+.coloration_cursor {
+	display: block;
+	position: absolute;
+	border: 5px solid greenyellow;
+	border-radius: 50%;
+	height: 0;
+	width: 0;
+}
+
 .patientWheel .selected {
 	border : 2px solid hotpink;
 }
@@ -49,26 +85,6 @@
 .patientConsole .selected {
 	border : 2px solid hotpink;
 }
-
-.face-color {
-	position: relative;
-	display: inline-block;
-	width: 100px;
-	height:20px;
-	background: linear-gradient(90deg, rgba(210,210,210,1) 0%, rgba(128,128,128,1) 50%, rgba(0,0,0,1) 100%); 
-}
-
-.face-color .tick {
-	position: absolute;
-	top: 20px;
-	/*left: 50px;*/
-	width: 0; 
- 	height: 0; 
-  	border-left: 4px solid transparent;
-  	border-right: 4px solid transparent;
-  	border-bottom: 10px solid rgb(255, 0, 0);
-}
-
 
 .patientConsole .tagCategory {
 	padding: 10px;
@@ -102,3 +118,4 @@
 
 .patientConsole .tagCategory.current:hover {
 	border-color: hotpink;
+}

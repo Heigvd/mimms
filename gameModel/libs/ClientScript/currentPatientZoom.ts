@@ -35,6 +35,10 @@ type WheelAct = BaseItem & WithActionType & {
 	type: "WheelAct";
 }
 
+type Categorizations = BaseItem & {
+	type: "Categorizations";
+}
+
 type WheelAction = WheelItemAction | WheelAct;
 
 type SubMenu = BaseItem & {
@@ -496,7 +500,7 @@ export function getDetails() {
 	const health = getHealth(id);
 	const currentTime = getCurrentSimulationTime();
 
-	const output: string[] = ["<h3>Details</h3>"];
+	const output: string[] = [""];
 
 	if (human != null) {
 		const blocks: Record<string, {
@@ -604,15 +608,15 @@ function formatLog(log: ConsoleLog): string {
 
 	const time = `<span class='time'>${log.time}</span>`;
 	if (log.type === 'MessageLog') {
-		return `${time} <span class='message'>${log.message}</span>`;
+		return `<div class='log_container'>${time} <span class='message'>${log.message}</span></div>`;
 	} else if (log.type === 'MeasureLog') {
 		const lines = log.metrics.map(metric => {
 			const r = formatMetric(metric.metric, metric.value);
-			return `<li>${r[0]} ${r[1]}</li>`;
+			return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
 		});
-		return `${time} <ul>${lines}</ul>`;
+		return `<div class='log_container'>${time} <div class='msr_list'>${lines}</div></div>`;
 	}
-	return `${time}: UNKWOWN LOG TYPE: ${(log as any).type}`;
+	return `<div class='log_container'>${time}: UNKWOWN LOG TYPE: ${(log as any).type}</div>`;
 }
 
 export function getPatientConsole(): string {

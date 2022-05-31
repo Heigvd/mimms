@@ -404,7 +404,16 @@ export function getVisualOverview(): string {
 	return output.join("");
 }
 
-
+function getCyanosisPos(cyanosis: boolean, pallor: number): number {
+	let pos = 50;
+ if(cyanosis) {
+	 pos += (pallor * 0.5);
+ }
+ else {
+	 pos -= (pallor* 0.5);
+ }
+ return pos * .8;
+}
 export function getVisualDetails(): string {
 
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
@@ -417,10 +426,11 @@ export function getVisualDetails(): string {
 		if (overview) {
 			const painPath = getPainIcon(human.state.vitals.pain, overview);
 			const painURL = Helpers.getFilePath(painPath);
-			output.push(`<div>Pain: <img width="48px" src='${painURL}'></div>`);
-			output.push(`<div>Cyanosis: ${getMouth(overview.cyanosis)}</div>`);
+			output.push(`<div>Pain <img width="48px" src='${painURL}' style='display: block'></div>`);
 			const tickLeft = (overview.colorful * 100) - 5;
-			output.push(`<div>Pallor: Pale <span class='face-color'><span class='tick' style="left:${tickLeft}px"></span></span> Vivid</div>`);
+			const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
+			const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
+			output.push(`<div>Coloration <div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
 		}
 	}
 	return output.join("");

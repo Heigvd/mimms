@@ -6,7 +6,9 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "padding" : "0"
+                },
                 "name" : "hack",
                 "style" : { },
                 "text" : {
@@ -37,8 +39,49 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layout" : { },
+                    "children" : [ {
+                      "props" : {
+                        "className" : "title",
+                        "layoutStyle" : { },
+                        "name" : "Nom",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"?????\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "subtitle",
+                        "layoutStyle" : { },
+                        "name" : "etat",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Etat du patient [to change]\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "title_container",
                     "layoutStyle" : { },
+                    "name" : "patientTitle",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "flex-grow" : "1"
+                    },
                     "name" : "visual overview",
                     "style" : { },
                     "text" : {
@@ -50,61 +93,33 @@
                   "type" : "Text"
                 }, {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<h3>Console</h3>\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "icon" : "eraser",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { clearConsole } from \"./currentPatientZoom\";\n\nclearConsole(Context.patientConsole.setState);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "flexGrow" : 1,
                     "layout" : { },
                     "layoutStyle" : {
-                      "border" : "1px solid",
-                      "maxHeight" : "100%",
-                      "overflow" : "auto"
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
+                      "borderTop" : "1px solid var(--colors-disabledcolor)",
+                      "flexWrap" : "wrap",
+                      "padding" : "10px"
                     },
-                    "name" : "console",
-                    "style" : { },
+                    "name" : "visual infos",
+                    "style" : {
+                      "alignItems" : "center",
+                      "display" : "flex",
+                      "flexGrow" : "1",
+                      "justifyContent" : "space-around"
+                    },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getPatientConsole } from \"./currentPatientZoom\";\ngetPatientConsole();",
+                      "content" : "import { getVisualDetails } from \"./graphics\";\ngetVisualDetails();",
                       "language" : "JavaScript"
                     }
                   },
                   "type" : "Text"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column",
                 "layoutStyle" : {
                   "height" : "100%"
                 },
@@ -114,35 +129,6 @@
             }, {
               "props" : {
                 "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "visual details",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getVisualDetails } from \"./graphics\";\ngetVisualDetails();",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getDetails } from \"./currentPatientZoom\";\ngetDetails();",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
                   "props" : {
                     "children" : [ {
                       "props" : {
@@ -464,10 +450,109 @@
                     "style" : { }
                   },
                   "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Debug: do auto-triage (dry-run)\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole(Context.patientConsole.setState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Fiche de suivi\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Cat&eacute;gorisation\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "center",
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "wlog(\"Do Categorize: \", Context.tagCategory.name);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "`<div class='tagCategory clickable' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "tagSystemCategories",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "sacco",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Variable.find(gameModel, 'tagSystem').areSelectedValues(self, [\"SACCO\"], false);",
+                            "language" : "JavaScript"
+                          }
+                        } ],
+                        "exposeAs" : "tagCategory",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getTagSystemCategories } from \"./triage\";\n[...getTagSystemCategories().categories].reverse();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "itemsOnly" : false,
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -476,40 +561,44 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"Debug: do auto-triage (dry-run)\"",
-                      "language" : "JavaScript"
-                    },
+                    "children" : [ {
+                      "props" : {
+                        "className" : "title",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Console\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "title_container",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole(Context.patientConsole.setState);",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
-                  "type" : "Button"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "layoutStyle" : { },
+                    "className" : "console",
+                    "flexGrow" : 1,
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "background-color" : "var(--colors-backgroundcolor)",
+                      "border" : "1px solid var(--colors-disabledcolor)",
+                      "borderRadius" : "5px",
+                      "margin" : "10px",
+                      "maxHeight" : "30%",
+                      "overflow" : "auto",
+                      "padding" : "10px"
+                    },
+                    "name" : "console",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Fiche de suivi\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Cat&eacute;gorisation\"",
+                      "content" : "import { getPatientConsole } from \"./currentPatientZoom\";\ngetPatientConsole();",
                       "language" : "JavaScript"
                     }
                   },
@@ -518,52 +607,51 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "title",
                         "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "wlog(\"Do Categorize: \", Context.tagCategory.name);",
-                            "language" : "TypeScript"
-                          }
-                        },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "`<div class='tagCategory clickable' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
+                          "content" : "\"D&eacute;tails\"",
                           "language" : "JavaScript"
                         }
                       },
                       "type" : "Text"
                     } ],
-                    "className" : "tagSystemCategories",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "sacco",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "Variable.find(gameModel, 'tagSystem').areSelectedValues(self, [\"SACCO\"], false);",
-                        "language" : "JavaScript"
-                      }
-                    } ],
-                    "exposeAs" : "tagCategory",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getTagSystemCategories } from \"./triage\";\n[...getTagSystemCategories().categories].reverse();",
-                      "language" : "TypeScript"
+                    "layout" : { },
+                    "layoutClassName" : "title_container",
+                    "layoutStyle" : {
+                      "border-top" : "1px solid var(--colors-disabledcolor)"
                     },
-                    "itemKey" : "id",
-                    "itemsOnly" : false,
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
+                    "name" : "details",
                     "style" : { }
                   },
-                  "type" : "For each"
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "details",
+                    "layoutStyle" : {
+                      "background-color" : "var(--colors-backgroundcolor)",
+                      "border" : "1px solid var(--colors-disabledcolor)",
+                      "border-radius" : "5px",
+                      "margin" : "10px",
+                      "overflow" : "auto"
+                    },
+                    "name" : "Details",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getDetails } from \"./currentPatientZoom\";\ngetDetails();",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -572,7 +660,9 @@
             "layout" : { },
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
-              "height" : "100%"
+              "border" : "1px solid var(--colors-disabledcolor)",
+              "height" : "fit-content",
+              "padding" : "0"
             },
             "style" : { }
           },
@@ -598,10 +688,12 @@
       "flexDirection" : "column"
     },
     "layoutStyle" : {
+      "flexGrow" : "1",
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
