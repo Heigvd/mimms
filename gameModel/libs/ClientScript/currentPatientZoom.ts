@@ -7,6 +7,7 @@ import { getAct, getItem, getPathology } from "./registries";
 import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { Category, getCategory, getTagSystem } from "./triage";
+import { getOverview, HumanOverview } from "./graphics";
 
 
 /////////////////////////////////
@@ -639,4 +640,43 @@ export function categorize(category: string) {
 	}
 }
 
+export function getHumanId(): string {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	return id;
+}
+
+function getAlertness(overview: HumanOverview): string {
+	const alertness: string[] = [""];
+	if (overview.looksDead) {
+		alertness.push("semble mort")
+	} else if (overview.gcs.eye > 3) {
+		if (true) {
+			alertness.push("peu alerte");
+		} else {
+			alertness.push("alerte, vous regarde");
+		}
+	} else {
+		alertness.push("yeux fermés");
+	}
+	if (overview.totalExternalBloodLosses_ml > 0) {
+		alertness.push(", saigne");
+	}
+	return alertness.join("");
+}
+export function getHumanVisualInfos(): string {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const human = getHuman(id);
+	let output : string[] = [''];
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			const alertness = getAlertness(overview);
+			output.push(`${overview.position.toLowerCase()}, ${alertness}`);
+		}
+	} else {
+		output.push("<em>Error [patient not found]</em>");
+	}
+	
+	return output.join("");
+}
 // const acts = getMyMedicalActs();
