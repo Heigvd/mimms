@@ -1,6 +1,6 @@
 .body_picto {
-	max-width: 250px;
-	max-height: 250px;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .body_picto .mouth_neutral,
@@ -40,6 +40,18 @@
 
 .body_picto.eyes_AlertPlus .eyes_AlertPlus {
 	display: none;
+}
+
+.cat_card {
+	height: 100%;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 3px;
+	flex-grow: 1;
+}
+.cat_card.undefined {
+	background: transparent;
+	border: 1px dashed var(--colors-disabledcolor);
 }
 
 .coloration_triangle {

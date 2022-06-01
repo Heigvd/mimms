@@ -390,12 +390,28 @@ export function getOverview(human: (HumanBody & {category: Categorization | unde
 	};
 }
 
+export function getCategoryCard(): string {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+
+	let output : string[] = [''];
+
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			output.push(`<div class='cat_card ${overview.category}' style='background-color:${overview.category?.bgColor}'></div>`);
+		}
+	} else {
+		output.push("<em>Error [patient not found]</em>");
+	}
+	return output.join("");
+}
 
 export function getVisualOverview(): string {
 
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
-	let output : string[] = [`<h1>${id}</h1>`];
+	let output : string[] = [''];
 
 	const human = getHuman(id);
 	if (human != null) {
@@ -431,11 +447,10 @@ export function getVisualDetails(): string {
 		if (overview) {
 			const painPath = getPainIcon(human.state.vitals.pain, overview);
 			const painURL = Helpers.getFilePath(painPath);
-			output.push(`<div>Pain <img width="48px" src='${painURL}' style='display: block'></div>`);
-			const tickLeft = (overview.colorful * 100) - 5;
+			output.push(`<div class='visualDetail_elem'><p>Pain</p><img width="48px" src='${painURL}' style='display: block'></div>`);
 			const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
 			const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
-			output.push(`<div>Coloration <div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
+			output.push(`<div class='visualDetail_elem'><p>Coloration</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
 		}
 	}
 	return output.join("");

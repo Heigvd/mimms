@@ -1,3 +1,4 @@
+/* GENERAL */
 .patientConsole .title_container {
 	border-bottom: 1px solid var(--colors-disabledcolor);
 	padding: 5px 10px;
@@ -56,4 +57,14 @@
 }
 .patientConsole .console .log_container .message div{
 	margin: 5px 0 0 0;
+}
+
+/* VISUAL DETAILS */
+
+.patientConsole .visualDetail_elem p {
+	margin: 0 0 5px 0;
+	text-align: center;
+}
+.patientConsole .visualDetail_elem img {
+	width: 70px;
 }

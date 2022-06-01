@@ -102,7 +102,9 @@
                           "content" : "\"6\"",
                           "language" : "TypeScript"
                         },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "flexGrow" : "1"
+                        },
                         "name" : "patientPageLoader",
                         "style" : { }
                       },
@@ -126,7 +128,9 @@
                         "language" : "JavaScript"
                       }
                     },
-                    "style" : { }
+                    "style" : {
+                      "width" : "100%"
+                    }
                   },
                   "type" : "Modal"
                 } ],

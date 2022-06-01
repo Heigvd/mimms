@@ -24,26 +24,55 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "title",
-                        "layoutStyle" : { },
-                        "name" : "Nom",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"?????\"",
-                          "language" : "JavaScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "className" : "title",
+                            "layoutStyle" : { },
+                            "name" : "Nom",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getHumanId } from \"./currentPatientZoom\";\ngetHumanId();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "subtitle",
+                            "layoutStyle" : { },
+                            "name" : "etat",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getHumanVisualInfos } from \"./currentPatientZoom\";\ngetHumanVisualInfos();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "flexGrow" : "1"
+                        },
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "FlexList"
                     }, {
                       "props" : {
-                        "className" : "subtitle",
-                        "layoutStyle" : { },
-                        "name" : "etat",
-                        "style" : { },
+                        "layoutStyle" : {
+                          "minWidth" : "30px",
+                          "width" : "13%"
+                        },
+                        "style" : {
+                          "display" : "flex",
+                          "flexGrow" : "1"
+                        },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Etat du patient [to change]\"",
+                          "content" : "import { getCategoryCard } from \"./graphics\";\ngetCategoryCard();",
                           "language" : "JavaScript"
                         }
                       },
@@ -51,7 +80,7 @@
                     } ],
                     "className" : "",
                     "layout" : {
-                      "flexDirection" : "column"
+                      "flexDirection" : "row"
                     },
                     "layoutClassName" : "title_container",
                     "layoutStyle" : { },
@@ -63,7 +92,11 @@
                   "props" : {
                     "layout" : { },
                     "layoutStyle" : {
-                      "flex-grow" : "1"
+                      "alignItems" : "center",
+                      "background" : "#cffbcf",
+                      "flex-grow" : "1",
+                      "justifyContent" : "center",
+                      "padding" : "20px"
                     },
                     "name" : "visual overview",
                     "style" : { },
@@ -81,11 +114,10 @@
                       "backgroundColor" : "var(--colors-backgroundcolor)",
                       "borderTop" : "1px solid var(--colors-disabledcolor)",
                       "flexWrap" : "wrap",
-                      "padding" : "10px"
+                      "padding" : "15px"
                     },
                     "name" : "visual infos",
                     "style" : {
-                      "alignItems" : "center",
                       "display" : "flex",
                       "flexGrow" : "1",
                       "justifyContent" : "space-around"
@@ -832,6 +864,7 @@
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
               "border" : "1px solid var(--colors-disabledcolor)",
+              "flexGrow" : "1",
               "height" : "fit-content",
               "padding" : "0"
             },
