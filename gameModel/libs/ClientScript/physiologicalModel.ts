@@ -387,11 +387,30 @@ export function compute(
 		{ x: 0.9, y: 120 },
 	];
 
+
 	const rBlood = bloodVolume_mL / meta.initialBloodVolume_mL;
-	const edvMax = interpolate(rBlood, edvMax_model);
+
+	const edvMax_volume = interpolate(rBlood, edvMax_model);
+
+	const tamponade_model: Point[] = [
+		{ x: 0, y: 120 },
+		{ x: 100, y: 110 },
+		{ x: 1500, y: esv },
+	];
+
+	// tamponade := pericardial_pressure [0;1]
+	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
+	const edvMax_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
+	
+	// TODO: tension pno:= pleural_pressure [0;1]
+	const pleural_pressure = 0;
+	const edvMax_pno = 120 * (1 - pleural_pressure);
+
 	const edvEffective = Math.min(
 		body.vitals.cardio.endDiastolicVolume_mL,
-		edvMax
+		edvMax_volume,
+		edvMax_tamponade,
+		edvMax_pno
 	);
 	let strokeVolume_mL = edvEffective - body.vitals.cardio.endSystolicVolume_mL;
 
@@ -431,6 +450,8 @@ export function compute(
 
 	newVitals.cardio.MAP = MAP;
 
+
+	newVitals.cardio.endDiastolicVolume_mL = edvEffective;
 	const systolicPressure = 3 * MAP / 2;
 	newVitals.cardio.radialPulse = systolicPressure > 80;
 	//const diastolicPressure = x;
@@ -510,13 +531,13 @@ export function compute(
 			PACO2 += PACO2_delta;
 			//return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 
-			respLogger.log("NO AIR: PACO2=", PACO2," + ", PACO2_delta, {
+			respLogger.log("NO AIR: PACO2=", PACO2, " + ", PACO2_delta, {
 				vco2_mLPerMin,
 				vco2InUnit_mlPerMin,
 				inLungs_mL,
 				CO2delta_mL,
 				co2Percent,
-				});
+			});
 		} else {
 			// Ventilation: formula is fine
 			const Va_mlPerMin = Va_LperMin * 1000;
@@ -931,7 +952,7 @@ export function doCompensate(
 	state: BodyState,
 	meta: HumanBody["meta"],
 	duration_min: number) {
-	
+
 	if (state.vitals.cardiacArrest! > 0) {
 		return;
 	}

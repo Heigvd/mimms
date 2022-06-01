@@ -473,6 +473,61 @@ function init() {
 		actions: [],
 	});
 
+
+	registerPathology({
+		id: 'tamponade_slow',
+		name: "Tamponade +5ml/min",
+		blocks: ['HEART'],
+		minNumberOfBlocks: 1,
+		maxNumberOfBlocks: 1,
+		rules: [
+			{
+				time: 0,
+				id: 'tamponade',
+				name: 'tamponade',
+				variablePatch: {pericardial_deltaMin: 5},
+				blockPatch: {}
+			}],
+		handler: [],
+		actions: [],
+	});
+
+	registerPathology({
+		id: 'tamponade_mild',
+		name: "Tamponade +10ml/min",
+		blocks: ['HEART'],
+		minNumberOfBlocks: 1,
+		maxNumberOfBlocks: 1,
+		rules: [
+			{
+				time: 0,
+				id: 'tamponade',
+				name: 'tamponade',
+				variablePatch: {pericardial_deltaMin: 10},
+				blockPatch: {}
+			}],
+		handler: [],
+		actions: [],
+	});
+
+	registerPathology({
+		id: 'tamponade_hard',
+		name: "Tamponade +50ml/min",
+		blocks: ['HEART'],
+		minNumberOfBlocks: 1,
+		maxNumberOfBlocks: 1,
+		rules: [
+			{
+				time: 0,
+				id: 'tamponade',
+				name: 'tamponade',
+				variablePatch: {pericardial_deltaMin: 50},
+				blockPatch: {}
+			}],
+		handler: [],
+		actions: [],
+	});
+
 	////////////////////////////////////////
 	// Chemicals
 	////////////////////////////////////////

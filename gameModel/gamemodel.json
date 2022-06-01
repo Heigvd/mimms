@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654074605353,
+  "createdTime" : 1654085412463,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -439,6 +439,7 @@
         "bronche_r5pm" : "{\"description\":\"\",\"events\":[{\"time\":10,\"blocks\":[\"BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}},{\"time\":200,\"blocks\":[\"BRONCHUS_2\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}}]}",
         "cityHunter" : "{\"description\":\"un bon gros coup sur le crâne\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"cityHunter\"}}]}",
         "flyMeToTheMoon " : "{\"description\":\"FiO2=0%\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"flyMeToTheMoon\"}}]}",
+        "grosse_tamponnade" : "{\"description\":\"Tamponnade +50ml / min\",\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_hard\"}}]}",
         "k2" : "{\"description\":\"Au somment d'un 8k\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"k2\"}},{\"time\":1500,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"ItemActionOnHuman\",\"itemId\":\"mask\",\"actionId\":\"setup\"}}]}",
         "k2_basecamp" : "{\"description\":\"5000m\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"baseCamp\"}}]}",
         "ll_100p_ah" : "{\"description\":\"LeftLeg 100%AH\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_LEG\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"full_ac\"}}]}",
@@ -449,7 +450,9 @@
         "ll_25p_ah" : "{\"description\":\"LeftLeg 25%AH\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_LEG\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"quarter_ac\"}}]}",
         "ll_50p_ah" : "{\"description\":\"LeftLeg 50%AH\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_LEG\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"semi_ac\"}}]}",
         "ll_50p_ah_israeli" : "{\"description\":\"LeftLeg 50%AH + Israeli @300s\"}",
-        "lung_c0" : "{\"description\":\"1poumon compliance à 0\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_c0\"},\"blocks\":[\"UNIT_BRONCHUS_1\"]}]}"
+        "lung_c0" : "{\"description\":\"1poumon compliance à 0\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_c0\"},\"blocks\":[\"UNIT_BRONCHUS_1\"]}]}",
+        "moyenne_tamponnade" : "{\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_mild\"}}],\"description\":\"Tamponnade +10ml / min\"}",
+        "petite_tamponnade" : "{\"description\":\"Tamponnade +5ml / min\",\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_slow\"}}]}"
       },
       "refId" : "ObjectDescriptor:24033401:zOWEQ7",
       "scopeType" : "TeamScope",

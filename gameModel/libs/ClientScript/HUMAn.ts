@@ -304,6 +304,11 @@ export interface BodyState {
 		//thoraxComplianceDelta: number;
 		paraOrthoLevel: number;
 		bodyPosition: BodyPosition;
+		/**
+		 * 
+		 */
+		pericardial_ml: number;
+		pericardial_deltaMin: number;
 	};
 }
 
@@ -806,6 +811,8 @@ export function createHumanBody(
 				paraOrthoLevel: orthoLevelFromAge(param.age),
 				bleedFactor: 1,
 				bodyPosition: "STANDING",
+				pericardial_ml: 0,
+				pericardial_deltaMin: 0,
 				//thoraxCompliance: 1,
 				//thoraxComplianceDelta: 0,
 			},
@@ -925,7 +932,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 
 	const epsilon = 0.25;
 
-	let iterate : boolean = false;
+	let iterate: boolean = false;
 
 	do {
 		const currentOrthoLevel = body.state.variables.paraOrthoLevel;
@@ -936,7 +943,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 		body.state = updateVitals(body.state, body.meta, env, 0);
 		orthoDelta = body.state.variables.paraOrthoLevel - currentOrthoLevel;
 		logger.info("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
-		iterate = Math.abs(orthoDelta) > epsilon && adjust > 0.25; 
+		iterate = Math.abs(orthoDelta) > epsilon && adjust > 0.25;
 		if (iterate) {
 			if (way === 0) {
 				way = orthoDelta > 0 ? 1 : -1;
@@ -1192,6 +1199,18 @@ function updateICP(bodyState: BodyState, durationInMinute: number) {
 	if (bodyState.variables.ICP_deltaPerMin) {
 		bodyState.variables.ICP_mmHg +=
 			bodyState.variables.ICP_deltaPerMin * durationInMinute;
+	}
+}
+
+function updatePericardialPressure(bodyState: BodyState, durationInMinute: number) {
+	if (bodyState.variables.pericardial_deltaMin) {
+		bodyState.variables.pericardial_ml = add(
+			bodyState.variables.pericardial_ml,
+			bodyState.variables.pericardial_deltaMin * durationInMinute,
+			{
+				min: 0,
+				max: 1500,
+			});
 	}
 }
 
@@ -1796,6 +1815,7 @@ function updateVitals(
 	updateAirResistance(newState, durationInMin);
 	updateCompliances(newState, durationInMin);
 	updateICP(newState, durationInMin);
+	updatePericardialPressure(newState, durationInMin);
 
 	const sumBlood = sumBloodInOut(newState, meta, durationInMin);
 	const {
@@ -2227,6 +2247,15 @@ export function computeState(
 							// TODO: restrict to recovery only ?
 							newState.variables.bodyPosition =
 								rule.rule.variablePatch.bodyPosition;
+						}
+					} else if (key === "pericardial_ml") {
+						if (rule.rule.variablePatch.pericardial_ml != null) {
+							newState.variables.pericardial_ml += rule.rule.variablePatch.pericardial_ml;
+						}
+					} else if (key === "pericardial_deltaMin") {
+						if (rule.rule.variablePatch.pericardial_deltaMin != null) {
+							newState.variables.pericardial_deltaMin +=
+								rule.rule.variablePatch.pericardial_deltaMin;
 						}
 					} else {
 						checkUnreachable(key);
