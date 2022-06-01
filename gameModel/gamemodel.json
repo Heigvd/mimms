@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654008400208,
+  "createdTime" : 1654074605353,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -907,102 +907,6 @@
       "maxSelectable" : 1,
       "name" : "ansModel",
       "refId" : "StringDescriptor:24035111:RmSOQQ",
-      "scopeType" : "TeamScope",
-      "sortable" : false,
-      "validationPattern" : null,
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24046906:caFC5I",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24046906:caFC5I::EN",
-              "status" : "",
-              "translation" : "ABCDE"
-            }
-          }
-        },
-        "name" : "ABCDE",
-        "refId" : "EnumItem:24046905:vEAOsU"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24046908:6Cu4pO",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24046908:6Cu4pO::EN",
-              "status" : "",
-              "translation" : "ITEMS"
-            }
-          }
-        },
-        "name" : "ITEMS",
-        "refId" : "EnumItem:24046907:gUEoVe"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24046910:aw9hYX",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24046910:aw9hYX::EN",
-              "status" : "",
-              "translation" : "ACTIONS"
-            }
-          }
-        },
-        "name" : "ACTIONS",
-        "refId" : "EnumItem:24046909:U1luM6"
-      } ],
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:24046902:uxRc02",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24046903:PTuKnH",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24046903:PTuKnH::EN",
-              "status" : "",
-              "translation" : "ITEMS"
-            }
-          }
-        }
-      },
-      "editorTag" : "patientWheelType",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24046904:4jgSaY",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24046904:4jgSaY::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "maxSelectable" : 1,
-      "name" : "patientWheelType",
-      "refId" : "StringDescriptor:24046901:UJUKPJ",
       "scopeType" : "TeamScope",
       "sortable" : false,
       "validationPattern" : null,
@@ -2068,7 +1972,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAN",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

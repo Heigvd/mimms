@@ -38,8 +38,9 @@ type WheelAct = BaseItem & WithActionType & {
 	type: "WheelAct";
 }
 
-type Categorizations = BaseItem & {
-	type: "Categorizations";
+type WheelExtraPanel = BaseItem & {
+	type: "ExtraPanel";
+	id: string;
 }
 
 type WheelAction = WheelItemAction | WheelAct;
@@ -50,10 +51,20 @@ type SubMenu = BaseItem & {
 	items: WheelAction[];
 }
 
-type WheelItem = SubMenu | WheelAction;
+type SubWheelItem = SubMenu | WheelAction;
 
-type Wheel = WheelItem[];
+type WheelItem = SubWheelItem | WheelExtraPanel;
 
+type SubWheel = BaseItem & {
+	type: "SubWheel";
+	id: string;
+	items: SubWheelItem[];
+}
+
+interface Wheel {
+	mainMenu: SubWheel[]
+	shortcuts: WheelItem[]
+}
 
 
 /////////////////////////////////
@@ -63,8 +74,10 @@ type Wheel = WheelItem[];
 export interface PatientZoomState {
 	//logs: string[];
 	currentPatient: string | undefined;
+	selectedPanel: string | undefined;
 	selectedAction: WheelAction | undefined;
-	selectedMenu: string;
+	selectedMenu: string | undefined;
+	selectedSubMenu: string | undefined;
 	selectedBlock: string | undefined;
 	availableBlocks: string[];
 }
@@ -72,7 +85,9 @@ export interface PatientZoomState {
 export function getInitialPatientZoomState(): PatientZoomState {
 	return {
 		selectedAction: undefined,
-		selectedMenu: "",
+		selectedPanel: undefined,
+		selectedMenu: undefined,
+		selectedSubMenu: undefined,
 		availableBlocks: [],
 		selectedBlock: undefined,
 		//logs: [],
@@ -96,12 +111,6 @@ export function keepStateAlive({ state, setState }: FullState) {
 			currentPatient: ePatient
 		});
 	}
-}
-
-export function clearConsole(setState: SetZoomState) {
-	setState(state => {
-		return { ...state, logs: [] };
-	});
 }
 
 function getActionIcon(action: HumanAction): string {
@@ -153,146 +162,119 @@ function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
 	});
 }
 
-function getItemsWheel(): Wheel {
-	const itemActions = getWheelActionFromInventory(getMyInventory());
-	const actActions = getWheelActionFromActs(getMyMedicalActs());
-
-	return [{
-		type: 'WheelSubMenu',
-		id: 'itemsMenu',
-		label: 'Items',
-		icon: 'briefcase-medical',
-		items: itemActions,
-	}, {
-		type: 'WheelSubMenu',
-		id: 'actsMenu',
-		label: 'Acts',
-		icon: 'hand-sparkles',
-		items: actActions,
-	}];
-}
-
 interface ByType {
 	measures: WheelAction[],
 	treatments: WheelAction[],
 }
 
-function populateByTypes(actions: WheelAction[], bag: ByType) {
-	actions.forEach(a => {
-		if (a.actionType === "ActionBodyEffect") {
-			bag.treatments.push({ ...a, icon: 'syringe' });
-		} else if (a.actionType === "ActionBodyMeasure") {
-			bag.measures.push({ ...a, icon: 'ruler' });
-		}
-	});
-}
-
-function getActionsWheel(): Wheel {
-	const itemActions = getWheelActionFromInventory(getMyInventory());
-	const actActions = getWheelActionFromActs(getMyMedicalActs());
-
-	const byTypes: ByType = {
-		measures: [],
-		treatments: [],
-	};
-
-	populateByTypes(itemActions, byTypes);
-	populateByTypes(actActions, byTypes);
-
+function getSubMenu(bag: ByType): SubMenu[] {
 	return [{
 		type: 'WheelSubMenu',
 		id: 'measureMenu',
 		label: 'Measures',
-		items: byTypes.measures,
+		items: bag.measures,
 		icon: 'ruler',
 	}, {
 		type: 'WheelSubMenu',
 		id: 'treatmentMenu',
 		label: 'Treatments',
-		items: byTypes.treatments,
+		items: bag.treatments,
 		icon: 'syringe',
 	}];
 }
 
+
 function getABCDEWheel(): Wheel {
+	// Fetch all item and act action
 	const itemActions = getWheelActionFromInventory(getMyInventory());
 	const actActions = getWheelActionFromActs(getMyMedicalActs());
 
-	const categories: Record<ABCDECategory, SubMenu> = {
+
+	const bag: Record<ABCDECategory, ByType> = {
+		'A': { measures: [], treatments: [], },
+		'B': { measures: [], treatments: [], },
+		'C': { measures: [], treatments: [], },
+		'D': { measures: [], treatments: [], },
+		'E': { measures: [], treatments: [], },
+		'Z': { measures: [], treatments: [], },
+	};
+
+
+	[...itemActions, ...actActions].forEach(action => {
+		if (action.actionType === "ActionBodyEffect") {
+			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
+		} else if (action.actionType === "ActionBodyMeasure") {
+			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
+		}
+	});
+
+
+	const categories: Record<ABCDECategory, SubWheel> = {
 		'A': {
 			id: 'aMenu',
 			label: 'A',
 			icon: 'wind',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.A),
+			type: 'SubWheel'
 		},
 		'B': {
 			id: 'bMenu',
 			label: 'B',
 			icon: 'lungs',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.B),
+			type: 'SubWheel'
 		},
 		'C': {
 			id: 'cMenu',
 			label: 'C',
 			icon: 'heartbeat',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.C),
+			type: 'SubWheel'
 		},
 		'D': {
 			id: 'dMenu',
 			label: 'D',
 			icon: 'dizzy',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.D),
+			type: 'SubWheel'
 		},
 		'E': {
 			id: 'eMenu',
 			label: 'E',
 			icon: 'stethoscope',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.E),
+			type: 'SubWheel'
 		},
 		'Z': {
 			id: 'zMenu',
-			label: 'F',
+			label: 'Z',
 			icon: 'comments',
-			items: [],
-			type: 'WheelSubMenu'
+			items: getSubMenu(bag.Z),
+			type: 'SubWheel'
 		},
 	};
 
-	itemActions.forEach(a => {
-		categories[a.actionCategory].items.push(a);
-	});
 
-	actActions.forEach(a => {
-		categories[a.actionCategory].items.push(a);
-	})
 
-	return Object.values(categories);
-}
-
-/**
- *
- */
-type WheelType = 'ABCDE' | 'ITEMS' | 'ACTIONS';
-
-function getWheelType(): WheelType {
-	return Variable.find(gameModel, "patientWheelType").getValue(self) as WheelType || 'ITEMS';
+	return {
+		mainMenu: Object.values(categories),
+		shortcuts: [{
+			type: 'ExtraPanel',
+			label: 'Go to...',
+			icon: 'shoe-prints',
+			id: 'goto',
+		}, {
+			type: 'ExtraPanel',
+			label: 'Triage',
+			icon: 'sort-numeric-down',
+			id: 'triage',
+		}
+		],
+	}
 }
 
 export function getWheel(): Wheel {
-	const wType = getWheelType();
-	switch (wType) {
-		case 'ABCDE':
-			return getABCDEWheel();
-		case 'ITEMS':
-			return getItemsWheel();
-		case 'ACTIONS':
-			return getActionsWheel();
-	}
+	return getABCDEWheel();
 }
 
 
@@ -301,45 +283,118 @@ export function getWheel(): Wheel {
 // The Wheel Helpers
 /////////////////////////////////
 
-export function getButtonLabel(item: WheelItem) {
+export function getButtonLabel(item: WheelItem | SubWheel): string {
 	switch (item.type) {
-		case 'WheelAct':
-			return item.label;
 		case 'WheelItemAction':
 			return `${item.label} (${item.counter === 'infinity' ? "∞" : item.counter})`;
 		case 'WheelSubMenu':
+		case 'WheelAct':
+		case 'ExtraPanel':
+		case 'SubWheel':
 			return item.label
 	}
 }
 
-export function getWheelSubmenuTitle(state: PatientZoomState): string {
+export function getSubWheelTitle(state: PatientZoomState): string {
 	const wheel = getWheel();
-	const menu = wheel.find(item =>
-		item.type === 'WheelSubMenu' && item.id === state.selectedMenu
+	const menu = wheel.mainMenu.find(item =>
+		item.id === state.selectedMenu
 	);
 	if (menu != null) {
 		return menu.label;
 	}
-	return "nothing selected";
+	return "";
 }
 
 
-export function getWheelSubmenu(state: PatientZoomState,): WheelAction[] {
+export function getSubWheelMenu(state: PatientZoomState): SubWheelItem[] {
 	const wheel = getWheel();
-	const menu = wheel.find(item =>
-		item.type === 'WheelSubMenu' && item.id === state.selectedMenu
+	const menu = wheel.mainMenu.find(item =>
+		item.id === state.selectedMenu
 	);
+	if (menu != null) {
+		return menu.items;
+	}
+	return [];
+}
+
+
+export function getWheelSubmenuTitle(state: PatientZoomState): string {
+	const wheel = getWheel();
+	const subWheel = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
+	if (subWheel != null) {
+
+		const menu = subWheel.items.find(item =>
+			item.type === 'WheelSubMenu' && item.id === state.selectedSubMenu
+		);
+
+		if (menu != null) {
+			return (menu as SubMenu).label;
+		}
+	}
+
+	return "";
+}
+
+export function getWheelSubmenu(state: PatientZoomState): WheelAction[] {
+	const wheel = getWheel();
+	const subWheel = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
+
+	if (subWheel == null) {
+		return [];
+	}
+
+	const menu = subWheel.items.find(item =>
+		item.type === 'WheelSubMenu' && item.id === state.selectedSubMenu
+	);
+
 	if (menu != null) {
 		return (menu as SubMenu).items;
 	}
 	return [];
 }
 
-export function selectWheelMenu(menuId: string, setState: SetZoomState) {
+
+/////////////////////////////////
+// The Wheel Selectors
+/////////////////////////////////
+
+
+export function selectSubWheel(subWheelId: string, setState: SetZoomState) {
 	setState(state => {
-		return { ...state, selectedMenu: menuId }
+		return {
+			...state,
+			selectedPanel: undefined,
+			selectedMenu: subWheelId,
+			selectedSubMenu: undefined,
+			selectedAction: undefined,
+		}
+	});
+}
+
+
+export function selectSubMenu(subMenuId: string, setState: SetZoomState) {
+	setState(state => {
+		return {
+			...state,
+			selectedPanel: undefined,
+			selectedSubMenu: subMenuId,
+			selectedAction: undefined,
+		}
+	});
+}
+
+export function selectPanel(item: WheelExtraPanel, setState: SetZoomState) {
+	setState(state => {
+		return {
+			...state,
+			selectedMenu: undefined,
+			selectedSubMenu: undefined,
+			selectedPanel: item.id
+		}
 	})
 }
+
 
 export function selectWheelAction(action: WheelAction | undefined, setState: SetZoomState) {
 	if (action?.actionType === 'ActionBodyEffect') {
@@ -370,7 +425,9 @@ export function selectWheelAction(action: WheelAction | undefined, setState: Set
 
 export function selectWheelItem(item: WheelItem, setState: SetZoomState) {
 	if (item.type === 'WheelSubMenu') {
-		selectWheelMenu(item.id, setState);
+		selectSubMenu(item.id, setState);
+	} else if (item.type === 'ExtraPanel') {
+		selectPanel(item, setState);
 	} else {
 		selectWheelAction(item, setState);
 	}
@@ -624,7 +681,6 @@ export function getPatientConsole(): string {
 }
 
 export function categorize(category: string) {
-	debugger;
 	const system = getTagSystem();
 	const resolved = getCategory(category);
 	if (resolved != null) {

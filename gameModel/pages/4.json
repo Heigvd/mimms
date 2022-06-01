@@ -6,18 +6,6 @@
         "onVariableChange" : { },
         "script" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel,'patientWheelType')",
-          "language" : "JavaScript"
-        },
-        "style" : { }
-      },
-      "type" : "Select input"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
           "content" : "Variable.find(gameModel,'tagSystem')",
           "language" : "JavaScript"
         },
