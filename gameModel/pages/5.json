@@ -400,8 +400,8 @@
                     "name" : "bati",
                     "onLayerReady" : {
                       "@class" : "ScriptCallback",
-                      "args" : [ "layer" ],
-                      "content" : "import { setBuildingLayer } from \"./buildingData\";\nsetBuildingLayer(layer);\nreturn;"
+                      "args" : [ "layer", "map", "projection" ],
+                      "content" : "import { onBuildingLayerReady } from \"./layersData\";\nonBuildingLayerReady(layer, map);\nreturn;"
                     },
                     "style" : { }
                   },
@@ -462,6 +462,39 @@
                     },
                     "layoutStyle" : { },
                     "name" : "fogOfWar",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : {
+                      "zIndex" : 10000
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { obstacleGridSource } from \"./layersData\";\nobstacleGridSource.current;",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "fill" : {
+                        "color" : "red",
+                        "type" : "FillStyle"
+                      }
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Obstacle grid",
+                    "onLayerReady" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer", "map", "projection" ],
+                      "content" : "return;"
+                    },
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"

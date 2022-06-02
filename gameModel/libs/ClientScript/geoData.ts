@@ -1,11 +1,7 @@
-import { buildingLayer } from "./buildingData";
-import { Point as XYPoint } from "./helper";
+import { buildingLayer } from "./layersData";
+import { Polygons, Point, Segment } from "./helper";
 
 /// TYPES
-type Point = [number, number]
-type Polygon = Point[]
-type Buildings = Polygon[]
-type Segment = [Point, Point]
 interface ObjectSegment {
 	id: string,
 	point: Point
@@ -17,35 +13,39 @@ interface ObjectSegment {
 	segment: Segment
 }
 
-export function getBuildings() {
-	const buildings: Point[][] = [];
+export function getBuildings(): Polygons {
+	const buildings: Polygons = [];
 	if (buildingLayer.current != null) {
 		const buildingFeatures = buildingLayer.current.getSource().getFeatures();
 		const buildingPolygonFeatures = buildingFeatures.filter(feature => feature.getGeometry().getType() === "Polygon");
 		const buildingMultiPolygonFeatures = buildingFeatures.filter(feature => feature.getGeometry().getType() === "MultiPolygon");
 
 		for (const feature of buildingPolygonFeatures) {
-			buildings.push(feature.getGeometry().getCoordinates()[0])
+			const coordinates = feature.getGeometry().getCoordinates()[0];
+			buildings.push(coordinates.map((coord: PointLikeObject) => ({ x: coord[0], y: coord[1] })))
 		}
 		for (const feature of buildingMultiPolygonFeatures) {
-			buildings.push(feature.getGeometry().getCoordinates()[0][0])
+			const coordinates = feature.getGeometry().getCoordinates().flat()[0];
+			buildings.push(coordinates.map((coord: PointLikeObject) => ({ x: coord[0], y: coord[1] })))
 		}
 	}
 	return buildings;
 }
 
-export function getBuildingInExtent(extent: ExtentLikeObject) {
-	const buildings: Point[][] = [];
+export function getBuildingInExtent(extent: ExtentLikeObject): Polygons {
+	const buildings: Polygons = [];
 	if (buildingLayer.current != null) {
 		const buildingFeatures = buildingLayer.current.getSource().getFeaturesInExtent(extent);
 		const buildingPolygonFeatures = buildingFeatures.filter(feature => feature.getGeometry().getType() === "Polygon");
 		const buildingMultiPolygonFeatures = buildingFeatures.filter(feature => feature.getGeometry().getType() === "MultiPolygon");
 
 		for (const feature of buildingPolygonFeatures) {
-			buildings.push(feature.getGeometry().getCoordinates()[0])
+			const coordinates = feature.getGeometry().getCoordinates()[0];
+			buildings.push(coordinates.map((coord: PointLikeObject) => ({ x: coord[0], y: coord[1] })))
 		}
 		for (const feature of buildingMultiPolygonFeatures) {
-			buildings.push(feature.getGeometry().getCoordinates().flat()[0])
+			const coordinates = feature.getGeometry().getCoordinates().flat()[0];
+			buildings.push(coordinates.map((coord: PointLikeObject) => ({ x: coord[0], y: coord[1] })))
 		}
 	}
 	return buildings;
@@ -58,8 +58,8 @@ function angleDistanceToXY(
 	angle: number
 ) {
 	return {
-		x: startPosition[0] + distance * Math.cos(angle),
-		y: startPosition[1] + distance * Math.sin(angle),
+		x: startPosition.x + distance * Math.cos(angle),
+		y: startPosition.y + distance * Math.sin(angle),
 	};
 }
 
@@ -69,15 +69,15 @@ interface VisionPoint {
 	point: Point;
 }
 
-function lineSegmentInterception(s1: Segment, s2: Segment): Point | false {
+export function lineSegmentInterception(s1: Segment, s2: Segment): Point | false {
 	const p0 = s1[0], p1 = s1[1],
 		p2 = s2[0], p3 = s2[1]
-	const s10_x = p1[0] - p0[0], s10_y = p1[1] - p0[1],
-		s32_x = p3[0] - p2[0], s32_y = p3[1] - p2[1]
+	const s10_x = p1.x - p0.x, s10_y = p1.y - p0.y,
+		s32_x = p3.x - p2.x, s32_y = p3.y - p2.y
 	const denom = s10_x * s32_y - s32_x * s10_y
 	if (denom == 0) return false // collinear
-	const s02_x = p0[0] - p2[0],
-		s02_y = p0[1] - p2[1]
+	const s02_x = p0.x - p2.x,
+		s02_y = p0.y - p2.y
 	const s_numer = s10_x * s02_y - s10_y * s02_x
 	if (s_numer < 0 == denom > 0) return false // no collision
 	const t_numer = s32_x * s02_y - s32_y * s02_x
@@ -85,24 +85,24 @@ function lineSegmentInterception(s1: Segment, s2: Segment): Point | false {
 	if (s_numer > denom == denom > 0 || t_numer > denom == denom > 0) return false // no collision
 	// collision detected
 	const t = t_numer / denom
-	return [p0[0] + (t * s10_x), p0[1] + (t * s10_y)]
+	return { x: p0.x + (t * s10_x), y: p0.y + (t * s10_y) }
 }
 
 export function computeVisionPolygon(
 	position: Point,
-	buildings: Buildings,
+	buildings: Polygons,
 	visionDistance: number = 100,
 	nbBoundingSegments: number = 50
 ): VisionPoint[] {
 	// Creating vision bounds
 	const surroundingBuilding: Point[] = [];
 	for (let i = 0; i < nbBoundingSegments; ++i) {
-		const { x: x1, y: y1 } = angleDistanceToXY(
+		const point = angleDistanceToXY(
 			position,
 			visionDistance,
 			((i) / nbBoundingSegments * 2 * Math.PI)
 		);
-		surroundingBuilding.push([x1, y1]);
+		surroundingBuilding.push(point);
 	}
 
 	const segments = [surroundingBuilding, ...buildings]
@@ -114,8 +114,8 @@ export function computeVisionPolygon(
 				// const last = arr[lastIndex];
 				const next = arr[nextIndex];
 
-				const dx = p[0] - position[0];
-				const dz = p[1] - position[1];
+				const dx = p.x - position.x;
+				const dz = p.y - position.y;
 				const objectSegment: ObjectSegment = {
 					id: `${bi}-${i}`,
 					point: p,
@@ -155,8 +155,8 @@ export function computeVisionPolygon(
 				})
 				.map(function computeIntersections(intersection) {
 					const point = (intersection as Point)
-					const dx = point[0] - position[0];
-					const dz = point[1] - position[1];
+					const dx = point.x - position.x;
+					const dz = point.y - position.y;
 					const squareDistance = dx * dx + dz * dz;
 					const angle = Math.atan2(dz, dx);
 					return {
@@ -178,11 +178,11 @@ export function computeVisionPolygon(
 }
 
 
-export function caluculateLOS(
-	position: XYPoint,
+export function calculateLOS(
+	position: Point,
 	visionDistance: number = 100,
 	nbBoundingSegments: number = 50
-): XYPoint[] {
+): Point[] {
 	const extentAroundPlayer: ExtentLikeObject = [
 		position.x - visionDistance,
 		position.y - visionDistance,
@@ -190,34 +190,26 @@ export function caluculateLOS(
 		position.y + visionDistance
 	]
 	const buildings = getBuildingInExtent(extentAroundPlayer)
-	return computeVisionPolygon([position.x, position.y], buildings, visionDistance, nbBoundingSegments)
-		.map(visionPoint => ({ x: visionPoint.point[0], y: visionPoint.point[1] }));
+	return computeVisionPolygon(position, buildings, visionDistance, nbBoundingSegments)
+		.map(({ point }) => point);
 }
 
-interface LOSSegment {
-	buildingIndex: number;
-	startPointIndex: number;
-	endPointIndex: number;
-	angle: number;
-	squareDistance: number;
-}
+export function isPointInPolygon(point: Point, polygon: Point[]) {
+	// code from Randolph Franklin (found at http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/)
+	const { x, y } = point;
+	let c = false;
 
-export function isPointInPolygon(point: XYPoint, polygon: XYPoint[]) {
-  // code from Randolph Franklin (found at http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/)
-  const { x, y } = point;
-  let c = false;
+	polygon.forEach((p, i, arr) => {
+		const p1 = p;
+		const p2 = arr[(i + 1) % arr.length];
 
-  polygon.forEach((p, i, arr) => {
-    const p1 = p;
-    const p2 = arr[(i + 1) % arr.length];
+		if (
+			((p1.y <= y && y < p2.y) || (p2.y <= y && y < p1.y)) &&
+			x < ((p2.x - p1.x) * (y - p1.y)) / (p2.y - p1.y) + p1.x
+		) {
+			c = !c;
+		}
+	});
 
-    if (
-      ((p1.y <= y && y < p2.y) || (p2.y <= y && y < p1.y)) &&
-      x < ((p2.x - p1.x) * (y - p1.y)) / (p2.y - p1.y) + p1.x
-    ) {
-      c = !c;
-    }
-  });
-
-  return c;
+	return c;
 }
