@@ -88,6 +88,7 @@ function extractMetric(body: BodyState, time: number,
 
 
 	pushBloodBlockMetrics(body.blocks.get('PELVIS')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('LEFT_FOREARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_THIGH')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_LEG')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_FOOT')!, time, outputCardio);

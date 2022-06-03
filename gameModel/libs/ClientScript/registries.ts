@@ -171,7 +171,7 @@ function init() {
 	}]));
 
 
-// Venous
+	// Venous
 
 	registerPathology(buildPathology({
 		id: 'full_vc',
@@ -239,7 +239,7 @@ function init() {
 	}]));
 
 
-// internal
+	// internal
 
 
 	registerPathology(buildPathology({
@@ -463,10 +463,11 @@ function init() {
 				time: 0,
 				id: 'burn',
 				name: 'burn',
-				variablePatch: {},
+				variablePatch: {
+					thoraxComplianceDelta: -0.01,
+				},
 				blockPatch: {
 					pain: 7,
-					complianceDelta: -0.01
 				}
 			}],
 		handler: [],
@@ -485,7 +486,7 @@ function init() {
 				time: 0,
 				id: 'tamponade',
 				name: 'tamponade',
-				variablePatch: {pericardial_deltaMin: 5},
+				variablePatch: { pericardial_deltaMin: 5 },
 				blockPatch: {}
 			}],
 		handler: [],
@@ -503,7 +504,7 @@ function init() {
 				time: 0,
 				id: 'tamponade',
 				name: 'tamponade',
-				variablePatch: {pericardial_deltaMin: 10},
+				variablePatch: { pericardial_deltaMin: 10 },
 				blockPatch: {}
 			}],
 		handler: [],
@@ -521,8 +522,26 @@ function init() {
 				time: 0,
 				id: 'tamponade',
 				name: 'tamponade',
-				variablePatch: {pericardial_deltaMin: 50},
+				variablePatch: { pericardial_deltaMin: 50 },
 				blockPatch: {}
+			}],
+		handler: [],
+		actions: [],
+	});
+
+	registerPathology({
+		id: 'disclocation_c1c2',
+		name: "Dislocation C1/C2",
+		blocks: ['C1-C4'],
+		minNumberOfBlocks: 1,
+		maxNumberOfBlocks: 1,
+		rules: [
+			{
+				time: 0,
+				id: 'disclocation_c1c2',
+				name: 'Dislocation C1/C2',
+				variablePatch: {},
+				blockPatch: { nervousSystemBroken: true }
 			}],
 		handler: [],
 		actions: [],

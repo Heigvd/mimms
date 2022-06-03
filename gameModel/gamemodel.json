@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654085412463,
+  "createdTime" : 1654249938529,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -226,7 +226,7 @@
           }
         }
       },
-      "maxValue" : 10800.0,
+      "maxValue" : 14400.0,
       "minValue" : 0.0,
       "name" : "duration_s",
       "refId" : "NumberDescriptor:24032601:cT0SBp",
@@ -433,11 +433,14 @@
       "properties" : {
         "0_Healthy" : "{\"description\":\"\",\"events\":[]}",
         "Bronche bouchée" : "{\"description\":\"\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"},\"blocks\":[\"BRONCHUS_1\"]}]}",
+        "Circulaire Thorax" : "{\"description\":\"\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"throax_circ\"},\"blocks\":[\"THORAX\"]}]}",
+        "LFA VC" : "{\"description\":\"Left Forearm venous\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_FOREARM\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"quarter_vc\"}}]}",
         "LT femoral 100" : "{\"description\":\"\",\"events\":[{\"time\":10,\"blocks\":[\"LEFT_THIGH\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"full_ac\"}}]}",
         "airways_r50" : "{\"description\":\"Rés trachée 50%\",\"events\":[{\"time\":10,\"blocks\":[\"NECK\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"half_strangle\"}}]}",
         "bothBruchusBouchée" : "{\"events\":[{\"time\":10,\"blocks\":[\"BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"}},{\"time\":10,\"blocks\":[\"BRONCHUS_2\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1\"}}],\"description\":\"\"}",
         "bronche_r5pm" : "{\"description\":\"\",\"events\":[{\"time\":10,\"blocks\":[\"BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}},{\"time\":200,\"blocks\":[\"BRONCHUS_2\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_r1_5pm\"}}]}",
         "cityHunter" : "{\"description\":\"un bon gros coup sur le crâne\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"cityHunter\"}}]}",
+        "disclocation_c1c2" : "{\"description\":\"disclocation C1/C2\",\"events\":[{\"blocks\":[\"C1-C4\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"disclocation_c1c2\"},\"time\":10}]}",
         "flyMeToTheMoon " : "{\"description\":\"FiO2=0%\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"flyMeToTheMoon\"}}]}",
         "grosse_tamponnade" : "{\"description\":\"Tamponnade +50ml / min\",\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_hard\"}}]}",
         "k2" : "{\"description\":\"Au somment d'un 8k\",\"events\":[{\"time\":10,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"k2\"}},{\"time\":1500,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"ItemActionOnHuman\",\"itemId\":\"mask\",\"actionId\":\"setup\"}}]}",

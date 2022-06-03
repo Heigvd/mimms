@@ -100,7 +100,8 @@ export type HumanMeta = BodyFactoryParam & {
 	/** Total inspiratory capacity in mL */
 	inspiratoryCapacity_mL: number;
 	/** L/kg/min */
-	VO2_mLperKgMin: number; // TODO META mettre -> vo2max + steady ; mais on la fait varier comment ?
+	VO2min_mLperKgMin: number;
+	VO2max_mLperKgMin: number;
 	/** Anatomic dead space in L */
 	deadSpace_L: number;
 	/**
@@ -199,6 +200,7 @@ export interface BodyState {
 		capillaryRefillTime_s: number;
 		pain: number;
 		canWalk: boolean;
+		spontaneousBreathing: boolean;
 		respiration: {
 			/** Quotient R */
 			QR: number;
@@ -300,8 +302,8 @@ export interface BodyState {
 		 * Affect inOut value
 		 */
 		bleedFactor: number; // a remplacer par concentration d'acide tx
-		//thoraxCompliance: number;
-		//thoraxComplianceDelta: number;
+		thoraxCompliance: number;
+		thoraxComplianceDelta: number;
 		paraOrthoLevel: number;
 		bodyPosition: BodyPosition;
 		/**
@@ -459,6 +461,16 @@ export interface Block {
 		 * Broken bone
 		 */
 		broken?: boolean;
+
+		/**
+		 * burnDegree
+		 */
+		burnLevel?: "1" | "2" | "3" | "4";
+
+		/**
+		 * Percent of the block; [0-1]
+		 */
+		burnedPercent?: number;
 
 		/**
 		 * pain level
@@ -700,6 +712,23 @@ const ageToQbr = (age: number) => interpolate(age, brainWeightModel) * 0.0005;
 const orthoModel: Point[] = [{ x: 0, y: 20 }, { x: 100, y: 38 }];
 const orthoLevelFromAge = (age: number) => interpolate(age, orthoModel);
 
+
+const vo2MaxModels: Record<Sex, Point[]> = {
+	female: [
+		{ x: 22.5, y: 34 },
+		{ x: 62.5, y: 20 }
+	],
+	male: [
+		{ x: 22.5, y: 40.5},
+		{ x: 62.5, y: 26.5},
+	]
+};
+
+
+function getVo2Max(age: number, sex: Sex) {
+	return interpolate(age, vo2MaxModels[sex]);
+}
+
 export function createHumanBody(
 	param: BodyFactoryParam,
 	env: Environnment
@@ -720,7 +749,8 @@ export function createHumanBody(
 			effectiveWeight_kg: effectiveWeight_kg,
 			inspiratoryCapacity_mL: inspiratoryCapacity_mL,
 			// VO2: calm=>4.5; highEffort(sedentary)=>40; highEffort(elite)=>65
-			VO2_mLperKgMin: 4.5, // 4.5, // TODO define: vo2Min & vo2Max
+			VO2min_mLperKgMin: 3.5,
+			VO2max_mLperKgMin: getVo2Max(param.age, param.sex),
 			// ajouter valeur RF HR cible ?
 			hematocrit: blood_mL.hematocrit, // valeur cible pour équilibre eau ?
 			deadSpace_L: 0.0022 * idealWeight_kg, // Marieb p954
@@ -758,6 +788,7 @@ export function createHumanBody(
 				capillaryRefillTime_s: 3,
 				pain: 0,
 				canWalk: true,
+				spontaneousBreathing: true,
 				glasgow: {
 					total: 15,
 					eye: 4,
@@ -813,8 +844,8 @@ export function createHumanBody(
 				bodyPosition: "STANDING",
 				pericardial_ml: 0,
 				pericardial_deltaMin: 0,
-				//thoraxCompliance: 1,
-				//thoraxComplianceDelta: 0,
+				thoraxCompliance: 1,
+				thoraxComplianceDelta: 0,
 			},
 		},
 		//effects: [],
@@ -1082,7 +1113,7 @@ export function findConnection(
 		(block) => {
 			visitorLogger.debug("Visit: " + block.name);
 			if (validBlock != null && !validBlock(block)) {
-				visitorLogger.warn("Invalid block");
+				visitorLogger.log("Skip block ", block.name);
 				return "BREAK";
 			}
 			path.push(block.name);
@@ -1199,6 +1230,18 @@ function updateICP(bodyState: BodyState, durationInMinute: number) {
 	if (bodyState.variables.ICP_deltaPerMin) {
 		bodyState.variables.ICP_mmHg +=
 			bodyState.variables.ICP_deltaPerMin * durationInMinute;
+	}
+}
+
+function updateThoraxCompliance(bodyState: BodyState, durationInMinute: number) {
+	if (bodyState.variables.thoraxComplianceDelta) {
+		bodyState.variables.thoraxCompliance = add(
+			bodyState.variables.thoraxCompliance,
+			bodyState.variables.thoraxComplianceDelta * durationInMinute,
+			{
+				min: 0,
+				max: 1,
+			});
 	}
 }
 
@@ -1816,6 +1859,7 @@ function updateVitals(
 	updateCompliances(newState, durationInMin);
 	updateICP(newState, durationInMin);
 	updatePericardialPressure(newState, durationInMin);
+	updateThoraxCompliance(newState, durationInMin);
 
 	const sumBlood = sumBloodInOut(newState, meta, durationInMin);
 	const {
@@ -2195,6 +2239,14 @@ export function computeState(
 									}
 								} else if (key === "pain") {
 									setBlockVariableIfGreater(block, key, patch[key]);
+								} else if (key === "burnedPercent") {
+									setBlockVariableIfGreater(block, key, patch[key]);
+								} else if (key === "burnLevel") {
+									const current = +(block.params.burnLevel || 0);
+									const nLevel = +(patch.burnLevel || 0);
+									if (nLevel > current) {
+										block.params.burnLevel = patch.burnLevel;
+									}
 								} else if (key === "bloodFlow_mLper") {
 									// not impactable
 								} else if (key === "extLossesFlow_mlPerMin") {
@@ -2256,6 +2308,15 @@ export function computeState(
 						if (rule.rule.variablePatch.pericardial_deltaMin != null) {
 							newState.variables.pericardial_deltaMin +=
 								rule.rule.variablePatch.pericardial_deltaMin;
+						}
+					} else if (key === "thoraxCompliance") {
+						if (rule.rule.variablePatch.thoraxCompliance != null) {
+							newState.variables.thoraxCompliance += rule.rule.variablePatch.thoraxCompliance;
+						}
+					} else if (key === "thoraxComplianceDelta") {
+						if (rule.rule.variablePatch.thoraxComplianceDelta != null) {
+							newState.variables.thoraxComplianceDelta +=
+								rule.rule.variablePatch.thoraxComplianceDelta;
 						}
 					} else {
 						checkUnreachable(key);
@@ -2392,6 +2453,26 @@ function isNotBroken(block: Block): boolean {
 
 function isBone(c: RevivedConnection) {
 	return !!c.params.bones;
+}
+
+export function canBreathe(bodyState: BodyState): boolean {
+	visitorLogger.log("Can Breathe?")
+	if (bodyState.vitals.cardio.hr < 10) {
+		return false;
+	}
+	const connection = findConnection(bodyState, "BRAIN", "LUNG", {
+		validBlock: isNervousSystemFine,
+		shouldWalk: isNervousSystemConnection,
+	});
+	visitorLogger.log("Connection", connection);
+	if (connection.length === 0) {
+		visitorLogger.log("No Connection");
+		//	visitorLogger.setLevel("WARN");
+		return false;
+	} else {
+		//	visitorLogger.setLevel("WARN");
+		return true;
+	}
 }
 
 export function canWalk(body: HumanBody): boolean {

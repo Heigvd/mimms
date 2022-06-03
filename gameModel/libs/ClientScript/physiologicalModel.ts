@@ -22,6 +22,8 @@ import {
 	Bound,
 	getPain,
 	canWalk,
+	canBreathe,
+	HumanMeta,
 } from "./HUMAn";
 import { logger, calcLogger, compLogger, respLogger } from "./logger";
 // import { computePaO2 } from "./quarticSolver";
@@ -37,7 +39,7 @@ export function detectCardiacArrest(bodyState: BodyState) {
 		bodyState.vitals.cardiacArrest! > 0 ||
 		bodyState.vitals.cardio.hr < 30 ||
 		bodyState.vitals.cardio.MAP < 40 ||
-		bodyState.vitals.respiration.rr < 4 ||
+		//bodyState.vitals.respiration.rr < 4 ||
 		bodyState.vitals.respiration.SaO2 < 0.7
 	) {
 		logger.log("Cardiac Arrest");
@@ -151,9 +153,11 @@ function getLowerAirways(
 
 	// débit arteriel pulmonaire == Qa systemique ?
 
-	const thorax = findBlock(bodyState, "THORAX");
+	//const thorax = findBlock(bodyState, "THORAX");
 
-	const externalCompliance = thorax != null ? thorax.params.compliance ?? 1 : 1;
+	//const externalCompliance = thorax != null ? thorax.params.compliance ?? 1 : 1;
+
+	const externalCompliance = bodyState.variables.thoraxCompliance;
 
 	visit(
 		bodyState,
@@ -338,6 +342,26 @@ function computeEffectiveVolumesPerUnit(
 	}
 }
 
+function getEffortLevel(bodyState: BodyState): number {
+	switch (bodyState.variables.bodyPosition) {
+		case 'STANDING':
+			return 0.1;
+		case 'SITTING':
+			return 0.05;
+		case 'PRONE_DECUBITUS':
+		case 'SUPINE_DECUBITUS':
+		case 'RECOVERY':
+			return 0;
+	}
+}
+
+function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
+	const effort = getEffortLevel(bodyState);
+	const vo2 = interpolate(effort, [{x: 0, y: meta.VO2min_mLperKgMin}, {x: 1, y: meta.VO2max_mLperKgMin}]);
+	logger.warn("VO2: ", {vo2, effort});
+	return vo2 * meta.effectiveWeight_kg;
+}
+
 export function compute(
 	body: BodyState,
 	meta: HumanBody["meta"],
@@ -345,7 +369,7 @@ export function compute(
 	duration_min: number,
 ): BodyState["vitals"] {
 	//const newVitals = cloneDeep(body.vitals);
-	const newVitals = body.vitals;
+	//const newVitals = body.vitals;
 	calcLogger.info("Compute Vitals based on ", body);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -401,7 +425,7 @@ export function compute(
 	// tamponade := pericardial_pressure [0;1]
 	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
 	const edvMax_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
-	
+
 	// TODO: tension pno:= pleural_pressure [0;1]
 	const pleural_pressure = 0;
 	const edvMax_pno = 120 * (1 - pleural_pressure);
@@ -448,16 +472,16 @@ export function compute(
 		delta: body.vitals.cardio.q_delta_mLPermin,
 	});
 
-	newVitals.cardio.MAP = MAP;
+	body.vitals.cardio.MAP = MAP;
 
 
-	newVitals.cardio.endDiastolicVolume_mL = edvEffective;
+	body.vitals.cardio.endDiastolicVolume_mL = edvEffective;
 	const systolicPressure = 3 * MAP / 2;
-	newVitals.cardio.radialPulse = systolicPressure > 80;
+	body.vitals.cardio.radialPulse = systolicPressure > 80;
 	//const diastolicPressure = x;
 
-	newVitals.cardio.cardiacOutput_LPerMin = Qc_LPerMin;
-	//newVitals.cardio.cardiacOutputRv_LPerMin = Qrv_LPerMin;
+	body.vitals.cardio.cardiacOutput_LPerMin = Qc_LPerMin;
+	//body.vitals.cardio.cardiacOutputRv_LPerMin = Qrv_LPerMin;
 
 	calcLogger.info("Cardio: ", {
 		input: { ...body.vitals.cardio },
@@ -475,11 +499,25 @@ export function compute(
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// todo: ideal of effective ?
-	const vo2_mLperMin = meta.VO2_mLperKgMin * meta.effectiveWeight_kg;
+	const vo2_mLperMin = getVO2_mLperMin(body, meta);
 	const vco2_mLPerMin = vo2_mLperMin * body.vitals.respiration.QR;
+
+
 
 	const upperAirways = getUpperAirwaysInput(body, env);
 	const units = getLowerAirways(body, upperAirways.resistance);
+
+	const positivePressure = false;
+
+	if (!body.vitals.spontaneousBreathing) {
+		body.vitals.respiration.tidalVolume_L = 0;
+		body.vitals.respiration.rr = 0;
+	}
+
+	if (positivePressure) {
+		body.vitals.respiration.tidalVolume_L = 0;
+		body.vitals.respiration.rr = 0;
+	}
 
 	const effectiveVolumesPerUnit_L = computeEffectiveVolumesPerUnit(
 		false,
@@ -499,7 +537,7 @@ export function compute(
 			: 0;
 
 	respLogger.log("Respiration Step1: ", {
-		vo2_mLkgperMin: meta.VO2_mLperKgMin,
+		vo2_mLkgperMin: vo2_mLperMin,
 		weight: meta.effectiveWeight_kg,
 		vo2_mLperMin,
 		vco2_mLPerMin,
@@ -507,6 +545,7 @@ export function compute(
 		hb_gPerL,
 	});
 	respLogger.info("RespiratoryUnits: ", units);
+
 
 	// Compute SaO2 and CaO2 for each respiratory unit
 	const unitOutputs = units.map((unit, i) => {
@@ -529,6 +568,7 @@ export function compute(
 			const co2Percent = CO2delta_mL / inLungs_mL;
 			const PACO2_delta = PACO2 * co2Percent;
 			PACO2 += PACO2_delta;
+
 			//return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 
 			respLogger.log("NO AIR: PACO2=", PACO2, " + ", PACO2_delta, {
@@ -750,16 +790,16 @@ export function compute(
 		PaO2_mmHg = delayedPaO2;
 	}
 
-	newVitals.respiration.stridor = upperAirways.resistance > 0.25;
+	body.vitals.respiration.stridor = upperAirways.resistance > 0.25;
 
-	newVitals.respiration.SaO2 = SaO2;
-	newVitals.respiration.CaO2 = CaO2;
+	body.vitals.respiration.SaO2 = SaO2;
+	body.vitals.respiration.CaO2 = CaO2;
 
 	const do2Sys = Qc_LPerMin * CaO2;
-	newVitals.cardio.DO2Sys = do2Sys;
+	body.vitals.cardio.DO2Sys = do2Sys;
 
 	//const PaO2_mmHg_fromSaO2 = computePaO2_mmHg(SaO2);
-	newVitals.respiration.PaO2 = PaO2_mmHg;
+	body.vitals.respiration.PaO2 = PaO2_mmHg;
 	respLogger.log("Final SaO2,CaO2, PaO2:", { SaO2, CaO2, PaO2_mmHg });
 
 	logger.log("VO2 VS DO2", vo2_mLperMin, do2Sys);
@@ -786,9 +826,9 @@ export function compute(
 		DO2,
 	});
 
-	newVitals.brain.DO2 = DO2;
+	body.vitals.brain.DO2 = DO2;
 
-	return newVitals;
+	return body.vitals;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -969,6 +1009,13 @@ export function doCompensate(
 		const key = k as BodyStateKeys;
 		const currentValue = getVitals(state, key);
 
+		if ((key === 'vitals.respiration.rr' || key === 'vitals.respiration.tidalVolume_L') &&
+			!state.vitals.spontaneousBreathing
+		) {
+			compLogger.info("No spontaneous breathing: skip", key);
+			return;
+		}
+
 		compLogger.info(
 			"Compensate: ",
 			key,
@@ -1033,6 +1080,7 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.capillaryRefillTime_s = computeRecap(human.state.vitals.cardio.MAP);
 	human.state.vitals.glasgow = computeGlasgow(human.state.vitals.brain.DO2);
 	human.state.vitals.canWalk = canWalk(human);
+	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
 
 	if (!human.state.vitals.canWalk) {
