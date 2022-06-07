@@ -25,7 +25,7 @@ import {
 	processRadioCommunication, processRadioCreationEvent,
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
-import { caluculateLOS, isPointInPolygon } from "./geoData";
+import { calculateLOS, isPointInPolygon } from "./geoData";
 
 
 
@@ -586,7 +586,7 @@ function rebuildState(time: number, env: Environnment) {
 		let outOfSight: ObjectId[] = [];
 
 		if(myPosition.mostRecent.state.lineOfSight == null){
-			myPosition.mostRecent.state.lineOfSight = caluculateLOS(myPosition.mostRecent.state.location!);
+			myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 		}
 		const lineOfSight = myPosition.mostRecent.state.lineOfSight!;
 

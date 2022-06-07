@@ -348,9 +348,9 @@
                     "layoutStyle" : { },
                     "name" : "humans",
                     "onLayerReady" : {
-                      "@class" : "Script",
-                      "content" : "import { setEmptyLayer } from \"./buildingData\";\nsetEmptyLayer;",
-                      "language" : "typescript"
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer" ],
+                      "content" : "return;"
                     },
                     "style" : { }
                   },
@@ -415,6 +415,8 @@
                   "type" : "WegasMapOverlays"
                 }, {
                   "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : {
@@ -422,12 +424,13 @@
                         "content" : "import { getBubbleLayer } from \"./mapLayers\";\ngetBubbleLayer();",
                         "language" : "typescript"
                       },
-                      "type" : "VectorLayer"
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
                     },
                     "layerStyle" : {
-                      "@class" : "Script",
-                      "content" : "(feature) => ({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})",
-                      "language" : "typescript"
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})"
                     },
                     "layoutStyle" : { },
                     "name" : "bubbles",
@@ -449,15 +452,14 @@
                       "fill" : {
                         "color" : "grey",
                         "type" : "FillStyle"
-                      },
-                      "zIndex" : 10
+                      }
                     },
                     "layoutStyle" : { },
                     "name" : "bati",
                     "onLayerReady" : {
-                      "@class" : "Script",
-                      "content" : "import { setBuildingLayer } from \"./buildingData\";\nsetBuildingLayer",
-                      "language" : "typescript"
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer", "map", "projection" ],
+                      "content" : "import { onBuildingLayerReady } from \"./layersData\";\nonBuildingLayerReady(layer, map);\nreturn;"
                     },
                     "style" : { }
                   },
@@ -480,18 +482,16 @@
                       "useSpatialIndex" : true
                     },
                     "layerStyle" : {
-                      "fill" : {
-                        "color" : "green",
-                        "type" : "FillStyle"
-                      },
-                      "zIndex" : 10
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
                     },
                     "layoutStyle" : { },
                     "name" : "bati debug",
                     "onLayerReady" : {
-                      "@class" : "Script",
-                      "content" : "import { setBuildingDebugLayer } from \"./buildingData\";\nsetBuildingDebugLayer",
-                      "language" : "typescript"
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer" ],
+                      "content" : "return;"
                     },
                     "style" : { }
                   },
@@ -523,6 +523,39 @@
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : {
+                      "zIndex" : 10000
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { obstacleGridSource } from \"./layersData\";\nobstacleGridSource.current;",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "fill" : {
+                        "color" : "red",
+                        "type" : "FillStyle"
+                      }
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Obstacle grid",
+                    "onLayerReady" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer", "map", "projection" ],
+                      "content" : "return;"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
                 } ],
                 "debug" : true,
                 "layoutStyle" : {
@@ -533,9 +566,9 @@
                 },
                 "mapOptions" : {
                   "onClick" : {
-                    "@class" : "Script",
-                    "content" : "import { handleClickOnMap } from \"./the_world\";\n(coord, features) => handleClickOnMap({x: coord[0], y: coord[1]}, features);",
-                    "language" : "typescript"
+                    "@class" : "ScriptCallback",
+                    "args" : [ "coord", "features" ],
+                    "content" : "import { handleClickOnMap } from \"./the_world\";\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
                   }
                 },
                 "style" : { },

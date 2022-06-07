@@ -8,6 +8,16 @@
 
 import { logger } from "./logger";
 
+// Basic geometry types
+export interface Point {
+	x: number;
+	y: number;
+}
+export type Polygon = Point[]
+export type Polygons = Polygon[]
+export type Segment = [Point, Point]
+
+
 export function checkUnreachable(x: never): void {
   throw new Error("Unreachable code: " + (x as unknown));
 }
@@ -50,10 +60,6 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
   return normalize(x + delta, bounds);
 }
 
-export interface Point {
-	x: number;
-	y: number;
-}
 
 export function interpolate(x: number, points: Point[], defaultValue: number = 0) : number  {
 	//const points = pointsArg.sort((a, b) => a.x - b.x);
