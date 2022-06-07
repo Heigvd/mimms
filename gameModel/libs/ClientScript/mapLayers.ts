@@ -1,13 +1,19 @@
-import { buildingLayer, mapRef } from "./layersData";
+import { buildingLayer, mapRef, obstacleGrid } from "./layersData";
 import { getDirectMessagesFrom } from "./communication";
-import { computeVisionPolygon, getBuildingInExtent } from "./geoData";
-import { getHumans, lineOfSightRadius } from "./the_world";
+import { computeVisionPolygon, getBuildingInExtent, isPointInPolygon, lineSegmentInterception } from "./geoData";
+import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
-import { Point } from "./helper";
+import { Point, Polygon, Segment } from "./helper";
+import { gridPointToWorldPoint, worldPointToGridPoint } from "./Astar";
 
 interface PointFeature {
 	type: "Point";
 	coordinates: PointLikeObject;
+}
+
+interface LineStringFeature {
+	type: "LineString";
+	coordinates: PointLikeObject[];
 }
 
 interface PolygonFeature {
@@ -21,7 +27,7 @@ interface MultiPolygonFeature {
 }
 
 
-type Geometry = PointFeature | PolygonFeature | MultiPolygonFeature;
+type Geometry = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature;
 
 interface AdvancedFeature {
 	type: 'Feature';
@@ -196,78 +202,103 @@ export function getDebugBuildingLayer(): FeatureCollection {
 }
 
 export function getEmptyLayer(): FeatureCollection {
-	return {
-		"type": "FeatureCollection",
-		"name": "empty",
-		"features": []
-	};
+	return emptyFeatureCollection;
 }
 
-export function getObstacleGridLayer(debug?: boolean): FeatureCollection {
+export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): FeatureCollection {
+	if (obstacleGrid?.current == null) {
+		return emptyFeatureCollection;
+	}
 
-	const map = mapRef.current;
-	const layer = buildingLayer.current;
+	const {
+		grid,
+		gridWidth,
+		gridHeight,
+		cellSize,
+		offsetPoint
+	} = obstacleGrid.current;
 
 	const source: FeatureCollection = {
 		"type": "FeatureCollection",
-		"name": "empty",
+		"name": "obstacle layer",
 		"features": []
 	};
 
-	debugger;
-
-
-	const extent: ExtentLikeObject = layer.getSource().getExtent();
-	const meterPerUnit = map.getView().getProjection().getMetersPerUnit();
-	const extentWidth = Math.abs(extent[2] - extent[0]);
-	const extentHeight = Math.abs(extent[3] - extent[1]);
-	const worldWidth = extentWidth * meterPerUnit;
-	const worldHeight = extentHeight * meterPerUnit;
-	const cellSize = 2 / meterPerUnit;
-	const offsetPoint: Point = { x: extent[0], y: extent[1] }
-
-	let grid: number[][] = [];
-	const gridHeight = Math.round(worldHeight / cellSize);
-	const gridWidth = Math.round(worldWidth / cellSize);
+	function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number,) {
+		collection.features.push({
+			type: 'Feature',
+			geometry: {
+				type: 'Polygon',
+				coordinates: [
+					[
+						[minX, minY],
+						[minX, maxY],
+						[maxX, maxY],
+						[maxX, minY],
+						[minX, minY],
+					]
+				]
+			}
+		} as never)
+	}
 	const totalCells = gridHeight * gridWidth;
+
+	// Debug ///////////////////////////////////////
 	const slices = Math.round(totalCells / 100);
+	const step = Math.round(1 / Math.max(0.1, Math.min(density, 1)));
+	////////////////////////////////////////////////
 
-	const ratioOfmap = 0.4; // max = 1
-
-	for (let j = 0; j < gridHeight * ratioOfmap; j += 1) {
-		grid[j] = [];
-		for (let i = 0; i < gridWidth * ratioOfmap; i += 1) {
+	for (let j = 0; j < gridHeight; j += step) {
+		for (let i = 0; i < gridWidth; i += step) {
 
 			const cellIndex = i + j * gridWidth;
 			if (debug && cellIndex % slices === 0) {
 				wlog(Math.round(cellIndex * 100 / totalCells) + "%");
 			}
 
-			const minX = i + offsetPoint.x;
-			const minY = j + offsetPoint.y;
-			const maxX = i + offsetPoint.x + cellSize;
-			const maxY = j + offsetPoint.y + cellSize;
+			if (grid[j][i]) {
+				const minPoint = gridPointToWorldPoint({ x: i, y: j }, cellSize, offsetPoint)
+				const maxPoint = gridPointToWorldPoint({ x: i + 1, y: j + 1 }, cellSize, offsetPoint);
 
-			const test = getBuildingInExtent([minX, minY, maxX, maxY])
-			if (test.length > 0) {
-				source.features.push({
-					type: 'Feature',
-					geometry: {
-						type: 'Polygon',
-						coordinates: [
-							[
-								[minX, minY],
-								[minX, maxY],
-								[maxX, maxY],
-								[maxX, minY],
-								[minX, minY],
-							]
-						]
-					}
-				} as never)
+				/*
+				// Testing
+				const minCellPoint = worldPointToGridPoint(minPoint, cellSize, offsetPoint);
+				const maxCellPoint = worldPointToGridPoint(maxPoint, cellSize, offsetPoint);
+
+				const minWorldPoint = gridPointToWorldPoint(minCellPoint, cellSize, offsetPoint);
+				const maxWorldPoint = gridPointToWorldPoint(maxCellPoint, cellSize, offsetPoint);
+
+				addSquareFeature(source, minWorldPoint.x, minWorldPoint.y, maxWorldPoint.x, maxWorldPoint.y);
+				*/
+
+				addSquareFeature(source, minPoint.x, minPoint.y, maxPoint.x, maxPoint.y);
 			}
 		}
 	}
 	return source;
 }
 
+export function getPathLayer() {
+
+	const source: FeatureCollection = {
+		"type": "FeatureCollection",
+		"name": "path layer",
+		"features": []
+	};
+
+	Object.entries(paths.current).forEach(([k, v], i) => {
+		const newFeature: AdvancedFeature = {
+			type: "Feature",
+			geometry: {
+				type: "LineString",
+				coordinates: v.map(point => ([point.x, point.y]))
+			},
+			properties: {
+				color: i === 0 ? "green" : i === 1 ? "yellow" : "red"
+			}
+		}
+		source.features.push(newFeature);
+	});
+
+	return source;
+}

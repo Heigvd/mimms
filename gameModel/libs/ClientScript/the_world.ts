@@ -23,6 +23,8 @@ import {
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
 import { calculateLOS, isPointInPolygon } from "./geoData";
+import { AStar } from "./Astar";
+import { obstacleGrid } from "./layersData";
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -264,24 +266,89 @@ function proj(a: Point, b: Point): Point {
 	}
 }
 
+export const paths = Helpers.useRef<Record<string, Point[]>>("paths", {})
+
+
 /**
  * speed: unit/sec
  */
-function computeCurrentLocation(location: PositionAtTime | undefined, currentTime: number, speed: number): Location | undefined {
+function computeCurrentLocation(pathId: string, location: PositionAtTime | undefined, currentTime: number, speed: number): Location | undefined {
 	// TODO multi map
 	worldLogger.log("ComputeCurrentLocation", { location, currentTime, speed });
 	if (location != null) {
 		if (location.direction != null) {
+			// This should be done only when the obstacle grid changes
+			const {
+				grid,
+				gridWidth,
+				gridHeight,
+				cellSize,
+				offsetPoint,
+			} = obstacleGrid.current;
+			const aStar = new AStar({
+				grid: {
+					matrix: grid,
+					width: gridWidth,
+					height: gridHeight,
+				},
+				cellSize,
+				offsetPoint,
+				heuristic: "Euclidean"
+			});
+
+			if (location.location == null) {
+				return location.location;
+			}
+
+			// This should be done only when the direction changes
+			const newPath = aStar.findPath(location.location, location.direction);
+			paths.current[pathId] = newPath;
+			//paths.current["smoothed"] = aStar.smoothPath(newPath)
+
+			const duration = currentTime - location.time;
+			const distance = speed * duration;
+			let remainingDistance = distance;
+			let pathIndex = 0;
+			let startPoint : Point = location.location;
+			let endPoint = newPath[pathIndex];
+
+			paths.current["moving"] = [startPoint];
+
+			while (remainingDistance > 0) {
+				endPoint = newPath[pathIndex];
+				const delta = sub(endPoint, startPoint);
+				const fullDistance = Math.sqrt(hypotSq(delta));
+				if (remainingDistance < fullDistance) {
+					const ratio = remainingDistance / fullDistance;
+					endPoint = add(mul(delta, ratio), startPoint);
+					paths.current["moving"].push(endPoint);
+					break;
+				}
+				else {
+					remainingDistance -= fullDistance;
+					pathIndex += 1;
+					startPoint = endPoint;
+					paths.current["moving"].push(endPoint);
+				}
+			}
+
+
+			/*
 			const delta = sub(location.direction, location.location);
 			const duration = currentTime - location.time;
 			const fullDistance = Math.sqrt(hypotSq(delta));
 			const distance = speed * duration;
 			const ratio = distance > fullDistance ? 1 : distance / fullDistance;
+			*/
+
+
 			return {
 				mapId: location.location.mapId,
-				...add(mul(delta, ratio), location.location)
+				...endPoint,
+				//...add(mul(delta, ratio), location.location)
 			};
 		} else {
+			delete paths.current[pathId];
 			return location.location;
 		}
 	}
@@ -504,7 +571,7 @@ function rebuildState(time: number, env: Environnment) {
 			if (positionS.mostRecent.state.direction) {
 				// Object is moving
 				// TODO speed is dependent of HumanS
-				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, humanSpeed);
+				const newLocation = computeCurrentLocation(oKey, positionS.mostRecent.state, time, humanSpeed);
 				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey].splice(positionS.mostRecentIndex + 1, 0, {
 					time: time,
@@ -512,7 +579,7 @@ function rebuildState(time: number, env: Environnment) {
 						...positionS.mostRecent.state,
 						time: time,
 						location: newLocation,
-						lineOfSight:undefined,
+						lineOfSight: undefined,
 					}
 				});
 			}
@@ -550,7 +617,7 @@ function rebuildState(time: number, env: Environnment) {
 		const visibles: ObjectId[] = [];
 		let outOfSight: ObjectId[] = [];
 
-		if(myPosition.mostRecent.state.lineOfSight == null){
+		if (myPosition.mostRecent.state.lineOfSight == null) {
 			myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 		}
 		const lineOfSight = myPosition.mostRecent.state.lineOfSight!;
@@ -791,7 +858,7 @@ function processFollowPathEvent(event: FollowPathEvent): boolean {
 
 	// Update futures
 	futures.forEach(snapshot => {
-		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, humanSpeed);
+		const loc = computeCurrentLocation(oKey, currentSnapshot.state, snapshot.time, humanSpeed);
 		worldLogger.log("Update Future: ", { snapshot, loc });
 		snapshot.state.location = loc;
 		snapshot.state.direction = event.destination;

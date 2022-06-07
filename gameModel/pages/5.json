@@ -409,38 +409,6 @@
                 }, {
                   "props" : {
                     "layerId" : "",
-                    "layerProps" : {
-                      "zIndex" : 1000
-                    },
-                    "layerSource" : {
-                      "dataType" : "GeoJSON",
-                      "source" : {
-                        "@class" : "Script",
-                        "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
-                        "language" : "typescript"
-                      },
-                      "sourceProjection" : "EPSG:2056",
-                      "type" : "VectorLayer",
-                      "useSpatialIndex" : true
-                    },
-                    "layerStyle" : {
-                      "@class" : "ScriptCallback",
-                      "args" : [ "feature", "resolution" ],
-                      "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "bati debug",
-                    "onLayerReady" : {
-                      "@class" : "ScriptCallback",
-                      "args" : [ "layer" ],
-                      "content" : "return;"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "WegasMapVectorLayer"
-                }, {
-                  "props" : {
-                    "layerId" : "",
                     "layerProps" : { },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
@@ -469,13 +437,45 @@
                   "props" : {
                     "layerId" : "",
                     "layerProps" : {
+                      "zIndex" : 1000
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "[DEBUG] Visible buildings",
+                    "onLayerReady" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "layer" ],
+                      "content" : "return;"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : {
                       "zIndex" : 10000
                     },
                     "layerSource" : {
                       "dataType" : "GeoJSON",
                       "source" : {
                         "@class" : "Script",
-                        "content" : "import { obstacleGridSource } from \"./layersData\";\nobstacleGridSource.current;",
+                        "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\ngetObstacleGridLayer(0.1);",
                         "language" : "typescript"
                       },
                       "sourceProjection" : "EPSG:2056",
@@ -489,12 +489,37 @@
                       }
                     },
                     "layoutStyle" : { },
-                    "name" : "Obstacle grid",
+                    "name" : "[DEBUG] Obstacle grid",
                     "onLayerReady" : {
                       "@class" : "ScriptCallback",
                       "args" : [ "layer", "map", "projection" ],
                       "content" : "return;"
                     },
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { getPathLayer } from \"./mapLayers\";\ngetPathLayer();",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n}})"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "[DEBUG] Character Paths",
                     "style" : { }
                   },
                   "type" : "WegasMapVectorLayer"
