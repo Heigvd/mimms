@@ -124,6 +124,7 @@ export function getHumanOverlays(): OverlayItem[] {
 						overlayId: human.id,
 						className: 'human-overlay',
 						position: [human.location.x, human.location.y],
+						stopEvent: false,
 						positioning: 'bottom-center',
 					}
 				} as OverlayItem];

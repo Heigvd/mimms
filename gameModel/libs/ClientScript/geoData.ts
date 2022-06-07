@@ -189,9 +189,16 @@ export function caluculateLOS(
 		position.x + visionDistance,
 		position.y + visionDistance
 	]
-	const buildings = getBuildingInExtent(extentAroundPlayer)
-	return computeVisionPolygon([position.x, position.y], buildings, visionDistance, nbBoundingSegments)
+	const buildings = getBuildingInExtent(extentAroundPlayer);
+	console.time("LOS");
+	
+	const los = computeVisionPolygon([position.x, position.y], buildings, visionDistance, nbBoundingSegments)
 		.map(visionPoint => ({ x: visionPoint.point[0], y: visionPoint.point[1] }));
+	
+	console.timeEnd("LOS");
+
+	return los;
+
 }
 
 interface LOSSegment {
