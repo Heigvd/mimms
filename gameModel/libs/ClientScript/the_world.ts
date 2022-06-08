@@ -1347,12 +1347,26 @@ export interface InventoryEntry {
  */
 export function getMyInventory(): InventoryEntry[] {
 	return [
+		{ itemId: 'wendel', count: 'infinity' },
+		{ itemId: 'guedel', count: 'infinity' },
+		{ itemId: 'igel', count: 'infinity' },
+		{ itemId: 'mask', count: 'infinity' },
+		{ itemId: 'balloon', count: 'infinity' },
+		{ itemId: 'intubate', count: 'infinity' },
+		{ itemId: 'cricotomie', count: 'infinity' },
+
+		{ itemId: '3side', count: 'infinity' },
+		{ itemId: 'exsufflation', count: 'infinity' },
+		{ itemId: 'thoracic_drain', count: 'infinity' },
+
 		{ itemId: 'cat', count: 'infinity' },
 		{ itemId: 'bandage', count: 'infinity' },
 		{ itemId: 'israeliBandage', count: 'infinity' },
-		{ itemId: 'mask', count: 'infinity' },
-		{ itemId: 'tube', count: 'infinity' },
-		{ itemId: 'tTube', count: 'infinity' },
+		{ itemId: 'TranexamicAcid_500', count: 'infinity' },
+		{ itemId: 'SalineSolution_1l', count: 'infinity' },
+		{ itemId: 'Blood_1l', count: 'infinity' },
+		
+		
 		{ itemId: 'oxymeter', count: 1 },
 		{ itemId: 'sphygmomanometer', count: 1 },
 	];

@@ -58,16 +58,8 @@ export function premiereVague() {
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '1-3',
-			pathologyId: 'lung_r1_5pm',
-			blocks: ['BRONCHUS_1'],
-		},
-		{
-			...initEmitterIds(),
-			type: 'HumanPathology',
-			targetType: 'Human',
-			targetId: '1-3',
-			pathologyId: 'lung_r1_5pm',
-			blocks: ['BRONCHUS_2'],
+			pathologyId: 'open_pno',
+			blocks: ['UNIT_BRONCHUS_1'],
 		}
 	]);
 }

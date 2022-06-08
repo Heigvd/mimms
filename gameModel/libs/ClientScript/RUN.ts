@@ -83,6 +83,10 @@ function extractMetric(body: BodyState, time: number,
 	pushMetric("RR", time, body.vitals.respiration.rr, outputResp);
 	pushMetric("Tidal Volume [L]", time, body.vitals.respiration.tidalVolume_L, outputResp);
 
+	const ip= body.blocks.get("THORAX")!.params.internalPressure;
+	const nIp = typeof ip === "number" ? ip : 0;
+	pushMetric("IntraThoracic", time, nIp, outputResp);
+
 	pushMetric("HR", time, body.vitals.cardio.hr, outputCardio);
 	pushMetric("MAP", time, body.vitals.cardio.MAP, outputCardio);
 

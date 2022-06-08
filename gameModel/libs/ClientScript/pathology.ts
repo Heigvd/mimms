@@ -54,7 +54,7 @@ export interface PathologyDefinition {
 	 */
 	blocks: string[];
 	/**
-	 *  minimm nunber of block the pathology should affect
+	 *  minimm number of block the pathology should affect
 	 */
 	minNumberOfBlocks: number;
 	/**

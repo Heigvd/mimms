@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 import { add, checkUnreachable, interpolate, normalize, Point } from "./helper";
-import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger } from "./logger";
+import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "./logger";
 import {
 	ActDefinition,
 	ActionBodyEffect,
@@ -311,6 +311,7 @@ export interface BodyState {
 		 */
 		pericardial_ml: number;
 		pericardial_deltaMin: number;
+		positivePressure?: boolean;
 	};
 }
 
@@ -329,7 +330,6 @@ type VitalsKeys = MappedVitalsKeys[TopVitalsKeys];
 type VariableKeys = `variables.${keyof BodyState['variables']}`
 
 export type BodyStateKeys = VitalsKeys | VariableKeys;
-
 
 export interface Block {
 	/**
@@ -481,6 +481,16 @@ export interface Block {
 		 * Partial Pressus CO2
 		 */
 		PACO2?: number;
+
+		/**
+		 * Internal pressure [TBD]
+		 */
+		internalPressure?: number | 'RESET' | 'DRAIN';
+
+		/**
+		 * 
+		 */
+		pneumothorax?: 'SIMPLE' | 'OPEN';
 	};
 	connections: Connection[];
 }
@@ -719,8 +729,8 @@ const vo2MaxModels: Record<Sex, Point[]> = {
 		{ x: 62.5, y: 20 }
 	],
 	male: [
-		{ x: 22.5, y: 40.5},
-		{ x: 62.5, y: 26.5},
+		{ x: 22.5, y: 40.5 },
+		{ x: 62.5, y: 26.5 },
 	]
 };
 
@@ -2247,6 +2257,27 @@ export function computeState(
 									if (nLevel > current) {
 										block.params.burnLevel = patch.burnLevel;
 									}
+								} else if (key === "internalPressure") {
+									if (patch.internalPressure === 'RESET') {
+										if (typeof block.params.internalPressure === 'number') {
+											block.params.internalPressure = 0;
+										}
+									} else if (patch.internalPressure === 'DRAIN') {
+										block.params.internalPressure = 'DRAIN';
+									} else if (typeof patch.internalPressure === 'number') {
+										if (typeof block.params.internalPressure === "number") {
+											block.params.internalPressure =
+												(block.params.internalPressure ?? 0) + patch.internalPressure;
+										}
+									}
+								} else if (key === 'pneumothorax') {
+									if (block.params.pneumothorax == null){
+										block.params.pneumothorax = patch.pneumothorax;
+									} else if (block.params.pneumothorax === 'SIMPLE'){
+										if (patch.pneumothorax === 'OPEN'){
+											block.params.pneumothorax = 'OPEN';
+										}
+									}
 								} else if (key === "bloodFlow_mLper") {
 									// not impactable
 								} else if (key === "extLossesFlow_mlPerMin") {
@@ -2318,6 +2349,8 @@ export function computeState(
 							newState.variables.thoraxComplianceDelta +=
 								rule.rule.variablePatch.thoraxComplianceDelta;
 						}
+					} else if (key === 'positivePressure') {
+						newState.variables.positivePressure = rule.rule.variablePatch.positivePressure;
 					} else {
 						checkUnreachable(key);
 					}
@@ -2456,21 +2489,22 @@ function isBone(c: RevivedConnection) {
 }
 
 export function canBreathe(bodyState: BodyState): boolean {
-	visitorLogger.log("Can Breathe?")
+	respLogger.log("Can Breathe?")
 	if (bodyState.vitals.cardio.hr < 10) {
+		respLogger.log("No HR")
 		return false;
 	}
 	const connection = findConnection(bodyState, "BRAIN", "LUNG", {
 		validBlock: isNervousSystemFine,
 		shouldWalk: isNervousSystemConnection,
 	});
-	visitorLogger.log("Connection", connection);
+	respLogger.log("Connection", connection);
 	if (connection.length === 0) {
-		visitorLogger.log("No Connection");
-		//	visitorLogger.setLevel("WARN");
+		respLogger.log("No Connection");
+		//	respLogger.setLevel("WARN");
 		return false;
 	} else {
-		//	visitorLogger.setLevel("WARN");
+		//	respLogger.setLevel("WARN");
 		return true;
 	}
 }

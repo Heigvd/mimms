@@ -40,7 +40,7 @@ export function detectCardiacArrest(bodyState: BodyState) {
 		bodyState.vitals.cardio.hr < 30 ||
 		bodyState.vitals.cardio.MAP < 40 ||
 		//bodyState.vitals.respiration.rr < 4 ||
-		bodyState.vitals.respiration.SaO2 < 0.7
+		bodyState.vitals.respiration.SaO2 < 0.4
 	) {
 		logger.log("Cardiac Arrest");
 		bodyState.vitals.cardiacArrest =
@@ -79,6 +79,10 @@ interface LowerAirways {
 	qPercent: number;
 	/** the block itself */
 	block: Block;
+	/**
+	 * the thorax block the unit stands in
+	 */
+	thoraxBlock: Block;
 }
 
 
@@ -153,11 +157,11 @@ function getLowerAirways(
 
 	// débit arteriel pulmonaire == Qa systemique ?
 
-	//const thorax = findBlock(bodyState, "THORAX");
+	const thorax = findBlock(bodyState, "THORAX");
 
 	//const externalCompliance = thorax != null ? thorax.params.compliance ?? 1 : 1;
 
-	const externalCompliance = bodyState.variables.thoraxCompliance;
+	//const externalCompliance = bodyState.variables.thoraxCompliance;
 
 	visit(
 		bodyState,
@@ -177,13 +181,11 @@ function getLowerAirways(
 			if (block.name.startsWith("UNIT_")) {
 				respLogger.info("Found Unit: ", qPercent[0]);
 				units.push({
-					compliance: Math.min(
-						externalCompliance,
-						block.params.compliance ?? 1
-					),
+					compliance: block.params.compliance ?? 1,
 					resistance: selfResistance,
 					qPercent: qPercent[0]!,
 					block: block,
+					thoraxBlock: thorax!,
 				});
 				return "BREAK";
 			}
@@ -272,6 +274,8 @@ function computeEffectiveVolumesPerUnit(
 
 	const perUnitThMaxCapacity_L = meta.inspiratoryCapacity_mL / (nbUnits * 1000);
 
+	const externalCompliance = body.variables.thoraxCompliance ?? 1;
+
 	if (positivePressure) {
 		// full tidalVolume is injected
 		const unitsEffectiveMaximum_L = units.map((unit) => {
@@ -321,7 +325,16 @@ function computeEffectiveVolumesPerUnit(
 		const leaks: number[] = [];
 		for (let i = 0; i < nbUnits; i++) {
 			const leak = ru[i]! * (1 - units[i]!.compliance);
-			ru[i] -= leak;
+			const eCompliance = Math.min(units[i]!.compliance, externalCompliance);
+			const delta = ru[i]! * (1 - eCompliance);
+			ru[i] -= delta;
+			if (units[i].block.params.pneumothorax === 'SIMPLE') {
+				const ip = units[i].thoraxBlock.params.internalPressure;
+				if (ip == null || typeof ip === 'number') {
+					// since internal pressure is not "DRAIN", let's inflate the thorax
+					units[i].thoraxBlock.params.internalPressure = (ip ?? 0) + leak;
+				}
+			}
 			leaks[i] = leak;
 		}
 
@@ -335,7 +348,8 @@ function computeEffectiveVolumesPerUnit(
 			perUnitThMaxCapacity_L
 		);
 		const ru = units.map((unit) => {
-			return effectiveUnitMax * unit.compliance * (1 - unit.resistance);
+			const eCompliance = Math.min(unit.compliance, externalCompliance);
+			return effectiveUnitMax * eCompliance * (1 - unit.resistance);
 		});
 		respLogger.info("Normal RU: ", ru);
 		return ru;
@@ -357,8 +371,8 @@ function getEffortLevel(bodyState: BodyState): number {
 
 function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
 	const effort = getEffortLevel(bodyState);
-	const vo2 = interpolate(effort, [{x: 0, y: meta.VO2min_mLperKgMin}, {x: 1, y: meta.VO2max_mLperKgMin}]);
-	logger.warn("VO2: ", {vo2, effort});
+	const vo2 = interpolate(effort, [{ x: 0, y: meta.VO2min_mLperKgMin }, { x: 1, y: meta.VO2max_mLperKgMin }]);
+	logger.info("VO2: ", { vo2, effort });
 	return vo2 * meta.effectiveWeight_kg;
 }
 
@@ -427,8 +441,14 @@ export function compute(
 	const edvMax_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
 
 	// TODO: tension pno:= pleural_pressure [0;1]
-	const pleural_pressure = 0;
-	const edvMax_pno = 120 * (1 - pleural_pressure);
+	const itp_raw = body.blocks.get("THORAX")!.params.internalPressure;
+	const itp_L = typeof itp_raw === 'number' ? itp_raw : 0;
+
+	const tensionPneumothoraxModel: Point[] = [
+		{ x: 0, y: 120 },
+		{ x: 50, y: esv },
+	];
+	const edvMax_pno = interpolate(itp_L, tensionPneumothoraxModel);
 
 	const edvEffective = Math.min(
 		body.vitals.cardio.endDiastolicVolume_mL,
@@ -507,20 +527,28 @@ export function compute(
 	const upperAirways = getUpperAirwaysInput(body, env);
 	const units = getLowerAirways(body, upperAirways.resistance);
 
-	const positivePressure = false;
+	const positivePressure = !!body.variables.positivePressure;
 
 	if (!body.vitals.spontaneousBreathing) {
+		respLogger.warn("No spontaneous");
 		body.vitals.respiration.tidalVolume_L = 0;
 		body.vitals.respiration.rr = 0;
+	}
+	if (positivePressure) {
+		// TODO fetch from inputs
+		body.vitals.respiration.tidalVolume_L = 0.5;
+		body.vitals.respiration.rr = 15;
 	}
 
-	if (positivePressure) {
-		body.vitals.respiration.tidalVolume_L = 0;
-		body.vitals.respiration.rr = 0;
-	}
+	respLogger.log("Positive Pressure", {
+		positivePressure,
+		tidal: body.vitals.respiration.tidalVolume_L,
+		rr: body.vitals.respiration.rr
+	});
+
 
 	const effectiveVolumesPerUnit_L = computeEffectiveVolumesPerUnit(
-		false,
+		positivePressure,
 		body,
 		meta,
 		upperAirways,
@@ -555,6 +583,11 @@ export function compute(
 
 		if (unit.qPercent <= 0) {
 			respLogger.log("NO PERFUSION");
+			return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
+		}
+
+		if (unit.compliance <= 0.01) {
+			respLogger.log("Empty unit (compliance=0)");
 			return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 		}
 
@@ -802,7 +835,7 @@ export function compute(
 	body.vitals.respiration.PaO2 = PaO2_mmHg;
 	respLogger.log("Final SaO2,CaO2, PaO2:", { SaO2, CaO2, PaO2_mmHg });
 
-	logger.log("VO2 VS DO2", vo2_mLperMin, do2Sys);
+	logger.info("VO2 VS DO2", vo2_mLperMin, do2Sys);
 	if (do2Sys < vo2_mLperMin * 0.8) {
 		logger.log("CHOC");
 	}

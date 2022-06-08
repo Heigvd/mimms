@@ -455,3 +455,4 @@ export function getVisualDetails(): string {
 	}
 	return output.join("");
 }
+

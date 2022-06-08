@@ -408,8 +408,8 @@ function init() {
 
 
 	registerPathology({
-		id: 'lung_c0',
-		name: "Bronch compliance:0%",
+		id: 'simple_pno_full',
+		name: "Simple pneumothorax full",
 		blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 		minNumberOfBlocks: 1,
 		maxNumberOfBlocks: 1,
@@ -422,12 +422,34 @@ function init() {
 				blockPatch: {
 					pain: 3,
 					compliance: 0,
+					pneumothorax: 'SIMPLE',
 				}
 			}],
 		handler: [],
 		actions: [],
 	});
 
+	registerPathology({
+		id: 'open_pno_full',
+		name: "Open pneumothorax full",
+		blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
+		minNumberOfBlocks: 1,
+		maxNumberOfBlocks: 1,
+		rules: [
+			{
+				time: 0,
+				id: 'comp',
+				name: 'comp',
+				variablePatch: {},
+				blockPatch: {
+					pain: 3,
+					compliance: 0,
+					pneumothorax: 'OPEN',
+				}
+			}],
+		handler: [],
+		actions: [],
+	});
 
 	registerPathology({
 		id: 'cityHunter',
@@ -565,11 +587,324 @@ function init() {
 	});
 
 	////////////////////////////////////////
-	// Items
+	// Items & Acts
+	////////////////////////////////////////
+
+	// Airways
+	////////////////////////////////////////
+	registerAct({
+		id: 'recoveryPosition',
+		name: "Recovery position",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'A',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'RECOVERY'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+	registerItem({
+		id: 'guedel',
+		name: "Guedel",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "setup",
+				targetedObject: 'HumanBody',
+				category: 'A',
+				blocks: ['NECK'],
+				rules: [
+					{
+						id: 'setup',
+						time: 0,
+						name: 'setup',
+						variablePatch: {
+						},
+						blockPatch: {
+							intubated: true
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'wendel',
+		name: "Wendel",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "setup",
+				targetedObject: 'HumanBody',
+				category: 'A',
+				blocks: ['NECK'],
+				rules: [
+					{
+						id: 'setup',
+						time: 0,
+						name: 'setup',
+						variablePatch: {
+						},
+						blockPatch: {
+							intubated: true
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+
+	registerItem({
+		id: 'igel',
+		name: "I-Gel",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "setup",
+				targetedObject: 'HumanBody',
+				category: 'A',
+				blocks: ['NECK'],
+				rules: [
+					{
+						id: 'setup',
+						time: 0,
+						name: 'setup',
+						variablePatch: {
+						},
+						blockPatch: {
+							intubated: true
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+
+	registerItem({
+		id: 'mask',
+		name: "Mask",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "ventilate",
+				targetedObject: 'HumanBody',
+				category: 'A',
+				blocks: ['HEAD'],
+				rules: [
+					{
+						id: 'ventilate',
+						time: 0,
+						name: 'ventilate',
+						variablePatch: {
+						},
+						blockPatch: {
+							fiO2: 0.65
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'balloon',
+		name: "Balloon",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "ventilate",
+				targetedObject: 'HumanBody',
+				category: 'A',
+				blocks: ['HEAD'],
+				rules: [
+					{
+						id: 'ventilate',
+						time: 0,
+						name: 'ventilate',
+						variablePatch: {
+							positivePressure: true,
+						},
+						blockPatch: {
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'intubate',
+		name: "intubate",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: '',
+				category: 'A',
+				targetedObject: 'HumanBody',
+				blocks: ['NECK'],
+				rules: [
+					{
+						id: 'intubate',
+						time: 0,
+						name: 'intubate',
+						variablePatch: {
+						},
+						blockPatch: {
+							fiO2: .21
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+
+	registerItem({
+		id: 'cricotomie',
+		name: "Cricotomie",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: '',
+				category: 'A',
+				targetedObject: 'HumanBody',
+				blocks: ['NECK'],
+				rules: [
+					{
+						id: 'cricotomie',
+						time: 0,
+						name: 'cricotomie',
+						variablePatch: {
+						},
+						blockPatch: {
+							fiO2: .21
+						}
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+
+	// Breathing
+	////////////////////////////////////////
+	registerItem({
+		id: '3side',
+		name: "3 sided dressing",
+		actions: {
+			setup: {
+				type: 'ActionBodyEffect',
+				name: "apply",
+				category: 'B',
+				targetedObject: 'HumanBody',
+				blocks: ['THORAX'],
+				rules: [
+					{
+						id: 'setup',
+						time: 0,
+						name: 'setup',
+						variablePatch: {},
+						blockPatch: {
+							// something: true,
+						},
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'exsufflation',
+		name: "Exsufflation",
+		actions: {
+			do: {
+				type: 'ActionBodyEffect',
+				name: "do",
+				category: 'B',
+				targetedObject: 'HumanBody',
+				blocks: ['THORAX'],
+				rules: [
+					{
+						id: 'do',
+						time: 0,
+						name: 'do',
+						variablePatch: {},
+						blockPatch: {
+							internalPressure: 'RESET',
+						},
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'thoracic_drain',
+		name: "Thoracic Drainage",
+		actions: {
+			drain: {
+				type: 'ActionBodyEffect',
+				name: "drain",
+				category: 'B',
+				targetedObject: 'HumanBody',
+				blocks: ['THORAX'],
+				rules: [
+					{
+						id: 'drain',
+						time: 0,
+						name: 'drain',
+						variablePatch: {},
+						blockPatch: {
+							internalPressure: 'DRAIN',
+						},
+					}
+				],
+				createActions: [],
+			}
+		}
+	});
+
+	registerAct({
+		id: 'measureRR',
+		name: "Respiratory Rate",
+		action: {
+			category: 'B',
+			type: 'ActionBodyMeasure',
+			name: 'RR',
+			targetedObject: 'HumanBody',
+			metricName: ['vitals.respiration.rr'],
+		}
+	});
+
+
+	// Circulation
 	////////////////////////////////////////
 	registerItem({
 		id: 'cat',
-		name: "Tourniquet",
+		name: "CAT",
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -600,11 +935,11 @@ function init() {
 
 	registerItem({
 		id: 'bandage',
-		name: "bandage",
+		name: "Bandage",
 		actions: {
 			pack: {
 				type: 'ActionBodyEffect',
-				name: "pack",
+				name: "Packing",
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['ABDOMEN'],
@@ -625,7 +960,7 @@ function init() {
 			},
 			pressureBandage: {
 				type: 'ActionBodyEffect',
-				name: "pressureBandage",
+				name: "Pressure Bandage",
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: [
@@ -655,7 +990,7 @@ function init() {
 
 	registerItem({
 		id: 'israeliBandage',
-		name: "IsraeliBandage",
+		name: "Israeli Bandage",
 		actions: {
 			israeli: {
 				type: 'ActionBodyEffect',
@@ -689,7 +1024,7 @@ function init() {
 
 	registerItem({
 		id: 'TranexamicAcid_500',
-		name: "TranexamicAcid_500",
+		name: "Tranexamic Acid 500mg",
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
@@ -736,6 +1071,14 @@ function init() {
 						blockPatch: {
 							salineSolutionInput_mLperMin: 100,
 						}
+					}, {
+						id: 'empty',
+						time: 600,
+						name: '',
+						variablePatch: {},
+						blockPatch: {
+							salineSolutionInput_mLperMin: -100,
+						}
 					},
 				],
 				createActions: [],
@@ -760,281 +1103,20 @@ function init() {
 						name: 'inject blood',
 						variablePatch: {},
 						blockPatch: {
-							bloodInput_oneShot: 1000,
+							bloodInput_mLperMin: 100,
 						}
-					},
-				],
-				createActions: [],
-			}
-		}
-	});
-
-	registerItem({
-		id: 'TranexamicAcid_500_CL',
-		name: "TranexamicAcid_500_CL",
-		actions: {
-			inject: {
-				type: 'ActionBodyEffect',
-				name: 'inject (oneshot)',
-				category: 'C',
-				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM'],
-				rules: [
-					{
-						id: 'inject',
-						time: 0,
-						name: 'inject potion',
+					}, {
+						id: 'empty',
+						time: 600,
+						name: '',
 						variablePatch: {},
 						blockPatch: {
-							chemicals: {
-								'TranexamicAcid_Clearance': {
-									once: 500,
-								}
-							}
+							bloodInput_mLperMin: -100,
 						}
 					},
 				],
 				createActions: [],
 			}
-		}
-	});
-
-	registerItem({
-		id: 'mask',
-		name: "mask",
-		actions: {
-			setup: {
-				type: 'ActionBodyEffect',
-				name: "apply",
-				targetedObject: 'HumanBody',
-				blocks: ['HEAD'],
-				category: 'B',
-				rules: [
-					{
-						id: 'mask',
-						time: 0,
-						name: 'mask',
-						variablePatch: {
-						},
-						blockPatch: {
-							fiO2: .65
-						}
-					}
-				],
-				createActions: [],
-			}
-		}
-	});
-
-	registerItem({
-		id: 'tube',
-		name: "tube",
-		actions: {
-			setup: {
-				type: 'ActionBodyEffect',
-				name: "intubate",
-				targetedObject: 'HumanBody',
-				category: 'A',
-				blocks: ['NECK'],
-				rules: [
-					{
-						id: 'intubation',
-						time: 0,
-						name: 'intubate',
-						variablePatch: {
-						},
-						blockPatch: {
-							intubated: true
-						}
-					}
-				],
-				createActions: [],
-			}
-		}
-	});
-
-	registerItem({
-		id: 'tTube',
-		name: "tTube",
-		actions: {
-			setup: {
-				type: 'ActionBodyEffect',
-				name: 'do surgery',
-				category: 'B',
-				targetedObject: 'HumanBody',
-				blocks: ['NECK'],
-				rules: [
-					{
-						id: 'tracheostomy',
-						time: 0,
-						name: 'tracheostomy',
-						variablePatch: {
-						},
-						blockPatch: {
-							fiO2: .21
-						}
-					}
-				],
-				createActions: [],
-			}
-		}
-	});
-
-	//
-	registerItem({
-		id: 'oxymeter',
-		name: "Pulse Oxymeter",
-		actions: {
-			measure: {
-				type: 'ActionBodyMeasure',
-				name: 'SpO2',
-				category: 'B',
-				targetedObject: 'HumanBody',
-				metricName: ['vitals.respiration.SaO2'],
-			}
-		}
-	});
-
-	registerItem({
-		id: 'sphygmomanometer',
-		name: "Blood Pressure gauge",
-		actions: {
-			measure: {
-				category: 'C',
-				type: 'ActionBodyMeasure',
-				name: 'Measure MAP (mmHg)',
-				targetedObject: 'HumanBody',
-				metricName: ['vitals.cardio.MAP'],
-			}
-		}
-	});
-
-
-	////////////////////////////////////////
-	// Acts
-	////////////////////////////////////////
-	registerAct({
-		id: 'recoveryPosition',
-		name: "Recovery position",
-		action: {
-			type: 'ActionBodyEffect',
-			targetedObject: 'HumanBody',
-			name: 'move',
-			blocks: [],
-			category: 'E',
-			rules: [{
-				id: '',
-				name: '',
-				time: 0,
-				blockPatch: {},
-				variablePatch: {
-					bodyPosition: 'RECOVERY'
-				}
-			}],
-			createActions: []
-		}
-	});
-
-	registerAct({
-		id: 'sitDown',
-		name: "Sit down",
-		action: {
-			type: 'ActionBodyEffect',
-			targetedObject: 'HumanBody',
-			name: 'move',
-			blocks: [],
-			category: 'E',
-			rules: [{
-				id: '',
-				name: '',
-				time: 0,
-				blockPatch: {},
-				variablePatch: {
-					bodyPosition: 'SITTING'
-				}
-			}],
-			createActions: []
-		}
-	});
-
-	registerAct({
-		id: 'proneDecubitus',
-		name: "Prone decubitus",
-		action: {
-			type: 'ActionBodyEffect',
-			targetedObject: 'HumanBody',
-			name: 'move',
-			blocks: [],
-			category: 'E',
-			rules: [{
-				id: '',
-				name: '',
-				time: 0,
-				blockPatch: {},
-				variablePatch: {
-					bodyPosition: 'PRONE_DECUBITUS'
-				}
-			}],
-			createActions: []
-		}
-	});
-
-
-	registerAct({
-		id: 'supineDecubitus',
-		name: "Supine decubitus",
-		action: {
-			type: 'ActionBodyEffect',
-			targetedObject: 'HumanBody',
-			name: 'move',
-			blocks: [],
-			category: 'E',
-			rules: [{
-				id: '',
-				name: '',
-				time: 0,
-				blockPatch: {},
-				variablePatch: {
-					bodyPosition: 'SUPINE_DECUBITUS'
-				}
-			}],
-			createActions: []
-		}
-	});
-
-	registerAct({
-		id: 'getUp',
-		name: "Get UP",
-		action: {
-			type: 'ActionBodyEffect',
-			targetedObject: 'HumanBody',
-			name: 'move',
-			blocks: [],
-			category: 'E',
-			rules: [{
-				id: '',
-				name: '',
-				time: 0,
-				blockPatch: {},
-				variablePatch: {
-					bodyPosition: 'STANDING'
-				}
-			}],
-			createActions: []
-		}
-	});
-
-
-	// Acts : measure
-	registerAct({
-		id: 'measureRR',
-		name: "Respiratory Rate",
-		action: {
-			category: 'B',
-			type: 'ActionBodyMeasure',
-			name: 'RR',
-			targetedObject: 'HumanBody',
-			metricName: ['vitals.respiration.rr'],
 		}
 	});
 
@@ -1062,6 +1144,9 @@ function init() {
 		}
 	});
 
+	// Disabilities
+	////////////////////////////////////////
+
 	registerAct({
 		id: 'measureGCS',
 		name: "GCS",
@@ -1074,6 +1159,8 @@ function init() {
 		}
 	});
 
+	// Etc
+	////////////////////////////////////////
 	registerAct({
 		id: 'canYouWalk',
 		name: "Can you walk?",
@@ -1083,6 +1170,133 @@ function init() {
 			name: 'walk',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.canWalk'],
+		}
+	});
+
+	////////////////////////////////////////
+	// Old Items
+	////////////////////////////////////////
+
+	//
+	registerItem({
+		id: 'oxymeter',
+		name: "Pulse Oxymeter",
+		actions: {
+			measure: {
+				type: 'ActionBodyMeasure',
+				name: 'SpO2',
+				category: 'B',
+				targetedObject: 'HumanBody',
+				metricName: ['vitals.respiration.SaO2'],
+			}
+		}
+	});
+
+	registerItem({
+		id: 'sphygmomanometer',
+		name: "Blood Pressure gauge",
+		actions: {
+			measure: {
+				category: 'C',
+				type: 'ActionBodyMeasure',
+				name: 'MAP (mmHg)',
+				targetedObject: 'HumanBody',
+				metricName: ['vitals.cardio.MAP'],
+			}
+		}
+	});
+
+
+	// Etc
+	////////////////////////////////////////
+
+
+	registerAct({
+		id: 'sitDown',
+		name: "Sit down",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'Z',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'SITTING'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+	registerAct({
+		id: 'proneDecubitus',
+		name: "Prone decubitus",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'Z',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'PRONE_DECUBITUS'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+
+	registerAct({
+		id: 'supineDecubitus',
+		name: "Supine decubitus",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'Z',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'SUPINE_DECUBITUS'
+				}
+			}],
+			createActions: []
+		}
+	});
+
+	registerAct({
+		id: 'getUp',
+		name: "Get UP",
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'move',
+			blocks: [],
+			category: 'Z',
+			rules: [{
+				id: '',
+				name: '',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					bodyPosition: 'STANDING'
+				}
+			}],
+			createActions: []
 		}
 	});
 

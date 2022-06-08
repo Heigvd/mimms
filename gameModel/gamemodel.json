@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654249938529,
+  "createdTime" : 1654688616803,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -455,7 +455,8 @@
         "ll_50p_ah_israeli" : "{\"description\":\"LeftLeg 50%AH + Israeli @300s\"}",
         "lung_c0" : "{\"description\":\"1poumon compliance à 0\",\"events\":[{\"time\":10,\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"lung_c0\"},\"blocks\":[\"UNIT_BRONCHUS_1\"]}]}",
         "moyenne_tamponnade" : "{\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_mild\"}}],\"description\":\"Tamponnade +10ml / min\"}",
-        "petite_tamponnade" : "{\"description\":\"Tamponnade +5ml / min\",\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_slow\"}}]}"
+        "petite_tamponnade" : "{\"description\":\"Tamponnade +5ml / min\",\"events\":[{\"time\":10,\"blocks\":[\"HEART\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"tamponade_slow\"}}]}",
+        "tension_pno" : "{\"description\":\"tension pneumothorax\",\"events\":[{\"time\":10,\"blocks\":[\"UNIT_BRONCHUS_1\"],\"event\":{\"type\":\"HumanPathology\",\"pathologyId\":\"simple_pno_full\"}},{\"time\":600,\"blocks\":[\"HEAD\"],\"event\":{\"type\":\"ItemActionOnHuman\",\"itemId\":\"balloon\",\"actionId\":\"setup\"}}]}"
       },
       "refId" : "ObjectDescriptor:24033401:zOWEQ7",
       "scopeType" : "TeamScope",
