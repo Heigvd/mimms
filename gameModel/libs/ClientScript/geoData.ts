@@ -1,5 +1,5 @@
 import { buildingLayer } from "./layersData";
-import { Polygons, Point, Segment, Polygon } from "./helper";
+import { Polygons, Point, Segment } from "./helper";
 
 /// TYPES
 interface ObjectSegment {
@@ -215,49 +215,46 @@ export function isPointInPolygon(point: Point, polygon: Point[]) {
 }
 
 
-
+/*
 // https://stackoverflow.com/questions/66590054/quickly-merge-many-contiguous-polygons-in-javascript
-export function mergePolygons(polygons:Polygons):Polygon{
+export function mergePolygons(polygons: Polygons): Polygon {
 
-// Stage 1: O(n). Consolidate all the line segments into an array, such that you end up with an array of line segments (ie, [x0,y0,x1,y1]) representing every polygon...
-const segments = polygons.flatMap((polygon)=>{
-	const segmentsInPolygon: Segment[] = []
-	for(let i=0 ; i < polygon.length; ++i){
+	// Stage 1: O(n). Consolidate all the line segments into an array, such that you end up with an array of line segments (ie, [x0,y0,x1,y1]) representing every polygon...
+	const segments = polygons.flatMap((polygon) => {
+		const segmentsInPolygon: Segment[] = []
+		for (let i = 0; i < polygon.length; ++i) {
 
-		segmentsInPolygon.push([polygon[i], polygon[(i+1)%polygon.length]])
+			segmentsInPolygon.push([polygon[i], polygon[(i + 1) % polygon.length]])
+		}
+		return segmentsInPolygon;
+	})
+
+	// Stage 2: O(n log n). Sort this entire array by x0, such that the line segments are now ordered according to the x value of the beginning of the segment.
+	const xSortedSegments = segments.sort((a, b) => a[0].x - b[0].x);
+
+	// Stage 3: O(1). Beginning with the first element in the sorted array (segment 0), we can make the assumption that the segment with the leftmost x0 value has to be on the edge of the outer polygon. At this point we have segment 0's [x0,y0,x1,y1] as the starting outer edge segment.
+	let lastIndex = 0;
+	// Stage 4: O(log n). Now, find the corrresponding line segments that begin with the end of the previous segment. In other words, which segments connect to the current segment? This should be less than a handful, typically one or two. Searching for the matching x0 is assumed to be binary, followed by a short localized linear search for all matching [x0,y0] combinations.
+	const lastSegment = xSortedSegments[lastIndex];
+	const mergedPolygon: Polygon = [lastSegment[0]];
+
+	for (let i = lastIndex + 1; i < xSortedSegments.length; ++i) {
+		const newSegment = xSortedSegments[i];
+		if (lastSegment[1].x === newSegment[0].x && lastSegment[1].y === newSegment[0].y) {
+			mergedPolygon.push()
+		}
 	}
-	return segmentsInPolygon;
-})
 
-// Stage 2: O(n log n). Sort this entire array by x0, such that the line segments are now ordered according to the x value of the beginning of the segment.
-const xSortedSegments = segments.sort((a,b)=>a[0].x - b[0].x);
-
-// Stage 3: O(1). Beginning with the first element in the sorted array (segment 0), we can make the assumption that the segment with the leftmost x0 value has to be on the edge of the outer polygon. At this point we have segment 0's [x0,y0,x1,y1] as the starting outer edge segment.
-let lastIndex = 0;
-// Stage 4: O(log n). Now, find the corrresponding line segments that begin with the end of the previous segment. In other words, which segments connect to the current segment? This should be less than a handful, typically one or two. Searching for the matching x0 is assumed to be binary, followed by a short localized linear search for all matching [x0,y0] combinations.
-const lastSegment = xSortedSegments[lastIndex];
-const mergedPolygon : Polygon = [lastSegment[0]];
-
-for(let i = lastIndex+1; i<xSortedSegments.length; ++i ){
-	const newSegment = xSortedSegments[i];
-	if(lastSegment[1].x === newSegment[0].x && lastSegment[1].y === newSegment[0].y){
-		mergedPolygon.push()
+	for (let i = lastIndex + 1; i < xSortedSegments.length; ++i) {
+		const newSegment = xSortedSegments[xSortedSegments.length - i];
+		if (lastSegment[1].x === newSegment[0].x && lastSegment[1].y === newSegment[0].y) {
+			mergedPolygon.push()
+		}
 	}
+
+	return mergedPolygon;
 }
-
-for(let i = lastIndex+1; i<xSortedSegments.length; ++i ){
-	const newSegment = xSortedSegments[xSortedSegments.length - i];
-	if(lastSegment[1].x === newSegment[0].x && lastSegment[1].y === newSegment[0].y){
-		mergedPolygon.push()
-	}
-}
-
-
-
-
-return mergedPolygon;
-}
-
+*/
 
 
 

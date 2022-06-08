@@ -23,7 +23,7 @@ import {
 	processPhoneCommunication, clearAllCommunicationState
 } from "./communication";
 import { calculateLOS, isPointInPolygon } from "./geoData";
-import { AStar } from "./Astar";
+import { PathFinder } from "./pathFinding";
 import { obstacleGrid } from "./layersData";
 
 ///////////////////////////////////////////////////////////////////////////
@@ -280,16 +280,16 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 			// This should be done only when the obstacle grid changes
 			const {
 				grid,
-				gridWidth,
-				gridHeight,
 				cellSize,
 				offsetPoint,
+				gridHeight,
+				gridWidth
 			} = obstacleGrid.current;
-			const aStar = new AStar({
+			const aStar = new PathFinder({
 				grid: {
 					matrix: grid,
-					width: gridWidth,
-					height: gridHeight,
+					width:gridWidth,
+					height:gridHeight
 				},
 				cellSize,
 				offsetPoint,
@@ -301,15 +301,14 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 			}
 
 			// This should be done only when the direction changes
-			const newPath = aStar.findPath(location.location, location.direction);
+			const newPath = aStar.findPath(location.location, location.direction, "ThetaStar");
 			paths.current[pathId] = newPath;
-			//paths.current["smoothed"] = aStar.smoothPath(newPath)
 
 			const duration = currentTime - location.time;
 			const distance = speed * duration;
 			let remainingDistance = distance;
 			let pathIndex = 0;
-			let startPoint : Point = location.location;
+			let startPoint: Point = location.location;
 			let endPoint = newPath[pathIndex];
 
 			paths.current["moving"] = [startPoint];

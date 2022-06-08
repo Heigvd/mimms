@@ -1,10 +1,9 @@
-import { buildingLayer, mapRef, obstacleGrid } from "./layersData";
+import { obstacleGrid } from "./layersData";
 import { getDirectMessagesFrom } from "./communication";
-import { computeVisionPolygon, getBuildingInExtent, isPointInPolygon, lineSegmentInterception } from "./geoData";
+import { getBuildingInExtent } from "./geoData";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
-import { Point, Polygon, Segment } from "./helper";
-import { gridPointToWorldPoint, worldPointToGridPoint } from "./Astar";
+import { PathFinder } from "./pathFinding";
 
 interface PointFeature {
 	type: "Point";
@@ -257,8 +256,8 @@ export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): Fe
 			}
 
 			if (grid[j][i]) {
-				const minPoint = gridPointToWorldPoint({ x: i, y: j }, cellSize, offsetPoint)
-				const maxPoint = gridPointToWorldPoint({ x: i + 1, y: j + 1 }, cellSize, offsetPoint);
+				const minPoint = PathFinder.gridPointToWorldPoint({ x: i, y: j }, cellSize, offsetPoint)
+				const maxPoint = PathFinder.gridPointToWorldPoint({ x: i + 1, y: j + 1 }, cellSize, offsetPoint);
 
 				/*
 				// Testing

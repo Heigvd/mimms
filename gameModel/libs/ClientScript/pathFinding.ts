@@ -1,14 +1,20 @@
-import { isPointInPolygon, lineSegmentInterception } from "./geoData";
-import { Point, Polygon, Polygons, Segment } from "./helper";
+import { Point } from "./helper";
 
-// Loadash
-//https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/isSymbol.js
+/**
+ * isSymbol : check if value is of type Symbol
+ * Copied from Loadash
+ * https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/isSymbol.js
+ */
 function isSymbol(value: any) {
 	const type = typeof value
 	return type == 'symbol' || (type === 'object' && value != null && Object.prototype.toString.call(value) == '[object Symbol]')
 }
 
-//https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/minBy.js
+/**
+ * minBy : compute the minimum value from the original array by iterating over each element
+ * Copied from Loadash
+ * https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/minBy.js
+ */
 function minBy<T>(array: T[], iteratee: (item: T) => number | string) {
 	let result
 	if (array == null) {
@@ -29,93 +35,54 @@ function minBy<T>(array: T[], iteratee: (item: T) => number | string) {
 	return result
 }
 
-// Types
-type Heuristic =
-	| 'Manhattan'
-	| 'Euclidean'
-	| 'Chebyshev'
-	| 'Octile';
-
-function calculateHeuristic(
-	heuristicFunction: Heuristic,
-	pos0: Point,
-	pos1: Point,
-	weight: number
-): number {
-	const dx = Math.abs(pos1.x - pos0.x);
-	const dy = Math.abs(pos1.y - pos0.y);
-
-	switch (heuristicFunction) {
-		case 'Manhattan':
-			/**
-			 * Calculate the Manhattan distance.
-			 * Generally: Overestimates distances because diagonal movement not taken into accout.
-			 * Good for a 4-connected grid (diagonal movement not allowed)
-			 */
-			return (dx + dy) * weight;
-		case 'Euclidean':
-			/**
-			 * Calculate the Euclidean distance.
-			 * Generally: Underestimates distances, assuming paths can have any angle.
-			 * Can be used f.e. when units can move at any angle.
-			 */
-			return Math.sqrt(dx * dx + dy * dy) * weight;
-		case 'Chebyshev':
-			/**
-			 * Calculate the Chebyshev distance.
-			 * Should be used when diagonal movement is allowed.
-			 * D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy)
-			 * D = 1 and D2 = 1
-			 * => (dx + dy) - Math.min(dx, dy)
-			 * This is equivalent to Math.max(dx, dy)
-			 */
-			return Math.max(dx, dy) * weight;
-		case 'Octile':
-			/**
-			 * Calculate the Octile distance.
-			 * Should be used on an 8-connected grid (diagonal movement allowed).
-			 * D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy)
-			 * D = 1 and D2 = sqrt(2)
-			 * => (dx + dy) - 0.58 * Math.min(dx, dy)
-			 */
-			return (dx + dy - 0.58 * Math.min(dx, dy)) * weight;
-	}
-}
-
 interface NodeProps {
+	/**
+	 * The id of the Node
+	 */
 	id: number;
+	/**
+	 * The position of the node
+	 */
 	position: Point;
+	/**
+	 * Is the node walkable or not
+	 */
 	walkable?: boolean;
 }
 
+/**
+ * Class that implement a Node (or Vertex) for a pathfinding grid
+ */
 class Node {
+	// General properties
 	readonly id: number;
 	readonly position: Point;
+	private isWalkable: boolean;
 
+	// Calculated weights
 	private fValue: number;
 	private gValue: number;
 	private hValue: number;
+
+	// Path finding algorithm data
 	private parentNode: Node | undefined;
 	private isOnClosedList: boolean;
 	private isOnOpenList: boolean;
-	private isWalkable: boolean;
 
 	constructor(props: NodeProps) {
 		this.id = props.id;
 		this.position = props.position;
-
+		this.isWalkable = props.walkable || true;
 		this.hValue = 0;
 		this.gValue = 0;
 		this.fValue = 0;
 		this.parentNode = undefined;
 		this.isOnClosedList = false;
 		this.isOnOpenList = false;
-		this.isWalkable = props.walkable || true;
 	}
 
 	/**
 	 * Calculate or Recalculate the F value
-	 * This is a private function
 	 */
 	private calculateFValue(): void {
 		this.fValue = this.gValue + this.hValue;
@@ -144,6 +111,13 @@ class Node {
 	 */
 	public setFGHValuesToZero(): void {
 		this.fValue = this.gValue = this.hValue = 0;
+	}
+
+	/**
+	 * Compare two nodes
+	 */
+	public isEqual(node: Node) {
+		return this.id === node.id;
 	}
 
 	/**
@@ -198,10 +172,23 @@ class Node {
 }
 
 interface GridProps {
-	width?: number;
-	height?: number;
-	matrix?: number[][];
-	densityOfObstacles?: number;
+	/**
+	 * The matrix of the grid. Each cell has a density that is used to know if the corresponding node is walkable.
+	 */
+	matrix: number[][];
+	/**
+	 * The number of line in the matrix
+	 */
+	height: number;
+	/**
+	 * The number of cell in a line
+	 */
+	width: number;
+	/**
+	 * The default density thershold for obstacles.
+	 * default is 0 so every matrix cell that has a higher number than 0 is considered as an obstacle.
+	 */
+	obstacleDensityThreshold?: number;
 }
 
 export class Grid {
@@ -215,40 +202,27 @@ export class Grid {
 
 	constructor(props: GridProps) {
 		// Set the general properties
-		if (props.width && props.height) {
-			this.width = props.width;
-			this.height = props.height;
-			this.numberOfFields = this.width * this.height;
-		} else if (props.matrix) {
-			this.width = props.matrix[0].length;
-			this.height = props.matrix.length;
-			this.numberOfFields = this.width * this.height;
-		}
-		else {
-			throw Error("No matrix or width/height given")
-		}
+		this.width = props.width;
+		this.height = props.height;
+		this.numberOfFields = this.width * this.height;
 
 		// Create and generate the matrix
 		this.gridNodes = this.buildGridWithNodes(
-			props.matrix || undefined,
+			props.matrix,
 			this.width,
 			this.height,
-			props.densityOfObstacles || 0
+			props.obstacleDensityThreshold
 		);
 	}
 
 	/**
 	 * Build grid, fill it with nodes and return it.
-	 * @param matrix [ 0 or 1: 0 = walkable; 1 = not walkable ]
-	 * @param width [grid width]
-	 * @param height [grid height]
-	 * @param densityOfObstacles [density of non walkable fields]
 	 */
 	private buildGridWithNodes(
-		matrix: number[][] | undefined,
+		matrix: number[][],
 		width: number,
 		height: number,
-		densityOfObstacles?: number
+		obstacleDensityThreshold: number = 0,
 	): Node[][] {
 		const newGrid: Node[][] = [];
 		let id: number = 0;
@@ -267,31 +241,12 @@ export class Grid {
 		}
 
 		/**
-		 * If we have not loaded a predefined matrix,
-		 * loop through our grid and set random obstacles.
-		 */
-		if (matrix === undefined) {
-			for (let y = 0; y < height; y++) {
-				for (let x = 0; x < width; x++) {
-					const rndNumber = Math.floor(Math.random() * 10) + 1;
-					if (rndNumber > 10 - (densityOfObstacles ?? 0)) {
-						newGrid[y][x].setIsWalkable(false);
-					} else {
-						newGrid[y][x].setIsWalkable(true);
-					}
-				}
-			}
-
-			return newGrid;
-		}
-
-		/**
 		 * In case we have a matrix loaded.
 		 * Load up the informations of the matrix.
 		 */
 		for (let y = 0; y < height; y++) {
 			for (let x = 0; x < width; x++) {
-				if (matrix[y][x]) {
+				if (matrix[y][x] > obstacleDensityThreshold) {
 					newGrid[y][x].setIsWalkable(false);
 				} else {
 					newGrid[y][x].setIsWalkable(true);
@@ -304,7 +259,6 @@ export class Grid {
 
 	/**
 	 * Return a specific node.
-	 * @param position [position on the grid]
 	 */
 	public getNodeAt(position: Point): Node {
 		const node = this.gridNodes[position.y][position.x];
@@ -316,7 +270,6 @@ export class Grid {
 
 	/**
 	 * Check if specific node walkable.
-	 * @param position [position on the grid]
 	 */
 	public isWalkableAt(position: Point): boolean {
 		if (this.gridNodes[position.y] == null
@@ -330,7 +283,6 @@ export class Grid {
 
 	/**
 	 * Check if specific node is on the grid.
-	 * @param position [position on the grid]
 	 */
 	private isOnTheGrid(position: Point): boolean {
 		return (
@@ -343,9 +295,6 @@ export class Grid {
 
 	/**
 	 * Get surrounding nodes.
-	 * @param currentXPos [x-position on the grid]
-	 * @param currentYPos [y-position on the grid]
-	 * @param diagnonalMovementAllowed [is diagnonal movement allowed?]
 	 */
 	public getSurroundingNodes(
 		currentPosition: Point,
@@ -376,6 +325,9 @@ export class Grid {
 		return surroundingNodes;
 	}
 
+	/**
+	 * Set the grid
+	 */
 	public setGrid(newGrid: Node[][]): void {
 		this.gridNodes = newGrid;
 	}
@@ -424,7 +376,22 @@ export class Grid {
 	}
 }
 
-interface AStarProps {
+
+/**
+ * Heuristics that can be used to calculate distances
+ */
+type Heuristic =
+	| 'Manhattan'
+	| 'Euclidean'
+	| 'Chebyshev'
+	| 'Octile';
+
+/**
+ * Algorithms that can be used for path finding
+ */
+type Algorithm = "AStar" | "AStarSmooth" | "ThetaStar";
+
+interface PathFinderProps {
 	grid: GridProps;
 	diagonalAllowed?: boolean;
 	heuristic?: Heuristic;
@@ -435,7 +402,17 @@ interface AStarProps {
 	offsetPoint: Point;
 }
 
-export class AStar {
+/**
+ * A class that implements AStar and ThetaStar pathfinding algorithm
+ * 
+ * based on :
+ * AStar : AI for Games, Third Edition, 3rd Edition, Ian Millington, ISBN: 9781351053280
+ * ThetaStar : Theta*: Any-Angle Path Planning on Grids, Kenny Daniel & Alex Nash & Sven Koenig & Ariel Felner, Journal of Artificial Intelligence Research 39 (2010) 533-579
+ * 
+ * APThetaStar is not implemented. It would guarantee a shortest path but at the cost of a higher computation load.
+ * The performance increase for APTheta implementation is not worth it.
+ */
+export class PathFinder {
 	// World values
 	private cellSize: number;
 	private offsetPoint: Point;
@@ -454,14 +431,9 @@ export class AStar {
 	readonly includeEndNode: boolean;
 	private weight: number;
 
-	constructor(props: AStarProps) {
+	constructor(props: PathFinderProps) {
 		// Create grid
-		this.grid = new Grid({
-			width: props.grid.width,
-			height: props.grid.height,
-			matrix: props.grid.matrix || undefined,
-			densityOfObstacles: props.grid.densityOfObstacles || 0,
-		});
+		this.grid = new Grid(props.grid);
 
 		// Init lists
 		this.closedList = [];
@@ -472,7 +444,7 @@ export class AStar {
 			props.diagonalAllowed !== undefined ? props.diagonalAllowed : true;
 
 		// Set heuristic function
-		this.heuristic = props.heuristic ? props.heuristic : 'Manhattan';
+		this.heuristic = props.heuristic ?? 'Manhattan';
 
 		// Set if start node included
 		this.includeStartNode =
@@ -490,7 +462,47 @@ export class AStar {
 		this.offsetPoint = props.offsetPoint;
 	}
 
-	private _findPath(startPosition: Point, endPosition: Point): Point[] {
+	/**
+	 * Calculate weighted distance with the selected heuristic
+	 */
+	private calculateWeightedDistance(
+		heuristicFunction: Heuristic,
+		pos0: Point,
+		pos1: Point,
+		weight: number
+	): number {
+		const dx = Math.abs(pos1.x - pos0.x);
+		const dy = Math.abs(pos1.y - pos0.y);
+
+		switch (heuristicFunction) {
+			case 'Manhattan':
+				return (dx + dy) * weight;
+			case 'Euclidean':
+				return Math.sqrt(dx * dx + dy * dy) * weight;
+			case 'Chebyshev':
+				return Math.max(dx, dy) * weight;
+			case 'Octile':
+				return (dx + dy - 0.58 * Math.min(dx, dy)) * weight;
+		}
+	}
+
+	/**
+	 * Find path by visiting the graph
+	 */
+	private _findPath(startPosition: Point, endPosition: Point, algorithm: Algorithm): Point[] {
+
+		// Select vertex updater function
+		let updateVertexFN: (s0: Node, s1: Node) => void;
+		switch (algorithm) {
+			case "AStar":
+			case "AStarSmooth":
+				updateVertexFN = this.AStarUpdateVertex.bind(this);
+				break;
+			case "ThetaStar":
+			default:
+				updateVertexFN = this.ThetaStarUpdateVertex.bind(this);
+		}
+
 		// Reset lists
 		this.closedList = [];
 		this.openList = [];
@@ -531,7 +543,7 @@ export class AStar {
 					// OK, this node is walkable
 					// Calculate the H value with the corresponding heuristic function
 					node.setHValue(
-						calculateHeuristic(
+						this.calculateWeightedDistance(
 							this.heuristic,
 							node.position,
 							endNode.position,
@@ -562,7 +574,13 @@ export class AStar {
 
 			// End of path is reached
 			if (currentNode === endNode) {
-				return this.backtrace(endNode, this.includeStartNode, this.includeEndNode);
+				const path = this.backtrace(endNode, this.includeStartNode, this.includeEndNode);
+				if (algorithm === "AStarSmooth") {
+					return this.smoothPath(path)
+				}
+				else {
+					return path;
+				}
 			}
 
 			// Get neighbors
@@ -580,53 +598,18 @@ export class AStar {
 					continue;
 				}
 
-				this.AStarUpdateVertex(currentNode, neightbor);
+				updateVertexFN(currentNode, neightbor);
 			}
 		}
 		// Path could not be created
 		return [];
 	}
 
-	public smoothPath(path: Point[]): Point[] {
-		if (path.length < 3) {
-			return path;
-		}
 
-		let k = 0;
-		let tK = path[k];
-		const smoothedPath = [path[k]];
-
-		for (let i = 0; i < path.length - 1; ++i) {
-			if (!this.gridLOS(tK, path[i + 1])) {
-				k += 1;
-				tK = path[k];
-				smoothedPath.push(path[i]);
-			}
-		}
-		smoothedPath.push(path[path.length - 1]);
-		console.log(path);
-		console.log(smoothedPath);
-
-
-		return smoothedPath;
-	}
-
-	public findPath(startWorldPosition: Point, endWorldPosition: Point): Point[] {
-		// Translate into grid points
-		const startPosition = worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
-		const endPosition = worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
-
-		const path = this._findPath(startPosition, endPosition);
-
-
-		return this.toWorldPath(this.smoothPath(path));
-
-	}
-
-	private toWorldPath(path: Point[]): Point[] {
-		return path.map(point => gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
-	}
-
+	/**
+	 * Compute the path from the Node and return a path of points.
+	 * Get parents recursively until the start of the path
+	 */
 	private backtrace(
 		node: Node,
 		includeStartNode: boolean,
@@ -662,34 +645,9 @@ export class AStar {
 		return path.reverse();
 	}
 
-	private AStarUpdateVertex(currentNode: Node, neightbor: Node) {
-		// Calculate the g value of the neightbor
-		const nextGValue =
-			currentNode.getGValue() +
-			(neightbor.position.x !== currentNode.position.x ||
-				neightbor.position.y! == currentNode.position.y
-				? this.weight
-				: this.weight * 1.41421);
-
-		// Is the neighbor not on open list OR
-		// can it be reached with lower g value from current position
-		if (
-			!neightbor.getIsOnOpenList() ||
-			nextGValue < neightbor.getGValue()
-		) {
-			neightbor.setGValue(nextGValue);
-			neightbor.setParent(currentNode);
-
-			if (!neightbor.getIsOnOpenList()) {
-				neightbor.setIsOnOpenList(true);
-				this.openList.push(neightbor);
-			} else {
-				// okay this is a better way, so change the parent
-				neightbor.setParent(currentNode);
-			}
-		}
-	}
-
+	/**
+	 * Check if there is an obstacle between two points
+	 */
 	private gridLOS(start: Point, end: Point): boolean {
 		let x0 = start.x;
 		let y0 = start.y;
@@ -752,45 +710,59 @@ export class AStar {
 		return true;
 	}
 
-	public static test() {
-		const testGrid = [
-			[0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0],
-			[0, 0, 1, 0, 0],
-			[0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0],
-		]
-		const test = new AStar({
-			cellSize: 1,
-			grid: {
-				matrix: testGrid,
-				width: 5,
-				height: 5
-			},
-			offsetPoint: { x: 0, y: 0 },
-		})
+	/**
+	 * Smooth the path by linking points that can "see" eachothers
+	 */
+	public smoothPath(path: Point[]): Point[] {
+		if (path.length < 3) {
+			return path;
+		}
 
+		let k = 0;
+		let tK = path[k];
+		const smoothedPath = [path[k]];
 
-		console.log("the grid", "\n" + testGrid.map(line => line.join(" ")).join("\n"))
-		console.log("true", "{x:0,y:0} -> {x:4, y:0}", test.gridLOS({ x: 0, y: 0 }, { x: 4, y: 0 }));
-		console.log("true", "{x:0,y:0} -> {x:0, y:4}", test.gridLOS({ x: 0, y: 0 }, { x: 0, y: 4 }));
-		console.log("true", "{x:4,y:0} -> {x:4, y:4}", test.gridLOS({ x: 4, y: 0 }, { x: 4, y: 4 }));
-		console.log("true", "{x:0,y:4} -> {x:4, y:4}", test.gridLOS({ x: 0, y: 4 }, { x: 4, y: 4 }));
-		console.log("true", "{x:3,y:4} -> {x:4, y:4}", test.gridLOS({ x: 3, y: 4 }, { x: 4, y: 4 }));
-		console.log("true", "{x:4,y:4} -> {x:4, y:4}", test.gridLOS({ x: 4, y: 4 }, { x: 4, y: 4 }));
-		console.log("true", "{x:0,y:2} -> {x:2, y:0}", test.gridLOS({ x: 0, y: 2 }, { x: 2, y: 0 }));
-		
-		
-		console.log("false", "{x:0,y:0} -> {x:4, y:4}", test.gridLOS({ x: 0, y: 0 }, { x: 4, y: 4 }));
-		console.log("false", "{x:2,y:0} -> {x:2, y:4}", test.gridLOS({ x: 2, y: 0 }, { x: 2, y: 4 }));
-		console.log("false", "{x:0,y:2} -> {x:4, y:2}", test.gridLOS({ x: 0, y: 2 }, { x: 4, y: 2 }));
-
+		for (let i = 0; i < path.length - 1; ++i) {
+			if (!this.gridLOS(tK, path[i + 1])) {
+				k += 1;
+				tK = path[k];
+				smoothedPath.push(path[i]);
+			}
+		}
+		smoothedPath.push(path[path.length - 1]);
+		return smoothedPath;
 	}
 
-	private ThetaStarUpdateVertex(currentNode: Node, neightbor: Node) {
+
+	/**
+	 * Find path between two points by visiting the graph
+	 * Take world coordinate and return path in world coordinate 
+	 */
+	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm = "ThetaStar"): Point[] {
+		// Translate into grid points
+		const startPosition = PathFinder.worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
+		const endPosition = PathFinder.worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
+
+		// Compute path
+		const path = this._findPath(startPosition, endPosition, algorithm);
+
+		// Translate back into world point and return
+		return this.toWorldPath(path);
+	}
+
+	/** 
+	 * Translate path in grid coordinates into world coordinates
+	 */
+	private toWorldPath(path: Point[]): Point[] {
+		return path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
+	}
+
+	/**
+	 * AStar Update vertex algorithm implementation
+	 */
+	private AStarUpdateVertex(currentNode: Node, neightbor: Node) {
 		// Calculate the g value of the neightbor
-		const nextGValue =
-			currentNode.getGValue() +
+		const nextGValue = currentNode.getGValue() +
 			(neightbor.position.x !== currentNode.position.x ||
 				neightbor.position.y! == currentNode.position.y
 				? this.weight
@@ -816,144 +788,64 @@ export class AStar {
 	}
 
 	/**
-	 * Set the heuristic to be used for pathfinding.
-	 * @param newHeuristic
+	 * ThetaStar Update vertex algorithm implementation
 	 */
+	private ThetaStarUpdateVertex(currentNode: Node, neightbor: Node) {
+		const currentParent = currentNode.getParent();
+		if (currentParent != null && this.gridLOS(currentParent.position, neightbor.position)) {
+			this.AStarUpdateVertex(currentParent, neightbor)
+		}
+		else {
+			this.AStarUpdateVertex(currentNode, neightbor);
+		}
+	}
+
+	// Setter methods
 	public setHeuristic(newHeuristic: Heuristic): void {
 		this.heuristic = newHeuristic;
 	}
-
-	/**
-	 * Set the weight for the heuristic function.
-	 * @param newWeight
-	 */
 	public setWeight(newWeight: number): void {
 		this.weight = newWeight;
 	}
 
-	/**
-	 * Get a copy/clone of the grid.
-	 */
+	// Getter methods
 	public getGridClone(): Node[][] {
 		return this.grid.clone();
 	}
-
-	/**
-	 * Get the current grid
-	 */
 	public getGrid(): Grid {
 		return this.grid;
 	}
-}
 
-export interface WorldGrid {
-	grid: number[][];
-	gridWidth: number;
-	gridHeight: number;
-	cellSize: number;
-	offsetPoint: Point;
-}
 
-/**
- * Generates a 2d grid with numbers. Astar check if the number is lower than the obstacle density to allow moving on it.
- * @param obstacles An array of polygon
- * @param worldHeight the height of the world
- * @param worldWidth the width of the world
- * @param cellSize the width = height of one cell
- * @param getObstaclesInExtent a function that will return all the obstacles in an extent
- */
-export function generateGridMatrix(worldHeight: number, worldWidth: number, cellSize: number, offsetPoint: Point, getObstaclesInExtent: (extent: ExtentLikeObject) => Polygons): WorldGrid {
-	let grid: number[][] = [];
-	const gridHeight = Math.round(worldHeight / cellSize);
-	const gridWidth = Math.round(worldWidth / cellSize);
+	// Static methods
 
-	for (let j = 0; j < gridHeight; j += 1) {
-		grid[j] = [];
-		for (let i = 0; i < gridWidth; i += 1) {
-
-			const minX = i * cellSize + offsetPoint.x;
-			const minY = j * cellSize + offsetPoint.y;
-			const maxX = (i + 1) * cellSize + offsetPoint.x;
-			const maxY = (j + 1) * cellSize + offsetPoint.y;
-			const obstacles = getObstaclesInExtent([minX, minY, maxX, maxY]);
-
-			if (obstacles.length > 0) {
-
-				const pointA: Point = { x: minX, y: minY };
-				const pointB: Point = { x: minX, y: maxY };
-				const pointC: Point = { x: maxX, y: maxY };
-				const pointD: Point = { x: maxX, y: minY };
-
-				const wall1: Segment = [pointA, pointB];
-				const wall2: Segment = [pointB, pointC];
-				const wall3: Segment = [pointC, pointD];
-				const wall4: Segment = [pointD, pointA];
-
-				const node: Polygon = [pointA, pointB, pointC, pointD];
-
-				for (const buildingIndex in obstacles) {
-					const obstacle = obstacles[buildingIndex];
-					// Is the cell inside an obstacle?
-					if (
-						isPointInPolygon(pointA, obstacle) ||
-						isPointInPolygon(pointB, obstacle) ||
-						isPointInPolygon(pointC, obstacle) ||
-						isPointInPolygon(pointD, obstacle)
-					) {
-						grid[j][i] = 1;
-						break;
-					}
-
-					for (let pointIndex = 0; pointIndex < obstacle.length; ++pointIndex) {
-						const firstPoint = obstacle[pointIndex];
-						const secondPoint = obstacle[(pointIndex + 1) % obstacle.length]
-						const obstacleWall: Segment = [firstPoint, secondPoint];
-						// If a point of obstacle inside the cell?
-						// If no, does the obstacle and the cell overlap? (ex: 6 edged star made with 2 inverted triangles)
-						if (
-							isPointInPolygon(firstPoint, node) ||
-							lineSegmentInterception(wall1, obstacleWall) ||
-							lineSegmentInterception(wall2, obstacleWall) ||
-							lineSegmentInterception(wall3, obstacleWall) ||
-							lineSegmentInterception(wall4, obstacleWall)) {
-							grid[j][i] = 1;
-							break;
-						}
-					}
-				}
-			}
+	/**
+	 * Translate grid coordinate to world coordinate
+	 */
+	public static gridPointToWorldPoint(
+		cell: Point,
+		cellSize: number,
+		offsetPoint: Point,
+	): Point {
+		return {
+			x: cell.x * cellSize + offsetPoint.x,
+			y: cell.y * cellSize + offsetPoint.y
 		}
 	}
 
-	return {
-		grid,
-		gridWidth,
-		gridHeight,
-		cellSize,
-		offsetPoint
-	};
-}
-
-
-export function gridPointToWorldPoint(
-	cell: Point,
-	cellSize: number,
-	offsetPoint: Point,
-): Point {
-	return {
-		x: cell.x * cellSize + offsetPoint.x,
-		y: cell.y * cellSize + offsetPoint.y
+	/**
+	 * Translate world coordinate to grid coordinate
+	 */
+	public static worldPointToGridPoint(
+		point: Point,
+		cellSize: number,
+		offsetPoint: Point,
+	): Point {
+		return {
+			x: Math.round((point.x - offsetPoint.x) / cellSize),
+			y: Math.round((point.y - offsetPoint.y) / cellSize),
+		}
 	}
-}
 
-export function worldPointToGridPoint(
-	point: Point,
-	cellSize: number,
-	offsetPoint: Point,
-): Point {
-	return {
-		x: Math.round((point.x - offsetPoint.x) / cellSize),
-		y: Math.round((point.y - offsetPoint.y) / cellSize),
-	}
 }
 

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654611308899,
+  "createdTime" : 1654688642331,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1971,15 +1971,6 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "Astar",
-    "contentType" : "application/javascript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:427109:vQRetP",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2092,6 +2083,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24048393:QEBkEa",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "pathFinding",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:441099:z0DmoU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
