@@ -428,7 +428,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`Selected Action is : ${Context.patientConsole.state.selectedAction.id}`;",
+                                  "content" : "`Selected Action is : ${Context.patientConsole.state.selectedAction?.id}`;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -844,11 +844,204 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getDetails } from \"./currentPatientZoom\";\ngetDetails();",
+                      "content" : "import { getBlockDetail } from \"./currentPatientZoom\";\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
                       "language" : "JavaScript"
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "human",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getShadowMan } from \"./graphics\";\ngetShadowMan();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "afflictedBlock",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "selectedBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.blockName === Context.patientConsole.state.observedBlock",
+                                    "language" : "JavaScript"
+                                  }
+                                } ],
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                    "language" : "typescript"
+                                  }
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.block.svg",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "exposeAs" : "block",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getLocalizedAfflictedBlocks } from \"./graphics\";\ngetLocalizedAfflictedBlocks().localized",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "blockName",
+                            "itemsOnly" : true,
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "block to observe",
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "forTreatmentBlock",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "selectedBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
+                                    "language" : "JavaScript"
+                                  }
+                                } ],
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                    "language" : "typescript"
+                                  }
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.block.svg",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "exposeAs" : "block",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getLocalizedBlocks } from \"./graphics\";\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).localized",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "blockName",
+                            "itemsOnly" : true,
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "block for treatment",
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "layoutStyle" : {
+                          "height" : "700px",
+                          "width" : "500px"
+                        },
+                        "onAbsoluteClick" : { },
+                        "style" : { }
+                      },
+                      "type" : "AbsoluteLayout"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "extraAfflictedBlock",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                "language" : "typescript"
+                              }
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.block.blockName",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "exposeAs" : "block",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocalizedAfflictedBlocks } from \"./graphics\";\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "blockName",
+                        "itemsOnly" : true,
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "blocks to observe",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "extraTreatmentBlock",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                "language" : "typescript"
+                              }
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.block.blockName",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "exposeAs" : "block",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocalizedBlocks } from \"./graphics\";\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "blockName",
+                        "itemsOnly" : true,
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "block for treatments",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
                 } ],
                 "className" : "",
                 "layout" : {

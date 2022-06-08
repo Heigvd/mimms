@@ -80,6 +80,7 @@ export interface PatientZoomState {
 	selectedMenu: string | undefined;
 	selectedSubMenu: string | undefined;
 	selectedBlock: string | undefined;
+	observedBlock: string | undefined;
 	availableBlocks: string[];
 }
 
@@ -93,6 +94,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		selectedBlock: undefined,
 		//logs: [],
 		currentPatient: undefined,
+		observedBlock: undefined,
 	};
 }
 
@@ -547,6 +549,71 @@ function getBlockDetails(block: Block | undefined): string[] {
 	return output;
 }
 
+export function getBlockDetail(observedBlock: string) {
+
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+
+	const human = getHuman(id);
+	const health = getHealth(id);
+	const currentTime = getCurrentSimulationTime();
+
+	const output: string[] = [""];
+
+	if (human != null && observedBlock) {
+		const blocks: Record<string, {
+			pathologies: PathologyDefinition[];
+			effects: BodyEffect[];
+		}> = {};
+
+		const pathologies = health.pathologies.filter(p => p.time < currentTime);
+		const effects = health.effects.filter(p => p.time < currentTime);
+		//logger.warn("Spy: ", { health, currentTime });
+		pathologies.forEach(p => {
+			const pathology = getPathology(p.pathologyId);
+			if (pathology != null) {
+				p.afflictedBlocks
+				.filter(name => observedBlock === name)
+				.forEach(blockName => {
+					const block = blocks[blockName] || { effects: [], pathologies: [] };
+					block.pathologies.push(pathology);
+					blocks[blockName] = block;
+
+				});
+			}
+		});
+		effects.forEach(effect => {
+			effect.afflictedBlocks
+			.filter(name => observedBlock === name)
+			.forEach(blockName => {
+				if (effect != null) {
+					const block = blocks[blockName] || { effects: [], pathologies: [] };
+					block.effects.push(effect);
+					blocks[blockName] = block;
+				}
+			});
+		});
+		const entries = Object.entries(blocks);
+		if (entries.length > 0) {
+
+			entries.forEach(([blockName, data]) => {
+				const block = human.state.blocks.get(blockName);
+				output.push(...getBlockDetails(block));
+				//output.push(`<h4>${blockName}</h4>`);
+				//output.push(...data.pathologies.map(p => p.name));
+				output.push(...data.effects.map(e => {
+					return `${e.source.name}/${e.action.name}`;
+				}));
+			});
+		} else {
+			output.push("<em>nothing visible</em>");
+		}
+	} else {
+		output.push("<em>nothing visible</em>");
+	}
+
+	return output.join("");
+}
+
 export function getDetails() {
 
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
@@ -604,7 +671,6 @@ export function getDetails() {
 	} else {
 		output.push("<em>nothing visible</em>");
 	}
-
 
 	return output.join("");
 }
@@ -705,12 +771,10 @@ function getAlertness(overview: HumanOverview): string {
 	const alertness: string[] = [""];
 	if (overview.looksDead) {
 		alertness.push("semble mort")
-	} else if (overview.gcs.eye > 3) {
-		if (true) {
-			alertness.push("peu alerte");
-		} else {
-			alertness.push("alerte, vous regarde");
-		}
+	} else if (overview.gcs.eye === 4) {
+		alertness.push("alerte, vous regarde");
+	} else if (overview.gcs.eye === 3) {
+		alertness.push("peu alerte, réagi à la voix");
 	} else {
 		alertness.push("yeux fermés");
 	}
@@ -722,7 +786,7 @@ function getAlertness(overview: HumanOverview): string {
 export function getHumanVisualInfos(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 	const human = getHuman(id);
-	let output : string[] = [''];
+	let output: string[] = [''];
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
@@ -732,7 +796,43 @@ export function getHumanVisualInfos(): string {
 	} else {
 		output.push("<em>Error [patient not found]</em>");
 	}
-	
+
 	return output.join("");
+}
+
+export function getAfflictedBlocks() : string[] {
+
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+
+	const human = getHuman(id);
+	const health = getHealth(id);
+	const currentTime = getCurrentSimulationTime();
+
+	const output: string[] = [];
+
+	if (human != null) {
+
+		const pathologies = health.pathologies.filter(p => p.time < currentTime);
+		const effects = health.effects.filter(p => p.time < currentTime);
+		pathologies.forEach(p => {
+			const pathology = getPathology(p.pathologyId);
+			if (pathology != null) {
+				output.push(...p.afflictedBlocks);
+			}
+		});
+		effects.forEach(effect => {
+			effect.afflictedBlocks.forEach(blockName => {
+				if (effect != null) {
+					output.push(blockName);
+				}
+			});
+		});
+	}
+
+	return output;
+}
+
+export function observeBlock(block: string | undefined, setState: SetZoomState) {
+	setState(state => {return  {...state, observedBlock: block}});
 }
 // const acts = getMyMedicalActs();

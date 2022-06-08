@@ -131,3 +131,39 @@
 .patientConsole .tagCategory.current:hover {
 	border-color: hotpink;
 }
+
+
+
+
+/**
+ * Body Blocks
+ */
+ .forTreatmentBlock {
+	 position: absolute;
+	 stroke: grey;
+	 fill: none;
+	 pointer-events: none;
+ }
+
+  .afflictedBlock rect, 
+  .forTreatmentBlock rect {
+	  pointer-events: all;
+  }
+
+ .afflictedBlock {
+	 position: absolute;
+	 fill: red;
+	 mix-blend-mode: lighten;
+	 cursor: pointer;
+	 pointer-events: none;
+ }
+
+ .forTreatmentBlock.selectedBlock rect {
+	 stroke: hotpink;
+	 stroke-width: 5px;
+ }
+
+
+ .afflictedBlock.selectedBlock rect {
+	 fill: lightgreen;
+ }
