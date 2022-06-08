@@ -90,10 +90,6 @@
 	width: 0;
 }
 
-.patientWheel .selected {
-	border : 2px solid hotpink;
-}
-
 .patientConsole .selected {
 	border : 2px solid hotpink;
 }
