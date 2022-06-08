@@ -94,7 +94,7 @@
                     "layoutStyle" : {
                       "alignItems" : "center",
                       "background" : "#cffbcf",
-                      "flex-grow" : "1",
+                      "flexGrow" : "1",
                       "justifyContent" : "center",
                       "padding" : "20px"
                     },
@@ -167,7 +167,7 @@
                         "children" : [ {
                           "props" : {
                             "conditionnalClassNames" : [ {
-                              "applyOn" : "Outside",
+                              "applyOn" : "Inside",
                               "className" : "selected",
                               "condition" : {
                                 "@class" : "Script",
@@ -185,7 +185,10 @@
                               "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.wheelItem);",
                               "language" : "JavaScript"
                             },
-                            "layoutStyle" : { },
+                            "layoutClassName" : "wheelButton",
+                            "layoutStyle" : {
+                              "justifyContent" : "center"
+                            },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
@@ -193,10 +196,13 @@
                                 "language" : "typescript"
                               }
                             },
-                            "style" : { }
+                            "style" : {
+                              "margin" : "0"
+                            }
                           },
                           "type" : "Button"
                         } ],
+                        "className" : "ABCDwheelMenu",
                         "exposeAs" : "wheelItem",
                         "getItemsFn" : {
                           "@class" : "Script",
@@ -218,7 +224,7 @@
                         "children" : [ {
                           "props" : {
                             "conditionnalClassNames" : [ {
-                              "applyOn" : "Outside",
+                              "applyOn" : "Inside",
                               "className" : "selected",
                               "condition" : {
                                 "@class" : "Script",
@@ -248,6 +254,7 @@
                           },
                           "type" : "Button"
                         } ],
+                        "className" : "shortcuts",
                         "exposeAs" : "wheelItem",
                         "getItemsFn" : {
                           "@class" : "Script",
@@ -269,6 +276,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "menu",
                     "layoutStyle" : { },
                     "name" : "the Wheel",
                     "style" : { }
@@ -755,7 +763,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "column",
+                "layoutClassName" : "column toolbox",
                 "layoutStyle" : { },
                 "style" : { }
               },

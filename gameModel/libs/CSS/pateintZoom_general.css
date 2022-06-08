@@ -68,3 +68,85 @@
 .patientConsole .visualDetail_elem img {
 	width: 70px;
 }
+
+/* Toolbox */
+
+.ABCDwheelMenu .selected, .shortcuts .selected {
+background: var(--colors-activecolor);
+}
+.column.toolbox {
+	min-width: fit-content;
+}
+
+.toolbox .menu {
+	background-color: var(--colors-headercolor);
+	position: relative;
+	margin-bottom: 15px;
+	}
+.toolbox .menu:after {
+	content: '';
+	height: 0;
+	width: 0;
+	border-top: 20px solid var(--colors-headercolor);
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	position: absolute;
+	bottom: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/* WHEEL menu */
+
+.ABCDwheelMenu {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+}
+
+.ABCDwheelMenu .wheelButton > button {
+	border-radius: 50%;
+	height: 55px;
+	width: 55px;
+	margin: 0;
+}
+.ABCDwheelMenu .wheelButton {
+	padding: 0;
+	margin: 0;
+}
+.ABCDwheelMenu .wheelButton:nth-child(1){
+	grid-column: 1;
+	grid-row: 3;
+	margin-right:  -15px;
+	padding: 0;
+}
+.ABCDwheelMenu .wheelButton:nth-child(2){
+	grid-column: 2;
+	grid-row: 2;
+	margin-right: 10px;
+}
+.ABCDwheelMenu .wheelButton:nth-child(3){
+	grid-column: 3;
+	grid-row: 1;
+	margin-bottom: -30px;
+}
+.ABCDwheelMenu .wheelButton:nth-child(4){
+	grid-column: 4;
+	grid-row: 2;
+	margin-left: 10px;
+}
+.ABCDwheelMenu .wheelButton:nth-child(5){
+	grid-column: 5;
+	grid-row: 3;
+	margin-left:  -15px;
+	padding: 0;
+}
+.ABCDwheelMenu .wheelButton:nth-child(6){
+	grid-column: 3;
+	grid-row: 3;
+}
+
+/* SHORTCUTS */
+.shortcuts {
+	justify-content: center;
+}
+
