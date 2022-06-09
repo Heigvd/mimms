@@ -244,7 +244,7 @@ export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): Fe
 
 	// Debug ///////////////////////////////////////
 	const slices = Math.round(totalCells / 100);
-	const step = Math.round(1 / Math.max(0.1, Math.min(density, 1)));
+	const step = 1 + Math.round((1 - Math.max(0.1, Math.min(density, 1))) * 10);
 	////////////////////////////////////////////////
 
 	for (let j = 0; j < gridHeight; j += step) {

@@ -271,12 +271,20 @@ export class Grid {
 	/**
 	 * Check if specific node walkable.
 	 */
-	public isWalkableAt(position: Point): boolean {
+	public isWalkableAt(position: Point, debug: boolean = false): boolean {
 		if (this.gridNodes[position.y] == null
 			|| this.gridNodes[position.y][position.x] == null) {
+			if (debug) {
+				wlog("Position outside of the grid")
+			}
 			return true;
 		}
 		else {
+			if (debug) {
+				const newMatrix: string[][] = this.gridToMatrix();
+				newMatrix[position.y][position.x] = "?";
+				Grid.drawGrid(newMatrix);
+			}
 			return this.gridNodes[position.y][position.x].getIsWalkable();
 		}
 	}
@@ -374,6 +382,27 @@ export class Grid {
 		}
 		return cloneGrid;
 	}
+
+	/**
+	 * Transfor the node grid into a visual matrix with · for allowed cell and X for obstacles
+	 */
+	public gridToMatrix(): string[][] {
+		return this.gridNodes.map(line => line.map(node => node.getIsWalkable() ? "·" : "X"));
+	}
+
+	/**
+	 * Log a visual of a matrix (don't work with grid bigger than 10x10)
+	 */
+	public static drawGrid(matrix: (number | string)[][]) {
+		if (matrix.length > 0 && matrix.length <= 10 && matrix[0].length > 0 && matrix[0].length <= 10) {
+			wlog("+-" + matrix.map(() => "-").join("-") + "-+\n"
+				+ matrix.map((line) => "| " + line.join(" ") + " |").join("\n")
+				+ "\n+-" + matrix.map(() => "-").join("-") + "-+");
+		}
+		else {
+			wlog("Matrix too big to be displayed!")
+		}
+	}
 }
 
 
@@ -441,7 +470,7 @@ export class PathFinder {
 
 		// Set diagonal boolean
 		this.diagonalAllowed =
-			props.diagonalAllowed !== undefined ? props.diagonalAllowed : true;
+			props.diagonalAllowed ?? false;
 
 		// Set heuristic function
 		this.heuristic = props.heuristic ?? 'Manhattan';
@@ -648,7 +677,22 @@ export class PathFinder {
 	/**
 	 * Check if there is an obstacle between two points
 	 */
-	private gridLOS(start: Point, end: Point): boolean {
+	private gridLOS(start: Point, end: Point, debug: boolean = false): boolean {
+
+		if (debug) {
+			const nodeGrid = this.grid.getGridNodes();
+			if (nodeGrid.length < start.y || nodeGrid.length < end.y
+				|| nodeGrid[0]?.length < start.x || nodeGrid[0]?.length < end.x) {
+				wlog("Start or end point outside of the grid");
+			}
+			else {
+				const newGrid = this.grid.gridToMatrix();
+				newGrid[start.y][start.x] = "A";
+				newGrid[end.y][end.x] = "B"
+				Grid.drawGrid(newGrid);
+			}
+		}
+
 		let x0 = start.x;
 		let y0 = start.y;
 		let x1 = end.x;
@@ -668,23 +712,27 @@ export class PathFinder {
 			dX = -dX
 			sX = -1;
 		}
-
 		if (dX >= dY) {
 			while (x0 !== x1) {
 				f += dY;
 				if (f >= dX) {
-					if (!this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) })) {
+					if (!this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) }, debug)) {
 						return false;
 					}
 					y0 += sY;
 					f -= dX;
 				}
-				if (f === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) })) {
+				if (f === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) }, debug)) {
 					return false;
 				}
-				if (dY === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 }) && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 - 1 })) {
+				if (dY === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 }, debug) && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 - 1 }, debug)) {
 					return false;
 				}
+
+				if (debug) {
+					this.grid.isWalkableAt({ x: x0, y: y0 }, debug);
+				}
+
 				x0 += sX;
 			}
 		}
@@ -692,22 +740,58 @@ export class PathFinder {
 			while (y0 !== y1) {
 				f += dX;
 				if (f >= dY) {
-					if (!this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) })) {
+					if (!this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) }, debug)) {
 						return false;
 					}
 					x0 += sX;
 					f -= dY;
 				}
-				if (f === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) })) {
+				if (f === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) }, debug)) {
 					return false;
 				}
-				if (dX === 0 && !this.grid.isWalkableAt({ x: x0, y: y0 + ((sY - 1) / 2) }) && !this.grid.isWalkableAt({ x: x0 - 1, y: y0 + ((sY - 1) / 2) })) {
+				if (dX === 0 && !this.grid.isWalkableAt({ x: x0, y: y0 + ((sY - 1) / 2) }, debug) && !this.grid.isWalkableAt({ x: x0 - 1, y: y0 + ((sY - 1) / 2) }, debug)) {
 					return false;
 				}
 				y0 += sY;
 			}
 		}
 		return true;
+	}
+
+	public static testLOS() {
+		const grid = [
+			[0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0],
+			[0, 0, 1, 0, 0],
+			[0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0],
+		]
+
+		const pathFinder = new PathFinder({
+			grid: {
+				height: 5,
+				width: 5,
+				matrix: grid
+			},
+			cellSize: 1,
+			offsetPoint: { x: 0, y: 0 }
+		});
+
+		Grid.drawGrid(grid)
+
+		wlog("===================================================");
+		wlog("true", "[0;0]->[0;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 0, y: 4 }));
+		wlog("true", "[0;0]->[4;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 0 }));
+		wlog("true", "[0;0]->[0;3]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 0, y: 3 }));
+		wlog("true", "[0;0]->[3;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 3, y: 0 }));
+
+		wlog("===================================================");
+		wlog("false", "[0;0]->[4;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 4 }));
+		wlog("false", "[0;0]->[2;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 2, y: 4 }));
+		wlog("false", "[0;0]->[4;2]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 2 }));
+		wlog("false", "[0;0]->[4;2]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 2 }));
+		wlog("false", "[1;0]->[4;2]", pathFinder.gridLOS({ x: 1, y: 0 }, { x: 4, y: 2 }));
+		wlog("false", "[0;1]->[4;2]", pathFinder.gridLOS({ x: 0, y: 1 }, { x: 4, y: 3 }));
 	}
 
 	/**
@@ -800,6 +884,24 @@ export class PathFinder {
 		}
 	}
 
+	/**
+	 * Find the nearest point without obstacle
+	 */
+	public findNearestWalkablePoint(position: Point):Point | undefined {
+		const gridPosition = PathFinder.worldPointToGridPoint(position, this.cellSize, this.offsetPoint);
+		const neighbors = this.grid.getSurroundingNodes(gridPosition, true)
+		for(const neighbor of neighbors){
+			if(neighbor.getIsWalkable()){
+				return PathFinder.gridPointToWorldPoint(neighbor.position,this.cellSize, this.offsetPoint);
+			}
+		}
+		// Looping again for recursion so we find the nearest point around the position
+		for(const neighbor of neighbors){
+			return this.findNearestWalkablePoint(neighbor.position);
+		}
+	}
+
+
 	// Setter methods
 	public setHeuristic(newHeuristic: Heuristic): void {
 		this.heuristic = newHeuristic;
@@ -846,6 +948,6 @@ export class PathFinder {
 			y: Math.round((point.y - offsetPoint.y) / cellSize),
 		}
 	}
-
 }
 
+// PathFinder.testLOS();

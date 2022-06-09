@@ -11,7 +11,7 @@ export const obstacleGrid = Helpers.useRef<WorldGrid>("obstacleGridSource", {
 	offsetPoint: { x: 0, y: 0 }
 });
 
-const CELL_SIZE_METTER = 2;
+const CELL_SIZE_METTER = 1;
 
 
 export interface WorldGrid {

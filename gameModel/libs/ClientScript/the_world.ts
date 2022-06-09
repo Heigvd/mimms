@@ -285,11 +285,11 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 				gridHeight,
 				gridWidth
 			} = obstacleGrid.current;
-			const aStar = new PathFinder({
+			const pathFinder = new PathFinder({
 				grid: {
 					matrix: grid,
-					width:gridWidth,
-					height:gridHeight
+					width: gridWidth,
+					height: gridHeight
 				},
 				cellSize,
 				offsetPoint,
@@ -301,7 +301,7 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 			}
 
 			// This should be done only when the direction changes
-			const newPath = aStar.findPath(location.location, location.direction, "ThetaStar");
+			const newPath = pathFinder.findPath(location.location, location.direction, "ThetaStar");
 			paths.current[pathId] = newPath;
 
 			const duration = currentTime - location.time;
@@ -315,6 +315,13 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 
 			while (remainingDistance > 0) {
 				endPoint = newPath[pathIndex];
+				// If we could run further than the last point of the path stop at the end of the path
+				// Also if the path has no lenght
+				if (endPoint == null) {
+					endPoint = startPoint;
+					break;
+				}
+
 				const delta = sub(endPoint, startPoint);
 				const fullDistance = Math.sqrt(hypotSq(delta));
 				if (remainingDistance < fullDistance) {
@@ -328,10 +335,12 @@ function computeCurrentLocation(pathId: string, location: PositionAtTime | undef
 					pathIndex += 1;
 					startPoint = endPoint;
 					paths.current["moving"].push(endPoint);
+
 				}
 			}
 
-
+			// Ensure the endPoint is not in an obstacle
+			endPoint = pathFinder.findNearestWalkablePoint(endPoint) ?? startPoint;
 			/*
 			const delta = sub(location.direction, location.location);
 			const duration = currentTime - location.time;
