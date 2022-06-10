@@ -1,5 +1,5 @@
-type IMergeable = import('wegas-ts-api').IMergeable;
-type WegasClassNames = import('wegas-ts-api').WegasClassNames;
+//type IMergeable = import('wegas-ts-api').IMergeable;
+//type WegasClassNames = import('wegas-ts-api').WegasClassNames;
 
 type SimpleSchema =
   | {}

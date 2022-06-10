@@ -1,5 +1,5 @@
-type IDestroyedEntity = import('wegas-ts-api').IDestroyedEntity;
-type IUser = import('wegas-ts-api').IUser;
+//type IDestroyedEntity = import('wegas-ts-api').IDestroyedEntity;
+//type IUser = import('wegas-ts-api').IUser;
 
 interface RuntimeException {
   message: string;

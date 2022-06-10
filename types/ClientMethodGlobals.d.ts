@@ -1,4 +1,4 @@
-type WegasEntitiesNamesAndClasses = import('wegas-ts-api').WegasEntitiesNamesAndClasses;
+//type WegasEntitiesNamesAndClasses = import('wegas-ts-api').WegasEntitiesNamesAndClasses;
 
 interface WegasScriptEditorNameAndTypes extends WegasEntitiesNamesAndClasses {
   boolean: boolean;

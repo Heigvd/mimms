@@ -1,6 +1,6 @@
-type STranslatableContent = import('wegas-ts-api').STranslatableContent;
-type SVariableDescriptor = import('wegas-ts-api').SVariableDescriptor;
-type ITranslation = import('wegas-ts-api').ITranslation;
+//type STranslatableContent = import('wegas-ts-api').STranslatableContent;
+//type SVariableDescriptor = import('wegas-ts-api').SVariableDescriptor;
+//type ITranslation = import('wegas-ts-api').ITranslation;
 
 interface GlobalI18nClass {
   translate: (translatable: STranslatableContent | ITranslatableContent) => string;

@@ -1,6 +1,6 @@
-type IVariableDescriptor = import('wegas-ts-api').IVariableDescriptor;
-type SAbstractEntity = import('wegas-ts-api').SAbstractEntity;
-type IVariableInstance = import('wegas-ts-api').IVariableInstance;
+//type IVariableDescriptor = import('wegas-ts-api').IVariableDescriptor;
+//type SAbstractEntity = import('wegas-ts-api').SAbstractEntity;
+//type IVariableInstance = import('wegas-ts-api').IVariableInstance;
 
 /**
  * These methods will work only in editor context

@@ -1,5 +1,5 @@
-type IGameModelLanguage = import('wegas-ts-api').IGameModelLanguage;
-type IScript = import('wegas-ts-api').IScript;
+//type IGameModelLanguage = import('wegas-ts-api').IGameModelLanguage;
+//type IScript = import('wegas-ts-api').IScript;
 
 interface FeaturesSelecta {
   ADVANCED?: boolean;

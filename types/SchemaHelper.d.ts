@@ -1,5 +1,5 @@
-type IAbstractContentDescriptor =
-  import('wegas-ts-api').IAbstractContentDescriptor;
+//type IAbstractContentDescriptor =
+//  import('wegas-ts-api').IAbstractContentDescriptor;
 
 type BaseSchema = import('jsoninput').Schema.BASE;
 
