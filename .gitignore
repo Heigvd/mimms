@@ -8,3 +8,5 @@
 #zip files
 *.zip
 
+/node_modules/
+/nbproject/
