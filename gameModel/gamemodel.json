@@ -1902,7 +1902,7 @@
     "@class" : "GameModelContent",
     "content" : "",
     "contentKey" : "TimeManager",
-    "contentType" : "application/javascript",
+    "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034173:6MYV6p",
     "version" : null,
