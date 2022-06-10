@@ -43,7 +43,7 @@ function loadVitalsSeries(vdName: string): Graph[] {
 	const keys = Object.keys(properties).sort();
 
 	const graphs = keys.map(key => {
-		const parsed = JSON.parse(properties[key]);
+		const parsed = JSON.parse(properties[key]!);
 
 		const data = Array.isArray(parsed) ?
 			// 1 serie: array xy tuple [[x,y], ..., [x,y]]
@@ -139,7 +139,7 @@ export function getCurrentScenario(): TestScenario {
 		description: "none",
 		events:[],
 	};
-	
+
 }
 
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {

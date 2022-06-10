@@ -570,7 +570,7 @@ function massiveHemorrhage({ human }: PreTriageData) {
 function getOrReadMetric<T>(
 	metric: BodyStateKeys,
 	humanState: BodyState,
-	console: ConsoleLog[], 
+	console: ConsoleLog[],
 	mostRecent: 'OLDEST' | 'MOST_RECENT') : T {
 	// try to re-use measure from console
 	const theConsole = mostRecent === 'MOST_RECENT' ? [...console].reverse() : console;
@@ -606,7 +606,7 @@ const doSapPreTriage : TriageFunction<SAP_CATEGORY> = (data, console) => {
 		};
 	}
 
-	
+
 
 	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') === 0) {
 		clearAirways(data);
@@ -643,7 +643,7 @@ const doSapPreTriage : TriageFunction<SAP_CATEGORY> = (data, console) => {
 		};
 	}
 
-	
+
 	if (!getOrReadMetric<boolean>("vitals.cardio.radialPulse", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: URGENT,
@@ -904,12 +904,10 @@ const doSaccoPreTriage : TriageFunction<SACCO_CATEGORY> = (data, console) => {
 		ageScore = -3;
 	}
 
-	const score = hrScore + rrScore + gcsScore + ageScore;
-
-	normalize(score, { min: 0, max: 12 });
+	const score = normalize( hrScore + rrScore + gcsScore + ageScore , { min: 0, max: 12 });
 
 	return {
-		categoryId: saccoSystem.categories[12 - score].id,
+		categoryId: saccoSystem.categories[12 - score]!.id,
 		explanations: [
 			`SACCO_RR_${rrScore}`,
 			`SACCO_HR_${hrScore}`,
@@ -1050,7 +1048,7 @@ const doSwissPreTriage : TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 	}
 
 	// TODO
-	// MANUAL UPPER AIRWAYS MAINTENANCE? 
+	// MANUAL UPPER AIRWAYS MAINTENANCE?
 
 	const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 	if (rr > 30) {

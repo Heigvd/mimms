@@ -2,6 +2,7 @@ import {
 	afflictPathology,
 	Block,
 	BodyEffect,
+	BodyFactoryParam,
 	BodyState,
 	computeState,
 	createHumanBody,
@@ -51,8 +52,11 @@ function pushComposedMetric(key: string, time: number, values: { [key: string]: 
 
 	if (!Array.isArray(data)) {
 		for (const k in values) {
-			data[k] = data[k] || [];
-			data[k].push([time, values[k]]);
+			const value = values[k];
+			if (value != null) {
+				data[k] = data[k] || [];
+				data[k]!.push([time, value]);
+			}
 		}
 	} else {
 		throw "incompatible metric type";
@@ -118,7 +122,7 @@ function extractMetric(body: BodyState, time: number,
 		"EDV [mL]": body.vitals.cardio.endDiastolicVolume_mL,
 		"ESV [mL]": body.vitals.cardio.endSystolicVolume_mL,
 	}, outputCardio);
-	
+
 	pushMetric("Ra", time, body.vitals.cardio.Ra_mmHgMinPerL, outputCardio);
 	//pushMetric("Rv", time, body.vitals.cardio.Rrv_mmHgMinPerL, output);
 
@@ -139,7 +143,7 @@ function extractMetric(body: BodyState, time: number,
 	} else {
 		pushMetric("Acide Tranéxamique [HL]", time, 0, output);
 	}
-  
+
 	const at2 = body.vitals.cardio.chemicals['TranexamicAcid_Clearance'];
 	vitalsLogger.info("at2: ", at2);
 	if (at != null) {
@@ -169,6 +173,8 @@ function extractMetric(body: BodyState, time: number,
 
 }
 
+const defaultMeta: BodyFactoryParam = {age: 20, sex: 'male', bmi: 20, height_cm: 170, lungDepth: 0};
+
 export function run() {
 
 	const duration = Variable.find(gameModel, "duration_s").getValue(self);
@@ -190,7 +196,7 @@ export function run() {
 	setCompensationModel(compensation);
 
 	// Body Setup
-	const meta = getCurrentHumanId();
+	const meta = getCurrentHumanId() || defaultMeta;
 	const initialBody = createHumanBody(meta, env);
 	calcLogger.info("Start with ", initialBody.state);
 	const outputResp = {};
@@ -218,8 +224,12 @@ export function run() {
 			if (item != null) {
 				const action = item.actions[event.actionId];
 				if (action != null) {
-					logger.info("Apply Item: ", { time, item, action });
-					effects.push(doItemActionOnHumanBody(item, action, blocks, time)!);
+					if (action.type === 'ActionBodyEffect') {
+						logger.info("Apply Item: ", { time, item, action });
+						effects.push(doItemActionOnHumanBody(item, action, blocks, time)!);
+					} else {
+						logger.info("Ignore measure");
+					}
 				} else {
 					logger.warn(`Item Action Failed: Action "${event.actionId}" does not exist in`, item);
 				}
@@ -241,13 +251,14 @@ export function run() {
 
 
 	calcLogger.warn("Start");
+	// @ts-ignore
 	console.time("Human.run");
 	//Helpers.cloneDeep(body.state);
 
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
 	for (i = 1; i <= duration; i += stepDuration) {
 		logger.info(`Run ${i}`);
-		
+
 		const newState = computeState(body.state, body.meta, env, stepDuration, pathologies, effects);
 		calcLogger.info(" -> ", newState);
 
@@ -259,6 +270,7 @@ export function run() {
 
 	calcLogger.info("End with ", initialBody.state);
 	calcLogger.warn("Done");
+	// @ts-ignore
 	console.timeEnd("Human.run");
 
 	saveMetrics(outputResp, 'output');
