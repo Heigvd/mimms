@@ -597,7 +597,7 @@
                                 } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.patientConsole.state.selectedBlock;",
+                                  "content" : "Context.patientConsole.state.availableBlocks.length === 0 || Context.patientConsole.state.selectedBlock;",
                                   "language" : "JavaScript"
                                 },
                                 "layout" : {
@@ -644,7 +644,7 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "!Context.patientConsole.state.selectedBlock;",
+                                  "content" : "Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock;",
                                   "language" : "JavaScript"
                                 },
                                 "icon" : "check",
