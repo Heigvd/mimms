@@ -1,5 +1,7 @@
-import { BlockName, BodyFactoryParam, Environnment } from "./HUMAn";
-import { Compensation, SympSystem } from "./physiologicalModel";
+import {TargetedEvent} from "./baseEvent";
+import { BodyFactoryParam, Environnment} from "./HUMAn";
+import {Compensation, SympSystem} from "./physiologicalModel";
+import {HumanTreatmentEvent, PathologyEvent} from "./the_world";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -47,13 +49,13 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed) ?
 			// 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
+			[{label: key, points: (parsed as RawPoints).map(([x, y]) => ({x, y}))}]
 			:
 			// many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
 			Object.entries(parsed).map(([k, v]) => {
 				return {
 					label: k,
-					points: (v as RawPoints).map(([x, y]) => ({ x, y }))
+					points: (v as RawPoints).map(([x, y]) => ({x, y}))
 				};
 			});
 
@@ -83,9 +85,9 @@ export function getOtherVitalsSeries() {
 export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
 
 	const strP = Variable.find(gameModel, 'patients').getProperties()[humanId];
-	if (strP){
+	if (strP) {
 		const parsed = parse<BodyFactoryParam>(strP);
-		return parsed ? parsed: undefined;
+		return parsed ? parsed : undefined;
 	} else {
 		return undefined;
 	}
@@ -100,6 +102,8 @@ export function getCurrentHumanId(): BodyFactoryParam | undefined {
 	return getBodyParam(patientId);
 }
 
+
+/*
 interface PathologyEvent {
 	time: number;
 	blocks: BlockName[];
@@ -117,27 +121,201 @@ interface ItemActionEvent {
 		itemId: string;
 		actionId: string;
 	}
-}
+}*/
 
-export type TestScenarioEvent = PathologyEvent | ItemActionEvent;
+
+type CleanEvent<T extends TargetedEvent> = Omit<T, 'emitterPlayerId' | 'emitterCharacterId' | 'targetId' | 'targetType'> & {
+	time: number;
+};
+
+export type TestScenarioEvent =
+	| CleanEvent<PathologyEvent>
+	| CleanEvent<HumanTreatmentEvent>;
 
 export interface TestScenario {
 	description: string;
 	events: TestScenarioEvent[];
 }
 
+const testScenarios: Record<string, TestScenario> = {};
+
+testScenarios["0_Healthy"] = {
+	description: "Healthy",
+	events: []
+};
+
+
+testScenarios["1_intHemoAbd"] = {
+	description: "Hemorragie interne abdomen (rate)",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'tenth_ih',
+		afflictedBlocks: ['ABDOMEN'],
+		modulesArguments: [{
+			type: 'HemorrhageArgs',
+			bleedingFactor: 0.1
+		}]
+	}]
+};
+
+testScenarios["2_leftForearmVenousHem"] = {
+	description: "Hemorragie veineuse avant-bras gauche",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'half_vh',
+		afflictedBlocks: ['LEFT_FOREARM'],
+		modulesArguments: [{
+			type: 'HemorrhageArgs',
+			bleedingFactor: 0.5
+		}]
+	}]
+};
+
+testScenarios["3_tamponade_mild"] = {
+	description: "Mild Tamponade",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'tamponade_mild',
+		afflictedBlocks: ['HEART'],
+		modulesArguments: [{
+			type: 'TamponadeArgs',
+			pericardial_deltaMin: 10,
+		}]
+	}]
+};
+
+testScenarios["4_simple_pno_left"] = {
+	description: "Simple full unilateral pneumothorax",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'simple_pno_full',
+		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+		modulesArguments: [{
+			type: 'PneumothoraxArgs',
+			compliance: 0,
+		}, {
+			type: 'HemorrhageArgs',
+			instantaneousBloodLoss: 50,
+		}, {
+			type: 'NoArgs'
+		}]
+	}]
+};
+
+
+testScenarios["5_upper_airways_burn"] = {
+	description: "Upper airways burn",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'upper_airways_burn',
+		afflictedBlocks: ['NECK', 'HEAD'],
+		modulesArguments: [{
+			type: 'AirwaysResistanceArgs',
+			airResistanceDelta: 0.05,
+		}, {
+			type: 'BurnArgs',
+			percent: 0.5,
+		}]
+	}]
+};
+
+testScenarios["6_thorac_circ_burn"] = {
+	description: "Circumferential Thorax Burn",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'thorax_circ',
+		afflictedBlocks: ['THORAX'],
+		modulesArguments: [{
+			type: 'BurnArgs',
+			percent: 1,
+		}]
+	}]
+};
+
+testScenarios["8_dislocation_c1c2"] = {
+	description: "C1-C2 dislocation",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'disclocation_c1c2',
+		afflictedBlocks: ['C1-C4'],
+		modulesArguments: [{
+			type: 'NoArgs',
+		}]
+	}]
+};
+
+
+testScenarios["9_dislocation_c7c8"] = {
+	description: "C7-C8 dislocation",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'disclocation_c5c7',
+		afflictedBlocks: ['C5-C7'],
+		modulesArguments: [{
+			type: 'NoArgs',
+		}]
+	}]
+};
+
+
+testScenarios["10_tension_pneumothorax"] = {
+	description: "Tension Pneumothorax",
+	events: [{
+		type: 'HumanPathology',
+		time: 10,
+		pathologyId: 'simple_pno_full',
+		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+		modulesArguments: [{
+			type: 'PneumothoraxArgs',
+			compliance: 0,
+		}, {
+			type: 'HemorrhageArgs',
+			instantaneousBloodLoss: 50,
+		}, {
+			type: 'NoArgs'
+		}]
+	}, {
+		type: 'HumanTreatment',
+		time: 600,
+		source: {
+			type: 'itemAction',
+			itemId: 'balloon',
+			actionId: 'setup'
+		},
+		blocks: ['HEAD'],
+	}]
+};
+
+
+
+const x = {
+"description": "tension pneumothorax", "events": [{"time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": {"type": "HumanPathology", "pathologyId": "simple_pno_full"}}, {"time": 600, "blocks": ["HEAD"], "event": {"type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup"}}]}
+
 export function getCurrentScenario(): TestScenario {
 	const scenarioId = Variable.find(gameModel, 'currentScenario').getValue(self);
-	const strP = Variable.find(gameModel, 'scenario').getProperties()[scenarioId];
+
+	const testScenario = testScenarios[scenarioId];
+	if (testScenario) {
+		return testScenario;
+	}
+	/*const strP = Variable.find(gameModel, 'scenario').getProperties()[scenarioId];
 	if (strP){
 		const parsed = parse<TestScenario>(strP);
 		if (parsed){
 			return parsed;
 		}
-	}
+	}*/
 	return {
 		description: "none",
-		events:[],
+		events: [],
 	};
 
 }
@@ -145,7 +323,7 @@ export function getCurrentScenario(): TestScenario {
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
 	return Object.entries(od.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
-		if (parsed){
+		if (parsed) {
 			acc[k] = parsed;
 		}
 		return acc;
@@ -155,7 +333,7 @@ export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, 
 export function parseObjectInstance<T>(oi: SObjectInstance): Record<string, T> {
 	return Object.entries(oi.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
-		if (parsed){
+		if (parsed) {
 			acc[k] = parsed;
 		}
 		return acc;
@@ -227,23 +405,18 @@ export function getPatientAsChoices(short: boolean = false) {
 						: `${k} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
 			};
 		} else {
-			return { value: k, label: `Unparsable ${k}` }
+			return {value: k, label: `Unparsable ${k}`}
 		}
 	});
 }
 
 export function getScenariosAsChoices() {
-	const patients = Variable.find(gameModel, 'scenario').getProperties();
-	return Object.entries(patients).map(([k, v]) => {
-		const meta = parse<TestScenario>(v);
-		if (meta != null) {
-			return {
-				value: k,
-				label: `${k} (${meta.description})`
-			};
-		} else {
-			return { value: k, label: `Unparsable ${k}` }
-		}
+	//const testScenarios = Variable.find(gameModel, 'scenario').getProperties();
+	return Object.entries(testScenarios).map(([k, v]) => {
+		return {
+			value: k,
+			label: `${k} (${v.description})`
+		};
 	});
 }
 
@@ -269,7 +442,7 @@ export function loadSystem(): SympSystem {
 	const systemVarName = Variable.find(gameModel, "ansModel").getValue(self);
 	const obj = findObjectDescriptor(systemVarName);
 	if (obj) {
-	return parseObjectDescriptor(obj);
+		return parseObjectDescriptor(obj);
 	} else {
 		return {};
 	}

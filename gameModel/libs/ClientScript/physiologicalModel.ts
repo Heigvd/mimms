@@ -274,7 +274,7 @@ function computeEffectiveVolumesPerUnit(
 
 	const perUnitThMaxCapacity_L = meta.inspiratoryCapacity_mL / (nbUnits * 1000);
 
-	const externalCompliance = body.variables.thoraxCompliance ?? 1;
+	const externalCompliance = body.vitals.respiration.thoraxCompliance ?? 1;
 
 	if (positivePressure) {
 		// full tidalVolume is injected
@@ -531,7 +531,7 @@ export function compute(
 	const positivePressure = !!body.variables.positivePressure;
 
 	if (!body.vitals.spontaneousBreathing) {
-		respLogger.warn("No spontaneous");
+		respLogger.info("no spontaneous breathing");
 		body.vitals.respiration.tidalVolume_L = 0;
 		body.vitals.respiration.rr = 0;
 	}

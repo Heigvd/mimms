@@ -2,7 +2,7 @@ import { Point } from "./helper";
 
 
 import {
-	afflictPathology, BlockName, BodyEffect, BodyState,
+	BlockName, BodyEffect, BodyState,
 	BodyStateKeys,
 	computeState, createHumanBody, doItemActionOnHumanBody,
 	enableCoagulation,
@@ -10,7 +10,7 @@ import {
 	enableVasoconstriction,
 	Environnment, HumanBody, HumanMeta, readKey
 } from "./HUMAn";
-import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition } from "./pathology";
+import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition, RevivedPathology, revivePathology } from "./pathology";
 import { getAct, getActs, getItem, getPathology, setCompensationModel, setSystemModel } from "./registries";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
@@ -47,7 +47,7 @@ export interface Located {
 }
 
 export interface HumanHealth {
-	pathologies: AfflictedPathology[];
+	pathologies: RevivedPathology[];
 	effects: BodyEffect[];
 }
 
@@ -143,10 +143,8 @@ interface TeleportEvent extends TargetedEvent {
 }
 
 /** */
-interface PathologyEvent extends TargetedEvent {
+export interface PathologyEvent extends TargetedEvent, AfflictedPathology {
 	type: 'HumanPathology';
-	pathologyId: string;
-	blocks: BlockName[],
 }
 
 interface HumanLogMessageEvent extends TargetedEvent {
@@ -168,7 +166,7 @@ interface HumanMeasureEvent extends TargetedEvent {
 }
 
 
-interface HumanTreatmentEvent extends TargetedEvent {
+export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
 	source: ({
 		type: 'act',
@@ -873,7 +871,8 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 		//const meta = humanMetas[event.targetId];
 
 		// push pathology in human health state
-		const p = afflictPathology(pathology, event.time, event.payload.blocks);
+		const p = revivePathology(event.payload, event.time);
+		//const p = afflictPathology(pathology, event.time, event.payload.blocks);
 
 		const health = getHealth(event.payload.targetId);
 		health.pathologies.push(p);

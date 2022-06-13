@@ -1,5 +1,6 @@
 import { initEmitterIds } from "./baseEvent";
 import { sendEvents } from "./EventManager";
+import { afflictPathology } from "./pathology";
 
 export function premiereVague() {
 
@@ -42,24 +43,45 @@ export function premiereVague() {
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '1-1',
-			pathologyId: 'full_ac',
-			blocks: ['THORAX'],
+			pathologyId: 'full_ah',
+			afflictedBlocks: ['THORAX'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 1
+			}]
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '1-2',
-			pathologyId: 'semi_ac',
-			blocks: ['LEFT_LEG'],
+			pathologyId: 'semi_ah',
+			afflictedBlocks: ['LEFT_LEG'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 0.5
+			}]
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '1-3',
-			pathologyId: 'open_pno',
-			blocks: ['UNIT_BRONCHUS_1'],
+			pathologyId: 'open_pno_full',
+			afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+			modulesArguments: [
+				{
+					type: 'PneumothoraxArgs',
+					compliance: 0,
+				},
+				{
+					type: 'HemorrhageArgs',
+					instantaneousBloodLoss: 150,
+				},
+				{
+					type: 'NoArgs',
+				},
+			]
 		}
 	]);
 }
@@ -152,24 +174,36 @@ export function deuxiemeVague() {
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '2-4',
-			pathologyId: 'tenth_vc',
-			blocks: ['RIGHT_LEG'],
+			pathologyId: 'tenth_vh',
+			afflictedBlocks: ['RIGHT_LEG'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 0.1,
+			}],
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '2-5',
-			pathologyId: 'tenth_vc',
-			blocks: ['RIGHT_FOREARM'],
+			pathologyId: 'tenth_vh',
+			afflictedBlocks: ['RIGHT_FOREARM'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 0.1,
+			}],
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '2-6',
-			pathologyId: '20p_vc',
-			blocks: ['RIGHT_LEG'],
+			pathologyId: '20p_vh',
+			afflictedBlocks: ['RIGHT_LEG'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 0.2,
+			}],
 		},
 		{
 			...initEmitterIds(),
@@ -177,30 +211,51 @@ export function deuxiemeVague() {
 			targetType: 'Human',
 			targetId: '2-7',
 			pathologyId: 'cityHunter',
-			blocks: ['HEAD'],
+			afflictedBlocks: ['HEAD'],
+			modulesArguments: [{
+				type: 'ICPArgs',
+				delta_perMin: 1
+			}]
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '2-8',
-			pathologyId: 'tenth_vc',
-			blocks: ['ABDOMEN'],
+			pathologyId: 'tenth_vh',
+			afflictedBlocks: ['ABDOMEN'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 0.1,
+			}],
 		},
 		{
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
 			targetId: '2-9',
-			pathologyId: 'tenth_ih',
-			blocks: ['ABDOMEN'],
+			pathologyId: 'simple_pno_full',
+			afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+			modulesArguments: [{
+				type: 'PneumothoraxArgs',
+				compliance: 0,
+			}, {
+				type: 'HemorrhageArgs',
+				instantaneousBloodLoss: 50,
+			}, {
+				type: 'NoArgs'
+			}]
 		}, {
 			...initEmitterIds(),
 			type: 'HumanPathology',
 			targetType: 'Human',
-			targetId: '2-9',
-			pathologyId: 'full_ac',
-			blocks: ['THORAX'],
+			targetId: '2-10',
+			pathologyId: 'full_ah',
+			afflictedBlocks: ['THORAX'],
+			modulesArguments: [{
+				type: 'HemorrhageArgs',
+				bleedingFactor: 1,
+			}],
 		}
 	]);
 }
