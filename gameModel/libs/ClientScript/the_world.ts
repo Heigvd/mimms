@@ -2,7 +2,7 @@ import { Point } from "./helper";
 
 
 import {
-	afflictPathology, BlockName, BodyEffect, BodyState,
+	BlockName, BodyEffect, BodyState,
 	BodyStateKeys,
 	computeState, createHumanBody, doItemActionOnHumanBody,
 	enableCoagulation,
@@ -10,7 +10,7 @@ import {
 	enableVasoconstriction,
 	Environnment, HumanBody, HumanMeta, readKey
 } from "./HUMAn";
-import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition } from "./pathology";
+import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition, RevivedPathology, revivePathology } from "./pathology";
 import { getAct, getActs, getItem, getPathology, setCompensationModel, setSystemModel } from "./registries";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
@@ -47,7 +47,7 @@ export interface Located {
 }
 
 export interface HumanHealth {
-	pathologies: AfflictedPathology[];
+	pathologies: RevivedPathology[];
 	effects: BodyEffect[];
 }
 
@@ -143,10 +143,8 @@ interface TeleportEvent extends TargetedEvent {
 }
 
 /** */
-interface PathologyEvent extends TargetedEvent {
+export interface PathologyEvent extends TargetedEvent, AfflictedPathology {
 	type: 'HumanPathology';
-	pathologyId: string;
-	blocks: BlockName[],
 }
 
 interface HumanLogMessageEvent extends TargetedEvent {
@@ -168,7 +166,7 @@ interface HumanMeasureEvent extends TargetedEvent {
 }
 
 
-interface HumanTreatmentEvent extends TargetedEvent {
+export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
 	source: ({
 		type: 'act',
@@ -243,7 +241,7 @@ let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
 let fogType: FogType = 'SIGHT';
 
-// TODO: line of sight: 
+// TODO: line of sight:
 export const lineOfSightRadius = 250;
 
 const sqRadius = lineOfSightRadius * lineOfSightRadius;
@@ -328,7 +326,7 @@ function computeCurrentLocation(location: PositionAtTime | undefined, currentTim
 
 /**
  * Is there an intersection between sebment AB and circle (c, sqrt(sqRadius))
- * 
+ *
  * (using sqRadius to prevent uselesss sqrt computation)
  */
 function doIntersect(c: Point, sqRadius: number, a: Point, b: Point): boolean {
@@ -337,8 +335,8 @@ function doIntersect(c: Point, sqRadius: number, a: Point, b: Point): boolean {
 		return isPointInCircle(c, sqRadius, a);
 	}
 
-	// 
-	// find point of AB segment which is the nearest of point C  
+	//
+	// find point of AB segment which is the nearest of point C
 	const ac_Vector = sub(c, a);
 	const ab_Vector = sub(b, a);
 
@@ -370,7 +368,7 @@ function isPointInCircle(c: Point | undefined, sqRadius: number, p: Point | unde
 	}
 	const deltaX = Math.abs(p.x - c.x);
 	const deltaY = Math.abs(p.y - c.y);
-	// sqrt(dx² + dy²) < radius 
+	// sqrt(dx² + dy²) < radius
 	// => dx²+dy² < radius²
 	return deltaX * deltaX + deltaY * deltaY < sqRadius;
 }
@@ -515,8 +513,8 @@ function rebuildState(time: number, env: Environnment) {
 	const objectList: ObjectId[] = Object.keys(locationsSnapshots).map(key => {
 		const [type, id] = key.split("::");
 		return {
-			objectId: id,
-			objectType: type,
+			objectId: id!,
+			objectType: type!,
 		};
 	});
 
@@ -535,7 +533,7 @@ function rebuildState(time: number, env: Environnment) {
 				const speed = 20; // TODO speed is dependent of HumanS
 				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, speed);
 				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
-				locationsSnapshots[oKey].splice(positionS.mostRecentIndex + 1, 0, {
+				locationsSnapshots[oKey]!.splice(positionS.mostRecentIndex + 1, 0, {
 					time: time,
 					state: {
 						...positionS.mostRecent.state,
@@ -552,14 +550,14 @@ function rebuildState(time: number, env: Environnment) {
 				time: 0,
 				state: initHuman(obj.objectId),
 			}
-			humanSnapshots[oKey].unshift(humanS.mostRecent);
+			humanSnapshots[oKey]!.unshift(humanS.mostRecent);
 		}
 
 		if (humanS.mostRecent != null && humanS.mostRecent.time < time) {
 			//const humanState = Helpers.cloneDeep(humanS.mostRecent.state);
 			const newState = computeHumanState(humanS.mostRecent.state, time, env);
 
-			humanSnapshots[oKey].splice(humanS.mostRecentIndex + 1, 0, {
+			humanSnapshots[oKey]!.splice(humanS.mostRecentIndex + 1, 0, {
 				time: time,
 				state: newState,
 			});
@@ -593,7 +591,7 @@ function rebuildState(time: number, env: Environnment) {
 			// Detect visible object
 			Object.keys(locationsSnapshots).forEach(key => {
 				const [type, id] = key.split("::");
-				const oId = { objectType: type, objectId: id };
+				const oId = { objectType: type!, objectId: id! };
 				const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
 				if (mostRecent != null && isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)) {
 					visibles.push(oId);
@@ -674,7 +672,7 @@ function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: 
 	if (oSnapshots != null) {
 		// find most recent snapshot
 		for (let i = oSnapshots.length - 1; i >= 0; i--) {
-			if (!!options.strictTime ? oSnapshots[i].time < time : oSnapshots[i].time <= time) {
+			if (!!options.strictTime ? oSnapshots[i]!.time < time : oSnapshots[i]!.time <= time) {
 				snapshot = oSnapshots[i];
 				index = i;
 				futures = oSnapshots.slice(i + 1);
@@ -707,6 +705,9 @@ function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: 
 function computeHumanState(state: HumanState, to: number, env: Environnment) {
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
 	const meta = humanMetas[state.id];
+	if (meta == null){
+		throw `Unable to find meta for ${state.id}`;
+	}
 	const newState = Helpers.cloneDeep(state);
 
 	const from = state.bodyState.time;
@@ -754,7 +755,7 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 		}
 		// register new snapshot
 		worldLogger.debug("Teleport: ", locationsSnapshots[oKey]);
-		locationsSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -799,7 +800,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 		}
 		// register snapshot
 		worldLogger.debug("FollowPath: ", locationsSnapshots[oKey]);
-		locationsSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -833,7 +834,7 @@ function updateHumanSnapshots(humanId: string, time: number) {
 			time: 0,
 			state: initHuman(objId.objectId)
 		};
-		humanSnapshots[oKey].unshift(mostRecent);
+		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
 	worldLogger.log("Update human snapshot", oKey, { mostRecent, futures });
 	if (mostRecent.time < time) {
@@ -844,7 +845,7 @@ function updateHumanSnapshots(humanId: string, time: number) {
 		}
 		// register new snapshot
 		worldLogger.log("Update human snapshot at time ", time);
-		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -870,7 +871,8 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 		//const meta = humanMetas[event.targetId];
 
 		// push pathology in human health state
-		const p = afflictPathology(pathology, event.time, event.payload.blocks);
+		const p = revivePathology(event.payload, event.time);
+		//const p = afflictPathology(pathology, event.time, event.payload.blocks);
 
 		const health = getHealth(event.payload.targetId);
 		health.pathologies.push(p);
@@ -944,7 +946,7 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 			time: 0,
 			state: initHuman(objId.objectId)
 		};
-		humanSnapshots[oKey].unshift(mostRecent);
+		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
 
 	if (mostRecent.time < time) {
@@ -955,7 +957,7 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 			state: computeHumanState(mostRecent.state, time, env)
 		}
 		// register new snapshot
-		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -1020,7 +1022,7 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 			time: 0,
 			state: initHuman(objId.objectId)
 		};
-		humanSnapshots[oKey].unshift(mostRecent);
+		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
 
 	if (mostRecent.time < time) {
@@ -1031,7 +1033,7 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 			state: computeHumanState(mostRecent.state, time, env)
 		}
 		// register new snapshot
-		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -1072,7 +1074,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 			time: 0,
 			state: initHuman(objId.objectId)
 		};
-		humanSnapshots[oKey].unshift(mostRecent);
+		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
 
 	if (mostRecent.time < time) {
@@ -1083,7 +1085,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 			state: computeHumanState(mostRecent.state, time, env)
 		}
 		// register new snapshot
-		humanSnapshots[oKey].splice(mostRecentIndex + 1, 0, currentSnapshot);
+		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
 		currentSnapshot = mostRecent;
@@ -1342,7 +1344,7 @@ export interface InventoryEntry {
 
 /**
  * Get current character inventory.
- * 
+ *
  * TODO Event to manage inventory (Got/Consume/Transfer)
  */
 export function getMyInventory(): InventoryEntry[] {
@@ -1365,8 +1367,8 @@ export function getMyInventory(): InventoryEntry[] {
 		{ itemId: 'TranexamicAcid_500', count: 'infinity' },
 		{ itemId: 'SalineSolution_1l', count: 'infinity' },
 		{ itemId: 'Blood_1l', count: 'infinity' },
-		
-		
+
+
 		{ itemId: 'oxymeter', count: 1 },
 		{ itemId: 'sphygmomanometer', count: 1 },
 	];

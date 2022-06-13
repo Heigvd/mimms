@@ -6,8 +6,9 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { ChemicalDefinition, buildPathology, ItemDefinition, PathologyDefinition, ActDefinition } from "./pathology";
-import { Compensation, SympSystem } from "./physiologicalModel";
+import {extBlocks} from "./HUMAn";
+import {ChemicalDefinition, buildPathology, ItemDefinition, PathologyDefinition, ActDefinition} from "./pathology";
+import {Compensation, SympSystem} from "./physiologicalModel";
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};
@@ -30,7 +31,7 @@ export function getPathology(id: string): PathologyDefinition | undefined {
 }
 
 
-export function getPathologies(): { label: string, value: string }[] {
+export function getPathologies(): {label: string, value: string}[] {
 	init();
 	return Object.entries(pathologies).map(([id, p]) => ({
 		value: id,
@@ -47,7 +48,7 @@ export function getItem(id: string): ItemDefinition | undefined {
 	return items[id];
 }
 
-export function getItems(): { id: string, item: ItemDefinition }[] {
+export function getItems(): {id: string, item: ItemDefinition}[] {
 	init();
 	return Object.entries(items).map(([id, item]) => ({
 		id: id,
@@ -106,468 +107,338 @@ function init() {
 	// Pathologies
 	////////////////////////////////////////
 	registerPathology(buildPathology({
-		id: 'full_ac',
+		id: 'full_ah',
 		name: 'full arterial cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: 1,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 1},
+		//instantaneousBloodLoss: {min: 1},
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'semi_ac',
+		id: 'semi_ah',
 		name: 'semi arterial cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: 0.5,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.5},
+		//instantaneousBloodLoss: {min: 0},
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'quarter_ac',
+		id: 'quarter_ah',
 		name: 'quarter arterial cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: 0.25,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.25},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: '20p_ac',
+		id: '20p_ah',
 		name: '20% arterial cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: 0.2,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.2},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'tenth_ac',
+		id: 'tenth_ah',
 		name: '10% arterial cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: 0.1,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.1},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 
 	// Venous
 
 	registerPathology(buildPathology({
-		id: 'full_vc',
+		id: 'full_vh',
 		name: 'full venous cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: 1,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 1},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'semi_vc',
+		id: 'semi_vh',
 		name: 'semi venous cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: 0.5,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.5},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'quarter_vc',
+		id: 'quarter_vh',
 		name: 'quarter venous cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: 0.25,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.25},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: '20p_vc',
+		id: '20p_vh',
 		name: '20% venous cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: 0.2,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.2},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 	registerPathology(buildPathology({
-		id: 'tenth_vc',
+		id: 'tenth_vh',
 		name: '10% venous cut, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: 0.1,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.1},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
 	}]));
 
 
 	// internal
-
-
 	registerPathology(buildPathology({
 		id: 'tenth_ih',
 		name: '10% internal Hemorrhage, no initial loss',
-		blocks: ['LEFT_LEG', 'RIGHT_LEG', 'LEFT_THIGH', 'RIGHT_THIGH',
-			'LEFT_ARM', 'LEFT_FOREARM', 'RIGHT_ARM', 'RIGHT_FOREARM',
-			'NECK', 'THORAX', 'ABDOMEN', 'PELVIS'],
+		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'internal',
-		bleedingFactor: 0.1,
-		instantaneousBloodLoss: 0,
+		bleedingFactor: {min: 0.1},
+		//instantaneousBloodLoss: 0,
+		blocks: [...extBlocks],
+	}]));
+
+	/**
+	 * Respiration
+	 */
+
+	registerPathology(buildPathology({
+		id: 'half_strangle',
+		name: "Strangulation 50%",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'AirwaysResistance',
+		blocks: ['NECK', 'HEAD', 'BRONCHUS_1', 'BRONCHUS_2'],
+		airResistance: {min: 0.5},
+	}]));
+
+	registerPathology(buildPathology({
+		id: 'strangle',
+		name: "Strangle",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'AirwaysResistance',
+		blocks: ['NECK', 'HEAD', 'BRONCHUS_1', 'BRONCHUS_2'],
+		airResistance: {min: 1},
+	}]));
+
+	registerPathology(buildPathology({
+		id: 'lung_r1_5pm',
+		name: "Bronch resistance:to 100%",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'AirwaysResistance',
+		blocks: ['BRONCHUS_1', 'BRONCHUS_2'],
+		airResistanceDelta: {min: 0.05}
+	}]));
+
+
+	registerPathology(buildPathology({
+		id: 'upper_airways_burn',
+		name: "Upper airways burn",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'AirwaysResistance',
+		blocks: ['NECK'],
+		airResistanceDelta: {min: 0.05}
+	}, {
+		type: 'Burn',
+		blocks: ['HEAD'],
+		level: '2',
+		percent: {min: 0.5},
 	}]));
 
 
 
-	registerPathology({
-		id: 'half_strangle',
-		name: "Strangulation 50%",
-		blocks: ['HEAD', 'NECK'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'strangle',
-				name: 'strangle',
-				variablePatch: {},
-				blockPatch: {
-					pain: 2,
-					airResistance: 0.5
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-	registerPathology({
-		id: 'strangle',
-		name: "Strangle",
-		blocks: ['HEAD', 'NECK'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'strangle',
-				name: 'strangle',
-				variablePatch: {},
-				blockPatch: {
-					pain: 2,
-					airResistance: 1
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-	registerPathology({
-		id: 'flyMeToTheMoon',
-		name: "Fly me to the Moon",
-		blocks: ['HEAD', 'NECK'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'flyMeToTheMoon',
-				name: 'flyMeToTheMoon',
-				variablePatch: {},
-				blockPatch: {
-					fiO2: 0,
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-
-	registerPathology({
-		id: 'k2',
-		name: "Le k2 sans oxygène",
-		blocks: ['HEAD', 'NECK'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'flyMeToTheMoon',
-				name: 'flyMeToTheMoon',
-				variablePatch: {},
-				blockPatch: {
-					fiO2: 0.21,
-					atmosphericPressure: 250
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-	registerPathology({
-		id: 'baseCamp',
-		name: "Camp de base à 5k",
-		blocks: ['HEAD', 'NECK'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'flyMeToTheMoon',
-				name: 'flyMeToTheMoon',
-				variablePatch: {},
-				blockPatch: {
-					fiO2: 0.21,
-					atmosphericPressure: 400
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-	registerPathology({
-		id: 'lung_r1',
-		name: "Bronch resistance:100%",
-		blocks: ['BRONCHUS_1', 'BRONCHUS_2'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'resistance',
-				name: 'resistance',
-				variablePatch: {},
-				blockPatch: {
-					pain: 3,
-					airResistance: 1,
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-
-
-	registerPathology({
-		id: 'lung_r1_5pm',
-		name: "Bronch resistance:to 100%",
-		blocks: ['BRONCHUS_1', 'BRONCHUS_2'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'resistance',
-				name: 'resistance',
-				variablePatch: {},
-				blockPatch: {
-					pain: 3,
-					airResistanceDelta: 0.05,
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
-
-
-	registerPathology({
+	registerPathology(buildPathology({
 		id: 'simple_pno_full',
 		name: "Simple pneumothorax full",
-		blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'comp',
-				name: 'comp',
-				variablePatch: {},
-				blockPatch: {
-					pain: 3,
-					compliance: 0,
-					pneumothorax: 'SIMPLE',
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
+		blockSelectionMode: 'any',
+	}, [
+		{
+			type: 'Pneumothorax',
+			blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
+			pneumothoraxType: 'SIMPLE',
+			compliance: {min: 0}
+		}, {
+			type: 'Hemorrhage',
+			blocks: ["THORAX"],
+			subtype: 'venous',
+			instantaneousBloodLoss: {min: 50}
+		}, {
+			type: 'Fracture',
+			blocks: ["THORAX"],
+			fractureType: 'nonDisplaced',
+		}
+	],
+		[
+			[['UNIT_BRONCHUS_1'], ['THORAX'], ['THORAX']],
+			[['UNIT_BRONCHUS_2'], ['THORAX'], ['THORAX']],
+		]
+	));
 
-	registerPathology({
+
+	registerPathology(buildPathology({
 		id: 'open_pno_full',
 		name: "Open pneumothorax full",
-		blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'comp',
-				name: 'comp',
-				variablePatch: {},
-				blockPatch: {
-					pain: 3,
-					compliance: 0,
-					pneumothorax: 'OPEN',
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
+		blockSelectionMode: 'any',
+	}, [
+		{
+			type: 'Pneumothorax',
+			blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
+			pneumothoraxType: 'OPEN',
+			compliance: {min: 0}
+		}, {
+			type: 'Hemorrhage',
+			blocks: ["THORAX"],
+			subtype: 'venous',
+			instantaneousBloodLoss: {min: 150}
+		}, {
+			type: 'Fracture',
+			blocks: ["THORAX"],
+			fractureType: 'displaced',
+		}
+	],
+		[
+			[['UNIT_BRONCHUS_1'], ['THORAX'], ['THORAX']],
+			[['UNIT_BRONCHUS_2'], ['THORAX'], ['THORAX']],
+		]
+	));
 
-	registerPathology({
+
+	registerPathology(buildPathology({
 		id: 'cityHunter',
 		name: "Coup de masse sur la tête",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'ICP',
+		delta_perMin: {min: 1},
 		blocks: ['HEAD'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'cityHunter',
-				name: 'cityHunter',
-				variablePatch: {
-					ICP_deltaPerMin: 1,
-				},
-				blockPatch: {
-					pain: 5,
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
+	}]
+	));
 
 
-	registerPathology({
-		id: 'throax_circ',
-		name: "Circulaire Thorax",
-		blocks: ['THORAX'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'burn',
-				name: 'burn',
-				variablePatch: {
-					thoraxComplianceDelta: -0.01,
-				},
-				blockPatch: {
-					pain: 7,
-				}
-			}],
-		handler: [],
-		actions: [],
-	});
+	registerPathology(buildPathology({
+		id: 'thorax_circ',
+		name: "Circumferential Thorax Burn",
+		blockSelectionMode: "any",
+	},
+		[{
+			type: 'Burn',
+			blocks: ['THORAX'],
+			level: '3',
+			percent: {min: 1},
+		}]
+	));
 
-
-	registerPathology({
+	registerPathology(buildPathology({
 		id: 'tamponade_slow',
 		name: "Tamponade +5ml/min",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'Tamponade',
 		blocks: ['HEART'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'tamponade',
-				name: 'tamponade',
-				variablePatch: { pericardial_deltaMin: 5 },
-				blockPatch: {}
-			}],
-		handler: [],
-		actions: [],
-	});
+		pericardial_deltaMin: {min: 5},
+	}]));
 
-	registerPathology({
+
+	registerPathology(buildPathology({
 		id: 'tamponade_mild',
 		name: "Tamponade +10ml/min",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'Tamponade',
 		blocks: ['HEART'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'tamponade',
-				name: 'tamponade',
-				variablePatch: { pericardial_deltaMin: 10 },
-				blockPatch: {}
-			}],
-		handler: [],
-		actions: [],
-	});
+		pericardial_deltaMin: {min: 10},
+	}]));
 
-	registerPathology({
+
+	registerPathology(buildPathology({
 		id: 'tamponade_hard',
 		name: "Tamponade +50ml/min",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'Tamponade',
 		blocks: ['HEART'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'tamponade',
-				name: 'tamponade',
-				variablePatch: { pericardial_deltaMin: 50 },
-				blockPatch: {}
-			}],
-		handler: [],
-		actions: [],
-	});
+		pericardial_deltaMin: {min: 50},
+	}]));
 
-	registerPathology({
+
+	registerPathology(buildPathology({
 		id: 'disclocation_c1c2',
 		name: "Dislocation C1/C2",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'NervousSystem',
 		blocks: ['C1-C4'],
-		minNumberOfBlocks: 1,
-		maxNumberOfBlocks: 1,
-		rules: [
-			{
-				time: 0,
-				id: 'disclocation_c1c2',
-				name: 'Dislocation C1/C2',
-				variablePatch: {},
-				blockPatch: { nervousSystemBroken: true }
-			}],
-		handler: [],
-		actions: [],
-	});
+	}]));
+
+
+	registerPathology(buildPathology({
+		id: 'disclocation_c5c7',
+		name: "Dislocation C5/C7",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'NervousSystem',
+		blocks: ['C5-C7'],
+	}]));
+
+
+	registerPathology(buildPathology({
+		id: 'disclocation_t1l4',
+		name: "Dislocation T1/T4",
+		blockSelectionMode: 'any',
+	}, [{
+		type: 'NervousSystem',
+		blocks: ['T1-L4'],
+	}]));
+
+
 
 	////////////////////////////////////////
 	// Chemicals

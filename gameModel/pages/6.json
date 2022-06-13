@@ -92,27 +92,8 @@
                   "props" : {
                     "layout" : { },
                     "layoutStyle" : {
-                      "alignItems" : "center",
-                      "background" : "#cffbcf",
-                      "flexGrow" : "1",
-                      "justifyContent" : "center",
-                      "padding" : "20px"
-                    },
-                    "name" : "visual overview",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getVisualOverview } from \"./graphics\";\ngetVisualOverview();",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layout" : { },
-                    "layoutStyle" : {
                       "backgroundColor" : "var(--colors-backgroundcolor)",
-                      "borderTop" : "1px solid var(--colors-disabledcolor)",
+                      "borderBottom" : "1px solid var(--colors-disabledcolor)",
                       "flexWrap" : "wrap",
                       "padding" : "15px"
                     },
@@ -125,6 +106,25 @@
                     "text" : {
                       "@class" : "Script",
                       "content" : "import { getVisualDetails } from \"./graphics\";\ngetVisualDetails();",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "alignItems" : "center",
+                      "background" : "#cffbcf",
+                      "flexGrow" : "1",
+                      "justifyContent" : "center",
+                      "padding" : "20px"
+                    },
+                    "name" : "visual overview",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getVisualOverview } from \"./graphics\";\ngetVisualOverview();",
                       "language" : "JavaScript"
                     }
                   },
@@ -289,7 +289,9 @@
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : { },
-                            "style" : { },
+                            "style" : {
+                              "color" : "var(--colors-disabledcolor)"
+                            },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getSubWheelTitle } from \"./currentPatientZoom\";\ngetSubWheelTitle(Context.patientConsole.state);",
@@ -302,7 +304,7 @@
                             "children" : [ {
                               "props" : {
                                 "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
+                                  "applyOn" : "Inside",
                                   "className" : "selected",
                                   "condition" : {
                                     "@class" : "Script",
@@ -317,10 +319,12 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.menuItem);",
+                                  "content" : "import { getButtonLabel, getWheelSubmenu } from \"./currentPatientZoom\";\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
                                   "language" : "JavaScript"
                                 },
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "padding" : "0 2px 0 0"
+                                },
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "Script",
@@ -329,7 +333,9 @@
                                   }
                                 },
                                 "prefixedLabel" : false,
-                                "style" : { }
+                                "style" : {
+                                  "borderRadius" : "5px 5px 0px 0px"
+                                }
                               },
                               "type" : "Button"
                             } ],
@@ -344,12 +350,23 @@
                             "layout" : {
                               "flexWrap" : "wrap"
                             },
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "borderBottom" : "1px solid var(--colors-primarycolor)",
+                              "padding" : "0"
+                            },
                             "style" : { }
                           },
                           "type" : "For each"
                         } ],
-                        "layout" : { },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.patientConsole.state.selectedPanel;",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "tabs",
                         "layoutStyle" : { },
                         "name" : "sub wheel",
                         "style" : { }
@@ -359,21 +376,10 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getWheelSubmenuTitle } from \"./currentPatientZoom\";\ngetWheelSubmenuTitle(Context.patientConsole.state);",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
+                                  "applyOn" : "Inside",
                                   "className" : "selected",
                                   "condition" : {
                                     "@class" : "Script",
@@ -420,8 +426,13 @@
                           },
                           "type" : "For each"
                         } ],
-                        "layout" : { },
-                        "layoutStyle" : { },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "items",
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
                         "name" : "sub menu",
                         "style" : { }
                       },
@@ -461,6 +472,11 @@
                               },
                               "type" : "Button"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "JavaScript"
+                            },
                             "layout" : { },
                             "layoutStyle" : { },
                             "name" : "header",
@@ -474,7 +490,7 @@
                                 "icon" : "ruler",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"do measure\"",
+                                  "content" : "\"<span style=\\\"font-size: 14pt;\\\"><strong>Do measure</strong></span>\"",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
@@ -497,7 +513,9 @@
                             "layout" : { },
                             "layoutStyle" : { },
                             "name" : "measure selected",
-                            "style" : { }
+                            "style" : {
+                              "justifyContent" : "center"
+                            }
                           },
                           "type" : "FlexList"
                         }, {
@@ -538,6 +556,11 @@
                                   "content" : "Context.patientConsole.state.availableBlocks.map(b => ({id: b}));",
                                   "language" : "TypeScript"
                                 },
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "true;",
+                                  "language" : "JavaScript"
+                                },
                                 "itemKey" : "id",
                                 "layout" : {
                                   "flexWrap" : "wrap"
@@ -548,16 +571,71 @@
                               "type" : "For each"
                             }, {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.patientConsole.state.selectedBlock;",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<span style=\\\"color: #000000;\\\"><strong>Please select a block in the right panel</strong></span>\"",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "icon" : "arrow-right",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "Context.patientConsole.state.selectedBlock;",
                                   "language" : "JavaScript"
                                 },
-                                "layoutStyle" : { },
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`Please select a block!`",
+                                  "content" : "`<b>Treatment:</b> ${Context.patientConsole.state.selectedAction?.id}`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.patientConsole.state.selectedBlock;",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "3px 0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "`<b>On:</b> ${Context.patientConsole.state.selectedBlock}`;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -566,13 +644,13 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.patientConsole.state.selectedBlock === \"\";",
+                                  "content" : "!Context.patientConsole.state.selectedBlock;",
                                   "language" : "JavaScript"
                                 },
-                                "icon" : "ruler",
+                                "icon" : "check",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "`Do ${Context.patientConsole.state.selectedAction?.id} on ${Context.patientConsole.state.selectedBlock}`;",
+                                  "content" : "\"<strong><span style=\\\"font-size: 14pt;\\\">Apply</span></strong>\"",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
@@ -592,7 +670,9 @@
                               "content" : "Context.patientConsole.state.selectedAction?.actionType !== \"ActionBodyEffect\";",
                               "language" : "JavaScript"
                             },
-                            "layout" : { },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
                             "layoutStyle" : { },
                             "name" : "treatment selected",
                             "style" : { }
@@ -609,7 +689,9 @@
                           "flexDirection" : "column"
                         },
                         "layoutClassName" : "",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "borderTop" : "1px solid var(--colors-primarycolor)"
+                        },
                         "name" : "action treatment",
                         "style" : { }
                       },
@@ -623,6 +705,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "subMenu",
                     "layoutStyle" : { },
                     "name" : "sub wheel panel",
                     "style" : { }
@@ -801,7 +884,7 @@
                       "border" : "1px solid var(--colors-disabledcolor)",
                       "borderRadius" : "5px",
                       "margin" : "10px",
-                      "maxHeight" : "30%",
+                      "maxHeight" : "130px",
                       "overflow" : "auto",
                       "padding" : "10px"
                     },
@@ -832,7 +915,7 @@
                     "layout" : { },
                     "layoutClassName" : "title_container",
                     "layoutStyle" : {
-                      "border-top" : "1px solid var(--colors-disabledcolor)"
+                      "borderTop" : "1px solid var(--colors-disabledcolor)"
                     },
                     "name" : "details",
                     "style" : { }
@@ -842,10 +925,11 @@
                   "props" : {
                     "className" : "details",
                     "layoutStyle" : {
-                      "background-color" : "var(--colors-backgroundcolor)",
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
-                      "border-radius" : "5px",
+                      "borderRadius" : "5px",
                       "margin" : "10px",
+                      "maxHeight" : "120px",
                       "overflow" : "auto"
                     },
                     "name" : "Details",
@@ -863,7 +947,9 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "margin" : "10px"
+                            },
                             "name" : "human",
                             "style" : { },
                             "text" : {
@@ -913,6 +999,7 @@
                             "itemKey" : "blockName",
                             "itemsOnly" : true,
                             "layout" : { },
+                            "layoutClassName" : "observe",
                             "layoutStyle" : { },
                             "name" : "block to observe",
                             "style" : { }
@@ -958,15 +1045,17 @@
                             "itemKey" : "blockName",
                             "itemsOnly" : true,
                             "layout" : { },
+                            "layoutClassName" : "treatment",
                             "layoutStyle" : { },
                             "name" : "block for treatment",
                             "style" : { }
                           },
                           "type" : "For each"
                         } ],
+                        "layoutClassName" : "shadowMan",
                         "layoutStyle" : {
-                          "height" : "700px",
-                          "width" : "500px"
+                          "height" : "450px",
+                          "width" : "200px"
                         },
                         "onAbsoluteClick" : { },
                         "style" : { }
@@ -1002,7 +1091,10 @@
                         },
                         "itemKey" : "blockName",
                         "itemsOnly" : true,
-                        "layout" : { },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "blocks to observe",
                         "style" : { }
@@ -1012,23 +1104,35 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "extraTreatmentBlock",
-                            "layoutStyle" : { },
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "selected",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
+                                "language" : "JavaScript"
+                              }
+                            } ],
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "Context.block.blockName",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : {
+                              "padding" : "5px 0px"
+                            },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
                                 "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
-                                "language" : "typescript"
+                                "language" : "TypeScript"
                               }
                             },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.block.blockName",
-                              "language" : "JavaScript"
+                            "style" : {
+                              "fontSize" : "12px"
                             }
                           },
-                          "type" : "Text"
+                          "type" : "Button"
                         } ],
                         "exposeAs" : "block",
                         "getItemsFn" : {
@@ -1039,13 +1143,17 @@
                         "itemKey" : "blockName",
                         "itemsOnly" : true,
                         "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "flexDirection" : "column"
+                        },
                         "name" : "block for treatments",
                         "style" : { }
                       },
                       "type" : "For each"
                     } ],
                     "layout" : { },
+                    "layoutClassName" : "body",
                     "layoutStyle" : { },
                     "style" : { }
                   },

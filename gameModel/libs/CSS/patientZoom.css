@@ -58,8 +58,8 @@
 	-webkit-clip-path: polygon(0 50%, 100% 100%, 100% 0); 
 	clip-path: polygon(0 50%, 100% 100%, 100% 0);
 	position: relative;
-	width: 70px;
-	height: 80px;
+	width: 45px;
+	height: 50px;
 	background: black;
 }
 .coloration_triangle .cyanosis {
@@ -78,20 +78,16 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-image: linear-gradient(to right, white 15%, transparent);
+	background-image: linear-gradient(to right, white 15%, rgba(255, 255, 255, 0.2));
 	z-index: 1;
 }
 .coloration_cursor {
 	display: block;
 	position: absolute;
-	border: 5px solid greenyellow;
+	border: 4px solid black;
 	border-radius: 50%;
 	height: 0;
 	width: 0;
-}
-
-.patientConsole .selected {
-	border : 2px solid hotpink;
 }
 
 .patientConsole .tagCategory {
@@ -155,8 +151,16 @@
  }
 
  .forTreatmentBlock.selectedBlock rect {
-	 stroke: hotpink;
+	 stroke: var(--colors-primarycolor);
 	 stroke-width: 5px;
+	 transition: 0.2s;
+ }
+
+ .forTreatmentBlock:hover rect {
+	 stroke: var(--colors-primarycolor);
+	 stroke-width: 1px;
+	 cursor: pointer;
+	 transition: 0.2s;
  }
 
 

@@ -71,6 +71,7 @@ const timerRef: {
 function stopInterval() {
 	if (timerRef.intervalId) {
 		wlog("Clear Interval");
+		//@ts-ignore
 		clearInterval(timerRef.intervalId);
 		timerRef.intervalId = undefined;
 	}
@@ -90,6 +91,7 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 		if (timerRef.intervalId == null) {
 			syncWorld();
 			timeLogger.log("Init World interval interval");
+			//@ts-ignore
 			timerRef.intervalId = setInterval(() => {
 				if (!isRunning()){
 					stopInterval();
@@ -105,7 +107,7 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 		updateInSimCurrentTime();
 		const currentTime = getWorldTime().time;
 		if (currentTime !== currentTime_s) {
-			//setWorldTimeState({time: currentTime_s});    
+			//setWorldTimeState({time: currentTime_s});
 		}
 		stopInterval();
 		syncWorld();

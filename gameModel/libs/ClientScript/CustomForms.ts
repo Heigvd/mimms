@@ -181,13 +181,13 @@ import { getItems, getPathologies } from "./registries";
 
 		} else if (od.editorTag === 'compensation') {
 			// interface CompensationRule {
-			//   min: number;
-			//   max: number;
-			//   points: {
-			//     x: number;
-			//     y: number;
-			//   }[]
-			// }
+			//	min: number;
+			//	max: number;
+			//	points: {
+			//		x: number;
+			//		y: number;
+			//	}[]
+			//}
 
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
@@ -302,7 +302,7 @@ import { getItems, getPathologies } from "./registries";
 					pathologyId: string;
 				}
 			}
-			
+
 			interface ItemActionEvent {
 				time: number;
 				blocks: BlockName[];
@@ -465,7 +465,7 @@ import { getItems, getPathologies } from "./registries";
 				  "type": "customscript"
 				}
 			  }
-	
+
 			  return newSchema;
 			}
 		  }

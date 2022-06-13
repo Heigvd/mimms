@@ -73,7 +73,7 @@ export function processDirectMessageEvent(event: FullEvent<DirectCommunicationEv
 		directMessages[senderId] = [];
 	}
 	//TODO time filtering could occur here
-	directMessages[senderId].push(event);
+	directMessages[senderId]!.push(event);
 }
 
 //// RADIO /////
@@ -91,13 +91,13 @@ export type RadioSelectionState = {
 export function getInitialRadioState(): RadioSelectionState {
 	const radios = getRadios();
 	if(radios && radios.length > 0){
-		return {selectedRadioId : radios[0].id}
+		return {selectedRadioId : radios[0]!.id}
 	}else{
 		return {selectedRadioId : -1};
 	}
 }
 
-export function getRadio(id: number): Radio {
+export function getRadio(id: number): Radio | undefined {
 	return radios[id];
 }
 
@@ -149,11 +149,11 @@ export function processRadioCommunication(event : FullEvent<RadioCommunicationEv
 		commLogger.error('Cannot handle message, radio with id ' + event.payload.senderRadioId + ' it does not exist');
 	}else {
 		const channel = radio.channel;
-		
+
 		if(!radioMessages[channel]){
 			radioMessages[channel] = [];
 		}
-		radioMessages[channel].push(event);
+		radioMessages[channel]!.push(event);
 	}
 
 }
@@ -171,7 +171,7 @@ export function processPhoneCommunication(event : FullEvent<PhoneCommunicationEv
 		//if(!phoneMessages[rcpId]){
 		//	phoneMessages[rcpId] = [];
 		//}
-		phoneMessages[rcpId].push(event);
+		phoneMessages[rcpId]!.push(event);
 	}else{
 		commLogger.warn(`Ignoring event ${event}, recipient phone does not exist`);
 	}
@@ -181,7 +181,7 @@ export function processPhoneCreation(event : FullEvent<PhoneCreationEvent>){
 	const id = event.id;
 	if(!phones[id]){
 		phones[id] = event.payload.phoneTemplate;
-		phones[id].phoneId = id;//assign event id as phone id
+		phones[id]!.phoneId = id;//assign event id as phone id
 		//phones[id].contactIds = phones[id].contactIds || [];
 		phoneMessages[id] = [];
 	}else{
@@ -225,7 +225,7 @@ export function getMyPhone(): Phone | undefined {
 export function getRadioMessages(channel: Channel): string[] {
 
 	const filteredByChannel = radioMessages[channel];
-	const filtered = filterByTime(filteredByChannel);
+	const filtered = filterByTime(filteredByChannel!);
 	return filtered.map(m => `(${m.time}) radio ${m.payload.senderRadioId} : ${m.payload.message}`);
 }
 
@@ -238,7 +238,7 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
 		commLogger.warn(myPhone);
 		if(phoneMessages[myPhone.phoneId])
 		{
-			const messages = phoneMessages[myPhone.phoneId];
+			const messages = phoneMessages[myPhone.phoneId]!;
 			commLogger.warn(messages);
 			const filtered = messages.filter(m => m.payload.senderPhoneId === fromPhoneId);
 			return filtered.map(m => {return `${m.time} : ${m.payload.message}`;});
@@ -256,7 +256,7 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
  */
 export function getDirectMessagesFrom(senderId: string): string[] {
 	if(directMessages[senderId]){
-		const filtered = filterByTime(directMessages[senderId]);
+		const filtered = filterByTime(directMessages[senderId]!);
 		return filtered.map(m => `(${m.time}) ${m.payload.message}`);
 	}
 	return [];
@@ -268,7 +268,7 @@ function filterByTime<E extends FullEvent<EventPayload>>(events: E[]): E[]{
 }
 
 /**
- * Clears all the local communication state 
+ * Clears all the local communication state
  */
 export function clearAllCommunicationState(){
 	directMessages = {};

@@ -23,6 +23,10 @@
 	flex-grow: 1;
 }
 
+.patientConsole .selected {
+	background-color: var(--colors-activecolor)
+}
+
 /* CONSOLE */
 .patientConsole .console .log_container{
 	margin: 3px;
@@ -64,24 +68,22 @@
 .patientConsole .visualDetail_elem p {
 	margin: 0 0 5px 0;
 	text-align: center;
+	font-size: 12px;
 }
 .patientConsole .visualDetail_elem img {
-	width: 70px;
+	width: 50px;
 }
 
 /* Toolbox */
 
-.ABCDwheelMenu .selected, .shortcuts .selected {
+.ABCDwheelMenu .selected, .shortcuts .selected, .toolbox .selected {
 background: var(--colors-activecolor);
-}
-.column.toolbox {
-	min-width: fit-content;
+border: none;
 }
 
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
 	position: relative;
-	margin-bottom: 15px;
 	}
 .toolbox .menu:after {
 	content: '';

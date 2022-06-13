@@ -1,13 +1,13 @@
-import { initEmitterIds } from "./baseEvent";
-import { sendEvent } from "./EventManager";
-import { Block, BlockName, BodyEffect, BodyStateKeys } from "./HUMAn";
-import { logger } from "./logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, PathologyDefinition } from "./pathology";
-import { getAct, getItem, getPathology } from "./registries";
-import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry } from "./the_world";
-import { getCurrentSimulationTime } from "./TimeManager";
-import { Category, getCategory, getTagSystem } from "./triage";
-import { getOverview, HumanOverview } from "./graphics";
+import {initEmitterIds} from "./baseEvent";
+import {sendEvent} from "./EventManager";
+import {Block, BlockName, BodyEffect, BodyStateKeys} from "./HUMAn";
+import {logger} from "./logger";
+import {ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition} from "./pathology";
+import {getAct, getItem, getPathology} from "./registries";
+import {ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry} from "./the_world";
+import {getCurrentSimulationTime} from "./TimeManager";
+import {Category, getCategory, getTagSystem} from "./triage";
+import {getOverview, HumanOverview} from "./graphics";
 
 
 /////////////////////////////////
@@ -105,7 +105,7 @@ interface FullState {
 	setState: SetZoomState;
 }
 
-export function keepStateAlive({ state, setState }: FullState) {
+export function keepStateAlive({state, setState}: FullState) {
 	const ePatient = I18n.toString(Variable.find(gameModel, 'currentPatient'))
 	const cPatient = state.currentPatient;
 	if (ePatient !== cPatient) {
@@ -194,20 +194,20 @@ function getABCDEWheel(): Wheel {
 
 
 	const bag: Record<ABCDECategory, ByType> = {
-		'A': { measures: [], treatments: [], },
-		'B': { measures: [], treatments: [], },
-		'C': { measures: [], treatments: [], },
-		'D': { measures: [], treatments: [], },
-		'E': { measures: [], treatments: [], },
-		'Z': { measures: [], treatments: [], },
+		'A': {measures: [], treatments: [], },
+		'B': {measures: [], treatments: [], },
+		'C': {measures: [], treatments: [], },
+		'D': {measures: [], treatments: [], },
+		'E': {measures: [], treatments: [], },
+		'Z': {measures: [], treatments: [], },
 	};
 
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === "ActionBodyEffect") {
-			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
+			bag[action.actionCategory].treatments.push({...action, icon: 'syringe'});
 		} else if (action.actionType === "ActionBodyMeasure") {
-			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
+			bag[action.actionCategory].measures.push({...action, icon: 'ruler'});
 		}
 	});
 
@@ -518,6 +518,8 @@ function getBlockDetails(block: Block | undefined): string[] {
 	if (block) {
 		output.push(`<h4>${block.name}</h4>`);
 		logger.info("Block: ", block.params);
+			wlog("Block: ", block.params);
+
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push("<h5>Hemorrhage</h5>");
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
@@ -526,11 +528,12 @@ function getBlockDetails(block: Block | undefined): string[] {
 
 				output.push("<div>Arterial: " + arterialLoss + "</div>");
 				output.push("<div>Venous: " + venousLoss + "</div>");
+				output.push(`<div>Total: ${block.params.totalExtLosses_ml}</div>`);
 
 				output.push("<div>Active: " + (block.params.extLossesFlow_mlPerMin ?? 0).toFixed() + " mL/min</div>");
-
 			} else {
 				output.push("<div>Hemostasis</div>");
+				output.push(`<div>Total: ${block.params.totalExtLosses_ml}</div>`);
 			}
 		}
 		if (block.params.broken) {
@@ -561,7 +564,10 @@ export function getBlockDetail(observedBlock: string) {
 
 	if (human != null && observedBlock) {
 		const blocks: Record<string, {
-			pathologies: PathologyDefinition[];
+			pathologies: {
+				pDef: PathologyDefinition,
+				pMod: ModuleDefinition,
+			}[];
 			effects: BodyEffect[];
 		}> = {};
 
@@ -571,26 +577,28 @@ export function getBlockDetail(observedBlock: string) {
 		pathologies.forEach(p => {
 			const pathology = getPathology(p.pathologyId);
 			if (pathology != null) {
-				p.afflictedBlocks
-				.filter(name => observedBlock === name)
-				.forEach(blockName => {
-					const block = blocks[blockName] || { effects: [], pathologies: [] };
-					block.pathologies.push(pathology);
-					blocks[blockName] = block;
-
+				p.modules.forEach((mod, i) => {
+					if (mod.block === observedBlock) {
+						const block = blocks[mod.block] || {effects: [], pathologies: []};
+						block.pathologies.push({
+							pDef: pathology,
+							pMod: pathology.modules[i]!,
+						});
+						blocks[mod.block] = block;
+					}
 				});
 			}
 		});
 		effects.forEach(effect => {
 			effect.afflictedBlocks
-			.filter(name => observedBlock === name)
-			.forEach(blockName => {
-				if (effect != null) {
-					const block = blocks[blockName] || { effects: [], pathologies: [] };
-					block.effects.push(effect);
-					blocks[blockName] = block;
-				}
-			});
+				.filter(name => observedBlock === name)
+				.forEach(blockName => {
+					if (effect != null) {
+						const block = blocks[blockName] || {effects: [], pathologies: []};
+						block.effects.push(effect);
+						blocks[blockName] = block;
+					}
+				});
 		});
 		const entries = Object.entries(blocks);
 		if (entries.length > 0) {
@@ -626,7 +634,10 @@ export function getDetails() {
 
 	if (human != null) {
 		const blocks: Record<string, {
-			pathologies: PathologyDefinition[];
+			pathologies: {
+				pDef: PathologyDefinition,
+				pMod: ModuleDefinition,
+			}[];
 			effects: BodyEffect[];
 		}> = {};
 
@@ -636,18 +647,20 @@ export function getDetails() {
 		pathologies.forEach(p => {
 			const pathology = getPathology(p.pathologyId);
 			if (pathology != null) {
-				p.afflictedBlocks.forEach(blockName => {
-					const block = blocks[blockName] || { effects: [], pathologies: [] };
-					block.pathologies.push(pathology);
-					blocks[blockName] = block;
-
+				p.modules.forEach((mod, i) => {
+					const block = blocks[mod.block] || {effects: [], pathologies: []};
+					block.pathologies.push({
+						pDef: pathology,
+						pMod: pathology.modules[i]!,
+					});
+					blocks[mod.block] = block;
 				});
 			}
 		});
 		effects.forEach(effect => {
 			effect.afflictedBlocks.forEach(blockName => {
 				if (effect != null) {
-					const block = blocks[blockName] || { effects: [], pathologies: [] };
+					const block = blocks[blockName] || {effects: [], pathologies: []};
 					block.effects.push(effect);
 					blocks[blockName] = block;
 				}
@@ -800,7 +813,7 @@ export function getHumanVisualInfos(): string {
 	return output.join("");
 }
 
-export function getAfflictedBlocks() : string[] {
+export function getAfflictedBlocks(): string[] {
 
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
@@ -815,10 +828,10 @@ export function getAfflictedBlocks() : string[] {
 		const pathologies = health.pathologies.filter(p => p.time < currentTime);
 		const effects = health.effects.filter(p => p.time < currentTime);
 		pathologies.forEach(p => {
-			const pathology = getPathology(p.pathologyId);
-			if (pathology != null) {
-				output.push(...p.afflictedBlocks);
-			}
+			//const pathology = getPathology(p.pathologyId);
+			p.modules.forEach(m => {
+				output.push(m.block);
+			})
 		});
 		effects.forEach(effect => {
 			effect.afflictedBlocks.forEach(blockName => {
@@ -833,6 +846,6 @@ export function getAfflictedBlocks() : string[] {
 }
 
 export function observeBlock(block: string | undefined, setState: SetZoomState) {
-	setState(state => {return  {...state, observedBlock: block}});
+	setState(state => {return {...state, observedBlock: block}});
 }
 // const acts = getMyMedicalActs();

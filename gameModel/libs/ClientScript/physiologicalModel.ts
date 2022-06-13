@@ -274,7 +274,7 @@ function computeEffectiveVolumesPerUnit(
 
 	const perUnitThMaxCapacity_L = meta.inspiratoryCapacity_mL / (nbUnits * 1000);
 
-	const externalCompliance = body.variables.thoraxCompliance ?? 1;
+	const externalCompliance = body.vitals.respiration.thoraxCompliance ?? 1;
 
 	if (positivePressure) {
 		// full tidalVolume is injected
@@ -324,15 +324,16 @@ function computeEffectiveVolumesPerUnit(
 		// TODO: open vs simple pneumothorax
 		const leaks: number[] = [];
 		for (let i = 0; i < nbUnits; i++) {
-			const leak = ru[i]! * (1 - units[i]!.compliance);
-			const eCompliance = Math.min(units[i]!.compliance, externalCompliance);
+			const unit =units[i]!;
+			const leak = ru[i]! * (1 - unit.compliance);
+			const eCompliance = Math.min(unit.compliance, externalCompliance);
 			const delta = ru[i]! * (1 - eCompliance);
 			ru[i] -= delta;
-			if (units[i].block.params.pneumothorax === 'SIMPLE') {
-				const ip = units[i].thoraxBlock.params.internalPressure;
+			if (unit.block.params.pneumothorax === 'SIMPLE') {
+				const ip = unit.thoraxBlock.params.internalPressure;
 				if (ip == null || typeof ip === 'number') {
 					// since internal pressure is not "DRAIN", let's inflate the thorax
-					units[i].thoraxBlock.params.internalPressure = (ip ?? 0) + leak;
+					unit.thoraxBlock.params.internalPressure = (ip ?? 0) + leak;
 				}
 			}
 			leaks[i] = leak;
@@ -409,7 +410,7 @@ export function compute(
 
 	//	const stressedCapacitance_L = normalize((bloodVolume_L * 0.80) - unstressedCapacitance_L, { min: 0 });
 	//  const stressedCapacitance_L =
-	//    bloodVolume_L - body.vitals.cardio.unstressedCapacitance_L;
+	//	bloodVolume_L - body.vitals.cardio.unstressedCapacitance_L;
 
 	// Stroke volume: volume of blood pump per beat
 	// heart pumps blood from stressed volume
@@ -530,7 +531,7 @@ export function compute(
 	const positivePressure = !!body.variables.positivePressure;
 
 	if (!body.vitals.spontaneousBreathing) {
-		respLogger.warn("No spontaneous");
+		respLogger.info("no spontaneous breathing");
 		body.vitals.respiration.tidalVolume_L = 0;
 		body.vitals.respiration.rr = 0;
 	}
@@ -595,7 +596,7 @@ export function compute(
 		let PACO2 = unit.block.params.PACO2 ?? 0;
 
 		if (Va_LperMin <= 0) {
-			// No ventilation! 
+			// No ventilation!
 			const inLungs_mL = meta.inspiratoryCapacity_mL * 0.66;
 			const CO2delta_mL = vco2InUnit_mlPerMin * duration_min;
 			const co2Percent = CO2delta_mL / inLungs_mL;
@@ -799,7 +800,7 @@ export function compute(
 				duration_min < delay
 					? body.vitals.respiration.SaO2 + (deltaSaO2 * duration_min) / delay
 					: SaO2;
-	
+
 			const deltaCaO2 = CaO2 - body.vitals.respiration.CaO2;
 			const delayedCaO2 =
 				duration_min < delay
