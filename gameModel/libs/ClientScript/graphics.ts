@@ -1,7 +1,7 @@
 import { getDirectMessagesFrom } from "./communication";
 import { getAfflictedBlocks } from "./currentPatientZoom";
 import { add, interpolate, normalize, Point } from "./helper";
-import { BlockName, BodyPosition, Glasgow, HumanBody } from "./HUMAn";
+import { allBlocks, BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
 import { Categorization, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { Category, getCategory } from "./triage";
 import { whoAmI } from "./WegasHelper";
@@ -481,31 +481,55 @@ interface LocalizedBlocks {
 function getBlockZone(blockName: BlockName): string | undefined {
 	switch (blockName) {
 		case 'HEAD':
-			return `<rect x="75" y="-5" width="62" height="65" />`;
+			return `<rect x="75" y="-5" width="62" height="60" />`;
 		case 'NECK':
-			return `<rect x="56" y="45" width="100" height="30" />`;
+			return `<rect x="65" y="55" width="85" height="15" />`;
+		case 'LEFT_SHOULDER':
+			return `<rect x="141" y="70" width="30" height="17" />`;
 		case 'LEFT_ARM':
-			return `<rect x="141" y="87" width="56" height="76" />`;
+			return `<rect x="141" y="87" width="35" height="53" />`;
+		case 'LEFT_ELBOW':
+			return `<rect x="154" y="140" width="30" height="15" />`;
 		case 'LEFT_FOREARM':
-			return `<rect x="154" y="167" width="53" height="76" />`;
+			return `<rect x="154" y="155" width="30" height="40" />`;
+		case 'LEFT_HAND':
+			return `<rect x="165" y="195" width="40" height="45" />`;
+		case 'RIGHT_SHOULDER':
+			return `<rect x="41" y="70" width="30" height="17" />`;
 		case 'RIGHT_ARM':
-			return `<rect x="16" y="87" width="56" height="76" />`;
+			return `<rect x="35" y="87" width="35" height="53" />`;
+		case 'RIGHT_ELBOW':
+			return `<rect x="35" y="140" width="30" height="15" />`;
 		case 'RIGHT_FOREARM':
-			return `<rect x="5" y="167" width="53" height="76" />`;
+			return `<rect x="30" y="155" width="30" height="40" />`;
+		case 'RIGHT_HAND':
+			return `<rect x="8" y="195" width="40" height="45" />`;
 		case 'THORAX':
-			return `<rect x="71" y="86" width="70" height="83" />`;
+			return `<rect x="71" y="70" width="70" height="70" />`;
 		case 'ABDOMEN':
-			return `<rect x="65" y="142" width="83" height="45" />`;
+			return `<rect x="65" y="140" width="83" height="40" />`;
 		case 'PELVIS':
-			return `<rect x="66" y="187" width="120" height="66" />`;
+			return `<rect x="64" y="180" width="85" height="40" />`;
 		case 'LEFT_THIGH':
-			return `<rect x="111" y="214" width="41" height="75" />`;
+			return `<rect x="107" y="220" width="41" height="50" />`;
+		case 'LEFT_KNEE':
+			return `<rect x="114" y="270" width="35" height="22" />`;
 		case 'LEFT_LEG':
-			return `<rect x="116" y="298" width="54" height="118" />`;
+			return `<rect x="116" y="292" width="37" height="75" />`;
+		case 'LEFT_ANKLE':
+			return `<rect x="124" y="367" width="30" height="15" />`;
+		case 'LEFT_FOOT':
+			return `<rect x="125" y="382" width="37" height="35" />`;	
 		case 'RIGHT_THIGH':
-			return `<rect x="61" y="214" width="41" height="75" />`;
+			return `<rect x="65" y="220" width="41" height="50" />`;
+		case 'RIGHT_KNEE':
+			return `<rect x="64" y="270" width="35" height="22" />`;
 		case 'RIGHT_LEG':
-			return `<rect x="43" y="298" width="54" height="118" />`;
+			return `<rect x="59" y="292" width="37" height="75" />`;
+		case 'RIGHT_ANKLE':
+			return `<rect x="60" y="367" width="30" height="15" />`;
+		case 'RIGHT_FOOT':
+			return `<rect x="50" y="382" width="37" height="35" />`;	
 	}
 	return;
 }
@@ -516,8 +540,13 @@ export function getLocalizedBlocks(blocks: string[]) {
 		localized: [],
 		not_localized: [],
 	}
+	let toDisplay : BlockName[] = blocks as BlockName[];
+	
+	//toDisplay = allBlocks;
+	//toDisplay = extBlocks;
+	//toDisplay  = [ "HEAD", "NECK",  "THORAX", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
 
-	blocks.forEach(blockName => {
+	toDisplay.forEach(blockName => {
 		const svg = getBlockZone(blockName as BlockName);
 		if (svg){
 			result.localized.push({

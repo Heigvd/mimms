@@ -915,7 +915,7 @@
                     "layout" : { },
                     "layoutClassName" : "title_container",
                     "layoutStyle" : {
-                      "border-top" : "1px solid var(--colors-disabledcolor)"
+                      "borderTop" : "1px solid var(--colors-disabledcolor)"
                     },
                     "name" : "details",
                     "style" : { }
@@ -925,9 +925,9 @@
                   "props" : {
                     "className" : "details",
                     "layoutStyle" : {
-                      "background-color" : "var(--colors-backgroundcolor)",
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
-                      "border-radius" : "5px",
+                      "borderRadius" : "5px",
                       "margin" : "10px",
                       "maxHeight" : "120px",
                       "overflow" : "auto"
