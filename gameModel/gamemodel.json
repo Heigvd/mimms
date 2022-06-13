@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654698269588,
+  "createdTime" : 1655134305816,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1734,6 +1734,75 @@
     "scopeType" : "PlayerScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "BooleanDescriptor",
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "BooleanInstance",
+      "refId" : "BooleanInstance:56277:5s3iVr",
+      "value" : false
+    },
+    "editorTag" : "trigger",
+    "isolation" : "OPEN",
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:56278:2ywAdt",
+      "translations" : { }
+    },
+    "name" : "trigger",
+    "refId" : "BooleanDescriptor:56276:zBobqe",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:56282:z1osMV"
+    },
+    "editorTag" : "patient-generation",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:56325:KsVlVU"
+      },
+      "description" : "",
+      "editorTag" : "generation_settings",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:56326:5D3lDo",
+        "translations" : { }
+      },
+      "name" : "generation_settings",
+      "properties" : {
+        "generationSettings" : "{\"heightMeanMen\":178.4,\"heightStdDevMen\":7.59,\"heightMeanWomen\":164.7,\"heightStdDevWomen\":7.07,\"BMImean\":21.7,\"ageHistogram\":[{\"min\":20,\"max\":40,\"cardinality\":1000},{\"min\":40,\"max\":60,\"cardinality\":1000}],\"WomanManRatio\":0.5,\"BMIstdDev\":3}"
+      },
+      "refId" : "ObjectDescriptor:56324:HzyhRi",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:56283:Z15fOC",
+      "translations" : { }
+    },
+    "name" : "patient_generation",
+    "refId" : "ListDescriptor:56281:c5m2Pm",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -1787,6 +1856,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034201:e0dXYH",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "distributionSampling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:56275:82YVxT",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -1850,6 +1928,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033054:IBXSyh",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "patientGeneration",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:56339:9xzhBc",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -1997,7 +2084,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAN",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
