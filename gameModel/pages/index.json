@@ -44,6 +44,12 @@
         "name" : "spy",
         "scenaristPage" : true,
         "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "9",
+        "name" : "patient generation",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {
@@ -56,6 +62,16 @@
         "trainerPage" : null
       } ],
       "name" : "PatientPage"
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "8",
+        "name" : "DistributionTest",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      } ],
+      "name" : "Tests"
     } ],
     "name" : null
   }

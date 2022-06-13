@@ -62,6 +62,7 @@ import { getItems, getPathologies } from "./registries";
 
 	Schemas.addSchema("dataSchema", (entity, schema) => {
 		const od: IObjectDescriptor = entity as unknown as IObjectDescriptorWithId;
+		wlog(od.name);
 		if (od.editorTag === 'patients') {
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
@@ -396,6 +397,54 @@ import { getItems, getPathologies } from "./registries";
 						},
 					}
 				}
+			};
+			return newSchema;
+		} else if(od.name === 'generation_settings'){
+			wlog('youhou');
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+			//return newSchema;
+			newSchema.properties.properties =  {
+				"required" : true,
+				"type" : "object",
+				"value" : { },
+				properties : {
+					generationSettings : {
+						type : 'string',
+						view : {
+							type: "serializer",
+							schema: {
+								type: 'object',
+								properties : {
+									ageHistogram : schemaProps.array({
+										label: "Age Histogram",
+										visible: () => true,
+										required: true,
+										//TODO config
+										itemSchema: {
+											lowerBound: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
+											upperBound: { type: 'number', view: { label: 'Max', layout: "shortInline" } },
+											cardinality: { type: 'number', view: { label: 'Ratio', layout: "shortInline" } },
+										}
+									}),
+									heightMeanMen: { type: 'number', view: { label: 'Height Mean Men', layout: "shortInline" } },
+									heightStdDevMen: { type: 'number', view: { label: 'Height Standard Deviation Men', layout: "shortInline" } },
+
+									heightMeanWomen: { type: 'number', view: { label: 'Height Mean Women', layout: "shortInline" } },
+									heightStdDevWomen: { type: 'number', view: { label: 'Height Standard Deviation Women', layout: "shortInline" } },
+
+									BMImean: { type: 'number', view: { label: 'BMI Mean', layout: "shortInline" } },
+									BMIstdDev: { type: 'number', view: { label: 'BMI Standard Deviation', layout: "shortInline" } },
+
+									WomanManRatio: { type: 'number', view: { label: 'W/M Ratio', layout: "shortInline" } },
+								}
+								
+							},
+						}
+					},
+				}
+				
 			};
 			return newSchema;
 		}
