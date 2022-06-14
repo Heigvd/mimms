@@ -1,5 +1,5 @@
 import { BodyFactoryParam, createHumanBody } from "./HUMAn";
-import { getCurrentHumanId, getEnv, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
+import { getEnv, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
 
 const observableVitals = [
 	{ label: 'SaO2', value: "respiration.SaO2" },
@@ -24,7 +24,7 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 export function extractVitalKeys() {
 	// Instantiate a body
 	const env = getEnv();
-	const meta = getCurrentHumanId();
+	const meta = getCurrentPatientMeta();
 	const initialBody = createHumanBody(meta!, env);
 
 	const vitals = initialBody.state.vitals;
@@ -39,7 +39,7 @@ export function extractVitalKeys() {
 export function extractBlockChoices() {
 	// Instantiate a body
 	const env = getEnv();
-	const meta = getCurrentHumanId()!;
+	const meta = getCurrentPatientMeta()!;
 	const initialBody = createHumanBody(meta, env);
 
 	const choices: { label: string, value: string }[] = [];
@@ -97,4 +97,8 @@ export function createPatients(n: number, namer: string | ((n:  number) => strin
 		patients[name] = createBodyParam();
 	}
 	saveToObjectDescriptor(patientDesc, patients);
+}
+
+function getCurrentPatientMeta() {
+throw new Error("Function not implemented.");
 }

@@ -1,0 +1,88 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Drill<br></p>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"6\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "name" : "patientPageLoaderDrill",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Patient categorized !<br></p>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"next patient\"",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isCurrentPatientCategorized } from \"./drill\";\n!isCurrentPatientCategorized()",
+              "language" : "JavaScript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "toolbar",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

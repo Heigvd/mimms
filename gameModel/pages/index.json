@@ -5,8 +5,20 @@
     "items" : [ {
       "@class" : "Page",
       "id" : "5",
-      "name" : "HUMAN Map",
+      "name" : "main page",
       "scenaristPage" : false,
+      "trainerPage" : null
+    }, {
+      "@class" : "Page",
+      "id" : "12",
+      "name" : "preTriDrill",
+      "scenaristPage" : null,
+      "trainerPage" : null
+    }, {
+      "@class" : "Page",
+      "id" : "11",
+      "name" : "humanMap",
+      "scenaristPage" : null,
       "trainerPage" : null
     }, {
       "@class" : "Folder",
@@ -56,6 +68,12 @@
         "trainerPage" : null
       } ],
       "name" : "PatientPage"
+    }, {
+      "@class" : "Page",
+      "id" : "404",
+      "name" : "not_found",
+      "scenaristPage" : null,
+      "trainerPage" : null
     } ],
     "name" : null
   }

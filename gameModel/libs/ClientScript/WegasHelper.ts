@@ -1,7 +1,8 @@
-import {TargetedEvent} from "./baseEvent";
-import { BodyFactoryParam, Environnment} from "./HUMAn";
-import {Compensation, SympSystem} from "./physiologicalModel";
-import {HumanTreatmentEvent, PathologyEvent} from "./the_world";
+import { TargetedEvent } from "./baseEvent";
+import { BodyFactoryParam, Environnment } from "./HUMAn";
+import { logger } from "./logger";
+import { Compensation, SympSystem } from "./physiologicalModel";
+import { HumanTreatmentEvent, PathologyEvent } from "./the_world";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -49,13 +50,13 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed) ?
 			// 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			[{label: key, points: (parsed as RawPoints).map(([x, y]) => ({x, y}))}]
+			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
 			:
 			// many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
 			Object.entries(parsed).map(([k, v]) => {
 				return {
 					label: k,
-					points: (v as RawPoints).map(([x, y]) => ({x, y}))
+					points: (v as RawPoints).map(([x, y]) => ({ x, y }))
 				};
 			});
 
@@ -82,9 +83,35 @@ export function getOtherVitalsSeries() {
 	return loadVitalsSeries('outputOther');
 }
 
-export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
+function getRawHumanBodyParams() {
+	const patients = Variable.find(gameModel, 'patients').getProperties();
+	const characters = Variable.find(gameModel, 'characters').getProperties();
 
-	const strP = Variable.find(gameModel, 'patients').getProperties()[humanId];
+	const all = { ...patients, ...characters };
+
+	if (Object.keys(all).length !== Object.keys(patients).length + Object.keys(characters).length) {
+		logger.error("Patients And characters duplicates ids !");
+	}
+
+	return all;
+}
+
+export function getHumanIds() {
+	const all = getRawHumanBodyParams();
+	return Object.keys(all);
+}
+
+export function getBodyFactoryParams() {
+	const patients = parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'patients'));
+	const characters = parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'characters'));
+
+	const all = { ...patients, ...characters };
+
+	return all;
+}
+
+export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
+	const strP = getRawHumanBodyParams()[humanId];
 	if (strP) {
 		const parsed = parse<BodyFactoryParam>(strP);
 		return parsed ? parsed : undefined;
@@ -97,8 +124,12 @@ export function whoAmI(): string {
 	return Variable.find(gameModel, 'whoAmI').getValue(self);
 }
 
-export function getCurrentHumanId(): BodyFactoryParam | undefined {
-	const patientId = whoAmI();
+export function getCurrentPatientId(): string {
+	return Variable.find(gameModel, 'currentPatient').getValue(self);
+}
+
+export function getCurrentPatientBodyParam(): BodyFactoryParam | undefined {
+	const patientId = getCurrentPatientId();
 	return getBodyParam(patientId);
 }
 
@@ -164,7 +195,7 @@ testScenarios["2_leftForearmVenousHem"] = {
 	events: [{
 		type: 'HumanPathology',
 		time: 10,
-		pathologyId: 'half_vh',
+		pathologyId: 'semi_vh',
 		afflictedBlocks: ['LEFT_FOREARM'],
 		modulesArguments: [{
 			type: 'HemorrhageArgs',
@@ -297,7 +328,8 @@ testScenarios["10_tension_pneumothorax"] = {
 
 
 const x = {
-"description": "tension pneumothorax", "events": [{"time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": {"type": "HumanPathology", "pathologyId": "simple_pno_full"}}, {"time": 600, "blocks": ["HEAD"], "event": {"type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup"}}]}
+	"description": "tension pneumothorax", "events": [{ "time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": { "type": "HumanPathology", "pathologyId": "simple_pno_full" } }, { "time": 600, "blocks": ["HEAD"], "event": { "type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup" } }]
+}
 
 export function getCurrentScenario(): TestScenario {
 	const scenarioId = Variable.find(gameModel, 'currentScenario').getValue(self);
@@ -321,7 +353,7 @@ export function getCurrentScenario(): TestScenario {
 }
 
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
-	return Object.entries(od.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
+	return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -331,7 +363,7 @@ export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, 
 }
 
 export function parseObjectInstance<T>(oi: SObjectInstance): Record<string, T> {
-	return Object.entries(oi.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
+	return Object.entries(oi.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -384,18 +416,9 @@ export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<st
 	APIMethods.updateVariable(newObject);
 }
 
-export function getHumanIds() {
-	return Object.keys(Variable.find(gameModel, 'patients').getProperties());
-}
-
-export function getBodyFactoryParams() {
-	return parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'patients'));
-}
-
-export function getPatientAsChoices(short: boolean = false) {
-	const patients = Variable.find(gameModel, 'patients').getProperties();
-	return Object.entries(patients).map(([k, v]) => {
-		const meta = parse<BodyFactoryParam>(v);
+function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
+	const humans = parseObjectDescriptor<BodyFactoryParam>(od);
+	return Object.entries(humans).map(([k, meta]) => {
 		if (meta) {
 			return {
 				value: k,
@@ -405,10 +428,24 @@ export function getPatientAsChoices(short: boolean = false) {
 						: `${k} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
 			};
 		} else {
-			return {value: k, label: `Unparsable ${k}`}
+			return { value: k, label: `Unparsable ${k}` }
 		}
 	});
 }
+
+export function getPatientAsChoices(short: boolean = false) {
+	return getHumansAsChoices(Variable.find(gameModel, 'patients'), short);
+}
+
+export function getCharactersAsChoices(short: boolean = false) {
+	return getHumansAsChoices(Variable.find(gameModel, 'characters'), short);
+}
+
+export function getAllHumansAsChoices(short: boolean = false) {
+	return [...getCharactersAsChoices(short), ...getPatientAsChoices(short)];
+
+}
+
 
 export function getScenariosAsChoices() {
 	//const testScenarios = Variable.find(gameModel, 'scenario').getProperties();

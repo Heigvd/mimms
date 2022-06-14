@@ -62,20 +62,20 @@ import { getItems, getPathologies } from "./registries";
 
 	Schemas.addSchema("dataSchema", (entity, schema) => {
 		const od: IObjectDescriptor = entity as unknown as IObjectDescriptorWithId;
-		if (od.editorTag === 'patients') {
+		if (od.editorTag === 'humans') {
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
 			//hideProperty(newSchema, "label");
 			turnPropertyReadOnly(newSchema, "editorTag");
 			newSchema.properties.properties.view = {
-				label: 'Patient',
+				label: 'Human',
 				type: 'dictionary',
 				value: {},
 				keySchema: {
 					type: 'string',
 					view: {
-						label: 'Patient Id',
+						label: 'Human Id',
 						layout: 'shortInline'
 					}
 				},
@@ -271,6 +271,7 @@ import { getItems, getPathologies } from "./registries";
 
 			return newSchema;
 		} else if (od.editorTag === 'scenarios') {
+			return schema;
 			/*
 			export type Scenario = {
 				event: {

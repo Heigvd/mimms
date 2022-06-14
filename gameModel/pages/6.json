@@ -751,8 +751,8 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole(Context.patientConsole.setState);",
-                            "language" : "TypeScript"
+                            "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole();",
+                            "language" : "typescript"
                           }
                         },
                         "style" : { }
@@ -880,7 +880,7 @@
                     "flexGrow" : 1,
                     "layout" : { },
                     "layoutStyle" : {
-                      "background-color" : "var(--colors-backgroundcolor)",
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
                       "borderRadius" : "5px",
                       "margin" : "10px",

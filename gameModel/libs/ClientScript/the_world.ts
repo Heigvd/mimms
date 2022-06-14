@@ -1327,7 +1327,7 @@ export function handleClickOnMap(point: Point): void {
 }
 
 
-export function getCurrentPatientBody(): HumanBody | undefined {
+export function getCurrentPatientBody() {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 	return getHuman(id);
 }

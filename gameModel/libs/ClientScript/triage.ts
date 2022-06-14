@@ -1195,7 +1195,7 @@ export function getCategory(category: string | undefined): Category<string> | un
 	}
 }
 
-export function doAutomaticTriageAndLogToConsole(setState: SetZoomState) {
+export function doAutomaticTriageAndLogToConsole() {
 	const tagSystem = getTagSystem();
 	const result = doAutomaticTriage();
 

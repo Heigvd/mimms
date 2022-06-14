@@ -10,9 +10,7 @@ import {logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogge
 import {
 	ActDefinition,
 	ActionBodyEffect,
-	AfflictedPathology,
 	ItemDefinition,
-	PathologyDefinition,
 	RevivedPathology,
 	Rule,
 } from "./pathology";
@@ -23,7 +21,7 @@ import {
 	doCompensate,
 	inferExtraOutputs,
 } from "./physiologicalModel";
-import {getChemical, getPathology} from "./registries";
+import {getChemical} from "./registries";
 
 export type BodyPosition =
 	| "RECOVERY"
@@ -392,6 +390,10 @@ export interface Block {
 		 * Total external losses
 		 */
 		totalExtLosses_ml?: number;
+		/**
+		 * Total internal losses
+		 */
+		totalInternalLosses_ml?: number;
 		/**
 		 * Current external losses flow
 		 */
@@ -1328,10 +1330,11 @@ function hemostasis_thrombocytes(
 	if (coagulationEnabled) {
 		// total number of platelets
 		const absWbc = loss * wbc_ratio;
-		bloodLogger.debug("Platelets", {wbc_ratio, loss, absWbc});
-		return add(bleedingFactor, -interpolate(absWbc, coagulationModel), {
+		const newBlFactor = add(bleedingFactor, -interpolate(absWbc, coagulationModel), {
 			min: 0,
 		});
+		bloodLogger.warn("Platelets", {wbc_ratio, loss, absWbc, bleedingFactor, newBlFactor});
+		return newBlFactor;
 	} else {
 		return bleedingFactor;
 	}
@@ -1341,6 +1344,7 @@ function hemostasis_thrombocytes(
 // y: resistance delta [-1;1] perMin
 const vasoconstrictionModel: Point[] = [
 	{x: -1, y: 0.05},
+	{x: -0.1, y: 0}, //
 	{x: 0.1, y: 0}, //
 	{x: 0.1, y: -0.01}, //
 	{x: 1, y: -0.01},// no losses leads to vasodilatation
@@ -1359,7 +1363,7 @@ function hemostasis_vasoconstriction(
 		const ratio = delta_mlPerMin / cardiacOutput_mLPerMin;
 		const constriction_perMin = interpolate(ratio, vasoconstrictionModel);
 		const constriction_lap = constriction_perMin * duration_min;
-		bloodLogger.log("vasoconstriction", {
+		bloodLogger.warn("vasoconstriction", {
 			delta_mlPerMin,
 			cardiacOutput_mLPerMin,
 			ratio,
@@ -1459,13 +1463,11 @@ interface Data {
 }
 
 function dispatchV2(bodyState: BodyState, connections: RevivedConnection[], co: number) {
-
+	bloodLogger.info("Dispatch Blood Flow", {co, connections});
 	const data = connections.reduce<Data>((acc, current) => {
 		const nextBlock = findBlock(bodyState, current.to);
 		const oCo = (current.params.blood || 0) * co;
 		if (nextBlock != null) {
-
-
 			const constricted = nextBlock.params.bloodFlow === false || nextBlock.params.bloodResistance! > 0;
 			if (constricted) {
 				const cCo = co * (current.params.blood || 0) *
@@ -1509,7 +1511,7 @@ function dispatchV2(bodyState: BodyState, connections: RevivedConnection[], co: 
 	const toRedirect = data.constricted.initialSum - data.constricted.effectiveSum;
 	if (toRedirect > 0) {
 		data.unconstricted.connections.forEach(c => {
-			c.co = c.co * toRedirect / data.unconstricted.sum;
+			c.co += c.co * toRedirect / data.unconstricted.sum;
 		})
 	}
 
@@ -1524,7 +1526,7 @@ function dispatchV2(bodyState: BodyState, connections: RevivedConnection[], co: 
 	];
 
 	if (data.constricted.connections.length > 0) {
-		bloodLogger.log("DATA: ", data);
+		bloodLogger.log("Dispatch Bloodflow data: ", data);
 		bloodLogger.log("Vasoconstricted BloodFlow ", prepared, {
 			co,
 		});
@@ -1561,8 +1563,8 @@ function sumBloodInOut(
 		bodyState,
 		"HEART",
 		(block) => {
-			bloodLogger.debug("Debits: ", block.name, cardiacOutput_mLPerMin);
-			bloodLogger.debug("Block", block.params);
+			bloodLogger.info("Debits: ", block.name, cardiacOutput_mLPerMin);
+			bloodLogger.info("Block", block.params);
 
 			const flow_mLPerMin = cardiacOutput_mLPerMin[0] || 0;
 			block.params.bloodFlow_mLper = flow_mLPerMin;
@@ -1660,6 +1662,7 @@ function sumBloodInOut(
 				);
 				bloodLogger.debug("Internal loss: ", {loss, newBlFactor});
 				block.params.internalBleedingFactor = newBlFactor;
+				block.params.totalInternalLosses_ml = (block.params.totalInternalLosses_ml || 0) + loss;
 				sum.bloodLosses_mL += loss;
 				delta_mL -= loss;
 			}
@@ -1716,8 +1719,9 @@ function sumBloodInOut(
 			// Alter block output according to inputs and outputs
 			if (delta_mL) {
 				const delta_mlPerMin = delta_mL / durationInMin;
+				// Math.abs(delta_mlPerMin) < 0.1
 				// update cardiac output
-				bloodLogger.debug("Cardiac Output input/output", {
+				bloodLogger.warn("Cardiac Output input/output", {
 					block: block,
 					bleedFactor,
 					delta_mL,
@@ -1773,8 +1777,9 @@ function sumBloodInOut(
 			prepareConnections: (block, connections) => {
 				// un modeste alambique
 				const co = cardiacOutput_mLPerMin[0] || 0;
-				bloodLogger.debug("Prepare Q: ", co);
+				bloodLogger.info("Prepare Q: ", co);
 				if (block.name === "THORAX") {
+					bloodLogger.info("PREPARE THORAX CONNECTIONS: ", block.name)
 					// The brain got some autoregulation magic
 
 					// resistance values guessed fron p18 of:
@@ -1807,7 +1812,7 @@ function sumBloodInOut(
 					// ie (map - icp) / res = map / (res + delta)
 					const map = bodyState.vitals.cardio.MAP;
 					const icp = bodyState.variables.ICP_mmHg;
-					logger.log("The Brain: ", {map, icp});
+					bloodLogger.log("The Brain: ", {map, icp});
 
 					const pp = map - icp;
 					const qBrModel = [
@@ -1817,12 +1822,12 @@ function sumBloodInOut(
 						{x: 300, y: 4 * qbr_target},
 					];
 
-					logger.debug("QbrModel: ", qBrModel);
+					bloodLogger.debug("QbrModel: ", qBrModel);
 
 					//f(pp);
 					const qBrain = interpolate(pp, qBrModel);
 
-					bloodLogger.info("Blood: ", {qBrain, co});
+					bloodLogger.info("Blood brain: ", {qBrain, co});
 
 					if (qBrain < co) {
 						const qOthers = co - qBrain;
@@ -1844,10 +1849,10 @@ function sumBloodInOut(
 							},
 							...dispatchV2(bodyState, mapped.others, qOthers),
 						];
-						bloodLogger.debug("AutoRegulated BloodFlow ", rs);
+						bloodLogger.warn("AutoRegulated BloodFlow ", rs);
 						return rs;
 					} else {
-						bloodLogger.log("Well, you're dead, dude");
+						bloodLogger.log("Well, looks you're dead, dude");
 						return [];
 					}
 					// const rBrain = bodyState.vitals.brain.Rbr;
@@ -1856,7 +1861,7 @@ function sumBloodInOut(
 					// const effectiveBrainR = rBrain + deltaR;
 				} else {
 					// dispatch blood flow according to connection percentage and next blocks resistance
-
+					bloodLogger.info("Block: ", block.name)
 					return dispatchV2(bodyState, connections, co);
 				}
 			},
@@ -2329,6 +2334,8 @@ export function computeState(
 								} else if (key === "totalExtLosses_ml") {
 									// not impactable
 								} else if (key === "PACO2") {
+									// not impactable
+								} else if (key === 'totalInternalLosses_ml') {
 									// not impactable
 								} else {
 									checkUnreachable(key);

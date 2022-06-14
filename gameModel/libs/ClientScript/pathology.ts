@@ -450,7 +450,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 	if (mod.type === 'Hemorrhage') {
 		const hArgs = args as unknown as HemorrhageMeta['args'];
 
-		const keyName: BlockKey = mod.subtype === 'venous' ? 'venousBleedingFactor' : 'arterialBleedingFactor';
+		const keyName: BlockKey = mod.subtype === 'venous' ? 'venousBleedingFactor' : mod.subtype === 'arterial' ? 'arterialBleedingFactor' : 'internalBleedingFactor';
 
 		return {
 			block: block,

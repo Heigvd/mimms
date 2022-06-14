@@ -18,7 +18,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import {getPatientAsChoices} from './WegasHelper'\nconst choices = getPatientAsChoices();\t\nchoices;",
+              "content" : "import {getAllHumansAsChoices} from './WegasHelper'\nconst choices = getAllHumansAsChoices();\t\nchoices;",
               "language" : "typescript"
             },
             "className" : "",
@@ -29,7 +29,7 @@
             "onVariableChange" : { },
             "script" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel,'whoAmI')",
+              "content" : "Variable.find(gameModel,'currentPatient')",
               "language" : "JavaScript"
             },
             "style" : { }

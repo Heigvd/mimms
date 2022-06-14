@@ -1,4 +1,4 @@
-import { getBlocksSelector } from "./GameModelerHelper";
+//import { getBlocksSelector } from "./GameModelerHelper";
 import { getItems, getPathologies } from "./registries";
 import { getPatientAsChoices } from "./WegasHelper";
 
@@ -40,7 +40,7 @@ Helpers.registerEffect(() => {
 		}
 	}
 
-	const blocksSelector = getBlocksSelector();
+	//const blocksSelector = getBlocksSelector();
 
 	const allItems = getItems();
 

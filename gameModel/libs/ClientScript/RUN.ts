@@ -12,7 +12,6 @@ import {
 } from './HUMAn';
 import {logger, vitalsLogger, calcLogger, compLogger} from './logger';
 import {
-	AfflictedPathology,
 	RevivedPathology,
 	revivePathology,
 } from './pathology';
@@ -21,12 +20,11 @@ import {
 	getAct,
 	getChemical,
 	getItem,
-	getPathology,
 	setCompensationModel,
 	setSystemModel,
 } from './registries';
 import {
-	getCurrentHumanId,
+	getCurrentPatientBodyParam,
 	getCurrentScenario,
 	//getCurrentScenario,
 	getEnv,
@@ -94,6 +92,7 @@ function pushBloodBlockMetrics(block: Block, time: number, output: Metrics) {
 		time,
 		{
 			extLosses: block.params.totalExtLosses_ml || 0,
+			intLosses: block.params.totalInternalLosses_ml || 0,
 			['Qc ' + block.name]: block.params.bloodFlow_mLper || 0,
 		},
 		output,
@@ -130,11 +129,22 @@ function extractMetric(
 	pushMetric('HR', time, body.vitals.cardio.hr, outputCardio);
 	pushMetric('MAP', time, body.vitals.cardio.MAP, outputCardio);
 
+	pushBloodBlockMetrics(body.blocks.get('THORAX')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('NECK')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('ABDOMEN')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('PELVIS')!, time, outputCardio);
+
+	pushBloodBlockMetrics(body.blocks.get('LEFT_SHOULDER')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_FOREARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_THIGH')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_LEG')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_FOOT')!, time, outputCardio);
+
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_SHOULDER')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_FOREARM')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_THIGH')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_LEG')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_FOOT')!, time, outputCardio);
 
 	pushMetric('ICP [mmHg]', time, body.variables.ICP_mmHg, outputOther);
 
@@ -262,7 +272,7 @@ export function run() {
 	setCompensationModel(compensation);
 
 	// Body Setup
-	const meta = getCurrentHumanId() || defaultMeta;
+	const meta = getCurrentPatientBodyParam() || defaultMeta;
 	const initialBody = createHumanBody(meta, env);
 	calcLogger.info('Start with ', initialBody.state);
 	const outputResp = {};
@@ -324,6 +334,8 @@ export function run() {
 			}
 		}
 	});
+
+	wlog("Scenario: ", {pathologies, effects});
 
 	//doItemActionOnHumanBody(tracheostomyTube.actions[0]!, body, 'NECK', 25);
 

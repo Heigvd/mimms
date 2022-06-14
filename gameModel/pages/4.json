@@ -2,6 +2,57 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Drill ?\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : {
+          "server" : {
+            "@class" : "Script",
+            "content" : "var props = gameModel.getProperties();\nprops.setFreeForAll(!props.getFreeForAll())",
+            "language" : "JavaScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "gameModel.getProperties().getFreeForAll();",
+          "language" : "JavaScript"
+        },
+        "style" : { },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "drill type",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'drillType')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : " !gameModel.getProperties().getFreeForAll();",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "drill config",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
         "layoutStyle" : { },
         "onVariableChange" : { },
         "script" : {
@@ -36,7 +87,7 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
@@ -54,7 +105,7 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
@@ -72,7 +123,7 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {

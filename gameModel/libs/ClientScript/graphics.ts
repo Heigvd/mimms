@@ -2,7 +2,7 @@ import { getDirectMessagesFrom } from "./communication";
 import { getAfflictedBlocks } from "./currentPatientZoom";
 import { add, interpolate, normalize, Point } from "./helper";
 import { allBlocks, BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
-import { Categorization, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
+import { Categorization, getCurrentPatientBody, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { Category, getCategory } from "./triage";
 import { whoAmI } from "./WegasHelper";
 
@@ -438,11 +438,9 @@ function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 }
 export function getVisualDetails(): string {
 
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
-
 	let output: string[] = [];
 
-	const human = getHuman(id);
+	const human = getCurrentPatientBody();
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {

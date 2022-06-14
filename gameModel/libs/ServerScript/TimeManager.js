@@ -16,9 +16,9 @@ var TimeManager = ((function () {
 			return Variable.find(gameModel, 'running').getValue(self);
 		},
 		start: function () {
-			print("Start");
+			//print("Start");
 			if (!TimeManager.isRunning()) {
-				print("DoStart");
+				//print("DoStart");
 				var currentEpoch = new Date().getTime();
 				Variable.find(gameModel, 'epoch_ref').setValue(self, currentEpoch);
 				Variable.find(gameModel, 'running').setValue(self, true);
@@ -73,7 +73,7 @@ var TimeManager = ((function () {
 						}
 
 						if (number > 0) {
-							Variable.find(gameModel, 'inSim_ref').setValue(number);
+							Variable.find(gameModel, 'inSim_ref').add(number);
 						} else {
 							throw "Please do not go backward";
 						}

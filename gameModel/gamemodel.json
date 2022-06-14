@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1654854248292,
+  "createdTime" : 1655235256135,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -133,7 +133,7 @@
     "isolation" : "OPEN",
     "items" : [ {
       "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "NumberInstance",
@@ -162,12 +162,12 @@
       "minValue" : 0.0,
       "name" : "atmP_mmHg",
       "refId" : "NumberDescriptor:24032590:Qc8mBy",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "NumberInstance",
@@ -196,12 +196,12 @@
       "minValue" : 0.0,
       "name" : "fiO2",
       "refId" : "NumberDescriptor:24032611:CMyZD8",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "NumberInstance",
@@ -230,12 +230,12 @@
       "minValue" : 0.0,
       "name" : "duration_s",
       "refId" : "NumberDescriptor:24032601:cT0SBp",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "NumberInstance",
@@ -264,7 +264,7 @@
       "minValue" : 1.0,
       "name" : "stepDuration",
       "refId" : "NumberDescriptor:24033201:CR0yCq",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -300,7 +300,7 @@
         "refId" : "ObjectInstance:22373361:YAp0AO"
       },
       "description" : "<p>&nbsp;</p>",
-      "editorTag" : "patients",
+      "editorTag" : "humans",
       "isolation" : "OPEN",
       "label" : {
         "@class" : "TranslatableContent",
@@ -311,14 +311,14 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:22373362:o2vxxo::EN",
             "status" : "",
-            "translation" : ""
+            "translation" : "patients"
           }
         }
       },
       "name" : "patients",
       "properties" : {
-        "1-1" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
-        "1-2" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
+        "1-1" : "{\"age\":18,\"bmi\":20.5,\"height_cm\":180,\"lungDepth\":1,\"sex\":\"male\"}",
+        "1-2" : "{\"age\":80,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
         "1-3" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
         "2-10" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
         "2-4" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
@@ -326,13 +326,45 @@
         "2-6" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
         "2-7" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
         "2-8" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
-        "2-9" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}",
+        "2-9" : "{\"age\":21,\"bmi\":22.5,\"height_cm\":170,\"lungDepth\":1,\"sex\":\"male\"}"
+      },
+      "refId" : "ObjectDescriptor:22373360:hiolYk",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:24054704:C4XK9T"
+      },
+      "description" : "",
+      "editorTag" : "humans",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24054705:E3YlX1",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24054705:E3YlX1::EN",
+            "status" : "",
+            "translation" : "characters"
+          }
+        }
+      },
+      "name" : "characters",
+      "properties" : {
         "Marie" : "{\"age\":75,\"sex\":\"female\",\"height_cm\":161,\"lungDepth\":1,\"bmi\":22.5}",
         "Mr. Good" : "{\"age\":39,\"sex\":\"male\",\"height_cm\":193,\"bmi\":20.7,\"lungDepth\":1}",
         "georges" : "{\"age\":55,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":180,\"bmi\":22.5}",
         "oscar" : "{\"age\":21,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":170,\"bmi\":21}"
       },
-      "refId" : "ObjectDescriptor:22373360:hiolYk",
+      "refId" : "ObjectDescriptor:24054703:rgeAG3",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -369,7 +401,7 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -401,7 +433,7 @@
         "vitals.respiration.tidalVolume_L" : "{\"min\":0,\"max\":1,\"points\":[{\"x\":0,\"y\":0},{\"x\":20,\"y\":0.1},{\"x\":100,\"y\":1}]}"
       },
       "refId" : "ObjectDescriptor:24033361:SjN1C1",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -477,7 +509,7 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",
@@ -507,12 +539,12 @@
           "vitals.respiration.PaO2" : "[{\"x\":0,\"y\":100},{\"y\":100,\"x\":0},{\"x\":50,\"y\":50},{\"x\":70,\"y\":20},{\"y\":0,\"x\":90}]"
         },
         "refId" : "ObjectDescriptor:24033351:fwNoc7",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",
@@ -538,7 +570,7 @@
         "name" : "objectDescriptor",
         "properties" : { },
         "refId" : "ObjectDescriptor:24035106:XVu43z",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -575,7 +607,7 @@
     "@class" : "ListDescriptor",
     "addShortcut" : "",
     "allowedTypes" : [ ],
-    "broadcastScope" : "TeamScope",
+    "broadcastScope" : "GameModelScope",
     "comments" : "",
     "defaultInstance" : {
       "@class" : "ListInstance",
@@ -644,7 +676,7 @@
       "maxSelectable" : 1,
       "name" : "currentScenario",
       "refId" : "StringDescriptor:22373424:gb8tq8",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -660,7 +692,15 @@
         "trValue" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24035453:0c6ew3",
-          "translations" : { }
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24035453:0c6ew3::EN",
+              "status" : "",
+              "translation" : ""
+            }
+          }
         }
       },
       "editorTag" : "currentPatient",
@@ -715,7 +755,7 @@
     },
     "name" : "state",
     "refId" : "ListDescriptor:22373412:WUI6oz",
-    "scopeType" : "TeamScope",
+    "scopeType" : "GameModelScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -731,66 +771,8 @@
     "editorTag" : "setup",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "WhQuestionDescriptor",
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "WhQuestionInstance",
-        "active" : true,
-        "feedback" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24034256:8Y9FW6",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24034256:8Y9FW6::EN",
-              "status" : "",
-              "translation" : "<p>&nbsp;</p>"
-            }
-          }
-        },
-        "refId" : "WhQuestionInstance:24034121:xoMPy2",
-        "unread" : true,
-        "validated" : false
-      },
-      "description" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034122:Ana2Bi",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034122:Ana2Bi::EN",
-            "status" : "",
-            "translation" : "<p>&nbsp;</p>"
-          }
-        }
-      },
-      "editorTag" : "",
-      "isolation" : "OPEN",
-      "items" : [ ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034123:xYDgwI",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034123:xYDgwI::EN",
-            "status" : "",
-            "translation" : "Setup"
-          }
-        }
-      },
-      "name" : "setup",
-      "refId" : "WhQuestionDescriptor:24034120:xK1MBy",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "BooleanInstance",
@@ -814,12 +796,12 @@
       },
       "name" : "vasoconstriction",
       "refId" : "BooleanDescriptor:24034115:xHN0wL",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "BooleanInstance",
@@ -843,7 +825,7 @@
       },
       "name" : "coagulation",
       "refId" : "BooleanDescriptor:24034126:zLbBDJ",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -878,7 +860,7 @@
     }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StringInstance",
@@ -915,7 +897,7 @@
       "maxSelectable" : 1,
       "name" : "ansModel",
       "refId" : "StringDescriptor:24035111:RmSOQQ",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -1025,7 +1007,7 @@
         "name" : "CareFlight",
         "refId" : "EnumItem:#5:LbbWPB"
       } ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StringInstance",
@@ -1054,7 +1036,78 @@
       "maxSelectable" : 1,
       "name" : "tagSystem",
       "refId" : "StringDescriptor:24047301:ksdlVY",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
+      "sortable" : false,
+      "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24054810:j2SUhg",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24054810:j2SUhg::EN",
+              "status" : "",
+              "translation" : "PRE-TRIAGE"
+            }
+          }
+        },
+        "name" : "PRE-TRIAGE",
+        "refId" : "EnumItem:24054809:5UJ1s3"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24054870:e8Kmjs",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24054870:e8Kmjs::EN",
+              "status" : "",
+              "translation" : "PRE-TRIAGE_ON_MAP"
+            }
+          }
+        },
+        "name" : "PRE-TRIAGE_ON_MAP",
+        "refId" : "EnumItem:#1:Bqd0Tl"
+      } ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:24054806:ivl6TW",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24054807:3qZC5B",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24054807:3qZC5B::EN",
+              "status" : "",
+              "translation" : "PRE-TRIAGE"
+            }
+          }
+        }
+      },
+      "editorTag" : "drillType",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24054808:GQA2c2",
+        "translations" : { }
+      },
+      "maxSelectable" : 1,
+      "name" : "drillType",
+      "refId" : "StringDescriptor:24054805:tFtS6b",
+      "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -1184,7 +1237,7 @@
     "visibility" : "PRIVATE"
   }, {
     "@class" : "InboxDescriptor",
-    "broadcastScope" : "GameModelScope",
+    "broadcastScope" : "TeamScope",
     "capped" : false,
     "comments" : "",
     "defaultInstance" : {
@@ -1210,7 +1263,7 @@
     },
     "name" : "events",
     "refId" : "InboxDescriptor:24034251:S1G7kT",
-    "scopeType" : "GameModelScope",
+    "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -1245,7 +1298,7 @@
       "name" : "output",
       "properties" : { },
       "refId" : "ObjectDescriptor:24032595:j7m5RM",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1268,7 +1321,7 @@
       "name" : "outputCardio",
       "properties" : { },
       "refId" : "ObjectDescriptor:24035156:TCbSqt",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1291,7 +1344,7 @@
       "name" : "outputOther",
       "properties" : { },
       "refId" : "ObjectDescriptor:24035161:V7TLG0",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1307,7 +1360,7 @@
     "visibility" : "PRIVATE"
   }, {
     "@class" : "NumberDescriptor",
-    "broadcastScope" : "GameModelScope",
+    "broadcastScope" : "TeamScope",
     "comments" : "",
     "defaultInstance" : {
       "@class" : "NumberInstance",
@@ -1336,7 +1389,7 @@
     "minValue" : null,
     "name" : "lastEventId",
     "refId" : "NumberDescriptor:24035263:MlG2Ps",
-    "scopeType" : "GameModelScope",
+    "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -1793,10 +1846,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "drill",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24054901:bbSDJz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "EventManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24049824:epY4oR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMaster",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24054702:2tMzal",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2004,7 +2075,7 @@
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : false,
+    "freeForAll" : true,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_cat_fa",
     "logID" : null,
