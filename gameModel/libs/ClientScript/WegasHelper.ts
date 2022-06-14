@@ -101,15 +101,6 @@ export function getHumanIds() {
 	return Object.keys(all);
 }
 
-export function getBodyFactoryParams() {
-	const patients = parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'patients'));
-	const characters = parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'characters'));
-
-	const all = { ...patients, ...characters };
-
-	return all;
-}
-
 export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
 	const strP = getRawHumanBodyParams()[humanId];
 	if (strP) {
@@ -409,11 +400,22 @@ export function clearObjectInstance(oi: SObjectInstance, data: object) {
 
 export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<string, T>) {
 	const newObject = Helpers.cloneDeep(od.getEntity());
-
+	newObject.properties = {};
 	Object.entries(data).forEach(([k, v]) => {
 		newObject.properties[k] = JSON.stringify(v);
 	})
 	APIMethods.updateVariable(newObject);
+}
+
+
+export function getPatientsBodyFactoryParams() {
+	return parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'patients'));
+}
+
+export function getPatientsBodyFactoryParamsArray() {
+	return Object.entries(getPatientsBodyFactoryParams()).map(([id, meta]) => {
+		return {id : id, meta: meta};
+	})
 }
 
 function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {

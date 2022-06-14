@@ -2,16 +2,327 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Resample</p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { regenerateSamples } from \"./distributionSampling\";\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 30,
+                "min" : 0
+              },
+              "y" : {
+                "max" : 1200,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { uniformSample } from \"./distributionSampling\";\nuniformSample;",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 70,
+                "min" : 0
+              },
+              "y" : {
+                "max" : 600,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { histogramSample } from \"./distributionSampling\";\nhistogramSample;",
+              "language" : "TypeScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 60,
+                "min" : 0
+              },
+              "y" : {
+                "max" : 5000,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { normalSample } from \"./distributionSampling\";\nnormalSample;",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Sample Test Humans<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { generateTestPatients } from \"./patientGeneration\";\n\ngenerateTestPatients(true);\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 210,
+                "min" : 130
+              },
+              "y" : {
+                "max" : 0.2,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { uniformSample } from \"./distributionSampling\";\nimport { generateTestPatients, testPatientsHeight } from \"./patientGeneration\";\n\ntestPatientsHeight();",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 40,
+                "min" : 10
+              },
+              "y" : {
+                "max" : 1,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { histogramSample } from \"./distributionSampling\";\nimport { testPatientBmi } from \"./patientGeneration\";\ntestPatientBmi();",
+              "language" : "TypeScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : {
+                "max" : 100,
+                "min" : 10
+              },
+              "y" : {
+                "max" : 0.1,
+                "min" : 0
+              }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { normalSample } from \"./distributionSampling\";\nimport { testPatientAge } from \"./patientGeneration\";\ntestPatientAge();",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-start",
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Resample</p>\"",
+          "content" : "\"<p>Regenerate patients<br></p>\"",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { regenerateSamples } from \"./distributionSampling\";\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+            "content" : "import { createPatients } from \"./GameModelerHelper\";\n\ncreatePatients(20,'patient-');",
             "language" : "TypeScript"
           }
         },
@@ -20,136 +331,194 @@
       "type" : "Button"
     }, {
       "props" : {
-        "allowDoubleClick" : false,
-        "allowDrag" : false,
-        "layoutStyle" : { },
-        "onDblClickCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragEndCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragStartCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "scales" : {
-          "x" : {
-            "max" : 30,
-            "min" : 0
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "id" : "",
+                    "layoutStyle" : { },
+                    "name" : "",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.id;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.meta.sex;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "id" : "",
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Header",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "Context.pathology.payload.pathologyId;",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "JSON.stringify(Context.pathology.payload.afflictedBlocks);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "JSON.stringify(Context.pathology.payload.modulesArguments);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "pathology",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "Context.patient.meta.scriptedPathologies;",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "pid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Add pathology<br></p>\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { getHumanGenerator } from \"./patientGeneration\"\n\ngetHumanGenerator().addPathologies(Context.patient.meta, 1);\nconst script = `Variable.find(gameModel, \"patients\").setProperty(${Context.patient.id}, ${JSON.stringify(Context.patient.meta)})`\nwlog(script)\nAPIMethods.runScript(script, Context);\n\nwlog(Context.patient.meta)",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Remove last<br></p>\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "Context.patient.meta.scriptedPathologies.pop()\nconst script = `Variable.find(gameModel, \"patients\").setProperty(${Context.patient.id}, ${JSON.stringify(Context.patient.meta)})`\nwlog(script)\nAPIMethods.runScript(script, Context.patient);\nwlog(Context.patient.meta.scriptedPathologies)",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ]
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
           },
-          "y" : {
-            "max" : 1200,
-            "min" : 0
-          }
-        },
-        "series" : {
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patient",
+        "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { uniformSample } from \"./distributionSampling\";\nuniformSample;",
+          "content" : "import {  getPatientsBodyFactoryParamsArray } from \"./WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
           "language" : "TypeScript"
         },
-        "showLine" : false,
-        "style" : { }
-      },
-      "type" : "Scatter"
-    }, {
-      "props" : {
-        "allowDoubleClick" : false,
-        "allowDrag" : false,
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
-        "onDblClickCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragEndCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragStartCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "scales" : {
-          "x" : {
-            "max" : 60,
-            "min" : 0
-          },
-          "y" : {
-            "max" : 5000,
-            "min" : 0
-          }
-        },
-        "series" : {
-          "@class" : "Script",
-          "content" : "import { normalSample } from \"./distributionSampling\";\nnormalSample;",
-          "language" : "TypeScript"
-        },
-        "showLine" : false,
         "style" : { }
       },
-      "type" : "Scatter"
-    }, {
-      "props" : {
-        "allowDoubleClick" : false,
-        "allowDrag" : false,
-        "layoutStyle" : { },
-        "onDblClickCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragEndCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "onDragStartCallback" : {
-          "@class" : "Script",
-          "content" : "undefined;",
-          "language" : "typescript"
-        },
-        "scales" : {
-          "x" : {
-            "max" : 70,
-            "min" : 0
-          },
-          "y" : {
-            "max" : 600,
-            "min" : 0
-          }
-        },
-        "series" : {
-          "@class" : "Script",
-          "content" : "import { histogramSample } from \"./distributionSampling\";\nhistogramSample;",
-          "language" : "TypeScript"
-        },
-        "showLine" : true,
-        "style" : { }
-      },
-      "type" : "Scatter"
+      "type" : "For each"
     } ],
     "layout" : {
       "flexDirection" : "column"
@@ -158,7 +527,8 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

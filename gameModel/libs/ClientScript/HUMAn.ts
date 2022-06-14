@@ -21,7 +21,8 @@ import {
 	doCompensate,
 	inferExtraOutputs,
 } from "./physiologicalModel";
-import {getChemical} from "./registries";
+import {getChemical, getPathology} from "./registries";
+import { ScriptedPathologyPayload } from "./the_world";
 
 export type BodyPosition =
 	| "RECOVERY"
@@ -84,6 +85,8 @@ export interface BodyFactoryParam {
 	height_cm: number;
 	/** Effective number of respiratory units is 2^depth */
 	lungDepth: number;
+
+	scriptedPathologies?: ScriptedPathologyPayload[];
 }
 
 export interface Bound {

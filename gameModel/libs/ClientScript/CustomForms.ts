@@ -66,6 +66,7 @@ import { getItems, getPathologies } from "./registries";
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
+			
 			//hideProperty(newSchema, "label");
 			turnPropertyReadOnly(newSchema, "editorTag");
 			newSchema.properties.properties.view = {
@@ -101,6 +102,7 @@ import { getItems, getPathologies } from "./registries";
 									}
 								},
 								bmi: { type: 'number', view: { label: 'BMI [kg/m²]', layout: "shortInline" } },
+								scriptedPathologies: {  view: { type: 'hidden' }},
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
 								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } }
 							}
@@ -400,7 +402,6 @@ import { getItems, getPathologies } from "./registries";
 			};
 			return newSchema;
 		} else if(od.name === 'generation_settings'){
-			wlog('youhou');
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");

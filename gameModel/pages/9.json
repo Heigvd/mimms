@@ -14,11 +14,39 @@
           },
           "type" : "Text"
         }, {
-          "props" : { },
+          "props" : {
+            "displayValues" : "NumberInput",
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'patientNumber')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
           "type" : "NumberSlider"
         } ]
       },
       "type" : "FlexList"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Generate patient<br></p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { generateOnePatient } from \"./patientGeneration\";\n\nconst p = generateOnePatient();\nwlog(p);",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"
