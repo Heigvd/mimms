@@ -1,4 +1,5 @@
 import { BodyFactoryParam, createHumanBody } from "./HUMAn";
+import { generateOnePatient, setTestPatients, testPatients } from "./patientGeneration";
 import { getCurrentHumanId, getEnv, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
 
 const observableVitals = [
@@ -84,9 +85,9 @@ export function createBodyParam(): BodyFactoryParam {
 
 
 export function createPatients(n: number, namer: string | ((n:  number) => string)) {
-	const patientDesc = Variable.find(gameModel, 'patients');
-	const patients = parseObjectDescriptor<BodyFactoryParam>(patientDesc);
+	//const patients = parseObjectDescriptor<BodyFactoryParam>(patientDesc);
 
+	const patients : Record<string, BodyFactoryParam> = {};
 	for (let i = 1; i <= n; i++) {
 		let name = `${i}`;
 		if (typeof namer === 'string'){
@@ -94,7 +95,10 @@ export function createPatients(n: number, namer: string | ((n:  number) => strin
 		} else if (typeof namer === 'function'){
 			name = namer(i);
 		}
-		patients[name] = createBodyParam();
+		patients[name] = generateOnePatient(undefined, 2);
 	}
+	setTestPatients(Object.values(patients));
+	const patientDesc = Variable.find(gameModel, 'patients');
+
 	saveToObjectDescriptor(patientDesc, patients);
 }

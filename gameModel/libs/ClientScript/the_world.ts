@@ -184,6 +184,11 @@ interface CategorizeEvent extends TargetedEvent, Categorization {
 	type: 'Categorize';
 }
 
+// TODO generic payload (for treatments and comm)
+export interface ScriptedPathologyPayload {
+	time : number;
+	payload : PathologyEvent
+}
 
 export type EventPayload = FollowPathEvent | TeleportEvent |
 	PathologyEvent |

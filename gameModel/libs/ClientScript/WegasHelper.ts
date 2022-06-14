@@ -377,7 +377,7 @@ export function clearObjectInstance(oi: SObjectInstance, data: object) {
 
 export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<string, T>) {
 	const newObject = Helpers.cloneDeep(od.getEntity());
-
+	newObject.properties = {};
 	Object.entries(data).forEach(([k, v]) => {
 		newObject.properties[k] = JSON.stringify(v);
 	})
@@ -390,6 +390,12 @@ export function getHumanIds() {
 
 export function getBodyFactoryParams() {
 	return parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'patients'));
+}
+
+export function getBodyFactoryParamsArray() {
+	return Object.entries(getBodyFactoryParams()).map(([id, meta]) => {
+		return {id : id, meta: meta};
+	})
 }
 
 export function getPatientAsChoices(short: boolean = false) {

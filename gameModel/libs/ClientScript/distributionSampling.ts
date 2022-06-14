@@ -1,5 +1,13 @@
 interface IDistribution {
 	sample(): number;
+	/**
+	 * Returns the minimum possible value
+	 */
+	min(): number;
+	/**
+	 * Returns the maximum possible value
+	 */
+	max(): number;
 }
 
 interface Interval {
@@ -57,12 +65,18 @@ export class Histogram {
 
 export class UniformDistribution implements IDistribution {
 
-	private readonly min: number;
-	private readonly max: number;
+	private readonly minValue: number;
+	private readonly maxValue: number;
 
 	constructor(min: number, max: number){
-		this.min = min;
-		this.max = max;
+		this.minValue = min;
+		this.maxValue = max;
+	}
+	min(): number {
+		return this.minValue;
+	}
+	max(): number {
+		return this.maxValue;
 	}
 
 	static fromInterval(interval: Interval): UniformDistribution{
@@ -70,7 +84,7 @@ export class UniformDistribution implements IDistribution {
 	}
 
 	sample(): number {
-		return Math.random() * (this.max - this.min) + this.min;
+		return Math.random() * (this.max() - this.min()) + this.min();
 	}
 
 }
@@ -89,6 +103,13 @@ export class NormalDistribution implements IDistribution {
 		const maxDev = maxDeviation ? maxDeviation : 3*stdDeviation;
 		this.minValue = mean - maxDev;
 		this.maxValue = mean + maxDev;
+	}
+
+	min(): number {
+		return this.minValue;
+	}
+	max(): number {
+		return this.maxValue;
 	}
 
 	sample(): number {
@@ -130,9 +151,15 @@ export class HistogramDistribution implements IDistribution {
 
 		for(let i = 0; i < h.length; i++){
 			this.cumulativeProbs[i] /= total; // to cumulative probabilities
-			this.distributionRanges[i] = new UniformDistribution(h[i].lowerBound, h[i].upperBound);
+			this.distributionRanges.push(new UniformDistribution(h[i].lowerBound, h[i].upperBound));
 		}
 	
+	}
+	min(): number {
+		return this.distributionRanges[0].min();
+	}
+	max(): number {
+		return this.distributionRanges[this.distributionRanges.length-1].max();
 	}
 
 	private findSmallestGreaterIndex(rand : number): number {

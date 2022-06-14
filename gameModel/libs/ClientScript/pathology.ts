@@ -318,7 +318,7 @@ function intersection(...listOfblocks: BlockName[][]) {
 	return result;
 }
 
-function pickRandom<T>(list: T[]): T | undefined {
+export function pickRandom<T>(list: T[]): T | undefined {
 	return list[Math.floor(Math.random() * list.length)];
 }
 
