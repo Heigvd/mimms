@@ -1,0 +1,33 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Number of patients<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : { },
+          "type" : "NumberSlider"
+        } ]
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

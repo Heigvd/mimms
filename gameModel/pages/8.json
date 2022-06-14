@@ -1,0 +1,164 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Resample</p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { regenerateSamples } from \"./distributionSampling\";\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "allowDoubleClick" : false,
+        "allowDrag" : false,
+        "layoutStyle" : { },
+        "onDblClickCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragEndCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragStartCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "scales" : {
+          "x" : {
+            "max" : 30,
+            "min" : 0
+          },
+          "y" : {
+            "max" : 1200,
+            "min" : 0
+          }
+        },
+        "series" : {
+          "@class" : "Script",
+          "content" : "import { uniformSample } from \"./distributionSampling\";\nuniformSample;",
+          "language" : "TypeScript"
+        },
+        "showLine" : false,
+        "style" : { }
+      },
+      "type" : "Scatter"
+    }, {
+      "props" : {
+        "allowDoubleClick" : false,
+        "allowDrag" : false,
+        "layoutStyle" : { },
+        "onDblClickCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragEndCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragStartCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "scales" : {
+          "x" : {
+            "max" : 60,
+            "min" : 0
+          },
+          "y" : {
+            "max" : 5000,
+            "min" : 0
+          }
+        },
+        "series" : {
+          "@class" : "Script",
+          "content" : "import { normalSample } from \"./distributionSampling\";\nnormalSample;",
+          "language" : "TypeScript"
+        },
+        "showLine" : false,
+        "style" : { }
+      },
+      "type" : "Scatter"
+    }, {
+      "props" : {
+        "allowDoubleClick" : false,
+        "allowDrag" : false,
+        "layoutStyle" : { },
+        "onDblClickCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragEndCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "onDragStartCallback" : {
+          "@class" : "Script",
+          "content" : "undefined;",
+          "language" : "typescript"
+        },
+        "scales" : {
+          "x" : {
+            "max" : 70,
+            "min" : 0
+          },
+          "y" : {
+            "max" : 600,
+            "min" : 0
+          }
+        },
+        "series" : {
+          "@class" : "Script",
+          "content" : "import { histogramSample } from \"./distributionSampling\";\nhistogramSample;",
+          "language" : "TypeScript"
+        },
+        "showLine" : true,
+        "style" : { }
+      },
+      "type" : "Scatter"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
