@@ -2475,7 +2475,7 @@ function selectBetweenMinAndMaxBlocks(
 	}
 }
 
-export function doItemActionOnHumanBody(
+export function doActionOnHumanBody(
 	source: ItemDefinition | ActDefinition,
 	action: ActionBodyEffect,
 	//_body: HumanBody,

@@ -496,6 +496,7 @@ function init() {
 	registerItem({
 		id: 'guedel',
 		name: "Guedel",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -523,6 +524,7 @@ function init() {
 	registerItem({
 		id: 'wendel',
 		name: "Wendel",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -551,6 +553,7 @@ function init() {
 	registerItem({
 		id: 'igel',
 		name: "I-Gel",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -579,6 +582,7 @@ function init() {
 	registerItem({
 		id: 'mask',
 		name: "Mask",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -606,6 +610,7 @@ function init() {
 	registerItem({
 		id: 'balloon',
 		name: "Balloon",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -633,6 +638,7 @@ function init() {
 	registerItem({
 		id: 'intubate',
 		name: "intubate",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -661,6 +667,7 @@ function init() {
 	registerItem({
 		id: 'cricotomie',
 		name: "Cricotomie",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -691,6 +698,7 @@ function init() {
 	registerItem({
 		id: '3side',
 		name: "3 sided dressing",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -717,6 +725,7 @@ function init() {
 	registerItem({
 		id: 'exsufflation',
 		name: "Exsufflation",
+		disposable: true,
 		actions: {
 			do: {
 				type: 'ActionBodyEffect',
@@ -743,6 +752,7 @@ function init() {
 	registerItem({
 		id: 'thoracic_drain',
 		name: "Thoracic Drainage",
+		disposable: true,
 		actions: {
 			drain: {
 				type: 'ActionBodyEffect',
@@ -784,6 +794,7 @@ function init() {
 	registerItem({
 		id: 'cat',
 		name: "CAT",
+		disposable: true,
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
@@ -815,6 +826,7 @@ function init() {
 	registerItem({
 		id: 'bandage',
 		name: "Bandage",
+		disposable: true,
 		actions: {
 			pack: {
 				type: 'ActionBodyEffect',
@@ -870,6 +882,7 @@ function init() {
 	registerItem({
 		id: 'israeliBandage',
 		name: "Israeli Bandage",
+		disposable: true,
 		actions: {
 			israeli: {
 				type: 'ActionBodyEffect',
@@ -904,6 +917,7 @@ function init() {
 	registerItem({
 		id: 'TranexamicAcid_500',
 		name: "Tranexamic Acid 500mg",
+		disposable: true,
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
@@ -934,6 +948,7 @@ function init() {
 	registerItem({
 		id: 'SalineSolution_1l',
 		name: "Saline 1L",
+		disposable: true,
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
@@ -968,6 +983,7 @@ function init() {
 		registerItem({
 		id: 'SalineSolution_100ml',
 		name: "NaCl 0.9% 100mL",
+		disposable: true,
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
@@ -1002,6 +1018,7 @@ function init() {
 	registerItem({
 		id: 'Blood_1l',
 		name: "Blood 1L",
+		disposable: true,
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
@@ -1094,6 +1111,7 @@ function init() {
 	registerItem({
 		id: 'oxymeter',
 		name: "Pulse Oxymeter",
+		disposable: false,
 		actions: {
 			measure: {
 				type: 'ActionBodyMeasure',
@@ -1108,6 +1126,7 @@ function init() {
 	registerItem({
 		id: 'sphygmomanometer',
 		name: "Blood Pressure gauge",
+		disposable: false,
 		actions: {
 			measure: {
 				category: 'C',

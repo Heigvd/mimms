@@ -623,6 +623,10 @@ export interface ItemDefinition {
 	/**
 	 *
 	 */
+	disposable: boolean;
+	/**
+	 *
+	 */
 	actions: Record<string, HumanAction>;
 }
 

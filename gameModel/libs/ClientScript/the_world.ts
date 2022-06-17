@@ -1,46 +1,76 @@
-import { Point } from "./helper";
-
+import { Point } from './helper';
 
 import {
-	BlockName, BodyEffect, BodyState,
+	BlockName,
+	BodyEffect,
+	BodyState,
 	BodyStateKeys,
-	computeState, createHumanBody, doItemActionOnHumanBody,
+	computeState,
+	createHumanBody,
+	doActionOnHumanBody,
 	enableCoagulation,
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
-	Environnment, HumanBody, HumanMeta, readKey
-} from "./HUMAn";
-import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition, RevivedPathology, revivePathology } from "./pathology";
-import { getAct, getActs, getItem, getPathology, setCompensationModel, setSystemModel } from "./registries";
-import { getCurrentSimulationTime } from "./TimeManager";
-import { getBagDefinition, getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
-import { initEmitterIds, TargetedEvent } from "./baseEvent";
+	Environnment,
+	HumanBody,
+	HumanMeta,
+	readKey,
+} from './HUMAn';
 import {
-	DirectCommunicationEvent, RadioChannelUpdateEvent,
+	ActDefinition,
+	ActionBodyEffect,
+	ActionBodyMeasure,
+	AfflictedPathology,
+	HumanAction,
+	ItemDefinition,
+	RevivedPathology,
+	revivePathology,
+} from './pathology';
+import {
+	getAct,
+	getActs,
+	getItem,
+	getPathology,
+	setCompensationModel,
+	setSystemModel,
+} from './registries';
+import { getCurrentSimulationTime } from './TimeManager';
+import {
+	getBagDefinition,
+	getBodyParam,
+	getEnv,
+	loadCompensationModel,
+	loadSystem,
+	whoAmI,
+} from './WegasHelper';
+import { initEmitterIds, TargetedEvent } from './baseEvent';
+import {
+	DirectCommunicationEvent,
+	RadioChannelUpdateEvent,
 	RadioCreationEvent,
-	RadioCommunicationEvent, PhoneCommunicationEvent,
+	RadioCommunicationEvent,
+	PhoneCommunicationEvent,
 	PhoneCreationEvent,
 	processPhoneCreation,
-	processDirectMessageEvent, processRadioChannelUpdate,
-	processRadioCommunication, processRadioCreationEvent,
-	processPhoneCommunication, clearAllCommunicationState
-} from "./communication";
-import { FullEvent, getAllEvents, sendEvent } from "./EventManager";
-import { Category, SystemName } from "./triage";
-import { getFogType } from "./gameMaster";
-
-
-
+	processDirectMessageEvent,
+	processRadioChannelUpdate,
+	processRadioCommunication,
+	processRadioCreationEvent,
+	processPhoneCommunication,
+	clearAllCommunicationState,
+} from './communication';
+import { FullEvent, getAllEvents, sendEvent } from './EventManager';
+import { Category, SystemName } from './triage';
+import { getFogType } from './gameMaster';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
 ///////////////////////////////////////////////////////////////////////////
-const worldLogger = Helpers.getLogger("the_world");
-
+const worldLogger = Helpers.getLogger('the_world');
 
 export type Location = Point & {
 	mapId: string;
-}
+};
 
 export interface Located {
 	location: Location | undefined;
@@ -58,24 +88,24 @@ export type LocationState = Located & {
 	type: 'Human';
 	id: string;
 	time: number;
-}
+};
 
 interface BaseLog {
 	time: number;
 }
 
 type MessageLog = BaseLog & {
-	type: 'MessageLog',
+	type: 'MessageLog';
 	message: string;
-}
+};
 
 type MeasureLog = BaseLog & {
-	type: 'MeasureLog',
+	type: 'MeasureLog';
 	/**
 	 * Key: metric name; value: measures value
 	 */
-	metrics: { metric: BodyStateKeys, value: unknown }[];
-}
+	metrics: { metric: BodyStateKeys; value: unknown }[];
+};
 
 export type ConsoleLog = MessageLog | MeasureLog;
 
@@ -83,7 +113,6 @@ export interface Categorization {
 	system: SystemName;
 	category: Category<string>['id'];
 }
-
 
 export type Inventory = Record<string, number | 'infinity'>;
 
@@ -99,12 +128,11 @@ export interface HumanState {
 	bodyState: BodyState;
 	console: ConsoleLog[];
 	category: Categorization | undefined;
-};
+}
 
 export interface WorldState {
 	// id to human
 	humans: Record<string, HumanState & Located>;
-
 }
 
 export type WorldObject = HumanState;
@@ -115,17 +143,16 @@ interface ObjectId {
 }
 
 interface PositionAtTime {
-	time: number,
-	location: Location | undefined,
-	direction: Location | undefined
+	time: number;
+	location: Location | undefined;
+	direction: Location | undefined;
 }
 
 // Update-to-date locations
 // key is ObjectType::ObjectId
 // last exact position is "location" at "time" (teleportation)
 // current move is define by "direction"
-export type PositionState = Record<string, undefined | (ObjectId & PositionAtTime)>
-
+export type PositionState = Record<string, undefined | (ObjectId & PositionAtTime)>;
 
 /**
  * NONE: update everything, all the time
@@ -162,30 +189,31 @@ interface HumanLogMessageEvent extends TargetedEvent {
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
-	source: ({
-		type: 'act',
-		actId: string
-	} |
-	{
-		type: 'itemAction';
-		itemId: string;
-		actionId: string;
-	})
+	source:
+		| {
+				type: 'act';
+				actId: string;
+		  }
+		| {
+				type: 'itemAction';
+				itemId: string;
+				actionId: string;
+		  };
 }
-
 
 export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
-	source: ({
-		type: 'act',
-		actId: string
-	} |
-	{
-		type: 'itemAction';
-		itemId: string;
-		actionId: string;
-	})
-	blocks: BlockName[],
+	source:
+		| {
+				type: 'act';
+				actId: string;
+		  }
+		| {
+				type: 'itemAction';
+				itemId: string;
+				actionId: string;
+		  };
+	blocks: BlockName[];
 }
 
 interface CategorizeEvent extends TargetedEvent, Categorization {
@@ -197,22 +225,26 @@ export interface GiveBagEvent extends TargetedEvent {
 	bagId: string;
 }
 
-
 // TODO generic payload (for treatments and comm)
 export interface ScriptedPathologyPayload {
 	time: number;
-	payload: PathologyEvent
+	payload: PathologyEvent;
 }
 
-export type EventPayload = FollowPathEvent | TeleportEvent |
-	PathologyEvent |
-	HumanTreatmentEvent | HumanMeasureEvent |
-	HumanLogMessageEvent |
-	CategorizeEvent |
-	DirectCommunicationEvent | RadioCommunicationEvent |
-	RadioChannelUpdateEvent | RadioCreationEvent |
-	PhoneCommunicationEvent |
-	PhoneCreationEvent
+export type EventPayload =
+	| FollowPathEvent
+	| TeleportEvent
+	| PathologyEvent
+	| HumanTreatmentEvent
+	| HumanMeasureEvent
+	| HumanLogMessageEvent
+	| CategorizeEvent
+	| DirectCommunicationEvent
+	| RadioCommunicationEvent
+	| RadioChannelUpdateEvent
+	| RadioCreationEvent
+	| PhoneCommunicationEvent
+	| PhoneCreationEvent
 	| GiveBagEvent;
 
 export type EventType = EventPayload['type'];
@@ -222,7 +254,7 @@ interface Snapshot<T> {
 	state: T;
 }
 
-type Snapshots<T> = Record<string, Snapshot<T>[]>
+type Snapshots<T> = Record<string, Snapshot<T>[]>;
 
 ///////////////////////////////////////////////////////////////////////////
 // State & config
@@ -242,7 +274,6 @@ let inventoriesSnapshots: Snapshots<Inventory> = {};
 /** current visible state */
 const worldState: WorldState = {
 	humans: {},
-
 };
 
 let healths: HumanHealthState = {};
@@ -257,8 +288,6 @@ let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
 // const eventStore: EventStore = {};
 
-
-
 //let fogType: FogType = 'NONE';
 
 // TODO: line of sight:
@@ -271,7 +300,7 @@ const sqRadius = lineOfSightRadius * lineOfSightRadius;
 ///////////////////////////////////////////////////////////////////////////
 
 function getObjectKey(object: ObjectId) {
-	return object.objectType + "::" + object.objectId;
+	return object.objectType + '::' + object.objectId;
 }
 
 function rndInt(min: number, max: number) {
@@ -282,26 +311,26 @@ function rndInt(min: number, max: number) {
 function add(a: Point, b: Point): Point {
 	return {
 		x: a.x + b.x,
-		y: a.y + b.y
-	}
+		y: a.y + b.y,
+	};
 }
 
 function sub(a: Point, b: Point): Point {
 	return {
 		x: a.x - b.x,
-		y: a.y - b.y
-	}
+		y: a.y - b.y,
+	};
 }
 
 function mul(a: Point, s: number): Point {
 	return {
 		x: a.x * s,
-		y: a.y * s
-	}
+		y: a.y * s,
+	};
 }
 
 function norm(a: Point, b: Point): number {
-	return a.x * b.x + a.y * b.y
+	return a.x * b.x + a.y * b.y;
 }
 
 function hypotSq(a: Point): number {
@@ -323,9 +352,13 @@ function proj(a: Point, b: Point): Point {
 /**
  * speed: px/sec
  */
-function computeCurrentLocation(location: PositionAtTime | undefined, currentTime: number, speed: number): Location | undefined {
+function computeCurrentLocation(
+	location: PositionAtTime | undefined,
+	currentTime: number,
+	speed: number,
+): Location | undefined {
 	// TODO multi map
-	worldLogger.log("ComputeCurrentLocation", { location, currentTime, speed });
+	worldLogger.log('ComputeCurrentLocation', { location, currentTime, speed });
 	if (location?.location != null) {
 		if (location.direction != null) {
 			const delta = sub(location.direction, location.location);
@@ -335,14 +368,13 @@ function computeCurrentLocation(location: PositionAtTime | undefined, currentTim
 			const ratio = distance > fullDistance ? 1 : distance / fullDistance;
 			return {
 				mapId: location.location.mapId,
-				...add(mul(delta, ratio), location.location)
+				...add(mul(delta, ratio), location.location),
 			};
 		} else {
 			return location.location;
 		}
 	}
 }
-
 
 /**
  * Is there an intersection between sebment AB and circle (c, sqrt(sqRadius))
@@ -365,9 +397,10 @@ function doIntersect(c: Point, sqRadius: number, a: Point, b: Point): boolean {
 
 	const ad_Vector = sub(d, a);
 	// is d on AB segment ? (thales th. against greater delta to avoid division by zero)
-	const k = Math.abs(ab_Vector.x) > Math.abs(ab_Vector.y)
-		? ad_Vector.x / ab_Vector.x
-		: ad_Vector.y / ab_Vector.y;
+	const k =
+		Math.abs(ab_Vector.x) > Math.abs(ab_Vector.y)
+			? ad_Vector.x / ab_Vector.x
+			: ad_Vector.y / ab_Vector.y;
 
 	if (k <= 0) {
 		// d is not on seg AB (before A)
@@ -380,7 +413,6 @@ function doIntersect(c: Point, sqRadius: number, a: Point, b: Point): boolean {
 		return isPointInCircle(c, sqRadius, d);
 	}
 }
-
 
 function isPointInCircle(c: Point | undefined, sqRadius: number, p: Point | undefined) {
 	if (c == null || p == null) {
@@ -410,22 +442,29 @@ function compareEvent(a: FullEvent<EventPayload>, b: FullEvent<EventPayload>): n
 }
 
 function extractNotYetProcessedEvents(events: FullEvent<EventPayload>[]) {
-	return events.reduce<{ processed: FullEvent<EventPayload>[], not: FullEvent<EventPayload>[] }>((acc, cur) => {
-		if (processedEvent[cur.id]) {
-			acc.processed.push(cur);
-		} else {
-			acc.not.push(cur);
-		}
-		return acc;
-	}, {
-		processed: [], not: [],
-	});
+	return events.reduce<{ processed: FullEvent<EventPayload>[]; not: FullEvent<EventPayload>[] }>(
+		(acc, cur) => {
+			if (processedEvent[cur.id]) {
+				acc.processed.push(cur);
+			} else {
+				acc.not.push(cur);
+			}
+			return acc;
+		},
+		{
+			processed: [],
+			not: [],
+		},
+	);
 }
 
 function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
 	return events.reduce<Record<string, FullEvent<TeleportEvent | FollowPathEvent>>>((acc, event) => {
 		if (event.payload.type === 'FollowPath' || event.payload.type === 'Teleport') {
-			const key = getObjectKey({ objectType: event.payload.targetType, objectId: event.payload.targetId });
+			const key = getObjectKey({
+				objectType: event.payload.targetType,
+				objectId: event.payload.targetId,
+			});
 			const current = acc[key];
 			if (current) {
 				if (compareEvent(current, event) < 0) {
@@ -440,20 +479,24 @@ function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
 	}, {});
 }
 
+function findNextTargetedEvent(
+	events: FullEvent<EventPayload>[],
+	currentEvent: FullEvent<EventPayload>,
+	eventTypes: EventType[],
+	target: ObjectId,
+): FullEvent<EventPayload> | undefined {
+	const futureEvents = events.filter(event => {
+		const cEvent = event.payload as Partial<TargetedEvent>;
 
-function findNextTargetedEvent(events: FullEvent<EventPayload>[], currentEvent: FullEvent<EventPayload>, eventTypes: EventType[], target: ObjectId): FullEvent<EventPayload> | undefined {
-	const futureEvents = events
-		.filter(event => {
-			const cEvent = event.payload as Partial<TargetedEvent>;
-
-			return cEvent.targetType === target.objectType
-				&& cEvent.targetId === target.objectId
-				&& eventTypes.includes(event.payload.type)
-				&& compareEvent(event, currentEvent) > 0;
-		});
+		return (
+			cEvent.targetType === target.objectType &&
+			cEvent.targetId === target.objectId &&
+			eventTypes.includes(event.payload.type) &&
+			compareEvent(event, currentEvent) > 0
+		);
+	});
 	return futureEvents.sort(compareEvent)[0];
 }
-
 
 /**
  * Compute spatial index at given type
@@ -465,10 +508,10 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 	const events = filterOutFutureEvents(allEvents, time);
 	const mappedEvent = mapLastLocationEventByObject(events);
 
-	worldLogger.debug("Most recent location event", { mappedEvent });
+	worldLogger.debug('Most recent location event', { mappedEvent });
 
-	objectList.forEach((obj) => {
-		worldLogger.debug("Compute Location", { obj });
+	objectList.forEach(obj => {
+		worldLogger.debug('Compute Location', { obj });
 		const key = getObjectKey(obj);
 		const event = mappedEvent[key];
 		if (event != null) {
@@ -480,9 +523,10 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 					objectId: obj.objectId,
 					time: time,
 					location: event.payload.location,
-					direction: undefined
+					direction: undefined,
 				};
-			} if (event.payload.type === 'FollowPath') {
+			}
+			if (event.payload.type === 'FollowPath') {
 				// object is moving
 				spatialIndex[key] = {
 					objectType: obj.objectType,
@@ -497,7 +541,6 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 	return spatialIndex;
 }
 
-
 function initHuman(humanId: string): HumanState {
 	const env = getEnv();
 	const bodyParam = getBodyParam(humanId);
@@ -507,10 +550,10 @@ function initHuman(humanId: string): HumanState {
 	const humanBody = createHumanBody(bodyParam, env);
 	humanMetas[humanId] = humanBody.meta;
 
-	worldLogger.log("Create Human:");
-	worldLogger.log(" ENV:", env);
-	worldLogger.log(" Param:", bodyParam);
-	worldLogger.log(" human: ", humanBody.state.vitals.glasgow.total);
+	worldLogger.log('Create Human:');
+	worldLogger.log(' ENV:', env);
+	worldLogger.log(' Param:', bodyParam);
+	worldLogger.log(' human: ', humanBody.state.vitals.glasgow.total);
 
 	return {
 		type: 'Human',
@@ -526,25 +569,24 @@ function initHuman(humanId: string): HumanState {
  * build state of the world at given time
  */
 function rebuildState(time: number, env: Environnment) {
-	worldLogger.debug("RebuildState", { time, env });
-	worldLogger.debug("Humans", humanSnapshots);
-	worldLogger.debug("Locations", locationsSnapshots);
+	worldLogger.debug('RebuildState', { time, env });
+	worldLogger.debug('Humans', humanSnapshots);
+	worldLogger.debug('Locations', locationsSnapshots);
 
 	const fogType = getFogType();
 
 	const objectList: ObjectId[] = Object.keys(locationsSnapshots).map(key => {
-		const [type, id] = key.split("::");
+		const [type, id] = key.split('::');
 		return {
 			objectId: id!,
 			objectType: type!,
 		};
 	});
 
-
 	// generate missing snapshot for time
 	objectList.forEach(obj => {
 		const oKey = getObjectKey(obj);
-		worldLogger.info("Update ", obj, oKey);
+		worldLogger.info('Update ', obj, oKey);
 
 		const humanS = getMostRecentSnapshot(humanSnapshots, obj, time);
 		const positionS = getMostRecentSnapshot(locationsSnapshots, obj, time);
@@ -554,24 +596,23 @@ function rebuildState(time: number, env: Environnment) {
 				// Object is moving
 				const speed = 20; // TODO speed is dependent of HumanS
 				const newLocation = computeCurrentLocation(positionS.mostRecent.state, time, speed);
-				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
+				worldLogger.log('RebuildPosition: ', positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey]!.splice(positionS.mostRecentIndex + 1, 0, {
 					time: time,
 					state: {
 						...positionS.mostRecent.state,
 						time: time,
 						location: newLocation,
-					}
+					},
 				});
 			}
 		}
-
 
 		if (humanS.mostRecent == null) {
 			humanS.mostRecent = {
 				time: 0,
 				state: initHuman(obj.objectId),
-			}
+			};
 			humanSnapshots[oKey]!.unshift(humanS.mostRecent);
 		}
 
@@ -584,7 +625,7 @@ function rebuildState(time: number, env: Environnment) {
 				state: newState,
 			});
 
-			worldLogger.debug("WorldState: ", humanSnapshots[oKey]);
+			worldLogger.debug('WorldState: ', humanSnapshots[oKey]);
 		}
 	});
 
@@ -592,7 +633,6 @@ function rebuildState(time: number, env: Environnment) {
 	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
-
 
 	//if (myPosition.mostRecent != null) {
 	const visibles: ObjectId[] = [];
@@ -607,16 +647,20 @@ function rebuildState(time: number, env: Environnment) {
 			objectType: 'Human',
 			objectId: myHumanId,
 		});
-		outOfSight = objectList.filter(o => { o.objectType != 'Human' });
-
+		outOfSight = objectList.filter(o => {
+			o.objectType != 'Human';
+		});
 	} else if (fogType === 'SIGHT') {
 		// Detect visible object
-		worldLogger.info("My Position", myPosition);
+		worldLogger.info('My Position', myPosition);
 		Object.keys(locationsSnapshots).forEach(key => {
-			const [type, id] = key.split("::");
+			const [type, id] = key.split('::');
 			const oId = { objectType: type!, objectId: id! };
 			const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
-			if (mostRecent != null && isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)) {
+			if (
+				mostRecent != null &&
+				isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)
+			) {
 				visibles.push(oId);
 			} else {
 				outOfSight.push(oId);
@@ -624,32 +668,32 @@ function rebuildState(time: number, env: Environnment) {
 		});
 	}
 
-	worldLogger.info("Visible", visibles);
-	worldLogger.info("OutOfSight", outOfSight);
+	worldLogger.info('Visible', visibles);
+	worldLogger.info('OutOfSight', outOfSight);
 
 	visibles.forEach(oId => {
 		const key = getObjectKey(oId);
 		const location = getMostRecentSnapshot(locationsSnapshots, oId, time);
 		const human = getMostRecentSnapshot(humanSnapshots, oId, time);
-		worldLogger.debug("Visible@Location", key, location.mostRecent);
-		worldLogger.debug("Visible@Human", key, human.mostRecent);
+		worldLogger.debug('Visible@Location', key, location.mostRecent);
+		worldLogger.debug('Visible@Human', key, human.mostRecent);
 
 		if (location.mostRecent != null && human.mostRecent != null) {
 			worldState.humans[key] = {
 				...human.mostRecent.state,
 				...location.mostRecent.state,
-			}
+			};
 		}
 	});
 
 	// make sure out-of-sight object or not visible
-	worldLogger.info("InMemoryWorld: ", worldState);
+	worldLogger.info('InMemoryWorld: ', worldState);
 	outOfSight.forEach(obj => {
 		const oKey = getObjectKey(obj);
 		//const objSpatialIndex = spatialIndex[oKey];
 		const current = obj.objectType === 'Human' ? worldState.humans[oKey] : undefined;
 
-		worldLogger.info("OutOfSight: last known position: ", current);
+		worldLogger.info('OutOfSight: last known position: ', current);
 		if (current != null && current.location != null) {
 			if (current.id != myHumanId) {
 				/*if (current.direction) {
@@ -660,7 +704,9 @@ function rebuildState(time: number, env: Environnment) {
 					// last time I saw this object, it was moving
 					current.location = undefined;
 					current.direction = undefined;
-				} else if (isPointInCircle(myPosition.mostRecent?.state.location, sqRadius, current.location)) {
+				} else if (
+					isPointInCircle(myPosition.mostRecent?.state.location, sqRadius, current.location)
+				) {
 					// Last known location was here but object is not here any longer
 					current.location = undefined;
 					current.direction = undefined;
@@ -671,18 +717,22 @@ function rebuildState(time: number, env: Environnment) {
 	//}
 }
 
-
-function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: number, options: {
-	strictTime?: boolean;
-	before?: FullEvent<EventPayload>;
-} = {}): {
-	mostRecent: Snapshot<T> | undefined,
+function getMostRecentSnapshot<T>(
+	snapshots: Snapshots<T>,
+	obj: ObjectId,
+	time: number,
+	options: {
+		strictTime?: boolean;
+		before?: FullEvent<EventPayload>;
+	} = {},
+): {
+	mostRecent: Snapshot<T> | undefined;
 	mostRecentIndex: number;
-	futures: Snapshot<T>[],
+	futures: Snapshot<T>[];
 } {
 	const oKey = getObjectKey(obj);
 
-	worldLogger.info("Update ", obj, oKey);
+	worldLogger.info('Update ', obj, oKey);
 
 	let futures: Snapshot<T>[] = [];
 	let index = -1;
@@ -705,15 +755,14 @@ function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: 
 		snapshots[oKey] = [];
 	}
 
-
 	if (snapshot == undefined) {
-		worldLogger.info("No Snapshot: init")
+		worldLogger.info('No Snapshot: init');
 		// snapshot = { state: initObject<T>(obj), time: 0 };
 	} else {
-		worldLogger.info("Snapshot found at time ", snapshot.time);
+		worldLogger.info('Snapshot found at time ', snapshot.time);
 	}
 	if (options.before) {
-		futures = futures.filter(e => e.time < options.before!.time)
+		futures = futures.filter(e => e.time < options.before!.time);
 	}
 
 	return {
@@ -722,7 +771,6 @@ function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: 
 		futures: futures,
 	};
 }
-
 
 function computeHumanState(state: HumanState, to: number, env: Environnment) {
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
@@ -736,33 +784,53 @@ function computeHumanState(state: HumanState, to: number, env: Environnment) {
 
 	const health = healths[state.id] || { effects: [], pathologies: [] };
 	for (let i = from + stepDuration; i <= to; i += stepDuration) {
-		worldLogger.log("Compute Human Step ", { currentTime: newState.time, stepDuration, health });
+		worldLogger.log('Compute Human Step ', { currentTime: newState.time, stepDuration, health });
 		computeState(newState.bodyState, meta, env, stepDuration, health.pathologies, health.effects);
-		worldLogger.debug("Step Time: ", newState.bodyState.time)
+		worldLogger.debug('Step Time: ', newState.bodyState.time);
 	}
 
 	// last tick
 	if (newState.time < to) {
-		worldLogger.log("Compute Human Step ", { currentTime: newState.time, stepDuration: to - newState.bodyState.time, health });
-		computeState(newState.bodyState, meta, env, to - newState.bodyState.time, health.pathologies, health.effects);
+		worldLogger.log('Compute Human Step ', {
+			currentTime: newState.time,
+			stepDuration: to - newState.bodyState.time,
+			health,
+		});
+		computeState(
+			newState.bodyState,
+			meta,
+			env,
+			to - newState.bodyState.time,
+			health.pathologies,
+			health.effects,
+		);
 	}
 	newState.time = newState.bodyState.time;
-	worldLogger.debug("FinalStateTime: ", newState.time);
+	worldLogger.debug('FinalStateTime: ', newState.time);
 	return newState;
 }
-
 
 function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 	// TODO: is object an obstacle ?
 	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
 	const oKey = getObjectKey(objId);
 
-	const next = findNextTargetedEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
+	const next = findNextTargetedEvent(
+		currentProcessedEvents,
+		event,
+		['FollowPath', 'Teleport'],
+		objId,
+	);
 
 	// TODO: update location state between current
-	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(locationsSnapshots, objId, event.time, { before: next });
+	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		locationsSnapshots,
+		objId,
+		event.time,
+		{ before: next },
+	);
 
-	let currentSnapshot: { time: number; state: LocationState; };
+	let currentSnapshot: { time: number; state: LocationState };
 
 	if (mostRecent == null || mostRecent.time < event.time) {
 		currentSnapshot = {
@@ -773,10 +841,10 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 				time: event.time,
 				location: event.payload.location,
 				direction: undefined,
-			}
-		}
+			},
+		};
 		// register new snapshot
-		worldLogger.debug("Teleport: ", locationsSnapshots[oKey]);
+		worldLogger.debug('Teleport: ', locationsSnapshots[oKey]);
 		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
@@ -794,19 +862,27 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 	return false;
 }
 
-
 function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// TODO: is object an obstacle ?
 	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
 	const oKey = getObjectKey(objId);
 
-	const next = findNextTargetedEvent(currentProcessedEvents, event, ['FollowPath', 'Teleport'], objId);
-
+	const next = findNextTargetedEvent(
+		currentProcessedEvents,
+		event,
+		['FollowPath', 'Teleport'],
+		objId,
+	);
 
 	// TODO: update location state between current
-	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(locationsSnapshots, objId, event.time, { before: next });
+	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		locationsSnapshots,
+		objId,
+		event.time,
+		{ before: next },
+	);
 
-	let currentSnapshot: { time: number; state: LocationState; };
+	let currentSnapshot: { time: number; state: LocationState };
 
 	if (mostRecent == null || mostRecent.time < event.time) {
 		// object start to move now: it's located on its starting position
@@ -818,10 +894,10 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 				time: event.time,
 				location: event.payload.from,
 				direction: event.payload.destination,
-			}
-		}
+			},
+		};
 		// register snapshot
-		worldLogger.debug("FollowPath: ", locationsSnapshots[oKey]);
+		worldLogger.debug('FollowPath: ', locationsSnapshots[oKey]);
 		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
@@ -833,13 +909,12 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// Update futures
 	futures.forEach(snapshot => {
 		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 20);
-		worldLogger.log("Update Future: ", { snapshot, loc });
+		worldLogger.log('Update Future: ', { snapshot, loc });
 		snapshot.state.location = loc;
 		snapshot.state.location = event.payload.destination;
 	});
 	return false;
 }
-
 
 function updateHumanSnapshots(humanId: string, time: number) {
 	// Update HUMAn body states
@@ -847,26 +922,31 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	const oKey = getObjectKey(objId);
 
 	const env = getEnv();
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, time, { strictTime: true });
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		humanSnapshots,
+		objId,
+		time,
+		{ strictTime: true },
+	);
 
-	let currentSnapshot: { time: number; state: HumanState; };
+	let currentSnapshot: { time: number; state: HumanState };
 
 	if (mostRecent == null) {
 		mostRecent = {
 			time: 0,
-			state: initHuman(objId.objectId)
+			state: initHuman(objId.objectId),
 		};
 		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
-	worldLogger.log("Update human snapshot", oKey, { mostRecent, futures });
+	worldLogger.log('Update human snapshot', oKey, { mostRecent, futures });
 	if (mostRecent.time < time) {
 		// catch-up human state
 		currentSnapshot = {
 			time: time,
-			state: computeHumanState(mostRecent.state, time, env)
-		}
+			state: computeHumanState(mostRecent.state, time, env),
+		};
 		// register new snapshot
-		worldLogger.log("Update human snapshot at time ", time);
+		worldLogger.log('Update human snapshot at time ', time);
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
 		// update mostRecent snapshot in place
@@ -874,8 +954,8 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	}
 	// Update futures
 	futures.forEach(snapshot => {
-		worldLogger.log("Update future human snapshot at time ", snapshot.time);
-		const state = Helpers.cloneDeep(currentSnapshot.state)
+		worldLogger.log('Update future human snapshot at time ', snapshot.time);
+		const state = Helpers.cloneDeep(currentSnapshot.state);
 		snapshot.state = computeHumanState(state, snapshot.time, env);
 
 		currentSnapshot = snapshot;
@@ -889,7 +969,7 @@ export function getHealth(humanId: string) {
 function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 	const pathology = getPathology(event.payload.pathologyId);
 	if (pathology != null) {
-		worldLogger.log("Afflict Pathology: ", { pathology, time: event.time });
+		worldLogger.log('Afflict Pathology: ', { pathology, time: event.time });
 		//const meta = humanMetas[event.targetId];
 
 		// push pathology in human health state
@@ -902,7 +982,9 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 
 		updateHumanSnapshots(event.payload.targetId, event.time);
 	} else {
-		worldLogger.info(`Afflict Pathology Failed: Pathology "${event.payload.pathologyId}" does not exist`);
+		worldLogger.info(
+			`Afflict Pathology Failed: Pathology "${event.payload.pathologyId}" does not exist`,
+		);
 	}
 }
 
@@ -915,10 +997,9 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 }
 
 interface ResolvedAction {
-	source: ActDefinition | ItemDefinition;
+	source: (ActDefinition & { type: 'act' }) | (ItemDefinition & { type: 'item' });
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
-
 
 function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): ResolvedAction | undefined {
 	if (event.source.type === 'act') {
@@ -926,7 +1007,7 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 		const action = act?.action;
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
 			return {
-				source: act!,
+				source: { ...act!, type: 'act' },
 				action: action,
 			};
 		}
@@ -935,7 +1016,7 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 		const action = item?.actions[event.source.actionId];
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
 			return {
-				source: item!,
+				source: { ...item!, type: 'item' },
 				action: action,
 			};
 		}
@@ -944,9 +1025,11 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 	return undefined;
 }
 
-
-
-function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMeasure, fEvent: FullEvent<HumanMeasureEvent>) {
+function doMeasure(
+	source: ItemDefinition | ActDefinition,
+	action: ActionBodyMeasure,
+	fEvent: FullEvent<HumanMeasureEvent>,
+) {
 	const name = action.name;
 	const metrics = action.metricName;
 	const time = fEvent.time;
@@ -954,19 +1037,23 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 	const event = fEvent.payload;
 	const objId = {
 		objectType: event.targetType,
-		objectId: event.targetId
+		objectId: event.targetId,
 	};
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, fEvent.time);
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		humanSnapshots,
+		objId,
+		fEvent.time,
+	);
 
-	let currentSnapshot: { time: number; state: HumanState; };
+	let currentSnapshot: { time: number; state: HumanState };
 
 	if (mostRecent == null) {
 		mostRecent = {
 			time: 0,
-			state: initHuman(objId.objectId)
+			state: initHuman(objId.objectId),
 		};
 		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
@@ -976,8 +1063,8 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 		const env = getEnv();
 		currentSnapshot = {
 			time: time,
-			state: computeHumanState(mostRecent.state, time, env)
-		}
+			state: computeHumanState(mostRecent.state, time, env),
+		};
 		// register new snapshot
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
@@ -990,8 +1077,8 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 	const values: MeasureLog['metrics'] = metrics.map(metric => {
 		return {
 			metric,
-			value: readKey(body, metric)
-		}
+			value: readKey(body, metric),
+		};
 	});
 
 	const logEntry: MeasureLog = {
@@ -1004,24 +1091,57 @@ function doMeasure(source: ItemDefinition | ActDefinition, action: ActionBodyMea
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
 		snapshot.state.console.sort((a, b) => a.time - b.time);
-	})
+	});
 }
 
+function checkItemAvailabilityAndConsume(item: ItemDefinition): boolean {
+	const inventory = getMyInventory();
+	const count = inventory[item.id];
+
+	if (count == null) {
+		// character do not own such item;
+		return false;
+	} else if (typeof count === 'number') {
+		if (count > 0) {
+			if (item.disposable) {
+				// item is diposable: consume one
+			}
+			return true;
+		} else {
+			// no more item
+			return false;
+		}
+	} else {
+		//  infinity never decreases
+		return true;
+	}
+}
 
 function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
-
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
 		const { source, action } = resolvedAction;
-		if (resolvedAction.action.type === "ActionBodyMeasure") {
-			worldLogger.log("Do Act Item: ", { time: event.time, source: event.payload.source, action }, event);
+		if (resolvedAction.action.type === 'ActionBodyMeasure') {
+			if (source.type === 'item') {
+				if (checkItemAvailabilityAndConsume(source) === false) {
+					return;
+				}
+			}
+
+			worldLogger.log(
+				'Do Act Item: ',
+				{ time: event.time, source: event.payload.source, action },
+				event,
+			);
 			doMeasure(source, action as ActionBodyMeasure, event);
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
 	} else {
-		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`);
+		worldLogger.warn(
+			`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`,
+		);
 	}
 }
 
@@ -1030,19 +1150,23 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 
 	const objId = {
 		objectType: event.payload.targetType,
-		objectId: event.payload.targetId
+		objectId: event.payload.targetId,
 	};
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, event.time);
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		humanSnapshots,
+		objId,
+		event.time,
+	);
 
-	let currentSnapshot: { time: number; state: HumanState; };
+	let currentSnapshot: { time: number; state: HumanState };
 
 	if (mostRecent == null) {
 		mostRecent = {
 			time: 0,
-			state: initHuman(objId.objectId)
+			state: initHuman(objId.objectId),
 		};
 		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
@@ -1052,8 +1176,8 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 		const env = getEnv();
 		currentSnapshot = {
 			time: time,
-			state: computeHumanState(mostRecent.state, time, env)
-		}
+			state: computeHumanState(mostRecent.state, time, env),
+		};
 		// register new snapshot
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
@@ -1071,7 +1195,7 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
 		snapshot.state.console.sort((a, b) => a.time - b.time);
-	})
+	});
 }
 
 function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
@@ -1079,22 +1203,26 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 
 	const objId = {
 		objectType: event.payload.targetType,
-		objectId: event.payload.targetId
+		objectId: event.payload.targetId,
 	};
 	const oKey = getObjectKey(objId);
-
 
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, event.time, { before: next });
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		humanSnapshots,
+		objId,
+		event.time,
+		{ before: next },
+	);
 
-	let currentSnapshot: { time: number; state: HumanState; };
+	let currentSnapshot: { time: number; state: HumanState };
 
 	if (mostRecent == null) {
 		mostRecent = {
 			time: 0,
-			state: initHuman(objId.objectId)
+			state: initHuman(objId.objectId),
 		};
 		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
@@ -1104,8 +1232,8 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		const env = getEnv();
 		currentSnapshot = {
 			time: time,
-			state: computeHumanState(mostRecent.state, time, env)
-		}
+			state: computeHumanState(mostRecent.state, time, env),
+		};
 		// register new snapshot
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
@@ -1116,23 +1244,37 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const category: Categorization = {
 		category: event.payload.category,
 		system: event.payload.system,
-	}
+	};
 	currentSnapshot.state.category = category;
 
 	futures.forEach(snapshot => {
 		snapshot.state.category = { ...category };
-	})
+	});
 }
 
 function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
-
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
 		const { source, action } = resolvedAction;
-		if (resolvedAction.action.type === "ActionBodyEffect") {
-			worldLogger.log("Apply Item: ", { time: event.time, source: event.payload.source, action }, event);
-			const effect = doItemActionOnHumanBody(source, action as ActionBodyEffect, event.payload.blocks, event.time);
+		if (resolvedAction.action.type === 'ActionBodyEffect') {
+			if (source.type === 'item') {
+				if (checkItemAvailabilityAndConsume(source) === false) {
+					return;
+				}
+			}
+
+			worldLogger.log(
+				'Apply Item: ',
+				{ time: event.time, source: event.payload.source, action },
+				event,
+			);
+			const effect = doActionOnHumanBody(
+				source,
+				action as ActionBodyEffect,
+				event.payload.blocks,
+				event.time,
+			);
 			if (effect != null) {
 				const health = getHealth(event.payload.targetId);
 				health.effects.push(effect);
@@ -1144,16 +1286,17 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 			worldLogger.warn('Unhandled action type', action);
 		}
 	} else {
-		worldLogger.warn(`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`);
+		worldLogger.warn(
+			`Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`,
+		);
 	}
 }
 
 function unreachable(x: never) {
-	worldLogger.error("Unreachable ", x);
+	worldLogger.error('Unreachable ', x);
 }
 
 function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEvent>): void {
-
 	// sender always gets his own messages
 	//processMessageEvent(event, event.sender);
 
@@ -1176,17 +1319,19 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 		distanceSquared = norm(vec, vec);
 	}
 
-	worldLogger.debug("Computed distance : " + Math.sqrt(distanceSquared))
+	worldLogger.debug('Computed distance : ' + Math.sqrt(distanceSquared));
 	if (distanceSquared < sqRadius) {
 		processDirectMessageEvent(event, event.payload.sender);
 	} else {
-		worldLogger.warn(`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`)
+		worldLogger.warn(
+			`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`,
+		);
 	}
 }
 
 function updateInventory(inventory: Inventory, from: Inventory) {
 	Object.entries(from).forEach(([itemId, count]) => {
-		worldLogger.warn("Give ",count, " ", itemId);
+		worldLogger.warn('Give ', count, ' ', itemId);
 		if (count === 'infinity') {
 			// new count will always equals infinity
 			inventory[itemId] = 'infinity';
@@ -1195,10 +1340,10 @@ function updateInventory(inventory: Inventory, from: Inventory) {
 			if (currentCount == null) {
 				// init item to count
 				inventory[itemId] = count;
-				worldLogger.warn("Init to", inventory[itemId]);
+				worldLogger.warn('Init to', inventory[itemId]);
 			} else if (typeof currentCount === 'number') {
 				inventory[itemId] = currentCount + count;
-				worldLogger.warn("New count", inventory[itemId]);
+				worldLogger.warn('New count', inventory[itemId]);
 			} /* else {
 				was infinity: do not touch
 			}*/
@@ -1210,13 +1355,16 @@ function updateInventory(inventory: Inventory, from: Inventory) {
  * give owner the content of the given inventery at the given time
  */
 function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inventory) {
-
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(inventoriesSnapshots, owner, time);
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+		inventoriesSnapshots,
+		owner,
+		time,
+	);
 
-	let currentSnapshot: { time: number; state: Inventory; };
+	let currentSnapshot: { time: number; state: Inventory };
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1227,11 +1375,11 @@ function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inv
 	}
 
 	if (mostRecent.time < time) {
-		worldLogger.warn("Create snapshot for current time");
+		worldLogger.warn('Create snapshot for current time');
 		currentSnapshot = {
 			time: time,
-			state: { ...mostRecent.state }
-		}
+			state: { ...mostRecent.state },
+		};
 		// register new snapshot
 		inventoriesSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
 	} else {
@@ -1244,26 +1392,26 @@ function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inv
 	futures.forEach(snapshot => {
 		updateInventory(snapshot.state, inventory);
 	});
-	worldLogger.warn("New ", inventoriesSnapshots);
+	worldLogger.warn('New ', inventoriesSnapshots);
 }
 
 function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	const owner = {
 		objectType: event.payload.targetType,
-		objectId: event.payload.targetId
+		objectId: event.payload.targetId,
 	};
 
 	const bag = getBagDefinition(event.payload.bagId);
 
-	worldLogger.warn("Process Give Bag Event", {owner, bag});
+	worldLogger.warn('Process Give Bag Event', { owner, bag });
 
 	if (bag != null) {
-		updateInventoriesSnapshot(owner, event.time, bag.items)
+		updateInventoriesSnapshot(owner, event.time, bag.items);
 	}
 }
 
 function processEvent(event: FullEvent<EventPayload>) {
-	worldLogger.debug("ProcessEvent: ", event);
+	worldLogger.debug('ProcessEvent: ', event);
 
 	const eType = event.payload.type;
 
@@ -1317,7 +1465,7 @@ function processEvent(event: FullEvent<EventPayload>) {
 }
 
 export function syncWorld() {
-	worldLogger.log("Sync World");
+	worldLogger.log('Sync World');
 	//updateInSimCurrentTime();
 	const time = getCurrentSimulationTime();
 
@@ -1327,7 +1475,7 @@ export function syncWorld() {
 	const eventsToProcess = mappedEvents.not;
 	currentProcessedEvents = mappedEvents.processed;
 
-	worldLogger.debug("ToProcess", eventsToProcess);
+	worldLogger.debug('ToProcess', eventsToProcess);
 
 	const env = getEnv();
 
@@ -1373,17 +1521,19 @@ export function getHumans() {
 	}));
 }
 
-export function getHuman(id: string): (HumanBody & {
-	category: Categorization | undefined
-}) | undefined {
+export function getHuman(id: string):
+	| (HumanBody & {
+			category: Categorization | undefined;
+	  })
+	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
 	if (human && meta) {
 		return {
 			meta,
 			state: human.bodyState,
-			category: human.category
-		}
+			category: human.category,
+		};
 	}
 
 	return undefined;
@@ -1407,7 +1557,7 @@ export function handleClickOnMap(point: Point): void {
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
-		worldLogger.info("HandleOn: ", { objectId, destination, currentLocation, myState });
+		worldLogger.info('HandleOn: ', { objectId, destination, currentLocation, myState });
 		if (currentLocation != null) {
 			// Move from current location to given point
 			const from: Location = { ...currentLocation, mapId: 'the_world' };
@@ -1432,7 +1582,6 @@ export function handleClickOnMap(point: Point): void {
 	}
 }
 
-
 export function getCurrentPatientBody() {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 	return getHuman(id);
@@ -1454,7 +1603,7 @@ export function getMyInventory(): Inventory {
 	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 	const state = getMostRecentSnapshot(inventoriesSnapshots, myId, time);
-	if (state.mostRecent != null){
+	if (state.mostRecent != null) {
 		return state.mostRecent.state;
 	} else {
 		return {};
@@ -1479,7 +1628,6 @@ export function clearState() {
 	clearAllCommunicationState();
 }
 
-
 Helpers.registerEffect(() => {
 	// Load model configuration
 	enableVasoconstriction(Variable.find(gameModel, 'vasoconstriction').getValue(self));
@@ -1487,15 +1635,12 @@ Helpers.registerEffect(() => {
 	enableLungsVasoconstriction(Variable.find(gameModel, 'vasoconstrictionLungs').getValue(self));
 
 	const system = loadSystem();
-	worldLogger.log("(Init Sympathetic System: ", system);
+	worldLogger.log('(Init Sympathetic System: ', system);
 	setSystemModel(system);
 
 	const compensation = loadCompensationModel();
-	worldLogger.log("Load Compensation Profile: ", compensation);
+	worldLogger.log('Load Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
 
 	clearState();
-})
-
-
-
+});

@@ -6,7 +6,7 @@ import {
 	computeState,
 	createHumanBody,
 	defaultMeta,
-	doItemActionOnHumanBody,
+	doActionOnHumanBody,
 	enableCoagulation,
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
@@ -303,7 +303,7 @@ export function run() {
 				if (act) {
 					if (act.action.type === 'ActionBodyEffect') {
 						logger.info('Do Act: ', {time: event.time, act});
-						effects.push(doItemActionOnHumanBody(act, act.action, event.blocks, event.time)!);
+						effects.push(doActionOnHumanBody(act, act.action, event.blocks, event.time)!);
 					} else {
 						logger.info('Ignore measure');
 					}
@@ -314,7 +314,7 @@ export function run() {
 				if (action != null) {
 					if (action.type === 'ActionBodyEffect') {
 						logger.info('Apply Item: ', {time: event.time, item, action});
-						effects.push(doItemActionOnHumanBody(item!, action, event.blocks, event.time)!);
+						effects.push(doActionOnHumanBody(item!, action, event.blocks, event.time)!);
 					} else {
 						logger.info('Ignore measure');
 					}
