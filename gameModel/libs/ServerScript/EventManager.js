@@ -17,7 +17,7 @@ var EventManager = ((function () {
 		return Variable.find(gameModel, 'whoAmI').getValue(self);
 	}
 
-	function sendEvent(time, payload) {
+	function sendEvent(payload, time) {
 		lock();
 		var realTime = getEventTime(time);
 
@@ -55,7 +55,7 @@ var EventManager = ((function () {
 
 	return {
 		postEvent: function (payload, time) {
-			sendEvent(time, payload);
+			sendEvent(payload, time);
 		},
 
 

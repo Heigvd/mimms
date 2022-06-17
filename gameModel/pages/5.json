@@ -24,18 +24,65 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "",
+                "children" : [ {
+                  "props" : {
+                    "className" : "",
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "HACK: time throttle inside",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                      "language" : "typescript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"InSimRef: \" + Variable.find(gameModel,'inSim_ref').getValue(self);",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Clear State\"",
+                      "language" : "JavaScript"
+                    },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
+                        "language" : "TypeScript"
+                      }
+                    }
+                  },
+                  "type" : "Button"
+                } ],
                 "layout" : { },
                 "layoutStyle" : { },
-                "name" : "HACK: time throttle inside",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
-                  "language" : "typescript"
-                }
+                "name" : "Time banner",
+                "style" : { }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "id" : "",
@@ -49,7 +96,12 @@
                 "style" : { }
               },
               "type" : "PageLoader"
-            } ]
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
           },
           "type" : "FlexList"
         } ],

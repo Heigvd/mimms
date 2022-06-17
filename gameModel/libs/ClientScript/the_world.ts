@@ -13,7 +13,7 @@ import {
 import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, AfflictedPathology, HumanAction, ItemDefinition, RevivedPathology, revivePathology } from "./pathology";
 import { getAct, getActs, getItem, getPathology, setCompensationModel, setSystemModel } from "./registries";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
+import { getBagDefinition, getBodyParam, getEnv, loadCompensationModel, loadSystem, whoAmI } from "./WegasHelper";
 import { initEmitterIds, TargetedEvent } from "./baseEvent";
 import {
 	DirectCommunicationEvent, RadioChannelUpdateEvent,
@@ -27,6 +27,7 @@ import {
 } from "./communication";
 import { FullEvent, getAllEvents, sendEvent } from "./EventManager";
 import { Category, SystemName } from "./triage";
+import { getFogType } from "./gameMaster";
 
 
 
@@ -83,6 +84,14 @@ export interface Categorization {
 	category: Category<string>['id'];
 }
 
+
+export type Inventory = Record<string, number | 'infinity'>;
+
+export interface BagDefinition {
+	name: string;
+	items: Inventory;
+}
+
 export interface HumanState {
 	type: 'Human';
 	id: string;
@@ -91,7 +100,6 @@ export interface HumanState {
 	console: ConsoleLog[];
 	category: Categorization | undefined;
 };
-
 
 export interface WorldState {
 	// id to human
@@ -124,7 +132,7 @@ export type PositionState = Record<string, undefined | (ObjectId & PositionAtTim
  * SIGHT: update only if visible (TODO: find the smarter way to compute position)
  * FULL: only update current player character (whoAmI)
  */
-type FogType = 'NONE' | 'SIGHT' | 'FULL';
+export type FogType = 'NONE' | 'SIGHT' | 'FULL';
 
 /**
  * Walk, drive, fly to destination
@@ -137,7 +145,7 @@ interface FollowPathEvent extends TargetedEvent {
 }
 
 /** Aka teleportation */
-interface TeleportEvent extends TargetedEvent {
+export interface TeleportEvent extends TargetedEvent {
 	type: 'Teleport';
 	location: Location;
 }
@@ -159,7 +167,7 @@ interface HumanMeasureEvent extends TargetedEvent {
 		actId: string
 	} |
 	{
-		type: 'itemAction',
+		type: 'itemAction';
 		itemId: string;
 		actionId: string;
 	})
@@ -173,7 +181,7 @@ export interface HumanTreatmentEvent extends TargetedEvent {
 		actId: string
 	} |
 	{
-		type: 'itemAction',
+		type: 'itemAction';
 		itemId: string;
 		actionId: string;
 	})
@@ -184,10 +192,16 @@ interface CategorizeEvent extends TargetedEvent, Categorization {
 	type: 'Categorize';
 }
 
+export interface GiveBagEvent extends TargetedEvent {
+	type: 'GiveBag';
+	bagId: string;
+}
+
+
 // TODO generic payload (for treatments and comm)
 export interface ScriptedPathologyPayload {
-	time : number;
-	payload : PathologyEvent
+	time: number;
+	payload: PathologyEvent
 }
 
 export type EventPayload = FollowPathEvent | TeleportEvent |
@@ -198,11 +212,10 @@ export type EventPayload = FollowPathEvent | TeleportEvent |
 	DirectCommunicationEvent | RadioCommunicationEvent |
 	RadioChannelUpdateEvent | RadioCreationEvent |
 	PhoneCommunicationEvent |
-	PhoneCreationEvent;
+	PhoneCreationEvent
+	| GiveBagEvent;
 
 export type EventType = EventPayload['type'];
-
-type EventStore = Record<string, EventPayload[]>;
 
 interface Snapshot<T> {
 	time: number;
@@ -224,7 +237,9 @@ let humanSnapshots: Snapshots<HumanState> = {};
 
 let locationsSnapshots: Snapshots<LocationState> = {};
 
-// current visible state
+let inventoriesSnapshots: Snapshots<Inventory> = {};
+
+/** current visible state */
 const worldState: WorldState = {
 	humans: {},
 
@@ -244,7 +259,7 @@ let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
 
 
-let fogType: FogType = 'SIGHT';
+//let fogType: FogType = 'NONE';
 
 // TODO: line of sight:
 export const lineOfSightRadius = 250;
@@ -515,6 +530,8 @@ function rebuildState(time: number, env: Environnment) {
 	worldLogger.debug("Humans", humanSnapshots);
 	worldLogger.debug("Locations", locationsSnapshots);
 
+	const fogType = getFogType();
+
 	const objectList: ObjectId[] = Object.keys(locationsSnapshots).map(key => {
 		const [type, id] = key.split("::");
 		return {
@@ -577,81 +594,81 @@ function rebuildState(time: number, env: Environnment) {
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 
 
-	if (myPosition.mostRecent != null) {
-		const visibles: ObjectId[] = [];
-		let outOfSight: ObjectId[] = [];
+	//if (myPosition.mostRecent != null) {
+	const visibles: ObjectId[] = [];
+	let outOfSight: ObjectId[] = [];
 
-		if (fogType === 'NONE') {
-			// no fog: update all objects
-			visibles.push(...objectList);
-		} else if (fogType === 'FULL') {
-			// Full fog: update current human only
-			visibles.push({
-				objectType: 'Human',
-				objectId: myHumanId,
-			});
-			outOfSight = objectList.filter(o => { o.objectType != 'Human' });
-
-		} else if (fogType === 'SIGHT') {
-			// Detect visible object
-			Object.keys(locationsSnapshots).forEach(key => {
-				const [type, id] = key.split("::");
-				const oId = { objectType: type!, objectId: id! };
-				const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
-				if (mostRecent != null && isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)) {
-					visibles.push(oId);
-				} else {
-					outOfSight.push(oId);
-				}
-			});
-		}
-
-		worldLogger.info("My Position", myPosition);
-		worldLogger.info("Visible", visibles);
-		worldLogger.info("OutOfSight", outOfSight);
-
-		visibles.forEach(oId => {
-			const key = getObjectKey(oId);
-			const location = getMostRecentSnapshot(locationsSnapshots, oId, time);
-			const human = getMostRecentSnapshot(humanSnapshots, oId, time);
-			worldLogger.debug("Visible@Location", key, location.mostRecent);
-			worldLogger.debug("Visible@Human", key, human.mostRecent);
-
-			if (location.mostRecent != null && human.mostRecent != null) {
-				worldState.humans[key] = {
-					...human.mostRecent.state,
-					...location.mostRecent.state,
-				}
-			}
+	if (fogType === 'NONE') {
+		// no fog: update all objects
+		visibles.push(...objectList);
+	} else if (fogType === 'FULL' || myPosition.mostRecent == null) {
+		// Full fog: update current human only
+		visibles.push({
+			objectType: 'Human',
+			objectId: myHumanId,
 		});
+		outOfSight = objectList.filter(o => { o.objectType != 'Human' });
 
-		// make sure out-of-sight object or not visible
-		worldLogger.info("InMemoryWorld: ", worldState);
-		outOfSight.forEach(obj => {
-			const oKey = getObjectKey(obj);
-			//const objSpatialIndex = spatialIndex[oKey];
-			const current = obj.objectType === 'Human' ? worldState.humans[oKey] : undefined;
-
-			worldLogger.info("OutOfSight: last known position: ", current);
-			if (current != null && current.location != null) {
-				if (current.id != myHumanId) {
-					/*if (current.direction) {
-						current.location = undefined;
-						current.direction = undefined;
-					}*/
-					if (current.direction != null) {
-						// last time I saw this object, it was moving
-						current.location = undefined;
-						current.direction = undefined;
-					} else if (isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, current.location)) {
-						// Last known location was here but object is not here any longer
-						current.location = undefined;
-						current.direction = undefined;
-					}
-				}
+	} else if (fogType === 'SIGHT') {
+		// Detect visible object
+		worldLogger.info("My Position", myPosition);
+		Object.keys(locationsSnapshots).forEach(key => {
+			const [type, id] = key.split("::");
+			const oId = { objectType: type!, objectId: id! };
+			const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
+			if (mostRecent != null && isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)) {
+				visibles.push(oId);
+			} else {
+				outOfSight.push(oId);
 			}
 		});
 	}
+
+	worldLogger.info("Visible", visibles);
+	worldLogger.info("OutOfSight", outOfSight);
+
+	visibles.forEach(oId => {
+		const key = getObjectKey(oId);
+		const location = getMostRecentSnapshot(locationsSnapshots, oId, time);
+		const human = getMostRecentSnapshot(humanSnapshots, oId, time);
+		worldLogger.debug("Visible@Location", key, location.mostRecent);
+		worldLogger.debug("Visible@Human", key, human.mostRecent);
+
+		if (location.mostRecent != null && human.mostRecent != null) {
+			worldState.humans[key] = {
+				...human.mostRecent.state,
+				...location.mostRecent.state,
+			}
+		}
+	});
+
+	// make sure out-of-sight object or not visible
+	worldLogger.info("InMemoryWorld: ", worldState);
+	outOfSight.forEach(obj => {
+		const oKey = getObjectKey(obj);
+		//const objSpatialIndex = spatialIndex[oKey];
+		const current = obj.objectType === 'Human' ? worldState.humans[oKey] : undefined;
+
+		worldLogger.info("OutOfSight: last known position: ", current);
+		if (current != null && current.location != null) {
+			if (current.id != myHumanId) {
+				/*if (current.direction) {
+					current.location = undefined;
+					current.direction = undefined;
+				}*/
+				if (current.direction != null) {
+					// last time I saw this object, it was moving
+					current.location = undefined;
+					current.direction = undefined;
+				} else if (isPointInCircle(myPosition.mostRecent?.state.location, sqRadius, current.location)) {
+					// Last known location was here but object is not here any longer
+					current.location = undefined;
+					current.direction = undefined;
+				}
+			}
+		}
+	});
+	//}
 }
 
 
@@ -710,7 +727,7 @@ function getMostRecentSnapshot<T>(snapshots: Snapshots<T>, obj: ObjectId, time: 
 function computeHumanState(state: HumanState, to: number, env: Environnment) {
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
 	const meta = humanMetas[state.id];
-	if (meta == null){
+	if (meta == null) {
 		throw `Unable to find meta for ${state.id}`;
 	}
 	const newState = Helpers.cloneDeep(state);
@@ -1096,7 +1113,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		currentSnapshot = mostRecent;
 	}
 
-	const category : Categorization = {
+	const category: Categorization = {
 		category: event.payload.category,
 		system: event.payload.system,
 	}
@@ -1167,6 +1184,84 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 	}
 }
 
+function updateInventory(inventory: Inventory, from: Inventory) {
+	Object.entries(from).forEach(([itemId, count]) => {
+		worldLogger.warn("Give ",count, " ", itemId);
+		if (count === 'infinity') {
+			// new count will always equals infinity
+			inventory[itemId] = 'infinity';
+		} else if (count > 0) {
+			const currentCount = inventory[itemId];
+			if (currentCount == null) {
+				// init item to count
+				inventory[itemId] = count;
+				worldLogger.warn("Init to", inventory[itemId]);
+			} else if (typeof currentCount === 'number') {
+				inventory[itemId] = currentCount + count;
+				worldLogger.warn("New count", inventory[itemId]);
+			} /* else {
+				was infinity: do not touch
+			}*/
+		}
+	});
+}
+
+/**
+ * give owner the content of the given inventery at the given time
+ */
+function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inventory) {
+
+	const oKey = getObjectKey(owner);
+
+	// Fetch most recent snapshot
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(inventoriesSnapshots, owner, time);
+
+	let currentSnapshot: { time: number; state: Inventory; };
+
+	if (mostRecent == null) {
+		mostRecent = {
+			time: time,
+			state: {},
+		};
+		inventoriesSnapshots[oKey]!.unshift(mostRecent);
+	}
+
+	if (mostRecent.time < time) {
+		worldLogger.warn("Create snapshot for current time");
+		currentSnapshot = {
+			time: time,
+			state: { ...mostRecent.state }
+		}
+		// register new snapshot
+		inventoriesSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
+	} else {
+		// update mostRecent snapshot in place
+		currentSnapshot = mostRecent;
+	}
+
+	updateInventory(currentSnapshot.state, inventory);
+
+	futures.forEach(snapshot => {
+		updateInventory(snapshot.state, inventory);
+	});
+	worldLogger.warn("New ", inventoriesSnapshots);
+}
+
+function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
+	const owner = {
+		objectType: event.payload.targetType,
+		objectId: event.payload.targetId
+	};
+
+	const bag = getBagDefinition(event.payload.bagId);
+
+	worldLogger.warn("Process Give Bag Event", {owner, bag});
+
+	if (bag != null) {
+		updateInventoriesSnapshot(owner, event.time, bag.items)
+	}
+}
+
 function processEvent(event: FullEvent<EventPayload>) {
 	worldLogger.debug("ProcessEvent: ", event);
 
@@ -1211,6 +1306,9 @@ function processEvent(event: FullEvent<EventPayload>) {
 			break;
 		case 'PhoneCreation':
 			processPhoneCreation(event as FullEvent<PhoneCreationEvent>);
+			break;
+		case 'GiveBag':
+			processGiveBagEvent(event as FullEvent<GiveBagEvent>);
 			break;
 		default:
 			unreachable(eType);
@@ -1263,6 +1361,9 @@ export function syncWorld() {
 	//});
 }
 
+export function getInstantiatedHumanIds() {
+	return Object.values(worldState.humans).map(h => h.id);
+}
 
 export function getHumans() {
 	return Object.values(worldState.humans).map(h => ({
@@ -1273,8 +1374,8 @@ export function getHumans() {
 }
 
 export function getHuman(id: string): (HumanBody & {
-	category : Categorization | undefined
-})| undefined {
+	category: Categorization | undefined
+}) | undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
 	if (human && meta) {
@@ -1342,41 +1443,22 @@ export function getCurrentPatientHealth(): HumanHealth | undefined {
 	return getHealth(id);
 }
 
-export interface InventoryEntry {
-	itemId: string;
-	count: number | 'infinity';
-}
-
 /**
  * Get current character inventory.
  *
  * TODO Event to manage inventory (Got/Consume/Transfer)
  */
-export function getMyInventory(): InventoryEntry[] {
-	return [
-		{ itemId: 'wendel', count: 'infinity' },
-		{ itemId: 'guedel', count: 'infinity' },
-		{ itemId: 'igel', count: 'infinity' },
-		{ itemId: 'mask', count: 'infinity' },
-		{ itemId: 'balloon', count: 'infinity' },
-		{ itemId: 'intubate', count: 'infinity' },
-		{ itemId: 'cricotomie', count: 'infinity' },
+export function getMyInventory(): Inventory {
+	const time = getCurrentSimulationTime();
 
-		{ itemId: '3side', count: 'infinity' },
-		{ itemId: 'exsufflation', count: 'infinity' },
-		{ itemId: 'thoracic_drain', count: 'infinity' },
-
-		{ itemId: 'cat', count: 'infinity' },
-		{ itemId: 'bandage', count: 'infinity' },
-		{ itemId: 'israeliBandage', count: 'infinity' },
-		{ itemId: 'TranexamicAcid_500', count: 'infinity' },
-		{ itemId: 'SalineSolution_1l', count: 'infinity' },
-		{ itemId: 'Blood_1l', count: 'infinity' },
-
-
-		{ itemId: 'oxymeter', count: 1 },
-		{ itemId: 'sphygmomanometer', count: 1 },
-	];
+	const myHumanId = whoAmI();
+	const myId = { objectId: myHumanId, objectType: 'Human' };
+	const state = getMostRecentSnapshot(inventoriesSnapshots, myId, time);
+	if (state.mostRecent != null){
+		return state.mostRecent.state;
+	} else {
+		return {};
+	}
 }
 
 /**
@@ -1392,6 +1474,7 @@ export function clearState() {
 	humanSnapshots = {};
 	locationsSnapshots = {};
 	worldState.humans = {};
+	inventoriesSnapshots = {};
 	healths = {};
 	clearAllCommunicationState();
 }

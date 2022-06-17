@@ -1,8 +1,9 @@
 import { TargetedEvent } from "./baseEvent";
+import { Point } from "./helper";
 import { BodyFactoryParam, Environnment } from "./HUMAn";
 import { logger } from "./logger";
 import { Compensation, SympSystem } from "./physiologicalModel";
-import { HumanTreatmentEvent, PathologyEvent } from "./the_world";
+import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "./the_world";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -10,11 +11,6 @@ export function parse<T>(meta: string): T | null {
 	} catch {
 		return null;
 	}
-}
-
-interface Point {
-	x: number;
-	y: number;
 }
 
 interface Serie {
@@ -99,6 +95,10 @@ function getRawHumanBodyParams() {
 export function getHumanIds() {
 	const all = getRawHumanBodyParams();
 	return Object.keys(all);
+}
+
+export function getPatientIds(){
+	return Object.keys(Variable.find(gameModel, 'patients').getProperties());
 }
 
 export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
@@ -522,3 +522,9 @@ export function getCompensationSeries(): Graph[] {
 
 	return graphs;
 };
+
+
+export function getBagDefinition(bagId: string){
+	const sdef = Variable.find(gameModel, 'bagsDefinitions').getProperties()[bagId];
+	return parse<BagDefinition>(sdef || "");
+}

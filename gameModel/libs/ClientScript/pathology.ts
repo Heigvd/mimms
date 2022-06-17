@@ -6,10 +6,9 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import {checkUnreachable} from "./helper";
+import {checkUnreachable, getRandomValue, intersection, pickRandom, Range} from "./helper";
 import {Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock} from "./HUMAn";
 import {getPathology} from "./registries";
-
 
 export type VariablePatch = Partial<BodyState["variables"]>;
 export type BlockPatch = Partial<Block["params"]>;
@@ -44,11 +43,6 @@ export interface PathologyAction {
 /**
  * Module Meta
  */
-
-interface Range {
-	min: number;
-	max?: number;
-}
 
 interface BaseModule {
 	type: string;
@@ -122,8 +116,8 @@ interface AirwaysResistanceMeta extends BaseModule {
 	config: {
 		type: 'AirwaysResistance';
 		blocks: ('HEAD' | 'NECK' | 'BRONCHUS_1' | 'BRONCHUS_2')[],
-		airResistance?: Range
-		airResistanceDelta?: Range
+		airResistance?: Range;
+		airResistanceDelta?: Range;
 	};
 	args: {
 		type: 'AirwaysResistanceArgs';
@@ -302,44 +296,6 @@ export function buildPathology(meta: PathologyMeta, modules: ModuleDefinition[],
 
 	return p;
 }
-
-function intersection(...listOfblocks: BlockName[][]) {
-	const [firstList, ...others] = listOfblocks;
-	if (firstList == null) {
-		throw "No blocks!";
-	}
-
-	let result = firstList;
-
-	for (const blocks of others) {
-		result = result.filter(block => blocks.includes(block));
-	}
-
-	return result;
-}
-
-export function pickRandom<T>(list: T[]): T | undefined {
-	return list[Math.floor(Math.random() * list.length)];
-}
-
-function getRandomValue(range: Range | undefined, integer: boolean = false): number | undefined {
-	if (range == null) {
-		return undefined;
-	}
-
-	if (range.max == null) {
-		return range.min;
-	} else {
-		const r = range.max - range.min;
-		const rnd = range.min + Math.random() * r;
-		if (integer) {
-			return Math.floor(rnd);
-		} else {
-			return rnd;
-		}
-	}
-}
-
 
 export function createRandomArgs(mod: ModuleDefinition): ModuleArgs {
 	if (mod.type === 'Hemorrhage') {

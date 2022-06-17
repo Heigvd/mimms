@@ -59,7 +59,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { isCurrentPatientCategorized } from \"./drill\";\n!isCurrentPatientCategorized()",
+              "content" : "import { isCurrentPatientCategorized } from \"./drill\";\n!!Variable.find(gameModel, 'currentPatient').getValue(self) && !isCurrentPatientCategorized()",
               "language" : "JavaScript"
             },
             "layout" : { },

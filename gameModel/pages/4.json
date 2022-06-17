@@ -39,6 +39,24 @@
             "style" : { }
           },
           "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getBagsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetBagsDefinitionsAsChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "bag type",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'bagType')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
         } ],
         "hideIf" : {
           "@class" : "Script",

@@ -32,7 +32,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getHumanId } from \"./currentPatientZoom\";\ngetHumanId();",
+                              "content" : "import { getCurrentPatientTitle } from \"./currentPatientZoom\";\ngetCurrentPatientTitle();",
                               "language" : "JavaScript"
                             }
                           },
@@ -923,7 +923,7 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "details",
+                    "className" : "block-details",
                     "layoutStyle" : {
                       "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
@@ -974,17 +974,15 @@
                                   }
                                 } ],
                                 "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "Script",
-                                    "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);",
-                                    "language" : "typescript"
-                                  }
+                                "onPointerOver" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ ],
+                                  "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
                                 },
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "Context.block.svg",
+                                  "content" : "Context.block.svg;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -1066,13 +1064,14 @@
                         "children" : [ {
                           "props" : {
                             "className" : "extraAfflictedBlock",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "Script",
-                                "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);",
-                                "language" : "typescript"
-                              }
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "alignItems" : "flex-start"
+                            },
+                            "onPointerOver" : {
+                              "@class" : "ScriptCallback",
+                              "args" : [ ],
+                              "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
                             },
                             "style" : { },
                             "text" : {
@@ -1155,6 +1154,7 @@
                     "layout" : { },
                     "layoutClassName" : "body",
                     "layoutStyle" : { },
+                    "name" : "body",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -1169,6 +1169,11 @@
               },
               "type" : "FlexList"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\";",
+              "language" : "JavaScript"
+            },
             "layout" : { },
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
@@ -1180,6 +1185,22 @@
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\";",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>No Patient<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "className" : "",
         "exposeAs" : "patientConsole",

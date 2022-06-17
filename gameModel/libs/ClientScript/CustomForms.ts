@@ -66,7 +66,7 @@ import { getItems, getPathologies } from "./registries";
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
-			
+
 			//hideProperty(newSchema, "label");
 			turnPropertyReadOnly(newSchema, "editorTag");
 			newSchema.properties.properties.view = {
@@ -102,7 +102,7 @@ import { getItems, getPathologies } from "./registries";
 									}
 								},
 								bmi: { type: 'number', view: { label: 'BMI [kg/m²]', layout: "shortInline" } },
-								scriptedPathologies: {  view: { type: 'hidden' }},
+								scriptedPathologies: { view: { type: 'hidden' } },
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
 								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } }
 							}
@@ -401,24 +401,24 @@ import { getItems, getPathologies } from "./registries";
 				}
 			};
 			return newSchema;
-		} else if(od.name === 'generation_settings'){
+		} else if (od.name === 'generation_settings') {
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
 			//return newSchema;
-			newSchema.properties.properties =  {
-				"required" : true,
-				"type" : "object",
-				"value" : { },
-				properties : {
-					generationSettings : {
-						type : 'string',
-						view : {
+			newSchema.properties.properties = {
+				"required": true,
+				"type": "object",
+				"value": {},
+				properties: {
+					generationSettings: {
+						type: 'string',
+						view: {
 							type: "serializer",
 							schema: {
 								type: 'object',
-								properties : {
-									ageHistogram : schemaProps.array({
+								properties: {
+									ageHistogram: schemaProps.array({
 										label: "Age Histogram",
 										visible: () => true,
 										required: true,
@@ -440,13 +440,55 @@ import { getItems, getPathologies } from "./registries";
 
 									WomanManRatio: { type: 'number', view: { label: 'W/M Ratio', layout: "shortInline" } },
 								}
-								
+
 							},
 						}
 					},
 				}
-				
+
 			};
+			return newSchema;
+		} else if (od.editorTag === 'bags' || od.editorTag === 'situ__ations') {
+			
+			const keyName = od.editorTag === 'bags' ? 'items' : 'pathologies';
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+			turnPropertyReadOnly(newSchema, "editorTag");
+
+			newSchema.properties.properties.view = {
+				label: od.editorTag,
+				type: 'dictionary',
+				value: {},
+				keySchema: {
+					type: 'string',
+					view: {
+						label: 'Id',
+						layout: 'shortInline'
+					}
+				},
+				valueSchema: {
+					type: 'string',
+					value: "{}",
+					view: {
+						type: "serializer",
+						schema: {
+							type: 'object',
+							properties: {
+								name: { type: 'string', view: { label: 'name', layout: "shortInline" } },
+								[keyName]: {
+									type: 'object',
+									value: {},
+									view: {
+										type: 'hidden',
+									}
+								}
+							}
+						}
+					}
+				}
+			};
+
 			return newSchema;
 		}
 	}, 'ObjectDescriptor');

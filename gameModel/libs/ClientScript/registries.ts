@@ -30,7 +30,6 @@ export function getPathology(id: string): PathologyDefinition | undefined {
 	return pathologies[id];
 }
 
-
 export function getPathologies(): {label: string, value: string}[] {
 	init();
 	return Object.entries(pathologies).map(([id, p]) => ({
@@ -38,6 +37,15 @@ export function getPathologies(): {label: string, value: string}[] {
 		label: p.name,
 	}));
 }
+
+export function getPathologiesMap(): Record<string, string> {
+	init();
+	return Object.entries(pathologies).reduce<Record<string, string>>((bag, [id, {name}]) => {
+		bag[id] = name;
+		return bag;
+	}, {});
+}
+
 
 export function registerItem(def: ItemDefinition): void {
 	items[def.id] = def;
@@ -945,6 +953,40 @@ function init() {
 					}, {
 						id: 'empty',
 						time: 600,
+						name: '',
+						variablePatch: {},
+						blockPatch: {
+							salineSolutionInput_mLperMin: -100,
+						}
+					},
+				],
+				createActions: [],
+			}
+		}
+	});
+
+		registerItem({
+		id: 'SalineSolution_100ml',
+		name: "NaCl 0.9% 100mL",
+		actions: {
+			inject: {
+				type: 'ActionBodyEffect',
+				name: 'Inject oneshot',
+				category: 'C',
+				targetedObject: 'HumanBody',
+				blocks: ['LEFT_ARM'],
+				rules: [
+					{
+						id: 'inject',
+						time: 0,
+						name: 'inject',
+						variablePatch: {},
+						blockPatch: {
+							salineSolutionInput_mLperMin: 100,
+						}
+					}, {
+						id: 'empty',
+						time: 60,
 						name: '',
 						variablePatch: {},
 						blockPatch: {

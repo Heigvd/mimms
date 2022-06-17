@@ -31,7 +31,7 @@ var TimeManager = ((function () {
 				Variable.find(gameModel, 'running').setValue(self, false);
 			}
 		},
-		getCurrentTime: function(){
+		getCurrentTime: function () {
 			if (!TimeManager.isRunning()) {
 				return Variable.find(gameModel, 'inSim_ref').getValue(self);
 			} else {
@@ -49,39 +49,39 @@ var TimeManager = ((function () {
 		 * 
 		 */
 		fastForward: function (value) {
-			if (TimeManager.isRunning()) {
-				throw "Please Pause the Game";
-			} else {
-				var parse = /^(\d+)([smhd])?$/;
-				var parsed = parse.exec(value);
-				if (parsed) {
-					if (parsed.length > 1) {
-						var number = +parsed[1];
-						var unit = parsed[2];
-						switch (unit) {
-							case 'd':
-								number *= 24;
-							// fallsthrough
-							case 'h':
-								number *= 60;
-							// fallsthrough
-							case 'm':
-								number *= 60;
-							// fallsthrough
-							default:
-							//number = number
-						}
-
-						if (number > 0) {
-							Variable.find(gameModel, 'inSim_ref').add(number);
-						} else {
-							throw "Please do not go backward";
-						}
+			//if (TimeManager.isRunning()) {
+			//	throw "Please Pause the Game";
+			//} else {
+			var parse = /^(\d+)([smhd])?$/;
+			var parsed = parse.exec(value);
+			if (parsed) {
+				if (parsed.length > 1) {
+					var number = +parsed[1];
+					var unit = parsed[2];
+					switch (unit) {
+						case 'd':
+							number *= 24;
+						// fallsthrough
+						case 'h':
+							number *= 60;
+						// fallsthrough
+						case 'm':
+							number *= 60;
+						// fallsthrough
+						default:
+						//number = number
 					}
-				} else {
-					throw "Unparseable value" + value;
+
+					if (number > 0) {
+						Variable.find(gameModel, 'inSim_ref').add(self, number);
+					} else {
+						throw "Please do not go backward";
+					}
 				}
+			} else {
+				throw "Unparseable value" + value;
 			}
+			//	}
 		}
 	};
 })());

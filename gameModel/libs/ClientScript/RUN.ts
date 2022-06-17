@@ -5,6 +5,7 @@ import {
 	BodyState,
 	computeState,
 	createHumanBody,
+	defaultMeta,
 	doItemActionOnHumanBody,
 	enableCoagulation,
 	enableLungsVasoconstriction,
@@ -239,14 +240,6 @@ function extractMetric(
 		outputOther,
 	);
 }
-
-const defaultMeta: BodyFactoryParam = {
-	age: 20,
-	sex: 'male',
-	bmi: 20,
-	height_cm: 170,
-	lungDepth: 0,
-};
 
 export function run() {
 	const duration = Variable.find(gameModel, 'duration_s').getValue(self);

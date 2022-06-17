@@ -1,8 +1,6 @@
 import { EventPayload } from "./the_world";
 import { parse } from "./WegasHelper";
 
-
-
 export interface FullEvent<T extends EventPayload> {
 	id: number;
 	timestamp: number;
@@ -10,16 +8,20 @@ export interface FullEvent<T extends EventPayload> {
 	payload: T;
 }
 
+export function getSendEventServerScript(payload: EventPayload, time?: number) {
+	return `EventManager.postEvent(${JSON.stringify(payload)}${time != null ? `, ${time}` : ''});`;
+}
+
 export function sendEvent(payload: EventPayload) {
-	APIMethods.runScript(`EventManager.postEvent(${JSON.stringify(payload)});`, {});
+	APIMethods.runScript(getSendEventServerScript(payload), {});
 }
 
 export function sendEvents(payloads: EventPayload[]) {
-	const script = payloads.map(payload => `EventManager.postEvent(${JSON.stringify(payload)});`).join("");
+	const script = payloads.map(payload => getSendEventServerScript(payload)).join("");
 	APIMethods.runScript(script, {});
 }
 
-export function getAllEvents() : FullEvent<EventPayload>[] {
+export function getAllEvents(): FullEvent<EventPayload>[] {
 	const eventsInstance = Variable.find(gameModel, 'events').getInstance(self);
 	const rawMessages = eventsInstance.getEntity().messages;
 

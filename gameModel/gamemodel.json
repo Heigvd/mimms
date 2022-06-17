@@ -317,26 +317,11 @@
       },
       "name" : "patients",
       "properties" : {
-        "patient-1" : "{\"sex\":\"male\",\"age\":62,\"height_cm\":174,\"bmi\":21.22,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_vh\",\"afflictedBlocks\":[\"RIGHT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"LEFT_ANKLE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}}]}",
-        "patient-10" : "{\"sex\":\"female\",\"age\":71,\"height_cm\":161,\"bmi\":21.55,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.25}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_vh\",\"afflictedBlocks\":[\"RIGHT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}}]}",
-        "patient-11" : "{\"sex\":\"female\",\"age\":54,\"height_cm\":158,\"bmi\":23.69,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"lung_r1_5pm\",\"afflictedBlocks\":[\"BRONCHUS_2\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05}]}}]}",
-        "patient-12" : "{\"sex\":\"male\",\"age\":36,\"height_cm\":175,\"bmi\":23.18,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"strangle\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistance\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_vh\",\"afflictedBlocks\":[\"LEFT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}}]}",
-        "patient-13" : "{\"sex\":\"male\",\"age\":23,\"height_cm\":181,\"bmi\":17.91,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_ah\",\"afflictedBlocks\":[\"RIGHT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-L4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "patient-14" : "{\"sex\":\"male\",\"age\":63,\"height_cm\":194,\"bmi\":29.65,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-L4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-L4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "patient-15" : "{\"sex\":\"female\",\"age\":72,\"height_cm\":168,\"bmi\":24.77,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":50}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_vh\",\"afflictedBlocks\":[\"LEFT_WRIST\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}}]}",
-        "patient-16" : "{\"sex\":\"male\",\"age\":34,\"height_cm\":165,\"bmi\":29.68,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"half_strangle\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistance\":0.5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"RIGHT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}}]}",
-        "patient-17" : "{\"sex\":\"male\",\"age\":52,\"height_cm\":182,\"bmi\":21.6,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_slow\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}",
-        "patient-18" : "{\"sex\":\"female\",\"age\":82,\"height_cm\":172,\"bmi\":25.03,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.25}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_vh\",\"afflictedBlocks\":[\"LEFT_WRIST\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.2}]}}]}",
-        "patient-19" : "{\"sex\":\"male\",\"age\":24,\"height_cm\":181,\"bmi\":18.45,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_vh\",\"afflictedBlocks\":[\"LEFT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_ah\",\"afflictedBlocks\":[\"RIGHT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.2}]}}]}",
-        "patient-2" : "{\"sex\":\"female\",\"age\":36,\"height_cm\":175,\"bmi\":25.21,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "patient-20" : "{\"sex\":\"male\",\"age\":78,\"height_cm\":163,\"bmi\":25.35,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "patient-3" : "{\"sex\":\"female\",\"age\":22,\"height_cm\":162,\"bmi\":21.45,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":50}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_ih\",\"afflictedBlocks\":[\"RIGHT_WRIST\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}}]}",
-        "patient-4" : "{\"sex\":\"female\",\"age\":54,\"height_cm\":169,\"bmi\":19.52,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_vh\",\"afflictedBlocks\":[\"RIGHT_WRIST\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"strangle\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistance\":1}]}}]}",
-        "patient-5" : "{\"sex\":\"female\",\"age\":60,\"height_cm\":176,\"bmi\":22.63,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tenth_vh\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"open_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX\",\"THORAX\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":150},{\"type\":\"NoArgs\"}]}}]}",
-        "patient-6" : "{\"sex\":\"female\",\"age\":47,\"height_cm\":170,\"bmi\":16.59,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_slow\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "patient-7" : "{\"sex\":\"female\",\"age\":48,\"height_cm\":163,\"bmi\":26.59,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"lung_r1_5pm\",\"afflictedBlocks\":[\"BRONCHUS_2\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1}]}}]}",
-        "patient-8" : "{\"sex\":\"female\",\"age\":33,\"height_cm\":156,\"bmi\":26.13,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_slow\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}}]}",
-        "patient-9" : "{\"sex\":\"male\",\"age\":49,\"height_cm\":185,\"bmi\":19.28,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"RIGHT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}}]}"
+        "patient-1" : "{\"sex\":\"female\",\"age\":51,\"height_cm\":152,\"bmi\":21.85,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX\",\"THORAX\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":50},{\"type\":\"NoArgs\"}]}}]}",
+        "patient-2" : "{\"sex\":\"male\",\"age\":31,\"height_cm\":176,\"bmi\":20.95,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05},{\"type\":\"BurnArgs\",\"percent\":0.5}]}}]}",
+        "patient-3" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":21.93,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_vh\",\"afflictedBlocks\":[\"RIGHT_HAND\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.2}]}}]}",
+        "patient-4" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":157,\"bmi\":24.76,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "patient-5" : "{\"sex\":\"female\",\"age\":39,\"height_cm\":155,\"bmi\":22.9,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}}]}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "GameModelScope",
@@ -574,6 +559,77 @@
       "name" : "autonomicNervousSystems",
       "refId" : "ListDescriptor:24035101:XPIN9f",
       "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:24056040:9k0ezr"
+      },
+      "description" : "",
+      "editorTag" : "bags",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24056041:ulH4Jj",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24056041:ulH4Jj::EN",
+            "status" : "",
+            "translation" : ""
+          }
+        }
+      },
+      "name" : "bagsDefinitions",
+      "properties" : {
+        "banane_pre" : "{\"items\":{\"guedel\":6,\"cat\":2,\"israeliBandage\":2},\"name\":\"Banane prétri\"}",
+        "blue_bag" : "{\"items\":{},\"name\":\"Blue Bag\"}",
+        "empty_bag" : "{\"items\":{},\"name\":\"No bag\"}",
+        "nox_bag" : "{\"items\":{},\"name\":\"NOX Bag\"}",
+        "red_bag" : "{\"items\":{\"israeliBandage\":2,\"cat\":3,\"3side\":2,\"exsufflation\":2},\"name\":\"Red Bag\"}"
+      },
+      "refId" : "ObjectDescriptor:24056039:J6pALa",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:24056852:UiSQ6W"
+      },
+      "description" : "",
+      "editorTag" : "situations",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24056853:3eUeC9",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24056853:3eUeC9::EN",
+            "status" : "",
+            "translation" : " "
+          }
+        }
+      },
+      "name" : "situationsDefinitions",
+      "properties" : {
+        "s1" : "{\"pathologies\":{\"tenth_ah\":true}}",
+        "validation_model" : "{\"pathologies\":{\"20p_ah\":true,\"tenth_ih\":true,\"upper_airways_burn\":true,\"tamponade_mild\":true,\"simple_pno_full\":true,\"disclocation_c1c2\":true,\"disclocation_c5c7\":true,\"cityHunter\":true,\"thorax_circ\":true,\"20p_vh\":true},\"name\":\"Pour validation\"}"
+      },
+      "refId" : "ObjectDescriptor:24056851:CslpmW",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1094,6 +1150,58 @@
       "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:24056506:OhEflN"
+      },
+      "editorTag" : "drill",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:24056511:D4U0gS",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:24056512:YqArEC",
+            "translations" : { }
+          }
+        },
+        "editorTag" : "bagType",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24056513:C98nbC",
+          "translations" : { }
+        },
+        "maxSelectable" : 1,
+        "name" : "bagType",
+        "refId" : "StringDescriptor:24056510:oWkNxk",
+        "scopeType" : "GameModelScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24056507:j6oj7R",
+        "translations" : { }
+      },
+      "name" : "drill",
+      "refId" : "ListDescriptor:24056505:1AlWQD",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1786,7 +1894,15 @@
     "label" : {
       "@class" : "TranslatableContent",
       "refId" : "TranslatableContent:56278:2ywAdt",
-      "translations" : { }
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:56278:2ywAdt::EN",
+          "status" : "",
+          "translation" : ""
+        }
+      }
     },
     "name" : "trigger",
     "refId" : "BooleanDescriptor:56276:zBobqe",
@@ -1854,6 +1970,35 @@
       "name" : "patientNumber",
       "refId" : "NumberDescriptor:56340:MinpBh",
       "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:24056857:VXrFPu",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24056858:Rmd0p1",
+          "translations" : { }
+        }
+      },
+      "editorTag" : "situation",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24056859:i6q6Iy",
+        "translations" : { }
+      },
+      "maxSelectable" : 1,
+      "name" : "situation",
+      "refId" : "StringDescriptor:24056856:ShXQh4",
+      "scopeType" : "GameModelScope",
+      "sortable" : false,
+      "validationPattern" : null,
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1925,19 +2070,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "drill",
+    "contentKey" : "distributionSampling",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24054901:bbSDJz",
+    "refId" : "GameModelContent:56275:82YVxT",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "distributionSampling",
+    "contentKey" : "drill",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:56275:82YVxT",
+    "refId" : "GameModelContent:24054901:bbSDJz",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2001,6 +2146,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "MatrixEditor",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24055651:hf6ZEg",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2091,6 +2245,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033052:uGpD6q",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "abstractMatrix",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:24055654:QHxL84",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

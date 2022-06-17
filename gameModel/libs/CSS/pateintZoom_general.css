@@ -63,6 +63,29 @@
 	margin: 5px 0 0 0;
 }
 
+/* Block details */
+.patientConsole .block-details .block-title {
+	border-bottom: 1px solid;
+	font-weight: bolder;
+}
+
+.patientConsole .block-details .block-subtitle {
+	font-weight: bolder;
+}
+
+.patientConsole .block-details .block-entry {
+	padding-left:10px;
+}
+
+.patientConsole .block-details .block-entry-title {
+	font-weight: 400;
+}
+
+.patientConsole .block-details .block-entry-value {
+	font-weight: 400;
+}
+
+
 /* VISUAL DETAILS */
 
 .patientConsole .visualDetail_elem p {

@@ -1,13 +1,13 @@
-import {initEmitterIds} from "./baseEvent";
-import {sendEvent} from "./EventManager";
-import {Block, BlockName, BodyEffect, BodyStateKeys} from "./HUMAn";
-import {logger} from "./logger";
-import {ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition} from "./pathology";
-import {getAct, getItem, getPathology} from "./registries";
-import {ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, InventoryEntry} from "./the_world";
-import {getCurrentSimulationTime} from "./TimeManager";
-import {Category, getCategory, getTagSystem} from "./triage";
-import {getOverview, HumanOverview} from "./graphics";
+import { initEmitterIds } from "./baseEvent";
+import { sendEvent } from "./EventManager";
+import { Block, BlockName, BodyEffect, BodyStateKeys, HumanBody } from "./HUMAn";
+import { logger } from "./logger";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./pathology";
+import { getAct, getItem, getPathology } from "./registries";
+import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
+import { getCurrentSimulationTime } from "./TimeManager";
+import { getCategory, getTagSystem } from "./triage";
+import { getOverview, HumanOverview } from "./graphics";
 
 
 /////////////////////////////////
@@ -105,7 +105,7 @@ interface FullState {
 	setState: SetZoomState;
 }
 
-export function keepStateAlive({state, setState}: FullState) {
+export function keepStateAlive({ state, setState }: FullState) {
 	const ePatient = I18n.toString(Variable.find(gameModel, 'currentPatient'))
 	const cPatient = state.currentPatient;
 	if (ePatient !== cPatient) {
@@ -125,10 +125,9 @@ function getActionIcon(action: HumanAction): string {
 	return "";
 }
 
-function getWheelActionFromInventory(inventory: InventoryEntry[]): WheelAction[] {
-	return inventory.flatMap(inventoryItem => {
-		const item = getItem(inventoryItem.itemId);
-
+function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
+	return Object.entries(inventory).flatMap(([itemId, count]) => {
+		const item = getItem(itemId);
 		if (item != null) {
 			return Object.entries(item.actions).map(([key, action]) => {
 				return {
@@ -142,13 +141,13 @@ function getWheelActionFromInventory(inventory: InventoryEntry[]): WheelAction[]
 						actionId: key,
 					},
 					icon: getActionIcon(action),
-					counter: inventoryItem.count,
+					counter: count,
 				};
 			});
 		}
 
 		return [];
-	})
+	});
 }
 
 
@@ -194,20 +193,20 @@ function getABCDEWheel(): Wheel {
 
 
 	const bag: Record<ABCDECategory, ByType> = {
-		'A': {measures: [], treatments: [], },
-		'B': {measures: [], treatments: [], },
-		'C': {measures: [], treatments: [], },
-		'D': {measures: [], treatments: [], },
-		'E': {measures: [], treatments: [], },
-		'Z': {measures: [], treatments: [], },
+		'A': { measures: [], treatments: [], },
+		'B': { measures: [], treatments: [], },
+		'C': { measures: [], treatments: [], },
+		'D': { measures: [], treatments: [], },
+		'E': { measures: [], treatments: [], },
+		'Z': { measures: [], treatments: [], },
 	};
 
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === "ActionBodyEffect") {
-			bag[action.actionCategory].treatments.push({...action, icon: 'syringe'});
+			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
 		} else if (action.actionType === "ActionBodyMeasure") {
-			bag[action.actionCategory].measures.push({...action, icon: 'ruler'});
+			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
 		}
 	});
 
@@ -512,32 +511,62 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 	}
 }
 
+function formatBlockTitle(title: string): string {
+	return `<div class='block-title'>${title}</div>`
+}
+
+function formatBlockSubTitle(title: string): string {
+	return `<div class='block-subtitle'>${title}</div>`
+}
+
+function formatBlockEntry(title: string, value?: string): string {
+	return `<div class='block-entry'>
+		<span class='block-entry-title'>${title}${value ? ':' : ''}</span>
+		<span class='block-entry-value'>${value || ''}</span>
+	</div>`;
+}
+
+
 
 function getBlockDetails(block: Block | undefined): string[] {
 	const output: string[] = [];
 	if (block) {
-		output.push(`<h4>${block.name}</h4>`);
+		output.push(formatBlockTitle(block.name));
 		logger.info("Block: ", block.params);
-			wlog("Block: ", block.params);
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
-			output.push("<h5>Hemorrhage</h5>");
+			output.push(formatBlockSubTitle("Hemorrhage"));
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
 				const arterialLoss = (block.params.arterialBleedingFactor ?? 0) - (block.params.arterialBleedingReductionFactor ?? 0) > 0;
 				const venousLoss = (block.params.venousBleedingFactor ?? 0) - (block.params.venousBleedingReductionFactor ?? 0) > 0;
 
-				output.push("<div>Arterial: " + arterialLoss + "</div>");
-				output.push("<div>Venous: " + venousLoss + "</div>");
-				output.push(`<div>Total: ${block.params.totalExtLosses_ml}</div>`);
+				if (arterialLoss) {
+					output.push(formatBlockEntry("Arterial"));
+				}
 
-				output.push("<div>Active: " + (block.params.extLossesFlow_mlPerMin ?? 0).toFixed() + " mL/min</div>");
+				if (venousLoss) {
+					output.push(formatBlockEntry("Venous"));
+				}
+
+				output.push(formatBlockEntry(
+					"current flow",
+					`${block.params.extLossesFlow_mlPerMin!.toFixed()} mL/min`
+				));
+
 			} else {
-				output.push("<div>Hemostasis</div>");
-				output.push(`<div>Total: ${block.params.totalExtLosses_ml}</div>`);
+				output.push(formatBlockEntry("Hemostasis"));
 			}
+			output.push(formatBlockEntry("Total", `${block.params.totalExtLosses_ml!.toFixed()} mL`));
 		}
 		if (block.params.broken) {
-			output.push("<div>Bone is broken</div>");
+			output.push(formatBlockSubTitle("Fracture"));
+			output.push(formatBlockEntry(block.params.broken));
+		}
+
+		if (block.params.burnedPercent! > 0) {
+			output.push(formatBlockSubTitle("Burn"));
+			output.push(formatBlockEntry("Degree"), block.params.burnLevel || '1');
+			output.push(formatBlockEntry("Percent: ", percentFormatter(block.params.burnedPercent)));
 		}
 
 		if (block.params.fiO2 != null && block.params.fiO2 !== 'freshAir') {
@@ -579,7 +608,7 @@ export function getBlockDetail(observedBlock: string) {
 			if (pathology != null) {
 				p.modules.forEach((mod, i) => {
 					if (mod.block === observedBlock) {
-						const block = blocks[mod.block] || {effects: [], pathologies: []};
+						const block = blocks[mod.block] || { effects: [], pathologies: [] };
 						block.pathologies.push({
 							pDef: pathology,
 							pMod: pathology.modules[i]!,
@@ -594,7 +623,7 @@ export function getBlockDetail(observedBlock: string) {
 				.filter(name => observedBlock === name)
 				.forEach(blockName => {
 					if (effect != null) {
-						const block = blocks[blockName] || {effects: [], pathologies: []};
+						const block = blocks[blockName] || { effects: [], pathologies: [] };
 						block.effects.push(effect);
 						blocks[blockName] = block;
 					}
@@ -648,7 +677,7 @@ export function getDetails() {
 			const pathology = getPathology(p.pathologyId);
 			if (pathology != null) {
 				p.modules.forEach((mod, i) => {
-					const block = blocks[mod.block] || {effects: [], pathologies: []};
+					const block = blocks[mod.block] || { effects: [], pathologies: [] };
 					block.pathologies.push({
 						pDef: pathology,
 						pMod: pathology.modules[i]!,
@@ -660,7 +689,7 @@ export function getDetails() {
 		effects.forEach(effect => {
 			effect.afflictedBlocks.forEach(blockName => {
 				if (effect != null) {
-					const block = blocks[blockName] || {effects: [], pathologies: []};
+					const block = blocks[blockName] || { effects: [], pathologies: [] };
 					block.effects.push(effect);
 					blocks[blockName] = block;
 				}
@@ -775,9 +804,25 @@ export function categorize(category: string) {
 	}
 }
 
-export function getHumanId(): string {
+function getRoundedAge(human: HumanBody) {
+	const age = human.meta.age;
+	if (age < 18) {
+		// child and teenager => quite easy to guess effective age
+		return age;
+	} else {
+		// adugle => round to 20, 25, 30, 35, and so on
+		return Math.round(age / 5) * 5;
+	}
+}
+
+export function getCurrentPatientTitle(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
-	return id;
+	const human = getHuman(id);
+	if (human != null) {
+		const age = getRoundedAge(human!);
+		return `<span class='human-id'>${id}</span>, <span class='human-sex'>${human!.meta.sex}</span>, <span class='human-age'>~${age}y</span>`;
+	}
+	return '';
 }
 
 function getAlertness(overview: HumanOverview): string {
@@ -821,31 +866,30 @@ export function getAfflictedBlocks(): string[] {
 	const health = getHealth(id);
 	const currentTime = getCurrentSimulationTime();
 
-	const output: string[] = [];
+	const output: Record<string, true> = {};
 
 	if (human != null) {
-
 		const pathologies = health.pathologies.filter(p => p.time < currentTime);
 		const effects = health.effects.filter(p => p.time < currentTime);
 		pathologies.forEach(p => {
 			//const pathology = getPathology(p.pathologyId);
 			p.modules.forEach(m => {
-				output.push(m.block);
+				output[m.block] = true;
 			})
 		});
 		effects.forEach(effect => {
 			effect.afflictedBlocks.forEach(blockName => {
 				if (effect != null) {
-					output.push(blockName);
+					output[blockName] = true;
 				}
 			});
 		});
 	}
 
-	return output;
+	return Object.keys(output);
 }
 
 export function observeBlock(block: string | undefined, setState: SetZoomState) {
-	setState(state => {return {...state, observedBlock: block}});
+	setState(state => { return { ...state, observedBlock: block } });
 }
 // const acts = getMyMedicalActs();

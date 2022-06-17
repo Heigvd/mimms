@@ -5,8 +5,8 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import {add, checkUnreachable, interpolate, normalize, Point} from "./helper";
-import {logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger} from "./logger";
+import { add, checkUnreachable, interpolate, normalize, Point } from "./helper";
+import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "./logger";
 import {
 	ActDefinition,
 	ActionBodyEffect,
@@ -21,7 +21,7 @@ import {
 	doCompensate,
 	inferExtraOutputs,
 } from "./physiologicalModel";
-import {getChemical, getPathology} from "./registries";
+import { getChemical } from "./registries";
 import { ScriptedPathologyPayload } from "./the_world";
 
 export type BodyPosition =
@@ -32,6 +32,7 @@ export type BodyPosition =
 	| "STANDING";
 
 //import { uniq } from "lodash";
+
 
 // const cloneDeep = Helpers.cloneDeep;
 
@@ -553,6 +554,14 @@ interface RevivedConnection {
 	to: string;
 }
 
+export const defaultMeta: BodyFactoryParam = {
+	age: 20,
+	sex: 'male',
+	bmi: 20,
+	height_cm: 170,
+	lungDepth: 0,
+};
+
 
 export const allBlocks = [
 	"HEAD",
@@ -646,11 +655,11 @@ function connect(
 	const toBlock = findBlock(bodyState, to);
 
 	const cId = bodyState.connections.length;
-	const c = {...params};
+	const c = { ...params };
 	bodyState.connections.push(c);
 	if (fromBlock != null && toBlock != null) {
-		fromBlock.connections.push({to, paramsId: cId});
-		toBlock.connections.push({to: from, paramsId: cId});
+		fromBlock.connections.push({ to, paramsId: cId });
+		toBlock.connections.push({ to: from, paramsId: cId });
 	}
 }
 
@@ -708,15 +717,15 @@ function createRespiratoryUnits(
 
 		for (i = 1; i <= 2; i++) {
 			const name = `BRONCHUS_${currentLevel}${i}`;
-			createBlock(state, name, {airResistance: 0, compliance: 1});
-			connect(state, parentBlock, name, {blood: 0.5, o2: true});
+			createBlock(state, name, { airResistance: 0, compliance: 1 });
+			connect(state, parentBlock, name, { blood: 0.5, o2: true });
 
 			createRespiratoryUnits(currentLevel + i, depth - 1, state, name);
 		}
 	} else {
 		const name = `UNIT_${parentBlock}`;
-		createBlock(state, name, {airResistance: 0, compliance: 1});
-		connect(state, parentBlock, name, {blood: 1, o2: true});
+		createBlock(state, name, { airResistance: 0, compliance: 1 });
+		connect(state, parentBlock, name, { blood: 1, o2: true });
 	}
 }
 
@@ -741,25 +750,25 @@ function computeEffectiveWeight(bmi: number, height_cm: number) {
 
 // age ->
 const brainWeightModel = [
-	{x: 0, y: 500},
-	{x: 1, y: 1},
-	{x: 5, y: 1300},
-	{x: 10, y: 1400},
+	{ x: 0, y: 500 },
+	{ x: 1, y: 1 },
+	{ x: 5, y: 1300 },
+	{ x: 10, y: 1400 },
 ];
 const ageToQbr = (age: number) => interpolate(age, brainWeightModel) * 0.0005;
 
-const orthoModel: Point[] = [{x: 0, y: 20}, {x: 100, y: 38}];
+const orthoModel: Point[] = [{ x: 0, y: 20 }, { x: 100, y: 38 }];
 const orthoLevelFromAge = (age: number) => interpolate(age, orthoModel);
 
 
 const vo2MaxModels: Record<Sex, Point[]> = {
 	female: [
-		{x: 22.5, y: 34},
-		{x: 62.5, y: 20}
+		{ x: 22.5, y: 34 },
+		{ x: 62.5, y: 20 }
 	],
 	male: [
-		{x: 22.5, y: 40.5},
-		{x: 62.5, y: 26.5},
+		{ x: 22.5, y: 40.5 },
+		{ x: 62.5, y: 26.5 },
 	]
 };
 
@@ -842,7 +851,7 @@ export function createHumanBody(
 					CaO2: 200,
 					PaO2: 50,
 					stridor: false,
-				  thoraxCompliance: 1,
+					thoraxCompliance: 1,
 				},
 				cardio: {
 					totalVolume_mL: blood_mL.total,
@@ -892,18 +901,18 @@ export function createHumanBody(
 	};
 
 	// top to bottom
-	createBlock(body.state, "HEAD", {fiO2: "freshAir"});
+	createBlock(body.state, "HEAD", { fiO2: "freshAir" });
 	createBlock(body.state, "BRAIN");
 
-	createBlock(body.state, "NECK", {airResistance: 0});
+	createBlock(body.state, "NECK", { airResistance: 0 });
 
 	createBlock(body.state, "C1-C4");
 	createBlock(body.state, "C5-C7");
 	createBlock(body.state, "T1-L4");
 
-	createBlock(body.state, "THORAX", {compliance: 1, airResistance: 0});
+	createBlock(body.state, "THORAX", { compliance: 1, airResistance: 0 });
 
-	createBlock(body.state, "LUNG", {airResistance: 0});
+	createBlock(body.state, "LUNG", { airResistance: 0 });
 	createBlock(body.state, "HEART");
 
 	createBlock(body.state, "LEFT_SHOULDER");
@@ -935,55 +944,55 @@ export function createHumanBody(
 	createBlock(body.state, "RIGHT_ANKLE");
 	createBlock(body.state, "RIGHT_FOOT");
 
-	connect(body.state, "HEAD", "NECK", {blood: 1, o2: true});
+	connect(body.state, "HEAD", "NECK", { blood: 1, o2: true });
 
-	connect(body.state, "HEAD", "BRAIN", {blood: 1, nervousSystem: true, });
+	connect(body.state, "HEAD", "BRAIN", { blood: 1, nervousSystem: true, });
 
-	connect(body.state, "HEAD", "C1-C4", {nervousSystem: true, bones: true});
-	connect(body.state, "C1-C4", "C5-C7", {nervousSystem: true, bones: true});
-	connect(body.state, "C1-C4", "LUNG", {nervousSystem: true});
+	connect(body.state, "HEAD", "C1-C4", { nervousSystem: true, bones: true });
+	connect(body.state, "C1-C4", "C5-C7", { nervousSystem: true, bones: true });
+	connect(body.state, "C1-C4", "LUNG", { nervousSystem: true });
 
-	connect(body.state, "C5-C7", "T1-L4", {nervousSystem: true, bones: true});
-	connect(body.state, "C5-C7", "LEFT_SHOULDER", {nervousSystem: true, bones: true});
-	connect(body.state, "C5-C7", "RIGHT_SHOULDER", {nervousSystem: true, bones: true});
+	connect(body.state, "C5-C7", "T1-L4", { nervousSystem: true, bones: true });
+	connect(body.state, "C5-C7", "LEFT_SHOULDER", { nervousSystem: true, bones: true });
+	connect(body.state, "C5-C7", "RIGHT_SHOULDER", { nervousSystem: true, bones: true });
 
-	connect(body.state, "T1-L4", "PELVIS", {nervousSystem: true, bones: true});
+	connect(body.state, "T1-L4", "PELVIS", { nervousSystem: true, bones: true });
 
 
-	connect(body.state, "NECK", "THORAX", {blood: 0.15, o2: true});
+	connect(body.state, "NECK", "THORAX", { blood: 0.15, o2: true });
 
-	connect(body.state, "THORAX", "LUNG", {o2: true});
+	connect(body.state, "THORAX", "LUNG", { o2: true });
 
-	connect(body.state, "THORAX", "HEART", {blood: 1});
+	connect(body.state, "THORAX", "HEART", { blood: 1 });
 
-	connect(body.state, "THORAX", "LEFT_SHOULDER", {blood: 0.05, bones: true});
-	connect(body.state, "LEFT_SHOULDER", "LEFT_ARM", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_ARM", "LEFT_ELBOW", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_ELBOW", "LEFT_FOREARM", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_FOREARM", "LEFT_WRIST", {blood: 0.01, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_WRIST", "LEFT_HAND", {blood: 1, nervousSystem: true, bones: true});
+	connect(body.state, "THORAX", "LEFT_SHOULDER", { blood: 0.05, bones: true });
+	connect(body.state, "LEFT_SHOULDER", "LEFT_ARM", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_ARM", "LEFT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_ELBOW", "LEFT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_FOREARM", "LEFT_WRIST", { blood: 0.01, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_WRIST", "LEFT_HAND", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "THORAX", "RIGHT_SHOULDER", {blood: 0.05, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_SHOULDER", "RIGHT_ARM", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_ARM", "RIGHT_ELBOW", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_ELBOW", "RIGHT_FOREARM", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_FOREARM", "RIGHT_WRIST", {blood: 0.01, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_WRIST", "RIGHT_HAND", {blood: 1, nervousSystem: true, bones: true});
+	connect(body.state, "THORAX", "RIGHT_SHOULDER", { blood: 0.05, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_SHOULDER", "RIGHT_ARM", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_ARM", "RIGHT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_ELBOW", "RIGHT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_FOREARM", "RIGHT_WRIST", { blood: 0.01, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_WRIST", "RIGHT_HAND", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "THORAX", "ABDOMEN", {blood: 0.75});
-	connect(body.state, "ABDOMEN", "PELVIS", {blood: 1 / 3});
+	connect(body.state, "THORAX", "ABDOMEN", { blood: 0.75 });
+	connect(body.state, "ABDOMEN", "PELVIS", { blood: 1 / 3 });
 
-	connect(body.state, "PELVIS", "LEFT_THIGH", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_THIGH", "LEFT_KNEE", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_KNEE", "LEFT_LEG", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_LEG", "LEFT_ANKLE", {blood: 0.01, nervousSystem: true, bones: true});
-	connect(body.state, "LEFT_ANKLE", "LEFT_FOOT", {blood: 1, nervousSystem: true, bones: true});
+	connect(body.state, "PELVIS", "LEFT_THIGH", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_THIGH", "LEFT_KNEE", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_KNEE", "LEFT_LEG", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_LEG", "LEFT_ANKLE", { blood: 0.01, nervousSystem: true, bones: true });
+	connect(body.state, "LEFT_ANKLE", "LEFT_FOOT", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "PELVIS", "RIGHT_THIGH", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_THIGH", "RIGHT_KNEE", {blood: 0.5, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_KNEE", "RIGHT_LEG", {blood: 1, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_LEG", "RIGHT_ANKLE", {blood: 0.01, nervousSystem: true, bones: true});
-	connect(body.state, "RIGHT_ANKLE", "RIGHT_FOOT", {blood: 1, nervousSystem: true, bones: true});
+	connect(body.state, "PELVIS", "RIGHT_THIGH", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_THIGH", "RIGHT_KNEE", { blood: 0.5, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_KNEE", "RIGHT_LEG", { blood: 1, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_LEG", "RIGHT_ANKLE", { blood: 0.01, nervousSystem: true, bones: true });
+	connect(body.state, "RIGHT_ANKLE", "RIGHT_FOOT", { blood: 1, nervousSystem: true, bones: true });
 
 	createRespiratoryUnits("", param.lungDepth, body.state, "LUNG");
 
@@ -1011,7 +1020,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 		// update the body to have up-to-date vitals
 		body.state = updateVitals(body.state, body.meta, env, 0);
 		orthoDelta = body.state.variables.paraOrthoLevel - currentOrthoLevel;
-		logger.info("Step: ", {orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel});
+		logger.info("Step: ", { orthoDelta, currentOrthoLevel, new: body.state.variables.paraOrthoLevel });
 		iterate = Math.abs(orthoDelta) > epsilon && adjust > 0.25;
 		if (iterate) {
 			if (way === 0) {
@@ -1023,7 +1032,7 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 				adjust /= 2;
 			}
 			body.state.variables.paraOrthoLevel = currentOrthoLevel + adjust * way;
-			logger.info("Adjust: ", {adjust, way, currentLevel: body.state.variables.paraOrthoLevel});
+			logger.info("Adjust: ", { adjust, way, currentLevel: body.state.variables.paraOrthoLevel });
 		}
 	} while (iterate);
 
@@ -1051,7 +1060,7 @@ export function visit<Payload>(
 	bodyState: BodyState,
 	blockName: string,
 	enterBlock: (block: Block) => "CONTINUE" | "BREAK" | "RETURN",
-	{leaveBlock, shouldWalk, prepareConnections}: VisitorOptions<Payload> = {}
+	{ leaveBlock, shouldWalk, prepareConnections }: VisitorOptions<Payload> = {}
 ): void {
 	const walked: Record<string, true> = {};
 	_visit(bodyState, blockName, enterBlock, walked, {
@@ -1066,7 +1075,7 @@ function _visit<Payload>(
 	blockName: string,
 	enterBlock: (block: Block) => "CONTINUE" | "BREAK" | "RETURN",
 	walked: Record<string, true>,
-	{leaveBlock, shouldWalk, prepareConnections}: VisitorOptions<Payload> = {}
+	{ leaveBlock, shouldWalk, prepareConnections }: VisitorOptions<Payload> = {}
 ) {
 	// make sure not to go through the same block twice
 	if (!walked[blockName]) {
@@ -1089,11 +1098,11 @@ function _visit<Payload>(
 				const preparedConnections: ConnectionWithPayload<Payload>[] =
 					prepareConnections != null
 						? prepareConnections(block, filterd)
-						: filterd.map((c) => ({connection: c}));
+						: filterd.map((c) => ({ connection: c }));
 				visitorLogger.debug("P Connections: ", preparedConnections);
 				preparedConnections
 					.filter((pc) => !!pc)
-					.forEach(({connection, payload}) => {
+					.forEach(({ connection, payload }) => {
 						if (!abort) {
 							visitorLogger.debug("Process connection to ", connection.to);
 							const nextBlock = connection.to;
@@ -1103,7 +1112,7 @@ function _visit<Payload>(
 									nextBlock,
 									enterBlock,
 									walked,
-									{leaveBlock, shouldWalk, prepareConnections}
+									{ leaveBlock, shouldWalk, prepareConnections }
 								);
 								if (result === "RETURN") {
 									abort = true;
@@ -1242,7 +1251,7 @@ function updateAirResistance(bodyState: BodyState, durationInMinute: number) {
 			}
 			return "CONTINUE";
 		},
-		{shouldWalk: (c) => !!c.params.o2}
+		{ shouldWalk: (c) => !!c.params.o2 }
 	);
 }
 
@@ -1252,7 +1261,7 @@ function updateCompliances(bodyState: BodyState, durationInMinute: number) {
 			block.params.compliance = add(
 				block.params.compliance ?? 1,
 				block.params.complianceDelta * durationInMinute,
-				{min: 0, max: 1}
+				{ min: 0, max: 1 }
 			);
 			logger.debug(
 				`Update ${block.name} compliance`,
@@ -1275,7 +1284,7 @@ const THORAX_COMPLIANCE_DELTA = -0.01;
 
 function updateThoraxCompliance(bodyState: BodyState, durationInMinute: number) {
 	const thorax = bodyState.blocks.get("THORAX");
-	if (thorax == null){
+	if (thorax == null) {
 		throw "Thorax not found";
 	}
 
@@ -1318,8 +1327,8 @@ interface BloodInputOutput {
 // x: absolute thrombocytes
 // y: coagulation amount [0;1] per minutes
 const coagulationModel: Point[] = [
-	{x: 0, y: 0}, // no thrombocyte, no hemostasis
-	{x: 100, y: 1}, // to review !
+	{ x: 0, y: 0 }, // no thrombocyte, no hemostasis
+	{ x: 100, y: 1 }, // to review !
 ];
 
 /**
@@ -1336,7 +1345,7 @@ function hemostasis_thrombocytes(
 		const newBlFactor = add(bleedingFactor, -interpolate(absWbc, coagulationModel), {
 			min: 0,
 		});
-		bloodLogger.warn("Platelets", {wbc_ratio, loss, absWbc, bleedingFactor, newBlFactor});
+		bloodLogger.debug("Platelets", { wbc_ratio, loss, absWbc, bleedingFactor, newBlFactor });
 		return newBlFactor;
 	} else {
 		return bleedingFactor;
@@ -1346,11 +1355,11 @@ function hemostasis_thrombocytes(
 // x: loss / cardiaOutput
 // y: resistance delta [-1;1] perMin
 const vasoconstrictionModel: Point[] = [
-	{x: -1, y: 0.05},
-	{x: -0.1, y: 0}, //
-	{x: 0.1, y: 0}, //
-	{x: 0.1, y: -0.01}, //
-	{x: 1, y: -0.01},// no losses leads to vasodilatation
+	{ x: -1, y: 0.05 },
+	{ x: -0.1, y: 0 }, //
+	{ x: 0.1, y: 0 }, //
+	{ x: 0.1, y: -0.01 }, //
+	{ x: 1, y: -0.01 },// no losses leads to vasodilatation
 ];
 
 /**
@@ -1366,7 +1375,7 @@ function hemostasis_vasoconstriction(
 		const ratio = delta_mlPerMin / cardiacOutput_mLPerMin;
 		const constriction_perMin = interpolate(ratio, vasoconstrictionModel);
 		const constriction_lap = constriction_perMin * duration_min;
-		bloodLogger.warn("vasoconstriction", {
+		bloodLogger.debug("vasoconstriction", {
 			delta_mlPerMin,
 			cardiacOutput_mLPerMin,
 			ratio,
@@ -1374,7 +1383,7 @@ function hemostasis_vasoconstriction(
 			constriction_lap,
 		});
 
-		return add(currentResistance, constriction_lap, {min: 0, max: 1});
+		return add(currentResistance, constriction_lap, { min: 0, max: 1 });
 	} else {
 		return currentResistance;
 	}
@@ -1466,7 +1475,7 @@ interface Data {
 }
 
 function dispatchV2(bodyState: BodyState, connections: RevivedConnection[], co: number) {
-	bloodLogger.info("Dispatch Blood Flow", {co, connections});
+	bloodLogger.info("Dispatch Blood Flow", { co, connections });
 	const data = connections.reduce<Data>((acc, current) => {
 		const nextBlock = findBlock(bodyState, current.to);
 		const oCo = (current.params.blood || 0) * co;
@@ -1614,7 +1623,7 @@ function sumBloodInOut(
 					wbc_ratio,
 					loss
 				);
-				bloodLogger.debug("Arterial loss: ", {loss, newBlFactor});
+				bloodLogger.debug("Arterial loss: ", { loss, newBlFactor });
 				block.params.arterialBleedingFactor = newBlFactor;
 				sum.bloodLosses_mL += loss;
 				sum.extLosses_mL += loss;
@@ -1635,7 +1644,7 @@ function sumBloodInOut(
 					wbc_ratio,
 					loss
 				);
-				bloodLogger.debug("Venous loss: ", {loss, newBlFactor});
+				bloodLogger.debug("Venous loss: ", { loss, newBlFactor });
 				block.params.venousBleedingFactor = newBlFactor;
 				sum.bloodLosses_mL += loss;
 				sum.extLosses_mL += loss;
@@ -1663,7 +1672,7 @@ function sumBloodInOut(
 					wbc_ratio,
 					loss
 				);
-				bloodLogger.debug("Internal loss: ", {loss, newBlFactor});
+				bloodLogger.debug("Internal loss: ", { loss, newBlFactor });
 				block.params.internalBleedingFactor = newBlFactor;
 				block.params.totalInternalLosses_ml = (block.params.totalInternalLosses_ml || 0) + loss;
 				sum.bloodLosses_mL += loss;
@@ -1724,7 +1733,7 @@ function sumBloodInOut(
 				const delta_mlPerMin = delta_mL / durationInMin;
 				// Math.abs(delta_mlPerMin) < 0.1
 				// update cardiac output
-				bloodLogger.warn("Cardiac Output input/output", {
+				bloodLogger.debug("Cardiac Output input/output", {
 					block: block,
 					bleedFactor,
 					delta_mL,
@@ -1815,14 +1824,14 @@ function sumBloodInOut(
 					// ie (map - icp) / res = map / (res + delta)
 					const map = bodyState.vitals.cardio.MAP;
 					const icp = bodyState.variables.ICP_mmHg;
-					bloodLogger.log("The Brain: ", {map, icp});
+					bloodLogger.log("The Brain: ", { map, icp });
 
 					const pp = map - icp;
 					const qBrModel = [
-						{x: 0, y: 0},
-						{x: bodyMeta.qbrAutoregulationStart_pp, y: qbr_target},
-						{x: bodyMeta.qbrAutoregulationStop_pp, y: qbr_target},
-						{x: 300, y: 4 * qbr_target},
+						{ x: 0, y: 0 },
+						{ x: bodyMeta.qbrAutoregulationStart_pp, y: qbr_target },
+						{ x: bodyMeta.qbrAutoregulationStop_pp, y: qbr_target },
+						{ x: 300, y: 4 * qbr_target },
 					];
 
 					bloodLogger.debug("QbrModel: ", qBrModel);
@@ -1830,7 +1839,7 @@ function sumBloodInOut(
 					//f(pp);
 					const qBrain = interpolate(pp, qBrModel);
 
-					bloodLogger.info("Blood brain: ", {qBrain, co});
+					bloodLogger.info("Blood brain: ", { qBrain, co });
 
 					if (qBrain < co) {
 						const qOthers = co - qBrain;
@@ -1852,7 +1861,7 @@ function sumBloodInOut(
 							},
 							...dispatchV2(bodyState, mapped.others, qOthers),
 						];
-						bloodLogger.warn("AutoRegulated BloodFlow ", rs);
+						bloodLogger.debug("AutoRegulated BloodFlow ", rs);
 						return rs;
 					} else {
 						bloodLogger.log("Well, looks you're dead, dude");
@@ -1943,7 +1952,7 @@ function updateVitals(
 	const plasmaRatio = bloodVolume_mL > 0 ? plasma_mL / bloodVolume_mL : 0;
 	const renalPlasma_mL = renal_mL * plasmaRatio;
 
-	bloodLogger.info("CurrentVolume: ", bloodVolume_mL, {plasmaRatio});
+	bloodLogger.info("CurrentVolume: ", bloodVolume_mL, { plasmaRatio });
 
 	// clean chemicals
 	Object.entries(newState.vitals.cardio.chemicals).forEach(
@@ -1983,7 +1992,7 @@ function updateVitals(
 	);
 
 	if (effectiveLosses > 0) {
-		const newVolume = normalize(bloodVolume_mL - effectiveLosses, {min: 0});
+		const newVolume = normalize(bloodVolume_mL - effectiveLosses, { min: 0 });
 
 		const ratio = bloodVolume_mL > 0 ? newVolume / bloodVolume_mL : 0;
 		bloodLogger.info(
@@ -2045,7 +2054,7 @@ function updateVitals(
 	// water
 	const idealWaterVolume = bloodVolume_mL * (1 - meta.hematocrit - 0.01) * 0.9;
 	const extraWater = water_mL - idealWaterVolume;
-	bloodLogger.info("Water: ", {idealWaterVolume, water_mL, extraWater});
+	bloodLogger.info("Water: ", { idealWaterVolume, water_mL, extraWater });
 
 	if (extraWater > 0) {
 		// too much water
@@ -2087,7 +2096,7 @@ function updateVitals(
 
 	compensate(newState, meta, durationInMin);
 
-	inferExtraOutputs({state: newState, meta: meta});
+	inferExtraOutputs({ state: newState, meta: meta });
 	newState.time = newTime;
 	return newState;
 }
@@ -2142,7 +2151,7 @@ export function computeState(
 		.filter((t) => t > previousTime && t <= time)
 		.sort();
 
-	patchLogger.info("Checkpoints: ", {previousTime, time, checkpoints});
+	patchLogger.info("Checkpoints: ", { previousTime, time, checkpoints });
 
 
 	return checkpoints.reduce<BodyState>((acc, checkpointTime) => {

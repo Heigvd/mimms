@@ -2,35 +2,22 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"InSimRef: \" + Variable.find(gameModel,'inSim_ref').getValue(self);",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "layout" : { },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"1e vague\"",
+          "language" : "JavaScript"
+        },
         "layoutStyle" : { },
-        "name" : "Time banner",
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import {premiereVague} from './scenario';\n\npremiereVague();",
+            "language" : "typescript"
+          }
+        },
         "style" : { }
       },
-      "type" : "FlexList"
+      "type" : "Button"
     }, {
       "props" : {
         "children" : [ {
@@ -301,24 +288,6 @@
               "props" : {
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"1e vague\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import {premiereVague} from './scenario';\n\npremiereVague();",
-                    "language" : "typescript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "label" : {
-                  "@class" : "Script",
                   "content" : "\"2e vague\"",
                   "language" : "JavaScript"
                 },
@@ -502,22 +471,6 @@
             "style" : { }
           },
           "type" : "FlexList"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"Clear State\"",
-              "language" : "JavaScript"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
-                "language" : "TypeScript"
-              }
-            }
-          },
-          "type" : "Button"
         } ],
         "layout" : { },
         "layoutStyle" : { },

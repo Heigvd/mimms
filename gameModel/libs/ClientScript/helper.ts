@@ -31,6 +31,20 @@ interface Bounds {
   max?: number;
 }
 
+
+export interface Range {
+	min: number;
+	max?: number;
+}
+
+
+export interface Point {
+	x: number;
+	y: number;
+}
+
+
+
 export function normalize(x: number, bounds?: Bounds): number {
   if (bounds != null) {
 	const { min, max } = bounds;
@@ -50,10 +64,6 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
   return normalize(x + delta, bounds);
 }
 
-export interface Point {
-	x: number;
-	y: number;
-}
 
 export function interpolate(x: number, points: Point[], defaultValue: number = 0) : number  {
 	//const points = pointsArg.sort((a, b) => a.x - b.x);
@@ -89,5 +99,42 @@ export function interpolate(x: number, points: Point[], defaultValue: number = 0
 	} else {
 		return defaultValue;
 	}
+}
+
+export function pickRandom<T>(list: T[]): T | undefined {
+	return list[Math.floor(Math.random() * list.length)];
+}
+
+export function getRandomValue(range: Range | undefined, integer: boolean = false): number | undefined {
+	if (range == null) {
+		return undefined;
+	}
+
+	if (range.max == null) {
+		return range.min;
+	} else {
+		const r = range.max - range.min;
+		const rnd = range.min + Math.random() * r;
+		if (integer) {
+			return Math.floor(rnd);
+		} else {
+			return rnd;
+		}
+	}
+}
+
+export function intersection<T>(...lists: T[][]) {
+	const [firstList, ...others] = lists;
+	if (firstList == null) {
+		throw "No lists!";
+	}
+
+	let result = firstList;
+
+	for (const items of others) {
+		result = result.filter(block => items.includes(block));
+	}
+
+	return result;
 }
 
