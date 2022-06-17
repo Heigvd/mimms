@@ -29,7 +29,6 @@
 "variable": SListDescriptor;
 "vasoconstriction": SBooleanDescriptor;
 "coagulation": SBooleanDescriptor;
-"setup": SWhQuestionDescriptor;
 "vasoconstrictionLungs": SBooleanDescriptor;
 "ansModel": SStringDescriptor;
 "time_management": SListDescriptor;
@@ -54,6 +53,17 @@
 "showPatientModal": SBooleanDescriptor;
 "recipientPhoneId": SNumberDescriptor;
 "tagSystem": SStringDescriptor;
+"characters": SObjectDescriptor;
+"drillType": SStringDescriptor;
+"patient_generation": SListDescriptor;
+"trigger": SBooleanDescriptor;
+"generation_settings": SObjectDescriptor;
+"patientNumber": SNumberDescriptor;
+"bagsDefinitions": SObjectDescriptor;
+"drill": SListDescriptor;
+"bagType": SStringDescriptor;
+"situationsDefinitions": SObjectDescriptor;
+"situation": SStringDescriptor;
         }
 
         interface VariableIds {
@@ -80,7 +90,6 @@
 24040423: SListDescriptor;
 24040426: SBooleanDescriptor;
 24040429: SBooleanDescriptor;
-24040432: SWhQuestionDescriptor;
 24040437: SBooleanDescriptor;
 24040440: SStringDescriptor;
 24040444: SListDescriptor;
@@ -105,6 +114,17 @@
 24041344: SBooleanDescriptor;
 24046467: SNumberDescriptor;
 24047301: SStringDescriptor;
+24054703: SObjectDescriptor;
+24054805: SStringDescriptor;
+24054938: SListDescriptor;
+24054943: SBooleanDescriptor;
+24054947: SObjectDescriptor;
+24054963: SNumberDescriptor;
+24056039: SObjectDescriptor;
+24056505: SListDescriptor;
+24056510: SStringDescriptor;
+24056851: SObjectDescriptor;
+24056856: SStringDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -131,7 +151,7 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: unknown, pageId: IScript) => void;
+          setPageLoaders: (name: "gamePageLoader"|"patientPageLoaderDrill", pageId: IScript) => void;
         };
 
         interface ClientMethodList {

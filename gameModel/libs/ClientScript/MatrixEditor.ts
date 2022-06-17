@@ -1,4 +1,3 @@
-
 export interface DataDef<T> {
 	/**
 	 * Row/cell label
@@ -42,7 +41,6 @@ export type CellDef = EnumDef | BooleanDef | NumberDef;
 export type MatrixKey = string | number;
 export type CellData = number | boolean | undefined | string;
 
-
 export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data extends CellData> {
 	x: DataDef<X>[];
 	y: DataDef<Y>[];
@@ -58,7 +56,7 @@ const noDefs: EnumDef = {
 	type: 'enum',
 	label: 'no defs',
 	values: [undefined],
-}
+};
 
 function getCellData() {
 	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
@@ -81,22 +79,24 @@ export function getCellCurrentConfigIndex(): number {
 		const data = getCellData();
 		for (const index in config.cellDef) {
 			const def = config.cellDef[index];
-			switch (def.type) {
-				case 'boolean':
-					if (typeof data === 'boolean') {
-						return +index;
-					}
-					break;
-				case 'enum':
-					if (def.values.includes(data)) {
-						return +index;
-					}
-					break;
-				case 'number':
-					if (typeof data === 'number') {
-						return +index;
-					}
-					break;
+			if (def != null) {
+				switch (def.type) {
+					case 'boolean':
+						if (typeof data === 'boolean') {
+							return +index;
+						}
+						break;
+					case 'enum':
+						if (def.values.includes(data)) {
+							return +index;
+						}
+						break;
+					case 'number':
+						if (typeof data === 'number') {
+							return +index;
+						}
+						break;
+				}
 			}
 		}
 
@@ -106,15 +106,15 @@ export function getCellCurrentConfigIndex(): number {
 
 export function getCellCurrentConfig(): CellDef {
 	const index = getCellCurrentConfigIndex();
-	if (index >= 0){
+	if (index >= 0) {
 		const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
-		return config.cellDef[index];
+		return config.cellDef[index] || noDefs;
 	} else {
 		return noDefs;
 	}
 }
 
-export function getIterableCellDefs(): { id: number, def: CellDef }[] {
+export function getIterableCellDefs(): { id: number; def: CellDef }[] {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 	return config.cellDef.map((def, i) => ({ id: i, def: def }));
 }
@@ -136,7 +136,10 @@ export function getCellNumericValue(): number {
 	}
 }
 
-export function getCellCurrentConfigChoices(): { label: string, value: string }[] {
+export function getCellCurrentConfigChoices(): {
+	label: string;
+	value: string;
+}[] {
 	const cellDef = getCellCurrentConfig();
 	if (cellDef.type === 'enum') {
 		return cellDef.values.map(v => ({ label: String(v), value: String(v) }));
@@ -161,13 +164,13 @@ export function switchToDef(def: CellDef) {
 }
 
 export function updateNumericValue(value: number | string) {
-	wlog("Num Value ", value);
+	wlog('Num Value ', value);
 	if (typeof value === 'number') {
-		wlog("Num Value is a number");
+		wlog('Num Value is a number');
 		updateValue(value);
 	} else {
 		const n = +value;
-		wlog("PArse ", n);
+		wlog('PArse ', n);
 		if (!Number.isNaN(n)) {
 			updateValue(n);
 		}
@@ -187,20 +190,16 @@ export function updateValueFromSelect(value: string) {
 export function updateValue(value: unknown) {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 
-	const onChange = Helpers.useRef(config.onChangeRefName, (x: DataDef<MatrixKey>, y: DataDef<MatrixKey>, value: unknown) => { });
+	const onChange = Helpers.useRef(
+		config.onChangeRefName,
+		(x: DataDef<MatrixKey>, y: DataDef<MatrixKey>, value: unknown) => {},
+	);
 	onChange.current(Context.column, Context.line, value);
 }
-
-
-
-
-
 
 /**********************************************
  * DEBUG
  */
-
-
 
 const testMatrix: Record<number, Record<number, CellData>> = {
 	0: {
@@ -222,24 +221,29 @@ const testMatrix: Record<number, Record<number, CellData>> = {
 		0: 0,
 		1: true,
 		2: false,
-	}
+	},
 };
 
-const onChangeRef = Helpers.useRef("testMatrixOnChange", (x: DataDef<number>, y: DataDef<number>, value: CellData) => { });
+const onChangeRef = Helpers.useRef(
+	'testMatrixOnChange',
+	(x: DataDef<number>, y: DataDef<number>, value: CellData) => {},
+);
 
 onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData) => {
-	testMatrix[x.id][y.id] = newData;
+	testMatrix[x.id]![y.id] = newData;
 	// Hack: touch boolean to force UIsync
-	APIMethods.runScript("var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())", {});
+	APIMethods.runScript(
+		"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())",
+		{},
+	);
 };
-
 
 export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
 	x: [
 		{ label: 'x 1st', id: 0 },
 		{ label: 'x 2nd', id: 1 },
 		{ label: 'x 3rd', id: 2 },
-		{ label: 'x 4th', id: 3 }
+		{ label: 'x 4th', id: 3 },
 	],
 	y: [
 		{ label: 'y 1er', id: 0 },
@@ -251,10 +255,11 @@ export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
 		{
 			type: 'number',
 			label: 'limited',
-		}, {
+		},
+		{
 			type: 'boolean',
-			label: 'bool'
-		}
+			label: 'bool',
+		},
 	],
 	onChangeRefName: 'testMatrixOnChange',
 };

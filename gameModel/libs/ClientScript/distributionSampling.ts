@@ -42,7 +42,7 @@ export class Histogram {
 
 		for(let k = 0; k < this.histogram.length; k++)
 		{
-			const e = this.histogram[k];
+			const e = this.histogram[k]!;
 			if(e.lowerBound >= e.upperBound || e.cardinality <= 0){ // non consistent interval
 				return false;
 			}
@@ -50,8 +50,8 @@ export class Histogram {
 
 		for(let k = 0; k < this.histogram.length - 1; k++){
 
-			const i = this.histogram[k];
-			const i2 = this.histogram[k+1];
+			const i = this.histogram[k]!;
+			const i2 = this.histogram[k+1]!;
 			if(i.upperBound > i2.lowerBound){ //overlap
 				return false;
 			}
@@ -138,33 +138,33 @@ export class HistogramDistribution implements IDistribution {
 
 	distributionRanges : UniformDistribution[] = [];
 	cumulativeProbs : number[] = [];
-	
+
 	constructor(histogram : Histogram){
 
 		let total = 0;
 		const h = histogram.histogram;
 
 		for(let i = 0; i < h.length; i++){
-			total += h[i].cardinality;
+			total += h[i]!.cardinality;
 			this.cumulativeProbs.push(total);
 		}
 
 		for(let i = 0; i < h.length; i++){
 			this.cumulativeProbs[i] /= total; // to cumulative probabilities
-			this.distributionRanges.push(new UniformDistribution(h[i].lowerBound, h[i].upperBound));
+			this.distributionRanges.push(new UniformDistribution(h[i]!.lowerBound, h[i]!.upperBound));
 		}
-	
+
 	}
 	min(): number {
-		return this.distributionRanges[0].min();
+		return this.distributionRanges[0]!.min();
 	}
 	max(): number {
-		return this.distributionRanges[this.distributionRanges.length-1].max();
+		return this.distributionRanges[this.distributionRanges.length-1]!.max();
 	}
 
 	private findSmallestGreaterIndex(rand : number): number {
 		let i = 0;
-		while(rand > this.cumulativeProbs[i] && i < this.cumulativeProbs.length){
+		while(rand > this.cumulativeProbs[i]! && i < this.cumulativeProbs.length){
 			i++;
 		}
 		return i;
@@ -172,7 +172,7 @@ export class HistogramDistribution implements IDistribution {
 
 	sample(): number {
 		const rangeIdx = this.findSmallestGreaterIndex(Math.random());
-		return this.distributionRanges[rangeIdx].sample();
+		return this.distributionRanges[rangeIdx]!.sample();
 	}
 
 }
@@ -180,7 +180,7 @@ export class HistogramDistribution implements IDistribution {
 type GraphData = {label: string, points:{x:number, y:number}[], fill?: string, allowDrag?: boolean}[];
 
 function testDistribution(label: string, d : IDistribution, samples : number, interval: Interval): GraphData{
-	
+
 	const size = interval.max - interval.min;
 	const counts = new Array(size).fill(0);
 	for(let i = 0; i < samples; i++){
@@ -200,7 +200,7 @@ export let histogramSample : GraphData;
 
 export function regenerateSamples(){
 	wlog('resampling...')
-	const histogramDescr : IHistogram= 
+	const histogramDescr : IHistogram=
 	[
 		{cardinality : 10, lowerBound: 10, upperBound: 20},
 		{cardinality : 20 ,lowerBound: 20, upperBound: 30},

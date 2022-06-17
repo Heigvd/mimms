@@ -168,7 +168,7 @@ export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> 
 	Object.entries(bags).forEach(([bagId, bagDef]) => {
 		matrix[bagId] = {};
 		Object.entries(bagDef.items).forEach(([itemId, data]) => {
-			matrix[bagId][itemId] = data;
+			matrix[bagId]![itemId] = data;
 		});
 	});
 
@@ -285,7 +285,7 @@ export function getSituationsDefsMatrix(): MatrixConfig<SituationId, PathologyId
 	Object.entries(situations).forEach(([situId, situDef]) => {
 		matrix[situId] = {};
 		Object.keys(situDef.pathologies || {}).forEach(pathoId => {
-			matrix[situId][pathoId] = true;
+			matrix[situId]![pathoId] = true;
 		});
 	});
 

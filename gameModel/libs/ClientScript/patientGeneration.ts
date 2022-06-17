@@ -9,7 +9,7 @@ import { getPatientsBodyFactoryParams, parseObjectDescriptor } from './WegasHelp
 
 
 /**
- * Todo: filter pathologies according to current situation 
+ * Todo: filter pathologies according to current situation
  */
 export function getAvailablePathologies() : {label: string, value: string}[]{
 	const situId = Variable.find(gameModel, 'situation').getValue(self);
@@ -23,7 +23,7 @@ export function getAvailablePathologies() : {label: string, value: string}[]{
 		} else {
 			const map = getPathologiesMap();
 			return Object.keys(situDef.pathologies || {}).map(id => ({
-				label: map[id],
+				label: map[id]!,
 				value: id
 			}));
 		}
@@ -120,12 +120,12 @@ export class HumanGenerator {
 			human.scriptedPathologies = [];
 		}
 
-		const pList = getAvailablePathologiesIds();
+		const pList = getAvailablePathologies();
 		for (let i = 0; i < n; i++) {
 
 			const def = pickRandom(pList);
 			// TODO : time
-			const p = buildScriptedPathologyPayload(def, 10);
+			const p = buildScriptedPathologyPayload(def?.value, 10);
 			human.scriptedPathologies.push(p);
 		}
 
