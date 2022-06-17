@@ -126,16 +126,22 @@
 
 
 
-
 /**
  * Body Blocks
  */
- .forTreatmentBlock {
+
+.forTreatmentBlock,
+.afflictedBlock {
 	 position: absolute;
-	 stroke: grey;
 	 fill: none;
+	 stroke: none;
 	 pointer-events: none;
- }
+}
+
+.forTreatmentBlock svg,
+.afflictedBlock svg {
+	position: absolute;
+}
 
   .afflictedBlock rect, 
   .forTreatmentBlock rect {
@@ -143,27 +149,34 @@
   }
 
  .afflictedBlock {
-	 position: absolute;
-	 fill: red;
-	 mix-blend-mode: lighten;
 	 cursor: pointer;
-	 pointer-events: none;
+  }
+
+.afflictedBlock svg:first-child {
+	mix-blend-mode: lighten;
+}
+
+.afflictedBlock svg:first-child rect {
+	fill: red;
+}
+
+ .afflictedBlock.observedBlock svg:first-child rect{
+	 fill: lightgreen;
  }
 
- .forTreatmentBlock.selectedBlock rect {
+ .forTreatmentBlock svg:last-child rect {
+	 stroke: grey;
+ }
+
+ .forTreatmentBlock.selectedBlock svg:last-child rect{
 	 stroke: var(--colors-primarycolor);
 	 stroke-width: 5px;
 	 transition: 0.2s;
  }
 
- .forTreatmentBlock:hover rect {
+ .forTreatmentBlock:not(.selectedBlock):hover svg:last-child rect {
 	 stroke: var(--colors-primarycolor);
 	 stroke-width: 1px;
 	 cursor: pointer;
 	 transition: 0.2s;
- }
-
-
- .afflictedBlock.selectedBlock rect {
-	 fill: lightgreen;
  }

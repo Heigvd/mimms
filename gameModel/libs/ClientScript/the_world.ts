@@ -1388,19 +1388,20 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 
 function updateInventory(inventory: Inventory, from: Inventory) {
 	Object.entries(from).forEach(([itemId, count]) => {
-		worldLogger.warn('Give ', count, ' ', itemId);
+		inventoryLogger.log('Give ', count, ' ', itemId);
 		if (count === 'infinity') {
 			// new count will always equals infinity
+			inventoryLogger.info(' to infinity');
 			inventory[itemId] = 'infinity';
-		} else if (count > 0) {
+		} else if (typeof count === 'number') {
 			const currentCount = inventory[itemId];
 			if (currentCount == null) {
 				// init item to count
 				inventory[itemId] = count;
-				worldLogger.warn('Init to', inventory[itemId]);
+				inventoryLogger.info('Init to', inventory[itemId]);
 			} else if (typeof currentCount === 'number') {
 				inventory[itemId] = currentCount + count;
-				worldLogger.warn('New count', inventory[itemId]);
+				inventoryLogger.info('New count', inventory[itemId]);
 			} /* else {
 				was infinity: do not touch
 			}*/
