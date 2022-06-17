@@ -6,3 +6,5 @@ export const vitalsLogger = Helpers.getLogger("human.vitals");
 export const calcLogger = Helpers.getLogger("human.calculus");
 export const compLogger = Helpers.getLogger("human.compensation");
 export const respLogger = Helpers.getLogger("human.respiration");
+export const worldLogger = Helpers.getLogger("human.world");
+export const inventoryLogger = Helpers.getLogger("human.world.inventory");

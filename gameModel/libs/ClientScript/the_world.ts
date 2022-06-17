@@ -62,11 +62,11 @@ import {
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, SystemName } from './triage';
 import { getFogType } from './gameMaster';
+import { worldLogger, inventoryLogger } from './logger';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
 ///////////////////////////////////////////////////////////////////////////
-const worldLogger = Helpers.getLogger('the_world');
 
 export type Location = Point & {
 	mapId: string;
@@ -1094,25 +1094,39 @@ function doMeasure(
 	});
 }
 
-function checkItemAvailabilityAndConsume(item: ItemDefinition): boolean {
-	const inventory = getMyInventory();
+function checkItemAvailabilityAndConsume(
+	time: number,
+	ownerId: ObjectId,
+	item: ItemDefinition,
+	patientId: string,
+): boolean {
+	const inventory = getInventory(time, ownerId);
 	const count = inventory[item.id];
+	inventoryLogger.info("Check Item availability", {time, ownerId , item: item.id});
 
 	if (count == null) {
 		// character do not own such item;
+	  inventoryLogger.info("Owner do not have any");
+		addLogMessage(patientId, time, `You do not have any ${item.name}`);
 		return false;
 	} else if (typeof count === 'number') {
 		if (count > 0) {
+	    inventoryLogger.info("Owner owns an item");
 			if (item.disposable) {
 				// item is diposable: consume one
+	      inventoryLogger.info("item is disposable: consume one");
+				updateInventoriesSnapshots(ownerId, time, { [item.id]: -1 });
 			}
 			return true;
 		} else {
 			// no more item
+	    inventoryLogger.info("Owner do not have any item any longer");
+			addLogMessage(patientId, time, `You do not have any ${item.name}`);
 			return false;
 		}
 	} else {
 		//  infinity never decreases
+	  inventoryLogger.info("Infinity");
 		return true;
 	}
 }
@@ -1124,7 +1138,18 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 		const { source, action } = resolvedAction;
 		if (resolvedAction.action.type === 'ActionBodyMeasure') {
 			if (source.type === 'item') {
-				if (checkItemAvailabilityAndConsume(source) === false) {
+				const characterId: ObjectId = {
+					objectType: 'Human',
+					objectId: event.payload.emitterCharacterId,
+				};
+				if (
+					checkItemAvailabilityAndConsume(
+						event.time,
+						characterId,
+						source,
+						event.payload.targetId,
+					) === false
+				) {
 					return;
 				}
 			}
@@ -1145,21 +1170,11 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 	}
 }
 
-function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
-	const time = event.time;
-
-	const objId = {
-		objectType: event.payload.targetType,
-		objectId: event.payload.targetId,
-	};
+function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
-		humanSnapshots,
-		objId,
-		event.time,
-	);
+	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, time);
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1185,17 +1200,47 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 		currentSnapshot = mostRecent;
 	}
 
-	const logEntry: ConsoleLog = {
-		type: 'MessageLog',
-		time: time,
-		message: event.payload.message,
-	};
 	currentSnapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
 		snapshot.state.console.sort((a, b) => a.time - b.time);
 	});
+}
+
+/**
+ * Quick way to add some message to some patient console
+ */
+function addLogMessage(patientId: string, time: number, message: string) {
+	addLogEntry(
+		{
+			objectType: 'Human',
+			objectId: patientId,
+		},
+		{
+			type: 'MessageLog',
+			time,
+			message,
+		},
+		time,
+	);
+}
+
+function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
+	const time = event.time;
+
+	const objId = {
+		objectType: event.payload.targetType,
+		objectId: event.payload.targetId,
+	};
+
+	const logEntry: ConsoleLog = {
+		type: 'MessageLog',
+		time: time,
+		message: event.payload.message,
+	};
+
+	addLogEntry(objId, logEntry, time);
 }
 
 function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
@@ -1259,7 +1304,19 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 		const { source, action } = resolvedAction;
 		if (resolvedAction.action.type === 'ActionBodyEffect') {
 			if (source.type === 'item') {
-				if (checkItemAvailabilityAndConsume(source) === false) {
+				const characterId: ObjectId = {
+					objectType: 'Human',
+					objectId: event.payload.emitterCharacterId,
+				};
+
+				if (
+					checkItemAvailabilityAndConsume(
+						event.time,
+						characterId,
+						source,
+						event.payload.targetId,
+					) === false
+				) {
 					return;
 				}
 			}
@@ -1354,7 +1411,7 @@ function updateInventory(inventory: Inventory, from: Inventory) {
 /**
  * give owner the content of the given inventery at the given time
  */
-function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inventory) {
+function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: Inventory) {
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
@@ -1375,7 +1432,6 @@ function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inv
 	}
 
 	if (mostRecent.time < time) {
-		worldLogger.warn('Create snapshot for current time');
 		currentSnapshot = {
 			time: time,
 			state: { ...mostRecent.state },
@@ -1392,7 +1448,6 @@ function updateInventoriesSnapshot(owner: ObjectId, time: number, inventory: Inv
 	futures.forEach(snapshot => {
 		updateInventory(snapshot.state, inventory);
 	});
-	worldLogger.warn('New ', inventoriesSnapshots);
 }
 
 function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
@@ -1406,7 +1461,7 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	worldLogger.warn('Process Give Bag Event', { owner, bag });
 
 	if (bag != null) {
-		updateInventoriesSnapshot(owner, event.time, bag.items);
+		updateInventoriesSnapshots(owner, event.time, bag.items);
 	}
 }
 
@@ -1592,6 +1647,15 @@ export function getCurrentPatientHealth(): HumanHealth | undefined {
 	return getHealth(id);
 }
 
+export function getInventory(time: number, objectId: ObjectId): Inventory {
+	const state = getMostRecentSnapshot(inventoriesSnapshots, objectId, time);
+	if (state.mostRecent != null) {
+		return state.mostRecent.state;
+	} else {
+		return {};
+	}
+}
+
 /**
  * Get current character inventory.
  *
@@ -1602,12 +1666,8 @@ export function getMyInventory(): Inventory {
 
 	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
-	const state = getMostRecentSnapshot(inventoriesSnapshots, myId, time);
-	if (state.mostRecent != null) {
-		return state.mostRecent.state;
-	} else {
-		return {};
-	}
+
+	return getInventory(time, myId);
 }
 
 /**
