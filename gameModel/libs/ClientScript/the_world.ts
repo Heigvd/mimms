@@ -63,7 +63,7 @@ import {
 } from './communication';
 import {FullEvent, getAllEvents, sendEvent} from './EventManager';
 import {Category, SystemName} from './triage';
-import {getFogType} from './gameMaster';
+import {getFogType, infiniteBags} from './gameMaster';
 import {worldLogger, inventoryLogger, delayedLogger} from './logger';
 import {SkillLevel} from './GameModelerHelper';
 
@@ -1523,9 +1523,11 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 }
 
 function updateInventory(inventory: Inventory, from: Inventory) {
+	const forceInfinity = infiniteBags();
+
 	Object.entries(from).forEach(([itemId, count]) => {
 		inventoryLogger.log('Give ', count, ' ', itemId);
-		if (count === 'infinity') {
+		if (forceInfinity || count === 'infinity') {
 			// new count will always equals infinity
 			inventoryLogger.info(' to infinity');
 			inventory[itemId] = 'infinity';
@@ -1595,7 +1597,7 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 
 	const bag = getBagDefinition(event.payload.bagId);
 
-	worldLogger.warn('Process Give Bag Event', {owner, bag});
+	worldLogger.info('Process Give Bag Event', {owner, bag});
 
 	if (bag != null) {
 		updateInventoriesSnapshots(owner, event.time, bag.items);

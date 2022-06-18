@@ -359,7 +359,7 @@ export function afflictPathology(pathologyId: string): AfflictedPathology {
 	const pathology = getPathology(pathologyId);
 
 	if (pathology == null){
-		throw "Pathology does not exist";
+		throw new Error("Pathology does not exist");
 	}
 
 	const aPatho: AfflictedPathology = {
@@ -384,15 +384,15 @@ export function afflictPathology(pathologyId: string): AfflictedPathology {
 		// select the same block for all module
 		const selectedBlock = pickRandom(intersection(...preset));
 		if (selectedBlock == null) {
-			throw "Selected block is null";
+			throw new Error("Selected block is null");
 		}
 		aPatho.afflictedBlocks = pathology.modules.map(_ => selectedBlock);
 	} else {
 		// select a block for each module
-		aPatho.afflictedBlocks = pathology.modules.map(m => {
-			const b = pickRandom(m.blocks);
+		aPatho.afflictedBlocks = preset.map(m => {
+			const b = pickRandom(m);
 			if (b == null) {
-				throw "Selected block is null";
+				throw new Error("Selected block is null");
 			}
 			return b;
 		});

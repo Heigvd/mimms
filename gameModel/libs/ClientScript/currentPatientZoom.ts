@@ -32,6 +32,7 @@ type WheelItemAction = BaseItem & WithActionType & {
 		itemId: string;
 		actionId: string;
 	};
+	disposable: boolean;
 	counter: Number | 'infinity';
 }
 
@@ -141,6 +142,7 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 						actionId: key,
 					},
 					icon: getActionIcon(action),
+					disposable: item.disposable,
 					counter: count,
 				};
 			});
@@ -288,7 +290,12 @@ export function getWheel(): Wheel {
 export function getButtonLabel(item: WheelItem | SubWheel): string {
 	switch (item.type) {
 		case 'WheelItemAction':
+		if (item.disposable){
 			return `${item.label} (${item.counter === 'infinity' ? "∞" : item.counter})`;
+		} else {
+			item.label;
+		}
+			
 		case 'WheelSubMenu':
 		case 'WheelAct':
 		case 'ExtraPanel':
@@ -533,6 +540,11 @@ function getBlockDetails(block: Block | undefined): string[] {
 	if (block) {
 		output.push(formatBlockTitle(block.name));
 		logger.info("Block: ", block.params);
+
+		if (block.params.pain) {
+			output.push(formatBlockEntry("Pain", "" + block.params.pain));
+		}
+
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push(formatBlockSubTitle("Hemorrhage"));

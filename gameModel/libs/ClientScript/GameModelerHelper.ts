@@ -193,6 +193,7 @@ export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> 
 			{
 				type: 'number',
 				label: 'limited',
+				min: 1,
 			},
 			{
 				type: 'enum',

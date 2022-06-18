@@ -1,16 +1,20 @@
 import { FogType } from "./the_world";
 
+type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP';
 
+function getDrillType(): DrillType {
+	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
+}
 
 
 export function getGamePageId() {
-	if (gameModel.getProperties().getFreeForAll()){
+	if (gameModel.getProperties().getFreeForAll()) {
 		// DRILL / individually
-		const drillType = Variable.find(gameModel, 'drillType').getValue(self);
-		if (drillType === 'PRE-TRIAGE'){
-			return "12";
-		} else if (drillType === "PRE-TRIAGE_ON_MAP"){
-			return "11";
+		switch (getDrillType()) {
+			case 'PRE-TRIAGE':
+				return "12";
+			case 'PRE-TRIAGE_ON_MAP':
+				return "11";
 		}
 	} else {
 		// multiplayers game
@@ -21,16 +25,32 @@ export function getGamePageId() {
 	return "404";
 }
 
-
-export function getFogType() : FogType {
-	if (gameModel.getProperties().getFreeForAll()){
+/**
+ * Does the current game mode gives an infinite number of objects?
+ */
+export function infiniteBags(): boolean {
+	if (gameModel.getProperties().getFreeForAll()) {
 		// DRILL / individually
-		const drillType = Variable.find(gameModel, 'drillType').getValue(self);
-		if (drillType === 'PRE-TRIAGE'){
-			// not map, all humans are visible
-			return 'NONE';
-		} else if (drillType === "PRE-TRIAGE_ON_MAP"){
-			// On map -> only visible humans are visible
+		switch (getDrillType()) {
+			case 'PRE-TRIAGE':
+				return true;
+			case 'PRE-TRIAGE_ON_MAP':
+				return false;
+		}
+	}
+
+	return false;
+}
+
+export function getFogType(): FogType {
+	if (gameModel.getProperties().getFreeForAll()) {
+		// DRILL / individually
+		switch (getDrillType()) {
+			case 'PRE-TRIAGE':
+				// not map, all humans are visible
+				return 'NONE'; 
+			case 'PRE-TRIAGE_ON_MAP':
+				// On map -> only visible humans are visible
 			return "SIGHT";
 		}
 	} else {

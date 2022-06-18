@@ -329,7 +329,7 @@ function init() {
 		}
 	],
 		[
-			[['UNIT_BRONCHUS_1'], ['THORAX_RIGHT'], ['THORAX_LEFT']],
+			[['UNIT_BRONCHUS_1'], ['THORAX_LEFT'], ['THORAX_LEFT']],
 			[['UNIT_BRONCHUS_2'], ['THORAX_RIGHT'], ['THORAX_RIGHT']],
 		]
 	));
@@ -837,6 +837,7 @@ function init() {
 						blockPatch: {
 							'bloodFlow': false,
 							'airResistance': 1,
+							pain: 5,
 						},
 					}
 				],
