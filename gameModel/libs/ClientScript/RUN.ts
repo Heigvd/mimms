@@ -123,14 +123,21 @@ function extractMetric(
 		outputResp,
 	);
 
-	const ip = body.blocks.get('THORAX')!.params.internalPressure;
-	const nIp = typeof ip === 'number' ? ip : 0;
-	pushMetric('IntraThoracic', time, nIp, outputResp);
+	const ip_left = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
+	const ip_right = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
+	const nIp_left = typeof ip_left === 'number' ? ip_left : 0;
+	const nIp_right = typeof ip_right === 'number' ? ip_right : 0;
+
+	pushComposedMetric("Thorax", time, {
+		itp_left: nIp_left,
+		itp_right: nIp_right,
+	},
+		outputCardio);
 
 	pushMetric('HR', time, body.vitals.cardio.hr, outputCardio);
 	pushMetric('MAP', time, body.vitals.cardio.MAP, outputCardio);
 
-	pushBloodBlockMetrics(body.blocks.get('THORAX')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('MEDIASTINUM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('NECK')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('ABDOMEN')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('PELVIS')!, time, outputCardio);

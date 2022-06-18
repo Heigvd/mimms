@@ -75,7 +75,7 @@ function getCategoryCardSvgRect(id: string, x : number=0, y: number = 0, size: n
 			<title>${overview.category.name}</title>
 			</rect>`;
 		}
-	} 
+	}
 	return '';
 }
 
@@ -521,8 +521,10 @@ function getBlockZone(blockName: BlockName): string | undefined {
 			return `<rect x="30" y="155" width="30" height="40" />`;
 		case 'RIGHT_HAND':
 			return `<rect x="8" y="195" width="40" height="45" />`;
-		case 'THORAX':
-			return `<rect x="71" y="70" width="70" height="70" />`;
+		case 'THORAX_LEFT':
+			return `<rect x="71" y="70" width="35" height="70" />`;
+		case 'THORAX_RIGHT':
+			return `<rect x="96" y="70" width="35" height="70" />`;
 		case 'ABDOMEN':
 			return `<rect x="65" y="140" width="83" height="40" />`;
 		case 'PELVIS':

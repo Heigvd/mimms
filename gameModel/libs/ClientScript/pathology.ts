@@ -593,7 +593,7 @@ export interface ActionBodyEffect extends BaseAction {
 	/**
 	 * List of block the item may target
 	 */
-	blocks: string[];
+	blocks: BlockName[];
 	/**
 	 * how the item affects a human being
 	 */

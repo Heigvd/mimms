@@ -157,7 +157,8 @@ function getLowerAirways(
 
 	// débit arteriel pulmonaire == Qa systemique ?
 
-	const thorax = findBlock(bodyState, "THORAX");
+	const thorax_left = findBlock(bodyState, "THORAX_LEFT");
+	const thorax_right = findBlock(bodyState, "THORAX_RIGHT");
 
 	//const externalCompliance = thorax != null ? thorax.params.compliance ?? 1 : 1;
 
@@ -180,6 +181,7 @@ function getLowerAirways(
 
 			if (block.name.startsWith("UNIT_")) {
 				respLogger.info("Found Unit: ", qPercent[0]);
+				const thorax = block.name.startsWith("UNIT_1") ? thorax_left : thorax_right;
 				units.push({
 					compliance: block.params.compliance ?? 1,
 					resistance: selfResistance,
@@ -442,14 +444,21 @@ export function compute(
 	const edvMax_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
 
 	// TODO: tension pno:= pleural_pressure [0;1]
-	const itp_raw = body.blocks.get("THORAX")!.params.internalPressure;
-	const itp_L = typeof itp_raw === 'number' ? itp_raw : 0;
+	const itp_l_raw = body.blocks.get("THORAX_LEFT")!.params.internalPressure;
+
+	const itp_r_raw = body.blocks.get("THORAX_RIGHT")!.params.internalPressure;
+
+
+	const itp_L = typeof itp_l_raw === 'number' ? itp_l_raw : 0;
+	const itp_R = typeof itp_r_raw === 'number' ? itp_r_raw : 0;
+
+	const itp = (itp_L + itp_R) / 2
 
 	const tensionPneumothoraxModel: Point[] = [
 		{ x: 0, y: 120 },
 		{ x: 50, y: esv },
 	];
-	const edvMax_pno = interpolate(itp_L, tensionPneumothoraxModel);
+	const edvMax_pno = interpolate(itp, tensionPneumothoraxModel);
 
 	const edvEffective = Math.min(
 		body.vitals.cardio.endDiastolicVolume_mL,

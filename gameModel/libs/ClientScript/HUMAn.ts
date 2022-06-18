@@ -571,7 +571,8 @@ export const allBlocks = [
 	"BRAIN",
 	"NECK",
 	"C1-C4", "C5-C7", "T1-L4",
-	"THORAX", "LUNG", "HEART",
+	"THORAX_LEFT", "THORAX_RIGHT",
+	"MEDIASTINUM", "LUNG", "HEART",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
 	"ABDOMEN", "PELVIS",
@@ -585,7 +586,7 @@ export type BlockName = typeof allBlocks[number];
 export const extBlocks = [
 	"HEAD",
 	"NECK",
-	"THORAX",
+	"THORAX_LEFT", "THORAX_RIGHT",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
 	"ABDOMEN", "PELVIS",
@@ -598,7 +599,7 @@ export type ExternalBlock = typeof extBlocks[number];
 export const bonesBlocks = [
 	"HEAD",
 	"NECK",
-	"THORAX",
+	"THORAX_LEFT", "THORAX_RIGHT",
 	"C1-C4", "C5-C7", "T1-L4",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
@@ -710,7 +711,7 @@ const getBloodPart = (weight_kg: number, sex: Sex) => {
 };
 
 function createRespiratoryUnits(
-	currentLevel: string,
+	parentLevel: string,
 	depth: number,
 	state: BodyState,
 	parentBlock: string
@@ -719,11 +720,13 @@ function createRespiratoryUnits(
 		let i: number;
 
 		for (i = 1; i <= 2; i++) {
-			const name = `BRONCHUS_${currentLevel}${i}`;
+			// concatenate level as string! (1 is the parent of 11 and 12; 11 is the parent of 111 and 112; ...)
+			const currentLevel = `${parentLevel}${i}`;
+			const name = `BRONCHUS_${currentLevel}`;
 			createBlock(state, name, { airResistance: 0, compliance: 1 });
 			connect(state, parentBlock, name, { blood: 0.5, o2: true });
 
-			createRespiratoryUnits(currentLevel + i, depth - 1, state, name);
+			createRespiratoryUnits(currentLevel, depth - 1, state, name);
 		}
 	} else {
 		const name = `UNIT_${parentBlock}`;
@@ -731,7 +734,6 @@ function createRespiratoryUnits(
 		connect(state, parentBlock, name, { blood: 1, o2: true });
 	}
 }
-
 
 /**
  * The Levin Formula.
@@ -913,7 +915,10 @@ export function createHumanBody(
 	createBlock(body.state, "C5-C7");
 	createBlock(body.state, "T1-L4");
 
-	createBlock(body.state, "THORAX", { compliance: 1, airResistance: 0 });
+	createBlock(body.state, "THORAX_LEFT");
+	createBlock(body.state, "THORAX_RIGHT");
+
+	createBlock(body.state, "MEDIASTINUM", { airResistance: 0 });
 
 	createBlock(body.state, "LUNG", { airResistance: 0 });
 	createBlock(body.state, "HEART");
@@ -962,27 +967,27 @@ export function createHumanBody(
 	connect(body.state, "T1-L4", "PELVIS", { nervousSystem: true, bones: true });
 
 
-	connect(body.state, "NECK", "THORAX", { blood: 0.15, o2: true });
+	connect(body.state, "NECK", "MEDIASTINUM", { blood: 0.15, o2: true });
 
-	connect(body.state, "THORAX", "LUNG", { o2: true });
+	connect(body.state, "MEDIASTINUM", "LUNG", { o2: true });
 
-	connect(body.state, "THORAX", "HEART", { blood: 1 });
+	connect(body.state, "MEDIASTINUM", "HEART", { blood: 1 });
 
-	connect(body.state, "THORAX", "LEFT_SHOULDER", { blood: 0.05, bones: true });
+	connect(body.state, "MEDIASTINUM", "LEFT_SHOULDER", { blood: 0.05, bones: true });
 	connect(body.state, "LEFT_SHOULDER", "LEFT_ARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_ARM", "LEFT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_ELBOW", "LEFT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_FOREARM", "LEFT_WRIST", { blood: 0.01, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_WRIST", "LEFT_HAND", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "THORAX", "RIGHT_SHOULDER", { blood: 0.05, nervousSystem: true, bones: true });
+	connect(body.state, "MEDIASTINUM", "RIGHT_SHOULDER", { blood: 0.05, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_SHOULDER", "RIGHT_ARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_ARM", "RIGHT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_ELBOW", "RIGHT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_FOREARM", "RIGHT_WRIST", { blood: 0.01, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_WRIST", "RIGHT_HAND", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "THORAX", "ABDOMEN", { blood: 0.75 });
+	connect(body.state, "MEDIASTINUM", "ABDOMEN", { blood: 0.75 });
 	connect(body.state, "ABDOMEN", "PELVIS", { blood: 1 / 3 });
 
 	connect(body.state, "PELVIS", "LEFT_THIGH", { blood: 0.5, nervousSystem: true, bones: true });
@@ -1286,12 +1291,20 @@ function updateICP(bodyState: BodyState, durationInMinute: number) {
 const THORAX_COMPLIANCE_DELTA = -0.01;
 
 function updateThoraxCompliance(bodyState: BodyState, durationInMinute: number) {
-	const thorax = bodyState.blocks.get("THORAX");
-	if (thorax == null) {
-		throw "Thorax not found";
+	const thorax_left = bodyState.blocks.get("THORAX_LEFT");
+	const thorax_right = bodyState.blocks.get("THORAX_RIGHT");
+
+
+	if (thorax_left == null) {
+		throw new Error("THORAX_LEFT not found");
 	}
 
-	if ((thorax.params.burnedPercent || 0) > 0.8 && +(thorax.params.burnLevel || 0) > 2) {
+	if (thorax_right == null) {
+		throw new Error("THORAX_RIGHT not found");
+	}
+
+	if ((thorax_left.params.burnedPercent || 0) > 0.8 && +(thorax_left.params.burnLevel || 0) > 2
+		&& (thorax_right.params.burnedPercent || 0) > 0.8 && +(thorax_right.params.burnLevel || 0) > 2) {
 		bodyState.vitals.respiration.thoraxCompliance = add(
 			bodyState.vitals.respiration.thoraxCompliance,
 			THORAX_COMPLIANCE_DELTA * durationInMinute,
@@ -1801,8 +1814,8 @@ function sumBloodInOut(
 				// un modeste alambique
 				const co = cardiacOutput_mLPerMin[0] || 0;
 				bloodLogger.info("Prepare Q: ", co);
-				if (block.name === "THORAX") {
-					bloodLogger.info("PREPARE THORAX CONNECTIONS: ", block.name)
+				if (block.name === "MEDIASTINUM") {
+					bloodLogger.info("PREPARE MEDIASTINUM CONNECTIONS: ", block.name)
 					// The brain got some autoregulation magic
 
 					// resistance values guessed fron p18 of:

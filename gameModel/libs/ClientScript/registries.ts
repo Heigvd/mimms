@@ -319,18 +319,18 @@ function init() {
 			compliance: {min: 0}
 		}, {
 			type: 'Hemorrhage',
-			blocks: ["THORAX"],
+			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			subtype: 'venous',
 			instantaneousBloodLoss: {min: 50}
 		}, {
 			type: 'Fracture',
-			blocks: ["THORAX"],
+			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			fractureType: 'nonDisplaced',
 		}
 	],
 		[
-			[['UNIT_BRONCHUS_1'], ['THORAX'], ['THORAX']],
-			[['UNIT_BRONCHUS_2'], ['THORAX'], ['THORAX']],
+			[['UNIT_BRONCHUS_1'], ['THORAX_RIGHT'], ['THORAX_LEFT']],
+			[['UNIT_BRONCHUS_2'], ['THORAX_RIGHT'], ['THORAX_RIGHT']],
 		]
 	));
 
@@ -347,18 +347,18 @@ function init() {
 			compliance: {min: 0}
 		}, {
 			type: 'Hemorrhage',
-			blocks: ["THORAX"],
+			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			subtype: 'venous',
 			instantaneousBloodLoss: {min: 150}
 		}, {
 			type: 'Fracture',
-			blocks: ["THORAX"],
+			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			fractureType: 'displaced',
 		}
 	],
 		[
-			[['UNIT_BRONCHUS_1'], ['THORAX'], ['THORAX']],
-			[['UNIT_BRONCHUS_2'], ['THORAX'], ['THORAX']],
+			[['UNIT_BRONCHUS_1'], ['THORAX_LEFT'], ['THORAX_LEFT']],
+			[['UNIT_BRONCHUS_2'], ['THORAX_RIGHT'], ['THORAX_RIGHT']],
 		]
 	));
 
@@ -382,10 +382,16 @@ function init() {
 	},
 		[{
 			type: 'Burn',
-			blocks: ['THORAX'],
+			blocks: ['THORAX_LEFT'],
 			level: '3',
 			percent: {min: 1},
-		}]
+		}, {
+			type: 'Burn',
+			blocks: ['THORAX_RIGHT'],
+			level: '3',
+			percent: {min: 1},
+		}
+		]
 	));
 
 	registerPathology(buildPathology({
@@ -717,7 +723,7 @@ function init() {
 				name: "apply",
 				category: 'B',
 				targetedObject: 'HumanBody',
-				blocks: ['THORAX'],
+				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
 				rules: [
 					{
 						id: 'setup',
@@ -745,7 +751,7 @@ function init() {
 				name: "do",
 				category: 'B',
 				targetedObject: 'HumanBody',
-				blocks: ['THORAX'],
+				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
 				rules: [
 					{
 						id: 'do',
@@ -773,7 +779,7 @@ function init() {
 				name: "drain",
 				category: 'B',
 				targetedObject: 'HumanBody',
-				blocks: ['THORAX'],
+				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
 				rules: [
 					{
 						id: 'drain',

@@ -1,10 +1,10 @@
-import { TargetedEvent } from "./baseEvent";
+import {TargetedEvent} from "./baseEvent";
 import {getSkillDefinition, SkillDefinition, SkillLevel} from "./GameModelerHelper";
-import { Point } from "./helper";
-import { BodyFactoryParam, Environnment } from "./HUMAn";
-import { logger } from "./logger";
-import { Compensation, SympSystem } from "./physiologicalModel";
-import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "./the_world";
+import {Point} from "./helper";
+import {BodyFactoryParam, Environnment} from "./HUMAn";
+import {logger} from "./logger";
+import {Compensation, SympSystem} from "./physiologicalModel";
+import {BagDefinition, HumanTreatmentEvent, PathologyEvent} from "./the_world";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -47,13 +47,13 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed) ?
 			// 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
+			[{label: key, points: (parsed as RawPoints).map(([x, y]) => ({x, y}))}]
 			:
 			// many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
 			Object.entries(parsed).map(([k, v]) => {
 				return {
 					label: k,
-					points: (v as RawPoints).map(([x, y]) => ({ x, y }))
+					points: (v as RawPoints).map(([x, y]) => ({x, y}))
 				};
 			});
 
@@ -84,7 +84,7 @@ function getRawHumanBodyParams() {
 	const patients = Variable.find(gameModel, 'patients').getProperties();
 	const characters = Variable.find(gameModel, 'characters').getProperties();
 
-	const all = { ...patients, ...characters };
+	const all = {...patients, ...characters};
 
 	if (Object.keys(all).length !== Object.keys(patients).length + Object.keys(characters).length) {
 		logger.error("Patients And characters duplicates ids !");
@@ -98,7 +98,7 @@ export function getHumanIds() {
 	return Object.keys(all);
 }
 
-export function getPatientIds(){
+export function getPatientIds() {
 	return Object.keys(Variable.find(gameModel, 'patients').getProperties());
 }
 
@@ -216,7 +216,7 @@ testScenarios["4_simple_pno_left"] = {
 		type: 'HumanPathology',
 		time: 10,
 		pathologyId: 'simple_pno_full',
-		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX_LEFT', 'THORAX_LEFT'],
 		modulesArguments: [{
 			type: 'PneumothoraxArgs',
 			compliance: 0,
@@ -253,11 +253,16 @@ testScenarios["6_thorac_circ_burn"] = {
 		type: 'HumanPathology',
 		time: 10,
 		pathologyId: 'thorax_circ',
-		afflictedBlocks: ['THORAX'],
+		afflictedBlocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
 		modulesArguments: [{
 			type: 'BurnArgs',
 			percent: 1,
-		}]
+		},
+		{
+			type: 'BurnArgs',
+			percent: 1,
+		}
+		]
 	}]
 };
 
@@ -295,7 +300,7 @@ testScenarios["10_tension_pneumothorax"] = {
 		type: 'HumanPathology',
 		time: 10,
 		pathologyId: 'simple_pno_full',
-		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX', 'THORAX'],
+		afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX_LEFT', 'THORAX_LEFT'],
 		modulesArguments: [{
 			type: 'PneumothoraxArgs',
 			compliance: 0,
@@ -320,7 +325,7 @@ testScenarios["10_tension_pneumothorax"] = {
 
 
 const x = {
-	"description": "tension pneumothorax", "events": [{ "time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": { "type": "HumanPathology", "pathologyId": "simple_pno_full" } }, { "time": 600, "blocks": ["HEAD"], "event": { "type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup" } }]
+	"description": "tension pneumothorax", "events": [{"time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": {"type": "HumanPathology", "pathologyId": "simple_pno_full"}}, {"time": 600, "blocks": ["HEAD"], "event": {"type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup"}}]
 }
 
 export function getCurrentScenario(): TestScenario {
@@ -345,7 +350,7 @@ export function getCurrentScenario(): TestScenario {
 }
 
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
-	return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
+	return Object.entries(od.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -355,7 +360,7 @@ export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, 
 }
 
 export function parseObjectInstance<T>(oi: SObjectInstance): Record<string, T> {
-	return Object.entries(oi.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
+	return Object.entries(oi.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -415,7 +420,7 @@ export function getPatientsBodyFactoryParams() {
 
 export function getPatientsBodyFactoryParamsArray() {
 	return Object.entries(getPatientsBodyFactoryParams()).map(([id, meta]) => {
-		return {id : id, meta: meta};
+		return {id: id, meta: meta};
 	})
 }
 
@@ -423,7 +428,7 @@ function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 	const humans = parseObjectDescriptor<BodyFactoryParam>(od);
 	return Object.entries(humans).map(([k, meta]) => {
 		if (meta) {
-			const skill = meta.skillId ? ` [${meta.skillId}]`: '';
+			const skill = meta.skillId ? ` [${meta.skillId}]` : '';
 			return {
 				value: k,
 				label:
@@ -432,7 +437,7 @@ function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 						: `${k}${skill} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
 			};
 		} else {
-			return { value: k, label: `Unparsable ${k}` }
+			return {value: k, label: `Unparsable ${k}`}
 		}
 	});
 }
@@ -526,7 +531,7 @@ export function getCompensationSeries(): Graph[] {
 };
 
 
-export function getBagDefinition(bagId: string){
+export function getBagDefinition(bagId: string) {
 	const sdef = Variable.find(gameModel, 'bagsDefinitions').getProperties()[bagId];
 	return parse<BagDefinition>(sdef || "");
 }
@@ -535,7 +540,7 @@ export function getBagDefinition(bagId: string){
  * Get character skills
  */
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
-		const humanDef = getBodyParam(humanId);
+	const humanDef = getBodyParam(humanId);
 	const skillId = humanDef?.skillId;
 	return getSkillDefinition(skillId);
 }
@@ -556,7 +561,7 @@ export function getHumanSkillLevelForItemAction(humanId: string, itemId: string,
 	return skills.actions && skills.actions[key];
 }
 
-export function getHumanSkillLevelForAct(humanId: string, actId: string){
+export function getHumanSkillLevelForAct(humanId: string, actId: string) {
 	const key = `act::${actId}`;
 	const skills = getHumanSkillDefinition(humanId);
 	return skills.actions && skills.actions[key];
