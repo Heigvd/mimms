@@ -66,6 +66,20 @@ export function getLocatedBubble(human: { id: string } & Located): string | unde
 	return svg
 }
 
+function getCategoryCardSvgRect(id: string, x : number=0, y: number = 0, size: number=4): string {
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview?.category) {
+			return `<rect fill="${overview.category.bgColor}" stroke="grey" stroke-width="0.2" x="${x}" y="${y}" width="${size}" height="${size}" >
+			<title>${overview.category.name}</title>
+			</rect>`;
+		}
+	} 
+	return '';
+}
+
+
 export function getLocatedSmiley(human: { id: string } & Located): string | undefined {
 	let svg = '';
 	if (human.location) {
@@ -91,6 +105,7 @@ export function getLocatedSmiley(human: { id: string } & Located): string | unde
 	     x="0.61097282"
 	     y="9.563179"
 	>${human.id}</text>
+		${getCategoryCardSvgRect(human.id, 7, 0, 3)}
 	</svg></div>`;
 	}
 	return svg

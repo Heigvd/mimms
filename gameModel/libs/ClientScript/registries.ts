@@ -1083,7 +1083,7 @@ function init() {
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardio.hr'],
-			duration: {low_skill: 0, high_skill: 15, },
+			duration: {low_skill: 15, high_skill: 5, },
 		}
 	});
 

@@ -70,6 +70,7 @@
         },
         "layout" : { },
         "layoutStyle" : { },
+        "name" : "pending actions",
         "onExitActions" : { },
         "style" : { }
       },
@@ -140,6 +141,7 @@
                           "minWidth" : "30px",
                           "width" : "13%"
                         },
+                        "name" : "category",
                         "style" : {
                           "display" : "flex",
                           "flexGrow" : "1"

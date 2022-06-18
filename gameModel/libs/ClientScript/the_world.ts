@@ -1269,7 +1269,9 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 					doMeasure(event.time, source, action as ActionBodyMeasure, event);
 				}
 			} else {
-				addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
+				addLogMessage(event.payload.emitterCharacterId,
+					event.payload.targetId, event.time,
+					`You don't know how to measure ${getResolvedActionDisplayName(resolvedAction)}`);
 			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
@@ -1457,7 +1459,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					return;
 				}
 			}
-
+ 
 			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel]
@@ -1468,7 +1470,9 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					doTreatment(event.time, resolvedAction, event);
 				}
 			} else {
-				addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
+				addLogMessage(event.payload.emitterCharacterId, 
+					event.payload.targetId, event.time,
+					`You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
 			}
 
 		} else {
