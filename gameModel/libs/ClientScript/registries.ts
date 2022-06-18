@@ -69,7 +69,11 @@ export function registerAct(def: ActDefinition): void {
 	acts[def.id] = def;
 }
 
-export function getAct(id: string): ActDefinition | undefined {
+export function getAct(id?: string): ActDefinition | undefined {
+	if (!id){
+		return undefined;
+	}
+
 	init();
 	return acts[id];
 }

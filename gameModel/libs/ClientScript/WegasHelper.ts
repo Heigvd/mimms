@@ -1,4 +1,5 @@
 import { TargetedEvent } from "./baseEvent";
+import {getSkillDefinition, SkillDefinition, SkillLevel} from "./GameModelerHelper";
 import { Point } from "./helper";
 import { BodyFactoryParam, Environnment } from "./HUMAn";
 import { logger } from "./logger";
@@ -422,12 +423,13 @@ function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 	const humans = parseObjectDescriptor<BodyFactoryParam>(od);
 	return Object.entries(humans).map(([k, meta]) => {
 		if (meta) {
+			const skill = meta.skillId ? ` [${meta.skillId}]`: '';
 			return {
 				value: k,
 				label:
 					short ?
-						`${k} (${meta.age}${meta.sex === 'male' ? 'M' : 'F'})`
-						: `${k} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
+						`${k} (${meta.age}${meta.sex === 'male' ? 'M' : 'F'})${skill}`
+						: `${k}${skill} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
 			};
 		} else {
 			return { value: k, label: `Unparsable ${k}` }
@@ -527,4 +529,35 @@ export function getCompensationSeries(): Graph[] {
 export function getBagDefinition(bagId: string){
 	const sdef = Variable.find(gameModel, 'bagsDefinitions').getProperties()[bagId];
 	return parse<BagDefinition>(sdef || "");
+}
+
+/**
+ * Get character skills
+ */
+export function getHumanSkillDefinition(humanId: string): SkillDefinition {
+		const humanDef = getBodyParam(humanId);
+	const skillId = humanDef?.skillId;
+	return getSkillDefinition(skillId);
+}
+
+/**
+ * Get current character skills
+ */
+export function getMySkillDefinition(): SkillDefinition {
+	return getHumanSkillDefinition(whoAmI());
+}
+
+/**
+ * Get humanId skillLevel for the given action
+ */
+export function getHumanSkillLevelForItemAction(humanId: string, itemId: string, actionId: string): SkillLevel | undefined {
+	const key = `item::${itemId}::${actionId}`;
+	const skills = getHumanSkillDefinition(humanId);
+	return skills.actions && skills.actions[key];
+}
+
+export function getHumanSkillLevelForAct(humanId: string, actId: string){
+	const key = `act::${actId}`;
+	const skills = getHumanSkillDefinition(humanId);
+	return skills.actions && skills.actions[key];
 }

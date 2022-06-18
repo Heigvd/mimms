@@ -328,7 +328,9 @@ type SkillId = string;
  */
 type ActionId = string;
 
-type SkillMatrixCell = undefined | 'low_skill' | 'high_skill';
+export type SkillLevel = 'low_skill' | 'high_skill'
+
+type SkillMatrixCell = undefined | SkillLevel;
 
 type SkillOnChangeFn = (x: DataDef<SkillId>, y: DataDef<ActionId>, value: SkillMatrixCell) => void;
 
@@ -336,15 +338,23 @@ const SkillOnChangeRefName = 'skillDefOnChange';
 
 const onSkillChangeRef = Helpers.useRef<SkillOnChangeFn>(SkillOnChangeRefName, () => { });
 
-interface SkillDefinition {
+export interface SkillDefinition {
 	name?: string,
-	actions?: Record<ActionId, 'low_skill' | 'high_skill'>,
+	actions?: Record<ActionId, SkillLevel>,
 }
 
+const noSkill: SkillDefinition = {
+	name: 'unskilled',
+	actions: {},
+}
 
-export function getSkillDefinition(skillId: string) {
+export function getSkillDefinition(skillId?: string): SkillDefinition {
+	if (!skillId) {
+		return noSkill;
+	}
+
 	const sdef = Variable.find(gameModel, 'skillsDefinitions').getProperties()[skillId];
-	return parse<SkillDefinition>(sdef || "");
+	return parse<SkillDefinition>(sdef || "") || noSkill;
 }
 
 onSkillChangeRef.current = (x, y, newData) => {
@@ -352,7 +362,7 @@ onSkillChangeRef.current = (x, y, newData) => {
 	const skillId = x.id;
 	const actionId = y.id;
 
-	const def = getSkillDefinition(skillId) || { name: '', actions: {} };
+	const def = getSkillDefinition(skillId);
 
 	if (newData) {
 		if (def.actions == null) {

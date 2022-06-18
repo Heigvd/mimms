@@ -1,11 +1,13 @@
 // THIS IS NOT A MODULE
 
-import { getBlocksSelector } from "./GameModelerHelper";
+import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "./GameModelerHelper";
 
 import { getItems, getPathologies } from "./registries";
 
-// Hide everything inside anonymous function
-(function () {
+Helpers.registerEffect(() => {
+
+  const skillChoices = getSkillsDefinitionsAsChoices();
+
 	/**
 	 * Custom patient edition
 	 */
@@ -104,7 +106,8 @@ import { getItems, getPathologies } from "./registries";
 								bmi: { type: 'number', view: { label: 'BMI [kg/m²]', layout: "shortInline" } },
 								scriptedPathologies: { view: { type: 'hidden' } },
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
-								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } }
+								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } },
+								skillId: {type: 'string', view: {label: 'Skill', layout: "shortInline", type: 'select', choices: skillChoices } },
 							}
 						}
 					}
@@ -449,7 +452,7 @@ import { getItems, getPathologies } from "./registries";
 			};
 			return newSchema;
 		} else if (od.editorTag === 'bags' || od.editorTag === 'situations' || od.editorTag === 'skills') {
-			
+
 			const keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
@@ -515,4 +518,4 @@ import { getItems, getPathologies } from "./registries";
 		}
 	  });
 	  */
-})();
+});

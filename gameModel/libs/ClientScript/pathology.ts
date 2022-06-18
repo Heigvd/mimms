@@ -6,6 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
+import {SkillLevel} from "./GameModelerHelper";
 import {checkUnreachable, getRandomValue, intersection, pickRandom, Range} from "./helper";
 import {Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock} from "./HUMAn";
 import {getPathology} from "./registries";
@@ -582,10 +583,7 @@ interface BaseAction {
 	/** human readable name */
 	name: string;
 	category: ABCDECategory;
-	duration: {
-		low_skill: number;
-		high_skill: number;
-	}
+	duration: Record<SkillLevel, number>;
 }
 
 export interface ActionBodyEffect extends BaseAction {

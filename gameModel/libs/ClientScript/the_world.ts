@@ -1,4 +1,4 @@
-import { Point } from './helper';
+import {Point} from './helper';
 
 import {
 	BlockName,
@@ -28,22 +28,24 @@ import {
 } from './pathology';
 import {
 	getAct,
-	getActs,
 	getItem,
 	getPathology,
 	setCompensationModel,
 	setSystemModel,
 } from './registries';
-import { getCurrentSimulationTime } from './TimeManager';
+import {getCurrentSimulationTime} from './TimeManager';
 import {
 	getBagDefinition,
 	getBodyParam,
 	getEnv,
+	getMySkillDefinition,
+	getHumanSkillLevelForAct,
+	getHumanSkillLevelForItemAction,
 	loadCompensationModel,
 	loadSystem,
 	whoAmI,
 } from './WegasHelper';
-import { initEmitterIds, TargetedEvent } from './baseEvent';
+import {initEmitterIds, TargetedEvent} from './baseEvent';
 import {
 	DirectCommunicationEvent,
 	RadioChannelUpdateEvent,
@@ -59,10 +61,11 @@ import {
 	processPhoneCommunication,
 	clearAllCommunicationState,
 } from './communication';
-import { FullEvent, getAllEvents, sendEvent } from './EventManager';
-import { Category, SystemName } from './triage';
-import { getFogType } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger } from './logger';
+import {FullEvent, getAllEvents, sendEvent} from './EventManager';
+import {Category, SystemName} from './triage';
+import {getFogType} from './gameMaster';
+import {worldLogger, inventoryLogger, delayedLogger} from './logger';
+import {SkillLevel} from './GameModelerHelper';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -106,7 +109,7 @@ type MeasureLog = BaseLog & {
 	/**
 	 * Key: metric name; value: measures value
 	 */
-	metrics: { metric: BodyStateKeys; value: unknown }[];
+	metrics: {metric: BodyStateKeys; value: unknown}[];
 };
 
 export type ConsoleLog = MessageLog | MeasureLog;
@@ -189,32 +192,26 @@ interface HumanLogMessageEvent extends TargetedEvent {
 	message: string;
 }
 
+type ActionSource =
+	| {
+		type: 'act';
+		actId: string;
+	}
+	| {
+		type: 'itemAction';
+		itemId: string;
+		actionId: string;
+	};
+
+
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
-	source:
-		| {
-				type: 'act';
-				actId: string;
-		  }
-		| {
-				type: 'itemAction';
-				itemId: string;
-				actionId: string;
-		  };
+	source: ActionSource
 }
 
 export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
-	source:
-		| {
-				type: 'act';
-				actId: string;
-		  }
-		| {
-				type: 'itemAction';
-				itemId: string;
-				actionId: string;
-		  };
+	source: ActionSource;
 	blocks: BlockName[];
 }
 
@@ -375,7 +372,7 @@ function computeCurrentLocation(
 	speed: number,
 ): Location | undefined {
 	// TODO multi map
-	worldLogger.log('ComputeCurrentLocation', { location, currentTime, speed });
+	worldLogger.log('ComputeCurrentLocation', {location, currentTime, speed});
 	if (location?.location != null) {
 		if (location.direction != null) {
 			const delta = sub(location.direction, location.location);
@@ -459,7 +456,7 @@ function compareEvent(a: FullEvent<EventPayload>, b: FullEvent<EventPayload>): n
 }
 
 function extractNotYetProcessedEvents(events: FullEvent<EventPayload>[]) {
-	return events.reduce<{ processed: FullEvent<EventPayload>[]; not: FullEvent<EventPayload>[] }>(
+	return events.reduce<{processed: FullEvent<EventPayload>[]; not: FullEvent<EventPayload>[]}>(
 		(acc, cur) => {
 			if (processedEvent[cur.id]) {
 				acc.processed.push(cur);
@@ -525,10 +522,10 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 	const events = filterOutFutureEvents(allEvents, time);
 	const mappedEvent = mapLastLocationEventByObject(events);
 
-	worldLogger.debug('Most recent location event', { mappedEvent });
+	worldLogger.debug('Most recent location event', {mappedEvent});
 
 	objectList.forEach(obj => {
-		worldLogger.debug('Compute Location', { obj });
+		worldLogger.debug('Compute Location', {obj});
 		const key = getObjectKey(obj);
 		const event = mappedEvent[key];
 		if (event != null) {
@@ -586,7 +583,7 @@ function initHuman(humanId: string): HumanState {
  * build state of the world at given time
  */
 function rebuildState(time: number, env: Environnment) {
-	worldLogger.debug('RebuildState', { time, env });
+	worldLogger.debug('RebuildState', {time, env});
 	worldLogger.debug('Humans', humanSnapshots);
 	worldLogger.debug('Locations', locationsSnapshots);
 
@@ -648,7 +645,7 @@ function rebuildState(time: number, env: Environnment) {
 
 	// update visible world
 	const myHumanId = whoAmI();
-	const myId = { objectId: myHumanId, objectType: 'Human' };
+	const myId = {objectId: myHumanId, objectType: 'Human'};
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 
 	//if (myPosition.mostRecent != null) {
@@ -672,8 +669,8 @@ function rebuildState(time: number, env: Environnment) {
 		worldLogger.info('My Position', myPosition);
 		Object.keys(locationsSnapshots).forEach(key => {
 			const [type, id] = key.split('::');
-			const oId = { objectType: type!, objectId: id! };
-			const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
+			const oId = {objectType: type!, objectId: id!};
+			const {mostRecent} = getMostRecentSnapshot(locationsSnapshots, oId, time);
 			if (
 				mostRecent != null &&
 				isPointInCircle(myPosition.mostRecent!.state.location, sqRadius, mostRecent.state.location)
@@ -799,9 +796,9 @@ function computeHumanState(state: HumanState, to: number, env: Environnment) {
 
 	const from = state.bodyState.time;
 
-	const health = healths[state.id] || { effects: [], pathologies: [] };
+	const health = healths[state.id] || {effects: [], pathologies: []};
 	for (let i = from + stepDuration; i <= to; i += stepDuration) {
-		worldLogger.log('Compute Human Step ', { currentTime: newState.time, stepDuration, health });
+		worldLogger.log('Compute Human Step ', {currentTime: newState.time, stepDuration, health});
 		computeState(newState.bodyState, meta, env, stepDuration, health.pathologies, health.effects);
 		worldLogger.debug('Step Time: ', newState.bodyState.time);
 	}
@@ -829,7 +826,7 @@ function computeHumanState(state: HumanState, to: number, env: Environnment) {
 
 function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 	// TODO: is object an obstacle ?
-	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
+	const objId = {objectType: event.payload.targetType, objectId: event.payload.targetId};
 	const oKey = getObjectKey(objId);
 
 	const next = findNextTargetedEvent(
@@ -840,14 +837,14 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 	);
 
 	// TODO: update location state between current
-	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	const {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		locationsSnapshots,
 		objId,
 		event.time,
-		{ before: next },
+		{before: next},
 	);
 
-	let currentSnapshot: { time: number; state: LocationState };
+	let currentSnapshot: {time: number; state: LocationState};
 
 	if (mostRecent == null || mostRecent.time < event.time) {
 		currentSnapshot = {
@@ -881,7 +878,7 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 
 function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// TODO: is object an obstacle ?
-	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
+	const objId = {objectType: event.payload.targetType, objectId: event.payload.targetId};
 	const oKey = getObjectKey(objId);
 
 	const next = findNextTargetedEvent(
@@ -892,14 +889,14 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	);
 
 	// TODO: update location state between current
-	const { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	const {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		locationsSnapshots,
 		objId,
 		event.time,
-		{ before: next },
+		{before: next},
 	);
 
-	let currentSnapshot: { time: number; state: LocationState };
+	let currentSnapshot: {time: number; state: LocationState};
 
 	if (mostRecent == null || mostRecent.time < event.time) {
 		// object start to move now: it's located on its starting position
@@ -926,7 +923,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// Update futures
 	futures.forEach(snapshot => {
 		const loc = computeCurrentLocation(currentSnapshot.state, snapshot.time, 20);
-		worldLogger.log('Update Future: ', { snapshot, loc });
+		worldLogger.log('Update Future: ', {snapshot, loc});
 		snapshot.state.location = loc;
 		snapshot.state.location = event.payload.destination;
 	});
@@ -935,18 +932,18 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 
 function updateHumanSnapshots(humanId: string, time: number) {
 	// Update HUMAn body states
-	const objId = { objectType: 'Human', objectId: humanId };
+	const objId = {objectType: 'Human', objectId: humanId};
 	const oKey = getObjectKey(objId);
 
 	const env = getEnv();
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	let {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		time,
-		{ strictTime: true },
+		{strictTime: true},
 	);
 
-	let currentSnapshot: { time: number; state: HumanState };
+	let currentSnapshot: {time: number; state: HumanState};
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -955,7 +952,7 @@ function updateHumanSnapshots(humanId: string, time: number) {
 		};
 		humanSnapshots[oKey]!.unshift(mostRecent);
 	}
-	worldLogger.log('Update human snapshot', oKey, { mostRecent, futures });
+	worldLogger.log('Update human snapshot', oKey, {mostRecent, futures});
 	if (mostRecent.time < time) {
 		// catch-up human state
 		currentSnapshot = {
@@ -980,13 +977,13 @@ function updateHumanSnapshots(humanId: string, time: number) {
 }
 
 export function getHealth(humanId: string) {
-	return healths[humanId] || { effects: [], pathologies: [] };
+	return healths[humanId] || {effects: [], pathologies: []};
 }
 
 function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 	const pathology = getPathology(event.payload.pathologyId);
 	if (pathology != null) {
-		worldLogger.log('Afflict Pathology: ', { pathology, time: event.time });
+		worldLogger.log('Afflict Pathology: ', {pathology, time: event.time});
 		//const meta = humanMetas[event.targetId];
 
 		// push pathology in human health state
@@ -1014,7 +1011,7 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 }
 
 interface ResolvedAction {
-	source: (ActDefinition & { type: 'act' }) | (ItemDefinition & { type: 'item' });
+	source: (ActDefinition & {type: 'act'}) | (ItemDefinition & {type: 'item'});
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 
@@ -1024,7 +1021,7 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 		const action = act?.action;
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
 			return {
-				source: { ...act!, type: 'act' },
+				source: {...act!, type: 'act'},
 				action: action,
 			};
 		}
@@ -1033,7 +1030,7 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 		const action = item?.actions[event.source.actionId];
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
 			return {
-				source: { ...item!, type: 'item' },
+				source: {...item!, type: 'item'},
 				action: action,
 			};
 		}
@@ -1059,13 +1056,13 @@ function doMeasure(
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	let {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		fEvent.time,
 	);
 
-	let currentSnapshot: { time: number; state: HumanState };
+	let currentSnapshot: {time: number; state: HumanState};
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1107,7 +1104,7 @@ function doMeasure(
 	currentSnapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
-		snapshot.state.console.push({ ...logEntry });
+		snapshot.state.console.push({...logEntry});
 		snapshot.state.console.sort((a, b) => a.time - b.time);
 	});
 }
@@ -1120,7 +1117,7 @@ function checkItemAvailabilityAndConsume(
 ): boolean {
 	const inventory = getInventory(time, ownerId);
 	const count = inventory[item.id];
-	inventoryLogger.info('Check Item availability', { time, ownerId, item: item.id });
+	inventoryLogger.info('Check Item availability', {time, ownerId, item: item.id});
 
 	if (count == null) {
 		// character do not own such item;
@@ -1133,7 +1130,7 @@ function checkItemAvailabilityAndConsume(
 			if (item.disposable) {
 				// item is diposable: consume one
 				inventoryLogger.info('item is disposable: consume one');
-				updateInventoriesSnapshots(ownerId, time, { [item.id]: -1 });
+				updateInventoriesSnapshots(ownerId, time, {[item.id]: -1});
 			}
 			return true;
 		} else {
@@ -1172,7 +1169,7 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	 */
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
-			addLogMessage(dA.event.payload.emitterCharacterId, dA.event.payload.targetId, event.time, `Cancel ${getDelayedActionDisplayName(dA)}`);
+			addLogMessage(dA.event.payload.emitterCharacterId, dA.event.payload.targetId, event.time, `Cancel ${getResolvedActionDisplayName(dA.action)}`);
 			return false;
 		} else {
 			return true;
@@ -1188,8 +1185,8 @@ function clearPastActions(time: number) {
 	delayedActions = delayedActions.filter(dA => dA.dueDate > time);
 }
 
-function processDelayedAction({ dueDate, action, event }: DelayedAction) {
-	delayedLogger.info("Process Delayed Action", {dueDate , action, event});
+function processDelayedAction({dueDate, action, event}: DelayedAction) {
+	delayedLogger.info("Process Delayed Action", {dueDate, action, event});
 	if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
 		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>);
 	} else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
@@ -1208,8 +1205,12 @@ function processDelayedActions(time: number) {
 	clearPastActions(time);
 }
 
-export function getDelayedActionDisplayName(dA : DelayedAction) : string {
-	return `${dA.action.source.name}::${dA.action.source.name}`
+export function getResolvedActionDisplayName(action: ResolvedAction): string {
+	if (action.source.type === 'act' || Object.keys(action.source.actions).length <= 1) {
+		return action.source.name;
+	} else {
+		return `${action.source.name}::${action.action.name}`;
+	}
 }
 
 function delayAction(
@@ -1217,16 +1218,24 @@ function delayAction(
 	action: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
 ) {
-	const dA: DelayedAction = { id: event.id, dueDate, action, event };
-	addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `Start ${getDelayedActionDisplayName(dA)}`);
+	const dA: DelayedAction = {id: event.id, dueDate, action, event};
+	addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `Start ${getResolvedActionDisplayName(dA.action)}`);
 	delayedActions.push(dA);
+}
+
+function getHumanSkillLevelForAction(humanId: string, action: ActionSource): SkillLevel | undefined {
+	if (action.type === 'act') {
+		return getHumanSkillLevelForAct(humanId, action.actId);
+	} else {
+		return getHumanSkillLevelForItemAction(humanId, action.itemId, action.actionId);
+	}
 }
 
 function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
-		const { source, action } = resolvedAction;
+		const {source, action} = resolvedAction;
 		if (resolvedAction.action.type === 'ActionBodyMeasure') {
 			if (source.type === 'item') {
 				const characterId: ObjectId = {
@@ -1247,15 +1256,20 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 
 			worldLogger.log(
 				'Do Measure: ',
-				{ time: event.time, source: event.payload.source, action },
+				{time: event.time, source: event.payload.source, action},
 				event,
 			);
 
-			const duration = action.duration.high_skill;
-			if (duration > 0) {
-				delayAction(event.time + duration, resolvedAction, event);
+			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
+			if (skillLevel) {
+				const duration = action.duration[skillLevel];
+				if (duration > 0) {
+					delayAction(event.time + duration, resolvedAction, event);
+				} else {
+					doMeasure(event.time, source, action as ActionBodyMeasure, event);
+				}
 			} else {
-				doMeasure(event.time, source, action as ActionBodyMeasure, event);
+				addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
 			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
@@ -1271,9 +1285,9 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, time);
+	let {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(humanSnapshots, objId, time);
 
-	let currentSnapshot: { time: number; state: HumanState };
+	let currentSnapshot: {time: number; state: HumanState};
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1300,7 +1314,7 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	currentSnapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
-		snapshot.state.console.push({ ...logEntry });
+		snapshot.state.console.push({...logEntry});
 		snapshot.state.console.sort((a, b) => a.time - b.time);
 	});
 }
@@ -1354,14 +1368,14 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	let {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		event.time,
-		{ before: next },
+		{before: next},
 	);
 
-	let currentSnapshot: { time: number; state: HumanState };
+	let currentSnapshot: {time: number; state: HumanState};
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1392,7 +1406,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	currentSnapshot.state.category = category;
 
 	futures.forEach(snapshot => {
-		snapshot.state.category = { ...category };
+		snapshot.state.category = {...category};
 	});
 }
 
@@ -1401,10 +1415,10 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
  */
 function doTreatment(
 	time: number,
-	{ source, action }: ResolvedAction,
+	{source, action}: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent>,
 ) {
-	worldLogger.log('Do Treatment ', { time: time, source: source, action });
+	worldLogger.log('Do Treatment ', {time: time, source: source, action});
 	const effect = doActionOnHumanBody(
 		source,
 		action as ActionBodyEffect,
@@ -1424,7 +1438,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
-		const { source, action } = resolvedAction;
+		const {source, action} = resolvedAction;
 		if (resolvedAction.action.type === 'ActionBodyEffect') {
 			if (source.type === 'item') {
 				const characterId: ObjectId = {
@@ -1444,14 +1458,19 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				}
 			}
 
-			// TODO matrix skill
-			const duration = action.duration.high_skill;
-			if (duration > 0) {
-				// delay event
-				delayAction(event.time + duration, resolvedAction, event);
+			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
+			if (skillLevel) {
+				const duration = action.duration[skillLevel]
+				if (duration > 0) {
+					// delay event
+					delayAction(event.time + duration, resolvedAction, event);
+				} else {
+					doTreatment(event.time, resolvedAction, event);
+				}
 			} else {
-				doTreatment(event.time, resolvedAction, event);
+				addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
 			}
+
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
@@ -1476,10 +1495,10 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 
 	//could be performed with all characters if the player can change character live
 	const myHumanId = whoAmI();
-	const myId = { objectId: myHumanId, objectType: 'Human' };
+	const myId = {objectId: myHumanId, objectType: 'Human'};
 	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 
-	const senderId = { objectId: event.payload.sender, objectType: 'Human' };
+	const senderId = {objectId: event.payload.sender, objectType: 'Human'};
 	const senderPosition = getMostRecentSnapshot(locationsSnapshots, senderId, time);
 
 	let distanceSquared = Infinity;
@@ -1529,13 +1548,13 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+	let {mostRecent, mostRecentIndex, futures} = getMostRecentSnapshot(
 		inventoriesSnapshots,
 		owner,
 		time,
 	);
 
-	let currentSnapshot: { time: number; state: Inventory };
+	let currentSnapshot: {time: number; state: Inventory};
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1548,7 +1567,7 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 	if (mostRecent.time < time) {
 		currentSnapshot = {
 			time: time,
-			state: { ...mostRecent.state },
+			state: {...mostRecent.state},
 		};
 		// register new snapshot
 		inventoriesSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
@@ -1572,7 +1591,7 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 
 	const bag = getBagDefinition(event.payload.bagId);
 
-	worldLogger.warn('Process Give Bag Event', { owner, bag });
+	worldLogger.warn('Process Give Bag Event', {owner, bag});
 
 	if (bag != null) {
 		updateInventoriesSnapshots(owner, event.time, bag.items);
@@ -1674,8 +1693,8 @@ export function getHumans() {
 
 export function getHuman(id: string):
 	| (HumanBody & {
-			category: Categorization | undefined;
-	  })
+		category: Categorization | undefined;
+	})
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
@@ -1704,15 +1723,15 @@ export function getHumanConsole(id: string): ConsoleLog[] {
 export function handleClickOnMap(point: Point): void {
 	const myId = whoAmI();
 	if (myId) {
-		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
-		const destination: Location = { ...point, mapId: 'the_world' };
+		const objectId: ObjectId = {objectType: 'Human', objectId: myId};
+		const destination: Location = {...point, mapId: 'the_world'};
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
-		worldLogger.info('HandleOn: ', { objectId, destination, currentLocation, myState });
+		worldLogger.info('HandleOn: ', {objectId, destination, currentLocation, myState});
 		if (currentLocation != null) {
 			// Move from current location to given point
-			const from: Location = { ...currentLocation, mapId: 'the_world' };
+			const from: Location = {...currentLocation, mapId: 'the_world'};
 			sendEvent({
 				...initEmitterIds(),
 				type: 'FollowPath',
@@ -1762,17 +1781,31 @@ export function getMyInventory(): Inventory {
 	const time = getCurrentSimulationTime();
 
 	const myHumanId = whoAmI();
-	const myId = { objectId: myHumanId, objectType: 'Human' };
+	const myId = {objectId: myHumanId, objectType: 'Human'};
 
 	return getInventory(time, myId);
 }
 
 /**
- * Accordind to its skills, get all medical act available to current character
+ * According to its skills, get all medical act available to current character
  */
 export function getMyMedicalActs(): ActDefinition[] {
-	// TODO: skills: get whoAmiI skills and fitler acts
-	return getActs();
+	const skill = getMySkillDefinition()
+
+	return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
+		if (actionId.startsWith("act::")) {
+			const actId = actionId.split("::")[1];
+			const act = getAct(actId);
+
+			if (act) {
+				return [act]
+			} else {
+				return [];
+			}
+		} else {
+			return [];
+		}
+	});
 }
 
 export function clearState() {

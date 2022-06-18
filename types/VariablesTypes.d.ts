@@ -64,6 +64,8 @@
 "bagType": SStringDescriptor;
 "situationsDefinitions": SObjectDescriptor;
 "situation": SStringDescriptor;
+"skillsDefinitions": SObjectDescriptor;
+"skill": SStringDescriptor;
         }
 
         interface VariableIds {
@@ -125,6 +127,8 @@
 24056510: SStringDescriptor;
 24056851: SObjectDescriptor;
 24056856: SStringDescriptor;
+24057033: SObjectDescriptor;
+24057038: SStringDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -151,7 +155,7 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: "gamePageLoader"|"patientPageLoaderDrill", pageId: IScript) => void;
+          setPageLoaders: (name: "gamePageLoader", pageId: IScript) => void;
         };
 
         interface ClientMethodList {

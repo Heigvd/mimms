@@ -88,6 +88,9 @@ export interface BodyFactoryParam {
 	lungDepth: number;
 
 	scriptedPathologies?: ScriptedPathologyPayload[];
+
+/** Skill id. 'empty' menas no special skill' */
+  skillId?: string;
 }
 
 export interface Bound {
