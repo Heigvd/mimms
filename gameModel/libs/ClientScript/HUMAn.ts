@@ -1336,16 +1336,20 @@ const coagulationModel: Point[] = [
  */
 function hemostasis_thrombocytes(
 	bleedingFactor: number,
+	bleeding_mlPerMin: number,
 	wbc_ratio: number,
 	loss: number
 ): number {
 	if (coagulationEnabled) {
 		// total number of platelets
+		if (bleeding_mlPerMin < 0.10){
+			return 0;
+		}
 		const absWbc = loss * wbc_ratio;
 		const newBlFactor = add(bleedingFactor, -interpolate(absWbc, coagulationModel), {
 			min: 0,
 		});
-		bloodLogger.debug("Platelets", { wbc_ratio, loss, absWbc, bleedingFactor, newBlFactor });
+		bloodLogger.debug("Platelets", { wbc_ratio, loss, absWbc, bleedingFactor, bleeding_mlPerMin, newBlFactor });
 		return newBlFactor;
 	} else {
 		return bleedingFactor;
@@ -1618,8 +1622,10 @@ function sumBloodInOut(
 					bleedFactor *
 					(1 - reduction);
 				// should ??
+
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.arterialBleedingFactor,
+					loss / durationInMin,
 					wbc_ratio,
 					loss
 				);
@@ -1641,6 +1647,7 @@ function sumBloodInOut(
 					(1 - reduction);
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.venousBleedingFactor,
+					loss / durationInMin,
 					wbc_ratio,
 					loss
 				);
@@ -1669,6 +1676,7 @@ function sumBloodInOut(
 					(1 - reduction);
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.internalBleedingFactor,
+					loss / durationInMin,
 					wbc_ratio,
 					loss
 				);
