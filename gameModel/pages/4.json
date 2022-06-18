@@ -57,6 +57,24 @@
             "style" : { }
           },
           "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getSkillsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetSkillsDefinitionsAsChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "skill",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'skill')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
         } ],
         "hideIf" : {
           "@class" : "Script",

@@ -448,9 +448,9 @@ import { getItems, getPathologies } from "./registries";
 
 			};
 			return newSchema;
-		} else if (od.editorTag === 'bags' || od.editorTag === 'situ__ations') {
+		} else if (od.editorTag === 'bags' || od.editorTag === 'situations' || od.editorTag === 'skills') {
 			
-			const keyName = od.editorTag === 'bags' ? 'items' : 'pathologies';
+			const keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");

@@ -5,6 +5,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/dead_man.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

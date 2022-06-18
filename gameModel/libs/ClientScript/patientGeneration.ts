@@ -79,6 +79,9 @@ export class HumanGenerator {
 
 		const raw = Variable.find(gameModel, 'generation_settings');
 		const s = parseObjectDescriptor<PatientDistributionSettings>(raw)['generationSettings'];
+		if (s == null){
+			throw new Error("Unable to fetch generation settings!");
+		}
 		this.settings = s;
 
 		this.heightDistributionMen = new NormalDistribution(s.heightMeanMen, s.heightStdDevMen);

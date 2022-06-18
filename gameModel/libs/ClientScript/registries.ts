@@ -489,7 +489,8 @@ function init() {
 					bodyPosition: 'RECOVERY'
 				}
 			}],
-			createActions: []
+			createActions: [],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -517,6 +518,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -545,6 +547,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -574,6 +577,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -603,6 +607,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -631,6 +636,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -659,6 +665,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -688,6 +695,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -718,6 +726,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -745,6 +754,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -772,6 +782,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -785,6 +796,7 @@ function init() {
 			name: 'RR',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.respiration.rr'],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -819,6 +831,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -848,6 +861,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			},
 			pressureBandage: {
 				type: 'ActionBodyEffect',
@@ -875,6 +889,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -909,6 +924,7 @@ function init() {
 					}
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -941,6 +957,7 @@ function init() {
 					},
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -976,11 +993,12 @@ function init() {
 					},
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
 
-		registerItem({
+	registerItem({
 		id: 'SalineSolution_100ml',
 		name: "NaCl 0.9% 100mL",
 		disposable: true,
@@ -1011,6 +1029,7 @@ function init() {
 					},
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -1046,6 +1065,7 @@ function init() {
 					},
 				],
 				createActions: [],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -1059,6 +1079,7 @@ function init() {
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardio.hr'],
+			duration: {low_skill: 0, high_skill: 15, },
 		}
 	});
 
@@ -1071,6 +1092,7 @@ function init() {
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.capillaryRefillTime_s'],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1086,6 +1108,7 @@ function init() {
 			category: 'D',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.glasgow.total', 'vitals.glasgow.eye', 'vitals.glasgow.verbal', 'vitals.glasgow.motor'],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1100,6 +1123,7 @@ function init() {
 			name: 'walk',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.canWalk'],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1119,6 +1143,7 @@ function init() {
 				category: 'B',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.respiration.SaO2'],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -1134,6 +1159,7 @@ function init() {
 				name: 'MAP (mmHg)',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.cardio.MAP'],
+				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
 	});
@@ -1161,7 +1187,8 @@ function init() {
 					bodyPosition: 'SITTING'
 				}
 			}],
-			createActions: []
+			createActions: [],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1183,7 +1210,8 @@ function init() {
 					bodyPosition: 'PRONE_DECUBITUS'
 				}
 			}],
-			createActions: []
+			createActions: [],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1206,7 +1234,8 @@ function init() {
 					bodyPosition: 'SUPINE_DECUBITUS'
 				}
 			}],
-			createActions: []
+			createActions: [],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1228,7 +1257,8 @@ function init() {
 					bodyPosition: 'STANDING'
 				}
 			}],
-			createActions: []
+			createActions: [],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 
@@ -1241,6 +1271,7 @@ function init() {
 			name: 'dead',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardiacArrest'],
+			duration: {low_skill: 0, high_skill: 0, },
 		}
 	});
 }

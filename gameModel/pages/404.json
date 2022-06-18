@@ -3,23 +3,37 @@
     "children" : [ {
       "props" : {
         "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "\"/dead_man.png\"",
+          "language" : "JavaScript"
+        },
+        "style" : { }
+      },
+      "type" : "Image"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>NOT FOUND</p>\"",
+          "content" : "\"<h1>404 NOT FOUND</h1>\"",
           "language" : "JavaScript"
         }
       },
       "type" : "Text"
     } ],
     "layout" : {
-      "flexDirection" : "column"
+      "alignItems" : "center",
+      "flexDirection" : "column",
+      "justifyContent" : "center"
     },
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

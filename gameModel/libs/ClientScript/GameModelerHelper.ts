@@ -1,7 +1,7 @@
 import { BodyFactoryParam, createHumanBody, defaultMeta } from "./HUMAn";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
 import { generateOnePatient, setTestPatients, testPatients } from "./patientGeneration";
-import { getItems, getPathologies } from "./registries";
+import { getActs, getItems, getPathologies } from "./registries";
 import { BagDefinition } from "./the_world";
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
 
@@ -308,5 +308,152 @@ export function getSituationsDefsMatrix(): MatrixConfig<SituationId, PathologyId
 			}
 		],
 		onChangeRefName: SituationOnChangeRefName,
+	};
+}
+
+
+
+
+
+
+
+
+/**
+ * Skill Definitions Edition
+ */
+
+type SkillId = string;
+/**
+ * act::id | item::itemId::actionId
+ */
+type ActionId = string;
+
+type SkillMatrixCell = undefined | 'low_skill' | 'high_skill';
+
+type SkillOnChangeFn = (x: DataDef<SkillId>, y: DataDef<ActionId>, value: SkillMatrixCell) => void;
+
+const SkillOnChangeRefName = 'skillDefOnChange';
+
+const onSkillChangeRef = Helpers.useRef<SkillOnChangeFn>(SkillOnChangeRefName, () => { });
+
+interface SkillDefinition {
+	name?: string,
+	actions?: Record<ActionId, 'low_skill' | 'high_skill'>,
+}
+
+
+export function getSkillDefinition(skillId: string) {
+	const sdef = Variable.find(gameModel, 'skillsDefinitions').getProperties()[skillId];
+	return parse<SkillDefinition>(sdef || "");
+}
+
+onSkillChangeRef.current = (x, y, newData) => {
+
+	const skillId = x.id;
+	const actionId = y.id;
+
+	const def = getSkillDefinition(skillId) || { name: '', actions: {} };
+
+	if (newData) {
+		if (def.actions == null) {
+			def.actions = {};
+		}
+		def.actions[actionId] = newData;
+	} else {
+		if (def.actions) {
+			delete def.actions[actionId];
+		}
+	}
+
+	const script = `Variable.find(gameModel, "skillsDefinitions").setProperty('${skillId}',
+		 ${JSON.stringify(JSON.stringify(def))});`
+
+	APIMethods.runScript(script, {});
+};
+
+export function getSkillsDefinitions() {
+	return parseObjectDescriptor<SkillDefinition>(Variable.find(gameModel, 'skillsDefinitions'));
+}
+
+export function getSkillsDefinitionsAsChoices() {
+	const situations = getSkillsDefinitions();
+	const choices = Object.entries(situations).map(([situId, situDef]) => ({
+		label: situDef.name || situId,
+		value: situId,
+	}));
+	choices.push({
+		label: 'none',
+		value: '',
+	})
+	return choices;
+};
+
+
+export function getSkillActId(actId: string) {
+	return `act::${actId}`;
+}
+
+export function getSkillItemActionId(itemId: string, actionId: string) {
+	return `item::${itemId}::${actionId}`;
+}
+
+export function getSkillsDefsMatrix(): MatrixConfig<SkillId, ActionId, SkillMatrixCell> {
+	const actActions = getActs()
+		.sort((a, b) => {
+			return a.name.localeCompare(b.name);
+		}).map(act => ({
+			label: `Act ${act.name}`,
+			id: getSkillActId(act.id),
+		}));
+
+	const itemActions = getItems()
+		.sort((a, b) => {
+			return a.item.name.localeCompare(b.item.name);
+		})
+		.flatMap(item => {
+			return Object.entries(item.item.actions).map(([actionId, action], i, entries) => {
+				return {
+					label: `Item ${item.item.name}${entries.length > 1 ? "/" + action.name: ''}`,
+					id: getSkillItemActionId(item.id, actionId),
+				};
+			});
+		})
+
+	const skills = getSkillsDefinitions();
+
+	const matrix: Record<SkillId, Record<ActionId, SkillMatrixCell>> = {};
+
+	Object.entries(skills).forEach(([skillDef, situDef]) => {
+		matrix[skillDef] = {};
+		Object.entries(situDef.actions || {}).forEach(([actionId, value]) => {
+			matrix[skillDef]![actionId] = value;
+		});
+	});
+
+	return {
+		y: [...actActions, ...itemActions],
+		x: Object.entries(skills)
+			.sort(([, a], [, b]) => compare(a.name, b.name))
+			.map(([situId, situ]) => ({
+				id: situId,
+				label: situ?.name || 'no name',
+			})),
+		data: matrix,
+		cellDef: [
+			{
+				type: 'enum',
+				label: 'no',
+				values: [undefined],
+			}, {
+				type: 'enum',
+				label: 'low',
+				values: ['low_skill'],
+			}, {
+				type: 'enum',
+				label: 'high',
+				values: ['high_skill'],
+			}
+		],
+		onChangeRefName: SkillOnChangeRefName,
 	};
 }

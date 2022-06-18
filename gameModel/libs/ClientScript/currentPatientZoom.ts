@@ -368,7 +368,7 @@ export function selectSubWheel(subWheelId: string, setState: SetZoomState) {
 			...state,
 			selectedPanel: undefined,
 			selectedMenu: subWheelId,
-			selectedSubMenu: undefined,
+			// selectedSubMenu: undefined,
 			selectedAction: undefined,
 		}
 	});
@@ -550,13 +550,13 @@ function getBlockDetails(block: Block | undefined): string[] {
 
 				output.push(formatBlockEntry(
 					"current flow",
-					`${block.params.extLossesFlow_mlPerMin!.toFixed()} mL/min`
+					`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
 				));
 
 			} else {
 				output.push(formatBlockEntry("Hemostasis"));
 			}
-			output.push(formatBlockEntry("Total", `${block.params.totalExtLosses_ml!.toFixed()} mL`));
+			output.push(formatBlockEntry("Total", `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
 		}
 		if (block.params.broken) {
 			output.push(formatBlockSubTitle("Fracture"));

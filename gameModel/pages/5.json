@@ -2,22 +2,50 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
-          "language" : "typescript"
-        },
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : {
+              "width" : "300px"
+            },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'whoAmI')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>give me some item !<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
         "layout" : { },
         "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'whoAmI')",
-          "language" : "JavaScript"
-        },
         "style" : { }
       },
-      "type" : "Select input"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {

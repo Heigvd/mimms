@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1655235256135,
+  "createdTime" : 1655537320718,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -619,7 +619,7 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:24056853:3eUeC9::EN",
             "status" : "",
-            "translation" : " "
+            "translation" : ""
           }
         }
       },
@@ -629,6 +629,32 @@
         "validation_model" : "{\"pathologies\":{\"20p_ah\":true,\"tenth_ih\":true,\"upper_airways_burn\":true,\"tamponade_mild\":true,\"simple_pno_full\":true,\"disclocation_c1c2\":true,\"disclocation_c5c7\":true,\"cityHunter\":true,\"thorax_circ\":true,\"20p_vh\":true},\"name\":\"Pour validation\"}"
       },
       "refId" : "ObjectDescriptor:24056851:CslpmW",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:24057034:T6eVV1"
+      },
+      "description" : "",
+      "editorTag" : "skills",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24057035:RGdINs",
+        "translations" : { }
+      },
+      "name" : "skillsDefinitions",
+      "properties" : {
+        "ias3" : "{\"actions\":{\"act::areYouDead?\":\"low_skill\",\"act::canYouWalk\":\"high_skill\",\"act::recoveryPosition\":\"high_skill\",\"item::guedel::setup\":\"low_skill\",\"item::mask::setup\":\"low_skill\",\"item::3side::setup\":\"high_skill\",\"item::bandage::pressureBandage\":\"high_skill\",\"item::cat::setup\":\"high_skill\",\"item::israeliBandage::israeli\":\"high_skill\",\"act::measureCRT\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::proneDecubitus\":\"high_skill\",\"act::measureRR\":\"low_skill\",\"act::sitDown\":\"high_skill\",\"act::supineDecubitus\":\"high_skill\",\"item::balloon::setup\":\"low_skill\"},\"name\":\"IAS 3\"}",
+        "mcs" : "{\"actions\":{\"act::areYouDead?\":\"high_skill\",\"act::canYouWalk\":\"high_skill\",\"act::measureCRT\":\"high_skill\",\"item::wendel::setup\":\"high_skill\",\"item::thoracic_drain::drain\":\"high_skill\",\"item::TranexamicAcid_500::inject\":\"high_skill\",\"item::SalineSolution_1l::inject\":\"high_skill\",\"item::oxymeter::measure\":\"high_skill\",\"item::SalineSolution_100ml::inject\":\"high_skill\",\"act::measureGCS\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::measureHR\":\"high_skill\",\"act::proneDecubitus\":\"high_skill\",\"act::recoveryPosition\":\"high_skill\",\"act::measureRR\":\"high_skill\",\"act::sitDown\":\"high_skill\",\"act::supineDecubitus\":\"high_skill\",\"item::3side::setup\":\"high_skill\",\"item::balloon::setup\":\"high_skill\",\"item::bandage::pack\":\"high_skill\",\"item::bandage::pressureBandage\":\"high_skill\",\"item::Blood_1l::inject\":\"high_skill\",\"item::sphygmomanometer::measure\":\"high_skill\",\"item::cat::setup\":\"high_skill\",\"item::cricotomie::setup\":\"high_skill\",\"item::exsufflation::do\":\"high_skill\",\"item::guedel::setup\":\"high_skill\",\"item::igel::setup\":\"high_skill\",\"item::intubate::setup\":\"high_skill\",\"item::israeliBandage::israeli\":\"high_skill\",\"item::mask::setup\":\"high_skill\"},\"name\":\"MCS\"}"
+      },
+      "refId" : "ObjectDescriptor:24057033:xY2WkZ",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -1188,6 +1214,35 @@
         "maxSelectable" : 1,
         "name" : "bagType",
         "refId" : "StringDescriptor:24056510:oWkNxk",
+        "scopeType" : "GameModelScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:24057039:VrWlLb",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:24057040:pq7EBd",
+            "translations" : { }
+          }
+        },
+        "editorTag" : "skill",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24057041:sAmiT5",
+          "translations" : { }
+        },
+        "maxSelectable" : 1,
+        "name" : "skill",
+        "refId" : "StringDescriptor:24057038:wKfY0F",
         "scopeType" : "GameModelScope",
         "sortable" : false,
         "validationPattern" : null,
@@ -2335,7 +2390,7 @@
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_cat_fa",
     "logID" : null,

@@ -62,7 +62,7 @@ import {
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, SystemName } from './triage';
 import { getFogType } from './gameMaster';
-import { worldLogger, inventoryLogger } from './logger';
+import { worldLogger, inventoryLogger, delayedLogger } from './logger';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -82,6 +82,7 @@ export interface HumanHealth {
 	effects: BodyEffect[];
 }
 
+
 type HumanHealthState = Record<string, HumanHealth>;
 
 export type LocationState = Located & {
@@ -92,6 +93,7 @@ export type LocationState = Located & {
 
 interface BaseLog {
 	time: number;
+	emitterCharacterId: string;
 }
 
 type MessageLog = BaseLog & {
@@ -216,6 +218,11 @@ export interface HumanTreatmentEvent extends TargetedEvent {
 	blocks: BlockName[];
 }
 
+export interface CancelActionEvent {
+	type: 'CancelAction';
+	eventId: number;
+}
+
 interface CategorizeEvent extends TargetedEvent, Categorization {
 	type: 'Categorize';
 }
@@ -245,7 +252,8 @@ export type EventPayload =
 	| RadioCreationEvent
 	| PhoneCommunicationEvent
 	| PhoneCreationEvent
-	| GiveBagEvent;
+	| GiveBagEvent
+	| CancelActionEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -255,6 +263,13 @@ interface Snapshot<T> {
 }
 
 type Snapshots<T> = Record<string, Snapshot<T>[]>;
+
+export interface DelayedAction {
+	id: number;
+	dueDate: number;
+	action: ResolvedAction;
+	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
+}
 
 ///////////////////////////////////////////////////////////////////////////
 // State & config
@@ -277,6 +292,8 @@ const worldState: WorldState = {
 };
 
 let healths: HumanHealthState = {};
+
+let delayedActions: DelayedAction[] = [];
 
 /**
  * Trace of processed events.
@@ -1026,13 +1043,13 @@ function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): Resolved
 }
 
 function doMeasure(
+	time: number,
 	source: ItemDefinition | ActDefinition,
 	action: ActionBodyMeasure,
 	fEvent: FullEvent<HumanMeasureEvent>,
 ) {
 	const name = action.name;
 	const metrics = action.metricName;
-	const time = fEvent.time;
 
 	const event = fEvent.payload;
 	const objId = {
@@ -1084,6 +1101,7 @@ function doMeasure(
 	const logEntry: MeasureLog = {
 		type: 'MeasureLog',
 		time: time,
+		emitterCharacterId: event.emitterCharacterId,
 		metrics: values,
 	};
 	currentSnapshot.state.console.push(logEntry);
@@ -1102,33 +1120,106 @@ function checkItemAvailabilityAndConsume(
 ): boolean {
 	const inventory = getInventory(time, ownerId);
 	const count = inventory[item.id];
-	inventoryLogger.info("Check Item availability", {time, ownerId , item: item.id});
+	inventoryLogger.info('Check Item availability', { time, ownerId, item: item.id });
 
 	if (count == null) {
 		// character do not own such item;
-	  inventoryLogger.info("Owner do not have any");
-		addLogMessage(patientId, time, `You do not have any ${item.name}`);
+		inventoryLogger.info('Owner do not have any');
+		addLogMessage(ownerId.objectId, patientId, time, `You do not have any ${item.name}`);
 		return false;
 	} else if (typeof count === 'number') {
 		if (count > 0) {
-	    inventoryLogger.info("Owner owns an item");
+			inventoryLogger.info('Owner owns an item');
 			if (item.disposable) {
 				// item is diposable: consume one
-	      inventoryLogger.info("item is disposable: consume one");
+				inventoryLogger.info('item is disposable: consume one');
 				updateInventoriesSnapshots(ownerId, time, { [item.id]: -1 });
 			}
 			return true;
 		} else {
 			// no more item
-	    inventoryLogger.info("Owner do not have any item any longer");
-			addLogMessage(patientId, time, `You do not have any ${item.name}`);
+			inventoryLogger.info('Owner do not have any item any longer');
+			addLogMessage(ownerId.objectId, patientId, time, `You do not have any ${item.name}`);
 			return false;
 		}
 	} else {
 		//  infinity never decreases
-	  inventoryLogger.info("Infinity");
+		inventoryLogger.info('Infinity');
 		return true;
 	}
+}
+
+function getPendingActions(): DelayedAction[] {
+	const currentTime = getCurrentSimulationTime();
+
+	return delayedActions.filter(dA => dA.event.time <= currentTime && dA.dueDate > currentTime);
+}
+
+export function getMyPendingActions(): DelayedAction[] {
+	const me = whoAmI();
+	const pa = getPendingActions();
+	const mine = pa.filter(dA => dA.event.payload.emitterCharacterId === me);
+	return mine;
+}
+
+function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
+	delayedLogger.info("Cancel delayed action");
+	const eventId = event.payload.eventId;
+
+	/**
+	 * drop all pendings actions which patch the given eventId
+	 * Bonus: send log to patient console
+	 */
+	delayedActions = delayedActions.filter(dA => {
+		if (dA.event.id === eventId) {
+			addLogMessage(dA.event.payload.emitterCharacterId, dA.event.payload.targetId, event.time, `Cancel ${getDelayedActionDisplayName(dA)}`);
+			return false;
+		} else {
+			return true;
+		}
+	});
+}
+
+function getDelayedActionToProcess(time: number): DelayedAction[] {
+	return delayedActions.filter(dA => dA.dueDate <= time);
+}
+
+function clearPastActions(time: number) {
+	delayedActions = delayedActions.filter(dA => dA.dueDate > time);
+}
+
+function processDelayedAction({ dueDate, action, event }: DelayedAction) {
+	delayedLogger.info("Process Delayed Action", {dueDate , action, event});
+	if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
+		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>);
+	} else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
+		doTreatment(dueDate, action, event as FullEvent<HumanTreatmentEvent>);
+	} else {
+		worldLogger.error('Unknwon delayed action', action, event);
+	}
+}
+
+
+
+function processDelayedActions(time: number) {
+	getDelayedActionToProcess(time).forEach(da => {
+		processDelayedAction(da);
+	});
+	clearPastActions(time);
+}
+
+export function getDelayedActionDisplayName(dA : DelayedAction) : string {
+	return `${dA.action.source.name}::${dA.action.source.name}`
+}
+
+function delayAction(
+	dueDate: number,
+	action: ResolvedAction,
+	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
+) {
+	const dA: DelayedAction = { id: event.id, dueDate, action, event };
+	addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `Start ${getDelayedActionDisplayName(dA)}`);
+	delayedActions.push(dA);
 }
 
 function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
@@ -1155,11 +1246,17 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 			}
 
 			worldLogger.log(
-				'Do Act Item: ',
+				'Do Measure: ',
 				{ time: event.time, source: event.payload.source, action },
 				event,
 			);
-			doMeasure(source, action as ActionBodyMeasure, event);
+
+			const duration = action.duration.high_skill;
+			if (duration > 0) {
+				delayAction(event.time + duration, resolvedAction, event);
+			} else {
+				doMeasure(event.time, source, action as ActionBodyMeasure, event);
+			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
@@ -1211,7 +1308,7 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 /**
  * Quick way to add some message to some patient console
  */
-function addLogMessage(patientId: string, time: number, message: string) {
+function addLogMessage(emitterId: string, patientId: string, time: number, message: string) {
 	addLogEntry(
 		{
 			objectType: 'Human',
@@ -1220,6 +1317,7 @@ function addLogMessage(patientId: string, time: number, message: string) {
 		{
 			type: 'MessageLog',
 			time,
+			emitterCharacterId: emitterId,
 			message,
 		},
 		time,
@@ -1237,6 +1335,7 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 	const logEntry: ConsoleLog = {
 		type: 'MessageLog',
 		time: time,
+		emitterCharacterId: event.payload.emitterCharacterId,
 		message: event.payload.message,
 	};
 
@@ -1297,6 +1396,30 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	});
 }
 
+/**
+ * apply treatment at given time
+ */
+function doTreatment(
+	time: number,
+	{ source, action }: ResolvedAction,
+	event: FullEvent<HumanTreatmentEvent>,
+) {
+	worldLogger.log('Do Treatment ', { time: time, source: source, action });
+	const effect = doActionOnHumanBody(
+		source,
+		action as ActionBodyEffect,
+		event.payload.blocks,
+		time,
+	);
+	if (effect != null) {
+		const health = getHealth(event.payload.targetId);
+		health.effects.push(effect);
+		healths[event.payload.targetId] = health;
+
+		updateHumanSnapshots(event.payload.targetId, time);
+	}
+}
+
 function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 	const resolvedAction = resolveAction(event.payload);
 
@@ -1321,23 +1444,13 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				}
 			}
 
-			worldLogger.log(
-				'Apply Item: ',
-				{ time: event.time, source: event.payload.source, action },
-				event,
-			);
-			const effect = doActionOnHumanBody(
-				source,
-				action as ActionBodyEffect,
-				event.payload.blocks,
-				event.time,
-			);
-			if (effect != null) {
-				const health = getHealth(event.payload.targetId);
-				health.effects.push(effect);
-				healths[event.payload.targetId] = health;
-
-				updateHumanSnapshots(event.payload.targetId, event.time);
+			// TODO matrix skill
+			const duration = action.duration.high_skill;
+			if (duration > 0) {
+				// delay event
+				delayAction(event.time + duration, resolvedAction, event);
+			} else {
+				doTreatment(event.time, resolvedAction, event);
 			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
@@ -1514,6 +1627,9 @@ function processEvent(event: FullEvent<EventPayload>) {
 		case 'GiveBag':
 			processGiveBagEvent(event as FullEvent<GiveBagEvent>);
 			break;
+		case 'CancelAction':
+			processCancelActionEvent(event as FullEvent<CancelActionEvent>);
+			break;
 		default:
 			unreachable(eType);
 	}
@@ -1539,30 +1655,9 @@ export function syncWorld() {
 
 	sortedEvents.forEach(e => processEvent(e));
 
-	//const checkpoints = Helpers.uniq([...eventsToProcess.map(event => event.time), time]).sort((a, b) => a - b);
+	processDelayedActions(time);
 
 	rebuildState(time, env);
-
-	//worldLogger.debug("World Checkpoints: ", JSON.stringify(checkpoints));
-	//worldLogger.log("SnapShots Before:", (Object.entries(humanSnapshots).map(([key, list]) => key + " => " + list.map(entry => entry.time))));
-	//checkpoints.forEach(checkPoint => {
-	//	worldLogger.debug("World Checkpoint: ", checkPoint);
-	//		rebuildState(objectList, checkPoint, env, allEvents);
-	//});
-	//eventsToProcess.forEach(event => {
-	//	processedEvent[event.id] = true;
-	//});
-
-	//worldLogger.debug("SnapShots After:", (Object.entries(humanSnapshots).map(([key, list]) => key + " => " + list.map(entry => entry.time))));
-
-	// TODO: clean world snapshot
-	// keep all snapshots <10s
-	// keep 1/10s <1min
-	// keep 1/min < 1hour
-	// keep 1/10min > 1hour
-	//Object.keys(snapshots).forEach(key => {
-
-	//});
 }
 
 export function getInstantiatedHumanIds() {
@@ -1596,10 +1691,11 @@ export function getHuman(id: string):
 }
 
 export function getHumanConsole(id: string): ConsoleLog[] {
+	const myId = whoAmI();
 	const human = worldState.humans[`Human::${id}`];
 
 	if (human) {
-		return human.console;
+		return human.console.filter(log => log.emitterCharacterId === myId);
 	}
 
 	return [];
@@ -1686,6 +1782,7 @@ export function clearState() {
 	worldState.humans = {};
 	inventoriesSnapshots = {};
 	healths = {};
+	delayedActions = [];
 	clearAllCommunicationState();
 }
 

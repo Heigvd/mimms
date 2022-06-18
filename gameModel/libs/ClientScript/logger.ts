@@ -8,3 +8,4 @@ export const compLogger = Helpers.getLogger("human.compensation");
 export const respLogger = Helpers.getLogger("human.respiration");
 export const worldLogger = Helpers.getLogger("human.world");
 export const inventoryLogger = Helpers.getLogger("human.world.inventory");
+export const delayedLogger = Helpers.getLogger("human.world.delay");

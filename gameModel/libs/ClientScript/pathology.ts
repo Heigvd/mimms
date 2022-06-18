@@ -577,10 +577,20 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 
 export type ABCDECategory = 'A' | 'B' | 'C' | 'D' | 'E' | 'Z';
 
-export interface ActionBodyEffect {
+interface BaseAction {
+	type:string;
+	/** human readable name */
+	name: string;
+	category: ABCDECategory;
+	duration: {
+		low_skill: number;
+		high_skill: number;
+	}
+}
+
+export interface ActionBodyEffect extends BaseAction {
 	targetedObject: "HumanBody";
 	type: 'ActionBodyEffect',
-	/** human readable name */
 	name: string;
 	/**
 	 * List of block the item may target
@@ -594,16 +604,12 @@ export interface ActionBodyEffect {
 	 * onDo, install those action on the target
 	 */
 	createActions: HumanAction[];
-	category: ABCDECategory;
 }
 
-export interface ActionBodyMeasure {
+export interface ActionBodyMeasure extends BaseAction {
 	targetedObject: "HumanBody";
 	type: 'ActionBodyMeasure',
-	/** human readable name */
-	name: string;
 	metricName: BodyStateKeys[];
-	category: ABCDECategory;
 }
 
 export type HumanAction = ActionBodyEffect | ActionBodyMeasure;

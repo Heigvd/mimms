@@ -2,6 +2,80 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\n\n`<p>Pending Action : ${action.action.source.name}::${action.action.action.name} !</p><p> still ${counter} sec to go</p>`",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3;",
+                      "language" : "JavaScript"
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? 'too late to cancel' : 'cancel';",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { sendEvent } from \"./EventManager\";\n\nsendEvent({\n\ttype: 'CancelAction',\n\teventId: Context.pendingAction.id,\n})",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "pendingAction",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getMyPendingActions } from \"./the_world\";\ngetMyPendingActions();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "For each"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getMyPendingActions } from \"./the_world\";\ngetMyPendingActions().length === 0;",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "onExitActions" : { },
+        "style" : { }
+      },
+      "type" : "Modal"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
