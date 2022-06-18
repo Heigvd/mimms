@@ -820,27 +820,40 @@ export function getCurrentPatientTitle(): string {
 	const human = getHuman(id);
 	if (human != null) {
 		const age = getRoundedAge(human!);
-		return `<span class='human-id'>${id}</span>, <span class='human-sex'>${human!.meta.sex}</span>, <span class='human-age'>~${age}y</span>`;
+		return `<span class='human-id'>${id}</span>,
+		 <span class='human-sex'>${human!.meta.sex}</span>,
+		  <span class='human-age'>~${age}y</span>`;
 	}
 	return '';
 }
 
 function getAlertness(overview: HumanOverview): string {
-	const alertness: string[] = [""];
 	if (overview.looksDead) {
-		alertness.push("semble mort")
+		return "semble mort";
 	} else if (overview.gcs.eye === 4) {
-		alertness.push("alerte, vous regarde");
+		return "alerte, vous regarde";
 	} else if (overview.gcs.eye === 3) {
-		alertness.push("peu alerte, réagi à la voix");
+		return "peu alerte, réagi à la voix";
 	} else {
-		alertness.push("yeux fermés");
+		return "yeux fermés";
 	}
-	if (overview.totalExternalBloodLosses_ml > 0) {
-		alertness.push(", saigne");
-	}
-	return alertness.join("");
 }
+
+function getBreathingOverview(overview: HumanOverview): string {
+	if (overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15){
+		// coma + low respiration
+		return 'no apparent breathing'
+	} else if (overview.tidalVolume_L > 1 && overview.rr > 20) {
+		return "deep and rapid breathing";
+	} else if (overview.tidalVolume_L > 1) {
+		return "deep breathin";
+	} else if (overview.rr > 20) {
+		return "rapid breathing";
+	} else {
+		return "respiration looks normal";
+	}
+}
+
 export function getHumanVisualInfos(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 	const human = getHuman(id);
@@ -848,14 +861,19 @@ export function getHumanVisualInfos(): string {
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
-			const alertness = getAlertness(overview);
-			output.push(`${overview.position.toLowerCase()}, ${alertness}`);
+			output.push(overview.position.toLowerCase());
+			output.push(getAlertness(overview));
+			if (overview.totalExternalBloodLosses_ml > 0) {
+				output.push("saigne");
+			}
+			output.push(getBreathingOverview(overview));
 		}
 	} else {
 		output.push("<em>Error [patient not found]</em>");
 	}
 
-	return output.join("");
+  // join non-empty cells
+	return output.filter(o => o).join(", ");
 }
 
 export function getAfflictedBlocks(): string[] {
