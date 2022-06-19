@@ -6,7 +6,7 @@ import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, Huma
 import { getAct, getItem, getPathology } from "./registries";
 import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { getCategory, getTagSystem } from "./triage";
+import { doAutomaticTriage, getCategory, getTagSystem } from "./triage";
 import { getOverview, HumanOverview } from "./graphics";
 
 
@@ -295,7 +295,7 @@ export function getButtonLabel(item: WheelItem | SubWheel): string {
 		} else {
 			item.label;
 		}
-			
+
 		case 'WheelSubMenu':
 		case 'WheelAct':
 		case 'ExtraPanel':
@@ -804,6 +804,7 @@ export function getPatientConsole(): string {
 export function categorize(category: string) {
 	const system = getTagSystem();
 	const resolved = getCategory(category);
+	const autoTriage = doAutomaticTriage()!;
 	if (resolved != null) {
 		sendEvent({
 			...initEmitterIds(),
@@ -812,6 +813,7 @@ export function categorize(category: string) {
 			targetId: Context.patientConsole.state.currentPatient,
 			category: resolved.id,
 			system: system,
+			autoTriage: autoTriage
 		});
 	}
 }

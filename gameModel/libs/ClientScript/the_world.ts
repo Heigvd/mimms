@@ -62,7 +62,7 @@ import {
 	clearAllCommunicationState,
 } from './communication';
 import {FullEvent, getAllEvents, sendEvent} from './EventManager';
-import {Category, SystemName} from './triage';
+import {Category, PreTriageResult, SystemName} from './triage';
 import {getFogType, infiniteBags} from './gameMaster';
 import {worldLogger, inventoryLogger, delayedLogger} from './logger';
 import {SkillLevel} from './GameModelerHelper';
@@ -117,6 +117,7 @@ export type ConsoleLog = MessageLog | MeasureLog;
 export interface Categorization {
 	system: SystemName;
 	category: Category<string>['id'];
+	autoTriage: PreTriageResult<string>;
 }
 
 export type Inventory = Record<string, number | 'infinity'>;
@@ -1404,6 +1405,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const category: Categorization = {
 		category: event.payload.category,
 		system: event.payload.system,
+		autoTriage: event.payload.autoTriage,
 	};
 	currentSnapshot.state.category = category;
 
@@ -1459,7 +1461,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					return;
 				}
 			}
- 
+
 			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel]
@@ -1470,7 +1472,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					doTreatment(event.time, resolvedAction, event);
 				}
 			} else {
-				addLogMessage(event.payload.emitterCharacterId, 
+				addLogMessage(event.payload.emitterCharacterId,
 					event.payload.targetId, event.time,
 					`You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
 			}
