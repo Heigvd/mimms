@@ -181,7 +181,7 @@ function getLowerAirways(
 
 			if (block.name.startsWith("UNIT_")) {
 				respLogger.info("Found Unit: ", qPercent[0]);
-				const thorax = block.name.startsWith("UNIT_1") ? thorax_left : thorax_right;
+				const thorax = block.name.startsWith("UNIT_BRONCHUS_1") ? thorax_left : thorax_right;
 				units.push({
 					compliance: block.params.compliance ?? 1,
 					resistance: selfResistance,

@@ -12,7 +12,7 @@ import {
 import { getEnv } from './WegasHelper';
 
 type TriageFunction<T extends string> =
-	| ((data: PreTriageData, console: ConsoleLog[]) => PreTriageResult<T>)
+	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)
 	| undefined;
 
 const SECONDARY_TRIAGE = 'sec_triage';
@@ -53,12 +53,13 @@ type SACCO_CATEGORY =
 
 export interface Category<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-> {
+	> {
 	id: T;
 	bgColor: string;
 	color: string;
 	name: string;
 	shouldBeHandledBy: 'ES' | 'POLICE';
+	/** order of extraction/treatment */
 	priority: number;
 }
 
@@ -66,7 +67,8 @@ export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIE
 
 interface TagSystem<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-> {
+	> {
+	/** Sorted by severity (less severe first) ! */
 	categories: Category<T>[];
 }
 
@@ -511,8 +513,9 @@ type Explanation = keyof typeof explanations;
 
 export interface PreTriageResult<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-> {
+	> {
 	categoryId: T | undefined;
+	severity: number;
 	actions: PreTriageAction[];
 	explanations: Explanation[];
 }
@@ -1252,16 +1255,30 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	}
 
 	if (triageFunction != null) {
-		return triageFunction(data, console);
+		const result = triageFunction(data, console);
+		result.categoryId;
+		const severity = (getTagSystemCategories().categories).findIndex((c) => {
+			return c.id === result.categoryId
+		});
+		return {
+			...result,
+			severity
+		};
 	} else {
 		// not yet implemented
 	}
 }
 
-export function getCategory(category: string | undefined): Category<string> | undefined {
+export function getCategory(category: string | undefined): { category: Category<string>, severity: number } | undefined {
 	const categories = getTagSystemCategories();
 	if (categories != null) {
-		return categories.categories.find(c => c.id === category);
+		const index = categories.categories.findIndex(c => c.id === category);
+		if (index >= 0) {
+			return {
+				category: categories.categories[index],
+				severity: index
+			}
+		}
 	}
 }
 
@@ -1302,9 +1319,10 @@ export function doAutomaticTriageAndLogToConsole() {
 export function resultToHtml(result: PreTriageResult<string>) {
 	const tagSystem = getTagSystem();
 
-	const category = getCategory(result.categoryId);
+	const sCategory = getCategory(result.categoryId);
 	const output: string[] = [`<h3>PreTriage ${tagSystem}</h3>`];
-	if (category) {
+	if (sCategory) {
+		const {category} = sCategory;
 		output.push(
 			`<div class='tagCategory' style="color: ${category.color}; background-color: ${category.bgColor}">${category.name}</div>`,
 		);

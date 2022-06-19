@@ -1,4 +1,4 @@
-import { EventPayload } from "./the_world";
+import { EventPayload, CategorizeEvent } from "./the_world";
 import { parse } from "./WegasHelper";
 
 export interface FullEvent<T extends EventPayload> {

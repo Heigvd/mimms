@@ -6,7 +6,7 @@ import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, Huma
 import { getAct, getItem, getPathology } from "./registries";
 import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { doAutomaticTriage, getCategory, getTagSystem } from "./triage";
+import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "./triage";
 import { getOverview, HumanOverview } from "./graphics";
 
 
@@ -811,9 +811,10 @@ export function categorize(category: string) {
 			type: 'Categorize',
 			targetType: 'Human',
 			targetId: Context.patientConsole.state.currentPatient,
-			category: resolved.id,
+			category: resolved.category.id,
 			system: system,
-			autoTriage: autoTriage
+			autoTriage: autoTriage,
+			severity: resolved.severity,
 		});
 	}
 }
@@ -925,3 +926,23 @@ export function observeBlock(block: string | undefined, setState: SetZoomState) 
 	setState(state => { return { ...state, observedBlock: block } });
 }
 // const acts = getMyMedicalActs();
+
+
+
+export function getCurrentPatientAutoTriage() {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const human = getHuman(id);
+
+	if (human == null){
+		return "<em>no patient</em>";
+	}
+
+	if (human.category == null) {
+		return `<em>${id} has not been categorized yet</em>`;
+	}
+
+	const html = resultToHtml(human.category.autoTriage);
+
+	return `Result: ${html}`;
+}
+

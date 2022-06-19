@@ -404,7 +404,7 @@ export function getOverview(human: (HumanBody & { category: Categorization | und
 		cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
 		looksDead: looksDead,
 		totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
-		category: category,
+		category: category?.category,
 		rr: human.state.vitals.respiration.rr,
 		tidalVolume_L: human.state.vitals.respiration.tidalVolume_L,
 	};

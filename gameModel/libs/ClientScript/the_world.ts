@@ -117,6 +117,7 @@ export type ConsoleLog = MessageLog | MeasureLog;
 export interface Categorization {
 	system: SystemName;
 	category: Category<string>['id'];
+	severity: number;
 	autoTriage: PreTriageResult<string>;
 }
 
@@ -221,7 +222,7 @@ export interface CancelActionEvent {
 	eventId: number;
 }
 
-interface CategorizeEvent extends TargetedEvent, Categorization {
+export interface CategorizeEvent extends TargetedEvent, Categorization {
 	type: 'Categorize';
 }
 
@@ -1406,6 +1407,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		category: event.payload.category,
 		system: event.payload.system,
 		autoTriage: event.payload.autoTriage,
+		severity: event.payload.severity,
 	};
 	currentSnapshot.state.category = category;
 

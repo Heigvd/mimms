@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1655560257614,
+  "createdTime" : 1655650434288,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2351,6 +2351,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "Dashboard",
+    "contentType" : "application/javascript",
+    "libraryType" : "ServerScript",
+    "refId" : "GameModelContent:24057431:HXoDew",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "EventManager",
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
@@ -2397,7 +2406,7 @@
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",
-    "scriptUri" : "",
+    "scriptUri" : "wegas-app/js/server/;",
     "websocket" : ""
   },
   "protected" : false,
