@@ -10,268 +10,383 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "icon" : "database",
-                        "layoutClassName" : "matrix-line-header matrix-column-header",
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Icon"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutClassName" : "matrix-column-header",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "`<span title='${Context.column.id}'>${Context.column.label}</span>`;",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
-                        "exposeAs" : "column",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "Context.matrixConfig.x;",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
-                        "itemsOnly" : true,
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : {
-                          "display" : "contents"
-                        },
-                        "name" : "header",
-                        "style" : {
-                          "display" : "contents"
-                        }
-                      },
-                      "type" : "For each"
-                    }, {
-                      "props" : {
                         "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "",
-                                "layoutClassName" : "matrix-line-header",
                                 "layoutStyle" : { },
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`<span title='${Context.line.id}'>${Context.line.label}</span>`;",
+                                  "content" : "\"<p>Filter lines<br></p>\"",
                                   "language" : "JavaScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { setMatrixState } from \"./MatrixEditor\";\n\nsetMatrixState(s => ({...s, yFilter: Context.mFilter}) )",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"mFilter\"",
+                                    "language" : "JavaScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getMatrixState } from \"./MatrixEditor\";\ngetMatrixState().yFilter;",
+                                  "language" : "JavaScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Filter columns: <br></p>\"",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { setMatrixState } from \"./MatrixEditor\";\n\nsetMatrixState(s => ({...s, xFilter: Context.mFilter}) )",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"mFilter\"",
+                                    "language" : "JavaScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getMatrixState } from \"./MatrixEditor\";\ngetMatrixState().xFilter;",
+                                  "language" : "JavaScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "database",
+                                "layoutClassName" : "matrix-line-header matrix-column-header",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "layoutStyle" : {
-                                              "cursor" : "pointer"
-                                            },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getCellCurrentConfig, switchToDef } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.def === getCellCurrentConfig();\n\nif (!selected) {\n\tswitchToDef(Context.cellDef.def)\n}",
-                                                "language" : "typescript"
-                                              }
-                                            },
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\n`${selected ? \"◉\" : \"○\"} ${Context.cellDef.def.label}`;",
-                                              "language" : "JavaScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        } ],
-                                        "exposeAs" : "cellDef",
-                                        "getItemsFn" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs();",
-                                          "language" : "TypeScript"
-                                        },
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs().length <= 1;",
-                                          "language" : "JavaScript"
-                                        },
-                                        "itemKey" : "id",
-                                        "layout" : { },
-                                        "layoutStyle" : { },
-                                        "style" : { }
-                                      },
-                                      "type" : "For each"
-                                    }, {
-                                      "props" : {
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'boolean';",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "onVariableChange" : {
-                                          "client" : {
-                                            "@class" : "Script",
-                                            "content" : "import { updateValue } from \"./MatrixEditor\";\n\nupdateValue(Context.cellValue);",
-                                            "language" : "TypeScript"
-                                          },
-                                          "exposeVariableAs" : {
-                                            "@class" : "Script",
-                                            "content" : "\"cellValue\"",
-                                            "language" : "JavaScript"
-                                          }
-                                        },
-                                        "script" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellBooleanValue } from \"./MatrixEditor\";\ngetCellBooleanValue();",
-                                          "language" : "JavaScript"
-                                        },
-                                        "style" : { },
-                                        "type" : "checkbox"
-                                      },
-                                      "type" : "Boolean"
-                                    }, {
-                                      "props" : {
-                                        "choices" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellCurrentConfigChoices } from \"./MatrixEditor\";\ngetCellCurrentConfigChoices();",
-                                          "language" : "typescript"
-                                        },
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\nconst def = getCellCurrentConfig();\ndef.type !== 'enum' || def.values.length <= 1;",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "onVariableChange" : {
-                                          "client" : {
-                                            "@class" : "Script",
-                                            "content" : "import { updateValueFromSelect } from \"./MatrixEditor\";\n\nupdateValueFromSelect(Context.newValue);",
-                                            "language" : "TypeScript"
-                                          },
-                                          "exposeVariableAs" : {
-                                            "@class" : "Script",
-                                            "content" : "\"newValue\"",
-                                            "language" : "JavaScript"
-                                          }
-                                        },
-                                        "script" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellStringValue } from \"./MatrixEditor\";\ngetCellStringValue();",
-                                          "language" : "JavaScript"
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "Select input"
-                                    }, {
-                                      "props" : {
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'number';",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "onCancel" : { },
-                                        "onVariableChange" : {
-                                          "client" : {
-                                            "@class" : "Script",
-                                            "content" : "import { updateNumericValue } from \"./MatrixEditor\";\n\nupdateNumericValue(Context.textValue);",
-                                            "language" : "TypeScript"
-                                          },
-                                          "exposeVariableAs" : {
-                                            "@class" : "Script",
-                                            "content" : "\"textValue\"",
-                                            "language" : "JavaScript"
-                                          }
-                                        },
-                                        "placeholder" : {
-                                          "@class" : "Script",
-                                          "content" : "\"\"",
-                                          "language" : "JavaScript"
-                                        },
-                                        "script" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getCellNumericValue } from \"./MatrixEditor\";\n\"\" + getCellNumericValue();",
-                                          "language" : "JavaScript"
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "String input"
-                                    } ],
-                                    "layout" : {
-                                      "flexDirection" : "column"
-                                    },
-                                    "layoutClassName" : "matrix-cell",
+                                    "layoutClassName" : "matrix-column-header",
                                     "layoutStyle" : { },
-                                    "style" : { }
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "`<span title='${Context.column.id}'>${Context.column.label}</span>`;",
+                                      "language" : "JavaScript"
+                                    }
                                   },
-                                  "type" : "FlexList"
+                                  "type" : "Text"
                                 } ],
+                                "className" : "",
                                 "exposeAs" : "column",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "Context.matrixConfig.x;",
+                                  "content" : "import { getFilteredXSerie } from \"./MatrixEditor\";\ngetFilteredXSerie()",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
                                 "itemsOnly" : true,
                                 "layout" : { },
-                                "layoutClassName" : "matrix-data-columns",
+                                "layoutClassName" : "",
                                 "layoutStyle" : {
                                   "display" : "contents"
                                 },
-                                "name" : "column",
+                                "name" : "header",
+                                "style" : {
+                                  "display" : "contents"
+                                }
+                              },
+                              "type" : "For each"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "layoutClassName" : "matrix-line-header",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "`<span title='${Context.line.id}'>${Context.line.label}</span>`;",
+                                          "language" : "JavaScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "layoutStyle" : {
+                                                      "cursor" : "pointer"
+                                                    },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { getCellCurrentConfig, switchToDef } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.def === getCellCurrentConfig();\n\nif (!selected) {\n\tswitchToDef(Context.cellDef.def)\n}",
+                                                        "language" : "typescript"
+                                                      }
+                                                    },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\n`${selected ? \"◉\" : \"○\"} ${Context.cellDef.def.label}`;",
+                                                      "language" : "JavaScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "exposeAs" : "cellDef",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs();",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs().length <= 1;",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "itemKey" : "id",
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "For each"
+                                            }, {
+                                              "props" : {
+                                                "layoutStyle" : { },
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellLabel } from \"./MatrixEditor\";\ngetCellLabel();",
+                                                  "language" : "JavaScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'boolean';",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateValue } from \"./MatrixEditor\";\n\nupdateValue(Context.cellValue);",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"cellValue\"",
+                                                    "language" : "JavaScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellBooleanValue } from \"./MatrixEditor\";\ngetCellBooleanValue();",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "style" : { },
+                                                "type" : "checkbox"
+                                              },
+                                              "type" : "Boolean"
+                                            }, {
+                                              "props" : {
+                                                "choices" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellCurrentConfigChoices } from \"./MatrixEditor\";\ngetCellCurrentConfigChoices();",
+                                                  "language" : "typescript"
+                                                },
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\nconst def = getCellCurrentConfig();\ndef.type !== 'enum' || def.values.length <= 1;",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateValueFromSelect } from \"./MatrixEditor\";\n\nupdateValueFromSelect(Context.newValue);",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"newValue\"",
+                                                    "language" : "JavaScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellStringValue } from \"./MatrixEditor\";\ngetCellStringValue();",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "Select input"
+                                            }, {
+                                              "props" : {
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'number';",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "onCancel" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateNumericValue } from \"./MatrixEditor\";\n\nupdateNumericValue(Context.textValue);",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"textValue\"",
+                                                    "language" : "JavaScript"
+                                                  }
+                                                },
+                                                "placeholder" : {
+                                                  "@class" : "Script",
+                                                  "content" : "\"\"",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellNumericValue } from \"./MatrixEditor\";\n\"\" + getCellNumericValue();",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "String input"
+                                            } ],
+                                            "layout" : {
+                                              "flexDirection" : "column"
+                                            },
+                                            "layoutClassName" : "matrix-cell",
+                                            "layoutStyle" : { },
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "exposeAs" : "column",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getFilteredXSerie } from \"./MatrixEditor\";\ngetFilteredXSerie()",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "id",
+                                        "itemsOnly" : true,
+                                        "layout" : { },
+                                        "layoutClassName" : "matrix-data-columns",
+                                        "layoutStyle" : {
+                                          "display" : "contents"
+                                        },
+                                        "name" : "column",
+                                        "style" : { }
+                                      },
+                                      "type" : "For each"
+                                    } ],
+                                    "layout" : { },
+                                    "layoutClassName" : "matrix-line",
+                                    "layoutStyle" : {
+                                      "display" : "contents"
+                                    },
+                                    "style" : {
+                                      "display" : "contents"
+                                    }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "",
+                                "exposeAs" : "line",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getFilteredYSerie } from \"./MatrixEditor\";\ngetFilteredYSerie();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "itemsOnly" : true,
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : {
+                                  "display" : "contents"
+                                },
+                                "name" : "lines",
                                 "style" : { }
                               },
                               "type" : "For each"
                             } ],
+                            "className" : "matrix-grid",
                             "layout" : { },
-                            "layoutClassName" : "matrix-line",
-                            "layoutStyle" : {
-                              "display" : "contents"
-                            },
-                            "style" : {
-                              "display" : "contents"
-                            }
+                            "layoutStyle" : { },
+                            "style" : { }
                           },
-                          "type" : "FlexList"
+                          "type" : "Grid"
                         } ],
-                        "className" : "",
-                        "exposeAs" : "line",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "Context.matrixConfig.y;",
-                          "language" : "TypeScript"
+                        "layout" : {
+                          "flexDirection" : "column"
                         },
-                        "itemKey" : "id",
-                        "itemsOnly" : true,
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : {
-                          "display" : "contents"
-                        },
-                        "name" : "lines",
+                        "layoutStyle" : { },
                         "style" : { }
                       },
-                      "type" : "For each"
+                      "type" : "FlexList"
                     } ],
-                    "className" : "matrix-grid",
-                    "layout" : { },
+                    "exposeAs" : "matrixState",
+                    "initialState" : {
+                      "@class" : "Script",
+                      "content" : "import { getInitialMatrixState } from \"./MatrixEditor\";\ngetInitialMatrixState();",
+                      "language" : "TypeScript"
+                    },
                     "layoutStyle" : { },
+                    "localState" : true,
                     "style" : { }
                   },
-                  "type" : "Grid"
+                  "type" : "State"
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },

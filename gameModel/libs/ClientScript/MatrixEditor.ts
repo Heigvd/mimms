@@ -1,3 +1,23 @@
+export interface MatrixState {
+	xFilter: string;
+	yFilter: string;
+}
+
+export function getInitialMatrixState() : MatrixState {
+	return {
+		xFilter: '',
+		yFilter: '',
+	}
+}
+
+export function getMatrixState() : MatrixState {
+	return Context.matrixState.state;
+}
+
+export function setMatrixState(setter: (state : MatrixState) => MatrixState) {
+	Context.matrixState.setState(setter);
+}
+
 export interface DataDef<T> {
 	/**
 	 * Row/cell label
@@ -39,18 +59,52 @@ export interface NumberDef {
 export type CellDef = EnumDef | BooleanDef | NumberDef;
 
 export type MatrixKey = string | number;
+
 export type CellData = number | boolean | undefined | string;
+
+export type EhancedCellData<T extends CellData> = T | {
+	label: string;
+	value: T;
+}
 
 export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data extends CellData> {
 	x: DataDef<X>[];
 	y: DataDef<Y>[];
-	data: Record<X, Record<Y, Data>>;
+	data: Record<X, Record<Y, EhancedCellData<Data>>>;
 	cellDef: CellDef[];
 	/**
 	 * HACK: onChange Callback register as ref (Helpers.useRef(THE_NAME, () => ))
 	 */
 	onChangeRefName: string;
 }
+
+
+function filterSerie(serie: DataDef<MatrixKey>[], motif: string) : DataDef<MatrixKey>[] {
+	if (!motif){
+		return serie
+	} else {
+		const regexes = motif.split(/\s+/).map(m => new RegExp(Helpers.escapeRegExp(m), "i"));
+		return serie.filter(item => {
+			// item must match all regexes
+			// if any does not match, the item does not match
+			return regexes.find(regex => {
+				// try to tind one regex which does not match
+				return !regex.exec(item.label)
+			}) == null;
+		})
+	}
+	
+}
+
+export function getFilteredXSerie() : DataDef<MatrixKey>[]{
+	return filterSerie(Context.matrixConfig.x, getMatrixState().xFilter);
+}
+
+
+export function getFilteredYSerie() : DataDef<MatrixKey>[] {
+	return filterSerie(Context.matrixConfig.y, getMatrixState().yFilter);
+}
+
 
 const noDefs: EnumDef = {
 	type: 'enum',
@@ -64,8 +118,28 @@ function getCellData() {
 	const x = Context.column.id;
 	const y = Context.line.id;
 	const col = config.data[x];
-	return col == null ? undefined : col[y];
+	const data = col == null ? undefined : col[y];
+	if (typeof data === 'object'){
+		return data.value;
+	} else {
+		return data;
+	}
 }
+
+export function getCellLabel() : string | undefined{
+	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
+
+	const x = Context.column.id;
+	const y = Context.line.id;
+	const col = config.data[x];
+	const data = col == null ? undefined : col[y];
+	if (typeof data === 'object'){
+		return data.label;
+	} else {
+		return undefined;
+	}
+}
+
 
 export function getCellCurrentConfigIndex(): number {
 	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
