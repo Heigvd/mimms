@@ -590,6 +590,7 @@ export interface ActionBodyEffect extends BaseAction {
 	targetedObject: "HumanBody";
 	type: 'ActionBodyEffect',
 	name: string;
+	visible: boolean;
 	/**
 	 * List of block the item may target
 	 */
@@ -616,6 +617,7 @@ export type HumanAction = ActionBodyEffect | ActionBodyMeasure;
  * Definition of an Item
  */
 export interface ItemDefinition {
+	type: 'item',
 	/**
 	 * Kind of unique system-wide item identifier
 	 */
@@ -636,6 +638,7 @@ export interface ItemDefinition {
 
 
 export interface ActDefinition {
+	type: 'act',
 	/**
 	 * Kind of unique system-wide skill identifier
 	 */

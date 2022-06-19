@@ -1013,7 +1013,7 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 }
 
 interface ResolvedAction {
-	source: (ActDefinition & {type: 'act'}) | (ItemDefinition & {type: 'item'});
+	source: ActDefinition | ItemDefinition;
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 

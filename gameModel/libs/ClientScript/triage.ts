@@ -1275,7 +1275,7 @@ export function getCategory(category: string | undefined): { category: Category<
 		const index = categories.categories.findIndex(c => c.id === category);
 		if (index >= 0) {
 			return {
-				category: categories.categories[index],
+				category: categories.categories[index]!,
 				severity: index
 			}
 		}

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1655650434288,
+  "createdTime" : 1655665301584,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -591,7 +591,7 @@
         "banane_pre" : "{\"items\":{\"guedel\":6,\"cat\":2,\"israeliBandage\":2},\"name\":\"Banane prétri\"}",
         "blue_bag" : "{\"items\":{},\"name\":\"Blue Bag\"}",
         "empty_bag" : "{\"items\":{},\"name\":\"No bag\"}",
-        "measure_bag" : "{\"items\":{\"oxymeter\":1,\"sphygmomanometer\":1},\"name\":\"Sp02 + MAP\"}",
+        "fousytout" : "{\"items\":{\"oxymeter\":1,\"sphygmomanometer\":1},\"name\":\"pour test\"}",
         "nox_bag" : "{\"items\":{},\"name\":\"NOX Bag\"}",
         "red_bag" : "{\"items\":{\"israeliBandage\":2,\"cat\":3,\"3side\":2,\"exsufflation\":2},\"name\":\"Red Bag\"}"
       },

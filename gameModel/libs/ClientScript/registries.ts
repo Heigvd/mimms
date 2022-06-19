@@ -47,8 +47,8 @@ export function getPathologiesMap(): Record<string, string> {
 }
 
 
-export function registerItem(def: ItemDefinition): void {
-	items[def.id] = def;
+export function registerItem(def: Omit<ItemDefinition, 'type'>): void {
+	items[def.id] = {...def, type: 'item'};
 }
 
 export function getItem(id: string): ItemDefinition | undefined {
@@ -65,8 +65,8 @@ export function getItems(): {id: string, item: ItemDefinition}[] {
 }
 
 
-export function registerAct(def: ActDefinition): void {
-	acts[def.id] = def;
+export function registerAct(def: Omit<ActDefinition, 'type'>): void {
+	acts[def.id] = {...def, type: 'act'};
 }
 
 export function getAct(id?: string): ActDefinition | undefined {
@@ -488,6 +488,7 @@ function init() {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
 			name: 'move',
+			visible: false,
 			blocks: [],
 			category: 'A',
 			rules: [{
@@ -515,6 +516,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
+			  visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -544,6 +546,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
+			  visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -574,6 +577,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
+			  visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -604,6 +608,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
+			  visible: true,
 				rules: [
 					{
 						id: 'ventilate',
@@ -633,6 +638,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
+			  visible: true,
 				rules: [
 					{
 						id: 'ventilate',
@@ -662,6 +668,7 @@ function init() {
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
+			  visible: true,
 				rules: [
 					{
 						id: 'intubate',
@@ -692,6 +699,7 @@ function init() {
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
+			  visible: true,
 				rules: [
 					{
 						id: 'cricotomie',
@@ -724,6 +732,7 @@ function init() {
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
+			  visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -752,6 +761,7 @@ function init() {
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
+			  visible: false,
 				rules: [
 					{
 						id: 'do',
@@ -780,6 +790,7 @@ function init() {
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+			  visible: true,
 				rules: [
 					{
 						id: 'drain',
@@ -823,6 +834,7 @@ function init() {
 				name: "apply",
 				category: 'C',
 				targetedObject: 'HumanBody',
+			  visible: true,
 				blocks: ['LEFT_LEG', 'RIGHT_LEG',
 					'LEFT_THIGH', 'RIGHT_THIGH',
 					'LEFT_ARM', 'LEFT_FOREARM',
@@ -858,6 +870,7 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['ABDOMEN'],
+			  visible: true,
 				rules: [
 					{
 						id: 'doPack',
@@ -879,6 +892,7 @@ function init() {
 				name: "Pressure Bandage",
 				category: 'C',
 				targetedObject: 'HumanBody',
+			  visible: true,
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
 					'LEFT_LEG', 'RIGHT_LEG',
@@ -915,6 +929,7 @@ function init() {
 				name: 'apply',
 				category: 'C',
 				targetedObject: 'HumanBody',
+			  visible: true,
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
 					'LEFT_LEG', 'RIGHT_LEG',
@@ -950,7 +965,8 @@ function init() {
 				type: 'ActionBodyEffect',
 				name: 'inject',
 				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM'],
+			  visible: false,
+				blocks: ['LEFT_ARM', 'RIGHT_ARM'],
 				category: 'C',
 				rules: [
 					{
@@ -975,7 +991,7 @@ function init() {
 
 	registerItem({
 		id: 'SalineSolution_1l',
-		name: "Saline 1L",
+		name: "NaCl 0.9% 1L",
 		disposable: true,
 		actions: {
 			inject: {
@@ -983,7 +999,8 @@ function init() {
 				name: 'Inject oneshot',
 				category: 'C',
 				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM'],
+				visible: true,
+				blocks: ['LEFT_ARM', 'RIGHT_ARM'],
 				rules: [
 					{
 						id: 'inject',
@@ -1020,6 +1037,7 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
+				visible: true,
 				rules: [
 					{
 						id: 'inject',
@@ -1056,6 +1074,7 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM'],
+				visible: true,
 				rules: [
 					{
 						id: 'inject',
@@ -1189,6 +1208,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
+		  visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1212,6 +1232,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
+		  visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1236,6 +1257,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
+		  visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1259,6 +1281,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
+		  visible: false,
 			rules: [{
 				id: '',
 				name: '',
