@@ -69,6 +69,7 @@ export function generateGridMatrix(worldHeight: number, worldWidth: number, cell
 						isPointInPolygon(pointD, obstacle)
 					) {
 						grid[j][i] = 1;
+						// Stop building matching
 						break;
 					}
 
@@ -85,13 +86,19 @@ export function generateGridMatrix(worldHeight: number, worldWidth: number, cell
 							lineSegmentInterception(wall3, obstacleWall) ||
 							lineSegmentInterception(wall4, obstacleWall)) {
 							grid[j][i] = 1;
+							// Stop building point matching
 							break;
 						}
+					}
+					if (grid[j][i] === 1) {
+						// Stop building matching
+						break;
 					}
 				}
 			}
 		}
 	}
+
 
 	return {
 		grid,
