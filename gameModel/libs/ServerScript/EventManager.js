@@ -9,7 +9,7 @@ var EventManager = ((function () {
 		// TODO: en fonction du mode de jeu
 		// si global: NewEvent-gameId
 		// si par équipe: NewEvent-teamId,
-		RequestManager.lock("NewEvent-" + self.getGameId());
+		RequestManager.lock("NewEvent-" + self.getTeamId());
 	}
 
 	//returns human id
@@ -57,7 +57,5 @@ var EventManager = ((function () {
 		postEvent: function (payload, time) {
 			sendEvent(payload, time);
 		},
-
-
 	};
 })());

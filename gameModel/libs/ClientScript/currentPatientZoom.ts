@@ -709,12 +709,14 @@ function twoDecimalFormatter(value: unknown): string {
 	}
 }
 
-function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
+export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
 	switch (metric) {
+		case 'vitals.glasgow.total':
+			return ['GCS', String(value)];
 		case 'vitals.canWalk':
-			return ['Walks?', value === true ? 'true' : 'false'];
+			return ['Walks?', value === true || value === 'true' ? 'yes' : 'no'];
 		case 'vitals.cardiacArrest':
-			return ['Dead?', value || 0 > 0 ? 'true' : 'false'];
+			return ['Dead?', value || 0 > 0 ? 'yes' : 'no'];
 		case 'vitals.cardio.MAP':
 			return ['MAP', intFormatter(value)];
 		case 'vitals.cardio.hr':
@@ -725,6 +727,16 @@ function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
 			return ['RR', intFormatter(value)];
 		case 'vitals.capillaryRefillTime_s':
 			return ['CRT', twoDecimalFormatter(value)];
+		case 'vitals.respiration.PaO2':
+			return ['PaO2 mmHg', twoDecimalFormatter(value)];
+		case 'vitals.respiration.tidalVolume_L':
+			return ['Tidal volume L', twoDecimalFormatter(value)];
+		case 'vitals.cardio.totalVolume_mL':
+			return ['Blood volume L', twoDecimalFormatter((value as number) / 1000)];
+		case 'vitals.cardio.endSystolicVolume_mL':
+			return ['ESV mL', twoDecimalFormatter(value)];
+			case 'variables.ICP_mmHg':
+			return ['ICP mmHg', twoDecimalFormatter(value)];
 	}
 
 	return [String(metric), String(value)];

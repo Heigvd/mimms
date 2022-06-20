@@ -126,6 +126,12 @@
         "name" : "abstractMatrix",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "17",
+        "name" : "lickert",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "tools"
     } ],

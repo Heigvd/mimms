@@ -83,6 +83,11 @@
                               },
                               "type" : "String input"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.matrixConfig.hideFilter;",
+                              "language" : "JavaScript"
+                            },
                             "layout" : {
                               "flexDirection" : "row"
                             },

@@ -1,0 +1,140 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { prettyPrintCurrentPatientMeta } from \"./lickert\";\nprettyPrintCurrentPatientMeta();",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "Title",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>next patient<br></p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { nextPatient } from \"./lickert\";\n\nnextPatient();",
+            "language" : "typescript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Clinical Parameters<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"10\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "name" : "dsafdasfsfdasd",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "matrixConfig",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : true,
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Physiological Parameters<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"10\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "name" : "dsafdasfsfdasd",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "matrixConfig",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : true,
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

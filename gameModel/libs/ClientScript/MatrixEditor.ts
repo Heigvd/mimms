@@ -1,12 +1,14 @@
 export interface MatrixState {
 	xFilter: string;
 	yFilter: string;
+	toggle: boolean;
 }
 
 export function getInitialMatrixState() : MatrixState {
 	return {
 		xFilter: '',
 		yFilter: '',
+		toggle: true,
 	}
 }
 
@@ -37,13 +39,15 @@ export interface BooleanDef {
 	label: string;
 }
 
+type EnumValue = undefined | number | boolean | string;
+
 /**
  * Display as selects
  */
 export interface EnumDef {
 	type: 'enum';
 	label: string;
-	values: (undefined | number | boolean | string)[];
+	values: (EnumValue | {label: string, value: EnumValue})[];
 }
 
 /**
@@ -76,6 +80,7 @@ export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data ext
 	 * HACK: onChange Callback register as ref (Helpers.useRef(THE_NAME, () => ))
 	 */
 	onChangeRefName: string;
+	hideFilter?: boolean;
 }
 
 
@@ -161,8 +166,11 @@ export function getCellCurrentConfigIndex(): number {
 						}
 						break;
 					case 'enum':
-						if (def.values.includes(data)) {
-							return +index;
+						for (const item of def.values) {
+							const v = typeof item === 'object'? item.value: item;
+							if (v === data){
+								return +index;
+							}
 						}
 						break;
 					case 'number':
@@ -216,7 +224,13 @@ export function getCellCurrentConfigChoices(): {
 }[] {
 	const cellDef = getCellCurrentConfig();
 	if (cellDef.type === 'enum') {
-		return cellDef.values.map(v => ({ label: String(v), value: String(v) }));
+		return cellDef.values.map(v => {
+			if (typeof v === 'object'){
+				return { label: v.label, value: String(v.value) };
+			} else {
+				return { label: String(v), value: String(v) };
+			}
+	});
 	} else {
 		return [];
 	}
@@ -227,7 +241,12 @@ function getValueFromDef(def: CellDef) {
 		case 'boolean':
 			return true;
 		case 'enum':
-			return def.values[0];
+			const item = def.values[0];
+			if (typeof item === 'object'){
+				return item.value;
+			} else {
+				return item;
+			}
 		case 'number':
 			return def.min ?? 0;
 	}
@@ -238,13 +257,10 @@ export function switchToDef(def: CellDef) {
 }
 
 export function updateNumericValue(value: number | string) {
-	wlog('Num Value ', value);
 	if (typeof value === 'number') {
-		wlog('Num Value is a number');
 		updateValue(value);
 	} else {
 		const n = +value;
-		wlog('PArse ', n);
 		if (!Number.isNaN(n)) {
 			updateValue(n);
 		}
@@ -254,9 +270,16 @@ export function updateNumericValue(value: number | string) {
 export function updateValueFromSelect(value: string) {
 	const def = getCellCurrentConfig();
 	if (def.type === 'enum') {
-		const index = def.values.findIndex(v => String(v) === value);
+		const index = def.values.findIndex(v => {
+			if (typeof v === 'object'){
+				return String(v.value) === value;
+			} else {
+				return String(v) === value;
+			}
+		});
 		if (index >= 0) {
-			updateValue(def.values[index]);
+			const v = def.values[index];
+			updateValue(typeof v === 'object' ? v.value : v);
 		}
 	}
 }
@@ -305,11 +328,13 @@ const onChangeRef = Helpers.useRef(
 
 onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData) => {
 	testMatrix[x.id]![y.id] = newData;
+	setMatrixState(s => ({...s, toggle: !s.toggle}));
+
 	// Hack: touch boolean to force UIsync
-	APIMethods.runScript(
+	/*APIMethods.runScript(
 		"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())",
 		{},
-	);
+	);*/
 };
 
 export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
@@ -333,6 +358,11 @@ export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
 		{
 			type: 'boolean',
 			label: 'bool',
+		},
+		{
+			type: 'enum',
+			label: 'enum',
+			values: ["raw", {label: 'lets cook', value: 'cooked'}],
 		},
 	],
 	onChangeRefName: 'testMatrixOnChange',

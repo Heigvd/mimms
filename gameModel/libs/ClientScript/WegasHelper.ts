@@ -1,10 +1,10 @@
-import {TargetedEvent} from "./baseEvent";
-import {getSkillDefinition, SkillDefinition, SkillLevel} from "./GameModelerHelper";
-import {Point} from "./helper";
-import {BodyFactoryParam, Environnment} from "./HUMAn";
-import {logger} from "./logger";
-import {Compensation, SympSystem} from "./physiologicalModel";
-import {BagDefinition, HumanTreatmentEvent, PathologyEvent} from "./the_world";
+import { TargetedEvent } from "./baseEvent";
+import { getSkillDefinition, SkillDefinition, SkillLevel } from "./GameModelerHelper";
+import { Point } from "./helper";
+import { BodyFactoryParam, Environnment } from "./HUMAn";
+import { logger } from "./logger";
+import { Compensation, SympSystem } from "./physiologicalModel";
+import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "./the_world";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -47,13 +47,13 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed) ?
 			// 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			[{label: key, points: (parsed as RawPoints).map(([x, y]) => ({x, y}))}]
+			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
 			:
 			// many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
 			Object.entries(parsed).map(([k, v]) => {
 				return {
 					label: k,
-					points: (v as RawPoints).map(([x, y]) => ({x, y}))
+					points: (v as RawPoints).map(([x, y]) => ({ x, y }))
 				};
 			});
 
@@ -84,7 +84,7 @@ function getRawHumanBodyParams() {
 	const patients = Variable.find(gameModel, 'patients').getProperties();
 	const characters = Variable.find(gameModel, 'characters').getProperties();
 
-	const all = {...patients, ...characters};
+	const all = { ...patients, ...characters };
 
 	if (Object.keys(all).length !== Object.keys(patients).length + Object.keys(characters).length) {
 		logger.error("Patients And characters duplicates ids !");
@@ -322,12 +322,6 @@ testScenarios["10_tension_pneumothorax"] = {
 	}]
 };
 
-
-
-const x = {
-	"description": "tension pneumothorax", "events": [{"time": 10, "blocks": ["UNIT_BRONCHUS_1"], "event": {"type": "HumanPathology", "pathologyId": "simple_pno_full"}}, {"time": 600, "blocks": ["HEAD"], "event": {"type": "ItemActionOnHuman", "itemId": "balloon", "actionId": "setup"}}]
-}
-
 export function getCurrentScenario(): TestScenario {
 	const scenarioId = Variable.find(gameModel, 'currentScenario').getValue(self);
 
@@ -350,7 +344,7 @@ export function getCurrentScenario(): TestScenario {
 }
 
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
-	return Object.entries(od.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
+	return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -360,7 +354,7 @@ export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, 
 }
 
 export function parseObjectInstance<T>(oi: SObjectInstance): Record<string, T> {
-	return Object.entries(oi.getProperties()).reduce<{[k: string]: T}>((acc, [k, v]) => {
+	return Object.entries(oi.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
 		const parsed = parse<T>(v);
 		if (parsed) {
 			acc[k] = parsed;
@@ -420,24 +414,28 @@ export function getPatientsBodyFactoryParams() {
 
 export function getPatientsBodyFactoryParamsArray() {
 	return Object.entries(getPatientsBodyFactoryParams()).map(([id, meta]) => {
-		return {id: id, meta: meta};
+		return { id: id, meta: meta };
 	})
 }
+
+export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean = false): string {
+	const skill = param.skillId ? ` [${param.skillId}]` : '';
+	return short ?
+		`${id} (${param.age}${param.sex === 'male' ? 'M' : 'F'})${skill}`
+		: `${id}${skill} (${param.sex}; ${param.age} years; ${param.height_cm}cm; ${param.bmi} (BMI); 2^${param.lungDepth} lungs)`
+}
+
 
 function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 	const humans = parseObjectDescriptor<BodyFactoryParam>(od);
 	return Object.entries(humans).map(([k, meta]) => {
 		if (meta) {
-			const skill = meta.skillId ? ` [${meta.skillId}]` : '';
 			return {
 				value: k,
-				label:
-					short ?
-						`${k} (${meta.age}${meta.sex === 'male' ? 'M' : 'F'})${skill}`
-						: `${k}${skill} (${meta.sex}; ${meta.age} years; ${meta.height_cm}cm; ${meta.bmi} (BMI); 2^${meta.lungDepth} lungs)`
+				label: prettyPrint(k, meta, short),
 			};
 		} else {
-			return {value: k, label: `Unparsable ${k}`}
+			return { value: k, label: `Unparsable ${k}` }
 		}
 	});
 }

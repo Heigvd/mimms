@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1655665301584,
+  "createdTime" : 1655732096549,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -320,8 +320,8 @@
         "patient-1" : "{\"sex\":\"female\",\"age\":51,\"height_cm\":152,\"bmi\":21.85,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":50},{\"type\":\"NoArgs\"}]}}]}",
         "patient-2" : "{\"sex\":\"male\",\"age\":31,\"height_cm\":176,\"bmi\":20.95,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05},{\"type\":\"BurnArgs\",\"percent\":0.5}]}}]}",
         "patient-3" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":21.93,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_vh\",\"afflictedBlocks\":[\"RIGHT_HAND\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.2}]}}]}",
-        "patient-4" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":157,\"bmi\":24.76,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}}]}",
-        "patient-5" : "{\"sex\":\"female\",\"age\":39,\"height_cm\":155,\"bmi\":22.9,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1}]}}]}"
+        "patient-4" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":157,\"bmi\":24.76,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_vh\",\"afflictedBlocks\":[\"RIGHT_WRIST\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5}]}}]}",
+        "patient-5" : "{\"sex\":\"female\",\"age\":39,\"height_cm\":155,\"bmi\":22.9,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "GameModelScope",
@@ -627,6 +627,7 @@
       "name" : "situationsDefinitions",
       "properties" : {
         "debug" : "{\"pathologies\":{\"simple_pno_full\":true},\"name\":\"pour debug\"}",
+        "incendie" : "{\"pathologies\":{\"upper_airways_burn\":true,\"thorax_circ\":true},\"name\":\"Incendie\"}",
         "validation_model" : "{\"pathologies\":{\"20p_ah\":true,\"tenth_ih\":true,\"upper_airways_burn\":true,\"tamponade_mild\":true,\"simple_pno_full\":true,\"disclocation_c1c2\":true,\"disclocation_c5c7\":true,\"cityHunter\":true,\"thorax_circ\":true,\"20p_vh\":true},\"name\":\"Pour validation\"}"
       },
       "refId" : "ObjectDescriptor:24056851:CslpmW",
@@ -2193,6 +2194,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032585:1mALBz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "lickert",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24059683:1NMuL8",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

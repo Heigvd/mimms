@@ -89,8 +89,8 @@ export interface BodyFactoryParam {
 
 	scriptedPathologies?: ScriptedPathologyPayload[];
 
-/** Skill id. 'empty' menas no special skill' */
-  skillId?: string;
+	/** Skill id. 'empty' menas no special skill' */
+	skillId?: string;
 }
 
 export interface Bound {
@@ -782,10 +782,7 @@ function getVo2Max(age: number, sex: Sex) {
 	return interpolate(age, vo2MaxModels[sex]);
 }
 
-export function createHumanBody(
-	param: BodyFactoryParam,
-	env: Environnment
-): HumanBody {
+export function computeMetas(param: BodyFactoryParam) {
 	const idealWeight_kg = computeIdealWeight(param.sex, param.height_cm);
 	const effectiveWeight_kg = computeEffectiveWeight(param.bmi, param.height_cm);
 	const blood_mL = getBloodPart(idealWeight_kg, param.sex);
@@ -795,7 +792,8 @@ export function createHumanBody(
 		param.sex
 	);
 
-	const body: HumanBody = {
+	return {
+		blood_mL: blood_mL,
 		meta: {
 			...param,
 			idealWeight_kg: idealWeight_kg,
@@ -831,7 +829,20 @@ export function createHumanBody(
 					}
 				}
 			}
-		},
+		}
+	};
+}
+
+export function createHumanBody(
+	param: BodyFactoryParam,
+	env: Environnment
+): HumanBody {
+
+
+	const {meta, blood_mL} = computeMetas(param);
+
+	const body: HumanBody = {
+		meta: meta,
 		state: {
 			time: 0,
 			blocks: new Map(),
@@ -1358,7 +1369,7 @@ function hemostasis_thrombocytes(
 ): number {
 	if (coagulationEnabled) {
 		// total number of platelets
-		if (bleeding_mlPerMin < 0.10){
+		if (bleeding_mlPerMin < 0.10) {
 			return 0;
 		}
 		const absWbc = loss * wbc_ratio;

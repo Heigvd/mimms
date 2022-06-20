@@ -326,7 +326,7 @@ function computeEffectiveVolumesPerUnit(
 		// TODO: open vs simple pneumothorax
 		const leaks: number[] = [];
 		for (let i = 0; i < nbUnits; i++) {
-			const unit =units[i]!;
+			const unit = units[i]!;
 			const leak = ru[i]! * (1 - unit.compliance);
 			const eCompliance = Math.min(unit.compliance, externalCompliance);
 			const delta = ru[i]! * (1 - eCompliance);
@@ -584,6 +584,10 @@ export function compute(
 	});
 	respLogger.info("RespiratoryUnits: ", units);
 
+	/**
+	 * Constant value for vapour pressure of water
+	 */
+	const pH2O_mmHg = 47; /// =~ f(37C°)
 
 	// Compute SaO2 and CaO2 for each respiratory unit
 	const unitOutputs = units.map((unit, i) => {
@@ -639,11 +643,6 @@ export function compute(
 		 * Based on the "Antoine Equation"
 		 */
 		//const pH2o_mmHg = (temp_celsius: number) => Math.pow(10, 8.07131 - (1730.63 / (233.426 + temp_celsius)));
-
-		/**
-		 * Constant value for vapour pressure of water
-		 */
-		const pH2O_mmHg = 47; /// =~ f(37C°)
 
 		// Compute partial alveolar oxygen saturation [mmHG]
 		const PAO2_raw = (upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
