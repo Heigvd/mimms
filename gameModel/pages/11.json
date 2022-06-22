@@ -545,16 +545,25 @@
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "EventManager.directCommunication();\nVariable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                    "content" : "Variable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
                     "language" : "JavaScript"
-                  }
+                  },
+                  "priority" : 1
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"Speak\"",
+                  "content" : "\"<p>Speak</p>\"",
                   "language" : "JavaScript"
                 },
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "priority" : 0,
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { initEmitterIds } from \"./baseEvent\";\nimport { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nsendEvent({\n  ...initEmitterIds(),\n  type: 'DirectCommunication',\n  message : Variable.find(gameModel, 'lastMsg').getValue(self),\n  sender : whoAmI()\n});\n",
+                    "language" : "typescript"
+                  }
+                },
                 "name" : "Speak",
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -608,20 +617,20 @@
                   "language" : "JavaScript"
                 },
                 "icon" : "air-freshener",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "EventManager.radioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nEventManager.radioCreation('Renard balafré', ['A', 'B', 'C'], 'B');",
-                    "language" : "JavaScript"
-                  }
-                },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"Create Radios\"",
+                  "content" : "\"<p>Create Radios</p>\"",
                   "language" : "JavaScript"
                 },
                 "layout" : { },
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { emitRadioCreation } from \"./communication\";\n\nemitRadioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nemitRadioCreation('Renard balafré', ['A', 'B', 'C'], 'B');\n",
+                    "language" : "typescript"
+                  }
+                },
                 "name" : "Create radio",
                 "onVariableChange" : { },
                 "style" : { }
@@ -683,6 +692,11 @@
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { emitRadioChannelUpdateEvent } from \"./communication\";\n\nemitRadioChannelUpdateEvent(Context.radioState.state.selectedRadioId, Context.newChannel);",
+                        "language" : "TypeScript"
+                      },
                       "exposeVariableAs" : {
                         "@class" : "Script",
                         "content" : "\"newChannel\"",
@@ -690,13 +704,13 @@
                       },
                       "server" : {
                         "@class" : "Script",
-                        "content" : "EventManager.radioChannelUpdate(Context.radioState.state.selectedRadioId, Context.newChannel);",
+                        "content" : ";",
                         "language" : "JavaScript"
                       }
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "import { getRadio } from \"./communication\";\ngetRadio(Context.radioState.state.selectedRadioId).channel;",
+                      "content" : "import { getRadio } from \"./communication\";\nconst r = getRadio(Context.radioState.state.selectedRadioId);\nr ? r.channel : 'No channel';",
                       "language" : "JavaScript"
                     },
                     "style" : { }
@@ -738,16 +752,25 @@
                     "impactVariable" : {
                       "impact" : {
                         "@class" : "Script",
-                        "content" : "EventManager.radioCommunication(Context.radioState.state.selectedRadioId, Context.radioState.state.selectedChannel);\nVariable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                        "content" : "Variable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
                         "language" : "JavaScript"
-                      }
+                      },
+                      "priority" : 1
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Speak\"",
+                      "content" : "\"<p>Speak</p>\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "priority" : 0,
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { emitRadioCommunication } from \"./communication\";\n\nconst msg = Variable.find(gameModel, 'lastRadioMsg').getValue(self);\nemitRadioCommunication(msg, Context.radioState.state.selectedRadioId);",
+                        "language" : "typescript"
+                      }
+                    },
                     "name" : "Speak",
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -790,7 +813,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRadio, getRadioMessages } from \"./communication\";\nconst radioId = Context.radioState.state.selectedRadioId;\nconst channel = getRadio(radioId).channel;\ngetRadioMessages(channel).join('<br>')",
+                  "content" : "import { getRadio, getRadioMessages } from \"./communication\";\nconst radioId = Context.radioState.state.selectedRadioId || -1;\nconst channel = getRadio(radioId)?.channel;\ngetRadioMessages(channel || '').join('<br>')",
                   "language" : "JavaScript"
                 }
               },
@@ -843,17 +866,10 @@
                 "alignSelf" : "flex-start",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { getMyPhone } from \"./communication\";\ngetMyPhone() !== undefined;",
+                  "content" : "import { getMyPhone } from \"./communication\";\nconst p = getMyPhone();\np !== undefined && p.phoneId > 0;",
                   "language" : "JavaScript"
                 },
                 "icon" : "phone",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "EventManager.phoneCreation();",
-                    "language" : "JavaScript"
-                  }
-                },
                 "label" : {
                   "@class" : "Script",
                   "content" : "import { whoAmI } from \"./WegasHelper\";\n\"Create Phone for \" + whoAmI();",
@@ -861,6 +877,13 @@
                 },
                 "layout" : { },
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { emitPhoneCreationEvent } from \"./communication\";\nimport { whoAmI } from \"./WegasHelper\";\n\nemitPhoneCreationEvent(whoAmI())",
+                    "language" : "typescript"
+                  }
+                },
                 "name" : "Create phone",
                 "onVariableChange" : { },
                 "style" : { }
@@ -942,16 +965,25 @@
                     "impactVariable" : {
                       "impact" : {
                         "@class" : "Script",
-                        "content" : "EventManager.phoneCommunication(Context.phoneState.state.myPhoneId);\nVariable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                        "content" : "Variable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
                         "language" : "JavaScript"
-                      }
+                      },
+                      "priority" : 1
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Speak\"",
+                      "content" : "\"<p>Speak</p>\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "priority" : 0,
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { emitPhoneMessageEvent } from \"./communication\";\n\nconst recipient = Variable.find(gameModel, 'recipientPhoneId').getValue(self);\nconst msg = Variable.find(gameModel, 'lastPhoneMsg').getValue(self);\nemitPhoneMessageEvent(Context.phoneState.state.myPhoneId, recipient, msg);\n",
+                        "language" : "typescript"
+                      }
+                    },
                     "name" : "Speak",
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -1007,7 +1039,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getPhoneMessages } from \"./communication\";\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\ngetPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');",
+                  "content" : "import { getPhoneMessages } from \"./communication\";\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\nlet v = '';\nif(selectedPhone){\n\tv = getPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');\n}else {\n\tv = 'no phone selected'\n}\nv;",
                   "language" : "JavaScript"
                 }
               },
