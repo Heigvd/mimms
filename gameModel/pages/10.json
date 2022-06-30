@@ -309,6 +309,7 @@
                                               },
                                               "type" : "String input"
                                             } ],
+                                            "className" : "matrix-cell",
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },

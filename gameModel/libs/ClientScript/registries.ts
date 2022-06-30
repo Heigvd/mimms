@@ -6,9 +6,10 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import {extBlocks} from "./HUMAn";
+import {BlockName, extBlocks, ExternalBlock} from "./HUMAn";
 import {ChemicalDefinition, buildPathology, ItemDefinition, PathologyDefinition, ActDefinition} from "./pathology";
 import {Compensation, SympSystem} from "./physiologicalModel";
+import {substraction} from './helper';
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};
@@ -70,7 +71,7 @@ export function registerAct(def: Omit<ActDefinition, 'type'>): void {
 }
 
 export function getAct(id?: string): ActDefinition | undefined {
-	if (!id){
+	if (!id) {
 		return undefined;
 	}
 
@@ -115,19 +116,25 @@ function init() {
 	}
 	initialized = true;
 
+	const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
+
+	const venousBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 	////////////////////////////////////////
 	// Pathologies
 	////////////////////////////////////////
 	registerPathology(buildPathology({
 		id: 'full_ah',
-		name: 'full arterial cut, no initial loss',
+		name: 'massive arterial cut, no initial loss',
 		blockSelectionMode: 'any',
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: {min: 1},
-		//instantaneousBloodLoss: {min: 1},
-		blocks: [...extBlocks],
+		bleedingFactor: {min: 0.85, max: 1},
+		instantaneousBloodLoss: undefined,
+		blocks: [
+			'LEFT_ARM', 'LEFT_FOREARM', 'LEFT_LEG', 'LEFT_THIGH',
+			'RIGHT_ARM', 'RIGHT_FOREARM', 'RIGHT_LEG', 'RIGHT_THIGH'
+		],
 	}]));
 
 	registerPathology(buildPathology({
@@ -137,9 +144,9 @@ function init() {
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'arterial',
-		bleedingFactor: {min: 0.5},
-		//instantaneousBloodLoss: {min: 0},
-		blocks: [...extBlocks],
+		bleedingFactor: {min: 0.4, max: 0.6},
+		instantaneousBloodLoss: undefined,
+		blocks: arterialBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -150,8 +157,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'arterial',
 		bleedingFactor: {min: 0.25},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: arterialBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -162,8 +169,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'arterial',
 		bleedingFactor: {min: 0.2},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: arterialBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -174,8 +181,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'arterial',
 		bleedingFactor: {min: 0.1},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: arterialBlocks,
 	}]));
 
 
@@ -189,8 +196,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'venous',
 		bleedingFactor: {min: 1},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: venousBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -200,9 +207,9 @@ function init() {
 	}, [{
 		type: 'Hemorrhage',
 		subtype: 'venous',
-		bleedingFactor: {min: 0.5},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		bleedingFactor: {min: 0.4, max: 0.5},
+		instantaneousBloodLoss: undefined,
+		blocks: venousBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -213,8 +220,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'venous',
 		bleedingFactor: {min: 0.25},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: venousBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -225,8 +232,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'venous',
 		bleedingFactor: {min: 0.2},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: venousBlocks,
 	}]));
 
 	registerPathology(buildPathology({
@@ -237,8 +244,8 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'venous',
 		bleedingFactor: {min: 0.1},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: venousBlocks,
 	}]));
 
 
@@ -251,22 +258,22 @@ function init() {
 		type: 'Hemorrhage',
 		subtype: 'internal',
 		bleedingFactor: {min: 0.1},
-		//instantaneousBloodLoss: 0,
-		blocks: [...extBlocks],
+		instantaneousBloodLoss: undefined,
+		blocks: ['ABDOMEN'],
 	}]));
 
 	/**
 	 * Respiration
 	 */
-
 	registerPathology(buildPathology({
 		id: 'half_strangle',
 		name: "Strangulation 50%",
 		blockSelectionMode: 'any',
 	}, [{
 		type: 'AirwaysResistance',
-		blocks: ['NECK', 'HEAD', 'BRONCHUS_1', 'BRONCHUS_2'],
+		blocks: ['NECK', 'HEAD'],
 		airResistance: {min: 0.5},
+		airResistanceDelta: undefined,
 	}]));
 
 	registerPathology(buildPathology({
@@ -275,8 +282,9 @@ function init() {
 		blockSelectionMode: 'any',
 	}, [{
 		type: 'AirwaysResistance',
-		blocks: ['NECK', 'HEAD', 'BRONCHUS_1', 'BRONCHUS_2'],
+		blocks: ['NECK', 'HEAD'],
 		airResistance: {min: 1},
+		airResistanceDelta: undefined,
 	}]));
 
 	registerPathology(buildPathology({
@@ -286,7 +294,8 @@ function init() {
 	}, [{
 		type: 'AirwaysResistance',
 		blocks: ['BRONCHUS_1', 'BRONCHUS_2'],
-		airResistanceDelta: {min: 0.05}
+		airResistanceDelta: {min: 0.05},
+		airResistance: undefined,
 	}]));
 
 
@@ -297,7 +306,8 @@ function init() {
 	}, [{
 		type: 'AirwaysResistance',
 		blocks: ['NECK'],
-		airResistanceDelta: {min: 0.05}
+		airResistanceDelta: {min: 0.05},
+		airResistance: undefined,
 	}, {
 		type: 'Burn',
 		blocks: ['HEAD'],
@@ -316,12 +326,14 @@ function init() {
 			type: 'Pneumothorax',
 			blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 			pneumothoraxType: 'SIMPLE',
-			compliance: {min: 0}
+			compliance: {min: 0},
+			complianceDelta: undefined,
 		}, {
 			type: 'Hemorrhage',
 			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			subtype: 'venous',
-			instantaneousBloodLoss: {min: 50}
+			instantaneousBloodLoss: {min: 50},
+			bleedingFactor: undefined,
 		}, {
 			type: 'Fracture',
 			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
@@ -344,12 +356,14 @@ function init() {
 			type: 'Pneumothorax',
 			blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 			pneumothoraxType: 'OPEN',
-			compliance: {min: 0}
+			compliance: {min: 0},
+			complianceDelta: undefined,
 		}, {
 			type: 'Hemorrhage',
 			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
 			subtype: 'venous',
-			instantaneousBloodLoss: {min: 150}
+			instantaneousBloodLoss: {min: 150},
+			bleedingFactor: undefined,
 		}, {
 			type: 'Fracture',
 			blocks: ["THORAX_LEFT", 'THORAX_RIGHT'],
@@ -367,11 +381,19 @@ function init() {
 		id: 'cityHunter',
 		name: "Coup de masse sur la tête",
 		blockSelectionMode: 'any',
-	}, [{
-		type: 'ICP',
-		delta_perMin: {min: 1},
-		blocks: ['HEAD'],
-	}]
+	}, [
+		{
+			type: 'ICP',
+			blocks: ['HEAD'],
+			delta_perMin: {min: 1},
+			icp_mmHg: undefined,
+		}, {
+			type: 'Hemorrhage',
+			subtype: 'venous',
+			blocks: ['HEAD'],
+			bleedingFactor: {min: 0.01},
+			instantaneousBloodLoss: undefined,
+		}]
 	));
 
 
@@ -402,6 +424,7 @@ function init() {
 		type: 'Tamponade',
 		blocks: ['HEART'],
 		pericardial_deltaMin: {min: 5},
+		pericardial_mL: undefined,
 	}]));
 
 
@@ -413,6 +436,7 @@ function init() {
 		type: 'Tamponade',
 		blocks: ['HEART'],
 		pericardial_deltaMin: {min: 10},
+		pericardial_mL: undefined,
 	}]));
 
 
@@ -424,6 +448,7 @@ function init() {
 		type: 'Tamponade',
 		blocks: ['HEART'],
 		pericardial_deltaMin: {min: 50},
+		pericardial_mL: undefined,
 	}]));
 
 
@@ -516,7 +541,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -546,7 +571,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -577,7 +602,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -608,7 +633,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'ventilate',
@@ -638,7 +663,7 @@ function init() {
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'ventilate',
@@ -668,7 +693,7 @@ function init() {
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'intubate',
@@ -699,7 +724,7 @@ function init() {
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'cricotomie',
@@ -731,8 +756,8 @@ function init() {
 				name: "apply",
 				category: 'B',
 				targetedObject: 'HumanBody',
-				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
-			  visible: true,
+				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+				visible: true,
 				rules: [
 					{
 						id: 'setup',
@@ -760,8 +785,8 @@ function init() {
 				name: "do",
 				category: 'B',
 				targetedObject: 'HumanBody',
-				blocks: ['THORAX_LEFT', 'THORAX_LEFT'],
-			  visible: false,
+				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+				visible: false,
 				rules: [
 					{
 						id: 'do',
@@ -790,7 +815,7 @@ function init() {
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'drain',
@@ -834,7 +859,7 @@ function init() {
 				name: "apply",
 				category: 'C',
 				targetedObject: 'HumanBody',
-			  visible: true,
+				visible: true,
 				blocks: ['LEFT_LEG', 'RIGHT_LEG',
 					'LEFT_THIGH', 'RIGHT_THIGH',
 					'LEFT_ARM', 'LEFT_FOREARM',
@@ -870,7 +895,7 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['ABDOMEN'],
-			  visible: true,
+				visible: true,
 				rules: [
 					{
 						id: 'doPack',
@@ -892,14 +917,20 @@ function init() {
 				name: "Pressure Bandage",
 				category: 'C',
 				targetedObject: 'HumanBody',
-			  visible: true,
+				visible: true,
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
+					'LEFT_ANKLE', 'RIGHT_ANKLE',
 					'LEFT_LEG', 'RIGHT_LEG',
+					'LEFT_KNEE', 'RIGHT_KNEE',
 					'LEFT_THIGH', 'RIGHT_THIGH',
+					'LEFT_HAND', 'RIGHT_HAND',
+					'LEFT_WRIST', 'RIGHT_WRIST',
+					'LEFT_ELBOW', 'RIGHT_ELBOW',
 					'LEFT_ARM', 'RIGHT_ARM',
+					'LEFT_SHOULDER', 'RIGHT_SHOULDER',
 					'LEFT_FOREARM', 'RIGHT_FOREARM',
-					'NECK'],
+					'NECK', 'HEAD'],
 				rules: [
 					{
 						id: 'pressureBandage',
@@ -929,14 +960,20 @@ function init() {
 				name: 'apply',
 				category: 'C',
 				targetedObject: 'HumanBody',
-			  visible: true,
+				visible: true,
 				blocks: [
 					'LEFT_FOOT', 'RIGHT_FOOT',
+					'LEFT_ANKLE', 'RIGHT_ANKLE',
 					'LEFT_LEG', 'RIGHT_LEG',
+					'LEFT_KNEE', 'RIGHT_KNEE',
 					'LEFT_THIGH', 'RIGHT_THIGH',
+					'LEFT_HAND', 'RIGHT_HAND',
+					'LEFT_WRIST', 'RIGHT_WRIST',
+					'LEFT_ELBOW', 'RIGHT_ELBOW',
 					'LEFT_ARM', 'RIGHT_ARM',
+					'LEFT_SHOULDER', 'RIGHT_SHOULDER',
 					'LEFT_FOREARM', 'RIGHT_FOREARM',
-					'NECK'],
+					'NECK', 'HEAD'],
 				rules: [
 					{
 						id: 'pressureBandage',
@@ -965,8 +1002,8 @@ function init() {
 				type: 'ActionBodyEffect',
 				name: 'inject',
 				targetedObject: 'HumanBody',
-			  visible: false,
-				blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+				visible: false,
+				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK',],
 				category: 'C',
 				rules: [
 					{
@@ -1000,7 +1037,7 @@ function init() {
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
-				blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK',],
 				rules: [
 					{
 						id: 'inject',
@@ -1036,7 +1073,7 @@ function init() {
 				name: 'Inject oneshot',
 				category: 'C',
 				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM'],
+				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK',],
 				visible: true,
 				rules: [
 					{
@@ -1073,7 +1110,7 @@ function init() {
 				name: 'fill (oneshot)',
 				category: 'C',
 				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM'],
+				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK',],
 				visible: true,
 				rules: [
 					{
@@ -1172,7 +1209,7 @@ function init() {
 				name: 'SpO2',
 				category: 'B',
 				targetedObject: 'HumanBody',
-				metricName: ['vitals.respiration.SaO2'],
+				metricName: ['vitals.respiration.SpO2'],
 				duration: {low_skill: 0, high_skill: 0, },
 			}
 		}
@@ -1208,7 +1245,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
-		  visible: false,
+			visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1232,7 +1269,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
-		  visible: false,
+			visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1257,7 +1294,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
-		  visible: false,
+			visible: false,
 			rules: [{
 				id: '',
 				name: '',
@@ -1281,7 +1318,7 @@ function init() {
 			name: 'move',
 			blocks: [],
 			category: 'Z',
-		  visible: false,
+			visible: false,
 			rules: [{
 				id: '',
 				name: '',

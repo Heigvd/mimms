@@ -125,11 +125,29 @@
         "id" : "10",
         "name" : "abstractMatrix",
         "scenaristPage" : null,
-        "trainerPage" : null
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "17",
         "name" : "lickert",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "18",
+        "name" : "livePathologyEditor",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "19",
+        "name" : "pathologyEditor",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "20",
+        "name" : "currentPatientPathologyEditor",
         "scenaristPage" : true,
         "trainerPage" : null
       } ],

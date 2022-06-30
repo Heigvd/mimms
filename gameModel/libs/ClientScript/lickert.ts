@@ -88,13 +88,13 @@ function prettyPrintKey(metric: string): string {
 }
 
 
-export function getCurrentPatientData(): { data: LickertData, clMatrix: Matrix, phMatrix: Matrix } {
+export function getCurrentPatientData( force: boolean = false): { data: LickertData, clMatrix: Matrix, phMatrix: Matrix } {
 	const patientId = getCurrentPatientId();
 
-	if (currentData[patientId] == null) {
+	if (currentData[patientId] == null || force) {
 		currentData[patientId] = run_lickert();
 	}
-	if (clinicalMatrix[patientId] == null) {
+	if (clinicalMatrix[patientId] == null || force) {
 		clinicalMatrix[patientId] = {};
 		const clKeys = Object.keys(currentData[patientId].clinical);
 		// @ts-ignore
@@ -111,7 +111,7 @@ export function getCurrentPatientData(): { data: LickertData, clMatrix: Matrix, 
 	}
 
 
-	if (physiologicalMatrix[patientId] == null) {
+	if (physiologicalMatrix[patientId] == null || force) {
 		physiologicalMatrix[patientId] = {};
 		const phKey = Object.keys(currentData[patientId].physiological);
 		// @ts-ignore
@@ -152,6 +152,8 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
 	const keyId = y.id;
 
+	wlog("OnChange", {x, y, newData});
+
 	const patientId = getCurrentPatientId();
 
 	const current = clinicalMatrix[patientId][timeId][keyId];
@@ -160,6 +162,8 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	} else {
 		clinicalMatrix[patientId][timeId][keyId] = newData;
 	}
+
+	wlog("Data: ", clinicalMatrix[patientId][timeId][keyId]);
 
 	setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 };
@@ -185,7 +189,7 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 }
 
 
-const PhysioLickertOnChangeRefName = 'clinicalOnChange';
+const PhysioLickertOnChangeRefName = 'physioOnChange';
 
 const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => { });
 
@@ -225,3 +229,25 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 }
 
 
+
+/**
+ * Read-only data
+ */
+export function getClinicalMatrixRO() : MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+	return {
+		...getClinicalMatrix(),
+		cellDef: [],
+	}
+}
+
+export function getPhysioMatrixRO() : MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+	return {
+		...getPhysioMatrix(),
+		cellDef: [],
+	}
+}
+
+export function runAgain(){
+	getCurrentPatientData(true);
+	Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
+}

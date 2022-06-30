@@ -22,31 +22,13 @@
       "type" : "FlexList"
     }, {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>next patient<br></p>\"",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "Script",
-            "content" : "import { nextPatient } from \"./lickert\";\n\nnextPatient();",
-            "language" : "typescript"
-          }
-        },
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Clinical Parameters<br></p>\"",
+              "content" : "\"<h2>Clinical Parameters<br></h2>\"",
               "language" : "JavaScript"
             }
           },
@@ -90,7 +72,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Physiological Parameters<br></p>\"",
+              "content" : "\"<h2>Physiological Parameters<br></h2>\"",
               "language" : "JavaScript"
             }
           },
@@ -126,7 +108,26 @@
         "style" : { }
       },
       "type" : "For each"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>next patient<br></p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { nextPatient } from \"./lickert\";\n\nnextPatient();",
+            "language" : "typescript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
     } ],
+    "className" : "lickertPage",
     "layout" : {
       "flexDirection" : "column"
     },
@@ -134,7 +135,8 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

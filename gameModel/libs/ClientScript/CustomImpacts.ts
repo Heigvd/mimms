@@ -1,6 +1,6 @@
 //import { getBlocksSelector } from "./GameModelerHelper";
 import { getItems, getPathologies } from "./registries";
-import { getPatientAsChoices } from "./WegasHelper";
+import { getPatientsAsChoices } from "./WegasHelper";
 
 Helpers.registerEffect(() => {
 
@@ -10,7 +10,7 @@ Helpers.registerEffect(() => {
 		view: {
 			label: 'Human',
 			type: 'select',
-			choices: getPatientAsChoices(true),
+			choices: getPatientsAsChoices(true),
 		}
 	};
 
@@ -20,7 +20,7 @@ Helpers.registerEffect(() => {
 		view: {
 			label: 'Human',
 			type: 'select',
-			choices: getPatientAsChoices(true).map(opt => ({
+			choices: getPatientsAsChoices(true).map(opt => ({
 				label: `Human: ${opt.label}`,
 				value: {
 					objectType: 'Human',

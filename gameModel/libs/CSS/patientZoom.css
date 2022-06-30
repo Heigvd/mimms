@@ -130,6 +130,18 @@
  * Body Blocks
  */
 
+.observe .block:not(.forTreatmentBlock, .afflictedBlock) {
+	 position: absolute;
+	 fill: none;
+	 stroke: grey;
+	 stroke-dasharray:  "2 2";
+	 pointer-events: none;
+}
+.observe .block:not(.forTreatmentBlock, .afflictedBlock) svg {
+	position: absolute;
+}
+
+
 .forTreatmentBlock,
 .afflictedBlock {
 	 position: absolute;
@@ -160,8 +172,8 @@
 	fill: red;
 }
 
- .afflictedBlock.observedBlock svg:first-child rect{
-	 fill: lightgreen;
+ .afflictedBlock.observedBlock svg:first-child{
+	 mix-blend-mode: color;
  }
 
  .forTreatmentBlock svg:last-child rect {

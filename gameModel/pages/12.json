@@ -6,26 +6,69 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Drill<br></p>\"",
+          "content" : "\"<p></p><h1>Drill</h1><p></p>\"",
           "language" : "JavaScript"
         }
       },
       "type" : "Text"
     }, {
       "props" : {
-        "initialSelectedPageId" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Start !<br></p>\"",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "toolbar",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
           "@class" : "Script",
-          "content" : "\"6\"",
-          "language" : "TypeScript"
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'not_started'",
+          "language" : "JavaScript"
         },
+        "layout" : { },
         "layoutStyle" : { },
-        "name" : "patientPageLoaderDrill",
         "style" : { }
       },
-      "type" : "PageLoader"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {
+          "props" : {
+            "className" : "",
+            "id" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"6\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "patientPageLoaderDrill",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
           "props" : {
             "children" : [ {
               "props" : {
@@ -42,7 +85,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "attachedToId" : "drillPretriPage",
                     "children" : [ {
                       "props" : {
                         "layoutStyle" : { },
@@ -77,7 +120,7 @@
                     "icon" : "key",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Show explanation<br></p>\"",
+                      "content" : "\"<p>Show explanation</p>\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
@@ -130,17 +173,60 @@
             },
             "layout" : { },
             "layoutStyle" : { },
+            "name" : "toolbar",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'ongoing'",
+          "language" : "JavaScript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "ongoing",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Congrats !<br></p>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "toolbar",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'done'",
+          "language" : "JavaScript"
+        },
         "layout" : { },
         "layoutStyle" : { },
-        "name" : "toolbar",
+        "name" : "DONE",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "id" : "drillPretriPage",
     "layout" : {
       "flexDirection" : "column"
     },
@@ -148,7 +234,8 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

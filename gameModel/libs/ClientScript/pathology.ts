@@ -6,10 +6,10 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import {SkillLevel} from "./GameModelerHelper";
-import {checkUnreachable, getRandomValue, intersection, pickRandom, Range} from "./helper";
-import {Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock} from "./HUMAn";
-import {getPathology} from "./registries";
+import { SkillLevel } from "./GameModelerHelper";
+import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "./helper";
+import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./HUMAn";
+import { getPathology } from "./registries";
 
 export type VariablePatch = Partial<BodyState["variables"]>;
 export type BlockPatch = Partial<Block["params"]>;
@@ -40,44 +40,47 @@ export interface PathologyAction {
 }
 
 
+type RangeDefs<T extends string> = Record<T,Range | undefined>;
+type Args<T extends string> = Record<T, number | undefined>;
 
 /**
  * Module Meta
  */
 
-interface BaseModule {
-	type: string;
+interface BaseModule<T extends string> {
 	config: {
 		type: string;
 		/**
 		 * List of block the module may affect
 		 */
 		blocks: BlockName[];
-		[key: string]: unknown;
-	};
+		//[key: string]: unknown;
+	} & RangeDefs<T>;
 	args: {
 		type: string;
-		[key: string]: unknown;
-	};
+		//[key: string]: unknown;
+	} & Args<T>;
 }
 
 
-interface HemorrhageMeta extends BaseModule {
+export const hemorrhageArgKeys = ["instantaneousBloodLoss", "bleedingFactor"] as const;
+
+interface HemorrhageMeta extends BaseModule<typeof hemorrhageArgKeys[number]> {
 	config: {
 		type: 'Hemorrhage';
 		blocks: ExternalBlock[];
 		subtype: 'internal' | 'arterial' | 'venous';
-		instantaneousBloodLoss?: Range;
-		bleedingFactor?: Range;
+		instantaneousBloodLoss: Range | undefined;
+		bleedingFactor: Range | undefined;
 	};
 	args: {
-		type: 'HemorrhageArgs'
-		instantaneousBloodLoss?: number;
-		bleedingFactor?: number;
+		type: 'HemorrhageArgs';
+		instantaneousBloodLoss: number | undefined;
+		bleedingFactor: number | undefined;
 	}
 }
 
-interface FractureMeta extends BaseModule {
+interface FractureMeta extends BaseModule<never> {
 	config: {
 		type: 'Fracture',
 		blocks: BoneBlock[];
@@ -88,7 +91,7 @@ interface FractureMeta extends BaseModule {
 	};
 }
 
-interface NervousSystemMeta extends BaseModule {
+interface NervousSystemMeta extends BaseModule<never> {
 	config: {
 		type: 'NervousSystem',
 		blocks: NervousBlock[];
@@ -98,80 +101,87 @@ interface NervousSystemMeta extends BaseModule {
 	};
 }
 
-interface TamponadeMeta extends BaseModule {
+export const tamponadeArgKeys = ["pericardial_deltaMin", "pericardial_mL"] as const;
+
+interface TamponadeMeta extends BaseModule<typeof tamponadeArgKeys[number]> {
 	config: {
 		type: 'Tamponade';
 		blocks: 'HEART'[];
-		pericardial_deltaMin?: Range;
-		pericardial_mL?: Range;
+		pericardial_deltaMin: Range | undefined;
+		pericardial_mL: Range | undefined;
 	};
 	args: {
 		type: 'TamponadeArgs',
-		pericardial_deltaMin?: number;
-		pericardial_mL?: number;
+		pericardial_deltaMin: number | undefined;
+		pericardial_mL: number | undefined;
 	}
 }
 
+export const airwaysResistanceArgKeys = ["airResistance", "airResistanceDelta"] as const;
 
-interface AirwaysResistanceMeta extends BaseModule {
+interface AirwaysResistanceMeta extends BaseModule<typeof airwaysResistanceArgKeys[number]> {
 	config: {
 		type: 'AirwaysResistance';
-		blocks: ('HEAD' | 'NECK' | 'BRONCHUS_1' | 'BRONCHUS_2')[],
-		airResistance?: Range;
-		airResistanceDelta?: Range;
+		blocks: ('HEAD' | 'NECK' | 'BRONCHUS_1' | 'BRONCHUS_2')[];
+		airResistance: Range | undefined;
+		airResistanceDelta: Range | undefined;
 	};
 	args: {
 		type: 'AirwaysResistanceArgs';
-		airResistance?: number;
-		airResistanceDelta?: number;
+		airResistance: number | undefined;
+		airResistanceDelta: number | undefined;
 	}
 }
 
-interface PneumothoraxMeta extends BaseModule {
+export const pneumothoraxArgKeys = ["compliance", "complianceDelta"] as const;
+
+interface PneumothoraxMeta extends BaseModule<typeof pneumothoraxArgKeys[number]> {
 	config: {
 		type: 'Pneumothorax';
 		blocks: ('UNIT_BRONCHUS_1' | 'UNIT_BRONCHUS_2')[],
 		pneumothoraxType: BlockPatch['pneumothorax'];
-		compliance?: Range;
-		complianceDelta?: Range;
+		compliance: Range | undefined;
+		complianceDelta: Range | undefined;
 	};
 	args: {
 		type: 'PneumothoraxArgs';
-		compliance?: number;
-		complianceDelta?: number;
+		compliance: number | undefined;
+		complianceDelta: number | undefined;
 	}
 }
 
+export const burnArgKeys = ["percent"] as const;
 
-interface BurnMeta extends BaseModule {
+interface BurnMeta extends BaseModule<typeof burnArgKeys[number]> {
 	config: {
 		type: 'Burn';
 		blocks: ExternalBlock[]
-		percent: Range;
 		level: BlockPatch['burnLevel'];
+		percent: Range | undefined;
 	};
 	args: {
 		type: 'BurnArgs';
-		percent: number;
+		percent: number | undefined;
 	}
 }
 
+export const icpArgKeys = ["delta_perMin", "icp_mmHg"] as const;
 
-interface ICPMeta extends BaseModule {
+interface ICPMeta extends BaseModule<typeof icpArgKeys[number]> {
 	config: {
 		type: 'ICP';
 		blocks: 'HEAD'[]
-		delta_perMin?: Range;
-		icp_mmHg?: Range;
+		delta_perMin: Range | undefined;
+		icp_mmHg: Range | undefined;
 	};
 	args: {
 		type: 'ICPArgs';
-		delta_perMin?: number;
-		icp_mmHg?: number;
+		delta_perMin: number | undefined;
+		icp_mmHg: number | undefined;
 	}
 }
 
-type ModuleMeta =
+export type ModuleMeta =
 	| HemorrhageMeta
 	| FractureMeta
 	| NervousSystemMeta
@@ -358,7 +368,7 @@ export function createRandomArgs(mod: ModuleDefinition): ModuleArgs {
 export function afflictPathology(pathologyId: string): AfflictedPathology {
 	const pathology = getPathology(pathologyId);
 
-	if (pathology == null){
+	if (pathology == null) {
 		throw new Error("Pathology does not exist");
 	}
 
@@ -541,14 +551,14 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 }
 
 export function revivePathology(afflictedPathology: AfflictedPathology, time: number): RevivedPathology {
-	const {pathologyId, afflictedBlocks, modulesArguments} = afflictedPathology;
+	const { pathologyId, afflictedBlocks, modulesArguments } = afflictedPathology;
 	const pDef: PathologyDefinition | undefined = getPathology(pathologyId);
 	if (pDef == null) {
-		throw `Pathology ${pathologyId} not found`;
+		throw new Error(`Pathology ${pathologyId} not found`);
 	}
 	const expctedNumberOfModule = pDef.modules.length;
 	if (expctedNumberOfModule !== afflictedBlocks.length || expctedNumberOfModule !== modulesArguments.length) {
-		throw `Number of module does not match`;
+		throw new Error(`Number of module does not match`);
 	}
 
 	const result: RevivedPathology = {
@@ -557,12 +567,13 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 		modules: pDef.modules.map((m, i) => {
 			const afflictedBlock = afflictedBlocks[i];
 			if (!afflictedBlock || !(m.blocks as string[]).includes(afflictedBlock)) {
-				throw `Block ${afflictedBlock} is not valid against module ${m}`;
+				throw new Error(`Block ${afflictedBlock} is not valid against module ${m}`);
 			}
 			return instantiateModule(m, afflictedBlock, modulesArguments[i]!);
 		})
 	};
 
+	wlog("result: ", result);
 	return result;
 }
 
@@ -579,7 +590,7 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 export type ABCDECategory = 'A' | 'B' | 'C' | 'D' | 'E' | 'Z';
 
 interface BaseAction {
-	type:string;
+	type: string;
 	/** human readable name */
 	name: string;
 	category: ABCDECategory;

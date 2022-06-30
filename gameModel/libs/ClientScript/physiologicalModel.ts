@@ -5,7 +5,7 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { interpolate, normalize } from "./helper";
+import { add, interpolate, normalize, Point } from "./helper";
 import {
 	BodyState,
 	Environnment,
@@ -41,6 +41,7 @@ export function detectCardiacArrest(bodyState: BodyState) {
 		bodyState.vitals.cardio.MAP < 40 ||
 		//bodyState.vitals.respiration.rr < 4 ||
 		bodyState.vitals.respiration.SaO2 < 0.4
+		// todo: check DO2 brain
 	) {
 		logger.log("Cardiac Arrest");
 		bodyState.vitals.cardiacArrest =
@@ -57,6 +58,19 @@ export function detectCardiacArrest(bodyState: BodyState) {
 		logger.log("Not dead yet");
 	}
 }
+
+const spo2BlVolumneModel: Point[] = [
+	{ x: 0, y: 0.5 },
+	{ x: 0.6, y: 1 }
+]
+
+
+function getSpO2Ratio(human: HumanBody) {
+	const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
+
+	return interpolate(bloodRatio, spo2BlVolumneModel);
+}
+
 
 // Some constant based on something...
 const K = 0.863;
@@ -466,11 +480,15 @@ export function compute(
 		edvMax_tamponade,
 		edvMax_pno
 	);
-	let strokeVolume_mL = edvEffective - body.vitals.cardio.endSystolicVolume_mL;
 
-	if (strokeVolume_mL < 0) {
-		strokeVolume_mL = 0;
-	}
+
+	// Quick fix to limit maximum MAP to 200
+	const MAX_MAP = 200;
+	const strokeVolume_Max = 1000*MAX_MAP / (body.vitals.cardio.Ra_mmHgMinPerL * body.vitals.cardio.hr); 
+
+	const strokeVolume_mL = add(edvEffective, - body.vitals.cardio.endSystolicVolume_mL, {
+		min: 0, max: strokeVolume_Max
+	});
 
 	// Cardiac output (Qc) [L/min]
 	const Qc_LPerMin = (strokeVolume_mL * body.vitals.cardio.hr) / 1000;
@@ -503,7 +521,6 @@ export function compute(
 	});
 
 	body.vitals.cardio.MAP = MAP;
-
 
 	body.vitals.cardio.endDiastolicVolume_mL = edvEffective;
 	const systolicPressure = 3 * MAP / 2;
@@ -689,7 +706,7 @@ export function compute(
 	respLogger.info("Respiration Step2: ", unitOutputs);
 	// consolidate SaO2 and CaO2;
 	// -> blood in the pulmonary vein
-	let { SaO2, CaO2 } = unitOutputs.reduce(
+	const { SaO2, CaO2 } = unitOutputs.reduce(
 		(output, unit) => {
 			output.SaO2 += unit.SaO2 * unit.qPercent;
 			output.CaO2 += unit.CaO2 * unit.qPercent;
@@ -786,55 +803,57 @@ export function compute(
 		}
 	}
 
-	if (false) {
-		// review
-		// delay SaO2 and CaO2 according to cardiac output
-		// delay is the time the heart needs to pump 40% of the blood
-		//const delay = (bloodVolume_L * 2) / Qc_LPerMin;
-		const delay = 3;
+	// if (false) {
+	// 	// review
+	// 	// delay SaO2 and CaO2 according to cardiac output
+	// 	// delay is the time the heart needs to pump 40% of the blood
+	// 	//const delay = (bloodVolume_L * 2) / Qc_LPerMin;
+	// 	const delay = 3;
 
-		const computeDelayed = (current: number, next: number): number => {
-			const delta = next - current;
-			return duration_min < delay
-				? current + (delta * duration_min) / delay
-				: next;
-		};
-		const delayedSaO2 = computeDelayed(body.vitals.respiration.SaO2, SaO2);
-		const delayedCaO2 = computeDelayed(body.vitals.respiration.CaO2, CaO2);
-		const delayedPaO2 = computeDelayed(body.vitals.respiration.PaO2, PaO2_mmHg);
+	// 	const computeDelayed = (current: number, next: number): number => {
+	// 		const delta = next - current;
+	// 		return duration_min < delay
+	// 			? current + (delta * duration_min) / delay
+	// 			: next;
+	// 	};
+	// 	const delayedSaO2 = computeDelayed(body.vitals.respiration.SaO2, SaO2);
+	// 	const delayedCaO2 = computeDelayed(body.vitals.respiration.CaO2, CaO2);
+	// 	const delayedPaO2 = computeDelayed(body.vitals.respiration.PaO2, PaO2_mmHg);
 
-		/*const deltaSaO2 = SaO2 - body.vitals.respiration.SaO2;
-			const delayedSaO2 =
-				duration_min < delay
-					? body.vitals.respiration.SaO2 + (deltaSaO2 * duration_min) / delay
-					: SaO2;
+	// 	/*const deltaSaO2 = SaO2 - body.vitals.respiration.SaO2;
+	// 		const delayedSaO2 =
+	// 			duration_min < delay
+	// 				? body.vitals.respiration.SaO2 + (deltaSaO2 * duration_min) / delay
+	// 				: SaO2;
 
-			const deltaCaO2 = CaO2 - body.vitals.respiration.CaO2;
-			const delayedCaO2 =
-				duration_min < delay
-					? body.vitals.respiration.CaO2 + (deltaCaO2 * duration_min) / delay
-					: CaO2;
-			*/
+	// 		const deltaCaO2 = CaO2 - body.vitals.respiration.CaO2;
+	// 		const delayedCaO2 =
+	// 			duration_min < delay
+	// 				? body.vitals.respiration.CaO2 + (deltaCaO2 * duration_min) / delay
+	// 				: CaO2;
+	// 		*/
 
-		respLogger.log("Delayed SaO2,CaO2:", {
-			delay,
-			duration_min,
-			SaO2,
-			delayedSaO2,
-			CaO2,
-			delayedCaO2,
-			PaO2_mmHg,
-			delayedPaO2,
-		});
+	// 	respLogger.log("Delayed SaO2,CaO2:", {
+	// 		delay,
+	// 		duration_min,
+	// 		SaO2,
+	// 		delayedSaO2,
+	// 		CaO2,
+	// 		delayedCaO2,
+	// 		PaO2_mmHg,
+	// 		delayedPaO2,
+	// 	});
 
-		SaO2 = delayedSaO2;
-		CaO2 = delayedCaO2;
-		PaO2_mmHg = delayedPaO2;
-	}
+	// 	SaO2 = delayedSaO2;
+	// 	CaO2 = delayedCaO2;
+	// 	PaO2_mmHg = delayedPaO2;
+	// }
 
 	body.vitals.respiration.stridor = upperAirways.resistance > 0.25;
 
 	body.vitals.respiration.SaO2 = SaO2;
+	body.vitals.respiration.SpO2 = SaO2 * getSpO2Ratio({state: body, meta: meta});
+
 	body.vitals.respiration.CaO2 = CaO2;
 
 	const do2Sys = Qc_LPerMin * CaO2;
@@ -857,7 +876,7 @@ export function compute(
 	//const qbrTh = Pp / body.vitals.brain.Rbr;
 	//const Qbr = Pp > 50 ? theoreticalQbr : qbrTh;
 
-	const Qbr = body.vitals.cardio.cerebralBloodOutput_mLperMin / 1000;
+	const Qbr = (body.blocks.get("BRAIN")?.params.bloodFlow_mLper ?? 0) / 1000;
 
 	// CaO2
 	const DO2 = Qbr * CaO2;
@@ -876,10 +895,6 @@ export function compute(
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // Compensation
 /////////////////////////////////////////////////////////////////////////////////////////////////
-interface Point {
-	x: number;
-	y: number;
-}
 
 const TRC_MODEL: Point[] = [
 	{ x: 0, y: 10 }, // MAP=0 => TRC=>10
@@ -887,27 +902,55 @@ const TRC_MODEL: Point[] = [
 	{ x: 200, y: 0 },
 ];
 
-const computeRecap = (MAP: number): number => {
-	return interpolate(MAP, TRC_MODEL);
+const computeRecap = (state: BodyState): number => {
+	const indexChoc = state.vitals.cardio.hr / state.vitals.cardio.MAP;
+	if (Number.isNaN(indexChoc)){
+		return 10;
+	}
+
+	calcLogger.info("TRC: 2sec * (", state.vitals.cardio.hr, state.vitals.cardio.MAP, "), => ", indexChoc * 2);
+
+	return 2 * indexChoc;
+	// return interpolate(state.vitals.cardio.MAP, TRC_MODEL);
 };
 
+
+// Seuils ischémiques
+// QBr ml/min/100g de cerveau | desc      | Qbr cerveau 1.4kg | Do2 avec CaO2 2000 | Do2/100g
+
+//   <8 | seuil infarctus | 112 | 22.4 | 1.6
+//  <12 | ischémie        | 168 | 33.6 | 2.4
+//  <20 | seuil pénombre  | 280 | 56   | 4
+//  <40 | oligémie        | 560 | 112  | 8
+//  ... | normal          | 840 | 168  | 12 
+
 const GCS_MODEL: Point[] = [
-	{ x: 80, y: 3 }, // DO2=80 => GCS = 3
-	{ x: 110, y: 15 },
+	{ x: 1.6, y: 3 },
+	{ x: 2.4, y: 8 },
+	{ x: 4, y: 12 },
+	{ x: 8, y: 15 }
 ];
 
-const getGCSTotal = (DO2: number): Glasgow["total"] => {
+// https://anesthesiologie.umontreal.ca/wp-content/uploads/sites/33/Isch_cer.pdf
+
+const getGCSTotal = ({state, meta}: HumanBody): Glasgow["total"] => {
+	const DO2 = state.vitals.brain.DO2;
 	if (Number.isNaN(DO2)) {
 		return 3;
 	}
-	return Math.round(interpolate(DO2, GCS_MODEL)) as Glasgow["total"];
+
+	const DO2_100g = 100 * DO2 / meta.brainWeight_g;
+
+	logger.info("DO2: ", {DO2_100g, DO2, weight: meta.brainWeight_g });
+
+	return Math.round(interpolate(DO2_100g, GCS_MODEL)) as Glasgow["total"];
 };
 
-const computeGlasgow = (DO2: number): Glasgow => {
+const computeGlasgow = (body: HumanBody): Glasgow => {
 	// total = f(ICP);
-	const total = getGCSTotal(DO2);
+	const total = getGCSTotal(body);
 	let gcs: Glasgow;
-	logger.log("Total: ", total, " based on ", DO2);
+	logger.log("Total: ", total, " based on ", body.state.vitals.brain.DO2);
 
 	switch (total) {
 		case 15:
@@ -1119,11 +1162,12 @@ export function inferExtraOutputs(human: HumanBody) {
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// Compute/infer extra outputs
 	/////////////////////////////////////////////////////////////////////////////////////////////////
-	human.state.vitals.capillaryRefillTime_s = computeRecap(human.state.vitals.cardio.MAP);
-	human.state.vitals.glasgow = computeGlasgow(human.state.vitals.brain.DO2);
+	human.state.vitals.capillaryRefillTime_s = computeRecap(human.state);
+	human.state.vitals.glasgow = computeGlasgow(human);
 	human.state.vitals.canWalk = canWalk(human);
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
+
 
 	if (!human.state.vitals.canWalk) {
 		if (human.state.variables.bodyPosition === 'STANDING') {
@@ -1131,7 +1175,12 @@ export function inferExtraOutputs(human: HumanBody) {
 		}
 	}
 
-	if (human.state.vitals.glasgow.eye < 4 || human.state.vitals.glasgow.motor < 6) {
+	if (
+		human.state.vitals.glasgow.eye < 4
+		|| human.state.vitals.glasgow.motor < 6
+		|| human.state.blocks.get("C1-C4")!.params.nervousSystemBroken
+		|| human.state.blocks.get("C5-C7")!.params.nervousSystemBroken
+	) {
 		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING') {
 			human.state.variables.bodyPosition = 'SUPINE_DECUBITUS';
 		}

@@ -291,6 +291,7 @@ export function updateValue(value: unknown) {
 		config.onChangeRefName,
 		(x: DataDef<MatrixKey>, y: DataDef<MatrixKey>, value: unknown) => {},
 	);
+	wlog("OnChange: ", Context.column, Context.line, value);
 	onChange.current(Context.column, Context.line, value);
 }
 
@@ -315,7 +316,7 @@ const testMatrix: Record<number, Record<number, CellData>> = {
 		2: false,
 	},
 	3: {
-		0: 0,
+		0: { label: 'hello', value: 0},
 		1: true,
 		2: false,
 	},

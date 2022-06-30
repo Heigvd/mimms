@@ -1,0 +1,7 @@
+.pathologyEditor h1, .pathologyEditor h2, .pathologyEditor h3 {
+	margin: 0;
+}
+
+.pathologyEditor .blockSelector {
+	min-width:  200px;
+}

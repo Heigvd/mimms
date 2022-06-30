@@ -384,14 +384,24 @@ export function getBodyPicto(overview: HumanOverview): string {
 	}
 }
 
-const colorfulModel: Point[] = [
+
+
+export const colorfulModel: Point[] = [
 	{ x: 0.6, y: 0 },
 	{ x: 0.85, y: 1 }
 ]
 
+
+function getColorful(human: HumanBody) {
+	const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
+
+	return interpolate(bloodRatio, colorfulModel);
+}
+
+
 export function getOverview(human: (HumanBody & { category: Categorization | undefined })): HumanOverview {
 
-	const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
+	
 
 	const looksDead = (human.state.vitals.cardiacArrest ?? 0) > 0;
 
@@ -400,7 +410,7 @@ export function getOverview(human: (HumanBody & { category: Categorization | und
 	return {
 		gcs: human.state.vitals.glasgow,
 		position: human.state.variables.bodyPosition,
-		colorful: looksDead ? 0 : interpolate(bloodRatio, colorfulModel),
+		colorful: looksDead ? 0 : getColorful(human),
 		cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
 		looksDead: looksDead,
 		totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
@@ -508,9 +518,11 @@ function getBlockZone(blockName: BlockName): string | undefined {
 		case 'LEFT_ELBOW':
 			return `<rect x="154" y="140" width="30" height="15" />`;
 		case 'LEFT_FOREARM':
-			return `<rect x="154" y="155" width="30" height="40" />`;
+			return `<rect x="154" y="155" width="30" height="35" />`;
+		case 'LEFT_WRIST':
+			return `<rect x="163" y="190" width="20" height="10" />`;
 		case 'LEFT_HAND':
-			return `<rect x="165" y="195" width="40" height="45" />`;
+			return `<rect x="165" y="200" width="40" height="40" />`;
 		case 'RIGHT_SHOULDER':
 			return `<rect x="41" y="70" width="30" height="17" />`;
 		case 'RIGHT_ARM':
@@ -518,13 +530,15 @@ function getBlockZone(blockName: BlockName): string | undefined {
 		case 'RIGHT_ELBOW':
 			return `<rect x="35" y="140" width="30" height="15" />`;
 		case 'RIGHT_FOREARM':
-			return `<rect x="30" y="155" width="30" height="40" />`;
+			return `<rect x="30" y="155" width="30" height="35" />`;
+		case 'RIGHT_WRIST':
+			return `<rect x="30" y="190" width="20" height="10" />`;
 		case 'RIGHT_HAND':
-			return `<rect x="8" y="195" width="40" height="45" />`;
+			return `<rect x="8" y="200" width="40" height="40" />`;
 		case 'THORAX_LEFT':
-			return `<rect x="71" y="70" width="35" height="70" />`;
+			return `<rect x="106" y="70" width="35" height="70" />`;
 		case 'THORAX_RIGHT':
-			return `<rect x="96" y="70" width="35" height="70" />`;
+			return `<rect x="71" y="70" width="35" height="70" />`;
 		case 'ABDOMEN':
 			return `<rect x="65" y="140" width="83" height="40" />`;
 		case 'PELVIS':
@@ -563,7 +577,7 @@ export function getLocalizedBlocks(blocks: string[]) {
 
 	//toDisplay = allBlocks;
 	//toDisplay = extBlocks;
-	//toDisplay  = [ "HEAD", "NECK",  "THORAX", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
+	//toDisplay  = [ "HEAD", "NECK",  "THORAX_LEFT", "THORAX_RIGHT", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
 
 	toDisplay.forEach(blockName => {
 		const svg = getBlockZone(blockName as BlockName);

@@ -138,3 +138,21 @@ export function intersection<T>(...lists: T[][]) {
 	return result;
 }
 
+/**
+ * return the first set minus others set
+ */
+export function substraction<T>(...lists: Readonly<T[]>[]): T[] {
+	const [firstList, ...others] = lists;
+	if (firstList == null) {
+		throw new Error("No lists!");
+	}
+
+	let result = [...firstList];
+
+	for (const items of others) {
+		result = result.filter(block => !items.includes(block));
+	}
+
+	return result;
+}
+

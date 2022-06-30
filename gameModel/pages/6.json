@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+        "attachedToId" : "rootPage",
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -1073,6 +1073,7 @@
                                     "language" : "JavaScript"
                                   }
                                 } ],
+                                "layoutClassName" : "block",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -1285,7 +1286,7 @@
     "layoutStyle" : {
       "flexGrow" : "1",
       "height" : "100%",
-      "overflow" : "auto",
+      "overflow" : "visible",
       "width" : "100%"
     },
     "style" : { }

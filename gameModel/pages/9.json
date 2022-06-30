@@ -275,40 +275,32 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
+                        "children" : [ {
+                          "props" : {
+                            "initialSelectedPageId" : "19",
+                            "layoutStyle" : { },
+                            "name" : "patientPathologyEditor",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "exposeAs" : "pathologyEditorContext",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getPathology } from \"./registries\";\nconst pDef = getPathology(Context.pathology.payload.pathologyId);\n`${pDef?.name} (${Context.pathology.payload.pathologyId})`;",
-                          "language" : "JavaScript"
-                        }
+                          "content" : "import { getPatientPathologyConfigs } from \"./pathologyEditor\";\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.pathology.pIndex]]",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "For each"
                     }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "JSON.stringify(Context.pathology.payload.afflictedBlocks);",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "JSON.stringify(Context.pathology.payload.modulesArguments);",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "alignItems" : "center"
+                        },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
@@ -324,7 +316,9 @@
                           "content" : "import { getAvailablePathologies } from \"./patientGeneration\";\ngetAvailablePathologies();",
                           "language" : "typescript"
                         },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "alignItems" : "center"
+                        },
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",

@@ -1,13 +1,13 @@
-import {initEmitterIds} from "./baseEvent";
-import {sendEvent} from "./EventManager";
-import {Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody} from "./HUMAn";
-import {logger} from "./logger";
-import {ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition} from "./pathology";
-import {getAct, getItem, getPathology} from "./registries";
-import {ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory} from "./the_world";
-import {getCurrentSimulationTime} from "./TimeManager";
-import {doAutomaticTriage, getCategory, getTagSystem, resultToHtml} from "./triage";
-import {getOverview, HumanOverview} from "./graphics";
+import { initEmitterIds } from "./baseEvent";
+import { sendEvent } from "./EventManager";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "./HUMAn";
+import { logger } from "./logger";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./pathology";
+import { getAct, getItem, getPathology } from "./registries";
+import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
+import { getCurrentSimulationTime } from "./TimeManager";
+import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "./triage";
+import { getOverview, HumanOverview } from "./graphics";
 
 /////////////////////////////////
 // The Wheel
@@ -108,7 +108,7 @@ interface FullState {
 	setState: SetZoomState;
 }
 
-export function keepStateAlive({state, setState}: FullState) {
+export function keepStateAlive({ state, setState }: FullState) {
 	const ePatient = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 	const cPatient = state.currentPatient;
 	if (ePatient !== cPatient) {
@@ -197,19 +197,19 @@ function getABCDEWheel(): Wheel {
 	const actActions = getWheelActionFromActs(getMyMedicalActs());
 
 	const bag: Record<ABCDECategory, ByType> = {
-		A: {measures: [], treatments: []},
-		B: {measures: [], treatments: []},
-		C: {measures: [], treatments: []},
-		D: {measures: [], treatments: []},
-		E: {measures: [], treatments: []},
-		Z: {measures: [], treatments: []},
+		A: { measures: [], treatments: [] },
+		B: { measures: [], treatments: [] },
+		C: { measures: [], treatments: [] },
+		D: { measures: [], treatments: [] },
+		E: { measures: [], treatments: [] },
+		Z: { measures: [], treatments: [] },
 	};
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === 'ActionBodyEffect') {
-			bag[action.actionCategory].treatments.push({...action, icon: 'syringe'});
+			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
 		} else if (action.actionType === 'ActionBodyMeasure') {
-			bag[action.actionCategory].measures.push({...action, icon: 'ruler'});
+			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
 		}
 	});
 
@@ -588,24 +588,42 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 
 		if (block.params.burnedPercent! > 0) {
 			output.push(formatBlockSubTitle('Burn'));
-			output.push(formatBlockEntry('Degree'), block.params.burnLevel || '1');
-			output.push(formatBlockEntry('Percent: ', percentFormatter(block.params.burnedPercent)));
-		}
-
-		if (block.params.fiO2 != null && block.params.fiO2 !== 'freshAir') {
-			output.push('<div>FiO2: ' + block.params.fiO2 + '</div>');
-		}
-
-		if (block.params.intubated) {
-			output.push(formatBlockSubTitle('Intubated'));
-		}
-
-		if (block.name === 'HEAD' && bodyState.variables.positivePressure) {
-			output.push(formatBlockSubTitle('Positive Pressure'));
+			output.push(formatBlockEntry('Degree', block.params.burnLevel || '1'));
+			output.push(formatBlockEntry('Surface: ', percentFormatter(block.params.burnedPercent)));
 		}
 
 		if (block.params.internalPressure === 'DRAIN') {
 			output.push(formatBlockSubTitle('Drained'));
+		}
+
+		if (block.name === 'HEAD' || block.name === 'NECK') {
+			let title = false;
+			const printTitle = () => {
+				if (!title) {
+					title = true;
+					output.push(formatBlockSubTitle('Upper Airways'));
+				}
+			}
+			if ((block.params.airResistance ?? 0) > 0) {
+				printTitle();
+				output.push(formatBlockEntry("Obstruction", `${percentFormatter(block.params.airResistance!)}`));
+			}
+
+			if (block.params.intubated) {
+				printTitle();
+				output.push(formatBlockSubTitle('Intubated'));
+			}
+
+
+			if (block.params.fiO2 != null && block.params.fiO2 !== 'freshAir') {
+				printTitle();
+				output.push(formatBlockEntry("FiO2", `${percentFormatter(block.params.fiO2)}`));
+			}
+
+			if (block.name === 'HEAD' && bodyState.variables.positivePressure) {
+				printTitle();
+				output.push(formatBlockEntry('Positive Pressure'));
+			}
 		}
 	}
 
@@ -711,6 +729,12 @@ function twoDecimalFormatter(value: unknown): string {
 
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
 	switch (metric) {
+		case 'vitals.glasgow.motor':
+			return [' - Motor', String(value)];
+		case 'vitals.glasgow.verbal':
+			return [' - Verbal', String(value)];
+		case 'vitals.glasgow.eye':
+			return [' - Eye', String(value)];
 		case 'vitals.glasgow.total':
 			return ['GCS', String(value)];
 		case 'vitals.canWalk':
@@ -722,6 +746,8 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 		case 'vitals.cardio.hr':
 			return ['Heart rate', intFormatter(value)];
 		case 'vitals.respiration.SaO2':
+			return ['SaO2', percentFormatter(value)];
+		case 'vitals.respiration.SpO2':
 			return ['SpO2', percentFormatter(value)];
 		case 'vitals.respiration.rr':
 			return ['RR', intFormatter(value)];
@@ -735,7 +761,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 			return ['Blood volume L', twoDecimalFormatter((value as number) / 1000)];
 		case 'vitals.cardio.endSystolicVolume_mL':
 			return ['ESV mL', twoDecimalFormatter(value)];
-			case 'variables.ICP_mmHg':
+		case 'variables.ICP_mmHg':
 			return ['ICP mmHg', twoDecimalFormatter(value)];
 	}
 
@@ -751,7 +777,7 @@ function formatLog(log: ConsoleLog): string {
 			const r = formatMetric(metric.metric, metric.value);
 			return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
 		});
-		return `<div class='log_container'>${time} <div class='msr_list'>${lines}</div></div>`;
+		return `<div class='log_container'>${time} <div class='msr_list'>${lines.join("")}</div></div>`;
 	}
 	return `<div class='log_container'>${time}: UNKWOWN LOG TYPE: ${(log as any).type}</div>`;
 }
@@ -817,14 +843,14 @@ function getAlertness(overview: HumanOverview): string {
 }
 
 function getBreathingOverview(overview: HumanOverview): string {
-	if (overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15) {
+	if (overview.rr === 0 || overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15) {
 		// coma + low respiration
 		return 'no apparent breathing';
-	} else if (overview.tidalVolume_L > 1 && overview.rr > 20) {
+	} else if (overview.tidalVolume_L > 1 && overview.rr > 25) {
 		return 'deep and rapid breathing';
 	} else if (overview.tidalVolume_L > 1) {
-		return 'deep breathin';
-	} else if (overview.rr > 20) {
+		return 'deep breathing';
+	} else if (overview.rr > 25) {
 		return 'rapid breathing';
 	} else {
 		return 'respiration looks normal';
@@ -887,7 +913,7 @@ export function getAfflictedBlocks(): string[] {
 
 export function observeBlock(block: string | undefined, setState: SetZoomState) {
 	setState(state => {
-		return {...state, observedBlock: block};
+		return { ...state, observedBlock: block };
 	});
 }
 // const acts = getMyMedicalActs();

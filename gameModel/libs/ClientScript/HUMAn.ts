@@ -116,6 +116,10 @@ export type HumanMeta = BodyFactoryParam & {
 	hematocrit: number; // Valeur d'équilibre
 	initialBloodVolume_mL: number;
 	/**
+	 * 
+	 */
+	brainWeight_g: number;
+	/**
 	 * Theoretical Cerebral Cardiac Output
 	 */
 	cerebralCardiacOutput_LPerMin: number;
@@ -212,8 +216,10 @@ export interface BodyState {
 			QR: number;
 			/** Tidal volume in L*/
 			tidalVolume_L: number;
-			/** Arterial oxygen saturation (=~ SaO2) [%] */
+			/** Arterial oxygen saturation [%] */
 			SaO2: number;
+			/** Pulsed oxygen saturation [%] */
+			SpO2: number;
 			/** TODO */
 			CaO2: number;
 			PaO2: number;
@@ -279,9 +285,6 @@ export interface BodyState {
 
 			/** input or losses ml/min */
 			q_delta_mLPermin: number;
-
-			/** aka Qbr  */
-			cerebralBloodOutput_mLperMin: number;
 
 			/** Heart rate */
 			hr: number;
@@ -624,7 +627,6 @@ export const nervousSystemBlocks = [
 export type NervousBlock = typeof nervousSystemBlocks[number];
 
 
-
 function createBlock(
 	bodyState: BodyState,
 	blockName: string,
@@ -756,11 +758,10 @@ function computeEffectiveWeight(bmi: number, height_cm: number) {
 // age ->
 const brainWeightModel = [
 	{ x: 0, y: 500 },
-	{ x: 1, y: 1 },
+	{ x: 1, y: 1000 },
 	{ x: 5, y: 1300 },
 	{ x: 10, y: 1400 },
 ];
-const ageToQbr = (age: number) => interpolate(age, brainWeightModel) * 0.0005;
 
 const orthoModel: Point[] = [{ x: 0, y: 20 }, { x: 100, y: 38 }];
 const orthoLevelFromAge = (age: number) => interpolate(age, orthoModel);
@@ -792,6 +793,9 @@ export function computeMetas(param: BodyFactoryParam) {
 		param.sex
 	);
 
+	const brainWeight = interpolate(param.age, brainWeightModel);
+	const qbr =  brainWeight * 0.0005;
+
 	return {
 		blood_mL: blood_mL,
 		meta: {
@@ -806,7 +810,8 @@ export function computeMetas(param: BodyFactoryParam) {
 			hematocrit: blood_mL.hematocrit, // valeur cible pour équilibre eau ?
 			deadSpace_L: 0.0022 * idealWeight_kg, // Marieb p954
 			initialBloodVolume_mL: blood_mL.total,
-			cerebralCardiacOutput_LPerMin: ageToQbr(param.age),
+			brainWeight_g: brainWeight,
+			cerebralCardiacOutput_LPerMin: qbr,
 			qbrAutoregulationStart_pp: 50,
 			qbrAutoregulationStop_pp: 150,
 			bounds: {
@@ -864,6 +869,7 @@ export function createHumanBody(
 					tidalVolume_L: 0.5,
 					rr: 15,
 					SaO2: 0.97,
+					SpO2: 0.97,
 					CaO2: 200,
 					PaO2: 50,
 					stridor: false,
@@ -891,7 +897,6 @@ export function createHumanBody(
 					cardiacOutput_LPerMin: 4.9,
 					//cardiacOutputRv_LPerMin: 4.9,
 					q_delta_mLPermin: 0,
-					cerebralBloodOutput_mLperMin: 0.7,
 					MAP: 70,
 					hr: 70,
 					DO2Sys: 1000,
@@ -980,18 +985,22 @@ export function createHumanBody(
 
 	connect(body.state, "NECK", "MEDIASTINUM", { blood: 0.15, o2: true });
 
+	connect(body.state, "MEDIASTINUM", "THORAX_LEFT", { blood: 0.005 });
+	connect(body.state, "MEDIASTINUM", "THORAX_RIGHT", { blood: 0.005 });
+
+
 	connect(body.state, "MEDIASTINUM", "LUNG", { o2: true });
 
 	connect(body.state, "MEDIASTINUM", "HEART", { blood: 1 });
 
-	connect(body.state, "MEDIASTINUM", "LEFT_SHOULDER", { blood: 0.05, bones: true });
+	connect(body.state, "MEDIASTINUM", "LEFT_SHOULDER", { blood: 0.045, bones: true });
 	connect(body.state, "LEFT_SHOULDER", "LEFT_ARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_ARM", "LEFT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_ELBOW", "LEFT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_FOREARM", "LEFT_WRIST", { blood: 0.01, nervousSystem: true, bones: true });
 	connect(body.state, "LEFT_WRIST", "LEFT_HAND", { blood: 1, nervousSystem: true, bones: true });
 
-	connect(body.state, "MEDIASTINUM", "RIGHT_SHOULDER", { blood: 0.05, nervousSystem: true, bones: true });
+	connect(body.state, "MEDIASTINUM", "RIGHT_SHOULDER", { blood: 0.045, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_SHOULDER", "RIGHT_ARM", { blood: 1, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_ARM", "RIGHT_ELBOW", { blood: 0.5, nervousSystem: true, bones: true });
 	connect(body.state, "RIGHT_ELBOW", "RIGHT_FOREARM", { blood: 1, nervousSystem: true, bones: true });
@@ -1723,7 +1732,7 @@ function sumBloodInOut(
 				sum.bloodLosses_mL += loss;
 				delta_mL -= loss;
 				block.params.totalExtLosses_ml = (block.params.totalExtLosses_ml || 0) + loss;
-				// make sure not to count instaneous losses twice !
+				// make sure not to count instantaneous losses twice !
 				block.params.instantaneousBloodLoss = 0;
 			}
 
@@ -1779,6 +1788,8 @@ function sumBloodInOut(
 				cardiacOutput_mLPerMin[0] = add(flow_mLPerMin, delta_mlPerMin, {
 					min: 0,
 				});
+				bloodLogger.info("Remove losses from cardiacOutput: ",
+					cardiacOutput_mLPerMin[0], "= ", flow_mLPerMin, " + ", delta_mlPerMin)
 
 				// update vasoconstriction
 				const currentResistance = block.params.bloodResistance || 0;
@@ -1788,7 +1799,7 @@ function sumBloodInOut(
 					flow_mLPerMin,
 					durationInMin
 				);
-				bloodLogger.log("Vasoconstriction: ", {
+				bloodLogger.info("Vasoconstriction: ", {
 					block: block.name,
 					currentResistance,
 					newResistance,
@@ -1859,9 +1870,11 @@ function sumBloodInOut(
 					// ie (map - icp) / res = map / (res + delta)
 					const map = bodyState.vitals.cardio.MAP;
 					const icp = bodyState.variables.ICP_mmHg;
-					bloodLogger.log("The Brain: ", { map, icp });
 
 					const pp = map - icp;
+					
+					bloodLogger.log("The Brain: ", { t: bodyState.time, map, icp, pp });
+
 					const qBrModel = [
 						{ x: 0, y: 0 },
 						{ x: bodyMeta.qbrAutoregulationStart_pp, y: qbr_target },
@@ -1874,7 +1887,7 @@ function sumBloodInOut(
 					//f(pp);
 					const qBrain = interpolate(pp, qBrModel);
 
-					bloodLogger.info("Blood brain: ", { qBrain, co });
+					bloodLogger.log("Blood brain: ", { qBrain, co });
 
 					if (qBrain < co) {
 						const qOthers = co - qBrain;
@@ -1961,12 +1974,9 @@ function updateVitals(
 		bloodInput_mL,
 		chemicalsInput,
 		renalBloodOutput_mLperMin,
-		cerebralBloodOutput_mLperMin,
 		extLosses_mL,
 	} = sumBlood;
 
-	newState.vitals.cardio.cerebralBloodOutput_mLperMin =
-		cerebralBloodOutput_mLperMin;
 	newState.vitals.cardio.totalExtLosses_ml += extLosses_mL;
 	newState.vitals.cardio.extLossesFlow_mlPerMin = extLosses_mL / durationInMin;
 
@@ -2575,6 +2585,17 @@ export function canBreathe(bodyState: BodyState): boolean {
 }
 
 export function canWalk(body: HumanBody): boolean {
+
+	if (body.state.vitals.glasgow.eye < 4){
+		visitorLogger.debug("Can not walk: GCS Eye < 4");
+		return false;
+	}
+
+	if (body.state.vitals.glasgow.motor < 6){
+		visitorLogger.debug("Can not walk: GCS Motor < 6");
+		return false;
+	}
+
 	visitorLogger.debug("Walk: ", body);
 	if (body.state.vitals.cardio.hr < 10) {
 		visitorLogger.debug("Can not walk: HR < 10");

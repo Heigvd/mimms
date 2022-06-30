@@ -1173,7 +1173,7 @@ const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 		};
 	}
 
-	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (!getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: URGENT,
 			explanations: ['CANNOT_WALK'],

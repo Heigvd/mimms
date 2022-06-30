@@ -58,7 +58,9 @@
                   "flexGrow" : "1"
                 },
                 "name" : "patientPageLoaderModal",
-                "style" : { }
+                "style" : {
+                  "overflow" : "auto"
+                }
               },
               "type" : "PageLoader"
             } ],

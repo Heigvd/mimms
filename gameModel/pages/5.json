@@ -4,166 +4,172 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutStyle" : {
-              "width" : "300px"
-            },
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'whoAmI')",
-              "language" : "JavaScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>give me some item !<br></p>\"",
-              "language" : "JavaScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
-                "language" : "typescript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>give me more item !<br></p>\"",
-              "language" : "JavaScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'fousytout',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
-                "language" : "typescript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "layout" : { },
-        "layoutStyle" : { },
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "",
+                    "children" : [ {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
+                          "language" : "typescript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "width" : "300px"
+                        },
+                        "onVariableChange" : { },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Variable.find(gameModel,'whoAmI')",
+                          "language" : "JavaScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"give me some item !\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                            "language" : "typescript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"give me more item!\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'fousytout',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                            "language" : "typescript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "HACK: time throttle inside",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                          "language" : "typescript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"InSimRef: \" + Variable.find(gameModel,'inSim_ref').getValue(self);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Clear State\"",
+                          "language" : "JavaScript"
+                        },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
+                            "language" : "TypeScript"
+                          }
+                        }
+                      },
+                      "type" : "Button"
+                    } ],
                     "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "HACK: time throttle inside",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
-                      "language" : "typescript"
-                    }
+                    "name" : "Time banner",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
+                    "id" : "",
+                    "initialSelectedPageId" : {
                       "@class" : "Script",
-                      "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"InSimRef: \" + Variable.find(gameModel,'inSim_ref').getValue(self);",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"Clear State\"",
-                      "language" : "JavaScript"
+                      "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
+                      "language" : "TypeScript"
                     },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
-                        "language" : "TypeScript"
-                      }
-                    }
+                    "layoutStyle" : { },
+                    "name" : "gamePageLoader",
+                    "style" : { }
                   },
-                  "type" : "Button"
+                  "type" : "PageLoader"
                 } ],
-                "layout" : { },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutStyle" : { },
-                "name" : "Time banner",
                 "style" : { }
               },
               "type" : "FlexList"
-            }, {
-              "props" : {
-                "id" : "",
-                "initialSelectedPageId" : {
-                  "@class" : "Script",
-                  "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "name" : "gamePageLoader",
-                "style" : { }
-              },
-              "type" : "PageLoader"
             } ],
-            "layout" : {
-              "flexDirection" : "column"
+            "exposeAs" : "worldTime",
+            "initialState" : {
+              "@class" : "Script",
+              "content" : "({time: 0});",
+              "language" : "TypeScript"
             },
             "layoutStyle" : { },
+            "localState" : true,
             "style" : { }
           },
-          "type" : "FlexList"
+          "type" : "State"
         } ],
-        "exposeAs" : "worldTime",
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "({time: 0});",
-          "language" : "TypeScript"
+        "layout" : {
+          "flexDirection" : "column"
         },
-        "layoutStyle" : { },
-        "localState" : true,
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
         "style" : { }
       },
-      "type" : "State"
+      "type" : "FlexList"
     } ],
     "exposeAs" : "",
+    "id" : "rootPage",
     "initialState" : {
       "@class" : "",
       "content" : "",

@@ -591,7 +591,8 @@ function rebuildState(time: number, env: Environnment) {
 
 	const fogType = getFogType();
 
-	const objectList: ObjectId[] = Object.keys(locationsSnapshots).map(key => {
+	const objectList: ObjectId[] = Object.keys(humanSnapshots).map(key => {
+	//const objectList: ObjectId[] = Object.keys(locationsSnapshots).map(key => {
 		const [type, id] = key.split('::');
 		return {
 			objectId: id!,

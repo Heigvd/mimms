@@ -27,8 +27,6 @@ import {
 } from './registries';
 import {
 	getCurrentPatientBodyParam,
-	getCurrentScenario,
-	//getCurrentScenario,
 	getEnv,
 	loadCompensationModel,
 	loadSystem,
@@ -110,6 +108,7 @@ function extractMetric(
 	outputOther: { [key: string]: [number, number][] },
 ) {
 	pushMetric('SaO2', time, body.vitals.respiration.SaO2 * 100, outputResp);
+	pushMetric('SpO2', time, body.vitals.respiration.SpO2 * 100, outputResp);
 	pushMetric('CaO2 [mL/L]', time, body.vitals.respiration.CaO2, outputResp);
 
 	pushMetric('PaO2 [mmHg]', time, body.vitals.respiration.PaO2, outputResp);
@@ -141,16 +140,20 @@ function extractMetric(
 
 	pushBloodBlockMetrics(body.blocks.get('MEDIASTINUM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('NECK')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('HEAD')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('BRAIN')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('ABDOMEN')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('PELVIS')!, time, outputCardio);
 
 	pushBloodBlockMetrics(body.blocks.get('LEFT_SHOULDER')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('LEFT_ARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_FOREARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_THIGH')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_LEG')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('LEFT_FOOT')!, time, outputCardio);
 
 	pushBloodBlockMetrics(body.blocks.get('RIGHT_SHOULDER')!, time, outputCardio);
+	pushBloodBlockMetrics(body.blocks.get('RIGHT_ARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('RIGHT_FOREARM')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('RIGHT_THIGH')!, time, outputCardio);
 	pushBloodBlockMetrics(body.blocks.get('RIGHT_LEG')!, time, outputCardio);
@@ -196,13 +199,6 @@ function extractMetric(
 		outputCardio,
 	);
 	//pushMetric("Qrv [mL/min]", time, body.vitals.cardio.cardiacOutputRv_LPerMin, output);
-
-	pushMetric(
-		'QBr [mL/min]',
-		time,
-		body.vitals.cardio.cerebralBloodOutput_mLperMin,
-		outputCardio,
-	);
 
 	pushMetric('para|ortho', time, body.variables.paraOrthoLevel, outputOther);
 
@@ -250,7 +246,7 @@ function extractMetric(
 	);
 }
 
-function internal_run(duration: number, cb: (bodyState: BodyState, time: number) => void, scenario: TestScenario = getCurrentScenario()) {
+function internal_run(duration: number, cb: (bodyState: BodyState, time: number) => void, scenario: TestScenario) {
 	// Load env
 	const env = getEnv();
 
@@ -369,6 +365,26 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 }
 
 
+function getCurrentPatientTestScenario() : TestScenario {
+	const scenario: TestScenario = {
+		description: '',
+		events: []
+	};
+
+	const param = getCurrentPatientBodyParam();
+
+	(param?.scriptedPathologies || []).forEach(sP => {
+		scenario.events.push({
+			...sP.payload,
+			time: 1,
+		});
+	});
+
+	return scenario;
+}
+
+
+
 export function run() {
 	const duration = Variable.find(gameModel, 'duration_s').getValue(self);
 
@@ -376,10 +392,11 @@ export function run() {
 	const outputCardio = {};
 	const outputOther = {};
 
+	const scenario: TestScenario = getCurrentPatientTestScenario();
 
 	internal_run(duration, (state, time) => {
 		extractMetric(state, time, outputResp, outputCardio, outputOther)
-	});
+	}, scenario);
 
 	saveMetrics(outputResp, 'output');
 	saveMetrics(outputCardio, 'outputCardio');
@@ -405,7 +422,7 @@ type Serie = Record<Time, unknown>;
 const clKeys = ['vitals.canWalk',
 	'vitals.cardio.hr',
 	'vitals.cardio.MAP',
-	'vitals.respiration.SaO2',
+	'vitals.respiration.SpO2',
 	'vitals.respiration.rr',
 	'vitals.glasgow.total'] as const;
 
@@ -419,6 +436,7 @@ const phKeys = [
 	'vitals.cardio.endSystolicVolume_mL',
 	'variables.ICP_mmHg',
 ];
+
 
 type PhKeys = typeof phKeys[number];
 
@@ -435,7 +453,7 @@ export function run_lickert() {
 			'vitals.canWalk': {},
 			'vitals.cardio.hr': {},
 			'vitals.cardio.MAP': {},
-			'vitals.respiration.SaO2': {},
+			'vitals.respiration.SpO2': {},
 			'vitals.respiration.rr': {},
 			'vitals.glasgow.total': {},
 		},
@@ -451,18 +469,7 @@ export function run_lickert() {
 
 	let cardiacArrest: number | undefined = undefined;
 
-	const param = getCurrentPatientBodyParam();
-
-	const scenario: TestScenario = {
-		description: '',
-		events: []
-	};
-	(param?.scriptedPathologies || []).forEach(sP => {
-		scenario.events.push({
-			...sP.payload,
-			time: 1,
-		});
-	});
+	const scenario: TestScenario = getCurrentPatientTestScenario();
 
 	internal_run(fourHours, (state, time) => {
 		cardiacArrest = state.vitals.cardiacArrest;
@@ -490,7 +497,7 @@ export function run_lickert() {
 			'vitals.canWalk': {},
 			'vitals.cardio.hr': {},
 			'vitals.cardio.MAP': {},
-			'vitals.respiration.SaO2': {},
+			'vitals.respiration.SpO2': {},
 			'vitals.respiration.rr': {},
 			'vitals.glasgow.total': {},
 		},

@@ -1,0 +1,4 @@
+/** drop default margin if a wegas-brn only contains one p */
+button.wegas-btn > div > div > p:first-child:last-child {
+	margin : 0;
+}
