@@ -1,5 +1,5 @@
-import { BaseEvent} from "./baseEvent";
-import { FullEvent } from "./EventManager";
+import { BaseEvent, initEmitterIds} from "./baseEvent";
+import { FullEvent, sendEvent } from "./EventManager";
 import { EventPayload } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { whoAmI } from "./WegasHelper";
@@ -7,7 +7,7 @@ import { whoAmI } from "./WegasHelper";
 export type Channel = string;
 
 export type Radio = {
-	id: number;
+	id: number | undefined;
 	name: string;
 	availableChannels: Channel[];
 	channel: Channel;
@@ -91,7 +91,7 @@ export type RadioSelectionState = {
 export function getInitialRadioState(): RadioSelectionState {
 	const radios = getRadios();
 	if(radios && radios.length > 0){
-		return {selectedRadioId : radios[0]!.id}
+		return {selectedRadioId : radios[0]!.id!}
 	}else{
 		return {selectedRadioId : -1};
 	}
@@ -167,6 +167,7 @@ let phoneMessages : Record<number, FullEvent<PhoneCommunicationEvent>[]> = {};
 
 export function processPhoneCommunication(event : FullEvent<PhoneCommunicationEvent>){
 	const rcpId = event.payload.recipientPhoneId;
+	//commLogger.warn('processing phone comm event', event);
 	if(event.payload.recipientPhoneId && phones[rcpId]){
 		//if(!phoneMessages[rcpId]){
 		//	phoneMessages[rcpId] = [];
@@ -235,11 +236,11 @@ export function getPhoneMessages(fromPhoneId : number): string[] {
 	const myPhone = getMyPhone();
 
 	if(myPhone){
-		commLogger.warn(myPhone);
+		//commLogger.warn(myPhone);
 		if(phoneMessages[myPhone.phoneId])
 		{
 			const messages = phoneMessages[myPhone.phoneId]!;
-			commLogger.warn(messages);
+			//commLogger.warn(messages);
 			const filtered = messages.filter(m => m.payload.senderPhoneId === fromPhoneId);
 			return filtered.map(m => {return `${m.time} : ${m.payload.message}`;});
 		}else {
@@ -263,6 +264,10 @@ export function getDirectMessagesFrom(senderId: string): string[] {
 }
 
 function filterByTime<E extends FullEvent<EventPayload>>(events: E[]): E[]{
+	if(!events || events.length == 0)
+	{
+		return [];
+	} 
 	const currentTime = getCurrentSimulationTime();
 	return events.filter( e => e.time > currentTime - messageTTLsec);
 }
@@ -278,4 +283,59 @@ export function clearAllCommunicationState(){
 	phones = {};
 }
 
+//////// EVENTS EMISSION ///////
 
+function emitEvent(payload : any){
+	sendEvent({
+		...initEmitterIds(),
+		...payload,
+	});
+}
+
+export function emitRadioCreation(name: string, channels : string[], selected: string){
+	emitEvent({
+		type: 'RadioCreation',
+		radioTemplate: {
+			availableChannels : channels,
+			channel : selected,
+			name: name,
+			id: undefined
+		}
+	})
+}
+
+export function emitRadioChannelUpdateEvent(radioId: number, newChannel: string){
+	emitEvent({
+		type: 'RadioChannelUpdate',
+		targetRadio: radioId,
+		newChannel: newChannel
+	})
+}
+
+export function emitRadioCommunication(msg: string, radioId: number){
+	emitEvent({
+		type: 'RadioCommunication',
+		message: msg,
+		senderRadioId : radioId,
+
+	})
+}
+
+export function emitPhoneCreationEvent(player: string){
+	emitEvent({
+		type: 'PhoneCreation',
+		phoneTemplate :{
+			phoneName : player + "'s phone",
+			phoneId : -1, // filled later on
+		}
+	})
+}
+
+export function emitPhoneMessageEvent(senderPhoneId : number, recipientPhoneId: number, message: string){
+	emitEvent({
+		type: 'PhoneCommunication',
+		senderPhoneId: senderPhoneId,
+		recipientPhoneId: recipientPhoneId,
+		message : message
+	})
+}
