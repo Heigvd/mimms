@@ -24,7 +24,6 @@
 "objectDescriptor": SObjectDescriptor;
 "state": SListDescriptor;
 "whoAmI": SStringDescriptor;
-"currentScenario": SStringDescriptor;
 "currentPatient": SStringDescriptor;
 "variable": SListDescriptor;
 "vasoconstriction": SBooleanDescriptor;
@@ -66,6 +65,16 @@
 "situation": SStringDescriptor;
 "skillsDefinitions": SObjectDescriptor;
 "skill": SStringDescriptor;
+"drillStatus": SObjectDescriptor;
+"replay": SBooleanDescriptor;
+"keepalive": SNumberDescriptor;
+"team": SListDescriptor;
+"global": SListDescriptor;
+"upTo_inSim_ref": SNumberDescriptor;
+"running_global": SBooleanDescriptor;
+"events_vd1H1F": SListDescriptor;
+"lickert": SObjectDescriptor;
+"plot": SListDescriptor;
         }
 
         interface VariableIds {
@@ -87,7 +96,6 @@
 24040398: SObjectDescriptor;
 24040401: SListDescriptor;
 24040404: SStringDescriptor;
-24040408: SStringDescriptor;
 24040412: SStringDescriptor;
 24040423: SListDescriptor;
 24040426: SBooleanDescriptor;
@@ -129,6 +137,16 @@
 24056856: SStringDescriptor;
 24057033: SObjectDescriptor;
 24057038: SStringDescriptor;
+24060137: SObjectDescriptor;
+24069457: SBooleanDescriptor;
+24069462: SNumberDescriptor;
+24069467: SListDescriptor;
+24069472: SListDescriptor;
+24069477: SNumberDescriptor;
+24069482: SBooleanDescriptor;
+24070155: SListDescriptor;
+24070160: SObjectDescriptor;
+24070205: SListDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -155,7 +173,7 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: "gamePageLoader", pageId: IScript) => void;
+          setPageLoaders: (name: "gamePageLoader"|"timetoolbar_map"|"patientPageLoaderModal", pageId: IScript) => void;
         };
 
         interface ClientMethodList {
