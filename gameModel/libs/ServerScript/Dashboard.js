@@ -88,3 +88,10 @@ WegasDashboard.registerVariable("events", {
 		}).join("<br />");
 	}
 });
+
+
+WegasDashboard.registerVariable('inSim_ref');
+WegasDashboard.registerVariable('epoch_ref');
+WegasDashboard.registerVariable('running');
+
+WegasDashboard.registerVariable('keepalive');

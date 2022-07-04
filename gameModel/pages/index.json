@@ -30,10 +30,26 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "404",
-        "name" : "not_found",
-        "scenaristPage" : null,
+        "id" : "17",
+        "name" : "lickert",
+        "scenaristPage" : true,
         "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "404",
+          "name" : "not_found",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "21",
+          "name" : "time_toolbar",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "tools"
       } ],
       "name" : "playerPages"
     }, {
@@ -44,6 +60,12 @@
         "name" : "setup",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "22",
+        "name" : "licketResult",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "TrainerPages"
     }, {
@@ -126,12 +148,6 @@
         "name" : "abstractMatrix",
         "scenaristPage" : null,
         "trainerPage" : false
-      }, {
-        "@class" : "Page",
-        "id" : "17",
-        "name" : "lickert",
-        "scenaristPage" : true,
-        "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "18",

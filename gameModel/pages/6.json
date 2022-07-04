@@ -2,7 +2,8 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "attachedToId" : "rootPage",
+        "attachToMostDistant" : ".wegas-pageloader",
+        "attachedToId" : "",
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -63,13 +64,17 @@
           },
           "type" : "For each"
         } ],
+        "className" : "",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { getMyPendingActions } from \"./the_world\";\ngetMyPendingActions().length === 0;",
           "language" : "JavaScript"
         },
         "layout" : { },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "position" : "absolute"
+        },
         "name" : "pending actions",
         "onExitActions" : { },
         "style" : { }
@@ -1233,7 +1238,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\";",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\" ||\nContext.patientConsole?.state == null;",
               "language" : "JavaScript"
             },
             "layout" : { },
@@ -1251,7 +1256,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\";",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\" &&\nContext.patientConsole?.state !== null;",
               "language" : "JavaScript"
             },
             "layoutStyle" : { },

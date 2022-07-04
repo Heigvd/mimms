@@ -12,11 +12,6 @@ var EventManager = ((function () {
 		RequestManager.lock("NewEvent-" + self.getTeamId());
 	}
 
-	//returns human id
-	function whoAmI () {
-		return Variable.find(gameModel, 'whoAmI').getValue(self);
-	}
-
 	function sendEvent(payload, time) {
 		lock();
 		var realTime = getEventTime(time);

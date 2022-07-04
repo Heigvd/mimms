@@ -203,7 +203,12 @@
                                               "type" : "For each"
                                             }, {
                                               "props" : {
-                                                "layoutStyle" : { },
+                                                "className" : "",
+                                                "layoutClassName" : "cell-label",
+                                                "layoutStyle" : {
+                                                  "flexDirection" : "column",
+                                                  "textAlign" : "center"
+                                                },
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
@@ -219,6 +224,7 @@
                                                   "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'boolean';",
                                                   "language" : "JavaScript"
                                                 },
+                                                "layoutClassName" : "cell-input",
                                                 "layoutStyle" : { },
                                                 "onVariableChange" : {
                                                   "client" : {
@@ -253,6 +259,7 @@
                                                   "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\nconst def = getCellCurrentConfig();\ndef.type !== 'enum' || def.values.length <= 1;",
                                                   "language" : "JavaScript"
                                                 },
+                                                "layoutClassName" : "cell-input",
                                                 "layoutStyle" : { },
                                                 "onVariableChange" : {
                                                   "client" : {
@@ -281,6 +288,7 @@
                                                   "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'number';",
                                                   "language" : "JavaScript"
                                                 },
+                                                "layoutClassName" : "cell-input",
                                                 "layoutStyle" : { },
                                                 "onCancel" : { },
                                                 "onVariableChange" : {

@@ -269,7 +269,8 @@ function filterByTime<E extends FullEvent<EventPayload>>(events: E[]): E[]{
 		return [];
 	} 
 	const currentTime = getCurrentSimulationTime();
-	return events.filter( e => e.time > currentTime - messageTTLsec);
+	return events.filter( e => e.time <= currentTime && (e.time > currentTime - messageTTLsec)
+	);
 }
 
 /**

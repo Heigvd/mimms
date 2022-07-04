@@ -2,6 +2,14 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "initialSelectedPageId" : "21",
+        "layoutStyle" : { },
+        "name" : "timetoolbar_map",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "label" : {
           "@class" : "Script",
           "content" : "\"1e vague\"",
@@ -46,7 +54,8 @@
           "type" : "Button"
         }, {
           "props" : {
-            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+            "attachToMostDistant" : ".wegas-pageloader",
+            "attachedToId" : "",
             "children" : [ {
               "props" : {
                 "initialSelectedPageId" : {

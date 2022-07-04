@@ -1,11 +1,23 @@
 import { FogType } from "./the_world";
 
-type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP';
+type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LICKERT';
 
 function getDrillType(): DrillType {
 	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
 }
 
+
+export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
+	if (gameModel.getProperties().getFreeForAll()) {
+		// DRILL / individually
+		switch (getDrillType()) {
+			case 'LICKERT':
+				return "STATIC";
+		}
+	}
+
+	return 'LIVE_WORLD';
+}
 
 export function getGamePageId() {
 	if (gameModel.getProperties().getFreeForAll()) {
@@ -15,6 +27,8 @@ export function getGamePageId() {
 				return "12";
 			case 'PRE-TRIAGE_ON_MAP':
 				return "11";
+			case 'LICKERT':
+				return '17';
 		}
 	} else {
 		// multiplayers game
@@ -48,10 +62,10 @@ export function getFogType(): FogType {
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
 				// not map, all humans are visible
-				return 'NONE'; 
+				return 'NONE';
 			case 'PRE-TRIAGE_ON_MAP':
 				// On map -> only visible humans are visible
-			return "SIGHT";
+				return "SIGHT";
 		}
 	} else {
 		// multiplayers game

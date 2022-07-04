@@ -51,7 +51,7 @@ export function getLocatedBubble(human: { id: string } & Located): string | unde
 		const { x, y } = Context.human.location;
 		const left = `${x - 18}px`;
 		const top = `${y - 18}px`;
-		const mergedMsgs = msgs.join(' | ');
+		const mergedMsgs = msgs.map(msg => `<div> - ${msg}</div>`).join('');
 
 		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
 		<div class='smile talkbubble'>${mergedMsgs}</div>

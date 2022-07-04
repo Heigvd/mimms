@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1656582824776,
+  "createdTime" : 1656934004740,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -317,13 +317,13 @@
       },
       "name" : "patients",
       "properties" : {
-        "patient-1" : "{\"sex\":\"male\",\"age\":90,\"height_cm\":159,\"bmi\":25.19,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"THORAX_LEFT\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}",
+        "patient-1" : "{\"sex\":\"male\",\"age\":90,\"height_cm\":159,\"bmi\":25.19,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}",
         "patient-10" : "{\"sex\":\"female\",\"age\":30,\"height_cm\":164,\"bmi\":24.9,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":50},{\"type\":\"NoArgs\"}]}}]}",
         "patient-2" : "{\"sex\":\"male\",\"age\":42,\"height_cm\":182,\"bmi\":26.07,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cityHunter\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":1},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":50}]}}]}",
         "patient-3" : "{\"sex\":\"female\",\"age\":63,\"height_cm\":161,\"bmi\":20.55,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}",
         "patient-4" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":23.95,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":50},{\"type\":\"NoArgs\"}]}}]}",
         "patient-5" : "{\"sex\":\"female\",\"age\":50,\"height_cm\":170,\"bmi\":20.99,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}",
-        "patient-6" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":161,\"bmi\":23.78,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"THORAX_LEFT\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.504}]}}]}",
+        "patient-6" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":161,\"bmi\":23.78,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"LEFT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.504}]}}]}",
         "patient-7" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":164,\"bmi\":25.58,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_vh\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.25}]}}]}",
         "patient-8" : "{\"sex\":\"male\",\"age\":44,\"height_cm\":168,\"bmi\":20.24,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"semi_ah\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.6}]}}]}",
         "patient-9" : "{\"sex\":\"female\",\"age\":44,\"height_cm\":166,\"bmi\":19.98,\"lungDepth\":1,\"scriptedPathologies\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"full_ah\",\"afflictedBlocks\":[\"LEFT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":1}]}}]}"
@@ -1146,6 +1146,23 @@
         },
         "name" : "PRE-TRIAGE_ON_MAP",
         "refId" : "EnumItem:#1:Bqd0Tl"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24070154:KkHDNB",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24070154:KkHDNB::EN",
+              "status" : "",
+              "translation" : "LICKERT"
+            }
+          }
+        },
+        "name" : "LICKERT",
+        "refId" : "EnumItem:#2:IKUa9c"
       } ],
       "broadcastScope" : "GameModelScope",
       "comments" : "",
@@ -1286,91 +1303,231 @@
     "editorTag" : "time_management",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "BooleanDescriptor",
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
       "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
-        "@class" : "BooleanInstance",
-        "refId" : "BooleanInstance:24034169:JAOT5n",
-        "value" : false
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:24069468:vZMd6H"
       },
-      "editorTag" : "running",
-      "isolation" : "SECURED",
+      "editorTag" : "team",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:24034159:72seI8",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : null,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24034160:HHWVLg",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24034160:HHWVLg::EN",
+              "status" : "",
+              "translation" : ""
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "inSim_ref",
+        "refId" : "NumberDescriptor:24034158:ykKX9M",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "server_ref: server epoch time which match inSim_ref",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:24034164:0NkqaJ",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : null,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24034165:WXhsnh",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24034165:WXhsnh::EN",
+              "status" : "",
+              "translation" : ""
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "epoch_ref",
+        "refId" : "NumberDescriptor:24034163:YFv7GE",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:24034169:JAOT5n",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24034170:aQnJZy",
+          "translations" : { }
+        },
+        "name" : "running",
+        "refId" : "BooleanDescriptor:24034168:puplr2",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:24069463:N4TKX5",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : null,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24069464:ot7BUo",
+          "translations" : { }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "keepalive",
+        "refId" : "NumberDescriptor:24069462:7eEV5K",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:24069478:1EcSpN",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24069479:V87vn1",
+          "translations" : { }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "upTo_inSim_ref",
+        "refId" : "NumberDescriptor:24069477:jyIJtC",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:24069458:0fp1YW",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24069459:wHf4hO",
+          "translations" : { }
+        },
+        "name" : "replay",
+        "refId" : "BooleanDescriptor:24069457:XLcG0f",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
       "label" : {
         "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034170:aQnJZy",
+        "refId" : "TranslatableContent:24069469:fN0MAX",
         "translations" : { }
       },
-      "name" : "running",
-      "refId" : "BooleanDescriptor:24034168:puplr2",
+      "name" : "team",
+      "refId" : "ListDescriptor:24069467:KrzPXb",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
-      "@class" : "NumberDescriptor",
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
       "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:24034159:72seI8",
-        "value" : 0.0
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:24069473:pu2kVv"
       },
-      "defaultValue" : 0.0,
-      "editorTag" : "inSim_ref",
-      "historySize" : 20,
-      "isolation" : "SECURED",
+      "editorTag" : "global",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:24069483:5glFz3",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24069484:ReuVoJ",
+          "translations" : { }
+        },
+        "name" : "running_global",
+        "refId" : "BooleanDescriptor:24069482:rvMva1",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
       "label" : {
         "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034160:HHWVLg",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034160:HHWVLg::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
+        "refId" : "TranslatableContent:24069474:kqlelU",
+        "translations" : { }
       },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "inSim_ref",
-      "refId" : "NumberDescriptor:24034158:ykKX9M",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "NumberDescriptor",
-      "broadcastScope" : "GameModelScope",
-      "comments" : "server_ref: server epoch time which match inSim_ref",
-      "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:24034164:0NkqaJ",
-        "value" : 0.0
-      },
-      "defaultValue" : 0.0,
-      "editorTag" : "epoch_ref",
-      "historySize" : 20,
-      "isolation" : "SECURED",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034165:WXhsnh",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034165:WXhsnh::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "epoch_ref",
-      "refId" : "NumberDescriptor:24034163:YFv7GE",
+      "name" : "global",
+      "refId" : "ListDescriptor:24069472:eLZvZn",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -1383,37 +1540,6 @@
     "name" : "time_management",
     "refId" : "ListDescriptor:24034151:A5HrXU",
     "scopeType" : "GameModelScope",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "InboxDescriptor",
-    "broadcastScope" : "TeamScope",
-    "capped" : false,
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "InboxInstance",
-      "messages" : [ ],
-      "refId" : "InboxInstance:24034252:rDo97E",
-      "unreadCount" : 0
-    },
-    "editorTag" : "events",
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:24034253:ZficUd",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:24034253:ZficUd::EN",
-          "status" : "",
-          "translation" : ""
-        }
-      }
-    },
-    "name" : "events",
-    "refId" : "InboxDescriptor:24034251:S1G7kT",
-    "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -1435,66 +1561,112 @@
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
-        "refId" : "ObjectInstance:24032596:ejB9fK"
-      },
-      "description" : "<p>&nbsp;</p>",
-      "editorTag" : "output",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24032597:quhhNS",
-        "translations" : { }
-      },
-      "name" : "output",
-      "properties" : { },
-      "refId" : "ObjectDescriptor:24032595:j7m5RM",
-      "scopeType" : "PlayerScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:24035157:HkTbJp"
-      },
-      "description" : "<p>&nbsp;</p>",
-      "editorTag" : "output cardio",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24035158:QS0QM4",
-        "translations" : { }
-      },
-      "name" : "outputCardio",
-      "properties" : { },
-      "refId" : "ObjectDescriptor:24035156:TCbSqt",
-      "scopeType" : "PlayerScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:24035162:IR5jXT"
+        "refId" : "ObjectInstance:24070161:gHxUFj"
       },
       "description" : "",
-      "editorTag" : "output Other",
+      "editorTag" : "lickert",
       "isolation" : "OPEN",
       "label" : {
         "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24035163:GDhSCm",
+        "refId" : "TranslatableContent:24070162:yYtd3M",
         "translations" : { }
       },
-      "name" : "outputOther",
+      "name" : "lickert",
       "properties" : { },
-      "refId" : "ObjectDescriptor:24035161:V7TLG0",
-      "scopeType" : "PlayerScope",
+      "refId" : "ObjectDescriptor:24070160:cUEpc6",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:24070206:OYQ6zw"
+      },
+      "editorTag" : "plot",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:24032596:ejB9fK"
+        },
+        "description" : "<p>&nbsp;</p>",
+        "editorTag" : "output",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24032597:quhhNS",
+          "translations" : { }
+        },
+        "name" : "output",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:24032595:j7m5RM",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:24035157:HkTbJp"
+        },
+        "description" : "<p>&nbsp;</p>",
+        "editorTag" : "output cardio",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24035158:QS0QM4",
+          "translations" : { }
+        },
+        "name" : "outputCardio",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:24035156:TCbSqt",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:24035162:IR5jXT"
+        },
+        "description" : "",
+        "editorTag" : "output Other",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24035163:GDhSCm",
+          "translations" : { }
+        },
+        "name" : "outputOther",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:24035161:V7TLG0",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24070207:vRGtbP",
+        "translations" : { }
+      },
+      "name" : "plot",
+      "refId" : "ListDescriptor:24070205:D0P3Pi",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -1505,40 +1677,6 @@
     },
     "name" : "outputs",
     "refId" : "ListDescriptor:24035151:7H9DfE",
-    "scopeType" : "TeamScope",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "NumberDescriptor",
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "NumberInstance",
-      "history" : [ ],
-      "refId" : "NumberInstance:24035264:cyLOux",
-      "value" : -1.0
-    },
-    "defaultValue" : -1.0,
-    "editorTag" : "",
-    "historySize" : 20,
-    "isolation" : "OPEN",
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:24035265:bVpHuE",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:24035265:bVpHuE::EN",
-          "status" : "",
-          "translation" : "lastEventId"
-        }
-      }
-    },
-    "maxValue" : null,
-    "minValue" : null,
-    "name" : "lastEventId",
-    "refId" : "NumberDescriptor:24035263:MlG2Ps",
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
@@ -2070,6 +2208,94 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:24070156:GAkuS2"
+    },
+    "editorTag" : "events",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "InboxDescriptor",
+      "broadcastScope" : "TeamScope",
+      "capped" : false,
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "InboxInstance",
+        "messages" : [ ],
+        "refId" : "InboxInstance:24034252:rDo97E",
+        "unreadCount" : 0
+      },
+      "editorTag" : "events",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24034253:ZficUd",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24034253:ZficUd::EN",
+            "status" : "",
+            "translation" : ""
+          }
+        }
+      },
+      "name" : "events",
+      "refId" : "InboxDescriptor:24034251:S1G7kT",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:24035264:cyLOux",
+        "value" : -1.0
+      },
+      "defaultValue" : -1.0,
+      "editorTag" : "",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24035265:bVpHuE",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24035265:bVpHuE::EN",
+            "status" : "",
+            "translation" : "lastEventId"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "lastEventId",
+      "refId" : "NumberDescriptor:24035263:MlG2Ps",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:24070157:b9D6H3",
+      "translations" : { }
+    },
+    "name" : "events_vd1H1F",
+    "refId" : "ListDescriptor:24070155:NXpQIu",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -2411,6 +2637,15 @@
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24034258:gJ8AN1",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "Lickert",
+    "contentType" : "application/javascript",
+    "libraryType" : "ServerScript",
+    "refId" : "GameModelContent:24070212:CWLosV",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

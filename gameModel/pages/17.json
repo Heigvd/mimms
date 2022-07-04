@@ -4,6 +4,14 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "children" : [ ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -110,22 +118,46 @@
       "type" : "For each"
     }, {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>next patient<br></p>\"",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "Script",
-            "content" : "import { nextPatient } from \"./lickert\";\n\nnextPatient();",
-            "language" : "typescript"
-          }
-        },
-        "style" : { }
+        "children" : [ {
+          "props" : {
+            "icon" : "save",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>save<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { saveData } from \"./lickert\";\n\nsaveData();",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>next patient<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { nextPatient } from \"./lickert\";\n\nnextPatient();",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ]
       },
-      "type" : "Button"
+      "type" : "FlexList"
     } ],
     "className" : "lickertPage",
     "layout" : {

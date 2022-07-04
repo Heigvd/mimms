@@ -166,14 +166,14 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running').getValue(self) === true;",
+          "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
           "language" : "JavaScript"
         },
-        "icon" : "play",
+        "icon" : "pause",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "TimeManager.start();",
+            "content" : "TimeManager.globalPause();",
             "language" : "JavaScript"
           }
         },
@@ -182,7 +182,7 @@
           "content" : "\"\"",
           "language" : "JavaScript"
         },
-        "layout" : { },
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "onVariableChange" : { },
         "style" : { }
@@ -192,14 +192,14 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running').getValue(self) === false;",
+          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
           "language" : "JavaScript"
         },
-        "icon" : "pause",
+        "icon" : "play",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "TimeManager.pause();",
+            "content" : "TimeManager.globalStart();",
             "language" : "JavaScript"
           }
         },
@@ -208,6 +208,7 @@
           "content" : "\"\"",
           "language" : "JavaScript"
         },
+        "layout" : { },
         "layoutStyle" : { },
         "onVariableChange" : { },
         "style" : { }

@@ -1,3 +1,14 @@
 .lickertPage .matrix-cell {
 	width: 200px;
 }
+
+
+.lickertPage .matrix-line-header {
+	width: 200px;
+}
+
+.lickertPage .matrix-cell .cell-label {
+	font-weight: bolder;
+	text-align: center;
+	font-size: 1.3em;
+}

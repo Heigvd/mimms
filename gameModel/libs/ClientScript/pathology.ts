@@ -567,7 +567,7 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 		modules: pDef.modules.map((m, i) => {
 			const afflictedBlock = afflictedBlocks[i];
 			if (!afflictedBlock || !(m.blocks as string[]).includes(afflictedBlock)) {
-				throw new Error(`Block ${afflictedBlock} is not valid against module ${m}`);
+				throw new Error(`Block ${afflictedBlock} is not valid within module ${m.type}`);
 			}
 			return instantiateModule(m, afflictedBlock, modulesArguments[i]!);
 		})

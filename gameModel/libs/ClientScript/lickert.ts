@@ -6,11 +6,11 @@ import { LickertData, run_lickert } from "./RUN";
 import { getCurrentPatientBodyParam, getCurrentPatientId, getPatientIds } from "./WegasHelper";
 
 
-export function nextPatient(){
+export function nextPatient() {
 	const allIds = getPatientIds();
 	const p = getCurrentPatientId();
 	let np = "";
-	if (p){
+	if (p) {
 		np = allIds[((allIds.indexOf(p) + 1) % allIds.length)];
 	} else {
 		np = allIds[0];
@@ -18,13 +18,13 @@ export function nextPatient(){
 	APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${np}');`, {});
 }
 
-export function prettyPrintCurrentPatientMeta(){
+export function prettyPrintCurrentPatientMeta() {
 	const id = getCurrentPatientId();
 	const param = getCurrentPatientBodyParam();
 	let title = '';
 	let p = '';
 	if (param) {
-		const {meta} = computeMetas(param);
+		const { meta } = computeMetas(param);
 		title = `${id} - ${meta.sex}, ${meta.age}y, ${meta.height_cm}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
 		p = (param.scriptedPathologies || []).map(sp => {
 			const pId = sp.payload.pathologyId;
@@ -71,10 +71,18 @@ const currentData: Record<string, LickertData> = {};
 
 type Matrix = Record<TimeId, Record<KeyId, EhancedCellData<LickertMatrixCell>>>;
 
+
 const clinicalMatrix: Record<string, Matrix> = {};
 
 const physiologicalMatrix: Record<string, Matrix> = {};
 
+
+type PMatrix = Record<TimeId, Record<KeyId, LickertMatrixCell>>;
+
+interface PersistedMatrix {
+	clinical: PMatrix;
+	physio: PMatrix;
+}
 
 type LickertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LickertMatrixCell) => void;
 
@@ -87,14 +95,67 @@ function prettyPrintKey(metric: string): string {
 	return formatMetric(metric as BodyStateKeys, 0)[0]
 }
 
+function getPersistedData(patientId: string): PersistedMatrix {
+	const oi = Variable.find(gameModel, 'lickert').getInstance(self);
+	const data = oi.getProperties()[patientId];
+	if (data) {
+		return JSON.parse(data);
+	} else {
+		return {
+			clinical: {},
+			physio: {},
+		};
+	}
+}
 
-export function getCurrentPatientData( force: boolean = false): { data: LickertData, clMatrix: Matrix, phMatrix: Matrix } {
+function convertData(data: Data): PersistedMatrix {
+	const pm: PersistedMatrix = {
+		clinical: {},
+		physio: {},
+	};
+
+	Object.entries(data.clMatrix).forEach(([timeId, keys]) => {
+		Object.entries(keys).forEach(([keyId, value]) => {
+			pm.clinical[timeId] = pm.clinical[timeId] || {};
+			if (typeof value === 'object') {
+				pm.clinical[timeId][keyId] = value.value
+			} else {
+				pm.clinical[timeId][keyId] = value
+			}
+		});
+	});
+
+
+	Object.entries(data.phMatrix).forEach(([timeId, keys]) => {
+		Object.entries(keys).forEach(([keyId, value]) => {
+			pm.physio[timeId] = pm.clinical[timeId] || {};
+			if (typeof value === 'object') {
+				pm.physio[timeId][keyId] = value.value
+			} else {
+				pm.physio[timeId][keyId] = value
+			}
+		});
+	});
+
+	return pm;
+}
+
+interface Data {
+	data: LickertData;
+	clMatrix: Matrix;
+	phMatrix: Matrix;
+};
+
+export function getCurrentPatientData(force: boolean = false): Data {
 	const patientId = getCurrentPatientId();
 
 	if (currentData[patientId] == null || force) {
 		currentData[patientId] = run_lickert();
 	}
+
 	if (clinicalMatrix[patientId] == null || force) {
+		const data = getPersistedData(patientId);
+
 		clinicalMatrix[patientId] = {};
 		const clKeys = Object.keys(currentData[patientId].clinical);
 		// @ts-ignore
@@ -104,7 +165,7 @@ export function getCurrentPatientData( force: boolean = false): { data: LickertD
 			clKeys.forEach(clKey => {
 				clinicalMatrix[patientId][time][clKey] = {
 					label: prettyPrintValue(clKey, currentData[patientId].clinical[clKey][+time]),
-					value: undefined
+					value: (data.clinical[+time] || {})[clKey],
 				};
 			});
 		});
@@ -112,6 +173,8 @@ export function getCurrentPatientData( force: boolean = false): { data: LickertD
 
 
 	if (physiologicalMatrix[patientId] == null || force) {
+		const data = getPersistedData(patientId);
+
 		physiologicalMatrix[patientId] = {};
 		const phKey = Object.keys(currentData[patientId].physiological);
 		// @ts-ignore
@@ -121,7 +184,7 @@ export function getCurrentPatientData( force: boolean = false): { data: LickertD
 			phKey.forEach(clKey => {
 				physiologicalMatrix[patientId][time][clKey] = {
 					label: prettyPrintValue(clKey, currentData[patientId].physiological[clKey][+time]),
-					value: undefined
+					value: (data.physio[+time] || {})[clKey],
 				};
 			});
 		});
@@ -152,7 +215,7 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
 	const keyId = y.id;
 
-	wlog("OnChange", {x, y, newData});
+	wlog("OnChange", { x, y, newData });
 
 	const patientId = getCurrentPatientId();
 
@@ -230,24 +293,99 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 
 
 
+export function saveData() {
+	const data = getCurrentPatientData();
+	const pData = convertData(data);
+	const patientId = getCurrentPatientId();
+
+	const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(JSON.stringify(pData))})`;
+	APIMethods.runScript(script, {});
+}
+
+
+
+
+
+
 /**
  * Read-only data
  */
-export function getClinicalMatrixRO() : MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
 	return {
 		...getClinicalMatrix(),
 		cellDef: [],
 	}
 }
 
-export function getPhysioMatrixRO() : MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
 	return {
 		...getPhysioMatrix(),
 		cellDef: [],
 	}
 }
 
-export function runAgain(){
+export function runAgain() {
 	getCurrentPatientData(true);
 	Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
 }
+
+//                    teamId       patientId                                     time           metric  value
+type RawData = Record<string, Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>>;
+
+const data: RawData = {
+	"24040561": {
+		"patient-3": {
+			"clinical": {
+				"0": {
+					"vitals.canWalk": 5
+				},
+				"3600": {},
+				"7200": {},
+				"10800": {},
+				"14400": {
+					"vitals.glasgow.total": 3
+				}
+			}, "physio": { "0": { "vitals.canWalk": 5 }, "3600": {}, "7200": {}, "10800": {}, "14400": { "vitals.glasgow.total": 3 } }
+		}
+	}
+}
+
+
+function formatCsvLine(...cells: unknown[]) {
+	return cells.map(cell => String(cell)).join(", ");
+}
+
+export function getAllLickertData() {
+	APIMethods.runScript("getLickerData();", {}).then((result) => {
+		const data = result.updatedEntities[0] as RawData;
+		const csv: string[] = [];
+
+		let counter = 1;
+
+		// print header
+		csv.push(formatCsvLine("expertId", "patientId", "group", "time [s]", "metric", "lickert"));
+
+		Object.entries(data).forEach(([teamId, teamData]) => {
+			const expertId = counter++;
+			Object.entries(teamData).forEach(([patientId, patientData]) => {
+				Object.entries(patientData).forEach(([mType, mData]) => {
+					Object.entries(mData).forEach(([time, timeData]) => {
+						Object.entries(timeData).forEach(([metric, value]) => {
+							csv.push(formatCsvLine(expertId, patientId, mType, time, metric, value));
+						});
+					});
+				});
+			});
+		});
+		const txt = csv.join("\n");
+		wlog(txt);
+		Helpers.downloadDataAsFile("lickert.csv", txt);
+	});
+}
+
+
+
+
+
+
+

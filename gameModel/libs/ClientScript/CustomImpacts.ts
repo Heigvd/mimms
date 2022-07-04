@@ -96,7 +96,6 @@ Helpers.registerEffect(() => {
 			}
 		}
 	}
-	
 
 	ServerMethods.registerGlobalMethod(['TimeManager'], 'start', {
 		label: 'Start Simulation',
@@ -106,6 +105,47 @@ Helpers.registerEffect(() => {
 
 	ServerMethods.registerGlobalMethod(['TimeManager'], 'pause', {
 		label: 'Pause Simulation',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'globalStart', {
+		label: 'Start Simulation for all teams',
+		parameters: [],
+		returns: undefined,
+	});
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'globalPause', {
+		label: 'Pause Simulation for all teams',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'keepalive', {
+		label: 'Keep simulation alive',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'revive', {
+		label: 'Revive Idle Simulation',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'enterReplay', {
+		label: 'Start replay from tZero',
+		parameters: [],
+		returns: undefined,
+	});
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'quitReplay', {
+		label: 'Stop replaying and restore LIVE time',
 		parameters: [],
 		returns: undefined,
 	});
@@ -154,7 +194,7 @@ Helpers.registerEffect(() => {
 		label: 'Speak in the wild',
 		parameters: [],
 		returns: undefined,
-    });*/
+	});*/
 });
 
 // delay customization to make sure every others modules are available
