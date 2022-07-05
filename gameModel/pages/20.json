@@ -1,0 +1,61 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "choices" : {
+          "@class" : "Script",
+          "content" : "import {getPatientsAsChoices} from './WegasHelper'\ngetPatientsAsChoices();",
+          "language" : "typescript"
+        },
+        "layoutStyle" : {
+          "minWidth" : "500px"
+        },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'currentPatient')",
+          "language" : "JavaScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : "19",
+            "layoutStyle" : { },
+            "name" : "pathologyEditorLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "pathologyEditorContext",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentPatientPathologyConfigs } from \"./pathologyEditor\";\ngetCurrentPatientPathologyConfigs();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "className" : "pathologyEditorPage",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "pathologyEditor",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

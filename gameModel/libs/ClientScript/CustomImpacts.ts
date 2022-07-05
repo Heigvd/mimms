@@ -1,6 +1,6 @@
-import { getBlocksSelector } from "./GameModelerHelper";
+//import { getBlocksSelector } from "./GameModelerHelper";
 import { getItems, getPathologies } from "./registries";
-import { getPatientAsChoices } from "./WegasHelper";
+import { getPatientsAsChoices } from "./WegasHelper";
 
 Helpers.registerEffect(() => {
 
@@ -10,7 +10,7 @@ Helpers.registerEffect(() => {
 		view: {
 			label: 'Human',
 			type: 'select',
-			choices: getPatientAsChoices(true),
+			choices: getPatientsAsChoices(true),
 		}
 	};
 
@@ -20,7 +20,7 @@ Helpers.registerEffect(() => {
 		view: {
 			label: 'Human',
 			type: 'select',
-			choices: getPatientAsChoices(true).map(opt => ({
+			choices: getPatientsAsChoices(true).map(opt => ({
 				label: `Human: ${opt.label}`,
 				value: {
 					objectType: 'Human',
@@ -40,7 +40,7 @@ Helpers.registerEffect(() => {
 		}
 	}
 
-	const blocksSelector = getBlocksSelector();
+	//const blocksSelector = getBlocksSelector();
 
 	const allItems = getItems();
 
@@ -96,7 +96,6 @@ Helpers.registerEffect(() => {
 			}
 		}
 	}
-	
 
 	ServerMethods.registerGlobalMethod(['TimeManager'], 'start', {
 		label: 'Start Simulation',
@@ -110,41 +109,82 @@ Helpers.registerEffect(() => {
 		returns: undefined,
 	});
 
-	/**
-	 * afflictPathology: function (humanId, pathologyId, blocks, time); 
-	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'afflictPathology', {
-		label: 'Afflict',
-		parameters: [humanSelector, pathologiesChoices, blocksSelector, optionalTime],
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'globalStart', {
+		label: 'Start Simulation for all teams',
+		parameters: [],
+		returns: undefined,
+	});
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'globalPause', {
+		label: 'Pause Simulation for all teams',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'keepalive', {
+		label: 'Keep simulation alive',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'revive', {
+		label: 'Revive Idle Simulation',
+		parameters: [],
+		returns: undefined,
+	});
+
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'enterReplay', {
+		label: 'Start replay from tZero',
+		parameters: [],
+		returns: undefined,
+	});
+
+	ServerMethods.registerGlobalMethod(['TimeManager'], 'quitReplay', {
+		label: 'Stop replaying and restore LIVE time',
+		parameters: [],
 		returns: undefined,
 	});
 
 	/**
+	 * afflictPathology: function (humanId, pathologyId, blocks, time); 
+	 */
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'afflictPathology', {
+		label: 'Afflict',
+		parameters: [humanSelector, pathologiesChoices, blocksSelector, optionalTime],
+		returns: undefined,
+	});*/
+
+	/**
 	 * doItemAction: function (humanId, {itemId, actionId}, blocks, time)
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'doItemAction', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'doItemAction', {
 		label: 'Use item on Human',
 		parameters: [humanSelector, itemSelector, blocksSelector, optionalTime],
 		returns: undefined,
-	});
+	});*/
 
 	/**
 	 * object : {objectType: string, objectId: string}
 	 * location: {mapId: string, x: number, y: number}
 	 * teleport: function (object, location, time)
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'teleport', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'teleport', {
 		label: 'Teleport',
 		parameters: [moveableObjectSelector, locationParam(), optionalTime],
 		returns: undefined,
-	});
+	});*/
 
 	/**
 	 * object : {objectType: string, objectId: string}
 	 * destination: {mapId: string, x: number, y: number}
 	 * moveTo: function (object, location, time) {
 	 */
-	ServerMethods.registerGlobalMethod(['EventManager'], 'followPath', {
+	/*ServerMethods.registerGlobalMethod(['EventManager'], 'followPath', {
 		label: 'Move From/To (walk / drive)',
 		parameters: [moveableObjectSelector, locationParam('from'), locationParam('to'), optionalTime],
 		returns: undefined,
@@ -154,7 +194,7 @@ Helpers.registerEffect(() => {
 		label: 'Speak in the wild',
 		parameters: [],
 		returns: undefined,
-    });
+	});*/
 });
 
 // delay customization to make sure every others modules are available

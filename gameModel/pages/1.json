@@ -14,46 +14,15 @@
       "type" : "Text"
     }, {
       "props" : {
+        "initialSelectedPageId" : "20",
+        "layoutStyle" : { },
+        "name" : "currentPatientPathologyEditor",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "children" : [ {
-          "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import {getPatientAsChoices} from './WegasHelper'\nconst choices = getPatientAsChoices();\t\nchoices;",
-              "language" : "typescript"
-            },
-            "className" : "",
-            "flexGrow" : 1,
-            "id" : "patientSelector",
-            "layoutStyle" : { },
-            "name" : "patient Select",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'whoAmI')",
-              "language" : "JavaScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
-        }, {
-          "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getScenariosAsChoices } from \"./WegasHelper\";\nconst choices = getScenariosAsChoices();\t\nchoices;",
-              "language" : "typescript"
-            },
-            "flexGrow" : 1,
-            "layoutStyle" : { },
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'currentScenario')",
-              "language" : "JavaScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
-        }, {
           "props" : {
             "choices" : {
               "@class" : "Script",

@@ -2,23 +2,6 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import {getPatientAsChoices} from './WegasHelper'\nconst choices = getPatientAsChoices();\t\nchoices;",
-          "language" : "typescript"
-        },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'whoAmI')",
-          "language" : "JavaScript"
-        },
-        "style" : { }
-      },
-      "type" : "Select input"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -957,385 +940,130 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import {getRadios} from './communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
+                              "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
                               "language" : "typescript"
                             },
-                            "exposeAs" : "state",
-                            "initialState" : {
-                              "@class" : "Script",
-                              "content" : "({})",
-                              "language" : "TypeScript"
-                            },
                             "layout" : { },
-                            "layoutStyle" : { },
-                            "localState" : false,
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "wlog(Context.radioId)\nContext.radioState.setState({selectedRadioId: Context.radioId})",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"radioId\"",
-                                "language" : "JavaScript"
-                              }
+                            "layoutStyle" : {
+                              "width" : "300px"
                             },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Context.radioState.state.selectedRadioId;",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Select input"
-                        }, {
-                          "props" : {
-                            "choices" : {
-                              "@class" : "Script",
-                              "content" : "import { getChannelChoices } from \"./communication\";\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
-                              "language" : "typescript"
-                            },
-                            "exposeAs" : "item",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "",
-                              "language" : "TypeScript"
-                            },
-                            "itemKey" : "id",
-                            "layout" : { },
-                            "layoutStyle" : { },
-                            "onCancel" : { },
-                            "onVariableChange" : {
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"newChannel\"",
-                                "language" : "JavaScript"
-                              },
-                              "server" : {
-                                "@class" : "Script",
-                                "content" : "EventManager.radioChannelUpdate(Context.radioState.state.selectedRadioId, Context.newChannel);",
-                                "language" : "JavaScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "import { getRadio } from \"./communication\";\ngetRadio(Context.radioState.state.selectedRadioId).channel;",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Select input"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "exposeAs" : "state",
-                            "initialState" : {
-                              "@class" : "Script",
-                              "content" : "({})",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "localState" : false,
-                            "onCancel" : { },
                             "onVariableChange" : { },
-                            "placeholder" : {
-                              "@class" : "Script",
-                              "content" : "\"Type a message\"",
-                              "language" : "JavaScript"
-                            },
                             "script" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'lastRadioMsg')",
+                              "content" : "Variable.find(gameModel,'whoAmI')",
                               "language" : "JavaScript"
                             },
                             "style" : { }
                           },
-                          "type" : "String input"
+                          "type" : "Select input"
                         }, {
                           "props" : {
-                            "icon" : "microphone",
-                            "impactVariable" : {
-                              "impact" : {
-                                "@class" : "Script",
-                                "content" : "EventManager.radioCommunication(Context.radioState.state.selectedRadioId, Context.radioState.state.selectedChannel);\nVariable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                                "language" : "JavaScript"
-                              }
-                            },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"Speak\"",
+                              "content" : "\"give me some item !\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
-                            "name" : "Speak",
-                            "onCancel" : { },
-                            "onVariableChange" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                                "language" : "typescript"
+                              }
+                            },
                             "style" : { }
                           },
                           "type" : "Button"
-                        } ],
-                        "className" : "",
-                        "name" : ""
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "JSON.stringify(Context.radioState.state);",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : " Radio Title",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<span style=\\\"font-size: 12pt;\\\"><strong>Heard Radio Messages</strong></span>\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : " Radio Messages",
-                        "onVariableChange" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getRadio, getRadioMessages } from \"./communication\";\nconst radioId = Context.radioState.state.selectedRadioId;\nconst channel = getRadio(radioId).channel;\ngetRadioMessages(channel).join('<br>')",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ],
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "Radio comm",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                } ],
-                "exposeAs" : "radioState",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Radio\");",
-                  "language" : "JavaScript"
-                },
-                "initialState" : {
-                  "@class" : "Script",
-                  "content" : "import { getInitialRadioState } from \"./communication\";\ngetInitialRadioState();",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "localState" : true,
-                "name" : " Radio",
-                "style" : { }
-              },
-              "type" : "State"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : " Title",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<strong>Phone Communication</strong>\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "alignSelf" : "flex-start",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { getMyPhone } from \"./communication\";\ngetMyPhone() !== undefined;",
-                          "language" : "JavaScript"
-                        },
-                        "icon" : "phone",
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "EventManager.phoneCreation();",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "import { whoAmI } from \"./WegasHelper\";\n\"Create Phone for \" + whoAmI();",
-                          "language" : "JavaScript"
-                        },
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "Create phone",
-                        "onVariableChange" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "children" : [ {
+                        }, {
+                          "props" : {
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"give me more item!\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'fousytout',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                                "language" : "typescript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "HACK: time throttle inside",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                              "language" : "typescript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
                           "props" : {
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "\"Send to\"",
+                              "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
                               "language" : "JavaScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "choices" : {
-                              "@class" : "Script",
-                              "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
-                              "language" : "typescript"
-                            },
                             "layoutStyle" : { },
-                            "onVariableChange" : { },
-                            "script" : {
+                            "style" : { },
+                            "text" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'recipientPhoneId')",
+                              "content" : "\"InSimRef: \" + Variable.find(gameModel,'inSim_ref').getValue(self);",
                               "language" : "JavaScript"
-                            },
-                            "style" : { }
+                            }
                           },
-                          "type" : "Select input"
-                        } ],
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
-                          "language" : "JavaScript"
-                        },
-                        "layout" : {
-                          "flexDirection" : "row"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "exposeAs" : "state",
-                            "initialState" : {
-                              "@class" : "Script",
-                              "content" : "({})",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "localState" : false,
-                            "onCancel" : { },
-                            "onVariableChange" : { },
-                            "placeholder" : {
-                              "@class" : "Script",
-                              "content" : "\"Type a message\"",
-                              "language" : "JavaScript"
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'lastPhoneMsg')",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "String input"
+                          "type" : "Text"
                         }, {
                           "props" : {
-                            "icon" : "microphone",
-                            "impactVariable" : {
-                              "impact" : {
-                                "@class" : "Script",
-                                "content" : "EventManager.phoneCommunication(Context.phoneState.state.myPhoneId);\nVariable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                                "language" : "JavaScript"
-                              }
-                            },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"Speak\"",
+                              "content" : "\"Clear State\"",
                               "language" : "JavaScript"
                             },
-                            "layoutStyle" : { },
-                            "name" : "Speak",
-                            "onCancel" : { },
-                            "onVariableChange" : { },
-                            "style" : { }
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
+                                "language" : "TypeScript"
+                              }
+                            }
                           },
                           "type" : "Button"
                         } ],
-                        "className" : "",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { userHasPhone } from \"./communication\";\n!userHasPhone();",
-                          "language" : "JavaScript"
-                        },
                         "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "",
+                        "name" : "Time banner",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "name" : "title",
-                        "style" : { },
-                        "text" : {
+                        "id" : "",
+                        "initialSelectedPageId" : {
                           "@class" : "Script",
-                          "content" : "\"<strong>Received messages<br /><br /></strong>from\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "choices" : {
-                          "@class" : "Script",
-                          "content" : "import { getPhoneDropDownList } from \"./communication\";\ngetPhoneDropDownList();",
-                          "language" : "typescript"
+                          "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
+                          "language" : "TypeScript"
                         },
                         "layoutStyle" : { },
-                        "onVariableChange" : { },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "Variable.find(gameModel,'fromPhone')",
-                          "language" : "JavaScript"
-                        },
+                        "name" : "gamePageLoader",
                         "style" : { }
                       },
-                      "type" : "Select input"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : "msg list",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getPhoneMessages } from \"./communication\";\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\ngetPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
+                      "type" : "PageLoader"
                     } ],
                     "layout" : {
                       "flexDirection" : "column"
@@ -1344,34 +1072,16 @@
                     "style" : { }
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "id" : "",
-                    "layoutStyle" : { },
-                    "name" : "debug state",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.phoneState.state);",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
                 } ],
-                "exposeAs" : "phoneState",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Phone\");",
-                  "language" : "JavaScript"
-                },
+                "exposeAs" : "worldTime",
                 "initialState" : {
                   "@class" : "Script",
-                  "content" : "import { getMyPhone } from \"./communication\";\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
+                  "content" : "({time: 0});",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
                 "localState" : true,
-                "name" : "Phone",
+                "name" : "TimeManager",
                 "style" : { }
               },
               "type" : "State"
@@ -1384,13 +1094,30 @@
             },
             "style" : { }
           },
-          "type" : "FlexList"
+          "type" : "PlayerIf"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "id" : "",
+                "initialSelectedPageId" : {
+                  "@class" : "Script",
+                  "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "gamePageLoader",
+                "style" : { }
+              },
+              "type" : "PageLoader"
+            } ]
+          },
+          "type" : "PlayerElse"
         } ],
-        "exposeAs" : "worldTime",
-        "initialState" : {
+        "ifCondition" : {
           "@class" : "Script",
-          "content" : "({time: 0});",
-          "language" : "TypeScript"
+          "content" : "import { getTimeMode } from \"./gameMaster\";\ngetTimeMode() === 'LIVE_WORLD';",
+          "language" : "JavaScript"
         },
         "layoutStyle" : {
           "flexDirection" : "column",
@@ -1399,7 +1126,7 @@
         "localState" : true,
         "style" : { }
       },
-      "type" : "State"
+      "type" : "If Else"
     } ],
     "layout" : {
       "flexDirection" : "column"

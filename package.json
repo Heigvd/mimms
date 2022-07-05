@@ -1,0 +1,74 @@
+{
+  "name": "mimms-poc2",
+  "description": "",
+  "version": "1.0.0",
+  "author": "albasim",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist && tsc",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint 'src' --ext '.ts'"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.174",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "jest": "^27.2.2",
+    "jest-html-reporter": "^3.4.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?)$",
+    "testPathIgnorePatterns": [
+      "/fixtures/",
+      "/main/"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "lodash-es": "lodash"
+    },
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporter",
+        {
+          "pageTitle": "Test Report",
+          "outputPath": "test-report/index.html"
+        }
+      ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": false,
+        "diagnostics": {
+          "ignoreCodes": [
+            151001
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

@@ -5,9 +5,53 @@
     "items" : [ {
       "@class" : "Page",
       "id" : "5",
-      "name" : "HUMAN Map",
-      "scenaristPage" : false,
+      "name" : "main page",
+      "scenaristPage" : true,
       "trainerPage" : null
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "11",
+        "name" : "humanMap",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "12",
+        "name" : "preTriDrill",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "6",
+        "name" : "patientPage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "17",
+        "name" : "lickert",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "404",
+          "name" : "not_found",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "21",
+          "name" : "time_toolbar",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "tools"
+      } ],
+      "name" : "playerPages"
     }, {
       "@class" : "Folder",
       "items" : [ {
@@ -16,17 +60,17 @@
         "name" : "setup",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "22",
+        "name" : "licketResult",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "TrainerPages"
     }, {
       "@class" : "Folder",
       "items" : [ {
-        "@class" : "Page",
-        "id" : "1",
-        "name" : "HUMAn for tests",
-        "scenaristPage" : true,
-        "trainerPage" : false
-      }, {
         "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
@@ -40,22 +84,90 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "7",
-        "name" : "spy",
+        "id" : "9",
+        "name" : "patient generation",
         "scenaristPage" : true,
-        "trainerPage" : false
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "13",
+        "name" : "bagsConfig",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "15",
+        "name" : "situationsConfig",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "16",
+        "name" : "skills config",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
-        "id" : "6",
-        "name" : "patientPage",
+        "id" : "8",
+        "name" : "DistributionTest",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      } ],
+      "name" : "Tests"
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "1",
+        "name" : "HUMAn for tests",
+        "scenaristPage" : true,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "7",
+        "name" : "spy",
+        "scenaristPage" : true,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "14",
+        "name" : "debug_matrix",
         "scenaristPage" : null,
         "trainerPage" : null
       } ],
-      "name" : "PatientPage"
+      "name" : "debug_pages"
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "10",
+        "name" : "abstractMatrix",
+        "scenaristPage" : null,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "18",
+        "name" : "livePathologyEditor",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "19",
+        "name" : "pathologyEditor",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "20",
+        "name" : "currentPatientPathologyEditor",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      } ],
+      "name" : "tools"
     } ],
     "name" : null
   }

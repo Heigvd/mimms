@@ -1,0 +1,42 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"10\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "name" : "dsafdasfsfdasd",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "matrixConfig",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getBagsDefsMatrix } from \"./GameModelerHelper\";\n[{id: 0, ...getBagsDefsMatrix()}];",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : true,
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

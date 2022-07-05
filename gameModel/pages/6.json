@@ -2,11 +2,93 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "attachToMostDistant" : ".wegas-pageloader",
+        "attachedToId" : "",
         "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\n\n`<p>Pending Action : ${action.action.source.name}::${action.action.action.name} !</p><p> still ${counter} sec to go</p>`",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3;",
+                      "language" : "JavaScript"
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { DelayedAction } from \"./the_world\";\nimport { getCurrentSimulationTime } from \"./TimeManager\";\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? 'too late to cancel' : 'cancel';",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { sendEvent } from \"./EventManager\";\n\nsendEvent({\n\ttype: 'CancelAction',\n\teventId: Context.pendingAction.id,\n})",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "pendingAction",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getMyPendingActions } from \"./the_world\";\ngetMyPendingActions();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "For each"
+        } ],
+        "className" : "",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getMyPendingActions } from \"./the_world\";\ngetMyPendingActions().length === 0;",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "position" : "absolute"
+        },
+        "name" : "pending actions",
+        "onExitActions" : { },
+        "style" : { }
+      },
+      "type" : "Modal"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : {
+                  "padding" : "0"
+                },
                 "name" : "hack",
                 "style" : { },
                 "text" : {
@@ -18,27 +100,107 @@
               "type" : "Text"
             }, {
               "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "!Editor.getFeatures().ADVANCED;",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "name" : "Spy Context",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "JSON.stringify(Context);",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
-                    "layout" : { },
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "title",
+                            "layoutStyle" : { },
+                            "name" : "Nom",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getCurrentPatientTitle } from \"./currentPatientZoom\";\ngetCurrentPatientTitle();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "subtitle",
+                            "layoutStyle" : { },
+                            "name" : "etat",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getHumanVisualInfos } from \"./currentPatientZoom\";\ngetHumanVisualInfos();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "flexGrow" : "1"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : {
+                          "minWidth" : "30px",
+                          "width" : "13%"
+                        },
+                        "name" : "category",
+                        "style" : {
+                          "display" : "flex",
+                          "flexGrow" : "1"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getCategoryCard } from \"./graphics\";\ngetCategoryCard();",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutClassName" : "title_container",
                     "layoutStyle" : { },
+                    "name" : "patientTitle",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
+                      "borderBottom" : "1px solid var(--colors-disabledcolor)",
+                      "flexWrap" : "wrap",
+                      "padding" : "15px"
+                    },
+                    "name" : "visual infos",
+                    "style" : {
+                      "display" : "flex",
+                      "flexGrow" : "1",
+                      "justifyContent" : "space-around"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getVisualDetails } from \"./graphics\";\ngetVisualDetails();",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "alignItems" : "center",
+                      "background" : "#cffbcf",
+                      "flexGrow" : "1",
+                      "justifyContent" : "center",
+                      "padding" : "20px"
+                    },
                     "name" : "visual overview",
                     "style" : { },
                     "text" : {
@@ -48,63 +210,12 @@
                     }
                   },
                   "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<h3>Console</h3>\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "icon" : "eraser",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { clearConsole } from \"./currentPatientZoom\";\n\nclearConsole(Context.patientConsole.setState);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "flexGrow" : 1,
-                    "layout" : { },
-                    "layoutStyle" : {
-                      "border" : "1px solid",
-                      "maxHeight" : "100%",
-                      "overflow" : "auto"
-                    },
-                    "name" : "console",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getPatientConsole } from \"./currentPatientZoom\";\ngetPatientConsole();",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column",
                 "layoutStyle" : {
                   "height" : "100%"
                 },
@@ -115,31 +226,141 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Editor.getFeatures().ADVANCED;",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Spy Context",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context);",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "visual details",
-                        "style" : { },
-                        "text" : {
+                        "children" : [ {
+                          "props" : {
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "selected",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
+                                "language" : "JavaScript"
+                              }
+                            } ],
+                            "icon" : {
+                              "@class" : "Script",
+                              "content" : "Context.wheelItem.icon;",
+                              "language" : "typescript"
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.wheelItem);",
+                              "language" : "JavaScript"
+                            },
+                            "layoutClassName" : "wheelButton",
+                            "layoutStyle" : {
+                              "justifyContent" : "center"
+                            },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { selectSubWheel } from \"./currentPatientZoom\";\n\nselectSubWheel(Context.wheelItem.id, Context.patientConsole.setState);",
+                                "language" : "typescript"
+                              }
+                            },
+                            "style" : {
+                              "margin" : "0"
+                            }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "ABCDwheelMenu",
+                        "exposeAs" : "wheelItem",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getVisualDetails } from \"./graphics\";\ngetVisualDetails();",
-                          "language" : "JavaScript"
-                        }
+                          "content" : "import { getWheel } from \"./currentPatientZoom\";\ngetWheel().mainMenu;",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "itemsOnly" : false,
+                        "layout" : {
+                          "flexWrap" : "wrap"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "main menu",
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "For each"
                     }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
+                        "children" : [ {
+                          "props" : {
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "selected",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.wheelItem.type === 'ExtraPanel' \n\t&& Context.wheelItem.id === Context.patientConsole.state.selectedPanel;",
+                                "language" : "JavaScript"
+                              }
+                            } ],
+                            "icon" : {
+                              "@class" : "Script",
+                              "content" : "Context.wheelItem.icon;",
+                              "language" : "typescript"
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.wheelItem);",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { selectWheelItem } from \"./currentPatientZoom\";\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "shortcuts",
+                        "exposeAs" : "wheelItem",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getDetails } from \"./currentPatientZoom\";\ngetDetails();",
-                          "language" : "JavaScript"
-                        }
+                          "content" : "import { getWheel } from \"./currentPatientZoom\";\ngetWheel().shortcuts;",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "itemsOnly" : false,
+                        "layout" : {
+                          "flexWrap" : "wrap"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "shortcuts",
+                        "style" : { }
                       },
-                      "type" : "Text"
-                    } ]
+                      "type" : "For each"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "menu",
+                    "layoutStyle" : { },
+                    "name" : "the Wheel",
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 }, {
@@ -148,54 +369,158 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "layoutStyle" : { },
+                            "style" : {
+                              "color" : "var(--colors-disabledcolor)"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getSubWheelTitle } from \"./currentPatientZoom\";\ngetSubWheelTitle(Context.patientConsole.state);",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
+                                  "applyOn" : "Inside",
                                   "className" : "selected",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
+                                    "content" : "Context.menuItem.id === Context.patientConsole.state.selectedSubMenu;",
                                     "language" : "JavaScript"
                                   }
                                 } ],
                                 "icon" : {
                                   "@class" : "Script",
-                                  "content" : "Context.wheelItem.icon;",
+                                  "content" : "Context.menuItem.icon;",
                                   "language" : "typescript"
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.wheelItem);",
+                                  "content" : "import { getButtonLabel, getWheelSubmenu } from \"./currentPatientZoom\";\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "0 2px 0 0"
+                                },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { selectWheelItem } from \"./currentPatientZoom\";\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "prefixedLabel" : false,
+                                "style" : {
+                                  "borderRadius" : "5px 5px 0px 0px"
+                                }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "exposeAs" : "menuItem",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getSubWheelMenu } from \"./currentPatientZoom\";\ngetSubWheelMenu(Context.patientConsole.state);",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "itemsOnly" : false,
+                            "layout" : {
+                              "flexWrap" : "wrap"
+                            },
+                            "layoutStyle" : {
+                              "borderBottom" : "1px solid var(--colors-primarycolor)",
+                              "padding" : "0"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.patientConsole.state.selectedPanel;",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "tabs",
+                        "layoutStyle" : { },
+                        "name" : "sub wheel",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "selected",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.patientConsole.state.selectedAction != null && Context.patientConsole.state.selectedAction.id === Context.menuItem.id;",
+                                    "language" : "JavaScript"
+                                  }
+                                } ],
+                                "icon" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.menuItem.icon;",
+                                  "language" : "typescript"
+                                },
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.menuItem);",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "Script",
-                                    "content" : "import { selectWheelItem } from \"./currentPatientZoom\";\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
+                                    "content" : "import { selectWheelItem } from \"./currentPatientZoom\";\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
                                     "language" : "TypeScript"
                                   }
                                 },
+                                "prefixedLabel" : false,
                                 "style" : { }
                               },
                               "type" : "Button"
                             } ],
-                            "exposeAs" : "wheelItem",
+                            "exposeAs" : "menuItem",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getWheel } from \"./currentPatientZoom\";\ngetWheel();",
+                              "content" : "import { getWheelSubmenu } from \"./currentPatientZoom\";\ngetWheelSubmenu(Context.patientConsole.state);",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
                             "itemsOnly" : false,
-                            "layout" : { },
+                            "layout" : {
+                              "flexWrap" : "wrap"
+                            },
                             "layoutStyle" : { },
-                            "name" : "main menu",
                             "style" : { }
                           },
                           "type" : "For each"
-                        }, {
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "items",
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
+                        "name" : "sub menu",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
@@ -203,58 +528,75 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getWheelSubmenuTitle } from \"./currentPatientZoom\";\ngetWheelSubmenuTitle(Context.patientConsole.state);",
+                                  "content" : "`Selected Action is : ${Context.patientConsole.state.selectedAction?.id}`;",
                                   "language" : "JavaScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "icon" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.menuItem.icon;",
-                                      "language" : "typescript"
-                                    },
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getButtonLabel } from \"./currentPatientZoom\";\ngetButtonLabel(Context.menuItem);",
-                                      "language" : "JavaScript"
-                                    },
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "Script",
-                                        "content" : "import { selectWheelItem } from \"./currentPatientZoom\";\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "prefixedLabel" : false,
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                } ],
-                                "exposeAs" : "menuItem",
-                                "getItemsFn" : {
+                                "icon" : "times",
+                                "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getWheelSubmenu } from \"./currentPatientZoom\";\ngetWheelSubmenu(Context.patientConsole.state);",
-                                  "language" : "TypeScript"
-                                },
-                                "itemKey" : "id",
-                                "itemsOnly" : false,
-                                "layout" : {
-                                  "flexWrap" : "wrap"
+                                  "content" : "\"\"",
+                                  "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { selectWheelAction } from \"./currentPatientZoom\";\n\nselectWheelAction(undefined, Context.patientConsole.setState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "style" : { }
                               },
-                              "type" : "For each"
+                              "type" : "Button"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "JavaScript"
+                            },
                             "layout" : { },
                             "layoutStyle" : { },
-                            "name" : "sub menu",
+                            "name" : "header",
                             "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "ruler",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<span style=\\\"font-size: 14pt;\\\"><strong>Do measure</strong></span>\"",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { doWheelMeasure } from \"./currentPatientZoom\";\n\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.patientConsole.state.selectedAction?.actionType !== \"ActionBodyMeasure\";",
+                              "language" : "JavaScript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "measure selected",
+                            "style" : {
+                              "justifyContent" : "center"
+                            }
                           },
                           "type" : "FlexList"
                         }, {
@@ -263,28 +605,25 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "`Selected Action is : ${Context.patientConsole.state.selectedAction.id}`;",
-                                      "language" : "JavaScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "icon" : "times",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Outside",
+                                      "className" : "selected",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.block.id === Context.patientConsole.state.selectedBlock;",
+                                        "language" : "JavaScript"
+                                      }
+                                    } ],
                                     "label" : {
                                       "@class" : "Script",
-                                      "content" : "\"\"",
+                                      "content" : "Context.block.id",
                                       "language" : "JavaScript"
                                     },
                                     "layoutStyle" : { },
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "Script",
-                                        "content" : "import { selectWheelAction } from \"./currentPatientZoom\";\n\nselectWheelAction(undefined, Context.patientConsole.setState);",
+                                        "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.id, Context.patientConsole.setState);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -292,92 +631,28 @@
                                   },
                                   "type" : "Button"
                                 } ],
-                                "layout" : { },
-                                "layoutStyle" : { },
-                                "name" : "header",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "icon" : "ruler",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"do measure\"",
-                                      "language" : "JavaScript"
-                                    },
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "Script",
-                                        "content" : "import { doWheelMeasure } from \"./currentPatientZoom\";\n\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                } ],
+                                "exposeAs" : "block",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patientConsole.state.availableBlocks.map(b => ({id: b}));",
+                                  "language" : "TypeScript"
+                                },
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.patientConsole.state.selectedAction?.actionType !== \"ActionBodyMeasure\";",
+                                  "content" : "true;",
                                   "language" : "JavaScript"
                                 },
-                                "layout" : { },
+                                "itemKey" : "id",
+                                "layout" : {
+                                  "flexWrap" : "wrap"
+                                },
                                 "layoutStyle" : { },
-                                "name" : "measure selected",
                                 "style" : { }
                               },
-                              "type" : "FlexList"
+                              "type" : "For each"
                             }, {
                               "props" : {
                                 "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Outside",
-                                          "className" : "selected",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.block.id === Context.patientConsole.state.selectedBlock;",
-                                            "language" : "JavaScript"
-                                          }
-                                        } ],
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.block.id",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "Script",
-                                            "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.id, Context.patientConsole.setState);",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "Button"
-                                    } ],
-                                    "exposeAs" : "block",
-                                    "getItemsFn" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.patientConsole.state.availableBlocks.map(b => ({id: b}));",
-                                      "language" : "TypeScript"
-                                    },
-                                    "itemKey" : "id",
-                                    "layout" : {
-                                      "flexWrap" : "wrap"
-                                    },
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "For each"
-                                }, {
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
@@ -388,86 +663,271 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "`Please select a block!`",
+                                      "content" : "\"<span style=\\\"color: #000000;\\\"><strong>Please select a block in the right panel</strong></span>\"",
                                       "language" : "JavaScript"
                                     }
                                   },
                                   "type" : "Text"
                                 }, {
                                   "props" : {
-                                    "disableIf" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.patientConsole.state.selectedBlock === \"\";",
-                                      "language" : "JavaScript"
-                                    },
-                                    "icon" : "ruler",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "`Do ${Context.patientConsole.state.selectedAction?.id} on ${Context.patientConsole.state.selectedBlock}`;",
-                                      "language" : "JavaScript"
-                                    },
+                                    "icon" : "arrow-right",
                                     "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "Script",
-                                        "content" : "import { doWheelTreatment } from \"./currentPatientZoom\";\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
                                     "style" : { }
                                   },
-                                  "type" : "Button"
+                                  "type" : "Icon"
                                 } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.patientConsole.state.selectedAction?.actionType !== \"ActionBodyEffect\";",
+                                  "content" : "Context.patientConsole.state.availableBlocks.length === 0 || Context.patientConsole.state.selectedBlock;",
                                   "language" : "JavaScript"
                                 },
-                                "layout" : { },
-                                "layoutStyle" : { },
-                                "name" : "treatment selected",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
                                 "style" : { }
                               },
                               "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "`<b>Treatment:</b> ${Context.patientConsole.state.selectedAction?.id}`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.patientConsole.state.selectedBlock;",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutStyle" : {
+                                  "padding" : "3px 0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "`<b>On:</b> ${Context.patientConsole.state.selectedBlock}`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "disableIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock;",
+                                  "language" : "JavaScript"
+                                },
+                                "icon" : "check",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<strong><span style=\\\"font-size: 14pt;\\\">Apply</span></strong>\"",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { doWheelTreatment } from \"./currentPatientZoom\";\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Button"
                             } ],
-                            "className" : "",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "Context.patientConsole.state.selectedAction == null",
+                              "content" : "Context.patientConsole.state.selectedAction?.actionType !== \"ActionBodyEffect\";",
                               "language" : "JavaScript"
                             },
                             "layout" : {
                               "flexDirection" : "column"
                             },
-                            "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "name" : "action treatment",
+                            "name" : "treatment selected",
                             "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "patientWheel",
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.patientConsole.state.selectedAction == null",
+                          "language" : "JavaScript"
+                        },
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutStyle" : { },
-                        "name" : "layout",
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "borderTop" : "1px solid var(--colors-primarycolor)"
+                        },
+                        "name" : "action treatment",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : " Context.patientConsole.state.selectedPanel;",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "subMenu",
+                    "layoutStyle" : { },
+                    "name" : "sub wheel panel",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"\\\"GO TO\\\" Panel\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Context.patientConsole.state.selectedPanel !== 'goto';",
+                      "language" : "JavaScript"
+                    },
                     "layout" : {
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : { },
-                    "name" : "the Wheel",
+                    "name" : "goto",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"Debug: do auto-triage (dry-run)\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole();",
+                            "language" : "typescript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Fiche de suivi\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Cat&eacute;gorisation\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "center",
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { categorize } from \"./currentPatientZoom\";\n\ncategorize(Context.tagCategory.id);",
+                                "language" : "typescript"
+                              }
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "`<div class='tagCategory clickable' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "tagSystemCategories",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "sacco",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Variable.find(gameModel, 'tagSystem').areSelectedValues(self, [\"SACCO\"], false);",
+                            "language" : "JavaScript"
+                          }
+                        } ],
+                        "exposeAs" : "tagCategory",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getTagSystemCategories } from \"./triage\";\n[...getTagSystemCategories().categories].reverse();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "itemsOnly" : false,
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Context.patientConsole.state.selectedPanel !== 'triage';",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "triage",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
+                "className" : "patientWheel",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column toolbox",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -476,40 +936,44 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"Debug: do auto-triage (dry-run)\"",
-                      "language" : "JavaScript"
-                    },
+                    "children" : [ {
+                      "props" : {
+                        "className" : "title",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Console\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "title_container",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { doAutomaticTriageAndLogToConsole } from \"./triage\";\n\ndoAutomaticTriageAndLogToConsole(Context.patientConsole.setState);",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
-                  "type" : "Button"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "layoutStyle" : { },
+                    "className" : "console",
+                    "flexGrow" : 1,
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
+                      "border" : "1px solid var(--colors-disabledcolor)",
+                      "borderRadius" : "5px",
+                      "margin" : "10px",
+                      "maxHeight" : "130px",
+                      "overflow" : "auto",
+                      "padding" : "10px"
+                    },
+                    "name" : "console",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Fiche de suivi\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Cat&eacute;gorisation\"",
+                      "content" : "import { getPatientConsole } from \"./currentPatientZoom\";\ngetPatientConsole();",
                       "language" : "JavaScript"
                     }
                   },
@@ -518,65 +982,292 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "title",
                         "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "wlog(\"Do Categorize: \", Context.tagCategory.name);",
-                            "language" : "TypeScript"
-                          }
-                        },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "`<div class='tagCategory clickable' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
+                          "content" : "\"D&eacute;tails\"",
                           "language" : "JavaScript"
                         }
                       },
                       "type" : "Text"
                     } ],
-                    "className" : "tagSystemCategories",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "sacco",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "Variable.find(gameModel, 'tagSystem').areSelectedValues(self, [\"SACCO\"], false);",
-                        "language" : "JavaScript"
-                      }
-                    } ],
-                    "exposeAs" : "tagCategory",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getTagSystemCategories } from \"./triage\";\n[...getTagSystemCategories().categories].reverse();",
-                      "language" : "TypeScript"
+                    "layout" : { },
+                    "layoutClassName" : "title_container",
+                    "layoutStyle" : {
+                      "borderTop" : "1px solid var(--colors-disabledcolor)"
                     },
-                    "itemKey" : "id",
-                    "itemsOnly" : false,
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
+                    "name" : "details",
                     "style" : { }
                   },
-                  "type" : "For each"
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "block-details",
+                    "layoutStyle" : {
+                      "backgroundColor" : "var(--colors-backgroundcolor)",
+                      "border" : "1px solid var(--colors-disabledcolor)",
+                      "borderRadius" : "5px",
+                      "height" : "120px",
+                      "margin" : "10px",
+                      "overflow" : "auto"
+                    },
+                    "name" : "Details",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getBlockDetail } from \"./currentPatientZoom\";\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : {
+                              "margin" : "10px"
+                            },
+                            "name" : "human",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getShadowMan } from \"./graphics\";\ngetShadowMan();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "observedBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.blockName === Context.patientConsole.state.observedBlock;",
+                                    "language" : "JavaScript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "selectedBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
+                                    "language" : "JavaScript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "afflictedBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.observable;",
+                                    "language" : "JavaScript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "forTreatmentBlock",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.block.selectable;",
+                                    "language" : "JavaScript"
+                                  }
+                                } ],
+                                "layoutClassName" : "block",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\nif (Context.block.selectable) {\n\tselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);\n}",
+                                    "language" : "typescript"
+                                  }
+                                },
+                                "onPointerOver" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ ],
+                                  "content" : "import { observeBlock } from \"./currentPatientZoom\";\nif (Context.block.observable) {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n}\nreturn;"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "`${Context.block.svg}${Context.block.svg}`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "exposeAs" : "block",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getAllLocalizedBlocks } from \"./graphics\";\ngetAllLocalizedBlocks()",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "blockName",
+                            "itemsOnly" : true,
+                            "layout" : { },
+                            "layoutClassName" : "observe",
+                            "layoutStyle" : { },
+                            "name" : "block to observe",
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "layoutClassName" : "shadowMan",
+                        "layoutStyle" : {
+                          "height" : "450px",
+                          "width" : "200px"
+                        },
+                        "onAbsoluteClick" : { },
+                        "style" : { }
+                      },
+                      "type" : "AbsoluteLayout"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "extraAfflictedBlock",
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "alignItems" : "flex-start"
+                            },
+                            "onPointerOver" : {
+                              "@class" : "ScriptCallback",
+                              "args" : [ ],
+                              "content" : "import { observeBlock } from \"./currentPatientZoom\";\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.block.blockName",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "exposeAs" : "block",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocalizedAfflictedBlocks } from \"./graphics\";\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "blockName",
+                        "itemsOnly" : true,
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "blocks to observe",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "selected",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
+                                "language" : "JavaScript"
+                              }
+                            } ],
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "Context.block.blockName",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : {
+                              "padding" : "5px 0px"
+                            },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { selectWheelBlock } from \"./currentPatientZoom\";\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : {
+                              "fontSize" : "12px"
+                            }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "exposeAs" : "block",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocalizedBlocks } from \"./graphics\";\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "blockName",
+                        "itemsOnly" : true,
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "flexDirection" : "column"
+                        },
+                        "name" : "block for treatments",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "body",
+                    "layoutStyle" : { },
+                    "name" : "body",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "column",
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "FlexList"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\" ||\nContext.patientConsole?.state == null;",
+              "language" : "JavaScript"
+            },
             "layout" : { },
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
-              "height" : "100%"
+              "border" : "1px solid var(--colors-disabledcolor)",
+              "flexGrow" : "1",
+              "height" : "fit-content",
+              "padding" : "0"
             },
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\" &&\nContext.patientConsole?.state !== null;",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>No Patient<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "className" : "",
         "exposeAs" : "patientConsole",
@@ -598,10 +1289,12 @@
       "flexDirection" : "column"
     },
     "layoutStyle" : {
+      "flexGrow" : "1",
       "height" : "100%",
-      "overflow" : "auto",
+      "overflow" : "visible",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

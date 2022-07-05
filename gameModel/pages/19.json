@@ -1,0 +1,254 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\n`<h2>${getPathologyEditorContext().description}</h2>`;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext().preset == null",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\n`Preset: ${getPathologyEditorContext().preset}`;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { prettyPrintModule } from \"./pathologyEditor\";\n`<h3>${prettyPrintModule(Context.module.meta)}</h3>`;",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Block: <br></p>\"",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "choices" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getBlockChoices } from \"./pathologyEditor\";\ngetBlockChoices();",
+                                  "language" : "typescript"
+                                },
+                                "className" : "blockSelector",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updateModuleBlock } from \"./pathologyEditor\";\n\nupdateModuleBlock(Context.newBlockName);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newBlockName\"",
+                                    "language" : "JavaScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.module.block;",
+                                  "language" : "JavaScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Select input"
+                            } ]
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "`<h3>${Context.moduleArg.id}</h3>`",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "!Number.isNaN(+Context.moduleArg.max);",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "`${Context.moduleArg.value}`;",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "displayValues" : "NumberInput",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Number.isNaN(+Context.moduleArg.max);",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "import { updateModuleArg } from \"./pathologyEditor\";\n\nupdateModuleArg(Context.newValue);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"newValue\"",
+                                        "language" : "JavaScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "const v = Context.moduleArg;\n({...v, max : v.max ?? v.min});",
+                                      "language" : "JavaScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "NumberSlider"
+                                } ]
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "exposeAs" : "moduleArg",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getModuleArguments } from \"./pathologyEditor\";\ngetModuleArguments(Context.module.meta);",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "module",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext().modules",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ]
+          },
+          "type" : "PlayerIf"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Please feed page with Context.pathologyEditorContext<br></p>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            } ]
+          },
+          "type" : "PlayerElse"
+        } ],
+        "exposeAs" : "",
+        "ifCondition" : {
+          "@class" : "Script",
+          "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext() != null;",
+          "language" : "JavaScript"
+        },
+        "initialState" : {
+          "@class" : "",
+          "content" : "",
+          "language" : ""
+        },
+        "layoutStyle" : { },
+        "localState" : false,
+        "style" : { }
+      },
+      "type" : "If Else"
+    } ],
+    "className" : "pathologyEditor",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

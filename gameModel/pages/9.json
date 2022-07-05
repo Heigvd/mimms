@@ -1,0 +1,437 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Number of patients<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "displayValues" : "NumberInput",
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'patientNumber')",
+              "language" : "JavaScript"
+            },
+            "steps" : 99,
+            "style" : { }
+          },
+          "type" : "NumberSlider"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Pathologies Preset<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getSituationsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetSituationsDefinitionsAsChoices()",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "width" : "200px"
+            },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'situation')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-start",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Regenerate patients<br></p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { createPatients } from \"./GameModelerHelper\";\nconst n = Math.floor(Variable.find(gameModel, 'patientNumber').getValue(self));\ncreatePatients( n ,'patient-');",
+            "language" : "typescript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : { },
+              "y" : { }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { getPatientsHeight } from \"./patientGeneration\";\n\ngetPatientsHeight();",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : { },
+              "y" : { }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { getPatientBmi } from \"./patientGeneration\";\ngetPatientBmi();",
+              "language" : "TypeScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        }, {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "x" : { },
+              "y" : { }
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "import { getPatientAge } from \"./patientGeneration\";\ngetPatientAge();",
+              "language" : "TypeScript"
+            },
+            "showLine" : false,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "id" : "",
+                    "layoutStyle" : { },
+                    "name" : "",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.id;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.meta.sex;",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "id" : "",
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Header",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "initialSelectedPageId" : "19",
+                            "layoutStyle" : { },
+                            "name" : "patientPathologyEditor",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "exposeAs" : "pathologyEditorContext",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientPathologyConfigs } from \"./pathologyEditor\";\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.pathology.pIndex]]",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : {
+                          "alignItems" : "center"
+                        },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"change: \"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getAvailablePathologies } from \"./patientGeneration\";\ngetAvailablePathologies();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : {
+                          "alignItems" : "center"
+                        },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { buildScriptedPathologyPayload } from \"./patientGeneration\";\n\nconst p = buildScriptedPathologyPayload(Context.newPathologyId, 10);\n\nContext.patient.meta.scriptedPathologies.splice(Context.pathology.pIndex, 1, p);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"newPathologyId\"",
+                            "language" : "JavaScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "'';",
+                          "language" : "JavaScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"remove\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "Context.patient.meta.scriptedPathologies.splice(Context.pathology.pIndex, 1);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\n\nAPIMethods.runScript(script, {});",
+                            "language" : "typescript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "pathology",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "Context.patient.meta.scriptedPathologies.map((p, i) => ({\n\tpIndex: i,\n\t...p\n}))",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "pIndex",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Add pathology\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { getHumanGenerator } from \"./patientGeneration\"\n\ngetHumanGenerator().addPathologies(Context.patient.meta, 1);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty(\"${Context.patient.id}\", ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\n\nAPIMethods.runScript(script, Context);\n",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ]
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "border" : "1px solid"
+            },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patient",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import {  getPatientsBodyFactoryParamsArray } from \"./WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

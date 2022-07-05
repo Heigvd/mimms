@@ -1,11 +1,13 @@
 // THIS IS NOT A MODULE
 
-import { getBlocksSelector } from "./GameModelerHelper";
+import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "./GameModelerHelper";
 
 import { getItems, getPathologies } from "./registries";
 
-// Hide everything inside anonymous function
-(function () {
+Helpers.registerEffect(() => {
+
+  const skillChoices = getSkillsDefinitionsAsChoices();
+
 	/**
 	 * Custom patient edition
 	 */
@@ -62,20 +64,21 @@ import { getItems, getPathologies } from "./registries";
 
 	Schemas.addSchema("dataSchema", (entity, schema) => {
 		const od: IObjectDescriptor = entity as unknown as IObjectDescriptorWithId;
-		if (od.editorTag === 'patients') {
+		if (od.editorTag === 'humans') {
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
+
 			//hideProperty(newSchema, "label");
 			turnPropertyReadOnly(newSchema, "editorTag");
 			newSchema.properties.properties.view = {
-				label: 'Patient',
+				label: 'Human',
 				type: 'dictionary',
 				value: {},
 				keySchema: {
 					type: 'string',
 					view: {
-						label: 'Patient Id',
+						label: 'Human Id',
 						layout: 'shortInline'
 					}
 				},
@@ -101,8 +104,10 @@ import { getItems, getPathologies } from "./registries";
 									}
 								},
 								bmi: { type: 'number', view: { label: 'BMI [kg/m²]', layout: "shortInline" } },
+								scriptedPathologies: { view: { type: 'hidden' } },
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
-								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } }
+								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } },
+								skillId: {type: 'string', view: {label: 'Skill', layout: "shortInline", type: 'select', choices: skillChoices } },
 							}
 						}
 					}
@@ -180,13 +185,13 @@ import { getItems, getPathologies } from "./registries";
 
 		} else if (od.editorTag === 'compensation') {
 			// interface CompensationRule {
-			//   min: number;
-			//   max: number;
-			//   points: {
-			//     x: number;
-			//     y: number;
-			//   }[]
-			// }
+			//	min: number;
+			//	max: number;
+			//	points: {
+			//		x: number;
+			//		y: number;
+			//	}[]
+			//}
 
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
@@ -271,6 +276,7 @@ import { getItems, getPathologies } from "./registries";
 
 			return newSchema;
 		} else if (od.editorTag === 'scenarios') {
+			return schema;
 			/*
 			export type Scenario = {
 				event: {
@@ -301,7 +307,7 @@ import { getItems, getPathologies } from "./registries";
 					pathologyId: string;
 				}
 			}
-			
+
 			interface ItemActionEvent {
 				time: number;
 				blocks: BlockName[];
@@ -398,6 +404,95 @@ import { getItems, getPathologies } from "./registries";
 				}
 			};
 			return newSchema;
+		} else if (od.name === 'generation_settings') {
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+			//return newSchema;
+			newSchema.properties.properties = {
+				"required": true,
+				"type": "object",
+				"value": {},
+				properties: {
+					generationSettings: {
+						type: 'string',
+						view: {
+							type: "serializer",
+							schema: {
+								type: 'object',
+								properties: {
+									ageHistogram: schemaProps.array({
+										label: "Age Histogram",
+										visible: () => true,
+										required: true,
+										//TODO config
+										itemSchema: {
+											lowerBound: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
+											upperBound: { type: 'number', view: { label: 'Max', layout: "shortInline" } },
+											cardinality: { type: 'number', view: { label: 'Ratio', layout: "shortInline" } },
+										}
+									}),
+									heightMeanMen: { type: 'number', view: { label: 'Height Mean Men', layout: "shortInline" } },
+									heightStdDevMen: { type: 'number', view: { label: 'Height Standard Deviation Men', layout: "shortInline" } },
+
+									heightMeanWomen: { type: 'number', view: { label: 'Height Mean Women', layout: "shortInline" } },
+									heightStdDevWomen: { type: 'number', view: { label: 'Height Standard Deviation Women', layout: "shortInline" } },
+
+									BMImean: { type: 'number', view: { label: 'BMI Mean', layout: "shortInline" } },
+									BMIstdDev: { type: 'number', view: { label: 'BMI Standard Deviation', layout: "shortInline" } },
+
+									WomanManRatio: { type: 'number', view: { label: 'W/M Ratio', layout: "shortInline" } },
+								}
+
+							},
+						}
+					},
+				}
+
+			};
+			return newSchema;
+		} else if (od.editorTag === 'bags' || od.editorTag === 'situations' || od.editorTag === 'skills') {
+
+			const keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+			turnPropertyReadOnly(newSchema, "editorTag");
+
+			newSchema.properties.properties.view = {
+				label: od.editorTag,
+				type: 'dictionary',
+				value: {},
+				keySchema: {
+					type: 'string',
+					view: {
+						label: 'Id',
+						layout: 'shortInline'
+					}
+				},
+				valueSchema: {
+					type: 'string',
+					value: "{}",
+					view: {
+						type: "serializer",
+						schema: {
+							type: 'object',
+							properties: {
+								name: { type: 'string', view: { label: 'name', layout: "shortInline" } },
+								[keyName]: {
+									type: 'object',
+									value: {},
+									view: {
+										type: 'hidden',
+									}
+								}
+							}
+						}
+					}
+				}
+			};
+
+			return newSchema;
 		}
 	}, 'ObjectDescriptor');
 
@@ -416,11 +511,11 @@ import { getItems, getPathologies } from "./registries";
 				  "type": "customscript"
 				}
 			  }
-	
+
 			  return newSchema;
 			}
 		  }
 		}
 	  });
 	  */
-})();
+});

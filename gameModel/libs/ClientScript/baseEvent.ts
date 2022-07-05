@@ -1,8 +1,21 @@
+import { whoAmI } from "./WegasHelper";
 
 export interface BaseEvent {
-	id: number;
-	timestamp: number;
+	type: string;
+	emitterPlayerId: string;
+	emitterCharacterId: string;
+}
+
+export function initEmitterIds() {
+	return {
+		type: "",
+		emitterCharacterId: whoAmI(),
+		emitterPlayerId: String(self.getId()),
+	}
+}
+
+export interface TargetedEvent extends BaseEvent {
 	targetType: 'Human';
 	targetId: string;
-	time: number;
 }
+

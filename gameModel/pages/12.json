@@ -1,0 +1,241 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p></p><h1>Drill</h1><p></p>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Start !<br></p>\"",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "toolbar",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'not_started'",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "",
+            "id" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"6\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "patientPageLoaderDrill",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Patient categorized !<br></p>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "attachedToId" : "drillPretriPage",
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getCurrentPatientAutoTriage } from \"./currentPatientZoom\";\ngetCurrentPatientAutoTriage();",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.explanation.state.showExplanation;",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "onExitActions" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "Context.explanation.setState({showExplanation: false});",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "icon" : "key",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Show explanation</p>\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "Context.explanation.setState({showExplanation: true});",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "explanation",
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "({showExplanation: false});",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localState" : true,
+                "name" : "",
+                "style" : { }
+              },
+              "type" : "State"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"next patient\"",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isCurrentPatientCategorized } from \"./drill\";\n!!Variable.find(gameModel, 'currentPatient').getValue(self) && !isCurrentPatientCategorized()",
+              "language" : "JavaScript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "toolbar",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'ongoing'",
+          "language" : "JavaScript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "ongoing",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Congrats !<br></p>\"",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "toolbar",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'done'",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "DONE",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "id" : "drillPretriPage",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

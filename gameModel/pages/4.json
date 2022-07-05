@@ -2,16 +2,91 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
+        "label" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel,'patientWheelType')",
+          "content" : "\"Drill ?\"",
           "language" : "JavaScript"
         },
+        "layoutStyle" : { },
+        "onVariableChange" : {
+          "server" : {
+            "@class" : "Script",
+            "content" : "var props = gameModel.getProperties();\nprops.setFreeForAll(!props.getFreeForAll())",
+            "language" : "JavaScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "gameModel.getProperties().getFreeForAll();",
+          "language" : "JavaScript"
+        },
+        "style" : { },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "drill type",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'drillType')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getBagsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetBagsDefinitionsAsChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "bag type",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'bagType')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getSkillsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetSkillsDefinitionsAsChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "skill",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'skill')",
+              "language" : "JavaScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : " !gameModel.getProperties().getFreeForAll();",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "drill config",
         "style" : { }
       },
-      "type" : "Select input"
+      "type" : "FlexList"
     }, {
       "props" : {
         "layoutStyle" : { },
@@ -48,7 +123,7 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
@@ -66,7 +141,7 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
@@ -84,21 +159,21 @@
           "language" : "JavaScript"
         },
         "style" : { },
-        "type" : "checkbox"
+        "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running').getValue(self) === true;",
+          "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
           "language" : "JavaScript"
         },
-        "icon" : "play",
+        "icon" : "pause",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "TimeManager.start();",
+            "content" : "TimeManager.globalPause();",
             "language" : "JavaScript"
           }
         },
@@ -107,7 +182,7 @@
           "content" : "\"\"",
           "language" : "JavaScript"
         },
-        "layout" : { },
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "onVariableChange" : { },
         "style" : { }
@@ -117,14 +192,14 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running').getValue(self) === false;",
+          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
           "language" : "JavaScript"
         },
-        "icon" : "pause",
+        "icon" : "play",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "TimeManager.pause();",
+            "content" : "TimeManager.globalStart();",
             "language" : "JavaScript"
           }
         },
@@ -133,6 +208,7 @@
           "content" : "\"\"",
           "language" : "JavaScript"
         },
+        "layout" : { },
         "layoutStyle" : { },
         "onVariableChange" : { },
         "style" : { }

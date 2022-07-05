@@ -1,0 +1,15 @@
+.matrix-grid {
+	grid-gap: 10px;
+}
+
+.matrix-line-header {
+	grid-column-start: 1;
+}
+
+.matrix-column-header {
+	grid-row-start: 1;
+}
+
+.matrix-cell {
+	border: 1px solid black;
+}
