@@ -214,7 +214,7 @@ export function run() {
 				const action = item.actions[event.actionId];
 				if (action != null) {
 					logger.info("Apply Item: ", { time, item, action });
-					effects.push(doItemActionOnHumanBody(item, action, blocks, time));
+					effects.push(doItemActionOnHumanBody(item, action, blocks, time)!);
 				} else {
 					logger.warn(`Item Action Failed: Action "${event.actionId}" does not exist in`, item);
 				}

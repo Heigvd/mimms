@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1655712199135,
+  "createdTime" : 1653313739404,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1946,7 +1946,7 @@
     "oneShot" : false,
     "postTriggerEvent" : {
       "@class" : "Script",
-      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"semi_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_1\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_2\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 2539000,\n  \"y\": 1181345,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 2539015,\n  \"y\": 1181345,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 2539030,\n  \"y\": 1181345,\n  \"mapId\": \"the_world\"\n}, undefined);",
+      "content" : "EventManager.afflictPathology(\"1-1\", \"full_ac\", [\"THORAX\"], undefined);\nEventManager.afflictPathology(\"1-2\", \"semi_ac\", [\"LEFT_LEG\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_1\"], undefined);\nEventManager.afflictPathology(\"1-3\", \"lung_r1_5pm\", [\"BRONCHUS_2\"], undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-1\"\n}, {\n  \"x\": 2539067,\n  \"y\": 1181149,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-3\"\n}, {\n  \"x\": 2539072,\n  \"y\": 1181149,\n  \"mapId\": \"the_world\"\n}, undefined);\nEventManager.teleport({\n  \"objectType\": \"Human\",\n  \"objectId\": \"1-2\"\n}, {\n  \"x\": 2539077,\n  \"y\": 1181149,\n  \"mapId\": \"the_world\"\n}, undefined);",
       "language" : "JavaScript"
     },
     "refId" : "TriggerDescriptor:22373431:Ds1eRV",
@@ -2115,15 +2115,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "quarticSolver",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24035201:xZME0Z",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "registries",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2200,15 +2191,6 @@
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24034258:gJ8AN1",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "PatientActionFromContext",
-    "contentType" : "application/javascript",
-    "libraryType" : "ServerScript",
-    "refId" : "GameModelContent:24037605:OJ1A5r",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

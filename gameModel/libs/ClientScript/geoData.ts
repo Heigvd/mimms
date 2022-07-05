@@ -189,9 +189,17 @@ export function calculateLOS(
 		position.x + visionDistance,
 		position.y + visionDistance
 	]
-	const buildings = getBuildingInExtent(extentAroundPlayer)
-	return computeVisionPolygon(position, buildings, visionDistance, nbBoundingSegments)
+<<<<<<< HEAD
+	const buildings = getBuildingInExtent(extentAroundPlayer);
+	console.time("LOS");
+	
+	const los = computeVisionPolygon(position, buildings, visionDistance, nbBoundingSegments)
 		.map(({ point }) => point);
+	
+	console.timeEnd("LOS");
+
+	return los;
+
 }
 
 export function isPointInPolygon(point: Point, polygon: Point[]) {

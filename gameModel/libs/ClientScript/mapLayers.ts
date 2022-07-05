@@ -164,6 +164,30 @@ export function getHumanLayer(): FeatureCollection {
 	};
 }
 
+export function getHumanOverlays(): OverlayItem[] {
+	const humans = getHumans();
+
+	return humans.flatMap((human) => {
+		if (human.location) {
+			return [
+				{
+					payload: {
+						id: human.id,
+					},
+					overlayProps: {
+						overlayId: human.id,
+						className: 'human-overlay',
+						position: [human.location.x, human.location.y],
+						stopEvent: false,
+						positioning: 'bottom-center',
+					}
+				} as OverlayItem];
+		} else {
+			return [];
+		}
+	});
+}
+
 export function getDebugBuildingLayer(): FeatureCollection {
 	const hId = whoAmI();
 	const humans = getHumans();

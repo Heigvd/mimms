@@ -1,9 +1,10 @@
 import { SetZoomState } from "./currentPatientZoom";
 import { checkUnreachable, normalize } from "./helper";
-import { computeState, Environnment, HumanBody } from "./HUMAn";
-import { getCurrentPatientBody, getCurrentPatientHealth, HumanHealth } from "./the_world";
+import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from "./HUMAn";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientHealth, getHumanConsole, HumanHealth } from "./the_world";
 import { getEnv } from "./WegasHelper";
 
+type TriageFunction<T extends string> = ((data: PreTriageData, console: ConsoleLog[]) => PreTriageResult<T>) | undefined;
 
 const SECONDARY_TRIAGE = 'sec_triage';
 const INVOLVED = 'involved';
@@ -28,13 +29,6 @@ type SAP2020_CATEGORY =
 	| typeof INVOLVED
 	| typeof SECONDARY_TRIAGE;
 
-type SIEVE_CATEGORY =
-	| typeof DEAD
-	| typeof IMMEDIATE
-	| typeof URGENT
-	| typeof NON_URGENT
-	| typeof INVOLVED;
-
 type STANDARD_CATEGORY =
 	| typeof DEAD
 	| typeof IMMEDIATE
@@ -56,7 +50,7 @@ type SACCO_CATEGORY =
 	| "eleven"
 	| "twelve";
 
-interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+interface Category<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	id: T;
 	bgColor: string;
 	color: string;
@@ -70,7 +64,7 @@ type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE' | '
 
 
 
-interface TagSystem<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+interface TagSystem<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
 	categories: Category<T>[];
 }
 
@@ -170,16 +164,8 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 }
 
 
-const sieveSystem: TagSystem<SIEVE_CATEGORY> = {
+const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
-		{
-			id: INVOLVED,
-			bgColor: 'blue',
-			color: 'white',
-			name: 'SURVIVOR RECEPTION CENTER',
-			shouldBeHandledBy: 'ES',
-			priority: 4,
-		},
 		{
 			id: NON_URGENT,
 			bgColor: 'green',
@@ -530,8 +516,8 @@ const explanations = {
 
 type Explanation = keyof typeof explanations;
 
-interface PreTriageResult<T extends (SAP_CATEGORY | SAP2020_CATEGORY | SIEVE_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
-	categoryId: T;
+interface PreTriageResult<T extends (SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string)> {
+	categoryId: T | undefined;
 	actions: PreTriageAction[];
 	explanations: Explanation[],
 }
@@ -565,8 +551,7 @@ function runOneStep({ human, env, health }: PreTriageData): void {
 }
 
 function isUnconscious(data: PreTriageData) {
-	// TODO: 
-	return data.human.state.vitals.glasgow.total < 10;
+	return data.human.state.vitals.glasgow.total < 11;
 }
 
 function notCompatibleWithLife(data: PreTriageData) {
@@ -582,8 +567,34 @@ function massiveHemorrhage({ human }: PreTriageData) {
 	return human.state.vitals.cardio.extLossesFlow_mlPerMin > 10;
 }
 
+function getOrReadMetric<T>(
+	metric: BodyStateKeys,
+	humanState: BodyState,
+	console: ConsoleLog[], 
+	mostRecent: 'OLDEST' | 'MOST_RECENT') : T {
+	// try to re-use measure from console
+	const theConsole = mostRecent === 'MOST_RECENT' ? [...console].reverse() : console;
 
-export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGORY> {
+	for (const log of theConsole){
+		if (log.type === 'MeasureLog'){
+			for (const m of log.metrics){
+				if (m.metric === metric){
+					wlog(`Fetch measure ${metric} from console: ${m.value}`);
+					return m.value as T;
+				}
+			}
+		}
+	};
+
+	// fallback
+	const value = readKey(humanState, metric) as T;
+	wlog(`Metric not found in console: read ${metric} from body: ${value}`);
+	return value;
+}
+
+
+
+const doSapPreTriage : TriageFunction<SAP_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 
 	if (human.state.vitals.canWalk) {
@@ -595,12 +606,14 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 		};
 	}
 
-	if (human.state.vitals.respiration.rr == 0) {
+	
+
+	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') === 0) {
 		clearAirways(data);
 		runOneStep(data);
 	}
 
-	const rr = human.state.vitals.respiration.rr;
+	const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 
 	if (rr === 0) {
 		return {
@@ -630,7 +643,8 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 		};
 	}
 
-	if (!human.state.vitals.cardio.radialPulse) {
+	
+	if (!getOrReadMetric<boolean>("vitals.cardio.radialPulse", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: URGENT,
 			explanations: ["NO_RADIAL_PULSE"],
@@ -638,7 +652,7 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 		};
 	}
 
-	if (human.state.vitals.cardio.hr > 120) {
+	if (getOrReadMetric<number>("vitals.cardio.hr", data.human.state, console, 'MOST_RECENT') > 120) {
 		return {
 			categoryId: URGENT,
 			explanations: ["HR_GT_120"],
@@ -646,7 +660,7 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 		};
 	}
 
-	if (human.state.vitals.capillaryRefillTime_s > 2) {
+	if (getOrReadMetric<number>("vitals.capillaryRefillTime_s", data.human.state, console, 'MOST_RECENT') > 2) {
 		return {
 			categoryId: URGENT,
 			explanations: ["CRT_GT_2"],
@@ -662,7 +676,7 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 		};
 	}
 
-	if (human.state.vitals.glasgow.motor < 6) {
+	if (getOrReadMetric<number>("vitals.glasgow.motor", data.human.state, console, 'MOST_RECENT') < 6) {
 		return {
 			categoryId: URGENT,
 			explanations: ["GCSM_LT_6"],
@@ -678,10 +692,10 @@ export function doSapPreTriage(data: PreTriageData): PreTriageResult<SAP_CATEGOR
 }
 
 
-export function doCareFlightPreTriage(data: PreTriageData): PreTriageResult<STANDARD_CATEGORY> {
+const doCareFlightPreTriage : TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 
-	if (human.state.vitals.canWalk) {
+	if (getOrReadMetric<boolean>("vitals.canWalk", data.human.state, console, 'MOST_RECENT')) {
 		actions.push("Goto PMA");
 		return {
 			categoryId: "non_urgent",
@@ -691,16 +705,16 @@ export function doCareFlightPreTriage(data: PreTriageData): PreTriageResult<STAN
 	}
 
 	// OBEYS COMMANDS?
-	if (human.state.vitals.glasgow.motor < 6) {
+	if (getOrReadMetric<number>("vitals.glasgow.motor", data.human.state, console, 'MOST_RECENT') < 6) {
 		// NO
 
 		// BREATHES WITH OPEN AIRWAYS?
-		if (human.state.vitals.respiration.rr == 0) {
+		if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') == 0) {
 			clearAirways(data);
 			runOneStep(data);
 		}
 
-		const rr = human.state.vitals.respiration.rr;
+		const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 
 		if (rr === 0) {
 			// DO NOT
@@ -720,7 +734,7 @@ export function doCareFlightPreTriage(data: PreTriageData): PreTriageResult<STAN
 
 	} else {
 		// OBEYS COMMAND!
-		if (human.state.vitals.cardio.radialPulse) {
+		if (getOrReadMetric<boolean>("vitals.cardio.radialPulse", data.human.state, console, 'MOST_RECENT')) {
 			return {
 				categoryId: URGENT,
 				explanations: ["CANNOT_WALK"],
@@ -736,8 +750,8 @@ export function doCareFlightPreTriage(data: PreTriageData): PreTriageResult<STAN
 	}
 }
 
-export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CATEGORY> {
-	const { human, actions } = data;
+const doSievePreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
+	const { human, actions }= data;
 
 	if (massiveHemorrhage(data)) {
 		healHemorrhages(data);
@@ -750,13 +764,13 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 
 	if (!isInjured(data)) {
 		return {
-			categoryId: 'involved',
+			categoryId: undefined,
 			explanations: ["NOT_INJURED"],
 			actions,
 		}
 	}
 
-	if (human.state.vitals.canWalk) {
+	if (getOrReadMetric<boolean>("vitals.canWalk", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: "non_urgent",
 			explanations: ["CAN_WALK"],
@@ -765,12 +779,12 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 	}
 
 	// BREATHES WITH OPEN AIRWAYS?
-	if (human.state.vitals.respiration.rr == 0) {
+	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') === 0) {
 		clearAirways(data);
 		runOneStep(data);
 	}
 
-	const rr = human.state.vitals.respiration.rr;
+	const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 
 	if (rr === 0) {
 		// DO NOT
@@ -806,7 +820,7 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 		}
 	}
 
-	if (human.state.vitals.cardio.hr > 120) {
+	if (getOrReadMetric<number>("vitals.cardio.hr", data.human.state, console, 'MOST_RECENT') > 120) {
 		return {
 			categoryId: 'immediate',
 			explanations: ["HR_GT_120"],
@@ -814,7 +828,7 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 		}
 	}
 
-	if (human.state.vitals.cardio.hr > 120 || human.state.vitals.capillaryRefillTime_s > 2) {
+	if (getOrReadMetric<number>("vitals.capillaryRefillTime_s", data.human.state, console, 'MOST_RECENT') > 2) {
 		return {
 			categoryId: 'immediate',
 			explanations: ["CRT_GT_2"],
@@ -831,14 +845,14 @@ export function doSievePreTriage(data: PreTriageData): PreTriageResult<SIEVE_CAT
 
 
 type SaccoScore = 0 | 1 | 2 | 3 | 4;
-export function doSaccoPreTriage(data: PreTriageData): PreTriageResult<SACCO_CATEGORY> {
+const doSaccoPreTriage : TriageFunction<SACCO_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 	let rrScore: SaccoScore = 0;
 	let hrScore: SaccoScore = 0;
 	let gcsScore: SaccoScore = 0;
 	let ageScore: 2 | 1 | 0 | -2 | -3 = 0;
 
-	const rr = human.state.vitals.respiration.rr;
+	const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 
 	if (rr <= 0) {
 		rrScore = 0;
@@ -852,7 +866,7 @@ export function doSaccoPreTriage(data: PreTriageData): PreTriageResult<SACCO_CAT
 		rrScore = 2;
 	}
 
-	const hr = human.state.vitals.cardio.hr;
+	const hr = getOrReadMetric<number>("vitals.cardio.hr", data.human.state, console, 'MOST_RECENT');
 
 	if (hr <= 0) {
 		hrScore = 0;
@@ -866,14 +880,14 @@ export function doSaccoPreTriage(data: PreTriageData): PreTriageResult<SACCO_CAT
 		hrScore = 3;
 	}
 
-	const glasgow = human.state.vitals.glasgow;
-	if (glasgow.motor === 6) {
+	const glasgow_motor = getOrReadMetric<number>("vitals.glasgow.motor", data.human.state, console, 'MOST_RECENT');
+	if (glasgow_motor === 6) {
 		gcsScore = 4;
-	} else if (glasgow.motor === 5) {
+	} else if (glasgow_motor === 5) {
 		gcsScore = 3;
-	} else if (glasgow.motor === 4) {
+	} else if (glasgow_motor === 4) {
 		gcsScore = 2;
-	} else if (glasgow.motor > 1) {
+	} else if (glasgow_motor > 1) {
 		gcsScore = 1
 	}
 
@@ -906,10 +920,10 @@ export function doSaccoPreTriage(data: PreTriageData): PreTriageResult<SACCO_CAT
 	};
 }
 
-export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_CATEGORY> {
+const doStartPreTriage : TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 
-	if (human.state.vitals.canWalk) {
+	if (getOrReadMetric<boolean>("vitals.canWalk", data.human.state, console, 'MOST_RECENT')) {
 		actions.push("Goto PMA");
 		return {
 			categoryId: NON_URGENT,
@@ -918,11 +932,11 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 		};
 	}
 
-	if (human.state.vitals.respiration.rr == 0) {
+	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') === 0) {
 		clearAirways(data);
 		runOneStep(data);
 
-		if (human.state.vitals.respiration.rr > 0) {
+		if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT') > 0) {
 			return {
 				categoryId: IMMEDIATE,
 				explanations: ["BREATHES_AFTER_AIRWAYS_CLEARANCE"],
@@ -938,7 +952,7 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 
 	}
 
-	if (human.state.vitals.respiration.rr > 30) {
+	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT') > 30) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["RR_GT_30"],
@@ -946,7 +960,7 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 		};
 	}
 
-	if (!human.state.vitals.cardio.radialPulse) {
+	if (!getOrReadMetric<boolean>("vitals.cardio.radialPulse", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["NO_RADIAL_PULSE"],
@@ -954,7 +968,7 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 		};
 	}
 
-	if (human.state.vitals.capillaryRefillTime_s > 2) {
+	if (getOrReadMetric<boolean>("vitals.capillaryRefillTime_s", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["CRT_GT_2"],
@@ -962,7 +976,7 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 		};
 	}
 
-	if (human.state.vitals.glasgow.motor < 6) {
+	if (getOrReadMetric<number>("vitals.glasgow.motor", data.human.state, console, 'MOST_RECENT') < 6) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["GCSM_LT_6"],
@@ -977,10 +991,10 @@ export function doStartPreTriage(data: PreTriageData): PreTriageResult<STANDARD_
 	};
 }
 
-function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY> {
+const doSwissPreTriage : TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 
-	if (human.state.vitals.canWalk) {
+	if (getOrReadMetric<boolean>("vitals.canWalk", data.human.state, console, 'MOST_RECENT')) {
 		actions.push("Goto PMA");
 		return {
 			categoryId: 'sec_triage',
@@ -989,11 +1003,11 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (human.state.vitals.respiration.rr <= 0) {
+	if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'OLDEST') === 0) {
 		clearAirways(data);
 		runOneStep(data);
 
-		if (human.state.vitals.respiration.rr <= 0) {
+		if (getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT') === 0) {
 			return {
 				categoryId: DEAD,
 				explanations: ["STILL_NOT_BREATHING"],
@@ -1027,7 +1041,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		}
 	}
 
-	if (human.state.vitals.respiration.stridor) {
+	if (getOrReadMetric<number>("vitals.respiration.stridor", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["STRIDOR"],
@@ -1038,7 +1052,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 	// TODO
 	// MANUAL UPPER AIRWAYS MAINTENANCE? 
 
-	const rr = human.state.vitals.respiration.rr;
+	const rr = getOrReadMetric<number>("vitals.respiration.rr", data.human.state, console, 'MOST_RECENT');
 	if (rr > 30) {
 		return {
 			categoryId: IMMEDIATE,
@@ -1055,7 +1069,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (!human.state.vitals.cardio.radialPulse) {
+	if (!getOrReadMetric<boolean>("vitals.cardio.radialPulse", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["NO_RADIAL_PULSE"],
@@ -1063,7 +1077,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (human.state.vitals.capillaryRefillTime_s > 2) {
+	if (getOrReadMetric<number>("vitals.capillaryRefillTime_s", data.human.state, console, 'MOST_RECENT') > 2) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["CRT_GT_2"],
@@ -1071,7 +1085,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (human.state.vitals.glasgow.motor < 6) {
+	if (getOrReadMetric<number>("vitals.glasgow.motor", data.human.state, console, 'MOST_RECENT') < 6) {
 		return {
 			categoryId: IMMEDIATE,
 			explanations: ["GCSM_LT_6"],
@@ -1079,7 +1093,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (human.state.vitals.pain >= 7) {
+	if (getOrReadMetric<number>("vitals.pain", data.human.state, console, 'MOST_RECENT') > 7) {
 		return {
 			categoryId: URGENT,
 			explanations: ["HIGH_PAIN"],
@@ -1087,7 +1101,7 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 		};
 	}
 
-	if (!human.state.vitals.canWalk) {
+	if (getOrReadMetric<boolean>("vitals.canWalk", data.human.state, console, 'MOST_RECENT')) {
 		return {
 			categoryId: URGENT,
 			explanations: ["CANNOT_WALK"],
@@ -1118,12 +1132,16 @@ function doSwissPreTriage(data: PreTriageData): PreTriageResult<SAP2020_CATEGORY
 	};
 }
 
-
 export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	const tagSystem = getTagSystem();
 
 	const human = getCurrentPatientBody();
 	const health = getCurrentPatientHealth();
+
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+
+	const console = getHumanConsole(id).sort((a, b) => a.time - b.time);
+
 	const env = getEnv();
 
 	if (human == null || health == null) {
@@ -1140,7 +1158,7 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 		actions: [],
 	};
 
-	let triageFunction: ((data: PreTriageData) => PreTriageResult<string>) | undefined = undefined;
+	let triageFunction: TriageFunction<string> = undefined;
 	switch (tagSystem) {
 		case 'SIEVE':
 			triageFunction = doSievePreTriage;
@@ -1165,14 +1183,14 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	}
 
 	if (triageFunction != null) {
-		return triageFunction(data);
+		return triageFunction(data, console);
 	} else {
 		// not yet implemented
 	}
 
 }
 
-function getCategory(category: string): Category<string> | undefined {
+function getCategory(category: string | undefined): Category<string> | undefined {
 	const categories = getTagSystemCategories();
 	if (categories != null) {
 		return categories.categories.find(c => c.id === category)
@@ -1182,6 +1200,8 @@ function getCategory(category: string): Category<string> | undefined {
 export function doAutomaticTriageAndLogToConsole(setState: SetZoomState) {
 	const tagSystem = getTagSystem();
 	const result = doAutomaticTriage();
+
+	const patientId = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
 	if (result != null) {
 		const category = getCategory(result.categoryId);
@@ -1213,12 +1233,18 @@ export function doAutomaticTriageAndLogToConsole(setState: SetZoomState) {
 		}
 		output.push("</div>")
 
-		setState(state => {
+		APIMethods.runScript(`EventManager.logMessageToPatientConsole(${JSON.stringify(patientId)}, ${JSON.stringify(output.join(""))});`, {});
+		wlog("PreTriage: " + output.join(""));
+		/*setState(state => {
 			return { ...state, logs: [...state.logs, output.join("")] };
-		});
+		});*/
 	} else {
-		setState(state => {
+		wlog(`PreTriage "${tagSystem}": Not Yet Implements]`);
+		APIMethods.runScript(`EventManager.logMessageToPatientConsole(${JSON.stringify(patientId)}, PreTriage "${tagSystem}": Not Yet Implements]);`, {});
+
+		/*setState(state => {
 			return { ...state, logs: [...state.logs, `PreTriage "${tagSystem}": Not Yet Implements]`] };
-		});
+		});*/
 	}
 }
+

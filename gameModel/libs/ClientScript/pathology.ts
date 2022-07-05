@@ -124,7 +124,6 @@ export interface ActionBodyMeasure {
 	/** human readable name */
 	name: string;
 	metricName: BodyStateKeys[];
-	formatter?: ('PERCENT' | 'INT' | '.2')[];
 	category: ABCDECategory;
 }
 
