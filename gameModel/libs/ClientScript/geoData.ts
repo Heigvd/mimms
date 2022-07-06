@@ -188,8 +188,8 @@ export function calculateLOS(
 		position.y - visionDistance,
 		position.x + visionDistance,
 		position.y + visionDistance
-	]
-<<<<<<< HEAD
+    ]
+
 	const buildings = getBuildingInExtent(extentAroundPlayer);
 	console.time("LOS");
 	

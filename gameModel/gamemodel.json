@@ -2471,19 +2471,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pathFinding",
+    "contentKey" : "MatrixEditor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:441099:z0DmoU",
+    "refId" : "GameModelContent:24055651:hf6ZEg",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "MatrixEditor",
+    "contentKey" : "pathFinding",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24055651:hf6ZEg",
+    "refId" : "GameModelContent:441099:z0DmoU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2712,7 +2712,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn with maps (2)",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
