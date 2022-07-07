@@ -5,5 +5,12 @@
   "useTabs": true,
   "printWidth": 100,
   "bracketSpacing": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "overrides": [{
+      "files": "*.json",
+      "options": {
+          "useTabs": false,
+          "tabWidth": 2
+      }
+  }]
 }

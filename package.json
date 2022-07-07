@@ -9,7 +9,9 @@
     "clean": "rimraf dist && tsc",
     "build": "tsc",
     "test": "jest",
-    "lint": "eslint 'src' --ext '.ts'"
+    "lint": "eslint 'gameModel' --ext '.ts'",
+    "format": "prettier --write 'gameModel/**/*.[tj]s'",
+    "checkFormat": "prettier --check 'gameModel/**/*.[tj]s'"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.174",
