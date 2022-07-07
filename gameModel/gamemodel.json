@@ -2436,7 +2436,7 @@
     "@class" : "GameModelContent",
     "content" : "",
     "contentKey" : "layersData",
-    "contentType" : "application/javascript",
+    "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:427114:jexCPN",
     "version" : null,

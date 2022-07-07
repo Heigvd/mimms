@@ -226,7 +226,8 @@ export class Grid {
 	): Node[][] {
 		const newGrid: Node[][] = [];
 		let id: number = 0;
-
+		wlog("ID: ", id);
+		console.time("new Grid");
 		// Generate an empty matrix
 		for (let y = 0; y < height; y++) {
 			newGrid[y] = [];
@@ -239,6 +240,7 @@ export class Grid {
 				id++;
 			}
 		}
+		console.timeLog("new Grid");
 
 		/**
 		 * In case we have a matrix loaded.
@@ -253,7 +255,8 @@ export class Grid {
 				}
 			}
 		}
-
+		console.timeEnd("new Grid");
+		wlog("ID: ", id);
 		return newGrid;
 	}
 
@@ -433,11 +436,11 @@ interface PathFinderProps {
 
 /**
  * A class that implements AStar and ThetaStar pathfinding algorithm
- * 
+ *
  * based on :
  * AStar : AI for Games, Third Edition, 3rd Edition, Ian Millington, ISBN: 9781351053280
  * ThetaStar : Theta*: Any-Angle Path Planning on Grids, Kenny Daniel & Alex Nash & Sven Koenig & Ariel Felner, Journal of Artificial Intelligence Research 39 (2010) 533-579
- * 
+ *
  * APThetaStar is not implemented. It would guarantee a shortest path but at the cost of a higher computation load.
  * The performance increase for APTheta implementation is not worth it.
  */
@@ -785,7 +788,7 @@ export class PathFinder {
 				wlog("true", "[0;0]->[4;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 0 }));
 				wlog("true", "[0;0]->[0;3]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 0, y: 3 }));
 				wlog("true", "[0;0]->[3;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 3, y: 0 }));
-		
+
 				wlog("===================================================");
 				wlog("false", "[0;0]->[4;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 4 }));
 				wlog("false", "[0;0]->[2;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 2, y: 4 }));
@@ -828,7 +831,7 @@ export class PathFinder {
 
 	/**
 	 * Find path between two points by visiting the graph
-	 * Take world coordinate and return path in world coordinate 
+	 * Take world coordinate and return path in world coordinate
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm = "ThetaStar"): Point[] {
 		// Translate into grid points
@@ -842,7 +845,7 @@ export class PathFinder {
 		return this.toWorldPath(path);
 	}
 
-	/** 
+	/**
 	 * Translate path in grid coordinates into world coordinates
 	 */
 	private toWorldPath(path: Point[]): Point[] {
@@ -895,16 +898,16 @@ export class PathFinder {
 	/**
 	 * Find the nearest point without obstacle
 	 */
-	public findNearestWalkablePoint(position: Point):Point | undefined {
+	public findNearestWalkablePoint(position: Point): Point | undefined {
 		const gridPosition = PathFinder.worldPointToGridPoint(position, this.cellSize, this.offsetPoint);
 		const neighbors = this.grid.getSurroundingNodes(gridPosition, true)
-		for(const neighbor of neighbors){
-			if(neighbor.getIsWalkable()){
-				return PathFinder.gridPointToWorldPoint(neighbor.position,this.cellSize, this.offsetPoint);
+		for (const neighbor of neighbors) {
+			if (neighbor.getIsWalkable()) {
+				return PathFinder.gridPointToWorldPoint(neighbor.position, this.cellSize, this.offsetPoint);
 			}
 		}
 		// Looping again for recursion so we find the nearest point around the position
-		for(const neighbor of neighbors){
+		for (const neighbor of neighbors) {
 			return this.findNearestWalkablePoint(neighbor.position);
 		}
 	}

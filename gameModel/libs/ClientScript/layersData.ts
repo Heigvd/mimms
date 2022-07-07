@@ -1,4 +1,3 @@
-import { getBuildingInExtent, isPointInPolygon, lineSegmentInterception } from "./geoData";
 import { Point, Polygon, Polygons, Segment } from "./helper";
 
 export const buildingLayer = Helpers.useRef<any>("buildingLayer", null);
@@ -8,13 +7,15 @@ export const obstacleGrid = Helpers.useRef<WorldGrid>("obstacleGridSource", {
 	cellSize: 1,
 	gridWidth: 1,
 	gridHeight: 1,
-	offsetPoint: { x: 0, y: 0 }
+	offsetPoint: { x: 0, y: 0 },
+	init: false,
 });
 
 const CELL_SIZE_METTER = 1;
 
 
 export interface WorldGrid {
+	init: boolean;
 	grid: number[][];
 	gridWidth: number;
 	gridHeight: number;
@@ -30,7 +31,7 @@ export interface WorldGrid {
  * @param cellSize the width = height of one cell
  * @param getObstaclesInExtent a function that will return all the obstacles in an extent
  */
-export function generateGridMatrix(worldHeight: number, worldWidth: number, cellSize: number, offsetPoint: Point, getObstaclesInExtent: (extent: ExtentLikeObject) => Polygons): WorldGrid {
+/*export function generateGridMatrix(worldHeight: number, worldWidth: number, cellSize: number, offsetPoint: Point, getObstaclesInExtent: (extent: ExtentLikeObject) => Polygons): WorldGrid {
 	let grid: number[][] = [];
 	const gridHeight = Math.round(worldHeight / cellSize);
 	const gridWidth = Math.round(worldWidth / cellSize);
@@ -107,6 +108,44 @@ export function generateGridMatrix(worldHeight: number, worldWidth: number, cell
 		cellSize,
 		offsetPoint
 	};
+}*/
+
+export function generateGridMatrix(worldHeight: number, worldWidth: number, cellSize: number, offsetPoint: Point): WorldGrid {
+	const grid: number[][] = [];
+	const gridHeight = Math.round(worldHeight / cellSize);
+	const gridWidth = Math.round(worldWidth / cellSize);
+	const layer = buildingLayer.current;
+	const source = layer.getSource();
+
+	console.time("genGridMatrix");
+	for (let j = 0; j < gridHeight; j += 1) {
+		grid[j] = [];
+		for (let i = 0; i < gridWidth; i += 1) {
+
+			const minX = i * cellSize + offsetPoint.x;
+			const minY = j * cellSize + offsetPoint.y;
+			const maxX = (i + 1) * cellSize + offsetPoint.x;
+			const maxY = (j + 1) * cellSize + offsetPoint.y;
+
+			const cellExtent = [minX, minY, maxX, maxY];
+
+			source.forEachFeatureIntersectingExtent(cellExtent, () => {
+				grid[j][i] = 1;
+				return true;
+			});
+		}
+	}
+
+	console.timeEnd("genGridMatrix");
+
+	return {
+		init: true,
+		grid,
+		gridWidth,
+		gridHeight,
+		cellSize,
+		offsetPoint,
+	};
 }
 
 export function onBuildingLayerReady(layer: any, map: any) {
@@ -122,5 +161,7 @@ export function onBuildingLayerReady(layer: any, map: any) {
 	const cellSize = CELL_SIZE_METTER;
 	const offsetPoint: Point = { x: extent[0] * meterPerUnit, y: extent[1] * meterPerUnit }
 
-	obstacleGrid.current = generateGridMatrix(worldHeight, worldWidth, cellSize, offsetPoint, getBuildingInExtent);
+	if (obstacleGrid.current.init == false){
+		obstacleGrid.current = generateGridMatrix(worldHeight, worldWidth, cellSize, offsetPoint);
+	}
 }

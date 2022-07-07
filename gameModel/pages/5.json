@@ -133,26 +133,32 @@
                           "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
                           "language" : "TypeScript"
                         },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "flexGrow" : "1"
+                        },
                         "name" : "gamePageLoader",
                         "style" : { }
                       },
                       "type" : "PageLoader"
                     } ],
+                    "className" : "fullSize",
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "fullSize",
                     "layoutStyle" : { },
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
+                "className" : "",
                 "exposeAs" : "worldTime",
                 "initialState" : {
                   "@class" : "Script",
                   "content" : "({time: 0});",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "fullSize",
                 "layoutStyle" : { },
                 "localState" : true,
                 "name" : "TimeManager",
@@ -181,11 +187,13 @@
           },
           "type" : "PlayerElse"
         } ],
+        "className" : "",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getTimeMode } from \"./gameMaster\";\ngetTimeMode() === 'LIVE_WORLD';",
           "language" : "JavaScript"
         },
+        "layoutClassName" : "fullSize",
         "layoutStyle" : { },
         "style" : { }
       },
@@ -201,10 +209,9 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "fullSize",
     "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
+      "overflow" : "auto"
     },
     "localState" : false,
     "style" : { }

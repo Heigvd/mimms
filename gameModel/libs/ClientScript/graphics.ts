@@ -1,10 +1,8 @@
-import { getDirectMessagesFrom } from "./communication";
 import { getAfflictedBlocks } from "./currentPatientZoom";
 import { add, interpolate, normalize, Point } from "./helper";
-import { allBlocks, BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
+import {  BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
 import { Categorization, getCurrentPatientBody, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { Category, getCategory } from "./triage";
-import { whoAmI } from "./WegasHelper";
 
 export interface HumanOverview {
 	height_cm: number;
@@ -19,53 +17,6 @@ export interface HumanOverview {
 	tidalVolume_L: number;
 }
 
-export function getFogOfWar() {
-	const hId = whoAmI();
-	const humans = getHumans();
-	const me = humans.find(h => h.id === hId);
-
-	const myLocation = me?.location;
-	if (myLocation != null) {
-		const x = myLocation.x;
-		const y = myLocation.y;
-		const radius = lineOfSightRadius;
-
-		return `<svg width="1000px" height="500px" class="fogOfWar">
-	<path class="rect1176" style="opacity:0.8;fill:#849784;"
-    d="M 0 0 L 0 500 L 1000 500 L 1000 0 L 0 0 z
-    M ${x - radius} ${y}
-    A 100 100 0 0 1 ${x + radius} ${y}
-    A 100 100 0 0 1 ${x - radius} ${y}
-    z " />
-	</svg>`;
-
-	} else {
-		return '';
-	}
-}
-
-export function getLocatedBubble(human: { id: string } & Located): string | undefined {
-	let svg = '';
-	const msgs = getDirectMessagesFrom(human.id);
-
-	if (msgs?.length > 0 && human.location) {
-		const { x, y } = Context.human.location;
-		const left = `${x - 18}px`;
-		const top = `${y - 18}px`;
-		const mergedMsgs = msgs.map(msg => `<div> - ${msg}</div>`).join('');
-
-		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
-		<div class='smile talkbubble'>${mergedMsgs}</div>
-		<svg
-			width="10mm"
-			height="10mm"
-			viewBox="0 0 10 10" version="1.1" id="svg5"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:svg="http://www.w3.org/2000/svg">
-		</svg></div>`;
-	}
-	return svg
-}
 
 function getCategoryCardSvgRect(id: string, x : number=0, y: number = 0, size: number=4): string {
 	const human = getHuman(id);
@@ -78,38 +29,6 @@ function getCategoryCardSvgRect(id: string, x : number=0, y: number = 0, size: n
 		}
 	}
 	return '';
-}
-
-
-export function getLocatedSmiley(human: { id: string } & Located): string | undefined {
-	let svg = '';
-	if (human.location) {
-		const { x, y } = Context.human.location;
-		const left = `${x - 18}px`;
-		const top = `${y - 18}px`;
-
-
-		svg = `<div style="position:absolute; top:${top}; left: ${left}" >
-		<svg
-	width="10mm"
-	height="10mm"
-	viewBox="0 0 10 10" version="1.1" id="svg5"
-	xmlns="http://www.w3.org/2000/svg"
-	xmlns:svg="http://www.w3.org/2000/svg">
-	<g id="layer1" transform="translate(-6.977376,-6.450983)">
-		<circle style="fill:#ffda44;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1" id="path846" cx="11.977376" cy="11.450983" r="5" />
-		<circle style="fill:#000000;stroke:none;stroke-width:0.1" id="path1052" cx="10.535248" cy="10.362354" r="0.73735136" />
-		<circle style="fill:#000000;stroke:none;stroke-width:0.1" id="path1052-9" cx="13.470585" cy="10.390603" r="0.73735136" />
-	    <path id="rect1227" style="stroke-width:0.1" d="m 9.8773345,13.00539 c 1.5194485,0.375003 2.8864495,0.400968 4.2755345,0 v 0 c -0.939746,1.191507 -3.019034,1.270674 -4.2755345,0 z" />
-	</g>
-	<text style="font-size:3px;stroke-width:0.1"
-	     x="0.61097282"
-	     y="9.563179"
-	>${human.id}</text>
-		${getCategoryCardSvgRect(human.id, 7, 0, 3)}
-	</svg></div>`;
-	}
-	return svg
 }
 
 

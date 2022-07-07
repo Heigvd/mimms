@@ -1,4 +1,5 @@
 import { sendEvents } from "./EventManager";
+import { mapRef } from "./layersData";
 import { EventPayload, PathologyEvent, ScriptedPathologyPayload, TeleportEvent } from "./the_world";
 import { getPatientsBodyFactoryParamsArray } from "./WegasHelper";
 
@@ -15,6 +16,9 @@ export function reviveScriptedEvent(emitter: {
 	return pe;
 }
 
+function getFirstCoordinate() : [number, number] {
+ 	return mapRef.current.getView().getCenter();
+}
 
 export function premiereVague() {
 
@@ -24,15 +28,16 @@ export function premiereVague() {
 		emitterCharacterId: "",
 		emitterPlayerId: String(self.getId()),
 	};
-	let x = 10;
-	let y = 10;
 
+	const [cx,cy] = getFirstCoordinate();
+
+	
 	const events = patients.flatMap(({ id, meta }, i) => {
-		if (i % 10 === 0) {
-			y += 40;
-			x = 10;
-		}
-		x += 40;
+		const alpha = 3.1415092 / 3.5 * i;
+		const r = 2*i;
+		const y = cy + Math.sin(alpha) * r;
+		const x = cx + Math.cos(alpha) * r;
+
 		const teleport: TeleportEvent = {
 			type: 'Teleport',
 			...emitter,

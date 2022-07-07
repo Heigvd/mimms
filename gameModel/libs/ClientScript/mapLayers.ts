@@ -1,4 +1,4 @@
-import { obstacleGrid } from "./layersData";
+import { mapRef, obstacleGrid } from "./layersData";
 import { getDirectMessagesFrom } from "./communication";
 import { getBuildingInExtent } from "./geoData";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
@@ -57,15 +57,21 @@ export const emptyFeatureCollection: FeatureCollection = {
 	features: []
 }
 
-const left = 2485071.58;
-const bottom = 1075346.31;
-const right = 2828515.82;
-const top = 1299941.79
-
 export function getFogOfWarLayer(): FeatureCollection {
 	const hId = whoAmI();
 	const humans = getHumans();
 	const me = humans.find(h => h.id === hId);
+
+	const initialMap = mapRef.current;
+ 	const extent = initialMap.getView().calculateExtent(initialMap.getSize());
+	//wlog("extent: ", extent);
+    const width = extent[2] - extent[0];
+    const height = extent[3] - extent[1];
+
+    const left = extent[0] - width;
+    const top = extent[1] - height;
+    const right = extent[2] + width;
+    const bottom = extent[3] + height;
 
 	const layer: FeatureCollection = {
 		"type": "FeatureCollection",

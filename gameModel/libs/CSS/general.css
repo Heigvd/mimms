@@ -2,3 +2,10 @@
 button.wegas-btn > div > div > p:first-child:last-child {
 	margin : 0;
 }
+
+
+
+.fullSize {
+	height: 100%;
+	width: 100%;
+}

@@ -313,7 +313,7 @@ let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 //let fogType: FogType = 'NONE';
 
 
-// TODO: line of sight: 
+// TODO: line of sight:
 export const lineOfSightRadius = 100;
 
 const sqRadius = lineOfSightRadius * lineOfSightRadius;
@@ -396,6 +396,7 @@ function computeCurrentLocation(
 				gridHeight,
 				gridWidth
 			} = obstacleGrid.current;
+
 			const pathFinder = new PathFinder({
 				grid: {
 					matrix: grid,
@@ -736,11 +737,12 @@ function rebuildState(time: number, env: Environnment) {
 	//if (myPosition.mostRecent != null) {
 	const visibles: ObjectId[] = [];
 	let outOfSight: ObjectId[] = [];
-	
-    if (myPosition.mostRecent.state.lineOfSight == null) {
+
+    if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
 		myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 	}
-	const lineOfSight = myPosition.mostRecent.state.lineOfSight!;
+
+	const lineOfSight = myPosition.mostRecent?.state.lineOfSight!;
 
 	if (fogType === 'NONE') {
 		// no fog: update all objects

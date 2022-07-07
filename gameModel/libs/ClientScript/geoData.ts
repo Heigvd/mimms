@@ -188,14 +188,14 @@ export function calculateLOS(
 		position.y - visionDistance,
 		position.x + visionDistance,
 		position.y + visionDistance
-    ]
+	]
 
 	const buildings = getBuildingInExtent(extentAroundPlayer);
 	console.time("LOS");
-	
+
 	const los = computeVisionPolygon(position, buildings, visionDistance, nbBoundingSegments)
 		.map(({ point }) => point);
-	
+
 	console.timeEnd("LOS");
 
 	return los;
@@ -263,7 +263,3 @@ export function mergePolygons(polygons: Polygons): Polygon {
 	return mergedPolygon;
 }
 */
-
-
-
-}
