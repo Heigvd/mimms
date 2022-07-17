@@ -1,6 +1,6 @@
 import { mapRef, obstacleGrid } from "./layersData";
 import { getDirectMessagesFrom } from "./communication";
-import { getBuildingInExtent } from "./geoData";
+import { getBuildingInExtent } from "./lineOfSight";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 import { PathFinder } from "./pathFinding";
@@ -63,52 +63,57 @@ export function getFogOfWarLayer(): FeatureCollection {
 	const me = humans.find(h => h.id === hId);
 
 	const initialMap = mapRef.current;
- 	const extent = initialMap.getView().calculateExtent(initialMap.getSize());
-	//wlog("extent: ", extent);
-    const width = extent[2] - extent[0];
-    const height = extent[3] - extent[1];
-
-    const left = extent[0] - width;
-    const top = extent[1] - height;
-    const right = extent[2] + width;
-    const bottom = extent[3] + height;
-
-	const layer: FeatureCollection = {
-		"type": "FeatureCollection",
-		"name": "fogOfWar",
-		"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
-		"features": [
-			{
-				"type": "Polygon",
-				"coordinates": [
-					[
-						[left, top],
-						[left, bottom],
-						[right, bottom],
-						[right, top],
-						[left, top]
-					],
-				]
-			}
-		]
-	};
-
-	const hole: PointLikeObject[] = [];
-	(layer.features[0] as PolygonFeature).coordinates.push(hole)
+	if (initialMap) {
 
 
-	const visionPoints = me?.lineOfSight || [];
+		const extent = initialMap.getView().calculateExtent(initialMap.getSize());
+		//wlog("extent: ", extent);
+		const width = extent[2] - extent[0];
+		const height = extent[3] - extent[1];
 
-	visionPoints.forEach(point => {
-		hole.push([point.x, point.y])
-	})
+		const left = extent[0] - width;
+		const top = extent[1] - height;
+		const right = extent[2] + width;
+		const bottom = extent[3] + height;
 
-	if (visionPoints[0] != null) {
-		hole.push(hole[0])
+		const layer: FeatureCollection = {
+			"type": "FeatureCollection",
+			"name": "fogOfWar",
+			"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
+			"features": [
+				{
+					"type": "Polygon",
+					"coordinates": [
+						[
+							[left, top],
+							[left, bottom],
+							[right, bottom],
+							[right, top],
+							[left, top]
+						],
+					]
+				}
+			]
+		};
+
+		const hole: PointLikeObject[] = [];
+		(layer.features[0] as PolygonFeature).coordinates.push(hole)
+
+
+		const visionPoints = me?.lineOfSight || [];
+
+		visionPoints.forEach(point => {
+			hole.push([point.x, point.y])
+		})
+
+		if (visionPoints[0] != null) {
+			hole.push(hole[0])
+		}
+
+		return layer;
+	} else {
+		return emptyFeatureCollection;
 	}
-
-	return layer;
-
 }
 
 
@@ -173,25 +178,31 @@ export function getHumanLayer(): FeatureCollection {
 export function getHumanOverlays(): OverlayItem[] {
 	const humans = getHumans();
 
-	return humans.flatMap((human) => {
-		if (human.location) {
-			return [
-				{
-					payload: {
-						id: human.id,
-					},
-					overlayProps: {
-						overlayId: human.id,
-						className: 'human-overlay',
-						position: [human.location.x, human.location.y],
-						stopEvent: false,
-						positioning: 'bottom-center',
-					}
-				} as OverlayItem];
-		} else {
-			return [];
-		}
-	});
+	return humans
+		.flatMap(human => {
+			if (human.location) {
+				return [human]
+			} else {
+				return [];
+			}
+		})
+		.sort((h1, h2) => {
+			return h1.location!.y - h2.location!.y
+		}).map((human) => {
+			return {
+				payload: {
+					id: human.id,
+				},
+				overlayProps: {
+					overlayId: human.id,
+					className: 'human-overlay',
+					position: [human.location!.x, human.location!.y],
+					stopEvent: false,
+					positioning: 'bottom-center',
+					offset: [0, 20]
+				}
+			} as OverlayItem;
+		});
 }
 
 export function getDebugBuildingLayer(): FeatureCollection {
@@ -323,7 +334,7 @@ export function getPathLayer() {
 				coordinates: v.map(point => ([point.x, point.y]))
 			},
 			properties: {
-				color: i === 0 ? "green" : i === 1 ? "yellow" : "red"
+				color: i === 0 ? "hotpink" : i === 1 ? "#888" : "red"
 			}
 		}
 		source.features.push(newFeature);

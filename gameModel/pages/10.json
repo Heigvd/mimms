@@ -163,6 +163,22 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
+                                                "className" : "",
+                                                "layoutClassName" : "cell-label",
+                                                "layoutStyle" : {
+                                                  "flexDirection" : "column",
+                                                  "textAlign" : "center"
+                                                },
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getCellLabel } from \"./MatrixEditor\";\ngetCellLabel();",
+                                                  "language" : "JavaScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
                                                 "children" : [ {
                                                   "props" : {
                                                     "layoutStyle" : {
@@ -178,7 +194,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\n`${selected ? \"◉\" : \"○\"} ${Context.cellDef.def.label}`;",
+                                                      "content" : "import { getCellConfigByIndex, getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\nconst config = getCellConfigByIndex(Context.cellDef.id);\nconst title = config.tooltip ?? '';\nconst button = `${selected ? \"◉\" : \"○\"} ${Context.cellDef.def.label}`;\n`<span title=\"${title}\">${button}</span>`;",
                                                       "language" : "JavaScript"
                                                     }
                                                   },
@@ -201,22 +217,6 @@
                                                 "style" : { }
                                               },
                                               "type" : "For each"
-                                            }, {
-                                              "props" : {
-                                                "className" : "",
-                                                "layoutClassName" : "cell-label",
-                                                "layoutStyle" : {
-                                                  "flexDirection" : "column",
-                                                  "textAlign" : "center"
-                                                },
-                                                "style" : { },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { getCellLabel } from \"./MatrixEditor\";\ngetCellLabel();",
-                                                  "language" : "JavaScript"
-                                                }
-                                              },
-                                              "type" : "Text"
                                             }, {
                                               "props" : {
                                                 "hideIf" : {
@@ -317,7 +317,16 @@
                                               },
                                               "type" : "String input"
                                             } ],
-                                            "className" : "matrix-cell",
+                                            "className" : "",
+                                            "computedAttributes" : [ {
+                                              "applyOn" : "",
+                                              "attrName" : "data-cell-value",
+                                              "attrValue" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getCellValue } from \"./MatrixEditor\";\ngetCellValue();",
+                                                "language" : "JavaScript"
+                                              }
+                                            } ],
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
@@ -447,9 +456,10 @@
     },
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
+      "overflow" : "visible",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

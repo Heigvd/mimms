@@ -1,13 +1,66 @@
 import { formatMetric } from "./currentPatientZoom";
 import { BodyStateKeys, computeMetas } from "./HUMAn";
-import { CellDef, DataDef, EhancedCellData, MatrixConfig, setMatrixState } from "./MatrixEditor";
+import { CellDef, DataDef, EhancedCellData, MatrixConfig, MatrixState, setMatrixState } from "./MatrixEditor";
 import { getPathology } from "./registries";
-import { LickertData, run_lickert } from "./RUN";
+import { LickertData, run_lickert, Serie } from "./RUN";
 import { getCurrentPatientBodyParam, getCurrentPatientId, getPatientIds } from "./WegasHelper";
 
 
+export interface LickertState {
+	toggle: boolean;
+}
+
+export function getInitialLickertState(): LickertState {
+	return {
+		toggle: true
+	}
+}
+
+export function getMainLickertState(): LickertState {
+	return Context.lickertMainState.state;
+}
+
+export function setMainLickertState(setter: (state: LickertState) => MatrixState) {
+	Context.lickertMainState.setState(setter);
+}
+
+
+function save() {
+	//setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	//setMainLickertState(s => ({ ...s, toggle: !s.toggle }));
+
+	saveData();
+}
+
+
+export function nextUndonePatient() {
+	const allIds = getPatientIds().sort();
+
+	let currentIndex = allIds.indexOf(getCurrentPatientId());
+
+	let counter = 0;
+
+	do {
+		currentIndex = ((currentIndex + 1) % allIds.length);
+		counter++;
+	} while (counter < allIds.length && isPatientDone(allIds[currentIndex]));
+
+	if (counter >= allIds.length) {
+		// no undone patient
+		APIMethods.runScript(
+			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'done');
+	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+
+	} else {
+		const newPatientId = allIds[currentIndex];
+		APIMethods.runScript(
+			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');
+			 Variable.find(gameModel, 'currentPatient').setValue(self, '${newPatientId}');`, {});
+	}
+}
+
 export function nextPatient() {
-	const allIds = getPatientIds();
+	const allIds = getPatientIds().sort();
 	const p = getCurrentPatientId();
 	let np = "";
 	if (p) {
@@ -17,6 +70,19 @@ export function nextPatient() {
 	}
 	APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${np}');`, {});
 }
+
+export function previousPatient() {
+	const allIds = getPatientIds().sort();
+	const p = getCurrentPatientId();
+	let np = "";
+	if (p) {
+		np = allIds[((allIds.indexOf(p) - 1) % allIds.length)];
+	} else {
+		np = allIds[0];
+	}
+	APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${np}');`, {});
+}
+
 
 export function prettyPrintCurrentPatientMeta() {
 	const id = getCurrentPatientId();
@@ -42,10 +108,14 @@ type KeyId = string;
 
 export type LickertLevel = 1 | 2 | 3 | 4 | 5;
 
-const lickerCellDef: CellDef[] = [{
+const lickerCellDef_select: CellDef[] = [{
 	type: 'enum',
 	label: 'licekrt',
 	values: [
+		{
+			label: '-',
+			value: undefined,
+		},
 		{
 			label: 'impossible',
 			value: 1,
@@ -64,6 +134,71 @@ const lickerCellDef: CellDef[] = [{
 		}
 	],
 }];
+
+
+const lickerCellDef: CellDef[] = [
+	/*{
+		type: 'enum',
+		label: '-',
+		values: [
+			{
+				label: 'undef',
+				value: undefined,
+			}
+		],
+	},*/
+	{
+		type: 'enum',
+		label: '1',
+		tooltip: 'impossible',
+		values: [
+			{
+				label: 'impossible',
+				value: 1,
+			}
+		],
+	}, {
+		type: 'enum',
+		label: '2',
+		tooltip: 'unlikely',
+		values: [
+			{
+				label: 'unlikely',
+				value: 2,
+			}
+		],
+	}, {
+		type: 'enum',
+		label: '3',
+		tooltip: 'acceptable',
+		values: [
+			{
+				label: 'acceptable',
+				value: 3,
+			}
+		],
+	}, {
+		type: 'enum',
+		label: '4',
+		tooltip: 'quite realistic',
+		values: [
+			{
+				label: 'quite realistic',
+				value: 4,
+			}
+		],
+	}, {
+		type: 'enum',
+		label: '5',
+		tooltip: 'fully realistic',
+		values: [
+			{
+				label: 'fully realistic',
+				value: 5,
+			}
+		],
+	}
+];
 
 type LickertMatrixCell = undefined | LickertLevel;
 
@@ -146,6 +281,48 @@ interface Data {
 	phMatrix: Matrix;
 };
 
+function check(matrix: Matrix, data: Record<string, Serie>): boolean {
+	for (const mKey in data) {
+		for (const mTime in data[mKey]) {
+			if (matrix[mTime]) {
+				const cell = matrix[mTime][mKey];
+				const value = typeof cell === 'object' ? cell.value : cell;
+				if (value == null) {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+export function isPatientDone(patientId: string): boolean {
+	const data = currentData[patientId];
+	const clMmatrix = clinicalMatrix[patientId];
+	const phMmatrix = physiologicalMatrix[patientId];
+
+	if (data == null || clMmatrix == null || phMmatrix == null) {
+		return false;
+	}
+
+	if (check(clMmatrix, data.clinical)
+		&& check(phMmatrix, data.physiological)) {
+		return true;
+	}
+
+	return false;
+}
+
+
+export function isCurrentPatientDone(): boolean {
+	const patientId = getCurrentPatientId();
+	return isPatientDone(patientId);
+}
+
+
 export function getCurrentPatientData(force: boolean = false): Data {
 	const patientId = getCurrentPatientId();
 
@@ -203,7 +380,7 @@ function formatSecond(time: number) {
 	} else {
 		const min = Math.floor(time / 60);
 		const sec = time - (min * 60);
-		return `${min}m:${sec}s`;
+		return `${min}min ${sec}s`;
 	}
 }
 
@@ -215,8 +392,6 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
 	const keyId = y.id;
 
-	wlog("OnChange", { x, y, newData });
-
 	const patientId = getCurrentPatientId();
 
 	const current = clinicalMatrix[patientId][timeId][keyId];
@@ -226,9 +401,7 @@ onClinicalChangeRef.current = (x, y, newData) => {
 		clinicalMatrix[patientId][timeId][keyId] = newData;
 	}
 
-	wlog("Data: ", clinicalMatrix[patientId][timeId][keyId]);
-
-	setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	save();
 };
 
 
@@ -269,7 +442,7 @@ onPhysioChangeRef.current = (x, y, newData) => {
 		physiologicalMatrix[patientId][timeId][keyId] = newData;
 	}
 
-	setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	save();
 };
 
 export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
@@ -307,48 +480,9 @@ export function saveData() {
 
 
 
-/**
- * Read-only data
- */
-export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
-	return {
-		...getClinicalMatrix(),
-		cellDef: [],
-	}
-}
-
-export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
-	return {
-		...getPhysioMatrix(),
-		cellDef: [],
-	}
-}
-
-export function runAgain() {
-	getCurrentPatientData(true);
-	Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
-}
 
 //                    teamId       patientId                                     time           metric  value
-type RawData = Record<string, Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>>;
-
-const data: RawData = {
-	"24040561": {
-		"patient-3": {
-			"clinical": {
-				"0": {
-					"vitals.canWalk": 5
-				},
-				"3600": {},
-				"7200": {},
-				"10800": {},
-				"14400": {
-					"vitals.glasgow.total": 3
-				}
-			}, "physio": { "0": { "vitals.canWalk": 5 }, "3600": {}, "7200": {}, "10800": {}, "14400": { "vitals.glasgow.total": 3 } }
-		}
-	}
-}
+type RawData = Record<string, Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>>
 
 
 function formatCsvLine(...cells: unknown[]) {
@@ -389,3 +523,45 @@ export function getAllLickertData() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Read-only data
+ * Pathology Editor
+ */
+export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+	return {
+		...getClinicalMatrix(),
+		cellDef: [],
+	}
+}
+
+export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+	return {
+		...getPhysioMatrix(),
+		cellDef: [],
+	}
+}
+
+export function runAgain() {
+	getCurrentPatientData(true);
+	Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
+}

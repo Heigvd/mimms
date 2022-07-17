@@ -24,7 +24,7 @@
         "className" : "modalPatient",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\" || Variable.find(gameModel, 'showPatientModal').isFalse(self);",
+          "content" : "import { isCurrentPatientCloseEnough } from \"./the_world\";\nVariable.find(gameModel, 'currentPatient').getValue(self) === \"\" \n\t|| Variable.find(gameModel, 'showPatientModal').isFalse(self)\n\t|| !isCurrentPatientCloseEnough();",
           "language" : "JavaScript"
         },
         "id" : "",
@@ -288,7 +288,8 @@
                             "@class" : "Script",
                             "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
                             "language" : "JavaScript"
-                          }
+                          },
+                          "priority" : 2
                         },
                         "label" : {
                           "@class" : "Script",
@@ -297,11 +298,37 @@
                         },
                         "layoutClassName" : "stethoscope",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "priority" : 1,
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { goToHuman } from \"./the_world\";\n\ngoToHuman(Context.human.id);",
+                            "language" : "typescript"
+                          }
+                        },
+                        "stopPropagation" : true,
                         "style" : { }
                       },
                       "type" : "Button"
                     } ],
                     "className" : "humanOverlay",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "me",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id === whoAmI();",
+                        "language" : "JavaScript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "not-me",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id !== whoAmI();",
+                        "language" : "JavaScript"
+                      }
+                    } ],
                     "layout" : { },
                     "layoutStyle" : { },
                     "style" : { }
@@ -353,7 +380,7 @@
                 "layerProps" : { },
                 "layerSource" : {
                   "dataType" : "GeoJSON",
-                  "source" : "/bat.geojson",
+                  "source" : "/bat_2056_few.geojson",
                   "sourceProjection" : "EPSG:2056",
                   "type" : "VectorLayer",
                   "useSpatialIndex" : true
@@ -405,7 +432,7 @@
               "props" : {
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : " true || !Boolean(Context.debugPanels.state.visibleBuildings);",
+                  "content" : "!Boolean(Context.debugPanels.state.visibleBuildings);",
                   "language" : "JavaScript"
                 },
                 "layerId" : "",
@@ -437,7 +464,7 @@
               "props" : {
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "true || !Context.debugPanels.state.visibleGrid;",
+                  "content" : "!Context.debugPanels.state.visibleGrid;",
                   "language" : "JavaScript"
                 },
                 "layerId" : "",
@@ -475,7 +502,7 @@
               "props" : {
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "true;\ntrue || !Boolean(Context.debugPanels.state.visiblePath);",
+                  "content" : "true;\n!Boolean(Context.debugPanels.state.visiblePath);",
                   "language" : "JavaScript"
                 },
                 "layerId" : "",

@@ -1,8 +1,9 @@
+import { getDrillStatus } from "./drill";
 import { FogType } from "./the_world";
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LICKERT';
 
-function getDrillType(): DrillType {
+export function getDrillType(): DrillType {
 	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
 }
 
@@ -28,7 +29,15 @@ export function getGamePageId() {
 			case 'PRE-TRIAGE_ON_MAP':
 				return "11";
 			case 'LICKERT':
-				return '17';
+				switch (getDrillStatus()) {
+					case 'not_started':
+						return '22';
+					case 'ongoing':
+						return '17';
+					case 'done':
+						return '23';
+				}
+
 		}
 	} else {
 		// multiplayers game

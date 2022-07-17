@@ -36,6 +36,7 @@ export interface DataDef<T> {
  */
 export interface BooleanDef {
 	type: 'boolean';
+	tooltip?: string;
 	label: string;
 }
 
@@ -46,6 +47,7 @@ type EnumValue = undefined | number | boolean | string;
  */
 export interface EnumDef {
 	type: 'enum';
+	tooltip?: string;
 	label: string;
 	values: (EnumValue | {label: string, value: EnumValue})[];
 }
@@ -55,6 +57,7 @@ export interface EnumDef {
  */
 export interface NumberDef {
 	type: 'number';
+	tooltip?: string;
 	label: string;
 	min?: number;
 	max?: number;
@@ -117,7 +120,7 @@ const noDefs: EnumDef = {
 	values: [undefined],
 };
 
-function getCellData() {
+export function getCellValue() {
 	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
 
 	const x = Context.column.id;
@@ -155,7 +158,7 @@ export function getCellCurrentConfigIndex(): number {
 		return 0;
 	} else {
 		// guess which one is in use
-		const data = getCellData();
+		const data = getCellValue();
 		for (const index in config.cellDef) {
 			const def = config.cellDef[index];
 			if (def != null) {
@@ -186,8 +189,7 @@ export function getCellCurrentConfigIndex(): number {
 	}
 }
 
-export function getCellCurrentConfig(): CellDef {
-	const index = getCellCurrentConfigIndex();
+export function getCellConfigByIndex(index :number): CellDef {
 	if (index >= 0) {
 		const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
 		return config.cellDef[index] || noDefs;
@@ -196,21 +198,26 @@ export function getCellCurrentConfig(): CellDef {
 	}
 }
 
+export function getCellCurrentConfig(): CellDef {
+	const index = getCellCurrentConfigIndex();
+	return getCellConfigByIndex(index);
+}
+
 export function getIterableCellDefs(): { id: number; def: CellDef }[] {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 	return config.cellDef.map((def, i) => ({ id: i, def: def }));
 }
 
 export function getCellStringValue(): string {
-	return String(getCellData());
+	return String(getCellValue());
 }
 
 export function getCellBooleanValue(): boolean {
-	return !!getCellData();
+	return !!getCellValue();
 }
 
 export function getCellNumericValue(): number {
-	const value = getCellData();
+	const value = getCellValue();
 	if (typeof value === 'number') {
 		return value;
 	} else {

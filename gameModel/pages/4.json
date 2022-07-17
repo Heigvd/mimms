@@ -75,6 +75,29 @@
             "style" : { }
           },
           "type" : "Select input"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getDrillType } from \"./gameMaster\";\ngetDrillType() !== 'LICKERT'",
+              "language" : "JavaScript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Lickert: Downalod&nbsp;CSV data<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { getAllLickertData } from \"./lickert\";\n\ngetAllLickertData();",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
         } ],
         "hideIf" : {
           "@class" : "Script",

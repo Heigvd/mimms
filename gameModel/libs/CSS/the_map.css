@@ -3,7 +3,6 @@
 	max-height: 100%;
 }
 
-
 .the_map {
 	background-color: rgb(191, 242, 191);
 }
@@ -54,8 +53,17 @@
     border-bottom: 0px solid transparent;
 }
 
-.human-overlay > * {
+.human-overlay {
+	pointer-events: none !important;
+}
+
+.human-overlay .humanOverlay.not-me {
 	pointer-events: auto;
+}
+
+.humanOverlay.me {
+	stroke: hotpink;
+	stroke-width: 5px;
 }
 
 .humanOverlay:hover .stethoscope {

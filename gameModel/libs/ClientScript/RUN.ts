@@ -416,7 +416,7 @@ const kes: BodyStateKeys[] = [
 
 type Time = number;
 
-type Serie = Record<Time, unknown>;
+export type Serie = Record<Time, unknown>;
 
 
 const clKeys = ['vitals.canWalk',

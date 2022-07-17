@@ -4,7 +4,7 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } fro
 import { logger } from "./logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./pathology";
 import { getAct, getItem, getPathology } from "./registries";
-import { ConsoleLog, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "./triage";
 import { getOverview, HumanOverview } from "./graphics";
@@ -109,7 +109,7 @@ interface FullState {
 }
 
 export function keepStateAlive({ state, setState }: FullState) {
-	const ePatient = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const ePatient = getCurrentPatientId();
 	const cPatient = state.currentPatient;
 	if (ePatient !== cPatient) {
 		setState({
@@ -631,7 +631,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 }
 
 export function getBlockDetail(observedBlock: string) {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = getCurrentPatientId();
 
 	const human = getHuman(id);
 	const health = getHealth(id);
@@ -783,7 +783,7 @@ function formatLog(log: ConsoleLog): string {
 }
 
 export function getPatientConsole(): string {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = getCurrentPatientId();
 
 	const console = getHumanConsole(id);
 	return console.map(formatLog).join('');
@@ -819,7 +819,7 @@ function getRoundedAge(human: HumanBody) {
 }
 
 export function getCurrentPatientTitle(): string {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = getCurrentPatientId();
 	const human = getHuman(id);
 	if (human != null) {
 		const age = getRoundedAge(human!);
@@ -858,8 +858,7 @@ function getBreathingOverview(overview: HumanOverview): string {
 }
 
 export function getHumanVisualInfos(): string {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
-	const human = getHuman(id);
+	const human = getCurrentPatientBody();
 	let output: string[] = [''];
 	if (human != null) {
 		const overview = getOverview(human);
@@ -880,7 +879,7 @@ export function getHumanVisualInfos(): string {
 }
 
 export function getAfflictedBlocks(): string[] {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = getCurrentPatientId();
 
 	const human = getHuman(id);
 	const health = getHealth(id);
@@ -919,7 +918,7 @@ export function observeBlock(block: string | undefined, setState: SetZoomState) 
 // const acts = getMyMedicalActs();
 
 export function getCurrentPatientAutoTriage() {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = getCurrentPatientId();
 	const human = getHuman(id);
 
 	if (human == null) {

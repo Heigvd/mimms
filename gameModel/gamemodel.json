@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1653313739404,
+  "createdTime" : 1658087964687,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -95,6 +95,39 @@
             "refId" : "TranslatableContent:22373380:f4iibq::EN",
             "status" : "",
             "translation" : "<strong>H</strong>uman is an <strong>U</strong>ncomplicated <strong>M</strong>odel of <strong>An</strong>atomy"
+          }
+        }
+      },
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StaticTextDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StaticTextInstance",
+        "refId" : "StaticTextInstance:24074352:Bz04lM"
+      },
+      "editorTag" : "lickertLegend",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24074353:z1hPWE",
+        "translations" : { }
+      },
+      "name" : "lickertLegend",
+      "refId" : "StaticTextDescriptor:24074351:H0NH8z",
+      "scopeType" : "TeamScope",
+      "text" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:24074354:GlnxpN",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:24074354:GlnxpN::EN",
+            "status" : "",
+            "translation" : "<h3>Legend</h3><ol><li>impossible</li><li>unlikely</li><li>acceptable</li><li>quite realistic</li><li>fully realistic<br></li></ol>"
           }
         }
       },
@@ -2453,6 +2486,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "lineOfSight",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24073812:LHvCPq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "logger",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2712,13 +2754,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn",
+  "name" : "HUMAn with Map Merged",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : false,
+    "freeForAll" : true,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_cat_fa",
     "logID" : null,

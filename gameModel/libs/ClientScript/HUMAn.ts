@@ -794,7 +794,7 @@ export function computeMetas(param: BodyFactoryParam) {
 	);
 
 	const brainWeight = interpolate(param.age, brainWeightModel);
-	const qbr =  brainWeight * 0.0005;
+	const qbr = brainWeight * 0.0005;
 
 	return {
 		blood_mL: blood_mL,
@@ -844,7 +844,7 @@ export function createHumanBody(
 ): HumanBody {
 
 
-	const {meta, blood_mL} = computeMetas(param);
+	const { meta, blood_mL } = computeMetas(param);
 
 	const body: HumanBody = {
 		meta: meta,
@@ -1872,7 +1872,7 @@ function sumBloodInOut(
 					const icp = bodyState.variables.ICP_mmHg;
 
 					const pp = map - icp;
-					
+
 					bloodLogger.log("The Brain: ", { t: bodyState.time, map, icp, pp });
 
 					const qBrModel = [
@@ -2171,21 +2171,27 @@ export function computeState(
 
 		for (const mod of rp.modules) {
 			for (const rule of mod.rules) {
-				rules.push({
-					time: rule.time + rp.time,
-					afflictedBlocks: [mod.block],
-					rule: rule,
-				});
+				const t = rule.time + rp.time;
+				if (t >= previousTime && t < time) {
+					rules.push({
+						time: t,
+						afflictedBlocks: [mod.block],
+						rule: rule,
+					});
+				}
 			}
 		}
 
 		for (const effect of effects) {
 			for (const rule of effect.rules) {
-				rules.push({
-					time: rule.time + effect.time,
-					afflictedBlocks: effect.afflictedBlocks,
-					rule: rule,
-				});
+				const t = rule.time + effect.time;
+				if (t >= previousTime && t < time) {
+					rules.push({
+						time: t,
+						afflictedBlocks: effect.afflictedBlocks,
+						rule: rule,
+					});
+				}
 			}
 		}
 	});
@@ -2193,7 +2199,7 @@ export function computeState(
 	patchLogger.info("Extracted rules ", rules);
 
 	const checkpoints = uniq([...rules.map((r) => r.time), time])
-		.filter((t) => t > previousTime && t <= time)
+		//.filter((t) => t >= previousTime && t <= time)
 		.sort();
 
 	patchLogger.info("Checkpoints: ", { previousTime, time, checkpoints });
@@ -2205,7 +2211,7 @@ export function computeState(
 			checkpointTime
 		);
 
-		const newState = updateVitals(acc, meta, env, checkpointTime);
+		const newState = checkpointTime > previousTime ?  updateVitals(acc, meta, env, checkpointTime) : acc;
 
 		detectCardiacArrest(newState);
 
@@ -2586,12 +2592,12 @@ export function canBreathe(bodyState: BodyState): boolean {
 
 export function canWalk(body: HumanBody): boolean {
 
-	if (body.state.vitals.glasgow.eye < 4){
+	if (body.state.vitals.glasgow.eye < 4) {
 		visitorLogger.debug("Can not walk: GCS Eye < 4");
 		return false;
 	}
 
-	if (body.state.vitals.glasgow.motor < 6){
+	if (body.state.vitals.glasgow.motor < 6) {
 		visitorLogger.debug("Can not walk: GCS Motor < 6");
 		return false;
 	}

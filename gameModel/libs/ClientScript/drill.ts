@@ -54,7 +54,7 @@ export function selectNextPatient() {
 					targetType: 'Human',
 					targetId: patientId,
 					location: {
-						mapId: "the_map",
+						mapId: "the_world",
 						x: 0,
 						y: 0,
 					},

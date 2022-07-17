@@ -1,40 +1,5 @@
 import { Point } from "./helper";
 
-/**
- * isSymbol : check if value is of type Symbol
- * Copied from Loadash
- * https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/isSymbol.js
- */
-function isSymbol(value: any) {
-	const type = typeof value
-	return type == 'symbol' || (type === 'object' && value != null && Object.prototype.toString.call(value) == '[object Symbol]')
-}
-
-/**
- * minBy : compute the minimum value from the original array by iterating over each element
- * Copied from Loadash
- * https://github.com/lodash/lodash/blob/2f79053d7bc7c9c9561a30dda202b3dcd2b72b90/minBy.js
- */
-function minBy<T>(array: T[], iteratee: (item: T) => number | string) {
-	let result
-	if (array == null) {
-		return result
-	}
-	let computed
-	for (const value of array) {
-		const current = iteratee(value)
-
-		if (current != null && (computed === undefined
-			? (current === current && !isSymbol(current))
-			: (current < computed)
-		)) {
-			computed = current
-			result = value
-		}
-	}
-	return result
-}
-
 interface NodeProps {
 	/**
 	 * The id of the Node
@@ -50,6 +15,8 @@ interface NodeProps {
 	walkable?: boolean;
 }
 
+
+
 /**
  * Class that implement a Node (or Vertex) for a pathfinding grid
  */
@@ -62,18 +29,20 @@ class Node {
 	// Calculated weights
 	private fValue: number;
 	private gValue: number;
-	private hValue: number;
+	private hValue: number | undefined;
 
 	// Path finding algorithm data
 	private parentNode: Node | undefined;
 	private isOnClosedList: boolean;
 	private isOnOpenList: boolean;
 
+	public counter: number = 0;
+
 	constructor(props: NodeProps) {
 		this.id = props.id;
 		this.position = props.position;
-		this.isWalkable = props.walkable || true;
-		this.hValue = 0;
+		this.isWalkable = props.walkable ? props.walkable : false;
+		this.hValue = undefined;
 		this.gValue = 0;
 		this.fValue = 0;
 		this.parentNode = undefined;
@@ -84,8 +53,8 @@ class Node {
 	/**
 	 * Calculate or Recalculate the F value
 	 */
-	private calculateFValue(): void {
-		this.fValue = this.gValue + this.hValue;
+	private updateFValue(): void {
+		this.fValue = this.gValue + (this.hValue ?? 0);
 	}
 
 	/**
@@ -94,7 +63,7 @@ class Node {
 	public setGValue(gValue: number): void {
 		this.gValue = gValue;
 		// The G value has changed, so recalculate the f value
-		this.calculateFValue();
+		this.updateFValue();
 	}
 
 	/**
@@ -103,7 +72,7 @@ class Node {
 	public setHValue(hValue: number): void {
 		this.hValue = hValue;
 		// The H value has changed, so recalculate the f value
-		this.calculateFValue();
+		this.updateFValue();
 	}
 
 	/**
@@ -131,7 +100,7 @@ class Node {
 		return this.gValue;
 	}
 
-	public getHValue(): number {
+	public getHValue(): number | undefined {
 		return this.hValue;
 	}
 
@@ -197,6 +166,9 @@ export class Grid {
 	readonly height: number;
 	readonly numberOfFields: number;
 
+	readonly obstacleDensityThreshold: number;
+	readonly obstacleMatrix: number[][];
+
 	// The node grid
 	private gridNodes: Node[][];
 
@@ -206,81 +178,68 @@ export class Grid {
 		this.height = props.height;
 		this.numberOfFields = this.width * this.height;
 
-		// Create and generate the matrix
-		this.gridNodes = this.buildGridWithNodes(
-			props.matrix,
-			this.width,
-			this.height,
-			props.obstacleDensityThreshold
-		);
-	}
+		this.obstacleDensityThreshold = props.obstacleDensityThreshold || 0;
+		this.obstacleMatrix = props.matrix;
 
-	/**
-	 * Build grid, fill it with nodes and return it.
-	 */
-	private buildGridWithNodes(
-		matrix: number[][],
-		width: number,
-		height: number,
-		obstacleDensityThreshold: number = 0,
-	): Node[][] {
-		const newGrid: Node[][] = [];
-		let id: number = 0;
-		wlog("ID: ", id);
-		console.time("new Grid");
-		// Generate an empty matrix
-		for (let y = 0; y < height; y++) {
-			newGrid[y] = [];
-			for (let x = 0; x < width; x++) {
-				newGrid[y][x] = new Node({
-					id: id,
-					position: { x: x, y: y }
-				});
-
-				id++;
-			}
-		}
-		console.timeLog("new Grid");
-
-		/**
-		 * In case we have a matrix loaded.
-		 * Load up the informations of the matrix.
-		 */
-		for (let y = 0; y < height; y++) {
-			for (let x = 0; x < width; x++) {
-				if (matrix[y][x] > obstacleDensityThreshold) {
-					newGrid[y][x].setIsWalkable(false);
-				} else {
-					newGrid[y][x].setIsWalkable(true);
-				}
-			}
-		}
-		console.timeEnd("new Grid");
-		wlog("ID: ", id);
-		return newGrid;
+		this.gridNodes = [];
 	}
 
 	/**
 	 * Return a specific node.
 	 */
-	public getNodeAt(position: Point): Node {
-		const node = this.gridNodes[position.y][position.x];
-		if (node == null) {
-			throw Error("Node shouldn't be null!")
+	public getNodeAt(position: Point, debug: boolean = false): Node {
+
+		let node: Node = (undefined as unknown) as Node; // can we do better ?
+		if (this.isOnTheGrid(position)) {
+			if (debug) wlog('position', position)
+			if (this.gridNodes[position.y]) {
+				node = this.gridNodes[position.y][position.x];
+			} else {
+				this.gridNodes[position.y] = []
+			}
+			if (!node) {
+				if (debug) wlog('creating node at', position);
+				//missing node, create it
+				node = this.createNodeAt(position);
+				this.gridNodes[position.y][position.x] = node;
+			}
 		}
+		else if (debug) {
+			wlog("Position outside of the grid", position);
+		}
+
 		return node;
+	}
+
+	private createNodeAt(p: Point): Node {
+		//wlog('count');
+		const walkable = !this.obstacleMatrix[p.y][p.x] || this.obstacleMatrix[p.y][p.x] < this.obstacleDensityThreshold;
+		return new Node({
+			id: p.y * this.width + p.x,
+			position: { x: p.x, y: p.y },
+			walkable: walkable//this.obstacleMatrix[p.y][p.x] < this.obstacleDensityThreshold
+		})
+	}
+
+	public nodeExists(p: Point): boolean {
+		return this.isOnTheGrid(p) && this.gridNodes[p.y] && (this.gridNodes[p.y][p.x] ? true : false)
 	}
 
 	/**
 	 * Check if specific node walkable.
 	 */
 	public isWalkableAt(position: Point, debug: boolean = false): boolean {
+		const p = position;
+		return !this.obstacleMatrix[p.y][p.x] || this.obstacleMatrix[p.y][p.x] < this.obstacleDensityThreshold;
+		const node = this.getNodeAt(position, debug);
+		return node ? node.getIsWalkable() : false;
+		/*
 		if (this.gridNodes[position.y] == null
 			|| this.gridNodes[position.y][position.x] == null) {
 			if (debug) {
 				wlog("Position outside of the grid")
 			}
-			return true;
+			return true; // WHYYYYY ?
 		}
 		else {
 			if (debug) {
@@ -289,13 +248,13 @@ export class Grid {
 				Grid.drawGrid(newMatrix);
 			}
 			return this.gridNodes[position.y][position.x].getIsWalkable();
-		}
+		}*/
 	}
 
 	/**
 	 * Check if specific node is on the grid.
 	 */
-	private isOnTheGrid(position: Point): boolean {
+	public isOnTheGrid(position: Point): boolean {
 		return (
 			position.x >= 0 &&
 			position.x < this.width &&
@@ -315,20 +274,14 @@ export class Grid {
 
 		for (var y = currentPosition.y - 1; y <= currentPosition.y + 1; y++) {
 			for (var x = currentPosition.x - 1; x <= currentPosition.x + 1; x++) {
-				if (this.isOnTheGrid({ x, y })) {
-					if (this.isWalkableAt({ x, y })) {
-						if (diagnonalMovementAllowed) {
-							surroundingNodes.push(this.getNodeAt({ x, y }));
-						} else {
-							if (x == currentPosition.x || y == currentPosition.y) {
+				if (x !== currentPosition.x || y !== currentPosition.y) {
+					if (x == currentPosition.x || y == currentPosition.y || diagnonalMovementAllowed) {
+						if (this.isOnTheGrid({ x, y })) {
+							if (this.isWalkableAt({ x, y })) {
 								surroundingNodes.push(this.getNodeAt({ x, y }));
 							}
 						}
-					} else {
-						continue;
 					}
-				} else {
-					continue;
 				}
 			}
 		}
@@ -349,10 +302,14 @@ export class Grid {
 	public resetGrid(): void {
 		for (let y = 0; y < this.gridNodes.length; y++) {
 			for (let x = 0; x < this.gridNodes[y].length; x++) {
-				this.gridNodes[y][x].setIsOnClosedList(false);
-				this.gridNodes[y][x].setIsOnOpenList(false);
-				this.gridNodes[y][x].setParent(undefined);
-				this.gridNodes[y][x].setFGHValuesToZero();
+				if (this.nodeExists({ x: x, y: y })) {
+					const n = this.getNodeAt({ x: x, y: y });
+					n.setIsOnClosedList(false);
+					n.setIsOnOpenList(false);
+					n.setParent(undefined);
+					n.setFGHValuesToZero();
+				}
+
 			}
 		}
 	}
@@ -369,18 +326,19 @@ export class Grid {
 	 */
 	public clone(): Node[][] {
 		const cloneGrid: Node[][] = [];
-		let id: number = 0;
 
 		for (let y = 0; y < this.height; y++) {
-			cloneGrid[y] = [];
-			for (let x = 0; x < this.width; x++) {
-				cloneGrid[y][x] = new Node({
-					id: id,
-					position: { x: x, y: y },
-					walkable: this.gridNodes[y][x].getIsWalkable()
-				});
-
-				id++;
+			if (this.gridNodes[y]) {
+				cloneGrid[y] = [];
+				for (let x = 0; x < this.width; x++) {
+					if (this.gridNodes[y][x]) {
+						cloneGrid[y][x] = new Node({
+							id: this.gridNodes[y][x].id,
+							position: { x: x, y: y },
+							walkable: this.gridNodes[y][x].getIsWalkable()
+						});
+					}
+				}
 			}
 		}
 		return cloneGrid;
@@ -390,7 +348,8 @@ export class Grid {
 	 * Transfor the node grid into a visual matrix with · for allowed cell and X for obstacles
 	 */
 	public gridToMatrix(): string[][] {
-		return this.gridNodes.map(line => line.map(node => node.getIsWalkable() ? "·" : "X"));
+		return this.gridNodes.map(line => line.map(node =>
+			node ? (node.getIsWalkable() ? "·" : "X") : '!'))
 	}
 
 	/**
@@ -415,6 +374,7 @@ export class Grid {
 type Heuristic =
 	| 'Manhattan'
 	| 'Euclidean'
+	| 'EuclideanSq'
 	| 'Chebyshev'
 	| 'Octile';
 
@@ -436,11 +396,11 @@ interface PathFinderProps {
 
 /**
  * A class that implements AStar and ThetaStar pathfinding algorithm
- *
+ * 
  * based on :
  * AStar : AI for Games, Third Edition, 3rd Edition, Ian Millington, ISBN: 9781351053280
  * ThetaStar : Theta*: Any-Angle Path Planning on Grids, Kenny Daniel & Alex Nash & Sven Koenig & Ariel Felner, Journal of Artificial Intelligence Research 39 (2010) 533-579
- *
+ * 
  * APThetaStar is not implemented. It would guarantee a shortest path but at the cost of a higher computation load.
  * The performance increase for APTheta implementation is not worth it.
  */
@@ -449,12 +409,14 @@ export class PathFinder {
 	private cellSize: number;
 	private offsetPoint: Point;
 
+	public counter: number = 0;
+
 	// Grid
-	private grid: Grid;
+	public grid: Grid;
 
 	// Lists
-	private closedList: Node[];
-	private openList: Node[];
+	//private closedList: Node[];
+	public openList: Node[];
 
 	// Pathway variables
 	readonly diagonalAllowed: boolean;
@@ -468,7 +430,7 @@ export class PathFinder {
 		this.grid = new Grid(props.grid);
 
 		// Init lists
-		this.closedList = [];
+		//this.closedList = [];
 		this.openList = [];
 
 		// Set diagonal boolean
@@ -487,7 +449,7 @@ export class PathFinder {
 			props.includeEndNode !== undefined ? props.includeEndNode : true;
 
 		// Set weight
-		this.weight = props.weight || 1;
+		this.weight = props.weight ?? 1;
 
 		// Set world values
 		this.cellSize = props.cellSize;
@@ -511,6 +473,8 @@ export class PathFinder {
 				return (dx + dy) * weight;
 			case 'Euclidean':
 				return Math.sqrt(dx * dx + dy * dy) * weight;
+			case 'EuclideanSq':
+				return (dx * dx + dy * dy) * weight;
 			case 'Chebyshev':
 				return Math.max(dx, dy) * weight;
 			case 'Octile':
@@ -536,13 +500,13 @@ export class PathFinder {
 		}
 
 		// Reset lists
-		this.closedList = [];
+		//this.closedList = [];
 		this.openList = [];
 
 		// Reset grid
-		this.grid.resetGrid();
+		//this.grid.resetGrid();
 
-		const startNode = this.grid.getNodeAt(startPosition);
+		const startNode = this.grid.getNodeAt(startPosition, true);
 		const endNode = this.grid.getNodeAt(endPosition);
 
 		// Break if start and/or end position is/are not walkable
@@ -561,7 +525,7 @@ export class PathFinder {
 		// Loop through the grid
 		// Set the FGH values of non walkable nodes to zero and push them on the closed list
 		// Set the H value for walkable nodes
-		for (let y = 0; y < this.grid.height; y++) {
+		/*for (let y = 0; y < this.grid.height; y++) {
 			for (let x = 0; x < this.grid.width; x++) {
 				let node = this.grid.getNodeAt({ x, y });
 				if (!this.grid.isWalkableAt({ x, y })) {
@@ -570,7 +534,7 @@ export class PathFinder {
 					node.setFGHValuesToZero();
 					// Put on closed list
 					node.setIsOnClosedList(true);
-					this.closedList.push(node);
+					//this.closedList.push(node);
 				} else {
 					// OK, this node is walkable
 					// Calculate the H value with the corresponding heuristic function
@@ -584,25 +548,34 @@ export class PathFinder {
 					);
 				}
 			}
-		}
+		}*/
 
 		// As long the open list is not empty, continue searching a path
 		while (this.openList.length !== 0) {
 			// Get node with lowest f value
-			const currentNode = minBy(this.openList, (o) => {
-				return o.getFValue();
-			}) as Node;
+			let minF = Infinity;
+			let minIdx = -1;
 
-			// Move current node from open list to closed list
-			currentNode.setIsOnOpenList(false);
-			const nodeIndex = this.openList.findIndex(node => currentNode.id === node.id)
-			if (nodeIndex === -1) {
+			for (let i in this.openList) {
+				const f = this.openList[i].getFValue();
+				if (f < minF) {
+					minF = f;
+					minIdx = +i;
+				}
+			}
+
+			if (minIdx === -1) {
 				throw Error("Node not found");
 			}
-			this.openList.splice(nodeIndex, 1);
 
+			// Move current node from open list to closed list
+			const currentNode = this.openList[minIdx];
+			currentNode.setIsOnOpenList(false);
+
+			this.openList.splice(minIdx, 1);
 			currentNode.setIsOnClosedList(true);
-			this.closedList.push(currentNode);
+
+			currentNode.counter = ++this.counter;
 
 			// End of path is reached
 			if (currentNode === endNode) {
@@ -623,14 +596,26 @@ export class PathFinder {
 
 			// Loop through all the neighbors
 			for (let i in neighbors) {
-				const neightbor = neighbors[i];
+				const neighbor = neighbors[i];
 
 				// Continue if node on closed list
-				if (neightbor.getIsOnClosedList()) {
+				if (neighbor.getIsOnClosedList()) {
 					continue;
 				}
 
-				updateVertexFN(currentNode, neightbor);
+				if (neighbor.getHValue() == null) {
+					//compute H value
+					neighbor.setHValue(
+						this.calculateWeightedDistance(
+							this.heuristic,
+							neighbor.position,
+							endNode.position,
+							this.weight
+						)
+					);
+				}
+
+				updateVertexFN(currentNode, neighbor);
 			}
 		}
 		// Path could not be created
@@ -680,12 +665,13 @@ export class PathFinder {
 	/**
 	 * Check if there is an obstacle between two points
 	 */
-	private gridLOS(start: Point, end: Point, debug: boolean = false): boolean {
+	private gridLOSBug(start: Point, end: Point, debug: boolean = false): boolean {
 
 		if (debug) {
-			const nodeGrid = this.grid.getGridNodes();
-			if (nodeGrid.length < start.y || nodeGrid.length < end.y
-				|| nodeGrid[0]?.length < start.x || nodeGrid[0]?.length < end.x) {
+			//const nodeGrid = this.grid.getGridNodes();
+			if (!this.grid.isOnTheGrid(start) || !this.grid.isOnTheGrid(end)) {
+				//(nodeGrid.length < start.y || nodeGrid.length < end.y
+				//|| nodeGrid[0]?.length < start.x || nodeGrid[0]?.length < end.x) {
 				wlog("Start or end point outside of the grid");
 			}
 			else {
@@ -728,7 +714,11 @@ export class PathFinder {
 				if (f === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 + ((sY - 1) / 2) }, debug)) {
 					return false;
 				}
-				if (dY === 0 && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 }, debug) && !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 - 1 }, debug)) {
+				if (
+					dY === 0
+					&& !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 }, debug)
+					&& !this.grid.isWalkableAt({ x: x0 + ((sX - 1) / 2), y: y0 - 1 }, debug)) // Horizontal move // WHYYYYYYY 
+				{
 					return false;
 				}
 
@@ -755,6 +745,116 @@ export class PathFinder {
 				if (dX === 0 && !this.grid.isWalkableAt({ x: x0, y: y0 + ((sY - 1) / 2) }, debug) && !this.grid.isWalkableAt({ x: x0 - 1, y: y0 + ((sY - 1) / 2) }, debug)) {
 					return false;
 				}
+				y0 += sY;
+			}
+		}
+		return true;
+	}
+
+
+
+	/**
+ * Check if there is an obstacle between two points
+ */
+	private gridLOS(start: Point, end: Point, debug: boolean = false): boolean {
+
+		if (debug) {
+			wlog("Start: ", start);
+			wlog("End: ", end);
+			//const nodeGrid = this.grid.getGridNodes();
+			if (!this.grid.isOnTheGrid(start) || !this.grid.isOnTheGrid(end)) {
+				//(nodeGrid.length < start.y || nodeGrid.length < end.y
+				//|| nodeGrid[0]?.length < start.x || nodeGrid[0]?.length < end.x) {
+				wlog("Start or end point outside of the grid");
+			}
+			else {
+				const newGrid = this.grid.gridToMatrix();
+				newGrid[start.y][start.x] = "A";
+				newGrid[end.y][end.x] = "B"
+				Grid.drawGrid(newGrid);
+			}
+		}
+
+		let x0 = start.x;
+		let y0 = start.y;
+		let x1 = end.x;
+		let y1 = end.y;
+
+		let dX = x1 - x0;
+		let dY = y1 - y0;
+		let sX = 1;
+		let sY = 1;
+
+		if (dY < 0) {
+			dY = -dY
+			sY = -1;
+		}
+		if (dX < 0) {
+			dX = -dX
+			sX = -1;
+		}
+		const testNode = (point: Point): boolean => {
+			if (debug) {
+				wlog("Test Node ", point);
+			}
+			return this.grid.isWalkableAt(point, debug);
+		}
+
+		if (dX >= dY) {
+			// how many x cells for one vertical cell ?
+			const pDx = dX / dY;
+
+			// pattern starts at the middle of the first cell
+			let cDx = pDx / 2;
+
+			while (x0 !== x1) {
+				if (!testNode({ x: x0, y: y0 })) {
+					return false;
+				}
+				if (
+					cDx >= pDx || // LOS moved to next line after start of current column
+					pDx - cDx < 0.5 //  LOS will move to next line before next column
+				) {
+					// move to next line now
+					y0 += sY;
+					cDx -= pDx;
+					if (!testNode({ x: x0, y: y0 })) {
+						return false;
+					}
+				} else {
+
+				}
+				// Move to next column
+				cDx += 1;
+				x0 += sX;
+			}
+		}
+		else {
+			// how many y cells for one h cell ?
+			const pDy = dY / dX;
+
+			// pattern starts at the middle of the first cell
+			let cDy = pDy / 2;
+
+			while (y0 !== y1) {
+				if (!testNode({ x: x0, y: y0 })) {
+					return false;
+				}
+				if (
+					cDy >= pDy || // LOS moved to next column after start of current line
+					pDy - cDy < 0.5 //  LOS will move to next column before next line
+				) {
+					// move to next column now
+					x0 += sX;
+					cDy -= pDy;
+					if (!testNode({ x: x0, y: y0 })) {
+						return false;
+					}
+				} else {
+
+				}
+				// Move to next column
+				cDy += 1;
 				y0 += sY;
 			}
 		}
@@ -788,7 +888,7 @@ export class PathFinder {
 				wlog("true", "[0;0]->[4;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 0 }));
 				wlog("true", "[0;0]->[0;3]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 0, y: 3 }));
 				wlog("true", "[0;0]->[3;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 3, y: 0 }));
-
+		
 				wlog("===================================================");
 				wlog("false", "[0;0]->[4;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 4 }));
 				wlog("false", "[0;0]->[2;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 2, y: 4 }));
@@ -813,14 +913,12 @@ export class PathFinder {
 			return path;
 		}
 
-		let k = 0;
-		let tK = path[k];
-		const smoothedPath = [path[k]];
+		let tK = path[0];
+		const smoothedPath = [tK];
 
 		for (let i = 0; i < path.length - 1; ++i) {
 			if (!this.gridLOS(tK, path[i + 1])) {
-				k += 1;
-				tK = path[k];
+				tK = path[i];
 				smoothedPath.push(path[i]);
 			}
 		}
@@ -830,8 +928,53 @@ export class PathFinder {
 
 
 	/**
+	 * Smooth the path by linking points that can "see" eachothers
+	 */
+	public smoothPathSemiBug(path: Point[]): Point[] {
+		if (path.length < 3) {
+			return path;
+		}
+
+		let tK = path[0];
+		const smoothedPath = [tK];
+
+		for (let i = 0; i < path.length - 1; ++i) {
+			if (!this.gridLOSBug(tK, path[i + 1])) {
+				tK = path[i];
+				smoothedPath.push(path[i]);
+			}
+		}
+		smoothedPath.push(path[path.length - 1]);
+		return smoothedPath;
+	}
+
+
+	/**
+	 * Smooth the path by linking points that can "see" eachothers
+	 */
+	public smoothPathBug(path: Point[]): Point[] {
+		if (path.length < 3) {
+			return path;
+		}
+
+		let k = 0;
+		let tK = path[k];
+		const smoothedPath = [path[k]];
+
+		for (let i = 0; i < path.length - 1; ++i) {
+			if (!this.gridLOSBug(tK, path[i + 1])) {
+				k += 1;
+				tK = path[k];
+				smoothedPath.push(path[i]);
+			}
+		}
+		smoothedPath.push(path[path.length - 1]);
+		return smoothedPath;
+	}
+
+	/**
 	 * Find path between two points by visiting the graph
-	 * Take world coordinate and return path in world coordinate
+	 * Take world coordinate and return path in world coordinate 
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm = "ThetaStar"): Point[] {
 		// Translate into grid points
@@ -845,7 +988,7 @@ export class PathFinder {
 		return this.toWorldPath(path);
 	}
 
-	/**
+	/** 
 	 * Translate path in grid coordinates into world coordinates
 	 */
 	private toWorldPath(path: Point[]): Point[] {
@@ -855,29 +998,25 @@ export class PathFinder {
 	/**
 	 * AStar Update vertex algorithm implementation
 	 */
-	private AStarUpdateVertex(currentNode: Node, neightbor: Node) {
+	private AStarUpdateVertex(currentNode: Node, neighbor: Node) {
 		// Calculate the g value of the neightbor
 		const nextGValue = currentNode.getGValue() +
-			(neightbor.position.x !== currentNode.position.x ||
-				neightbor.position.y! == currentNode.position.y
-				? this.weight
-				: this.weight * 1.41421);
+			(neighbor.position.x !== currentNode.position.x &&
+				neighbor.position.y !== currentNode.position.y
+				? this.weight * Math.SQRT2 : this.weight);
 
 		// Is the neighbor not on open list OR
 		// can it be reached with lower g value from current position
 		if (
-			!neightbor.getIsOnOpenList() ||
-			nextGValue < neightbor.getGValue()
+			!neighbor.getIsOnOpenList() ||
+			nextGValue < neighbor.getGValue()
 		) {
-			neightbor.setGValue(nextGValue);
-			neightbor.setParent(currentNode);
+			neighbor.setGValue(nextGValue);
+			neighbor.setParent(currentNode);
 
-			if (!neightbor.getIsOnOpenList()) {
-				neightbor.setIsOnOpenList(true);
-				this.openList.push(neightbor);
-			} else {
-				// okay this is a better way, so change the parent
-				neightbor.setParent(currentNode);
+			if (!neighbor.getIsOnOpenList()) {
+				neighbor.setIsOnOpenList(true);
+				this.openList.push(neighbor);
 			}
 		}
 	}
@@ -895,23 +1034,56 @@ export class PathFinder {
 		}
 	}
 
+
+	/**
+	 * find all points loacated at exactlly nCells from the given center.
+	 * Diagonals allowed, diag counts as 1 cell
+	 */
+	private findPointsAtDistance(center: Point, nCells: number): Point[] {
+		if (nCells === 0){
+			return [center];
+		}
+
+		const points: Point[] = [];
+
+		const xMin = center.x - nCells;
+		const xMax = center.x + nCells;
+
+		const yMin = center.y - nCells;
+		const yMax = center.y + nCells;
+
+		// Top anb bottom lines
+		for (let x = xMin; x <= xMax; x++) {
+			points.push({x, y: yMin}, {x, y: yMax});
+		}
+
+		// left and right lines
+		for (let y = yMin+1; y < yMax; y++) {
+			points.push({x: xMin, y}, {x: xMax, y});
+		}
+
+		return points;
+	}
+
 	/**
 	 * Find the nearest point without obstacle
 	 */
-	public findNearestWalkablePoint(position: Point): Point | undefined {
-		const gridPosition = PathFinder.worldPointToGridPoint(position, this.cellSize, this.offsetPoint);
-		const neighbors = this.grid.getSurroundingNodes(gridPosition, true)
-		for (const neighbor of neighbors) {
-			if (neighbor.getIsWalkable()) {
-				return PathFinder.gridPointToWorldPoint(neighbor.position, this.cellSize, this.offsetPoint);
+	public findNearestWalkablePoint(worldPoint: Point): Point | undefined {
+		const gridPosition = PathFinder.worldPointToGridPoint(worldPoint, this.cellSize, this.offsetPoint);
+
+		for (let distance = 0; distance< 5;distance++){
+			const points = this.findPointsAtDistance(gridPosition, distance);
+			for (let point of points){
+				if (this.getGrid().isWalkableAt(point)){
+					return PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint);
+				}
 			}
-		}
-		// Looping again for recursion so we find the nearest point around the position
-		for (const neighbor of neighbors) {
-			return this.findNearestWalkablePoint(neighbor.position);
 		}
 	}
 
+	public getHeuristic() {
+		return this.heuristic
+	}
 
 	// Setter methods
 	public setHeuristic(newHeuristic: Heuristic): void {
@@ -922,9 +1094,10 @@ export class PathFinder {
 	}
 
 	// Getter methods
+	/*
 	public getGridClone(): Node[][] {
 		return this.grid.clone();
-	}
+	}*/
 	public getGrid(): Grid {
 		return this.grid;
 	}
@@ -941,8 +1114,8 @@ export class PathFinder {
 		offsetPoint: Point,
 	): Point {
 		return {
-			x: cell.x * cellSize + offsetPoint.x,
-			y: cell.y * cellSize + offsetPoint.y
+			x: cell.x * cellSize + offsetPoint.x + cellSize / 2,
+			y: cell.y * cellSize + offsetPoint.y + cellSize / 2,
 		}
 	}
 
@@ -955,8 +1128,8 @@ export class PathFinder {
 		offsetPoint: Point,
 	): Point {
 		return {
-			x: Math.round((point.x - offsetPoint.x) / cellSize),
-			y: Math.round((point.y - offsetPoint.y) / cellSize),
+			x: Math.floor((point.x - offsetPoint.x) / cellSize),
+			y: Math.floor((point.y - offsetPoint.y) / cellSize),
 		}
 	}
 }

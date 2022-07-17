@@ -53,7 +53,7 @@ import {
 	RadioCommunicationEvent,
 	PhoneCommunicationEvent,
 	PhoneCreationEvent,
-    processPhoneCreation,
+	processPhoneCreation,
 	processDirectMessageEvent,
 	processRadioChannelUpdate,
 	processRadioCommunication,
@@ -61,7 +61,8 @@ import {
 	processPhoneCommunication,
 	clearAllCommunicationState,
 } from "./communication";
-import { calculateLOS, isPointInPolygon } from "./geoData";
+//import { calculateLOS, isPointInPolygon } from "./geoData";
+import { calculateLOS, isPointInPolygon } from "./lineOfSight";
 import { PathFinder } from "./pathFinding";
 import { obstacleGrid } from "./layersData";
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
@@ -280,7 +281,7 @@ export interface DelayedAction {
 
 // const spatialIndex: PositionState = {};
 
-const humanSpeed = 20; // unit/s
+const humanSpeed = 2; // unit/s
 
 const humanMetas: Record<string, HumanMeta> = {};
 
@@ -375,15 +376,20 @@ function proj(a: Point, b: Point): Point {
 export const paths = Helpers.useRef<Record<string, Point[]>>("paths", {})
 
 
+interface CurrentLocationOutput {
+	location: Location;
+	direction?: Location;
+}
+
 /**
  * speed: unit/sec
  */
 function computeCurrentLocation(
-    pathId: string,
-    location: PositionAtTime | undefined,
-    currentTime: number,
-    speed: number
-): Location | undefined {
+	pathId: string,
+	location: PositionAtTime | undefined,
+	currentTime: number,
+	speed: number
+): CurrentLocationOutput | undefined {
 	// TODO multi map
 	worldLogger.log('ComputeCurrentLocation', { location, currentTime, speed });
 	if (location?.location != null) {
@@ -405,7 +411,8 @@ function computeCurrentLocation(
 				},
 				cellSize,
 				offsetPoint,
-				heuristic: "Euclidean"
+				heuristic: "Manhattan",
+				diagonalAllowed: true,
 			});
 
 			if (location.location == null) {
@@ -413,46 +420,51 @@ function computeCurrentLocation(
 			}
 
 			// This should be done only when the direction changes
-			const newPath = pathFinder.findPath(location.location, location.direction, "ThetaStar");
+			const newPath = pathFinder.findPath(location.location, location.direction, "AStar");
 			paths.current[pathId] = newPath;
 
 			const duration = currentTime - location.time;
 			const distance = speed * duration;
-			let remainingDistance = distance;
-			let pathIndex = 0;
-			let startPoint: Point = location.location;
-			let endPoint = newPath[pathIndex];
 
-			paths.current["moving"] = [startPoint];
+			let remainingDistance_sq = distance * distance;
+			let pathIndex = 1;
+			let segStart: Point = location.location;
+			let segEnd = newPath[pathIndex];
 
-			while (remainingDistance > 0) {
-				endPoint = newPath[pathIndex];
+			let destinationReached = false;
+
+			paths.current["moving"] = [segStart];
+
+			while (remainingDistance_sq > 0) {
+				segEnd = newPath[pathIndex];
 				// If we could run further than the last point of the path stop at the end of the path
 				// Also if the path has no lenght
-				if (endPoint == null) {
-					endPoint = startPoint;
+				if (segEnd == null) {
+					destinationReached = true;
+					segEnd = segStart;
 					break;
 				}
 
-				const delta = sub(endPoint, startPoint);
-				const fullDistance = Math.sqrt(hypotSq(delta));
-				if (remainingDistance < fullDistance) {
-					const ratio = remainingDistance / fullDistance;
-					endPoint = add(mul(delta, ratio), startPoint);
-					paths.current["moving"].push(endPoint);
+				const delta = sub(segEnd, segStart);
+				const segmentDistance_sq = hypotSq(delta);
+				if (remainingDistance_sq < segmentDistance_sq) {
+					// distance still to walk is shorter than current segement distance
+					const ratio = Math.sqrt(remainingDistance_sq) / Math.sqrt(segmentDistance_sq);
+					segEnd = add(mul(delta, ratio), segStart);
+					paths.current["moving"].push(segEnd);
 					break;
-				}
-				else {
-					remainingDistance -= fullDistance;
+				} else {
+					// walk the current segment fully and move to next segment
+					remainingDistance_sq -= segmentDistance_sq;
 					pathIndex += 1;
-					startPoint = endPoint;
-					paths.current["moving"].push(endPoint);
-
+					segStart = segEnd;
+					paths.current["moving"].push(segEnd);
 				}
 			}
+			// TODO: follow each path segments, stop as sonne as distance has been walked
 
 			// Ensure the endPoint is not in an obstacle
-			endPoint = pathFinder.findNearestWalkablePoint(endPoint) ?? startPoint;
+			segEnd = pathFinder.findNearestWalkablePoint(segEnd) ?? segStart;
 			/*
 			const delta = sub(location.direction, location.location);
 			const duration = currentTime - location.time;
@@ -460,16 +472,32 @@ function computeCurrentLocation(
 			const distance = speed * duration;
 			const ratio = distance > fullDistance ? 1 : distance / fullDistance;
 			*/
-
-
-			return {
-				mapId: location.location.mapId,
-				...endPoint,
-				//...add(mul(delta, ratio), location.location)
-			};
+			if (destinationReached) {
+				delete paths.current[pathId];
+				return {
+					location: {
+						mapId: location.location.mapId,
+						...segEnd,
+						//...add(mul(delta, ratio), location.location)
+					},
+					direction: undefined,
+				};
+			} else {
+				return {
+					location: {
+						mapId: location.location.mapId,
+						...segEnd,
+						//...add(mul(delta, ratio), location.location)
+					},
+					direction: location.direction,
+				};
+			}
 		} else {
 			delete paths.current[pathId];
-			return location.location;
+			return {
+				location: location.location,
+				direction: undefined,
+			}
 		}
 	}
 }
@@ -691,6 +719,8 @@ function rebuildState(time: number, env: Environnment) {
 		const positionS = getMostRecentSnapshot(locationsSnapshots, obj, time);
 
 		if (positionS.mostRecent != null && positionS.mostRecent.time < time) {
+			// most recent snapshot is in the past
+			// -> Create a snapshot for the present time
 			if (positionS.mostRecent.state.direction) {
 				// Object is moving
 				// TODO speed is dependent of HumanS
@@ -701,7 +731,8 @@ function rebuildState(time: number, env: Environnment) {
 					state: {
 						...positionS.mostRecent.state,
 						time: time,
-						location: newLocation,
+						location: newLocation!.location,
+						direction: newLocation!.direction,
 						lineOfSight: undefined,
 					},
 				});
@@ -738,7 +769,7 @@ function rebuildState(time: number, env: Environnment) {
 	const visibles: ObjectId[] = [];
 	let outOfSight: ObjectId[] = [];
 
-    if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
+	if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
 		myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 	}
 
@@ -949,7 +980,7 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 				direction: undefined,
 				lineOfSight: undefined,
 			},
-        };
+		};
 		// register new snapshot
 		worldLogger.debug('Teleport: ', locationsSnapshots[oKey]);
 		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
@@ -1005,7 +1036,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 				direction: event.payload.destination,
 				lineOfSight: undefined
 			},
-        };
+		};
 		// register snapshot
 		worldLogger.debug('FollowPath: ', locationsSnapshots[oKey]);
 		locationsSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
@@ -1020,9 +1051,10 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	// Update futures
 	futures.forEach(snapshot => {
 		const loc = computeCurrentLocation(oKey, currentSnapshot.state, snapshot.time, humanSpeed);
+
 		worldLogger.log("Update Future: ", { snapshot, loc });
-		snapshot.state.location = loc;
-		snapshot.state.direction = event.payload.destination;
+		snapshot.state.location = loc?.location;
+		snapshot.state.direction = loc?.direction;
 		snapshot.state.lineOfSight = undefined;
 	});
 	return false;
@@ -1038,7 +1070,7 @@ function updateHumanSnapshots(humanId: string, time: number) {
 		humanSnapshots,
 		objId,
 		time,
-		{ strictTime: true },
+		//{ strictTime: true },
 	);
 
 	let currentSnapshot: { time: number; state: HumanState };
@@ -1460,9 +1492,9 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 	addLogEntry(objId, logEntry, time);
 }
 
+
 function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const time = event.time;
-
 	const objId = {
 		objectType: event.payload.targetType,
 		objectId: event.payload.targetId,
@@ -1535,7 +1567,6 @@ function doTreatment(
 		const health = getHealth(event.payload.targetId);
 		health.effects.push(effect);
 		healths[event.payload.targetId] = health;
-
 		updateHumanSnapshots(event.payload.targetId, time);
 	}
 }
@@ -1864,14 +1895,67 @@ export function handleClickOnMap(point: Point, features: { features: Record<stri
 	}
 }
 
+export function getDistanceBetweenHumans(h1: string | undefined, h2: string | undefined): number {
+	if (h1 && h2) {
+		const time = getCurrentSimulationTime();
+		const h1Key: ObjectId = { objectType: 'Human', objectId: h1 };
+		const h2Key: ObjectId = { objectType: 'Human', objectId: h2 };
+		const h1Loc = getMostRecentSnapshot(locationsSnapshots, h1Key, time);
+		const h2Loc = getMostRecentSnapshot(locationsSnapshots, h2Key, time);
+
+		if (h1Loc.mostRecent?.state.location == null || h2Loc.mostRecent?.state.location == null) {
+			return Infinity;
+		} else {
+			if (h1Loc.mostRecent.state.location.mapId === h2Loc.mostRecent.state.location.mapId) {
+				const vector = sub(h1Loc.mostRecent.state.location, h2Loc.mostRecent.state.location);
+				return Math.sqrt(hypotSq(vector));
+			} else {
+				return Infinity;
+			}
+		}
+	} else {
+		return Infinity;
+	}
+}
+
+export function goToHuman(humanId: string) {
+	const myId = whoAmI();
+
+	const time = getCurrentSimulationTime();
+	const myKey: ObjectId = { objectType: 'Human', objectId: myId };
+	const h1Key: ObjectId = { objectType: 'Human', objectId: humanId };
+
+	const myLoc = getMostRecentSnapshot(locationsSnapshots, myKey, time);
+	const h1Loc = getMostRecentSnapshot(locationsSnapshots, h1Key, time);
+
+	if (myLoc.mostRecent?.state.location != null && h1Loc.mostRecent?.state.location != null) {
+			sendEvent({
+				...initEmitterIds(),
+				type: 'FollowPath',
+				targetType: 'Human',
+				targetId: myId,
+				from: myLoc.mostRecent.state.location,
+				destination: h1Loc.mostRecent.state.location,
+			});
+	}
+}
+
+export function isCurrentPatientCloseEnough(): boolean {
+	const myId = whoAmI();
+	const patientId = getCurrentPatientId();
+	return getDistanceBetweenHumans(myId, patientId) < 2;
+}
+
+export function getCurrentPatientId() {
+	return I18n.toString(Variable.find(gameModel, 'currentPatient'));
+}
+
 export function getCurrentPatientBody() {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
-	return getHuman(id);
+	return getHuman(getCurrentPatientId());
 }
 
 export function getCurrentPatientHealth(): HumanHealth | undefined {
-	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
-	return getHealth(id);
+	return getHealth(getCurrentPatientId());
 }
 
 export function getInventory(time: number, objectId: ObjectId): Inventory {
@@ -1943,6 +2027,9 @@ Helpers.registerEffect(() => {
 	const compensation = loadCompensationModel();
 	worldLogger.log('Load Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
-
 	clearState();
+
+	return () => {
+		clearState();
+	}
 });

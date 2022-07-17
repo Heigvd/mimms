@@ -29,11 +29,27 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
-        "@class" : "Page",
-        "id" : "17",
-        "name" : "lickert",
-        "scenaristPage" : true,
-        "trainerPage" : null
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "22",
+          "name" : "intro",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "17",
+          "name" : "lickert",
+          "scenaristPage" : true,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "23",
+          "name" : "outro",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "Lickert"
       }, {
         "@class" : "Folder",
         "items" : [ {
@@ -60,12 +76,6 @@
         "name" : "setup",
         "scenaristPage" : true,
         "trainerPage" : true
-      }, {
-        "@class" : "Page",
-        "id" : "22",
-        "name" : "licketResult",
-        "scenaristPage" : null,
-        "trainerPage" : null
       } ],
       "name" : "TrainerPages"
     }, {

@@ -199,13 +199,7 @@
       },
       "type" : "If Else"
     } ],
-    "exposeAs" : "",
     "id" : "rootPage",
-    "initialState" : {
-      "@class" : "",
-      "content" : "",
-      "language" : ""
-    },
     "layout" : {
       "flexDirection" : "column"
     },

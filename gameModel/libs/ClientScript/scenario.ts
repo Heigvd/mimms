@@ -44,7 +44,7 @@ export function premiereVague() {
 			targetType: 'Human',
 			targetId: id,
 			location: {
-				mapId: "the_map",
+				mapId: "the_world",
 				x: x,
 				y: y,
 			},

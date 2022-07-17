@@ -6,26 +6,26 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Hello</p>\"",
+          "content" : "\"<p>Congrats<br></p>\"",
           "language" : "JavaScript"
         }
       },
       "type" : "Text"
     }, {
       "props" : {
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'drillStatus').setProperty(self, \"status\", \"not_started\");",
+            "language" : "JavaScript"
+          }
+        },
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Start</p>\"",
+          "content" : "\"<p>restart</p>\"",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "Script",
-            "content" : "import { nextUndonePatient } from \"./lickert\";\n\nnextUndonePatient();",
-            "language" : "typescript"
-          }
-        },
         "style" : { }
       },
       "type" : "Button"
