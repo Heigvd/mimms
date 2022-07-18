@@ -33,8 +33,9 @@ export function getGamePageId() {
 					case 'not_started':
 						return '22';
 					case 'ongoing':
+					case 'completed':
 						return '17';
-					case 'done':
+					case 'validated':
 						return '23';
 				}
 

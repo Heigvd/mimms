@@ -3,38 +3,27 @@ import { BodyStateKeys, computeMetas } from "./HUMAn";
 import { CellDef, DataDef, EhancedCellData, MatrixConfig, MatrixState, setMatrixState } from "./MatrixEditor";
 import { getPathology } from "./registries";
 import { LickertData, run_lickert, Serie } from "./RUN";
-import { getCurrentPatientBodyParam, getCurrentPatientId, getPatientIds } from "./WegasHelper";
-
-
-export interface LickertState {
-	toggle: boolean;
-}
-
-export function getInitialLickertState(): LickertState {
-	return {
-		toggle: true
-	}
-}
-
-export function getMainLickertState(): LickertState {
-	return Context.lickertMainState.state;
-}
-
-export function setMainLickertState(setter: (state: LickertState) => MatrixState) {
-	Context.lickertMainState.setState(setter);
-}
-
+import { getCurrentPatientBodyParam, getCurrentPatientId, getSortedPatientIds } from "./WegasHelper";
 
 function save() {
-	//setMatrixState(s => ({ ...s, toggle: !s.toggle }));
-	//setMainLickertState(s => ({ ...s, toggle: !s.toggle }));
-
 	saveData();
 }
 
+export function selectPatient(patientId: string){
+	APIMethods.runScript(`
+	Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');
+	Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');
+	`, {});
+}
+
+export function gotoValidatePage(){
+	APIMethods.runScript(
+			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');
+	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+}
 
 export function nextUndonePatient() {
-	const allIds = getPatientIds().sort();
+	const allIds = getSortedPatientIds();
 
 	let currentIndex = allIds.indexOf(getCurrentPatientId());
 
@@ -47,20 +36,15 @@ export function nextUndonePatient() {
 
 	if (counter >= allIds.length) {
 		// no undone patient
-		APIMethods.runScript(
-			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'done');
-	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
-
+		gotoValidatePage();
 	} else {
 		const newPatientId = allIds[currentIndex];
-		APIMethods.runScript(
-			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');
-			 Variable.find(gameModel, 'currentPatient').setValue(self, '${newPatientId}');`, {});
+		selectPatient(newPatientId);
 	}
 }
 
 export function nextPatient() {
-	const allIds = getPatientIds().sort();
+	const allIds = getSortedPatientIds();
 	const p = getCurrentPatientId();
 	let np = "";
 	if (p) {
@@ -68,11 +52,11 @@ export function nextPatient() {
 	} else {
 		np = allIds[0];
 	}
-	APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${np}');`, {});
+	selectPatient(np);
 }
 
 export function previousPatient() {
-	const allIds = getPatientIds().sort();
+	const allIds = getSortedPatientIds();
 	const p = getCurrentPatientId();
 	let np = "";
 	if (p) {
@@ -80,7 +64,7 @@ export function previousPatient() {
 	} else {
 		np = allIds[0];
 	}
-	APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${np}');`, {});
+	selectPatient(np);
 }
 
 
@@ -263,7 +247,7 @@ function convertData(data: Data): PersistedMatrix {
 
 	Object.entries(data.phMatrix).forEach(([timeId, keys]) => {
 		Object.entries(keys).forEach(([keyId, value]) => {
-			pm.physio[timeId] = pm.clinical[timeId] || {};
+			pm.physio[timeId] = pm.physio[timeId] || {};
 			if (typeof value === 'object') {
 				pm.physio[timeId][keyId] = value.value
 			} else {
@@ -317,9 +301,31 @@ export function isPatientDone(patientId: string): boolean {
 }
 
 
+export function areAllPatientsCompleted() : boolean {
+	const ids = getSortedPatientIds();
+	for (const id of ids){
+		if (!isPatientDone(id)){
+			return false;
+		}
+	}
+	return true;
+}
+
 export function isCurrentPatientDone(): boolean {
 	const patientId = getCurrentPatientId();
 	return isPatientDone(patientId);
+}
+
+interface MenuItem {
+	id: string;
+	completed: boolean;
+}
+
+export function getPatientMenu() : MenuItem[] {
+	return getSortedPatientIds().map(pId => ({
+		id: pId,
+		completed: isPatientDone(pId),
+	}))
 }
 
 

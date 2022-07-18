@@ -25,3 +25,31 @@
 }
 
 
+
+
+/** MENU */
+.lickertMenu > div > div {
+	padding: 0;
+}
+
+.lickertMenu .lickertMenuItem p {
+	margin: 0;
+}
+
+.lickertMenu .lickertMenuItem.selectedItem {
+	background-color: var(--colors-headercolor);
+}
+
+.lickertMenu .completed:after {
+	content : '(done)';
+}
+
+
+.lickertMenu .lickertMenuItem {
+	padding: 5px;
+	cursor: pointer;
+}
+
+.lickertMenu .lickertMenuItem:hover {
+	box-shadow: inset 0 0 0 1px var(--colors-hovercolor);
+}

@@ -99,8 +99,16 @@ export function getHumanIds() {
 	return Object.keys(all);
 }
 
+export function alphaNumericSort (a: string, b: string) : number {
+	return a.localeCompare(b, undefined, {sensitivity: 'base', numeric: true})
+} 
+
 export function getPatientIds() {
 	return Object.keys(Variable.find(gameModel, 'patients').getProperties());
+}
+
+export function getSortedPatientIds() {
+	return Object.keys(Variable.find(gameModel, 'patients').getProperties()).sort(alphaNumericSort);
 }
 
 export function getBodyParam(humanId: string): BodyFactoryParam | undefined {

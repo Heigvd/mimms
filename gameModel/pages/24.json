@@ -1,0 +1,108 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "lickertMenuItem",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "selectedItem",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === Context.patientMenuItem.id;",
+                "language" : "JavaScript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "completed",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.patientMenuItem.completed;",
+                "language" : "JavaScript"
+              }
+            } ],
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { selectPatient } from \"./lickert\";\n\nselectPatient(Context.patientMenuItem.id);",
+                "language" : "typescript"
+              }
+            },
+            "name" : "",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "Context.patientMenuItem.id;",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "className" : "",
+        "exposeAs" : "patientMenuItem",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getPatientMenu } from \"./lickert\";\ngetPatientMenu();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : true,
+        "layout" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "display" : "contents"
+        },
+        "name" : "",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "className" : "validateButton lickertMenuItem",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "selectedItem",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() === 'completed';",
+            "language" : "JavaScript"
+          }
+        } ],
+        "ifCondition" : {
+          "@class" : "Script",
+          "content" : "true",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { gotoValidatePage } from \"./lickert\";\n\ngotoValidatePage();",
+            "language" : "typescript"
+          }
+        },
+        "name" : "",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Validate</p>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "lickertMenu",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

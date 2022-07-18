@@ -2,187 +2,220 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "initialSelectedPageId" : "24",
+        "layoutStyle" : { },
+        "name" : "lickertMenuPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { prettyPrintCurrentPatientMeta } from \"./lickert\";\nprettyPrintCurrentPatientMeta();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { prettyPrintCurrentPatientMeta } from \"./lickert\";\nprettyPrintCurrentPatientMeta();",
-                      "language" : "JavaScript"
-                    }
+                    "name" : "header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<h2>Clinical Parameters<br></h2>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "initialSelectedPageId" : {
+                          "@class" : "Script",
+                          "content" : "\"10\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "dsafdasfsfdasd",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "exposeAs" : "matrixConfig",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "itemsOnly" : true,
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<h2>Physiological Parameters<br></h2>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "initialSelectedPageId" : {
+                          "@class" : "Script",
+                          "content" : "\"10\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "dsafdasfsfdasd",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "exposeAs" : "matrixConfig",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "itemsOnly" : true,
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isCurrentPatientDone } from \"./lickert\";\n!isCurrentPatientDone();",
+                          "language" : "JavaScript"
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>next patient<br></p>\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { nextUndonePatient} from \"./lickert\";\n\nnextUndonePatient();",
+                            "language" : "typescript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
                 } ],
-                "layout" : { },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "FlexList"
-            }, {
-              "props" : {
-                "layout" : { },
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "header",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<h2>Clinical Parameters<br></h2>\"",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
             } ]
           },
-          "type" : "FlexList"
+          "type" : "PlayerIf"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
-                "initialSelectedPageId" : {
-                  "@class" : "Script",
-                  "content" : "\"10\"",
-                  "language" : "JavaScript"
-                },
+                "initialSelectedPageId" : "25",
                 "layoutStyle" : { },
-                "name" : "dsafdasfsfdasd",
+                "name" : "lickertConfirmPageLoader",
                 "style" : { }
               },
               "type" : "PageLoader"
-            } ],
-            "exposeAs" : "matrixConfig",
-            "getItemsFn" : {
-              "@class" : "Script",
-              "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
-              "language" : "TypeScript"
-            },
-            "itemKey" : "id",
-            "itemsOnly" : true,
-            "layout" : { },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "For each"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<h2>Physiological Parameters<br></h2>\"",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
             } ]
           },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "initialSelectedPageId" : {
-                  "@class" : "Script",
-                  "content" : "\"10\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "name" : "dsafdasfsfdasd",
-                "style" : { }
-              },
-              "type" : "PageLoader"
-            } ],
-            "exposeAs" : "matrixConfig",
-            "getItemsFn" : {
-              "@class" : "Script",
-              "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
-              "language" : "TypeScript"
-            },
-            "itemKey" : "id",
-            "itemsOnly" : true,
-            "layout" : { },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "For each"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isCurrentPatientDone } from \"./lickert\";\n!isCurrentPatientDone();",
-                  "language" : "JavaScript"
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>next patient<br></p>\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import { nextUndonePatient} from \"./lickert\";\n\nnextUndonePatient();",
-                    "language" : "typescript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
-            } ],
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "FlexList"
+          "type" : "PlayerElse"
         } ],
-        "layout" : {
-          "flexDirection" : "column"
+        "ifCondition" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() !== 'completed';",
+          "language" : "JavaScript"
         },
         "layoutStyle" : { },
         "style" : { }
       },
-      "type" : "FlexList"
+      "type" : "If Else"
     } ],
     "className" : "",
-    "exposeAs" : "lickertMainState",
-    "initialState" : {
-      "@class" : "Script",
-      "content" : "import { getInitialickertState } from \"./lickert\";\ngetInitialLickertState();",
-      "language" : "TypeScript"
+    "layout" : {
+      "flexDirection" : "row"
     },
-    "layout" : { },
     "layoutClassName" : "lickertPage",
     "layoutStyle" : { },
-    "localState" : true,
     "style" : { }
   },
-  "type" : "State"
+  "type" : "FlexList"
 }

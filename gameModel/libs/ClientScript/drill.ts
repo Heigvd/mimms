@@ -4,11 +4,11 @@ import { pickRandom } from "./helper";
 import { reviveScriptedEvent } from "./scenario";
 import { getCurrentPatientBody, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { getBodyParam, getPatientIds } from "./WegasHelper";
+import { getBodyParam, getSortedPatientIds } from "./WegasHelper";
 
 
 interface DrillStatus {
-	status: 'not_started' | 'ongoing' | 'done'
+	status: 'not_started' | 'ongoing' | 'completed' | 'validated';
 }
 
 export function getDrillStatus(): DrillStatus['status'] {
@@ -22,8 +22,8 @@ export function isCurrentPatientCategorized() {
 
 export function selectNextPatient() {
 	const status = getDrillStatus();
-	if (status != 'done') {
-		const allIds = getPatientIds();
+	if (status === 'not_started' || status === 'ongoing') {
+		const allIds = getSortedPatientIds();
 		const processed = getInstantiatedHumanIds();
 
 		const ids = allIds.filter(id => !processed.includes(id));
@@ -78,7 +78,7 @@ export function selectNextPatient() {
 				APIMethods.runScript(toPost.join(""), {});
 			}
 		} else {
-			APIMethods.runScript(`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'done');Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+			APIMethods.runScript(`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 		}
 	}
 }

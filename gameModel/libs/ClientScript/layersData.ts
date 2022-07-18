@@ -110,10 +110,30 @@ export interface WorldGrid {
 	};
 }*/
 
+/**
+ * Generates a 2d grid with numbers. Astar check if the number is lower than the obstacle density to allow moving on it.
+ * @param obstacles An array of polygon
+ * @param worldHeight the height of the world
+ * @param worldWidth the width of the world
+ * @param cellSize the width = height of one cell
+ * @param getObstaclesInExtent a function that will return all the obstacles in an extent
+ */
 export function generateGridMatrix(worldHeight: number, worldWidth: number, cellSize: number, offsetPoint: Point): WorldGrid {
 	const grid: number[][] = [];
-	const gridHeight = Math.round(worldHeight / cellSize);
-	const gridWidth = Math.round(worldWidth / cellSize);
+
+	let gridHeight = Math.round(worldHeight / cellSize);
+	let gridWidth = Math.round(worldWidth / cellSize);
+
+	if (gridHeight === Infinity){
+		wlog("Inifinite World !!!");
+		gridHeight = 0;
+	}
+
+	if (gridWidth === Infinity){
+		wlog("Inifinite World !!!");
+		gridWidth = 0;
+	}
+
 	const layer = buildingLayer.current;
 	const source = layer.getSource();
 
@@ -152,14 +172,16 @@ export function onBuildingLayerReady(layer: any, map: any) {
 	buildingLayer.current = layer;
 	mapRef.current = map;
 
+	const delta = 10;
+
 	const extent: ExtentLikeObject = layer.getSource().getExtent();
 	const meterPerUnit = map.getView().getProjection().getMetersPerUnit();
 	const extentWidth = Math.abs(extent[2] - extent[0]);
 	const extentHeight = Math.abs(extent[3] - extent[1]);
-	const worldWidth = extentWidth * meterPerUnit;
-	const worldHeight = extentHeight * meterPerUnit;
+	const worldWidth = extentWidth * meterPerUnit + 2*delta;
+	const worldHeight = extentHeight * meterPerUnit + 2*delta;
 	const cellSize = CELL_SIZE_METTER;
-	const offsetPoint: Point = { x: extent[0] * meterPerUnit, y: extent[1] * meterPerUnit }
+	const offsetPoint: Point = { x: extent[0] * meterPerUnit - delta, y: extent[1] * meterPerUnit -delta}
 
 	if (obstacleGrid.current.init == false){
 		obstacleGrid.current = generateGridMatrix(worldHeight, worldWidth, cellSize, offsetPoint);

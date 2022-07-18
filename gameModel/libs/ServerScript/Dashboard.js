@@ -76,22 +76,61 @@ function getPretirage(events) {
 	});
 }
 
-WegasDashboard.registerVariable("events", {
-	label: 'Pre-Tri',
-	kind: 'object',
-	mapFn: function (teamId, events) {
-		return getPretirage(getEvents(events));
-	},
-	formatter: function (data) {
-		return Object.entries(data).map(function (entry) {
-			return "<strong>" + entry[0] + ":</strong> " + entry[1];
-		}).join("<br />");
-	}
-});
+var drillType = Variable.find(gameModel, 'drillType').getValue(self);
 
 
-WegasDashboard.registerVariable('inSim_ref');
-WegasDashboard.registerVariable('epoch_ref');
-WegasDashboard.registerVariable('running');
+if (drillType === 'LICKERT') {
+	var max = 60 * Variable.find(gameModel, 'patients').getProperties().size();
+	WegasDashboard.registerVariable('lickert', {
+		kind: 'number',
+		mapFn: function (teamId, data) {
+			var counter = 0;
+			var patients = data.getProperties().entrySet();
+			patients.forEach(function (pData) {
+				var parsed = JSON.parse(pData.getValue());
+				for (var key in parsed.clinical) {
+					for (var key2 in parsed.clinical[key]) {
+						if (parsed.clinical[key][key2]) {
+							counter++;
+						}
+					}
+				}
+				for (var key in parsed.physio) {
+					for (var key2 in parsed.physio[key]) {
+						if (parsed.physio[key][key2]) {
+							counter++;
+						}
+					}
+				}
+			});
+			return counter / max;
+		},
+		formatter: function(num){
+			return (num*100).toFixed(2) + "%";
+		}
+	})
 
-WegasDashboard.registerVariable('keepalive');
+
+} else {
+
+	WegasDashboard.registerVariable("events", {
+		label: 'Pre-Tri',
+		kind: 'object',
+		mapFn: function (teamId, events) {
+			return getPretirage(getEvents(events));
+		},
+		formatter: function (data) {
+			return Object.entries(data).map(function (entry) {
+				return "<strong>" + entry[0] + ":</strong> " + entry[1];
+			}).join("<br />");
+		}
+	});
+
+
+	WegasDashboard.registerVariable('inSim_ref');
+	WegasDashboard.registerVariable('epoch_ref');
+	WegasDashboard.registerVariable('running');
+
+	WegasDashboard.registerVariable('keepalive');
+
+}

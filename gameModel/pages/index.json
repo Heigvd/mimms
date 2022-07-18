@@ -38,9 +38,21 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "24",
+          "name" : "menu",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "17",
           "name" : "lickert",
           "scenaristPage" : true,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "25",
+          "name" : "confirmPage",
+          "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",

@@ -11,24 +11,6 @@
         }
       },
       "type" : "Text"
-    }, {
-      "props" : {
-        "impactVariable" : {
-          "impact" : {
-            "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'drillStatus').setProperty(self, \"status\", \"not_started\");",
-            "language" : "JavaScript"
-          }
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>restart</p>\"",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "style" : { }
-      },
-      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1658087964687,
+  "createdTime" : 1658154538712,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -101,36 +101,125 @@
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
-      "@class" : "StaticTextDescriptor",
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
       "broadcastScope" : "TeamScope",
       "comments" : "",
       "defaultInstance" : {
-        "@class" : "StaticTextInstance",
-        "refId" : "StaticTextInstance:24074352:Bz04lM"
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:24074413:I4OU5i"
       },
-      "editorTag" : "lickertLegend",
+      "editorTag" : "lickertPages",
       "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "StaticTextDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StaticTextInstance",
+          "refId" : "StaticTextInstance:24074352:Bz04lM"
+        },
+        "editorTag" : "lickertLegend",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074353:z1hPWE",
+          "translations" : { }
+        },
+        "name" : "lickertLegend",
+        "refId" : "StaticTextDescriptor:24074351:H0NH8z",
+        "scopeType" : "TeamScope",
+        "text" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074354:GlnxpN",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24074354:GlnxpN::EN",
+              "status" : "",
+              "translation" : "<h3>Legend</h3><ol><li>impossible</li><li>unlikely</li><li>acceptable</li><li>quite realistic</li><li>fully realistic<br></li></ol>"
+            }
+          }
+        },
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StaticTextDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StaticTextInstance",
+          "refId" : "StaticTextInstance:24074418:sKPGAw"
+        },
+        "editorTag" : "notCompletedYet",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074419:bX5zQS",
+          "translations" : { }
+        },
+        "name" : "notCompletedYet",
+        "refId" : "StaticTextDescriptor:24074417:GZmHix",
+        "scopeType" : "TeamScope",
+        "text" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074420:OPUoYi",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24074420:OPUoYi::EN",
+              "status" : "",
+              "translation" : "<p>You have not finished all the cases. Use the menu on the left.</p>"
+            }
+          }
+        },
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StaticTextDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StaticTextInstance",
+          "refId" : "StaticTextInstance:24074424:OqTNdQ"
+        },
+        "editorTag" : "congrats",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074425:5gwv46",
+          "translations" : { }
+        },
+        "name" : "congrats",
+        "refId" : "StaticTextDescriptor:24074423:dkUyrX",
+        "scopeType" : "TeamScope",
+        "text" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24074426:8MD0r7",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24074426:8MD0r7::EN",
+              "status" : "",
+              "translation" : "<p>Well done!</p><p>You have completed all the cases!</p><p>You still have opportunity to checl your answers using the left menu.</p><p>Once you are satisfied, please validate your results using the button below.<br></p>"
+            }
+          }
+        },
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
       "label" : {
         "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24074353:z1hPWE",
+        "refId" : "TranslatableContent:24074414:77MdAH",
         "translations" : { }
       },
-      "name" : "lickertLegend",
-      "refId" : "StaticTextDescriptor:24074351:H0NH8z",
+      "name" : "lickertPages",
+      "refId" : "ListDescriptor:24074412:NvUeJF",
       "scopeType" : "TeamScope",
-      "text" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24074354:GlnxpN",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24074354:GlnxpN::EN",
-            "status" : "",
-            "translation" : "<h3>Legend</h3><ol><li>impossible</li><li>unlikely</li><li>acceptable</li><li>quite realistic</li><li>fully realistic<br></li></ol>"
-          }
-        }
-      },
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -2754,7 +2843,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn with Map Merged",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

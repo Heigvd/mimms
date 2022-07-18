@@ -8,4 +8,5 @@ button.wegas-btn > div > div > p:first-child:last-child {
 .fullSize {
 	height: 100%;
 	width: 100%;
+	padding: 0;
 }

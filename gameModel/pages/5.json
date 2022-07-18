@@ -188,6 +188,7 @@
           "type" : "PlayerElse"
         } ],
         "className" : "",
+        "id" : "ifID",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getTimeMode } from \"./gameMaster\";\ngetTimeMode() === 'LIVE_WORLD';",
@@ -199,6 +200,7 @@
       },
       "type" : "If Else"
     } ],
+    "className" : "fullSize",
     "id" : "rootPage",
     "layout" : {
       "flexDirection" : "column"

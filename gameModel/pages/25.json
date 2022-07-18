@@ -1,0 +1,71 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { areAllPatientsCompleted } from \"./lickert\";\nareAllPatientsCompleted();",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "name" : "not yet completed",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'notCompletedYet'))",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { areAllPatientsCompleted } from \"./lickert\";\n!areAllPatientsCompleted();",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "name" : "completed",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'congrats'))",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { areAllPatientsCompleted } from \"./lickert\";\n!areAllPatientsCompleted();",
+          "language" : "JavaScript"
+        },
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'drillStatus').setProperty(self, \"status\", \"validated\");",
+            "language" : "JavaScript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Validate</p>\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
