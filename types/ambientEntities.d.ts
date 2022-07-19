@@ -21,8 +21,8 @@
   TextDescriptor : ITextDescriptor;
   ListInstance : IListInstance;
   Activity : IActivity;
-  Token : IToken;
   DetachedFileDescriptor : IDetachedFileDescriptor;
+  Token : IToken;
   FSMInstance : IFSMInstance;
   Assignment : IAssignment;
   NumberInstance : INumberInstance;
@@ -36,17 +36,17 @@
   AbstractContentDescriptor : IAbstractContentDescriptor;
   SurveyInputDescriptor : ISurveyInputDescriptor;
   GameModel : IGameModel;
-  TransitionDependency : ITransitionDependency;
   EvaluationDescriptorContainer : IEvaluationDescriptorContainer;
-  PeerReviewInstance : IPeerReviewInstance;
+  TransitionDependency : ITransitionDependency;
   GameAdmin : IGameAdmin;
+  PeerReviewInstance : IPeerReviewInstance;
   Game : IGame;
   GameModelLanguage : IGameModelLanguage;
   AbstractEntity : IAbstractEntity;
-  GameModelProperties : IGameModelProperties;
   InviteToJoinToken : IInviteToJoinToken;
-  SurveyChoicesDescriptor : ISurveyChoicesDescriptor;
+  GameModelProperties : IGameModelProperties;
   BurndownInstance : IBurndownInstance;
+  SurveyChoicesDescriptor : ISurveyChoicesDescriptor;
   VariableInstance : IVariableInstance;
   ObjectDescriptor : IObjectDescriptor;
   PlayerScope : IPlayerScope;
@@ -78,33 +78,33 @@
   Attachment : IAttachment;
   Result : IResult;
   DebugTeam : IDebugTeam;
-  DialogueState : IDialogueState;
-  SurveySectionDescriptor : ISurveySectionDescriptor;
   IterationEvent : IIterationEvent;
+  SurveySectionDescriptor : ISurveySectionDescriptor;
+  DialogueState : IDialogueState;
   BurndownDescriptor : IBurndownDescriptor;
   TeamScope : ITeamScope;
-  AccountDetails : IAccountDetails;
   GradeDescriptor : IGradeDescriptor;
+  AccountDetails : IAccountDetails;
   Script : IScript;
   Player : IPlayer;
   AchievementInstance : IAchievementInstance;
   AbstractAccount : IAbstractAccount;
   ObjectInstance : IObjectInstance;
   SurveyDescriptor : ISurveyDescriptor;
-  BooleanDescriptor : IBooleanDescriptor;
   AbstractStateMachineDescriptor : IAbstractStateMachineDescriptor;
+  BooleanDescriptor : IBooleanDescriptor;
   GameModelContent : IGameModelContent;
   SurveySectionInstance : ISurveySectionInstance;
   Role : IRole;
   QuestionDescriptor : IQuestionDescriptor;
   State : IState;
-  AbstractState : IAbstractState;
   GameTeams : IGameTeams;
-  EnumItem : IEnumItem;
+  AbstractState : IAbstractState;
   SurveyInstance : ISurveyInstance;
+  EnumItem : IEnumItem;
   AbstractAssignement : IAbstractAssignement;
-  User : IUser;
   FSMDescriptor : IFSMDescriptor;
+  User : IUser;
   Message : IMessage;
   DestroyedEntity : IDestroyedEntity;
   Shadow : IShadow;
@@ -128,8 +128,8 @@
   TaskDescriptor : ITaskDescriptor;
   QuestionInstance : IQuestionInstance;
   ListDescriptor : IListDescriptor;
-  ResourceInstance : IResourceInstance;
   CategorizedEvaluationDescriptor : ICategorizedEvaluationDescriptor;
+  ResourceInstance : IResourceInstance;
   AbstractTransition : IAbstractTransition;
   GameModelScope : IGameModelScope;
   CategorizedEvaluationInstance : ICategorizedEvaluationInstance;
@@ -147,8 +147,8 @@
  type ITextDescriptorWithId  = ITextDescriptor & WithId;
  type IListInstanceWithId  = IListInstance & WithId;
  type IActivityWithId  = IActivity & WithId;
- type ITokenWithId  = IToken & WithId;
  type IDetachedFileDescriptorWithId  = IDetachedFileDescriptor & WithId;
+ type ITokenWithId  = IToken & WithId;
  type IFSMInstanceWithId  = IFSMInstance & WithId;
  type IAssignmentWithId  = IAssignment & WithId;
  type INumberInstanceWithId  = INumberInstance & WithId;
@@ -162,17 +162,17 @@
  type IAbstractContentDescriptorWithId  = IAbstractContentDescriptor & WithId;
  type ISurveyInputDescriptorWithId  = ISurveyInputDescriptor & WithId;
  type IGameModelWithId  = IGameModel & WithId;
- type ITransitionDependencyWithId  = ITransitionDependency & WithId;
  type IEvaluationDescriptorContainerWithId  = IEvaluationDescriptorContainer & WithId;
- type IPeerReviewInstanceWithId  = IPeerReviewInstance & WithId;
+ type ITransitionDependencyWithId  = ITransitionDependency & WithId;
  type IGameAdminWithId  = IGameAdmin & WithId;
+ type IPeerReviewInstanceWithId  = IPeerReviewInstance & WithId;
  type IGameWithId  = IGame & WithId;
  type IGameModelLanguageWithId  = IGameModelLanguage & WithId;
  type IAbstractEntityWithId  = IAbstractEntity & WithId;
- type IGameModelPropertiesWithId  = IGameModelProperties & WithId;
  type IInviteToJoinTokenWithId  = IInviteToJoinToken & WithId;
- type ISurveyChoicesDescriptorWithId  = ISurveyChoicesDescriptor & WithId;
+ type IGameModelPropertiesWithId  = IGameModelProperties & WithId;
  type IBurndownInstanceWithId  = IBurndownInstance & WithId;
+ type ISurveyChoicesDescriptorWithId  = ISurveyChoicesDescriptor & WithId;
  type IVariableInstanceWithId  = IVariableInstance & WithId;
  type IObjectDescriptorWithId  = IObjectDescriptor & WithId;
  type IPlayerScopeWithId  = IPlayerScope & WithId;
@@ -204,33 +204,33 @@
  type IAttachmentWithId  = IAttachment & WithId;
  type IResultWithId  = IResult & WithId;
  type IDebugTeamWithId  = IDebugTeam & WithId;
- type IDialogueStateWithId  = IDialogueState & WithId;
- type ISurveySectionDescriptorWithId  = ISurveySectionDescriptor & WithId;
  type IIterationEventWithId  = IIterationEvent & WithId;
+ type ISurveySectionDescriptorWithId  = ISurveySectionDescriptor & WithId;
+ type IDialogueStateWithId  = IDialogueState & WithId;
  type IBurndownDescriptorWithId  = IBurndownDescriptor & WithId;
  type ITeamScopeWithId  = ITeamScope & WithId;
- type IAccountDetailsWithId  = IAccountDetails & WithId;
  type IGradeDescriptorWithId  = IGradeDescriptor & WithId;
+ type IAccountDetailsWithId  = IAccountDetails & WithId;
  type IScriptWithId  = IScript & WithId;
  type IPlayerWithId  = IPlayer & WithId;
  type IAchievementInstanceWithId  = IAchievementInstance & WithId;
  type IAbstractAccountWithId  = IAbstractAccount & WithId;
  type IObjectInstanceWithId  = IObjectInstance & WithId;
  type ISurveyDescriptorWithId  = ISurveyDescriptor & WithId;
- type IBooleanDescriptorWithId  = IBooleanDescriptor & WithId;
  type IAbstractStateMachineDescriptorWithId  = IAbstractStateMachineDescriptor & WithId;
+ type IBooleanDescriptorWithId  = IBooleanDescriptor & WithId;
  type IGameModelContentWithId  = IGameModelContent & WithId;
  type ISurveySectionInstanceWithId  = ISurveySectionInstance & WithId;
  type IRoleWithId  = IRole & WithId;
  type IQuestionDescriptorWithId  = IQuestionDescriptor & WithId;
  type IStateWithId  = IState & WithId;
- type IAbstractStateWithId  = IAbstractState & WithId;
  type IGameTeamsWithId  = IGameTeams & WithId;
- type IEnumItemWithId  = IEnumItem & WithId;
+ type IAbstractStateWithId  = IAbstractState & WithId;
  type ISurveyInstanceWithId  = ISurveyInstance & WithId;
+ type IEnumItemWithId  = IEnumItem & WithId;
  type IAbstractAssignementWithId  = IAbstractAssignement & WithId;
- type IUserWithId  = IUser & WithId;
  type IFSMDescriptorWithId  = IFSMDescriptor & WithId;
+ type IUserWithId  = IUser & WithId;
  type IMessageWithId  = IMessage & WithId;
  type IDestroyedEntityWithId  = IDestroyedEntity & WithId;
  type IShadowWithId  = IShadow & WithId;
@@ -254,8 +254,8 @@
  type ITaskDescriptorWithId  = ITaskDescriptor & WithId;
  type IQuestionInstanceWithId  = IQuestionInstance & WithId;
  type IListDescriptorWithId  = IListDescriptor & WithId;
- type IResourceInstanceWithId  = IResourceInstance & WithId;
  type ICategorizedEvaluationDescriptorWithId  = ICategorizedEvaluationDescriptor & WithId;
+ type IResourceInstanceWithId  = IResourceInstance & WithId;
  type IAbstractTransitionWithId  = IAbstractTransition & WithId;
  type IGameModelScopeWithId  = IGameModelScope & WithId;
  type ICategorizedEvaluationInstanceWithId  = ICategorizedEvaluationInstance & WithId;/*
@@ -291,7 +291,7 @@ content: string;
 */
 interface IDetachedContentDescriptor extends IMergeable {
   note?: string | null;
-  readonly '@class':"DetachedDirectoryDescriptor" | "DetachedFileDescriptor"
+  readonly '@class':"DetachedFileDescriptor" | "DetachedDirectoryDescriptor"
   visibility?: 'INTERNAL' | 'PROTECTED' | 'INHERITED' | 'PRIVATE' | null;
   description?: string | null;
   refId?: string;
@@ -395,7 +395,7 @@ iconUri: string;
  
 */
 interface IAbstractEntity extends IMergeable {
-  readonly '@class':"GameModel" | "PeerReviewInstance" | "AbstractState" | "InboxDescriptor" | "InboxInstance" | "AbstractAccount" | "User" | "TaskInstance" | "FSMDescriptor" | "Role" | "DebugTeam" | "TriggerDescriptor" | "Token" | "ValidateAddressToken" | "BooleanDescriptor" | "JpaAccount" | "NumberInstance" | "TriggerState" | "ResourceInstance" | "WRequirement" | "SurveyTextDescriptor" | "Attachment" | "ResetPasswordToken" | "SurveyToken" | "TextDescriptor" | "DialogueState" | "FSMInstance" | "AbstractAssignement" | "ResourceDescriptor" | "GameModelLanguage" | "SurveyInputInstance" | "TransitionDependency" | "AbstractTransition" | "IterationPeriod" | "GameAdmin" | "TextInstance" | "GameTeams" | "SurveyChoicesDescriptor" | "TeamScope" | "ChoiceInstance" | "Team" | "Result" | "VariableInstance" | "CategorizedEvaluationInstance" | "AchievementInstance" | "BooleanInstance" | "InviteToJoinToken" | "TextEvaluationDescriptor" | "Reply" | "StringDescriptor" | "SurveyInputDescriptor" | "AbstractStateMachineDescriptor" | "DebugGame" | "AccountDetails" | "StaticTextInstance" | "ChoiceDescriptor" | "EnumItem" | "NumberDescriptor" | "SurveyInstance" | "Permission" | "SurveyDescriptor" | "DialogueDescriptor" | "SurveyNumberDescriptor" | "VariableDescriptor" | "QuestionInstance" | "AchievementDescriptor" | "Occupation" | "EvaluationDescriptor" | "ObjectInstance" | "Iteration" | "Shadow" | "GameModelScope" | "StaticTextDescriptor" | "Game" | "WhQuestionDescriptor" | "Activity" | "AbstractScope" | "Assignment" | "PeerReviewDescriptor" | "TaskDescriptor" | "BurndownInstance" | "EvaluationInstance" | "ObjectDescriptor" | "ListDescriptor" | "SurveySectionDescriptor" | "DestroyedEntity" | "WhQuestionInstance" | "QuestionDescriptor" | "SurveySectionInstance" | "TranslatableContent" | "Message" | "EvaluationDescriptorContainer" | "GradeDescriptor" | "DialogueTransition" | "GuestJpaAccount" | "State" | "AaiAccount" | "SingleResultChoiceDescriptor" | "GameModelContent" | "IterationEvent" | "ListInstance" | "Transition" | "StringInstance" | "Review" | "GradeInstance" | "Player" | "BurndownDescriptor" | "CategorizedEvaluationDescriptor" | "PlayerScope" | "TextEvaluationInstance"
+  readonly '@class':"GameTeams" | "Shadow" | "Player" | "WhQuestionInstance" | "TriggerDescriptor" | "AbstractScope" | "AbstractAccount" | "Role" | "CategorizedEvaluationDescriptor" | "TeamScope" | "FSMInstance" | "GuestJpaAccount" | "CategorizedEvaluationInstance" | "DialogueTransition" | "BurndownInstance" | "SurveyInstance" | "DebugTeam" | "AaiAccount" | "GradeInstance" | "Game" | "TranslatableContent" | "Message" | "TriggerState" | "SurveySectionInstance" | "InboxInstance" | "InboxDescriptor" | "TaskInstance" | "SurveyNumberDescriptor" | "InviteToJoinToken" | "SurveyInputInstance" | "IterationEvent" | "StaticTextInstance" | "AbstractState" | "EvaluationDescriptor" | "PeerReviewDescriptor" | "TextEvaluationDescriptor" | "GameModelContent" | "ChoiceInstance" | "GameAdmin" | "GameModelScope" | "Activity" | "JpaAccount" | "BooleanInstance" | "StaticTextDescriptor" | "ListDescriptor" | "StringInstance" | "SurveySectionDescriptor" | "Iteration" | "EvaluationDescriptorContainer" | "IterationPeriod" | "Token" | "WRequirement" | "WhQuestionDescriptor" | "NumberDescriptor" | "SurveyToken" | "PeerReviewInstance" | "Attachment" | "TextDescriptor" | "ValidateAddressToken" | "Transition" | "AchievementDescriptor" | "FSMDescriptor" | "VariableDescriptor" | "Reply" | "VariableInstance" | "EvaluationInstance" | "SingleResultChoiceDescriptor" | "Result" | "SurveyTextDescriptor" | "TextInstance" | "NumberInstance" | "AbstractStateMachineDescriptor" | "ResourceInstance" | "GameModel" | "Review" | "SurveyDescriptor" | "DialogueState" | "GradeDescriptor" | "TransitionDependency" | "QuestionDescriptor" | "AchievementInstance" | "QuestionInstance" | "DialogueDescriptor" | "BooleanDescriptor" | "ObjectDescriptor" | "AccountDetails" | "AbstractTransition" | "ListInstance" | "SurveyChoicesDescriptor" | "StringDescriptor" | "Permission" | "Assignment" | "PlayerScope" | "GameModelLanguage" | "User" | "AbstractAssignement" | "EnumItem" | "ChoiceDescriptor" | "ObjectInstance" | "TextEvaluationInstance" | "SurveyInputDescriptor" | "TaskDescriptor" | "DebugGame" | "ResetPasswordToken" | "BurndownDescriptor" | "State" | "ResourceDescriptor" | "DestroyedEntity" | "Team" | "Occupation"
   readonly id?: number;
   refId?: string;
   readonly parentType?: string;
@@ -502,26 +502,6 @@ interface IGameAdmin extends IAbstractEntity {
 }
 
 /*
- * IEvaluationDescriptorContainer
- */
-/**
- Simple wrapper to group several evaluation descriptor
-
-  @see EvaluationDescriptor
- @see PeerReviewDescriptor
-
-*/
-interface IEvaluationDescriptorContainer extends IAbstractEntity {
-  readonly '@class':"EvaluationDescriptorContainer"
-  /**
- List of evaluations
-
-*/
-evaluations: IEvaluationDescriptor[];
-  readonly id?: number;
-}
-
-/*
  * ITransitionDependency
  */
 /**
@@ -542,6 +522,26 @@ variableName: string;
 
 */
 scope: 'NONE' | 'SELF' | 'CHILDREN' | 'UNKNOWN';
+  readonly id?: number;
+}
+
+/*
+ * IEvaluationDescriptorContainer
+ */
+/**
+ Simple wrapper to group several evaluation descriptor
+
+  @see EvaluationDescriptor
+ @see PeerReviewDescriptor
+
+*/
+interface IEvaluationDescriptorContainer extends IAbstractEntity {
+  readonly '@class':"EvaluationDescriptorContainer"
+  /**
+ List of evaluations
+
+*/
+evaluations: IEvaluationDescriptor[];
   readonly id?: number;
 }
 
@@ -674,7 +674,7 @@ interface IToken extends IAbstractEntity {
 
 */
 readonly expiryDate?: number | null;
-  readonly '@class':"ValidateAddressToken" | "ResetPasswordToken" | "SurveyToken" | "InviteToJoinToken"
+  readonly '@class':"InviteToJoinToken" | "SurveyToken" | "ValidateAddressToken" | "ResetPasswordToken"
   /**
  Once consumed, redirect user to this location
 
@@ -934,7 +934,7 @@ translations: {
  
 */
 interface IVariableDescriptor<T extends IVariableInstance = IVariableInstance> extends IAbstractEntity {
-  readonly '@class':"InboxDescriptor" | "FSMDescriptor" | "TriggerDescriptor" | "BooleanDescriptor" | "SurveyTextDescriptor" | "TextDescriptor" | "ResourceDescriptor" | "SurveyChoicesDescriptor" | "StringDescriptor" | "SurveyInputDescriptor" | "AbstractStateMachineDescriptor" | "ChoiceDescriptor" | "NumberDescriptor" | "SurveyDescriptor" | "DialogueDescriptor" | "SurveyNumberDescriptor" | "AchievementDescriptor" | "StaticTextDescriptor" | "WhQuestionDescriptor" | "PeerReviewDescriptor" | "TaskDescriptor" | "ObjectDescriptor" | "ListDescriptor" | "SurveySectionDescriptor" | "QuestionDescriptor" | "SingleResultChoiceDescriptor" | "BurndownDescriptor"
+  readonly '@class':"TriggerDescriptor" | "InboxDescriptor" | "SurveyNumberDescriptor" | "PeerReviewDescriptor" | "StaticTextDescriptor" | "ListDescriptor" | "SurveySectionDescriptor" | "WhQuestionDescriptor" | "NumberDescriptor" | "TextDescriptor" | "AchievementDescriptor" | "FSMDescriptor" | "SingleResultChoiceDescriptor" | "SurveyTextDescriptor" | "AbstractStateMachineDescriptor" | "SurveyDescriptor" | "QuestionDescriptor" | "DialogueDescriptor" | "BooleanDescriptor" | "ObjectDescriptor" | "SurveyChoicesDescriptor" | "StringDescriptor" | "ChoiceDescriptor" | "SurveyInputDescriptor" | "TaskDescriptor" | "BurndownDescriptor" | "ResourceDescriptor"
   /**
 
 
@@ -1018,6 +1018,17 @@ pictures: string[];
 }
 
 /*
+ * IBooleanDescriptor
+ */
+/**
+
+ 
+*/
+interface IBooleanDescriptor extends IVariableDescriptor<IBooleanInstance> {
+  readonly '@class':"BooleanDescriptor"
+}
+
+/*
  * IAbstractStateMachineDescriptor
  */
 /**
@@ -1026,7 +1037,7 @@ pictures: string[];
 
 */
 interface IAbstractStateMachineDescriptor<T extends IAbstractState = IAbstractState,U extends IAbstractTransition = IAbstractTransition> extends IVariableDescriptor<IFSMInstance> {
-  readonly '@class':"FSMDescriptor" | "TriggerDescriptor" | "DialogueDescriptor"
+  readonly '@class':"TriggerDescriptor" | "FSMDescriptor" | "DialogueDescriptor"
   /**
 
 
@@ -1089,17 +1100,6 @@ dependencies: ITransitionDependency[];
  */
 interface IFSMDescriptor extends IAbstractStateMachineDescriptor<IState,ITransition> {
   readonly '@class':"FSMDescriptor"
-}
-
-/*
- * IBooleanDescriptor
- */
-/**
-
- 
-*/
-interface IBooleanDescriptor extends IVariableDescriptor<IBooleanInstance> {
-  readonly '@class':"BooleanDescriptor"
 }
 
 /*
@@ -1400,7 +1400,7 @@ properties: {
  
 */
 interface ISurveyInputDescriptor extends IVariableDescriptor<ISurveyInputInstance> {
-  readonly '@class':"SurveyTextDescriptor" | "SurveyChoicesDescriptor" | "SurveyNumberDescriptor"
+  readonly '@class':"SurveyNumberDescriptor" | "SurveyTextDescriptor" | "SurveyChoicesDescriptor"
   /**
  Tells if a reply to this input/question is compulsory
 
@@ -1843,14 +1843,6 @@ name?: string;
 }
 
 /*
- * IGameTeams
- */
-interface IGameTeams extends IAbstractEntity {
-  readonly '@class':"GameTeams"
-  readonly id?: number;
-}
-
-/*
  * IAbstractState
  */
 /**
@@ -1926,6 +1918,14 @@ interface ITriggerState extends IAbstractState<ITransition> {
 }
 
 /*
+ * IGameTeams
+ */
+interface IGameTeams extends IAbstractEntity {
+  readonly '@class':"GameTeams"
+  readonly id?: number;
+}
+
+/*
  * IRole
  */
 /**
@@ -1998,7 +1998,7 @@ interface IAbstractAccount extends IAbstractEntity {
 
 */
 firstname: string;
-  readonly '@class':"JpaAccount" | "GuestJpaAccount" | "AaiAccount"
+  readonly '@class':"GuestJpaAccount" | "AaiAccount" | "JpaAccount"
   readonly verified?: boolean | null;
   /**
  Optional remarks only visible to admins
@@ -2397,7 +2397,7 @@ interface IDebugTeam extends ITeam {
 
 */
 interface IEvaluationDescriptor<T extends IEvaluationInstance = IEvaluationInstance> extends IAbstractEntity {
-  readonly '@class':"TextEvaluationDescriptor" | "GradeDescriptor" | "CategorizedEvaluationDescriptor"
+  readonly '@class':"CategorizedEvaluationDescriptor" | "TextEvaluationDescriptor" | "GradeDescriptor"
   /**
  Evaluation internal identifier
 
@@ -2464,7 +2464,7 @@ interface IGradeDescriptor extends IEvaluationDescriptor<IGradeInstance> {
  
 */
 interface IVariableInstance extends IAbstractEntity {
-  readonly '@class':"PeerReviewInstance" | "InboxInstance" | "TaskInstance" | "NumberInstance" | "ResourceInstance" | "FSMInstance" | "SurveyInputInstance" | "TextInstance" | "ChoiceInstance" | "AchievementInstance" | "BooleanInstance" | "StaticTextInstance" | "SurveyInstance" | "QuestionInstance" | "ObjectInstance" | "BurndownInstance" | "WhQuestionInstance" | "SurveySectionInstance" | "ListInstance" | "StringInstance"
+  readonly '@class':"WhQuestionInstance" | "FSMInstance" | "BurndownInstance" | "SurveyInstance" | "SurveySectionInstance" | "InboxInstance" | "TaskInstance" | "SurveyInputInstance" | "StaticTextInstance" | "ChoiceInstance" | "BooleanInstance" | "StringInstance" | "PeerReviewInstance" | "TextInstance" | "NumberInstance" | "ResourceInstance" | "AchievementInstance" | "QuestionInstance" | "ListInstance" | "ObjectInstance"
   readonly scopeKey?: number | null;
   readonly id?: number;
   version: number;
@@ -2904,7 +2904,7 @@ readonly path: string;
 
 */
 note: string;
-  readonly '@class':"FileDescriptor" | "DirectoryDescriptor"
+  readonly '@class':"DirectoryDescriptor" | "FileDescriptor"
   /**
  The so-called visibility
 

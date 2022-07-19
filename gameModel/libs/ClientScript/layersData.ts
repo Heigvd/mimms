@@ -150,7 +150,7 @@ export function generateGridMatrix(worldHeight: number, worldWidth: number, cell
 			const cellExtent = [minX, minY, maxX, maxY];
 
 			source.forEachFeatureIntersectingExtent(cellExtent, () => {
-				grid[j][i] = 1;
+				(grid[j])![i] = 1;
 				return true;
 			});
 		}

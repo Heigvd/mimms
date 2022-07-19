@@ -35,12 +35,12 @@ interface WegasEntitiesNamesAndClasses {
   SActivity : SActivity;
   'SActivity[]' : SActivity[];  'Readonly<SActivity>' : Readonly<SActivity>;
   'Readonly<SActivity[]>' : Readonly<SActivity[]>;
-  SToken : SToken;
-  'SToken[]' : SToken[];  'Readonly<SToken>' : Readonly<SToken>;
-  'Readonly<SToken[]>' : Readonly<SToken[]>;
   SDetachedFileDescriptor : SDetachedFileDescriptor;
   'SDetachedFileDescriptor[]' : SDetachedFileDescriptor[];  'Readonly<SDetachedFileDescriptor>' : Readonly<SDetachedFileDescriptor>;
   'Readonly<SDetachedFileDescriptor[]>' : Readonly<SDetachedFileDescriptor[]>;
+  SToken : SToken;
+  'SToken[]' : SToken[];  'Readonly<SToken>' : Readonly<SToken>;
+  'Readonly<SToken[]>' : Readonly<SToken[]>;
   SFSMInstance : SFSMInstance;
   'SFSMInstance[]' : SFSMInstance[];  'Readonly<SFSMInstance>' : Readonly<SFSMInstance>;
   'Readonly<SFSMInstance[]>' : Readonly<SFSMInstance[]>;
@@ -80,18 +80,18 @@ interface WegasEntitiesNamesAndClasses {
   SGameModel : SGameModel;
   'SGameModel[]' : SGameModel[];  'Readonly<SGameModel>' : Readonly<SGameModel>;
   'Readonly<SGameModel[]>' : Readonly<SGameModel[]>;
-  STransitionDependency : STransitionDependency;
-  'STransitionDependency[]' : STransitionDependency[];  'Readonly<STransitionDependency>' : Readonly<STransitionDependency>;
-  'Readonly<STransitionDependency[]>' : Readonly<STransitionDependency[]>;
   SEvaluationDescriptorContainer : SEvaluationDescriptorContainer;
   'SEvaluationDescriptorContainer[]' : SEvaluationDescriptorContainer[];  'Readonly<SEvaluationDescriptorContainer>' : Readonly<SEvaluationDescriptorContainer>;
   'Readonly<SEvaluationDescriptorContainer[]>' : Readonly<SEvaluationDescriptorContainer[]>;
-  SPeerReviewInstance : SPeerReviewInstance;
-  'SPeerReviewInstance[]' : SPeerReviewInstance[];  'Readonly<SPeerReviewInstance>' : Readonly<SPeerReviewInstance>;
-  'Readonly<SPeerReviewInstance[]>' : Readonly<SPeerReviewInstance[]>;
+  STransitionDependency : STransitionDependency;
+  'STransitionDependency[]' : STransitionDependency[];  'Readonly<STransitionDependency>' : Readonly<STransitionDependency>;
+  'Readonly<STransitionDependency[]>' : Readonly<STransitionDependency[]>;
   SGameAdmin : SGameAdmin;
   'SGameAdmin[]' : SGameAdmin[];  'Readonly<SGameAdmin>' : Readonly<SGameAdmin>;
   'Readonly<SGameAdmin[]>' : Readonly<SGameAdmin[]>;
+  SPeerReviewInstance : SPeerReviewInstance;
+  'SPeerReviewInstance[]' : SPeerReviewInstance[];  'Readonly<SPeerReviewInstance>' : Readonly<SPeerReviewInstance>;
+  'Readonly<SPeerReviewInstance[]>' : Readonly<SPeerReviewInstance[]>;
   SGame : SGame;
   'SGame[]' : SGame[];  'Readonly<SGame>' : Readonly<SGame>;
   'Readonly<SGame[]>' : Readonly<SGame[]>;
@@ -101,18 +101,18 @@ interface WegasEntitiesNamesAndClasses {
   SAbstractEntity : SAbstractEntity;
   'SAbstractEntity[]' : SAbstractEntity[];  'Readonly<SAbstractEntity>' : Readonly<SAbstractEntity>;
   'Readonly<SAbstractEntity[]>' : Readonly<SAbstractEntity[]>;
-  SGameModelProperties : SGameModelProperties;
-  'SGameModelProperties[]' : SGameModelProperties[];  'Readonly<SGameModelProperties>' : Readonly<SGameModelProperties>;
-  'Readonly<SGameModelProperties[]>' : Readonly<SGameModelProperties[]>;
   SInviteToJoinToken : SInviteToJoinToken;
   'SInviteToJoinToken[]' : SInviteToJoinToken[];  'Readonly<SInviteToJoinToken>' : Readonly<SInviteToJoinToken>;
   'Readonly<SInviteToJoinToken[]>' : Readonly<SInviteToJoinToken[]>;
-  SSurveyChoicesDescriptor : SSurveyChoicesDescriptor;
-  'SSurveyChoicesDescriptor[]' : SSurveyChoicesDescriptor[];  'Readonly<SSurveyChoicesDescriptor>' : Readonly<SSurveyChoicesDescriptor>;
-  'Readonly<SSurveyChoicesDescriptor[]>' : Readonly<SSurveyChoicesDescriptor[]>;
+  SGameModelProperties : SGameModelProperties;
+  'SGameModelProperties[]' : SGameModelProperties[];  'Readonly<SGameModelProperties>' : Readonly<SGameModelProperties>;
+  'Readonly<SGameModelProperties[]>' : Readonly<SGameModelProperties[]>;
   SBurndownInstance : SBurndownInstance;
   'SBurndownInstance[]' : SBurndownInstance[];  'Readonly<SBurndownInstance>' : Readonly<SBurndownInstance>;
   'Readonly<SBurndownInstance[]>' : Readonly<SBurndownInstance[]>;
+  SSurveyChoicesDescriptor : SSurveyChoicesDescriptor;
+  'SSurveyChoicesDescriptor[]' : SSurveyChoicesDescriptor[];  'Readonly<SSurveyChoicesDescriptor>' : Readonly<SSurveyChoicesDescriptor>;
+  'Readonly<SSurveyChoicesDescriptor[]>' : Readonly<SSurveyChoicesDescriptor[]>;
   SVariableInstance : SVariableInstance;
   'SVariableInstance[]' : SVariableInstance[];  'Readonly<SVariableInstance>' : Readonly<SVariableInstance>;
   'Readonly<SVariableInstance[]>' : Readonly<SVariableInstance[]>;
@@ -206,27 +206,27 @@ interface WegasEntitiesNamesAndClasses {
   SDebugTeam : SDebugTeam;
   'SDebugTeam[]' : SDebugTeam[];  'Readonly<SDebugTeam>' : Readonly<SDebugTeam>;
   'Readonly<SDebugTeam[]>' : Readonly<SDebugTeam[]>;
-  SDialogueState : SDialogueState;
-  'SDialogueState[]' : SDialogueState[];  'Readonly<SDialogueState>' : Readonly<SDialogueState>;
-  'Readonly<SDialogueState[]>' : Readonly<SDialogueState[]>;
-  SSurveySectionDescriptor : SSurveySectionDescriptor;
-  'SSurveySectionDescriptor[]' : SSurveySectionDescriptor[];  'Readonly<SSurveySectionDescriptor>' : Readonly<SSurveySectionDescriptor>;
-  'Readonly<SSurveySectionDescriptor[]>' : Readonly<SSurveySectionDescriptor[]>;
   SIterationEvent : SIterationEvent;
   'SIterationEvent[]' : SIterationEvent[];  'Readonly<SIterationEvent>' : Readonly<SIterationEvent>;
   'Readonly<SIterationEvent[]>' : Readonly<SIterationEvent[]>;
+  SSurveySectionDescriptor : SSurveySectionDescriptor;
+  'SSurveySectionDescriptor[]' : SSurveySectionDescriptor[];  'Readonly<SSurveySectionDescriptor>' : Readonly<SSurveySectionDescriptor>;
+  'Readonly<SSurveySectionDescriptor[]>' : Readonly<SSurveySectionDescriptor[]>;
+  SDialogueState : SDialogueState;
+  'SDialogueState[]' : SDialogueState[];  'Readonly<SDialogueState>' : Readonly<SDialogueState>;
+  'Readonly<SDialogueState[]>' : Readonly<SDialogueState[]>;
   SBurndownDescriptor : SBurndownDescriptor;
   'SBurndownDescriptor[]' : SBurndownDescriptor[];  'Readonly<SBurndownDescriptor>' : Readonly<SBurndownDescriptor>;
   'Readonly<SBurndownDescriptor[]>' : Readonly<SBurndownDescriptor[]>;
   STeamScope : STeamScope;
   'STeamScope[]' : STeamScope[];  'Readonly<STeamScope>' : Readonly<STeamScope>;
   'Readonly<STeamScope[]>' : Readonly<STeamScope[]>;
-  SAccountDetails : SAccountDetails;
-  'SAccountDetails[]' : SAccountDetails[];  'Readonly<SAccountDetails>' : Readonly<SAccountDetails>;
-  'Readonly<SAccountDetails[]>' : Readonly<SAccountDetails[]>;
   SGradeDescriptor : SGradeDescriptor;
   'SGradeDescriptor[]' : SGradeDescriptor[];  'Readonly<SGradeDescriptor>' : Readonly<SGradeDescriptor>;
   'Readonly<SGradeDescriptor[]>' : Readonly<SGradeDescriptor[]>;
+  SAccountDetails : SAccountDetails;
+  'SAccountDetails[]' : SAccountDetails[];  'Readonly<SAccountDetails>' : Readonly<SAccountDetails>;
+  'Readonly<SAccountDetails[]>' : Readonly<SAccountDetails[]>;
   SScript : SScript;
   'SScript[]' : SScript[];  'Readonly<SScript>' : Readonly<SScript>;
   'Readonly<SScript[]>' : Readonly<SScript[]>;
@@ -245,12 +245,12 @@ interface WegasEntitiesNamesAndClasses {
   SSurveyDescriptor : SSurveyDescriptor;
   'SSurveyDescriptor[]' : SSurveyDescriptor[];  'Readonly<SSurveyDescriptor>' : Readonly<SSurveyDescriptor>;
   'Readonly<SSurveyDescriptor[]>' : Readonly<SSurveyDescriptor[]>;
-  SBooleanDescriptor : SBooleanDescriptor;
-  'SBooleanDescriptor[]' : SBooleanDescriptor[];  'Readonly<SBooleanDescriptor>' : Readonly<SBooleanDescriptor>;
-  'Readonly<SBooleanDescriptor[]>' : Readonly<SBooleanDescriptor[]>;
   SAbstractStateMachineDescriptor : SAbstractStateMachineDescriptor;
   'SAbstractStateMachineDescriptor[]' : SAbstractStateMachineDescriptor[];  'Readonly<SAbstractStateMachineDescriptor>' : Readonly<SAbstractStateMachineDescriptor>;
   'Readonly<SAbstractStateMachineDescriptor[]>' : Readonly<SAbstractStateMachineDescriptor[]>;
+  SBooleanDescriptor : SBooleanDescriptor;
+  'SBooleanDescriptor[]' : SBooleanDescriptor[];  'Readonly<SBooleanDescriptor>' : Readonly<SBooleanDescriptor>;
+  'Readonly<SBooleanDescriptor[]>' : Readonly<SBooleanDescriptor[]>;
   SGameModelContent : SGameModelContent;
   'SGameModelContent[]' : SGameModelContent[];  'Readonly<SGameModelContent>' : Readonly<SGameModelContent>;
   'Readonly<SGameModelContent[]>' : Readonly<SGameModelContent[]>;
@@ -266,27 +266,27 @@ interface WegasEntitiesNamesAndClasses {
   SState : SState;
   'SState[]' : SState[];  'Readonly<SState>' : Readonly<SState>;
   'Readonly<SState[]>' : Readonly<SState[]>;
-  SAbstractState : SAbstractState;
-  'SAbstractState[]' : SAbstractState[];  'Readonly<SAbstractState>' : Readonly<SAbstractState>;
-  'Readonly<SAbstractState[]>' : Readonly<SAbstractState[]>;
   SGameTeams : SGameTeams;
   'SGameTeams[]' : SGameTeams[];  'Readonly<SGameTeams>' : Readonly<SGameTeams>;
   'Readonly<SGameTeams[]>' : Readonly<SGameTeams[]>;
-  SEnumItem : SEnumItem;
-  'SEnumItem[]' : SEnumItem[];  'Readonly<SEnumItem>' : Readonly<SEnumItem>;
-  'Readonly<SEnumItem[]>' : Readonly<SEnumItem[]>;
+  SAbstractState : SAbstractState;
+  'SAbstractState[]' : SAbstractState[];  'Readonly<SAbstractState>' : Readonly<SAbstractState>;
+  'Readonly<SAbstractState[]>' : Readonly<SAbstractState[]>;
   SSurveyInstance : SSurveyInstance;
   'SSurveyInstance[]' : SSurveyInstance[];  'Readonly<SSurveyInstance>' : Readonly<SSurveyInstance>;
   'Readonly<SSurveyInstance[]>' : Readonly<SSurveyInstance[]>;
+  SEnumItem : SEnumItem;
+  'SEnumItem[]' : SEnumItem[];  'Readonly<SEnumItem>' : Readonly<SEnumItem>;
+  'Readonly<SEnumItem[]>' : Readonly<SEnumItem[]>;
   SAbstractAssignement : SAbstractAssignement;
   'SAbstractAssignement[]' : SAbstractAssignement[];  'Readonly<SAbstractAssignement>' : Readonly<SAbstractAssignement>;
   'Readonly<SAbstractAssignement[]>' : Readonly<SAbstractAssignement[]>;
-  SUser : SUser;
-  'SUser[]' : SUser[];  'Readonly<SUser>' : Readonly<SUser>;
-  'Readonly<SUser[]>' : Readonly<SUser[]>;
   SFSMDescriptor : SFSMDescriptor;
   'SFSMDescriptor[]' : SFSMDescriptor[];  'Readonly<SFSMDescriptor>' : Readonly<SFSMDescriptor>;
   'Readonly<SFSMDescriptor[]>' : Readonly<SFSMDescriptor[]>;
+  SUser : SUser;
+  'SUser[]' : SUser[];  'Readonly<SUser>' : Readonly<SUser>;
+  'Readonly<SUser[]>' : Readonly<SUser[]>;
   SMessage : SMessage;
   'SMessage[]' : SMessage[];  'Readonly<SMessage>' : Readonly<SMessage>;
   'Readonly<SMessage[]>' : Readonly<SMessage[]>;
@@ -356,12 +356,12 @@ interface WegasEntitiesNamesAndClasses {
   SListDescriptor : SListDescriptor;
   'SListDescriptor[]' : SListDescriptor[];  'Readonly<SListDescriptor>' : Readonly<SListDescriptor>;
   'Readonly<SListDescriptor[]>' : Readonly<SListDescriptor[]>;
-  SResourceInstance : SResourceInstance;
-  'SResourceInstance[]' : SResourceInstance[];  'Readonly<SResourceInstance>' : Readonly<SResourceInstance>;
-  'Readonly<SResourceInstance[]>' : Readonly<SResourceInstance[]>;
   SCategorizedEvaluationDescriptor : SCategorizedEvaluationDescriptor;
   'SCategorizedEvaluationDescriptor[]' : SCategorizedEvaluationDescriptor[];  'Readonly<SCategorizedEvaluationDescriptor>' : Readonly<SCategorizedEvaluationDescriptor>;
   'Readonly<SCategorizedEvaluationDescriptor[]>' : Readonly<SCategorizedEvaluationDescriptor[]>;
+  SResourceInstance : SResourceInstance;
+  'SResourceInstance[]' : SResourceInstance[];  'Readonly<SResourceInstance>' : Readonly<SResourceInstance>;
+  'Readonly<SResourceInstance[]>' : Readonly<SResourceInstance[]>;
   SAbstractTransition : SAbstractTransition;
   'SAbstractTransition[]' : SAbstractTransition[];  'Readonly<SAbstractTransition>' : Readonly<SAbstractTransition>;
   'Readonly<SAbstractTransition[]>' : Readonly<SAbstractTransition[]>;
@@ -596,8 +596,8 @@ class SGameAdmin extends SAbstractEntity {
   public getEntity() : Readonly<IGameAdmin>;
 getJSONClassName() : IGameAdmin["@class"];
   getGameModelName():string | undefined | null ;
-  getGameName():string | undefined | null ;
   getGameId():number | undefined | null ;
+  getGameName():string | undefined | null ;
   getComments():string | undefined | null ;
   getGameStatus():'LIVE' | 'BIN' | 'DELETE' | 'SUPPRESSED' | undefined | null ;
   getId():number | undefined ;
@@ -605,25 +605,6 @@ getJSONClassName() : IGameAdmin["@class"];
   getStatus():'TODO' | 'PROCESSED' | 'CHARGED' | undefined | null ;
   getCreatedTime():number | undefined | null ;
   getCreator():string | undefined | null ;
-}
-/**
- Simple wrapper to group several evaluation descriptor
-
-  @see EvaluationDescriptor
- @see PeerReviewDescriptor
-
-*/
-// @ts-ignore 
-class SEvaluationDescriptorContainer extends SAbstractEntity {
-  public constructor(client: WegasClient, entity: Readonly<IEvaluationDescriptorContainer>);
-  public getEntity() : Readonly<IEvaluationDescriptorContainer>;
-getJSONClassName() : IEvaluationDescriptorContainer["@class"];
-  getId():number | undefined ;
-  /**
- List of evaluations
-
-*/
-getEvaluations():SEvaluationDescriptor[] ;
 }
 /**
  Indicated the result of a {@link AbstractTransition} condition depends on a variable
@@ -647,6 +628,25 @@ getVariableName():string ;
 
 */
 getScope():'NONE' | 'SELF' | 'CHILDREN' | 'UNKNOWN' ;
+}
+/**
+ Simple wrapper to group several evaluation descriptor
+
+  @see EvaluationDescriptor
+ @see PeerReviewDescriptor
+
+*/
+// @ts-ignore 
+class SEvaluationDescriptorContainer extends SAbstractEntity {
+  public constructor(client: WegasClient, entity: Readonly<IEvaluationDescriptorContainer>);
+  public getEntity() : Readonly<IEvaluationDescriptorContainer>;
+getJSONClassName() : IEvaluationDescriptorContainer["@class"];
+  getId():number | undefined ;
+  /**
+ List of evaluations
+
+*/
+getEvaluations():SEvaluationDescriptor[] ;
 }
 /**
  
@@ -1194,6 +1194,34 @@ getPictures():string[] ;
   public abstract getValidated(p: Readonly<SPlayer>, ) : Readonly<boolean>;
 }
 /**
+
+ 
+*/
+// @ts-ignore 
+abstract class SBooleanDescriptor extends SVariableDescriptor<SBooleanInstance> {
+  public constructor(client: WegasClient, entity: Readonly<IBooleanDescriptor>);
+  public getEntity() : Readonly<IBooleanDescriptor>;
+getJSONClassName() : IBooleanDescriptor["@class"];
+
+
+/**
+
+ @param p
+ @return value of player p instance
+
+*/
+  public abstract getValue(p: Readonly<SPlayer>, ) : Readonly<boolean>;
+
+
+  public abstract isFalse(p: Readonly<SPlayer>, ) : Readonly<boolean>;
+
+
+  public abstract getInstance(player: Readonly<SPlayer>, ) : Readonly<SBooleanInstance>;
+
+
+  public abstract setValue(p: Readonly<SPlayer>, v: Readonly<boolean>, ) : Readonly<void>;
+}
+/**
   @param <T>
  @param <U>
 
@@ -1338,34 +1366,6 @@ getJSONClassName() : IFSMDescriptor["@class"];
   public abstract isDisabled(p: Readonly<SPlayer>, ) : Readonly<boolean>;
   public abstract getInstance(player: Readonly<SPlayer>, ) : Readonly<SFSMInstance>;
   public abstract notWentThroughState(p: Readonly<SPlayer>, stateKey: Readonly<number>, ) : Readonly<boolean>;
-}
-/**
-
- 
-*/
-// @ts-ignore 
-abstract class SBooleanDescriptor extends SVariableDescriptor<SBooleanInstance> {
-  public constructor(client: WegasClient, entity: Readonly<IBooleanDescriptor>);
-  public getEntity() : Readonly<IBooleanDescriptor>;
-getJSONClassName() : IBooleanDescriptor["@class"];
-
-
-/**
-
- @param p
- @return value of player p instance
-
-*/
-  public abstract getValue(p: Readonly<SPlayer>, ) : Readonly<boolean>;
-
-
-  public abstract isFalse(p: Readonly<SPlayer>, ) : Readonly<boolean>;
-
-
-  public abstract getInstance(player: Readonly<SPlayer>, ) : Readonly<SBooleanInstance>;
-
-
-  public abstract setValue(p: Readonly<SPlayer>, v: Readonly<boolean>, ) : Readonly<void>;
 }
 /**
  Descriptor of the Survey variable<br>
@@ -1824,16 +1824,6 @@ getCost():number | undefined | null ;
 
 
 /**
- @param player
- @param resultName
-
- @throws com.wegas.core.exception.internal.WegasNoResultException
-
-*/
-  public abstract setCurrentResult(player: Readonly<SPlayer>, resultName: Readonly<string>, ) : Readonly<void>;
-
-
-/**
  Does this choice has been validated by the given player
  <p>
  @param p the player
@@ -1842,6 +1832,16 @@ getCost():number | undefined | null ;
 
 */
   public abstract hasBeenSelected(p: Readonly<SPlayer>, ) : Readonly<boolean>;
+
+
+/**
+ @param player
+ @param resultName
+
+ @throws com.wegas.core.exception.internal.WegasNoResultException
+
+*/
+  public abstract setCurrentResult(player: Readonly<SPlayer>, resultName: Readonly<string>, ) : Readonly<void>;
 
 
 /**
@@ -1928,8 +1928,8 @@ abstract class SSingleResultChoiceDescriptor extends SChoiceDescriptor {
   public constructor(client: WegasClient, entity: Readonly<ISingleResultChoiceDescriptor>);
   public getEntity() : Readonly<ISingleResultChoiceDescriptor>;
 getJSONClassName() : ISingleResultChoiceDescriptor["@class"];
-  public abstract setCurrentResult(player: Readonly<SPlayer>, resultName: Readonly<string>, ) : Readonly<void>;
   public abstract hasBeenSelected(p: Readonly<SPlayer>, ) : Readonly<boolean>;
+  public abstract setCurrentResult(player: Readonly<SPlayer>, resultName: Readonly<string>, ) : Readonly<void>;
   public abstract hasNotBeenSelected(p: Readonly<SPlayer>, ) : Readonly<boolean>;
   public abstract hasBeenIgnored(p: Readonly<SPlayer>, ) : Readonly<boolean>;
   public abstract activate(p: Readonly<SPlayer>, ) : Readonly<void>;
@@ -2016,17 +2016,6 @@ getAllowedValues():SEnumItem[] ;
 
 
 /**
- Count the number of selected values
-
- @param p the player
-
- @return
-
-*/
-  public abstract countSelectedValues(p: Readonly<SPlayer>, ) : Readonly<number>;
-
-
-/**
 
  @param p
  @param value
@@ -2035,6 +2024,17 @@ getAllowedValues():SEnumItem[] ;
 
 */
   public abstract isNotSelectedValue(p: Readonly<SPlayer>, value: Readonly<string>, ) : Readonly<boolean>;
+
+
+/**
+ Count the number of selected values
+
+ @param p the player
+
+ @return
+
+*/
+  public abstract countSelectedValues(p: Readonly<SPlayer>, ) : Readonly<number>;
 
 
 /**
@@ -2397,18 +2397,18 @@ getDescription():STranslatableContent ;
 /**
 
  @param p
- @param value
 
 */
-  public abstract setFeedback(p: Readonly<SPlayer>, value: Readonly<STranslatableContent>, ) : Readonly<void>;
+  public abstract deactivate(p: Readonly<SPlayer>, ) : Readonly<void>;
 
 
 /**
 
  @param p
+ @param value
 
 */
-  public abstract deactivate(p: Readonly<SPlayer>, ) : Readonly<void>;
+  public abstract setFeedback(p: Readonly<SPlayer>, value: Readonly<STranslatableContent>, ) : Readonly<void>;
 }
 /**
 
@@ -2922,13 +2922,6 @@ getName():string | undefined ;
   getLabel():STranslatableContent ;
   getId():number | undefined ;
 }
-// @ts-ignore 
-class SGameTeams extends SAbstractEntity {
-  public constructor(client: WegasClient, entity: Readonly<IGameTeams>);
-  public getEntity() : Readonly<IGameTeams>;
-getJSONClassName() : IGameTeams["@class"];
-  getId():number | undefined ;
-}
 /**
  
 */
@@ -2999,6 +2992,13 @@ class STriggerState extends SAbstractState<STransition> {
   public constructor(client: WegasClient, entity: Readonly<ITriggerState>);
   public getEntity() : Readonly<ITriggerState>;
 getJSONClassName() : ITriggerState["@class"];
+}
+// @ts-ignore 
+class SGameTeams extends SAbstractEntity {
+  public constructor(client: WegasClient, entity: Readonly<IGameTeams>);
+  public getEntity() : Readonly<IGameTeams>;
+getJSONClassName() : IGameTeams["@class"];
+  getId():number | undefined ;
 }
 /**
  
@@ -4013,132 +4013,132 @@ interface SInstanceOwner{
 }
 
  interface AtClassToAbstractTypes {
-  AbstractState : SAbstractState,
-  AbstractAccount : SAbstractAccount,
-  Token : SToken,
-  AbstractAssignement : SAbstractAssignement,
-  AbstractTransition : SAbstractTransition,
-  VariableInstance : SVariableInstance,
-  SurveyInputDescriptor : SSurveyInputDescriptor,
-  AbstractStateMachineDescriptor : SAbstractStateMachineDescriptor,
-  VariableDescriptor : SVariableDescriptor,
-  EvaluationDescriptor : SEvaluationDescriptor,
   AbstractScope : SAbstractScope,
+  AbstractAccount : SAbstractAccount,
   DetachedContentDescriptor : SDetachedContentDescriptor,
+  AbstractState : SAbstractState,
+  EvaluationDescriptor : SEvaluationDescriptor,
+  Token : SToken,
+  VariableDescriptor : SVariableDescriptor,
+  VariableInstance : SVariableInstance,
   EvaluationInstance : SEvaluationInstance,
-  AbstractEntity : SAbstractEntity,
+  AbstractStateMachineDescriptor : SAbstractStateMachineDescriptor,
   AbstractContentDescriptor : SAbstractContentDescriptor,
+  AbstractTransition : SAbstractTransition,
+  AbstractAssignement : SAbstractAssignement,
+  SurveyInputDescriptor : SSurveyInputDescriptor,
+  AbstractEntity : SAbstractEntity,
 }
 
  interface AtClassToConcrtetableTypes {
-  InboxDescriptor : SInboxDescriptor,
-  FSMDescriptor : SFSMDescriptor,
   TriggerDescriptor : STriggerDescriptor,
-  BooleanDescriptor : SBooleanDescriptor,
-  SurveyTextDescriptor : SSurveyTextDescriptor,
+  InboxDescriptor : SInboxDescriptor,
+  SurveyNumberDescriptor : SSurveyNumberDescriptor,
+  PeerReviewDescriptor : SPeerReviewDescriptor,
+  StaticTextDescriptor : SStaticTextDescriptor,
+  ListDescriptor : SListDescriptor,
+  SurveySectionDescriptor : SSurveySectionDescriptor,
+  WhQuestionDescriptor : SWhQuestionDescriptor,
+  NumberDescriptor : SNumberDescriptor,
   TextDescriptor : STextDescriptor,
-  ResourceDescriptor : SResourceDescriptor,
+  AchievementDescriptor : SAchievementDescriptor,
+  FSMDescriptor : SFSMDescriptor,
+  SingleResultChoiceDescriptor : SSingleResultChoiceDescriptor,
+  SurveyTextDescriptor : SSurveyTextDescriptor,
+  SurveyDescriptor : SSurveyDescriptor,
+  QuestionDescriptor : SQuestionDescriptor,
+  DialogueDescriptor : SDialogueDescriptor,
+  BooleanDescriptor : SBooleanDescriptor,
+  ObjectDescriptor : SObjectDescriptor,
   SurveyChoicesDescriptor : SSurveyChoicesDescriptor,
   StringDescriptor : SStringDescriptor,
   ChoiceDescriptor : SChoiceDescriptor,
-  NumberDescriptor : SNumberDescriptor,
-  SurveyDescriptor : SSurveyDescriptor,
-  DialogueDescriptor : SDialogueDescriptor,
-  SurveyNumberDescriptor : SSurveyNumberDescriptor,
-  AchievementDescriptor : SAchievementDescriptor,
-  StaticTextDescriptor : SStaticTextDescriptor,
-  WhQuestionDescriptor : SWhQuestionDescriptor,
-  PeerReviewDescriptor : SPeerReviewDescriptor,
   TaskDescriptor : STaskDescriptor,
-  ObjectDescriptor : SObjectDescriptor,
-  ListDescriptor : SListDescriptor,
-  SurveySectionDescriptor : SSurveySectionDescriptor,
-  QuestionDescriptor : SQuestionDescriptor,
-  SingleResultChoiceDescriptor : SSingleResultChoiceDescriptor,
   BurndownDescriptor : SBurndownDescriptor,
+  ResourceDescriptor : SResourceDescriptor,
 }
 
  interface AtClassToConcreteTypes {
-  GameModel : SGameModel,
-  PeerReviewInstance : SPeerReviewInstance,
-  InboxInstance : SInboxInstance,
-  User : SUser,
-  TaskInstance : STaskInstance,
-  Role : SRole,
-  DebugTeam : SDebugTeam,
-  ValidateAddressToken : SValidateAddressToken,
-  JpaAccount : SJpaAccount,
-  NumberInstance : SNumberInstance,
-  TriggerState : STriggerState,
   Script : SScript,
-  ResourceInstance : SResourceInstance,
-  WRequirement : SWRequirement,
-  Attachment : SAttachment,
-  ResetPasswordToken : SResetPasswordToken,
-  GameModelProperties : SGameModelProperties,
-  SurveyToken : SSurveyToken,
-  DialogueState : SDialogueState,
-  FSMInstance : SFSMInstance,
-  GameModelLanguage : SGameModelLanguage,
-  SurveyInputInstance : SSurveyInputInstance,
-  TransitionDependency : STransitionDependency,
-  IterationPeriod : SIterationPeriod,
-  GameAdmin : SGameAdmin,
-  TextInstance : STextInstance,
   GameTeams : SGameTeams,
-  TeamScope : STeamScope,
-  ChoiceInstance : SChoiceInstance,
-  Team : STeam,
-  Result : SResult,
-  CategorizedEvaluationInstance : SCategorizedEvaluationInstance,
-  AchievementInstance : SAchievementInstance,
-  BooleanInstance : SBooleanInstance,
-  InviteToJoinToken : SInviteToJoinToken,
-  TextEvaluationDescriptor : STextEvaluationDescriptor,
-  Reply : SReply,
-  DebugGame : SDebugGame,
-  AccountDetails : SAccountDetails,
-  StaticTextInstance : SStaticTextInstance,
-  EnumItem : SEnumItem,
-  FileDescriptor : SFileDescriptor,
-  SurveyInstance : SSurveyInstance,
-  Permission : SPermission,
-  DetachedDirectoryDescriptor : SDetachedDirectoryDescriptor,
-  QuestionInstance : SQuestionInstance,
-  Occupation : SOccupation,
-  DetachedFileDescriptor : SDetachedFileDescriptor,
-  ObjectInstance : SObjectInstance,
-  Iteration : SIteration,
   Shadow : SShadow,
-  GameModelScope : SGameModelScope,
-  Game : SGame,
-  Activity : SActivity,
-  DirectoryDescriptor : SDirectoryDescriptor,
-  Assignment : SAssignment,
-  BurndownInstance : SBurndownInstance,
-  DestroyedEntity : SDestroyedEntity,
+  Player : SPlayer,
   WhQuestionInstance : SWhQuestionInstance,
-  SurveySectionInstance : SSurveySectionInstance,
+  Role : SRole,
+  CategorizedEvaluationDescriptor : SCategorizedEvaluationDescriptor,
+  TeamScope : STeamScope,
+  FSMInstance : SFSMInstance,
+  GuestJpaAccount : SGuestJpaAccount,
+  CategorizedEvaluationInstance : SCategorizedEvaluationInstance,
+  DialogueTransition : SDialogueTransition,
+  BurndownInstance : SBurndownInstance,
+  SurveyInstance : SSurveyInstance,
+  DebugTeam : SDebugTeam,
+  AaiAccount : SAaiAccount,
+  GradeInstance : SGradeInstance,
+  Game : SGame,
+  Translation : STranslation,
   TranslatableContent : STranslatableContent,
   Message : SMessage,
-  EvaluationDescriptorContainer : SEvaluationDescriptorContainer,
-  Translation : STranslation,
-  GradeDescriptor : SGradeDescriptor,
-  DialogueTransition : SDialogueTransition,
-  GuestJpaAccount : SGuestJpaAccount,
-  State : SState,
-  AaiAccount : SAaiAccount,
-  GameModelContent : SGameModelContent,
+  TriggerState : STriggerState,
+  SurveySectionInstance : SSurveySectionInstance,
+  InboxInstance : SInboxInstance,
+  TaskInstance : STaskInstance,
+  InviteToJoinToken : SInviteToJoinToken,
+  SurveyInputInstance : SSurveyInputInstance,
+  DetachedFileDescriptor : SDetachedFileDescriptor,
   IterationEvent : SIterationEvent,
-  ListInstance : SListInstance,
-  Transition : STransition,
+  StaticTextInstance : SStaticTextInstance,
+  DirectoryDescriptor : SDirectoryDescriptor,
+  TextEvaluationDescriptor : STextEvaluationDescriptor,
+  GameModelContent : SGameModelContent,
+  ChoiceInstance : SChoiceInstance,
+  GameAdmin : SGameAdmin,
+  GameModelScope : SGameModelScope,
+  Activity : SActivity,
+  JpaAccount : SJpaAccount,
+  BooleanInstance : SBooleanInstance,
   StringInstance : SStringInstance,
+  Iteration : SIteration,
+  EvaluationDescriptorContainer : SEvaluationDescriptorContainer,
+  IterationPeriod : SIterationPeriod,
+  WRequirement : SWRequirement,
+  SurveyToken : SSurveyToken,
+  PeerReviewInstance : SPeerReviewInstance,
+  Attachment : SAttachment,
+  ValidateAddressToken : SValidateAddressToken,
+  Transition : STransition,
+  Reply : SReply,
+  Result : SResult,
+  TextInstance : STextInstance,
+  NumberInstance : SNumberInstance,
+  ResourceInstance : SResourceInstance,
+  GameModel : SGameModel,
   Review : SReview,
-  GradeInstance : SGradeInstance,
-  Player : SPlayer,
-  CategorizedEvaluationDescriptor : SCategorizedEvaluationDescriptor,
+  DialogueState : SDialogueState,
+  GradeDescriptor : SGradeDescriptor,
+  TransitionDependency : STransitionDependency,
+  AchievementInstance : SAchievementInstance,
+  QuestionInstance : SQuestionInstance,
+  AccountDetails : SAccountDetails,
+  ListInstance : SListInstance,
+  DetachedDirectoryDescriptor : SDetachedDirectoryDescriptor,
+  GameModelProperties : SGameModelProperties,
+  FileDescriptor : SFileDescriptor,
+  Permission : SPermission,
+  Assignment : SAssignment,
   PlayerScope : SPlayerScope,
+  GameModelLanguage : SGameModelLanguage,
+  User : SUser,
+  EnumItem : SEnumItem,
+  ObjectInstance : SObjectInstance,
   TextEvaluationInstance : STextEvaluationInstance,
+  DebugGame : SDebugGame,
+  ResetPasswordToken : SResetPasswordToken,
+  State : SState,
+  DestroyedEntity : SDestroyedEntity,
+  Team : STeam,
+  Occupation : SOccupation,
 }
 
  type WegasClassNameAndScriptableTypes = AtClassToAbstractTypes & AtClassToConcrtetableTypes & AtClassToConcreteTypes;

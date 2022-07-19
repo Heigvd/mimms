@@ -61,7 +61,6 @@ import {
 	processPhoneCommunication,
 	clearAllCommunicationState,
 } from "./communication";
-//import { calculateLOS, isPointInPolygon } from "./geoData";
 import { calculateLOS, isPointInPolygon } from "./lineOfSight";
 import { PathFinder } from "./pathFinding";
 import { obstacleGrid } from "./layersData";
@@ -429,14 +428,14 @@ function computeCurrentLocation(
 			let remainingDistance_sq = distance * distance;
 			let pathIndex = 1;
 			let segStart: Point = location.location;
-			let segEnd = newPath[pathIndex];
+			let segEnd = newPath[pathIndex]!;
 
 			let destinationReached = false;
 
 			paths.current["moving"] = [segStart];
 
 			while (remainingDistance_sq > 0) {
-				segEnd = newPath[pathIndex];
+				segEnd = newPath[pathIndex]!;
 				// If we could run further than the last point of the path stop at the end of the path
 				// Also if the path has no lenght
 				if (segEnd == null) {

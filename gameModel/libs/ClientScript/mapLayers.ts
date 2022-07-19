@@ -108,7 +108,7 @@ export function getFogOfWarLayer(): FeatureCollection {
 		})
 
 		if (visionPoints[0] != null) {
-			hole.push(hole[0])
+			hole.push(hole[0]!)
 		}
 
 		return layer;
@@ -297,7 +297,7 @@ export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): Fe
 				wlog(Math.round(cellIndex * 100 / totalCells) + "%");
 			}
 
-			if (grid[j][i]) {
+			if (grid[j]![i]) {
 				const minPoint = PathFinder.gridPointToWorldPoint({ x: i, y: j }, cellSize, offsetPoint)
 				const maxPoint = PathFinder.gridPointToWorldPoint({ x: i + 1, y: j + 1 }, cellSize, offsetPoint);
 

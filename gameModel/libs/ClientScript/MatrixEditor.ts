@@ -101,7 +101,7 @@ function filterSerie(serie: DataDef<MatrixKey>[], motif: string) : DataDef<Matri
 			}) == null;
 		})
 	}
-	
+
 }
 
 export function getFilteredXSerie() : DataDef<MatrixKey>[]{
@@ -323,7 +323,7 @@ const testMatrix: Record<number, Record<number, CellData>> = {
 		2: false,
 	},
 	3: {
-		0: { label: 'hello', value: 0},
+		0: true,
 		1: true,
 		2: false,
 	},

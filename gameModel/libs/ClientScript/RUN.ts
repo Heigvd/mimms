@@ -407,7 +407,7 @@ export function run() {
 
 const keys: BodyStateKeys[] = [
 	'vitals.respiration.PaO2',
-	'vitals.respiration.PaCO2',
+	//'vitals.respiration.PaCO2',
 	'vitals.respiration.tidalVolume_L',
 	'vitals.cardio.totalVolume_mL',
 	'vitals.cardio.endSystolicVolume_mL',
@@ -435,7 +435,7 @@ const phKeys = [
 	'vitals.cardio.totalVolume_mL',
 	'vitals.cardio.endSystolicVolume_mL',
 	'variables.ICP_mmHg',
-] // as const;
+] as const;
 
 
 type PhKeys = typeof phKeys[number];
@@ -459,6 +459,7 @@ export function run_lickert() {
 		},
 		physiological: {
 			'vitals.respiration.PaO2': {},
+            // @ts-ignore
 			'vitals.respiration.PaCO2': {},
 			'vitals.respiration.tidalVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},
@@ -480,7 +481,7 @@ export function run_lickert() {
 
 		phKeys.forEach(k => {
 			const value = readKey(state, k as BodyStateKeys);
-			data.physiological[k][time] = value;
+			data.physiological[k]![time] = value;
 		});
 	}, scenario);
 
@@ -503,6 +504,7 @@ export function run_lickert() {
 		},
 		physiological: {
 			'vitals.respiration.PaO2': {},
+            // @ts-ignore
 			'vitals.respiration.PaCO2': {},
 			'vitals.respiration.tidalVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},

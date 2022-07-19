@@ -1,3 +1,5 @@
+
+    
         declare namespace console {
             function time(label: string, ...data: unknown[]);
             function timeLog(label: string, ...data: unknown[]);
@@ -79,6 +81,10 @@
 "events_vd1H1F": SListDescriptor;
 "lickert": SObjectDescriptor;
 "plot": SListDescriptor;
+"lickertLegend": SStaticTextDescriptor;
+"lickertPages": SListDescriptor;
+"notCompletedYet": SStaticTextDescriptor;
+"congrats": SStaticTextDescriptor;
         }
 
         interface VariableIds {
@@ -151,6 +157,10 @@
 24070155: SListDescriptor;
 24070160: SObjectDescriptor;
 24070205: SListDescriptor;
+24074401: SStaticTextDescriptor;
+24074412: SListDescriptor;
+24074417: SStaticTextDescriptor;
+24074423: SStaticTextDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -177,11 +187,11 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: "gamePageLoader"|"timetoolbar_map"|"patientPageLoaderModal", pageId: IScript) => void;
+          setPageLoaders: (name: unknown, pageId: IScript) => void;
         };
 
         interface ClientMethodList {
-
+          
         }
 
         interface ClientMethodClass extends GlobalClientMethodClass {
@@ -229,7 +239,8 @@
         declare const Roles : RolesMehtods;
 
         declare const wlog : (...args: unknown[])=>void;
+        
 
+        
 
-
-
+  

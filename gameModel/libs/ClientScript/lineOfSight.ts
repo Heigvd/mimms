@@ -87,7 +87,7 @@ export function computeVisionPolygon(
 				const nextIndex = (i + 1) % arr.length;
 
 				// const last = arr[lastIndex];
-				const next = arr[nextIndex];
+				const next = arr[nextIndex]!;
 
 				const dx = p.x - position.x;
 				const dz = p.y - position.y;
@@ -149,7 +149,7 @@ export function computeVisionPolygon(
 				return [intersections[0].point];
 			}
 		})
-	return [...visionPoints, visionPoints[0]];
+	return [...visionPoints, visionPoints[0]!];
 }
 
 
@@ -177,14 +177,17 @@ export function calculateLOS(
 
 }
 
-export function isPointInPolygon(point: Point, polygon: Point[]) {
+export function isPointInPolygon(point: Point | undefined, polygon: Point[]) {
 	// code from Randolph Franklin (found at http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/)
+    if (!point){
+        return false;
+    }
 	const { x, y } = point;
 	let c = false;
 
 	polygon.forEach((p, i, arr) => {
 		const p1 = p;
-		const p2 = arr[(i + 1) % arr.length];
+		const p2 = arr[(i + 1) % arr.length]!;
 
 		if (
 			((p1.y <= y && y < p2.y) || (p2.y <= y && y < p1.y)) &&

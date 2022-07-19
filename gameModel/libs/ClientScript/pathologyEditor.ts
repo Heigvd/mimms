@@ -70,8 +70,8 @@ function getConfigFromAfflictedPathology(
 		// auto-detect selected preset
 		const find = definition.presets.findIndex(preset => {
 			for (const i in ap.afflictedBlocks) {
-				const ab = ap.afflictedBlocks[i];
-				if (preset[i].includes(ab)) {
+				const ab = ap.afflictedBlocks[i]!;
+				if (preset[i]!.includes(ab)) {
 					return true;
 				}
 			}
@@ -114,8 +114,8 @@ function updatePatient(patientId: string, newAp: AfflictedPathology) {
 	const pathologyIndex = context.id;
 
 	if (param?.scriptedPathologies) {
-		const current = param.scriptedPathologies[pathologyIndex].payload;
-		param.scriptedPathologies[pathologyIndex].payload = { ...current, ...newAp };
+		const current = param.scriptedPathologies[pathologyIndex]!.payload;
+		param.scriptedPathologies[pathologyIndex]!.payload = { ...current, ...newAp };
 	}
 
 	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(JSON.stringify(param))})`
@@ -169,12 +169,12 @@ export function getModuleArguments(moduleMeta: ModuleMeta) {
 export function getBlockChoices() {
 	const moduleIndex = Context.module.id;
 	const context = getPathologyEditorContext();
-	const mod = context.modules[moduleIndex];
+	const mod = context.modules[moduleIndex]!;
 	if (context.preset ?? -1 >= 0) {
 		if (context.presets) {
 			const p = context.presets[context.preset!];
 			if (p) {
-				return p[moduleIndex].map(block => ({
+				return p[moduleIndex]!.map(block => ({
 					value: block,
 					label: block,
 				}));

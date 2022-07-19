@@ -11,11 +11,11 @@ Helpers.registerEffect(() => {
 	/**
 	 * Custom patient edition
 	 */
-	function hideProperty(schema, key: string) {
+	function hideProperty(schema:any, key: string) {
 		schema.properties[key].view.type = 'hidden';
 	}
 
-	function turnPropertyReadOnly(schema, key) {
+	function turnPropertyReadOnly(schema: any, key: string) {
 		schema.properties[key].view.readOnly = true;
 	}
 
@@ -423,7 +423,6 @@ Helpers.registerEffect(() => {
 								properties: {
 									ageHistogram: schemaProps.array({
 										label: "Age Histogram",
-										visible: () => true,
 										required: true,
 										//TODO config
 										itemSchema: {
