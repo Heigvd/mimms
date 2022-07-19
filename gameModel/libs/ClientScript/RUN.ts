@@ -405,7 +405,7 @@ export function run() {
 
 
 
-const kes: BodyStateKeys[] = [
+const keys: BodyStateKeys[] = [
 	'vitals.respiration.PaO2',
 	'vitals.respiration.PaCO2',
 	'vitals.respiration.tidalVolume_L',
@@ -435,7 +435,7 @@ const phKeys = [
 	'vitals.cardio.totalVolume_mL',
 	'vitals.cardio.endSystolicVolume_mL',
 	'variables.ICP_mmHg',
-];
+] // as const;
 
 
 type PhKeys = typeof phKeys[number];

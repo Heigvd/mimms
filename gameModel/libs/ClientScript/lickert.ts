@@ -283,7 +283,7 @@ function check(matrix: Matrix, data: Record<string, Serie>): boolean {
 }
 
 
-export function isPatientDone(patientId: string): boolean {
+/*export function isPatientDone(patientId: string): boolean {
 	const data = currentData[patientId];
 	const clMmatrix = clinicalMatrix[patientId];
 	const phMmatrix = physiologicalMatrix[patientId];
@@ -298,7 +298,28 @@ export function isPatientDone(patientId: string): boolean {
 	}
 
 	return false;
+}*/
+
+function countCell(matrix: PMatrix) {
+	let counter = 0;
+	Object.values(matrix).forEach(timeSerie => {
+		counter += Object.values(timeSerie).length;
+	});
+	return counter;
 }
+
+export function isPatientDone(patientId: string): boolean {
+	//const data = currentData[patientId];
+
+	const persistedData = getPersistedData(patientId);
+
+	if (countCell(persistedData.clinical) < 30 ||  countCell(persistedData.physio) < 30) {
+		return false;
+	}
+
+	return true;
+}
+
 
 
 export function areAllPatientsCompleted() : boolean {
