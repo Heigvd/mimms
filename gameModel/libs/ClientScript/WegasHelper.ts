@@ -1,6 +1,6 @@
 import { TargetedEvent } from "./baseEvent";
 import { getSkillDefinition, SkillDefinition, SkillLevel } from "./GameModelerHelper";
-import { Point } from "./helper";
+import { Point } from "./point2D";
 import { BodyFactoryParam, Environnment } from "./HUMAn";
 import { logger } from "./logger";
 import { Compensation, SympSystem } from "./physiologicalModel";

@@ -1,4 +1,4 @@
-import { Point, Polygon, Polygons, Segment } from "./helper";
+import { Point } from "./point2D";
 
 export const buildingLayer = Helpers.useRef<any>("buildingLayer", null);
 export const mapRef = Helpers.useRef<any>("mapRef", null);
