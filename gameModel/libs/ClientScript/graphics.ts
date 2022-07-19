@@ -67,7 +67,9 @@ interface PictoOptions {
 }
 
 function getStanding({ height_px, classes, bloodStyle, category }: PictoOptions) {
-	return `<svg class="body_picto ${classes}" height="${height_px}" viewBox="0 0 176 496" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const left = -0.17 * height_px;
+	const top = 0.1 * height_px;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;"  class="body_picto ${classes}" height="${height_px}" viewBox="0 0 176 496" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g class="standing_position">
 	    <path style="${bloodStyle} transform-origin:50% 95%;" class="blood"
        d="m 30.922255,441.74969 c 16.264053,-0.6557 32.429901,-3.36763 48.292074,-6.95282 0.524257,-1.38996 0.453248,-3.40692 0.74937,-4.85278 0.901964,-4.38593 5.109617,-3.27849 9.126906,-3.31173 4.62313,-0.0393 8.981865,0.55447 13.561185,0.93369 10.07419,0.83549 20.18918,0.6844 30.27697,1.40205 8.91388,0.63303 20.25566,0.78411 27.71914,6.58116 7.50579,5.82877 10.69364,13.24089 9.97902,22.7183 -0.87477,11.62128 -14.34531,17.11012 -23.79553,21.6985 -8.75071,4.24845 -17.44703,8.82323 -26.6102,12.14403 -4.23333,1.53349 -11.37803,4.71076 -16.20513,3.73627 -6.705045,-1.35219 -12.443166,-6.45123 -18.933679,-8.57696 -6.890882,-2.25567 -14.221415,-4.21672 -21.494536,-4.58536 -7.037432,-0.35807 -12.822388,2.22847 -19.359737,4.24542 -9.729725,3.00202 -21.943251,0.16921 -31.088287,-3.69397 -15.8349772,-6.68843 -17.7718574,-30.45978 -3.539867,-39.82993 6.333387,-4.1714 14.330194,-1.37485 21.322301,-1.65587 z"
@@ -108,7 +110,9 @@ function getStanding({ height_px, classes, bloodStyle, category }: PictoOptions)
 
 
 function getSitting({ height_px, classes, bloodStyle, category }: PictoOptions) {
-	return `<svg class="body_picto ${classes}" height="${height_px / 2}" viewBox="0 0 291 301" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const left = -0.05 * height_px;
+	const top = 0.075 * height_px;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;" class="body_picto ${classes}" height="${height_px / 2}" viewBox="0 0 291 301" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g class="sitting_position">
         <path style="${bloodStyle} transform-origin:32% 88%;" class="blood" d="M166.466 265.073C177.231 264.639 187.931 262.844 198.43 260.471C198.777 259.551 198.73 258.216 198.926 257.259C199.523 254.356 202.308 255.089 204.967 255.067C208.027 255.041 210.912 255.434 213.943 255.685C220.611 256.238 227.306 256.138 233.983 256.613C239.883 257.032 247.39 257.132 252.33 260.969C257.298 264.827 259.408 269.733 258.935 276.006C258.356 283.698 249.44 287.331 243.185 290.368C237.393 293.18 231.637 296.208 225.572 298.406C222.77 299.421 218.041 301.524 214.846 300.879C210.408 299.984 206.61 296.609 202.314 295.202C197.753 293.709 192.901 292.411 188.087 292.167C183.429 291.93 179.6 293.642 175.273 294.977C168.833 296.964 160.749 295.089 154.696 292.532C144.215 288.105 142.933 272.371 152.353 266.169C156.545 263.408 161.838 265.259 166.466 265.073Z" fill="#C40000"/>
         <g class="body">
@@ -151,7 +155,9 @@ function getSitting({ height_px, classes, bloodStyle, category }: PictoOptions) 
 }
 
 function getSupineDecubitus({ height_px, classes, bloodStyle, category }: PictoOptions) {
-	return `<svg class="body_picto ${classes}" width="${height_px}" viewBox="0 0 532 214" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const left = -0.4 * height_px;
+	const top = 0.2 * height_px;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;" class="body_picto ${classes}" width="${0.8 * height_px}" viewBox="0 0 532 214" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g class="backLying_position">
         <path style="${bloodStyle} transform-origin:59% 50%;" class="blood" d="M76.6288 78.8747C116.934 77.2462 156.995 70.4969 196.306 61.5722C197.606 58.1114 197.429 53.0937 198.165 49.4946C200.398 38.58 210.826 41.335 220.781 41.2513C232.24 41.155 243.041 42.6307 254.389 43.5764C279.354 45.6568 304.424 45.2782 329.424 47.0639C351.512 48.6416 379.62 49.0156 398.119 63.4449C416.717 77.9519 424.618 96.4001 422.849 119.986C420.679 148.911 387.297 162.57 363.877 173.99C342.192 184.565 320.64 195.951 297.931 204.216C287.44 208.033 269.734 215.941 257.771 213.516C241.155 210.148 226.932 197.457 210.847 192.168C193.773 186.553 175.606 181.675 157.583 180.754C140.141 179.863 125.803 186.303 109.602 191.322C85.4902 198.792 55.2211 191.742 32.5587 182.128C-6.68248 165.48 -11.4828 106.32 23.7869 82.9964C39.4824 72.6171 59.2992 79.5749 76.6288 78.8747Z" fill="#C40000"/>
         <g class="back_body">
@@ -188,7 +194,9 @@ function getSupineDecubitus({ height_px, classes, bloodStyle, category }: PictoO
 }
 
 function getProneDecubitus({ height_px, classes, bloodStyle, category }: PictoOptions) {
-	return `<svg class="body_picto ${classes}" width="${height_px}" viewBox="0 0 522 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const left = -0.4 * height_px;
+	const top = 0.2 * height_px;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;" class="body_picto ${classes}" width="${0.8 * height_px}" viewBox="0 0 522 200" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g class="ventral_position">
         <path style="${bloodStyle}  transform-origin:50% 43%;" class="blood" d="M77.6288 64.8747C117.934 63.2462 157.995 56.4969 197.306 47.5722C198.606 44.1114 198.429 39.0937 199.165 35.4946C201.398 24.58 211.826 27.335 221.781 27.2513C233.24 27.155 244.041 28.6307 255.389 29.5764C280.354 31.6568 305.424 31.2782 330.424 33.0639C352.512 34.6416 380.62 35.0156 399.119 49.4449C417.717 63.9519 425.618 82.4001 423.849 105.986C421.679 134.911 388.297 148.57 364.877 159.99C343.192 170.565 321.64 181.951 298.931 190.216C288.44 194.033 270.734 201.941 258.771 199.516C242.155 196.148 227.932 183.457 211.847 178.168C194.773 172.553 176.606 167.675 158.583 166.754C141.141 165.863 126.803 172.303 110.602 177.322C86.4902 184.792 56.2211 177.742 33.5587 168.128C-5.68248 151.48 -10.4828 92.3199 24.7869 68.9964C40.4824 58.6171 60.2992 65.5749 77.6288 64.8747Z" fill="#C40000"/>
         <g class="body_ventral">
@@ -225,7 +233,9 @@ function getProneDecubitus({ height_px, classes, bloodStyle, category }: PictoOp
 }
 
 function getRecoveryPosition({ height_px, classes, bloodStyle, category }: PictoOptions) {
-	return `<svg class="body_picto ${classes}" width="${height_px}" viewBox="0 0 558 215" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const left = -0.4 * height_px;
+	const top = 0.2 * height_px;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;" class="body_picto ${classes}" width="${height_px}" viewBox="0 0 558 215" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g class="pls_position">
         <path style="${bloodStyle} transform-origin:50% 40%;" class="blood" d="M76.6288 64.8747C116.934 63.2462 156.995 56.4969 196.306 47.5722C197.606 44.1114 197.429 39.0937 198.165 35.4946C200.398 24.58 210.826 27.335 220.781 27.2513C232.24 27.155 243.041 28.6307 254.389 29.5764C279.354 31.6568 304.424 31.2782 329.424 33.0639C351.512 34.6416 379.62 35.0156 398.119 49.4449C416.717 63.9519 424.618 82.4001 422.849 105.986C420.679 134.911 387.297 148.57 363.877 159.99C342.192 170.565 320.64 181.951 297.931 190.216C287.44 194.033 269.734 201.941 257.771 199.516C241.155 196.148 226.932 183.457 210.847 178.168C193.773 172.553 175.606 167.675 157.583 166.754C140.141 165.863 125.803 172.303 109.602 177.322C85.4902 184.792 55.2211 177.742 32.5587 168.128C-6.68248 151.48 -11.4828 92.3199 23.7869 68.9964C39.4824 58.6171 59.2992 65.5749 76.6288 64.8747Z" fill="#C40000"/>
         <g class="body_pls">
@@ -307,7 +317,7 @@ export function getBodyPicto(overview: HumanOverview, resolution: number = 0.05)
 
 	const height_px = convertMeterToPixel(overview.height_cm / 100, resolution);
 
-	const options : PictoOptions = { height_px, classes, bloodStyle, category: overview.category };
+	const options: PictoOptions = { height_px, classes, bloodStyle, category: overview.category };
 
 	switch (overview.position) {
 		case 'STANDING':
@@ -323,6 +333,21 @@ export function getBodyPicto(overview: HumanOverview, resolution: number = 0.05)
 	}
 }
 
+
+export function getBodyPictoOffset(humanId: string): [number, number] {
+	switch (getHumanPosition(humanId)) {
+		case 'STANDING':
+			return [0, 0];
+		case 'SITTING':
+			return [40, 20];
+		case 'SUPINE_DECUBITUS':
+			return [0, 0];
+		case 'PRONE_DECUBITUS':
+			return [0, 0];
+		case 'RECOVERY':
+			return [0, 0];
+	}
+}
 
 
 export const colorfulModel: Point[] = [
@@ -359,6 +384,16 @@ export function getOverview(human: (HumanBody & { category: Categorization | und
 		tidalVolume_L: human.state.vitals.respiration.tidalVolume_L,
 	};
 }
+
+export function getHumanPosition(humanId: string): BodyPosition {
+	const human = getHuman(humanId);
+	if (human != null) {
+		return human.state.variables.bodyPosition;
+	} else {
+		return 'STANDING';
+	}
+}
+
 
 export function getCategoryCard(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));

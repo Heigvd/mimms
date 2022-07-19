@@ -74,7 +74,6 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
   return normalize(x + delta, bounds);
 }
 
-
 export function interpolate(x: number, points: Point[], defaultValue: number = 0) : number  {
 	//const points = pointsArg.sort((a, b) => a.x - b.x);
 

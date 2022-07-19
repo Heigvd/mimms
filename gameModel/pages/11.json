@@ -380,7 +380,7 @@
                 "layerProps" : { },
                 "layerSource" : {
                   "dataType" : "GeoJSON",
-                  "source" : "/bat_2056_few.geojson",
+                  "source" : "/bat.geojson",
                   "sourceProjection" : "EPSG:2056",
                   "type" : "VectorLayer",
                   "useSpatialIndex" : true

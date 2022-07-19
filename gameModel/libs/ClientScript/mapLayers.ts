@@ -4,6 +4,7 @@ import { getBuildingInExtent } from "./lineOfSight";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 import { PathFinder } from "./pathFinding";
+import { getBodyPictoOffset } from "./graphics";
 
 interface PointFeature {
 	type: "Point";
@@ -198,8 +199,8 @@ export function getHumanOverlays(): OverlayItem[] {
 					className: 'human-overlay',
 					position: [human.location!.x, human.location!.y],
 					stopEvent: false,
-					positioning: 'bottom-center',
-					offset: [0, 20]
+					positioning: 'bottom-left',
+					offset: [0, 0],
 				}
 			} as OverlayItem;
 		});
