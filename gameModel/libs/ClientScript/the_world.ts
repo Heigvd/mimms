@@ -1,4 +1,4 @@
-import { Point } from './helper';
+import { Point, add, sub, mul, proj, lengthSquared, dot, length } from './point2D';
 
 import {
 	BlockName,
@@ -332,47 +332,6 @@ function rndInt(min: number, max: number) {
 	return Math.floor(Math.random() * range + min);
 }
 
-function add(a: Point, b: Point): Point {
-	return {
-		x: a.x + b.x,
-		y: a.y + b.y,
-	};
-}
-
-function sub(a: Point, b: Point): Point {
-	return {
-		x: a.x - b.x,
-		y: a.y - b.y,
-	};
-}
-
-function mul(a: Point, s: number): Point {
-	return {
-		x: a.x * s,
-		y: a.y * s,
-	};
-}
-
-function norm(a: Point, b: Point): number {
-	return a.x * b.x + a.y * b.y;
-}
-
-function hypotSq(a: Point): number {
-	return norm(a, a);
-}
-
-function proj(a: Point, b: Point): Point {
-	const abProduct = norm(a, b);
-	const bbProduct = norm(b, b);
-	if (bbProduct > 0) {
-		const k = abProduct / bbProduct;
-		return mul(b, k);
-	} else {
-		// AB is not a segment but a point (a === b)
-		return a;
-	}
-}
-
 export const paths = Helpers.useRef<Record<string, Point[]>>("paths", {})
 
 
@@ -411,8 +370,11 @@ function computeCurrentLocation(
 				},
 				cellSize,
 				offsetPoint,
-				heuristic: "Manhattan",
+				heuristic: "Octile",
 				diagonalAllowed: true,
+				//includeEndNode: true,
+				//includeStartNode :true,
+				useJumpPointSearch: true
 			});
 
 			if (location.location == null) {
@@ -420,7 +382,7 @@ function computeCurrentLocation(
 			}
 
 			// This should be done only when the direction changes
-			const newPath = pathFinder.findPath(location.location, location.direction, "AStar");
+			const newPath = pathFinder.findPath(location.location, location.direction, "AStarSmooth");
 			paths.current[pathId] = newPath;
 
 			const duration = currentTime - location.time;
@@ -446,7 +408,7 @@ function computeCurrentLocation(
 				}
 
 				const delta = sub(segEnd, segStart);
-				const segmentDistance_sq = hypotSq(delta);
+				const segmentDistance_sq = lengthSquared(delta);
 				if (remainingDistance_sq < segmentDistance_sq) {
 					// distance still to walk is shorter than current segement distance
 					const ratio = Math.sqrt(remainingDistance_sq) / Math.sqrt(segmentDistance_sq);
@@ -1644,16 +1606,16 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 
 	if (myPosition?.mostRecent?.state?.location && senderPosition?.mostRecent?.state?.location) {
 		const vec = sub(myPosition.mostRecent.state.location, senderPosition.mostRecent.state.location);
-		distanceSquared = norm(vec, vec);
+		distanceSquared = lengthSquared(vec);
 	}
 
-	worldLogger.debug('Computed distance : ' + Math.sqrt(distanceSquared));
+	//worldLogger.debug('Computed distance : ' + Math.sqrt(distanceSquared));
 	if (distanceSquared < sqRadius) {
 		processDirectMessageEvent(event, event.payload.sender);
 	} else {
-		worldLogger.warn(
-			`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`,
-		);
+		// worldLogger.warn(
+		// 	`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`,
+		// );
 	}
 }
 
@@ -1908,7 +1870,7 @@ export function getDistanceBetweenHumans(h1: string | undefined, h2: string | un
 		} else {
 			if (h1Loc.mostRecent.state.location.mapId === h2Loc.mostRecent.state.location.mapId) {
 				const vector = sub(h1Loc.mostRecent.state.location, h2Loc.mostRecent.state.location);
-				return Math.sqrt(hypotSq(vector));
+				return length(vector);
 			} else {
 				return Infinity;
 			}

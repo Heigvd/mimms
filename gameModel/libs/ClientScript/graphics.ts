@@ -1,5 +1,6 @@
 import { getAfflictedBlocks } from "./currentPatientZoom";
-import { add, interpolate, normalize, Point } from "./helper";
+import { interpolate, normalize } from "./helper";
+import { Point } from "./point2D";
 import { BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
 import { Categorization, getCurrentPatientBody, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { Category, getCategory } from "./triage";

@@ -5,7 +5,9 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { add, interpolate, normalize, Point } from "./helper";
+import { add, interpolate, normalize } from "./helper";
+import { Point } from "./point2D";
+
 import {
 	BodyState,
 	Environnment,

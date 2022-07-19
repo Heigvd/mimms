@@ -7,12 +7,10 @@
  */
 
 import { logger } from "./logger";
+import { Point } from "./point2D";
 
 // Basic geometry types
-export interface Point {
-	x: number;
-	y: number;
-}
+
 export type Polygon = Point[]
 export type Polygons = Polygon[]
 export type Segment = [Point, Point]
@@ -46,14 +44,6 @@ export interface Range {
 	min: number;
 	max?: number;
 }
-
-
-export interface Point {
-	x: number;
-	y: number;
-}
-
-
 
 export function normalize(x: number, bounds?: Bounds): number {
   if (bounds != null) {
