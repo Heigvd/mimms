@@ -1,4 +1,9 @@
+import { Range } from "./helper";
+
 interface IDistribution {
+	/**
+	 * samples a value from the distribution
+	 */
 	sample(): number;
 	/**
 	 * Returns the minimum possible value
@@ -10,15 +15,10 @@ interface IDistribution {
 	max(): number;
 }
 
-interface Interval {
-	min: number;
-	max: number;
-}
-
-export interface IHistogramEntry {
+export interface IHistogramEntry extends Range {
 	cardinality : number;
-	lowerBound: number;
-	upperBound: number;
+	// min: number;
+	max: number;
 }
 
 export type IHistogram = IHistogramEntry[]
@@ -43,7 +43,7 @@ export class Histogram {
 		for(let k = 0; k < this.histogram.length; k++)
 		{
 			const e = this.histogram[k]!;
-			if(e.lowerBound >= e.upperBound || e.cardinality <= 0){ // non consistent interval
+			if(e.min >= e.max || e.cardinality <= 0){ // non consistent interval
 				return false;
 			}
 		}
@@ -52,7 +52,7 @@ export class Histogram {
 
 			const i = this.histogram[k]!;
 			const i2 = this.histogram[k+1]!;
-			if(i.upperBound > i2.lowerBound){ //overlap
+			if(i.max > i2.min){ //overlap
 				return false;
 			}
 		}
@@ -65,22 +65,24 @@ export class Histogram {
 
 export class UniformDistribution implements IDistribution {
 
-	private readonly minValue: number;
-	private readonly maxValue: number;
+	private readonly range : Range;
 
 	constructor(min: number, max: number){
-		this.minValue = min;
-		this.maxValue = max;
-	}
-	min(): number {
-		return this.minValue;
-	}
-	max(): number {
-		return this.maxValue;
+		this.range = {min, max};
 	}
 
-	static fromInterval(interval: Interval): UniformDistribution{
-		return new UniformDistribution(interval.min, interval.max);
+	min(): number {
+		return this.range.min;
+	}
+	max(): number {
+		return this.range.max!;
+	}
+
+	static fromInterval(range: Range): UniformDistribution{
+		if(range.max){
+			return new UniformDistribution(range.min, range.max);
+		}
+		throw new Error('maximum of range has to be defined');
 	}
 
 	sample(): number {
@@ -114,6 +116,10 @@ export class NormalDistribution implements IDistribution {
 
 	sample(): number {
 		let s: number;
+		if(this.stdDev === 0){
+			return this.mean;
+		}
+
 		do{
 			s = this.sampleBoxMuller();
 		}while(s > this.maxValue || s < this.minValue);
@@ -151,7 +157,7 @@ export class HistogramDistribution implements IDistribution {
 
 		for(let i = 0; i < h.length; i++){
 			this.cumulativeProbs[i] /= total; // to cumulative probabilities
-			this.distributionRanges.push(new UniformDistribution(h[i]!.lowerBound, h[i]!.upperBound));
+			this.distributionRanges.push(new UniformDistribution(h[i]!.min, h[i]!.max));
 		}
 
 	}
@@ -179,18 +185,18 @@ export class HistogramDistribution implements IDistribution {
 
 type GraphData = {label: string, points:{x:number, y:number}[], fill?: string, allowDrag?: boolean}[];
 
-function testDistribution(label: string, d : IDistribution, samples : number, interval: Interval): GraphData{
+function testDistribution(label: string, d : IDistribution, samples : number, range: Range): GraphData{
 
-	const size = interval.max - interval.min;
+	const size = range.max! - range.min;
 	const counts = new Array(size).fill(0);
 	for(let i = 0; i < samples; i++){
 		const s = Math.floor(d.sample());
-		if((s-interval.min) < size){
-			counts[s-interval.min]++;
+		if((s-range.min) < size){
+			counts[s-range.min]++;
 		}
 	}
 
-	const points = counts.map((v,i) => {return {x : interval.min + i, y : v}}, []);
+	const points = counts.map((v,i) => {return {x : range.min + i, y : v}}, []);
 	return [{label : label, points: points}];
 }
 
@@ -202,10 +208,10 @@ export function regenerateSamples(){
 	wlog('resampling...')
 	const histogramDescr : IHistogram=
 	[
-		{cardinality : 10, lowerBound: 10, upperBound: 20},
-		{cardinality : 20 ,lowerBound: 20, upperBound: 30},
-		{cardinality : 50, lowerBound: 30, upperBound: 40},
-		{cardinality : 30, lowerBound: 50, upperBound: 60},
+		{cardinality : 10, min: 10, max: 20},
+		{cardinality : 20 ,min: 20, max: 30},
+		{cardinality : 50, min: 30, max: 40},
+		{cardinality : 30, min: 50, max: 60},
 	];
 	const histogram = new Histogram(histogramDescr);
 
@@ -213,10 +219,3 @@ export function regenerateSamples(){
 	normalSample = testDistribution('normal', new NormalDistribution(30, 5, 30), 50000, {min: 0, max: 60});
 	histogramSample = testDistribution('histogram', new HistogramDistribution(histogram), 10000, {min:0, max: 70});
 }
-
-
-
-
-
-
-
