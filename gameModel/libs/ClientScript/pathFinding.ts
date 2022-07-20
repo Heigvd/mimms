@@ -188,11 +188,12 @@ export class Grid {
 	 */
 	public getNodeAt(position: Point, debug: boolean = false): Node {
 
-		let node: Node = (undefined as unknown) as Node; // can we do better ?
+        let node: Node | undefined = undefined;
+
 		if (this.isOnTheGrid(position)) {
 			if (debug) wlog('position', position)
 			if (this.gridNodes[position.y]) {
-				node = this.gridNodes[position.y][position.x];
+				node = this.gridNodes[position.y]![position.x]!;
 			} else {
 				this.gridNodes[position.y] = []
 			}
@@ -200,18 +201,19 @@ export class Grid {
 				if (debug) wlog('creating node at', position);
 				//missing node, create it
 				node = this.createNodeAt(position);
-				this.gridNodes[position.y][position.x] = node;
+				this.gridNodes[position.y]![position.x] = node;
 			}
 		}
-		else if (debug) {
-			wlog("Position outside of the grid", position);
-		}
+        if (node == null){
+            throw new Error("Position outside of the grid " + position);
+        }
 
 		return node;
 	}
 
 	private createNodeAt(p: Point): Node {
-		const walkable = !this.obstacleMatrix[p.y][p.x] || this.obstacleMatrix[p.y][p.x] < this.obstacleDensityThreshold;
+        const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
+        const walkable = !obstacle || obstacle < this.obstacleDensityThreshold;
 		return new Node({
 			id: p.y * this.width + p.x,
 			position: { x: p.x, y: p.y },
@@ -220,7 +222,7 @@ export class Grid {
 	}
 
 	public nodeExists(p: Point): boolean {
-		return this.isOnTheGrid(p) && this.gridNodes[p.y] && (this.gridNodes[p.y][p.x] ? true : false)
+		return this.isOnTheGrid(p) && this.gridNodes[p.y] != null && (this.gridNodes[p.y]![p.x] ? true : false)
 	}
 
 	/**
@@ -231,7 +233,8 @@ export class Grid {
 		if(!this.isOnTheGrid(p)){
 			return false;
 		}
-		return !this.obstacleMatrix[p.y][p.x] || this.obstacleMatrix[p.y][p.x] < this.obstacleDensityThreshold;
+        const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
+        return !obstacle || obstacle < this.obstacleDensityThreshold;
 	}
 
 	/**
@@ -268,7 +271,7 @@ export class Grid {
 			for (var x = currentPosition.x - 1; x <= currentPosition.x + 1; x++) {
 				if (x !== currentPosition.x || y !== currentPosition.y) {
 					if (x == currentPosition.x || y == currentPosition.y || diagnonalMovementAllowed) {
-						if (this.isOnTheGrid({ x, y }) && this.isWalkableAt({ x, y })) {							
+						if (this.isOnTheGrid({ x, y }) && this.isWalkableAt({ x, y })) {
 							const node = this.getNodeAt({ x, y });
 							if(!node.getIsOnClosedList()){
 								surroundingNodes.push(node);
@@ -353,21 +356,21 @@ export class Grid {
 			const directNeighbors = this.getSurroundingNodes(current.position, true);
 			return directNeighbors;
 		}
-		
+
 		const res: Node[] = [];
 		// see jps algorithm for a definition of natural neighbor
 		const naturalNeighbors = this.getNaturalNeighbors(current);
-		
+
 		for(let i = 0; i < naturalNeighbors.length; i++) {
 
-			const n = naturalNeighbors[i];
+			const n = naturalNeighbors[i]!;
 			const dir = sub(n, current.position);
 			const jumpPos = this.jump(current.position, dir, goal.position);
 			if(jumpPos){
 				res.push(this.getNodeAt(jumpPos));
 			}
 		}
-		
+
 		return res;
 	}
 
@@ -404,14 +407,14 @@ export class Grid {
 			//blocked on the left when looking at dir
 			const left = {x: pos.x + dir.y, y: pos.y - dir.x }
 			const leftDiag = add(left, dir);
-			if(this.isOnTheGrid(left) && !this.isWalkableAt(left) 
+			if(this.isOnTheGrid(left) && !this.isWalkableAt(left)
 				&& this.isOnTheGrid(leftDiag) && this.isWalkableAt(leftDiag)){
 				return true;
 			}
 			// block on the right when looking at dir
 			const right = {x: pos.x - dir.y, y: pos.y + dir.x }
 			const rightDiag = add(right, dir);
-			if(this.isOnTheGrid(right) && !this.isWalkableAt(right) 
+			if(this.isOnTheGrid(right) && !this.isWalkableAt(right)
 				&& this.isOnTheGrid(rightDiag) && this.isWalkableAt(rightDiag)){
 				return true;
 			}
@@ -453,7 +456,7 @@ export class Grid {
 	 * Log a visual of a matrix (don't work with grid bigger than 10x10)
 	 */
 	public static drawGrid(matrix: (number | string)[][]) {
-		if (matrix.length > 0 && matrix.length <= 10 && matrix[0].length > 0 && matrix[0].length <= 10) {
+		if (matrix.length > 0 && matrix.length <= 10 && matrix[0]!.length > 0 && matrix[0]!.length <= 10) {
 			wlog("+-" + matrix.map(() => "-").join("-") + "-+\n"
 				+ matrix.map((line) => "| " + line.join(" ") + " |").join("\n")
 				+ "\n+-" + matrix.map(() => "-").join("-") + "-+");
@@ -493,11 +496,11 @@ interface PathFinderProps {
 
 /**
  * A class that implements AStar and ThetaStar pathfinding algorithm
- * 
+ *
  * based on :
  * AStar : AI for Games, Third Edition, 3rd Edition, Ian Millington, ISBN: 9781351053280
  * ThetaStar : Theta*: Any-Angle Path Planning on Grids, Kenny Daniel & Alex Nash & Sven Koenig & Ariel Felner, Journal of Artificial Intelligence Research 39 (2010) 533-579
- * 
+ *
  * APThetaStar is not implemented. It would guarantee a shortest path but at the cost of a higher computation load.
  * The performance increase for APTheta implementation is not worth it.
  */
@@ -651,7 +654,7 @@ export class PathFinder {
 
 			// Loop through all the neighbors
 			for (let i in neighbors) {
-				const neighbor = neighbors[i];
+				const neighbor = neighbors[i]!;
 				neighbor.counter = neighIteration;
 				// Continue if node on closed list
 				if (neighbor.getIsOnClosedList()) {
@@ -733,8 +736,8 @@ export class PathFinder {
 			}
 			else {
 				const newGrid = this.grid.gridToMatrix();
-				newGrid[start.y][start.x] = "A";
-				newGrid[end.y][end.x] = "B"
+				newGrid[start.y]![start.x] = "A";
+				newGrid[end.y]![end.x] = "B"
 				Grid.drawGrid(newGrid);
 			}
 		}
@@ -773,7 +776,7 @@ export class PathFinder {
 
 			while (x0 !== x1) {
 				const diff = Math.abs(cDx - pDx - 0.5)
-				
+
 				if (diff > 0.00001 && !testNode({ x: x0, y: y0 })) {
 					return false;
 				}
@@ -781,7 +784,7 @@ export class PathFinder {
 					dY > 0 &&
 					(cDx >= pDx || // LOS moved to next line after start of current column
 					pDx - cDx < 0.5) //  LOS will move to next line before next column
-				) 
+				)
 				{
 					// move to next line now
 					y0 += sY;
@@ -790,7 +793,7 @@ export class PathFinder {
 					if (!testNode({ x: x0, y: y0 })) {
 						return false;
 					}
-					
+
 				}
 				// Move to next column
 				cDx += 1;
@@ -814,7 +817,7 @@ export class PathFinder {
 					dX > 0 &&
 					(cDy >= pDy || // LOS moved to next column after start of current line
 					pDy - cDy < 0.5) //  LOS will move to next column before next line
-				) 
+				)
 				{
 					// move to next column now
 					x0 += sX;
@@ -860,7 +863,7 @@ export class PathFinder {
 				wlog("true", "[0;0]->[4;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 0 }));
 				wlog("true", "[0;0]->[0;3]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 0, y: 3 }));
 				wlog("true", "[0;0]->[3;0]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 3, y: 0 }));
-		
+
 				wlog("===================================================");
 				wlog("false", "[0;0]->[4;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 4, y: 4 }));
 				wlog("false", "[0;0]->[2;4]", pathFinder.gridLOS({ x: 0, y: 0 }, { x: 2, y: 4 }));
@@ -882,22 +885,22 @@ export class PathFinder {
 			return path;
 		}
 
-		let tK = path[0];
+		let tK = path[0]!;
 		const smoothedPath = [tK];
 
 		for (let i = 0; i < path.length - 1; ++i) {
-			if (!this.gridLOS(tK, path[i + 1])) {
-				tK = path[i];
-				smoothedPath.push(path[i]);
+			if (!this.gridLOS(tK, path[i + 1]!)) {
+				tK = path[i]!;
+				smoothedPath.push(path[i]!);
 			}
 		}
-		smoothedPath.push(path[path.length - 1]);
+		smoothedPath.push(path[path.length - 1]!);
 		return smoothedPath;
 	}
 
 	/**
 	 * Find path between two points by visiting the graph
-	 * Take world coordinate and return path in world coordinate 
+	 * Take world coordinate and return path in world coordinate
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm = "ThetaStar"): Point[] {
 		// Translate into grid points
@@ -911,7 +914,7 @@ export class PathFinder {
 		return this.toWorldPath(path);
 	}
 
-	/** 
+	/**
 	 * Translate path in grid coordinates into world coordinates
 	 */
 	private toWorldPath(path: Point[]): Point[] {
@@ -953,12 +956,12 @@ export class PathFinder {
 		// Octile will calculate the length of any path from a to b
 		// using only the 8 possible directions
 		// it thus solves all cases of direct neighbors and jump neighbors
-		
+
 		const dx = Math.abs(current.position.x - neighbor.position.x);
 		const dy = Math.abs(current.position.y - neighbor.position.y);
-		
+
 		return dx + dy - this.octileVal * Math.min(dx, dy);
-	
+
 	}
 
 	/**
@@ -977,7 +980,7 @@ export class PathFinder {
 	private AStartUpdateVertex(currentNode: Node, neighbor: Node) {
 		this.UpdateVertex(currentNode, neighbor, this.ComputeNeighborDistance(currentNode, neighbor));
 	}
-	
+
 	/**
 	 * ThetaStar Update vertex algorithm implementation
 	 */

@@ -5,8 +5,8 @@ export class Heap<T> {
 
 	/**
 	 * @param function that returns true when element A should precede element B
-	 * Ideally should return true if A is equivalent to B for performance reasons 
-	 * 
+	 * Ideally should return true if A is equivalent to B for performance reasons
+	 *
 	 * for all values in the heap
 	 */
 	constructor(comparison: ((a: T, b: T) => boolean)){
@@ -27,11 +27,11 @@ export class Heap<T> {
 	 * for any X in the heap
 	 */
 	extract(): T {
-		const res : T = this.data[0];
+		const res : T = this.data[0]!;
 		if(this.data.length > 0){
 			const last = this.data.pop()!;
 			this.data[0] = last;
-			this.heapDown(0);	
+			this.heapDown(0);
 		}
 
 		return res;
@@ -53,20 +53,20 @@ export class Heap<T> {
 	private heapDown(idx : number){
 		if(idx >= this.data.length - 1)
 			return; // we reached the end of the heap
-		
+
 		const [left, right] = this.getChildren(idx);
 		let candidate = -1;
 
 		if(this.exists(left)){
 			if(this.exists(right)){
-				candidate = this.compFunc(this.data[left], this.data[right]) ? left: right;
+				candidate = this.compFunc(this.data[left]!, this.data[right]!) ? left: right;
 			}else {
 				candidate = left;
 			}
 		} // if left doesn't exist, right does not exist by heap construction
 
 		if(candidate > 0){
-			if(!this.compFunc(this.data[idx], this.data[candidate])){
+			if(!this.compFunc(this.data[idx]!, this.data[candidate]!)){
 				this.swap(idx, candidate);
 				this.heapDown(candidate);
 			}
@@ -76,17 +76,17 @@ export class Heap<T> {
 	private heapUp(idx: number){
 		if(idx <= 0)
 			return;
-		
+
 		const p = this.getParent(idx);
-		if(!this.compFunc(this.data[p], this.data[idx])){
+		if(!this.compFunc(this.data[p]!, this.data[idx]!)){
 			this.swap(idx, p);
 			this.heapUp(p);
 		}
 	}
 
 	private swap(i: number, j: number){
-		const tmp = this.data[i];
-		this.data[i] = this.data[j];
+		const tmp = this.data[i]!;
+		this.data[i] = this.data[j]!;
 		this.data[j] = tmp;
 	}
 
@@ -109,7 +109,7 @@ function test1(){
 	const minHeap = new Heap((x:number,y: number) => x <= y);
 
 	for(let i = 0; i < values.length; i++){
-		minHeap.insert(values[i]);
+		minHeap.insert(values[i]!);
 	}
 
 	for(let i = 0; i < values.length; i++){
