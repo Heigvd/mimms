@@ -13,18 +13,9 @@ import {
 	readKey,
 } from './HUMAn';
 import { logger, vitalsLogger, calcLogger, compLogger } from './logger';
-import {
-	RevivedPathology,
-	revivePathology,
-} from './pathology';
+import { RevivedPathology, revivePathology } from './pathology';
 
-import {
-	getAct,
-	getChemical,
-	getItem,
-	setCompensationModel,
-	setSystemModel,
-} from './registries';
+import { getAct, getChemical, getItem, setCompensationModel, setSystemModel } from './registries';
 import {
 	getCurrentPatientBodyParam,
 	getEnv,
@@ -35,9 +26,7 @@ import {
 } from './WegasHelper';
 
 function saveMetrics(output: object, vdName: keyof VariableClasses) {
-	const oi = Variable.find(gameModel, vdName).getInstance(
-		self,
-	) as SObjectInstance;
+	const oi = Variable.find(gameModel, vdName).getInstance(self) as SObjectInstance;
 
 	saveToObjectInstance(oi, output);
 }
@@ -117,23 +106,22 @@ function extractMetric(
 	pushMetric('DO2Brain [mL/min]', time, body.vitals.brain.DO2, outputResp);
 
 	pushMetric('RR', time, body.vitals.respiration.rr, outputResp);
-	pushMetric(
-		'Tidal Volume [L]',
-		time,
-		body.vitals.respiration.tidalVolume_L,
-		outputResp,
-	);
+	pushMetric('Tidal Volume [L]', time, body.vitals.respiration.tidalVolume_L, outputResp);
 
 	const ip_left = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
 	const ip_right = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
 	const nIp_left = typeof ip_left === 'number' ? ip_left : 0;
 	const nIp_right = typeof ip_right === 'number' ? ip_right : 0;
 
-	pushComposedMetric("Thorax", time, {
-		itp_left: nIp_left,
-		itp_right: nIp_right,
-	},
-		outputCardio);
+	pushComposedMetric(
+		'Thorax',
+		time,
+		{
+			itp_left: nIp_left,
+			itp_right: nIp_right,
+		},
+		outputCardio,
+	);
 
 	pushMetric('HR', time, body.vitals.cardio.hr, outputCardio);
 	pushMetric('MAP', time, body.vitals.cardio.MAP, outputCardio);
@@ -192,44 +180,40 @@ function extractMetric(
 
 	pushMetric('CRT [s]', time, body.vitals.capillaryRefillTime_s, outputCardio);
 
-	pushMetric(
-		'Qc [L/min]',
-		time,
-		body.vitals.cardio.cardiacOutput_LPerMin,
-		outputCardio,
-	);
+	pushMetric('Qc [L/min]', time, body.vitals.cardio.cardiacOutput_LPerMin, outputCardio);
 	//pushMetric("Qrv [mL/min]", time, body.vitals.cardio.cardiacOutputRv_LPerMin, output);
 
 	pushMetric('para|ortho', time, body.variables.paraOrthoLevel, outputOther);
 
 	vitalsLogger.info('Extract Chemicals', body.vitals.cardio.chemicals);
 	/*const at = body.vitals.cardio.chemicals['TranexamicAcid'];
-	vitalsLogger.info("at: ", at);
-	if (at != null) {
-		pushMetric("Acide Tranéxamique [HL]", time, at, output);
-	} else {
-		pushMetric("Acide Tranéxamique [HL]", time, 0, output);
-	}
+    vitalsLogger.info("at: ", at);
+    if (at != null) {
+        pushMetric("Acide Tranéxamique [HL]", time, at, output);
+    } else {
+        pushMetric("Acide Tranéxamique [HL]", time, 0, output);
+    }
 
-	const at2 = body.vitals.cardio.chemicals['TranexamicAcid_Clearance'];
-	vitalsLogger.info("at2: ", at2);
-	if (at != null) {
-		pushMetric("Acide Tranéxamique CL", time, at2, output);
-	} else {
-		pushMetric("Acide Tranéxamique CL", time, 0, output);
-	}*/
+    const at2 = body.vitals.cardio.chemicals['TranexamicAcid_Clearance'];
+    vitalsLogger.info("at2: ", at2);
+    if (at != null) {
+        pushMetric("Acide Tranéxamique CL", time, at2, output);
+    } else {
+        pushMetric("Acide Tranéxamique CL", time, 0, output);
+    }*/
 
-	const chemicals = Object.entries(body.vitals.cardio.chemicals).reduce<
-		Record<string, number>
-	>((acc, [chemId, value]) => {
-		const chem = getChemical(chemId);
-		if (chem) {
-			acc[chem.name] = value;
-		} else {
-			acc[chemId] = value;
-		}
-		return acc;
-	}, {});
+	const chemicals = Object.entries(body.vitals.cardio.chemicals).reduce<Record<string, number>>(
+		(acc, [chemId, value]) => {
+			const chem = getChemical(chemId);
+			if (chem) {
+				acc[chem.name] = value;
+			} else {
+				acc[chemId] = value;
+			}
+			return acc;
+		},
+		{},
+	);
 
 	pushComposedMetric('Chemicals', time, chemicals, outputCardio);
 
@@ -246,18 +230,18 @@ function extractMetric(
 	);
 }
 
-function internal_run(duration: number, cb: (bodyState: BodyState, time: number) => void, scenario: TestScenario) {
+function internal_run(
+	duration: number,
+	cb: (bodyState: BodyState, time: number) => void,
+	scenario: TestScenario,
+) {
 	// Load env
 	const env = getEnv();
 
 	// Load model configuration
-	enableVasoconstriction(
-		Variable.find(gameModel, 'vasoconstriction').getValue(self),
-	);
+	enableVasoconstriction(Variable.find(gameModel, 'vasoconstriction').getValue(self));
 	enableCoagulation(Variable.find(gameModel, 'coagulation').getValue(self));
-	enableLungsVasoconstriction(
-		Variable.find(gameModel, 'vasoconstrictionLungs').getValue(self),
-	);
+	enableLungsVasoconstriction(Variable.find(gameModel, 'vasoconstrictionLungs').getValue(self));
 
 	const system = loadSystem();
 	compLogger.info('(para)Sympathetic System: ', system);
@@ -272,12 +256,10 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 	const initialBody = createHumanBody(meta, env);
 	calcLogger.info('Start with ', initialBody.state);
 
-
 	calcLogger.info('ENV', env);
 	let i: number;
 	let body = initialBody;
 	cb(body.state, 0);
-
 
 	//const scenario = getCurrentScenario();
 
@@ -287,16 +269,14 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 	const pathologies: RevivedPathology[] = [];
 
 	// load scenario
-	scenario.events.forEach((event) => {
+	scenario.events.forEach(event => {
 		if (event.type === 'HumanPathology') {
 			try {
 				const pathology = revivePathology(event, event.time);
 				pathologies.push(pathology);
 				logger.info('Afflict Pathology: ', { pathology, time: event.time });
 			} catch {
-				logger.warn(
-					`Afflict Pathology Failed: Pathology "${event.pathologyId}" does not exist`,
-				);
+				logger.warn(`Afflict Pathology Failed: Pathology "${event.pathologyId}" does not exist`);
 			}
 		} else if (event.type === 'HumanTreatment') {
 			if (event.source.type === 'act') {
@@ -324,12 +304,11 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 						`Item Action Failed: Event/Action "${event.source.itemId}/${event.source.actionId}`,
 					);
 				}
-
 			}
 		}
 	});
 
-	wlog("Scenario: ", { pathologies, effects });
+	wlog('Scenario: ', { pathologies, effects });
 
 	//doItemActionOnHumanBody(tracheostomyTube.actions[0]!, body, 'NECK', 25);
 
@@ -342,14 +321,7 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 	for (i = 1; i <= duration; i += stepDuration) {
 		logger.info(`Run ${i}`);
 
-		const newState = computeState(
-			body.state,
-			body.meta,
-			env,
-			stepDuration,
-			pathologies,
-			effects,
-		);
+		const newState = computeState(body.state, body.meta, env, stepDuration, pathologies, effects);
 		calcLogger.info(' -> ', newState);
 
 		body.state = newState;
@@ -364,26 +336,24 @@ function internal_run(duration: number, cb: (bodyState: BodyState, time: number)
 	console.timeEnd('Human.run');
 }
 
-
-function getCurrentPatientTestScenario() : TestScenario {
+function getCurrentPatientTestScenario(): TestScenario {
 	const scenario: TestScenario = {
 		description: '',
-		events: []
+		events: [],
 	};
 
 	const param = getCurrentPatientBodyParam();
 
-	(param?.scriptedPathologies || []).forEach(sP => {
-		scenario.events.push({
-			...sP.payload,
-			time: 1,
-		});
+	(param?.scriptedEvents || []).forEach(sP => {
+		if (sP.payload.type === 'HumanPathology' || sP.payload.type === 'HumanTreatment')
+			scenario.events.push({
+				...sP.payload,
+				time: 1,
+			});
 	});
 
 	return scenario;
 }
-
-
 
 export function run() {
 	const duration = Variable.find(gameModel, 'duration_s').getValue(self);
@@ -394,16 +364,18 @@ export function run() {
 
 	const scenario: TestScenario = getCurrentPatientTestScenario();
 
-	internal_run(duration, (state, time) => {
-		extractMetric(state, time, outputResp, outputCardio, outputOther)
-	}, scenario);
+	internal_run(
+		duration,
+		(state, time) => {
+			extractMetric(state, time, outputResp, outputCardio, outputOther);
+		},
+		scenario,
+	);
 
 	saveMetrics(outputResp, 'output');
 	saveMetrics(outputCardio, 'outputCardio');
 	saveMetrics(outputOther, 'outputOther');
 }
-
-
 
 const keys: BodyStateKeys[] = [
 	'vitals.respiration.PaO2',
@@ -411,20 +383,21 @@ const keys: BodyStateKeys[] = [
 	'vitals.respiration.tidalVolume_L',
 	'vitals.cardio.totalVolume_mL',
 	'vitals.cardio.endSystolicVolume_mL',
-	'variables.ICP_mmHg'
+	'variables.ICP_mmHg',
 ];
 
 type Time = number;
 
 export type Serie = Record<Time, unknown>;
 
-
-const clKeys = ['vitals.canWalk',
+const clKeys = [
+	'vitals.canWalk',
 	'vitals.cardio.hr',
 	'vitals.cardio.MAP',
 	'vitals.respiration.SpO2',
 	'vitals.respiration.rr',
-	'vitals.glasgow.total'] as const;
+	'vitals.glasgow.total',
+] as const;
 
 type ClKeys = typeof clKeys[number];
 
@@ -436,7 +409,6 @@ const phKeys = [
 	'vitals.cardio.endSystolicVolume_mL',
 	'variables.ICP_mmHg',
 ] as const;
-
 
 type PhKeys = typeof phKeys[number];
 
@@ -459,31 +431,35 @@ export function run_lickert() {
 		},
 		physiological: {
 			'vitals.respiration.PaO2': {},
-            // @ts-ignore
+			// @ts-ignore
 			'vitals.respiration.PaCO2': {},
 			'vitals.respiration.tidalVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},
 			'vitals.cardio.endSystolicVolume_mL': {},
 			'variables.ICP_mmHg': {},
-		}
+		},
 	};
 
 	let cardiacArrest: number | undefined = undefined;
 
 	const scenario: TestScenario = getCurrentPatientTestScenario();
 
-	internal_run(fourHours, (state, time) => {
-		cardiacArrest = state.vitals.cardiacArrest;
-		clKeys.forEach(k => {
-			const value = readKey(state, k as BodyStateKeys);
-			data.clinical[k][time] = value;
-		});
+	internal_run(
+		fourHours,
+		(state, time) => {
+			cardiacArrest = state.vitals.cardiacArrest;
+			clKeys.forEach(k => {
+				const value = readKey(state, k as BodyStateKeys);
+				data.clinical[k][time] = value;
+			});
 
-		phKeys.forEach(k => {
-			const value = readKey(state, k as BodyStateKeys);
-			data.physiological[k]![time] = value;
-		});
-	}, scenario);
+			phKeys.forEach(k => {
+				const value = readKey(state, k as BodyStateKeys);
+				data.physiological[k]![time] = value;
+			});
+		},
+		scenario,
+	);
 
 	const t4 = cardiacArrest || fourHours;
 	const t0 = 0;
@@ -504,13 +480,13 @@ export function run_lickert() {
 		},
 		physiological: {
 			'vitals.respiration.PaO2': {},
-            // @ts-ignore
+			// @ts-ignore
 			'vitals.respiration.PaCO2': {},
 			'vitals.respiration.tidalVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},
 			'vitals.cardio.endSystolicVolume_mL': {},
 			'variables.ICP_mmHg': {},
-		}
+		},
 	};
 
 	times.forEach(time => {
@@ -523,8 +499,5 @@ export function run_lickert() {
 		});
 	});
 
-
 	return clean;
 }
-
-

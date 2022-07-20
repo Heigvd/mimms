@@ -102,7 +102,15 @@ export function getPatientPathologyConfigs(patientId: string): PathologyEditorCo
 		throw new Error("Patient not found");
 	}
 
-	return (param.scriptedPathologies || []).map((ap, i) => getConfigFromAfflictedPathology(i, patientId, ap.payload));
+	return (param.scriptedEvents || [])
+        .flatMap(event => {
+            if (event.payload.type === 'HumanPathology'){
+                return [event.payload];
+            } else {
+                return [];
+            }
+        })
+        .map((payload, i) => getConfigFromAfflictedPathology(i, patientId, payload));
 }
 
 
@@ -113,9 +121,9 @@ function updatePatient(patientId: string, newAp: AfflictedPathology) {
 
 	const pathologyIndex = context.id;
 
-	if (param?.scriptedPathologies) {
-		const current = param.scriptedPathologies[pathologyIndex]!.payload;
-		param.scriptedPathologies[pathologyIndex]!.payload = { ...current, ...newAp };
+	if (param?.scriptedEvents) {
+		const current = param.scriptedEvents[pathologyIndex]!.payload;
+		param.scriptedEvents[pathologyIndex]!.payload = { ...current, ...newAp };
 	}
 
 	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(JSON.stringify(param))})`

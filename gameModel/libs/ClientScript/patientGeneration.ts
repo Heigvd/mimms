@@ -4,7 +4,7 @@ import { pickRandom } from './helper';
 import { BodyFactoryParam, Sex } from './HUMAn';
 import { afflictPathology } from './pathology';
 import { getPathologies, getPathologiesMap } from './registries';
-import { ScriptedPathologyPayload } from './the_world';
+import { ScriptedEvent } from './the_world';
 import { getPatientsBodyFactoryParams, parseObjectDescriptor } from './WegasHelper';
 
 
@@ -46,12 +46,12 @@ export interface PatientDistributionSettings {
 	WomanManRatio: number,
 }
 
-export function buildScriptedPathologyPayload(pId: string | undefined, time: number): ScriptedPathologyPayload {
+export function buildScriptedPathologyPayload(pId: string | undefined, time: number): ScriptedEvent {
 	if (!pId) {
 		throw (new Error('No pathology can be afflicted'));
 	} else {
 		const affPathology = afflictPathology(pId);
-		const p: ScriptedPathologyPayload = {
+		const p: ScriptedEvent = {
 			time: time,
 			payload: {
 				type: 'HumanPathology',
@@ -119,8 +119,8 @@ export class HumanGenerator {
 	// TODO gravity factor and more configuration and avoid apply twice with the same parameters
 	public addPathologies(human: BodyFactoryParam, n: number): BodyFactoryParam {
 
-		if (!human.scriptedPathologies) {
-			human.scriptedPathologies = [];
+		if (!human.scriptedEvents) {
+			human.scriptedEvents = [];
 		}
 
 		const pList = getAvailablePathologies();
@@ -129,7 +129,7 @@ export class HumanGenerator {
 			const def = pickRandom(pList);
 			// TODO : time
 			const p = buildScriptedPathologyPayload(def?.value, 10);
-			human.scriptedPathologies.push(p);
+			human.scriptedEvents.push(p);
 		}
 
 		return human;

@@ -38,7 +38,7 @@ export function selectNextPatient() {
 				const delay = 60;
 				const currentTime = getCurrentSimulationTime();
 
-				const script = param.scriptedPathologies || [];
+				const script = param.scriptedEvents || [];
 				const times = script.reduce<{ min: number, max: number }>((times, current) => {
 					return {
 						min: Math.min(times.min, current.time),

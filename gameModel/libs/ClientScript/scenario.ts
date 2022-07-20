@@ -1,14 +1,14 @@
 import { sendEvents } from "./EventManager";
 import { mapRef } from "./layersData";
-import { EventPayload, PathologyEvent, ScriptedPathologyPayload, TeleportEvent } from "./the_world";
+import { EventPayload, ScriptedEvent, TeleportEvent } from "./the_world";
 import { getPatientsBodyFactoryParamsArray } from "./WegasHelper";
 
 export function reviveScriptedEvent(emitter: {
 	emitterCharacterId: string,
 	emitterPlayerId: string
-}, targetId: string, scripted: ScriptedPathologyPayload): EventPayload {
+}, targetId: string, scripted: ScriptedEvent): EventPayload {
 
-	const pe: PathologyEvent = {
+    const pe: EventPayload = {
 		...emitter,
 		...scripted.payload,
 		targetId: targetId,
@@ -31,7 +31,7 @@ export function premiereVague() {
 
 	const [cx,cy] = getFirstCoordinate();
 
-	
+
 	const events = patients.flatMap(({ id, meta }, i) => {
 		const alpha = 3.1415092 / 3.5 * i;
 		const r = 2*i;
@@ -49,8 +49,8 @@ export function premiereVague() {
 				y: y,
 			},
 		};
-		if (meta.scriptedPathologies) {
-			return [teleport, ...meta.scriptedPathologies.map(ap => {
+		if (meta.scriptedEvents) {
+			return [teleport, ...meta.scriptedEvents.map(ap => {
 				return reviveScriptedEvent(emitter, id, ap);
 			})];
 		} else {

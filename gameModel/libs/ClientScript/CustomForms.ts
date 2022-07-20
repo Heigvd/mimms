@@ -104,7 +104,7 @@ Helpers.registerEffect(() => {
 									}
 								},
 								bmi: { type: 'number', view: { label: 'BMI [kg/m²]', layout: "shortInline" } },
-								scriptedPathologies: { view: { type: 'hidden' } },
+								scriptedEvents: { view: { type: 'hidden' } },
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
 								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } },
 								skillId: {type: 'string', view: {label: 'Skill', layout: "shortInline", type: 'select', choices: skillChoices } },

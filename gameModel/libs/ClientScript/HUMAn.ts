@@ -24,7 +24,7 @@ import {
 	inferExtraOutputs,
 } from "./physiologicalModel";
 import { getChemical } from "./registries";
-import { ScriptedPathologyPayload } from "./the_world";
+import { ScriptedEvent } from "./the_world";
 
 export type BodyPosition =
 	| "RECOVERY"
@@ -89,7 +89,7 @@ export interface BodyFactoryParam {
 	/** Effective number of respiratory units is 2^depth */
 	lungDepth: number;
 
-	scriptedPathologies?: ScriptedPathologyPayload[];
+	scriptedEvents?: ScriptedEvent[];
 
 	/** Skill id. 'empty' menas no special skill' */
 	skillId?: string;

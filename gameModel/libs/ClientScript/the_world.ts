@@ -26,13 +26,7 @@ import {
 	RevivedPathology,
 	revivePathology,
 } from './pathology';
-import {
-	getAct,
-	getItem,
-	getPathology,
-	setCompensationModel,
-	setSystemModel,
-} from './registries';
+import { getAct, getItem, getPathology, setCompensationModel, setSystemModel } from './registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -60,10 +54,10 @@ import {
 	processRadioCreationEvent,
 	processPhoneCommunication,
 	clearAllCommunicationState,
-} from "./communication";
-import { calculateLOS, isPointInPolygon } from "./lineOfSight";
-import { PathFinder } from "./pathFinding";
-import { obstacleGrid } from "./layersData";
+} from './communication';
+import { calculateLOS, isPointInPolygon } from './lineOfSight';
+import { PathFinder } from './pathFinding';
+import { obstacleGrid } from './layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
@@ -87,7 +81,6 @@ export interface HumanHealth {
 	pathologies: RevivedPathology[];
 	effects: BodyEffect[];
 }
-
 
 type HumanHealthState = Record<string, HumanHealth>;
 
@@ -200,19 +193,18 @@ interface HumanLogMessageEvent extends TargetedEvent {
 
 type ActionSource =
 	| {
-		type: 'act';
-		actId: string;
-	}
+			type: 'act';
+			actId: string;
+	  }
 	| {
-		type: 'itemAction';
-		itemId: string;
-		actionId: string;
-	};
-
+			type: 'itemAction';
+			itemId: string;
+			actionId: string;
+	  };
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
-	source: ActionSource
+	source: ActionSource;
 }
 
 export interface HumanTreatmentEvent extends TargetedEvent {
@@ -235,10 +227,9 @@ export interface GiveBagEvent extends TargetedEvent {
 	bagId: string;
 }
 
-// TODO generic payload (for treatments and comm)
-export interface ScriptedPathologyPayload {
+export interface ScriptedEvent {
 	time: number;
-	payload: PathologyEvent;
+	payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
 }
 
 export type EventPayload =
@@ -312,7 +303,6 @@ let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
 //let fogType: FogType = 'NONE';
 
-
 // TODO: line of sight:
 export const lineOfSightRadius = 100;
 
@@ -331,8 +321,7 @@ function rndInt(min: number, max: number) {
 	return Math.floor(Math.random() * range + min);
 }
 
-export const paths = Helpers.useRef<Record<string, Point[]>>("paths", {})
-
+export const paths = Helpers.useRef<Record<string, Point[]>>('paths', {});
 
 interface CurrentLocationOutput {
 	location: Location;
@@ -346,34 +335,28 @@ function computeCurrentLocation(
 	pathId: string,
 	location: PositionAtTime | undefined,
 	currentTime: number,
-	speed: number
+	speed: number,
 ): CurrentLocationOutput | undefined {
 	// TODO multi map
 	worldLogger.log('ComputeCurrentLocation', { location, currentTime, speed });
 	if (location?.location != null) {
 		if (location.direction != null) {
 			// This should be done only when the obstacle grid changes
-			const {
-				grid,
-				cellSize,
-				offsetPoint,
-				gridHeight,
-				gridWidth
-			} = obstacleGrid.current;
+			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrid.current;
 
 			const pathFinder = new PathFinder({
 				grid: {
 					matrix: grid,
 					width: gridWidth,
-					height: gridHeight
+					height: gridHeight,
 				},
 				cellSize,
 				offsetPoint,
-				heuristic: "Octile",
+				heuristic: 'Octile',
 				diagonalAllowed: true,
 				//includeEndNode: true,
 				//includeStartNode :true,
-				useJumpPointSearch: true
+				useJumpPointSearch: true,
 			});
 
 			if (location.location == null) {
@@ -381,7 +364,7 @@ function computeCurrentLocation(
 			}
 
 			// This should be done only when the direction changes
-			const newPath = pathFinder.findPath(location.location, location.direction, "AStarSmooth");
+			const newPath = pathFinder.findPath(location.location, location.direction, 'AStarSmooth');
 			paths.current[pathId] = newPath;
 
 			const duration = currentTime - location.time;
@@ -394,7 +377,7 @@ function computeCurrentLocation(
 
 			let destinationReached = false;
 
-			paths.current["moving"] = [segStart];
+			paths.current['moving'] = [segStart];
 
 			while (remainingDistance_sq > 0) {
 				segEnd = newPath[pathIndex]!;
@@ -412,14 +395,14 @@ function computeCurrentLocation(
 					// distance still to walk is shorter than current segement distance
 					const ratio = Math.sqrt(remainingDistance_sq) / Math.sqrt(segmentDistance_sq);
 					segEnd = add(mul(delta, ratio), segStart);
-					paths.current["moving"].push(segEnd);
+					paths.current['moving'].push(segEnd);
 					break;
 				} else {
 					// walk the current segment fully and move to next segment
 					remainingDistance_sq -= segmentDistance_sq;
 					pathIndex += 1;
 					segStart = segEnd;
-					paths.current["moving"].push(segEnd);
+					paths.current['moving'].push(segEnd);
 				}
 			}
 			// TODO: follow each path segments, stop as sonne as distance has been walked
@@ -427,12 +410,12 @@ function computeCurrentLocation(
 			// Ensure the endPoint is not in an obstacle
 			segEnd = pathFinder.findNearestWalkablePoint(segEnd) ?? segStart;
 			/*
-			const delta = sub(location.direction, location.location);
-			const duration = currentTime - location.time;
-			const fullDistance = Math.sqrt(hypotSq(delta));
-			const distance = speed * duration;
-			const ratio = distance > fullDistance ? 1 : distance / fullDistance;
-			*/
+            const delta = sub(location.direction, location.location);
+            const duration = currentTime - location.time;
+            const fullDistance = Math.sqrt(hypotSq(delta));
+            const distance = speed * duration;
+            const ratio = distance > fullDistance ? 1 : distance / fullDistance;
+            */
 			if (destinationReached) {
 				delete paths.current[pathId];
 				return {
@@ -458,7 +441,7 @@ function computeCurrentLocation(
 			return {
 				location: location.location,
 				direction: undefined,
-			}
+			};
 		}
 	}
 }
@@ -685,8 +668,13 @@ function rebuildState(time: number, env: Environnment) {
 			if (positionS.mostRecent.state.direction) {
 				// Object is moving
 				// TODO speed is dependent of HumanS
-				const newLocation = computeCurrentLocation(oKey, positionS.mostRecent.state, time, humanSpeed);
-				worldLogger.log("RebuildPosition: ", positionS, locationsSnapshots[oKey]);
+				const newLocation = computeCurrentLocation(
+					oKey,
+					positionS.mostRecent.state,
+					time,
+					humanSpeed,
+				);
+				worldLogger.log('RebuildPosition: ', positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey]!.splice(positionS.mostRecentIndex + 1, 0, {
 					time: time,
 					state: {
@@ -755,10 +743,7 @@ function rebuildState(time: number, env: Environnment) {
 			const [type, id] = key.split('::');
 			const oId = { objectType: type!, objectId: id! };
 			const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
-			if (
-				mostRecent != null &&
-				isPointInPolygon(mostRecent.state.location, lineOfSight)
-			) {
+			if (mostRecent != null && isPointInPolygon(mostRecent.state.location, lineOfSight)) {
 				visibles.push(oId);
 			} else {
 				outOfSight.push(oId);
@@ -795,16 +780,14 @@ function rebuildState(time: number, env: Environnment) {
 		if (current != null && current.location != null) {
 			if (current.id != myHumanId) {
 				/*if (current.direction) {
-					current.location = undefined;
-					current.direction = undefined;
-				}*/
+                    current.location = undefined;
+                    current.direction = undefined;
+                }*/
 				if (current.direction != null) {
 					// last time I saw this object, it was moving
 					current.location = undefined;
 					current.direction = undefined;
-				} else if (
-					isPointInPolygon(current.location, lineOfSight)
-				) {
+				} else if (isPointInPolygon(current.location, lineOfSight)) {
 					// Last known location was here but object is not here any longer
 					current.location = undefined;
 					current.direction = undefined;
@@ -995,7 +978,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 				time: event.time,
 				location: event.payload.from,
 				direction: event.payload.destination,
-				lineOfSight: undefined
+				lineOfSight: undefined,
 			},
 		};
 		// register snapshot
@@ -1013,7 +996,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 	futures.forEach(snapshot => {
 		const loc = computeCurrentLocation(oKey, currentSnapshot.state, snapshot.time, humanSpeed);
 
-		worldLogger.log("Update Future: ", { snapshot, loc });
+		worldLogger.log('Update Future: ', { snapshot, loc });
 		snapshot.state.location = loc?.location;
 		snapshot.state.direction = loc?.direction;
 		snapshot.state.lineOfSight = undefined;
@@ -1255,7 +1238,7 @@ export function getMyPendingActions(): DelayedAction[] {
 }
 
 function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
-	delayedLogger.info("Cancel delayed action");
+	delayedLogger.info('Cancel delayed action');
 	const eventId = event.payload.eventId;
 
 	/**
@@ -1264,7 +1247,12 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	 */
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
-			addLogMessage(dA.event.payload.emitterCharacterId, dA.event.payload.targetId, event.time, `Cancel ${getResolvedActionDisplayName(dA.action)}`);
+			addLogMessage(
+				dA.event.payload.emitterCharacterId,
+				dA.event.payload.targetId,
+				event.time,
+				`Cancel ${getResolvedActionDisplayName(dA.action)}`,
+			);
 			return false;
 		} else {
 			return true;
@@ -1281,7 +1269,7 @@ function clearPastActions(time: number) {
 }
 
 function processDelayedAction({ dueDate, action, event }: DelayedAction) {
-	delayedLogger.info("Process Delayed Action", { dueDate, action, event });
+	delayedLogger.info('Process Delayed Action', { dueDate, action, event });
 	if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
 		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>);
 	} else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
@@ -1290,8 +1278,6 @@ function processDelayedAction({ dueDate, action, event }: DelayedAction) {
 		worldLogger.error('Unknwon delayed action', action, event);
 	}
 }
-
-
 
 function processDelayedActions(time: number) {
 	getDelayedActionToProcess(time).forEach(da => {
@@ -1314,11 +1300,19 @@ function delayAction(
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
 ) {
 	const dA: DelayedAction = { id: event.id, dueDate, action, event };
-	addLogMessage(event.payload.emitterCharacterId, event.payload.targetId, event.time, `Start ${getResolvedActionDisplayName(dA.action)}`);
+	addLogMessage(
+		event.payload.emitterCharacterId,
+		event.payload.targetId,
+		event.time,
+		`Start ${getResolvedActionDisplayName(dA.action)}`,
+	);
 	delayedActions.push(dA);
 }
 
-function getHumanSkillLevelForAction(humanId: string, action: ActionSource): SkillLevel | undefined {
+function getHumanSkillLevelForAction(
+	humanId: string,
+	action: ActionSource,
+): SkillLevel | undefined {
 	if (action.type === 'act') {
 		return getHumanSkillLevelForAct(humanId, action.actId);
 	} else {
@@ -1355,7 +1349,10 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 				event,
 			);
 
-			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
+			const skillLevel = getHumanSkillLevelForAction(
+				event.payload.emitterCharacterId,
+				event.payload.source,
+			);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
 				if (duration > 0) {
@@ -1364,9 +1361,12 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 					doMeasure(event.time, source, action as ActionBodyMeasure, event);
 				}
 			} else {
-				addLogMessage(event.payload.emitterCharacterId,
-					event.payload.targetId, event.time,
-					`You don't know how to measure ${getResolvedActionDisplayName(resolvedAction)}`);
+				addLogMessage(
+					event.payload.emitterCharacterId,
+					event.payload.targetId,
+					event.time,
+					`You don't know how to measure ${getResolvedActionDisplayName(resolvedAction)}`,
+				);
 			}
 		} else {
 			worldLogger.warn('Unhandled action type', action);
@@ -1452,7 +1452,6 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 
 	addLogEntry(objId, logEntry, time);
 }
-
 
 function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const time = event.time;
@@ -1556,9 +1555,12 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				}
 			}
 
-			const skillLevel = getHumanSkillLevelForAction(event.payload.emitterCharacterId, event.payload.source);
+			const skillLevel = getHumanSkillLevelForAction(
+				event.payload.emitterCharacterId,
+				event.payload.source,
+			);
 			if (skillLevel) {
-				const duration = action.duration[skillLevel]
+				const duration = action.duration[skillLevel];
 				if (duration > 0) {
 					// delay event
 					delayAction(event.time + duration, resolvedAction, event);
@@ -1566,11 +1568,13 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					doTreatment(event.time, resolvedAction, event);
 				}
 			} else {
-				addLogMessage(event.payload.emitterCharacterId,
-					event.payload.targetId, event.time,
-					`You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`);
+				addLogMessage(
+					event.payload.emitterCharacterId,
+					event.payload.targetId,
+					event.time,
+					`You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`,
+				);
 			}
-
 		} else {
 			worldLogger.warn('Unhandled action type', action);
 		}
@@ -1790,14 +1794,14 @@ export function getHumans() {
 		id: h.id,
 		location: h.location,
 		direction: h.direction,
-		lineOfSight: h.lineOfSight
+		lineOfSight: h.lineOfSight,
 	}));
 }
 
 export function getHuman(id: string):
 	| (HumanBody & {
-		category: Categorization | undefined;
-	})
+			category: Categorization | undefined;
+	  })
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
@@ -1823,7 +1827,10 @@ export function getHumanConsole(id: string): ConsoleLog[] {
 	return [];
 }
 
-export function handleClickOnMap(point: Point, features: { features: Record<string, unknown>, layerId?: string }[]): void {
+export function handleClickOnMap(
+	point: Point,
+	features: { features: Record<string, unknown>; layerId?: string }[],
+): void {
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
@@ -1890,14 +1897,14 @@ export function goToHuman(humanId: string) {
 	const h1Loc = getMostRecentSnapshot(locationsSnapshots, h1Key, time);
 
 	if (myLoc.mostRecent?.state.location != null && h1Loc.mostRecent?.state.location != null) {
-			sendEvent({
-				...initEmitterIds(),
-				type: 'FollowPath',
-				targetType: 'Human',
-				targetId: myId,
-				from: myLoc.mostRecent.state.location,
-				destination: h1Loc.mostRecent.state.location,
-			});
+		sendEvent({
+			...initEmitterIds(),
+			type: 'FollowPath',
+			targetType: 'Human',
+			targetId: myId,
+			from: myLoc.mostRecent.state.location,
+			destination: h1Loc.mostRecent.state.location,
+		});
 	}
 }
 
@@ -1946,15 +1953,15 @@ export function getMyInventory(): Inventory {
  * According to its skills, get all medical act available to current character
  */
 export function getMyMedicalActs(): ActDefinition[] {
-	const skill = getMySkillDefinition()
+	const skill = getMySkillDefinition();
 
 	return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
-		if (actionId.startsWith("act::")) {
-			const actId = actionId.split("::")[1];
+		if (actionId.startsWith('act::')) {
+			const actId = actionId.split('::')[1];
 			const act = getAct(actId);
 
 			if (act) {
-				return [act]
+				return [act];
 			} else {
 				return [];
 			}
@@ -1992,5 +1999,5 @@ Helpers.registerEffect(() => {
 
 	return () => {
 		clearState();
-	}
+	};
 });

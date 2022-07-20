@@ -1,25 +1,40 @@
-import { formatMetric } from "./currentPatientZoom";
-import { BodyStateKeys, computeMetas } from "./HUMAn";
-import { CellDef, DataDef, EhancedCellData, MatrixConfig, MatrixState, setMatrixState } from "./MatrixEditor";
-import { getPathology } from "./registries";
-import { LickertData, run_lickert, Serie } from "./RUN";
-import { getCurrentPatientBodyParam, getCurrentPatientId, getSortedPatientIds } from "./WegasHelper";
+import { formatMetric } from './currentPatientZoom';
+import {checkUnreachable} from './helper';
+import { BodyStateKeys, computeMetas } from './HUMAn';
+import {
+	CellDef,
+	DataDef,
+	EhancedCellData,
+	MatrixConfig,
+} from './MatrixEditor';
+import { getPathology } from './registries';
+import { LickertData, run_lickert, Serie } from './RUN';
+import {
+	getCurrentPatientBodyParam,
+	getCurrentPatientId,
+	getSortedPatientIds,
+} from './WegasHelper';
 
 function save() {
 	saveData();
 }
 
-export function selectPatient(patientId: string){
-	APIMethods.runScript(`
+export function selectPatient(patientId: string) {
+	APIMethods.runScript(
+		`
 	Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');
 	Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');
-	`, {});
+	`,
+		{},
+	);
 }
 
-export function gotoValidatePage(){
+export function gotoValidatePage() {
 	APIMethods.runScript(
-			`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');
-	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+		`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');
+	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
+		{},
+	);
 }
 
 export function nextUndonePatient() {
@@ -30,7 +45,7 @@ export function nextUndonePatient() {
 	let counter = 0;
 
 	do {
-		currentIndex = ((currentIndex + 1) % allIds.length);
+		currentIndex = (currentIndex + 1) % allIds.length;
 		counter++;
 	} while (counter < allIds.length && isPatientDone(allIds[currentIndex]!));
 
@@ -46,9 +61,9 @@ export function nextUndonePatient() {
 export function nextPatient() {
 	const allIds = getSortedPatientIds();
 	const p = getCurrentPatientId();
-	let np = "";
+	let np = '';
 	if (p) {
-		np = allIds[((allIds.indexOf(p) + 1) % allIds.length)]!;
+		np = allIds[(allIds.indexOf(p) + 1) % allIds.length]!;
 	} else {
 		np = allIds[0]!;
 	}
@@ -58,15 +73,14 @@ export function nextPatient() {
 export function previousPatient() {
 	const allIds = getSortedPatientIds();
 	const p = getCurrentPatientId();
-	let np = "";
+	let np = '';
 	if (p) {
-		np = allIds[((allIds.indexOf(p) - 1) % allIds.length)]!;
+		np = allIds[(allIds.indexOf(p) - 1) % allIds.length]!;
 	} else {
 		np = allIds[0]!;
 	}
 	selectPatient(np);
 }
-
 
 export function prettyPrintCurrentPatientMeta() {
 	const id = getCurrentPatientId();
@@ -75,13 +89,26 @@ export function prettyPrintCurrentPatientMeta() {
 	let p = '';
 	if (param) {
 		const { meta } = computeMetas(param);
-		title = `${id} - ${meta.sex}, ${meta.age}y, ${meta.height_cm}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
-		p = (param.scriptedPathologies || []).map(sp => {
-			const pId = sp.payload.pathologyId;
-			return getPathology(pId)?.name || '';
-		}).join("<br />");
+		title = `${id} - ${meta.sex}, ${meta.age}y, ${
+			meta.height_cm
+		}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
+		p = (param.scriptedEvents || [])
+			.map(sp => {
+				if (sp.payload.type === 'HumanPathology') {
+					const pId = sp.payload.pathologyId;
+					return getPathology(pId)?.name || '';
+                } else if (sp.payload.type === 'HumanTreatment'){
+					const source = sp.payload.source;
+					return `${source.type === 'act' ? source.actId : source.itemId}`;
+                } else if (sp.payload.type === 'Teleport'){
+                    return '';
+				} else {
+                    checkUnreachable(sp.payload)
+                }
+			})
+			.join('<br />');
 	} else {
-		title = "No patient";
+		title = 'No patient';
 	}
 
 	return `<h1>${title}</h1><p>${p}</p>`;
@@ -92,45 +119,50 @@ type KeyId = string;
 
 export type LickertLevel = 1 | 2 | 3 | 4 | 5;
 
-const lickerCellDef_select: CellDef[] = [{
-	type: 'enum',
-	label: 'licekrt',
-	values: [
-		{
-			label: '-',
-			value: undefined,
-		},
-		{
-			label: 'impossible',
-			value: 1,
-		}, {
-			label: 'unlikely',
-			value: 2,
-		}, {
-			label: 'acceptable',
-			value: 3,
-		}, {
-			label: 'quite realistic',
-			value: 4,
-		}, {
-			label: 'fully realistic',
-			value: 5,
-		}
-	],
-}];
-
+const lickerCellDef_select: CellDef[] = [
+	{
+		type: 'enum',
+		label: 'licekrt',
+		values: [
+			{
+				label: '-',
+				value: undefined,
+			},
+			{
+				label: 'impossible',
+				value: 1,
+			},
+			{
+				label: 'unlikely',
+				value: 2,
+			},
+			{
+				label: 'acceptable',
+				value: 3,
+			},
+			{
+				label: 'quite realistic',
+				value: 4,
+			},
+			{
+				label: 'fully realistic',
+				value: 5,
+			},
+		],
+	},
+];
 
 const lickerCellDef: CellDef[] = [
 	/*{
-		type: 'enum',
-		label: '-',
-		values: [
-			{
-				label: 'undef',
-				value: undefined,
-			}
-		],
-	},*/
+        type: 'enum',
+        label: '-',
+        values: [
+            {
+                label: 'undef',
+                value: undefined,
+            }
+        ],
+    },*/
 	{
 		type: 'enum',
 		label: '1',
@@ -139,9 +171,10 @@ const lickerCellDef: CellDef[] = [
 			{
 				label: 'impossible',
 				value: 1,
-			}
+			},
 		],
-	}, {
+	},
+	{
 		type: 'enum',
 		label: '2',
 		tooltip: 'unlikely',
@@ -149,9 +182,10 @@ const lickerCellDef: CellDef[] = [
 			{
 				label: 'unlikely',
 				value: 2,
-			}
+			},
 		],
-	}, {
+	},
+	{
 		type: 'enum',
 		label: '3',
 		tooltip: 'acceptable',
@@ -159,9 +193,10 @@ const lickerCellDef: CellDef[] = [
 			{
 				label: 'acceptable',
 				value: 3,
-			}
+			},
 		],
-	}, {
+	},
+	{
 		type: 'enum',
 		label: '4',
 		tooltip: 'quite realistic',
@@ -169,9 +204,10 @@ const lickerCellDef: CellDef[] = [
 			{
 				label: 'quite realistic',
 				value: 4,
-			}
+			},
 		],
-	}, {
+	},
+	{
 		type: 'enum',
 		label: '5',
 		tooltip: 'fully realistic',
@@ -179,9 +215,9 @@ const lickerCellDef: CellDef[] = [
 			{
 				label: 'fully realistic',
 				value: 5,
-			}
+			},
 		],
-	}
+	},
 ];
 
 type LickertMatrixCell = undefined | LickertLevel;
@@ -190,11 +226,9 @@ const currentData: Record<string, LickertData> = {};
 
 type Matrix = Record<TimeId, Record<KeyId, EhancedCellData<LickertMatrixCell>>>;
 
-
 const clinicalMatrix: Record<string, Matrix> = {};
 
 const physiologicalMatrix: Record<string, Matrix> = {};
-
 
 type PMatrix = Record<TimeId, Record<KeyId, LickertMatrixCell>>;
 
@@ -205,13 +239,12 @@ interface PersistedMatrix {
 
 type LickertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LickertMatrixCell) => void;
 
-
 function prettyPrintValue(metric: string, value: unknown): string {
-	return formatMetric(metric as BodyStateKeys, value)[1]
+	return formatMetric(metric as BodyStateKeys, value)[1];
 }
 
 function prettyPrintKey(metric: string): string {
-	return formatMetric(metric as BodyStateKeys, 0)[0]
+	return formatMetric(metric as BodyStateKeys, 0)[0];
 }
 
 function getPersistedData(patientId: string): PersistedMatrix {
@@ -237,21 +270,20 @@ function convertData(data: Data): PersistedMatrix {
 		Object.entries(keys).forEach(([keyId, value]) => {
 			pm.clinical[timeId] = pm.clinical[timeId] || {};
 			if (typeof value === 'object') {
-				pm.clinical[timeId]![keyId] = value.value
+				pm.clinical[timeId]![keyId] = value.value;
 			} else {
-				pm.clinical[timeId]![keyId] = value
+				pm.clinical[timeId]![keyId] = value;
 			}
 		});
 	});
-
 
 	Object.entries(data.phMatrix).forEach(([timeId, keys]) => {
 		Object.entries(keys).forEach(([keyId, value]) => {
 			pm.physio[timeId] = pm.physio[timeId] || {};
 			if (typeof value === 'object') {
-				pm.physio[timeId]![keyId] = value.value
+				pm.physio[timeId]![keyId] = value.value;
 			} else {
-				pm.physio[timeId]![keyId] = value
+				pm.physio[timeId]![keyId] = value;
 			}
 		});
 	});
@@ -263,7 +295,7 @@ interface Data {
 	data: LickertData;
 	clMatrix: Matrix;
 	phMatrix: Matrix;
-};
+}
 
 function check(matrix: Matrix, data: Record<string, Serie>): boolean {
 	for (const mKey in data) {
@@ -282,22 +314,21 @@ function check(matrix: Matrix, data: Record<string, Serie>): boolean {
 	return true;
 }
 
-
 /*export function isPatientDone(patientId: string): boolean {
-	const data = currentData[patientId];
-	const clMmatrix = clinicalMatrix[patientId];
-	const phMmatrix = physiologicalMatrix[patientId];
+    const data = currentData[patientId];
+    const clMmatrix = clinicalMatrix[patientId];
+    const phMmatrix = physiologicalMatrix[patientId];
 
-	if (data == null || clMmatrix == null || phMmatrix == null) {
-		return false;
-	}
+    if (data == null || clMmatrix == null || phMmatrix == null) {
+        return false;
+    }
 
-	if (check(clMmatrix, data.clinical)
-		&& check(phMmatrix, data.physiological)) {
-		return true;
-	}
+    if (check(clMmatrix, data.clinical)
+        && check(phMmatrix, data.physiological)) {
+        return true;
+    }
 
-	return false;
+    return false;
 }*/
 
 function countCell(matrix: PMatrix) {
@@ -313,19 +344,17 @@ export function isPatientDone(patientId: string): boolean {
 
 	const persistedData = getPersistedData(patientId);
 
-	if (countCell(persistedData.clinical) < 30 ||  countCell(persistedData.physio) < 30) {
+	if (countCell(persistedData.clinical) < 30 || countCell(persistedData.physio) < 30) {
 		return false;
 	}
 
 	return true;
 }
 
-
-
-export function areAllPatientsCompleted() : boolean {
+export function areAllPatientsCompleted(): boolean {
 	const ids = getSortedPatientIds();
-	for (const id of ids){
-		if (!isPatientDone(id)){
+	for (const id of ids) {
+		if (!isPatientDone(id)) {
 			return false;
 		}
 	}
@@ -342,13 +371,12 @@ interface MenuItem {
 	completed: boolean;
 }
 
-export function getPatientMenu() : MenuItem[] {
+export function getPatientMenu(): MenuItem[] {
 	return getSortedPatientIds().map(pId => ({
 		id: pId,
 		completed: isPatientDone(pId),
-	}))
+	}));
 }
-
 
 export function getCurrentPatientData(force: boolean = false): Data {
 	const patientId = getCurrentPatientId();
@@ -356,20 +384,20 @@ export function getCurrentPatientData(force: boolean = false): Data {
 	if (currentData[patientId] == null || force) {
 		currentData[patientId] = run_lickert();
 	}
-    const patientData = currentData[patientId]!;
+	const patientData = currentData[patientId]!;
 
 	if (clinicalMatrix[patientId] == null || force) {
 		const data = getPersistedData(patientId);
 
 		clinicalMatrix[patientId] = {};
-        const clKeys = Object.keys(patientData.clinical);
+		const clKeys = Object.keys(patientData.clinical);
 		// @ts-ignore
 		const times = Object.keys(patientData.clinical[clKeys[0]]);
 		times.forEach(time => {
 			clinicalMatrix[patientId]![time] = {};
 			clKeys.forEach(clKey => {
 				clinicalMatrix[patientId]![time]![clKey] = {
-                    // @ts-ignore
+					// @ts-ignore
 					label: prettyPrintValue(clKey, patientData.clinical[clKey][+time]),
 					value: (data.clinical[+time] || {})[clKey],
 				};
@@ -377,19 +405,18 @@ export function getCurrentPatientData(force: boolean = false): Data {
 		});
 	}
 
-
 	if (physiologicalMatrix[patientId] == null || force) {
 		const data = getPersistedData(patientId);
 
 		physiologicalMatrix[patientId] = {};
 		const phKey = Object.keys(patientData.physiological);
-        // @ts-ignore
+		// @ts-ignore
 		const times = Object.keys(patientData.physiological[phKey[0]]);
 		times.forEach(time => {
 			physiologicalMatrix[patientId]![time] = {};
 			phKey.forEach(clKey => {
 				physiologicalMatrix[patientId]![time]![clKey] = {
-                    // @ts-ignore
+					// @ts-ignore
 					label: prettyPrintValue(clKey, patientData.physiological[clKey]![+time]),
 					value: (data.physio[+time] || {})[clKey],
 				};
@@ -398,7 +425,7 @@ export function getCurrentPatientData(force: boolean = false): Data {
 	}
 
 	return {
-        data: patientData,
+		data: patientData,
 		clMatrix: clinicalMatrix[patientId]!,
 		phMatrix: physiologicalMatrix[patientId]!,
 	};
@@ -409,14 +436,17 @@ function formatSecond(time: number) {
 		return `${time}s`;
 	} else {
 		const min = Math.floor(time / 60);
-		const sec = time - (min * 60);
+		const sec = time - min * 60;
 		return `${min}min ${sec}s`;
 	}
 }
 
 const ClinicalLickertOnChangeRefName = 'clinicalOnChange';
 
-const onClinicalChangeRef = Helpers.useRef<LickertOnChangeFn>(ClinicalLickertOnChangeRefName, () => { });
+const onClinicalChangeRef = Helpers.useRef<LickertOnChangeFn>(
+	ClinicalLickertOnChangeRefName,
+	() => {},
+);
 
 onClinicalChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
@@ -434,14 +464,13 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	save();
 };
 
-
 export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
 	const data = getCurrentPatientData();
 
 	return {
 		x: Object.keys(data.clMatrix).map(time => ({
 			id: time,
-			label: formatSecond(+time)
+			label: formatSecond(+time),
 		})),
 		y: Object.keys(data.clMatrix[0]!).map(key => ({
 			id: key,
@@ -454,10 +483,9 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 	};
 }
 
-
 const PhysioLickertOnChangeRefName = 'physioOnChange';
 
-const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => { });
+const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => {});
 
 onPhysioChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
@@ -481,7 +509,7 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 	return {
 		x: Object.keys(data.phMatrix).map(time => ({
 			id: time,
-			label: formatSecond(+time)
+			label: formatSecond(+time),
 		})),
 		y: Object.keys(data.phMatrix[0]!).map(key => ({
 			id: key,
@@ -494,44 +522,40 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 	};
 }
 
-
-
 export function saveData() {
 	const data = getCurrentPatientData();
 	const pData = convertData(data);
 	const patientId = getCurrentPatientId();
 
-	const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(JSON.stringify(pData))})`;
+	const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(
+		JSON.stringify(pData),
+	)})`;
 	APIMethods.runScript(script, {});
 }
 
-
-
-
-
-
-
 //                    teamId       patientId                                     time           metric  value
-type RawData = Record<string, Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>>
-
+type RawData = Record<
+	string,
+	Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>
+>;
 
 function formatCsvLine(...cells: unknown[]) {
-	return cells.map(cell => String(cell)).join(", ");
+	return cells.map(cell => String(cell)).join(', ');
 }
 
 interface ManagedResponse {
-    updatedEntities :[RawData]
+	updatedEntities: [RawData];
 }
 
 export function getAllLickertData() {
-    APIMethods.runScript("getLickerData();", {}).then((result) => {
-        const data = (result as ManagedResponse).updatedEntities[0];
+	APIMethods.runScript('getLickerData();', {}).then(result => {
+		const data = (result as ManagedResponse).updatedEntities[0];
 		const csv: string[] = [];
 
 		let counter = 1;
 
 		// print header
-		csv.push(formatCsvLine("expertId", "patientId", "group", "time [s]", "metric", "lickert"));
+		csv.push(formatCsvLine('expertId', 'patientId', 'group', 'time [s]', 'metric', 'lickert'));
 
 		Object.entries(data).forEach(([teamId, teamData]) => {
 			const expertId = counter++;
@@ -545,37 +569,11 @@ export function getAllLickertData() {
 				});
 			});
 		});
-		const txt = csv.join("\n");
+		const txt = csv.join('\n');
 		wlog(txt);
-		Helpers.downloadDataAsFile("lickert.csv", txt);
+		Helpers.downloadDataAsFile('lickert.csv', txt);
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Read-only data
@@ -585,14 +583,14 @@ export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrix
 	return {
 		...getClinicalMatrix(),
 		cellDef: [],
-	}
+	};
 }
 
 export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
 	return {
 		...getPhysioMatrix(),
 		cellDef: [],
-	}
+	};
 }
 
 export function runAgain() {
