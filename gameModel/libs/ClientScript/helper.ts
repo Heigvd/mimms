@@ -42,7 +42,7 @@ interface Bounds {
 
 export interface Range {
 	min: number;
-	max?: number;
+	max: number;
 }
 
 export function normalize(x: number, bounds?: Bounds): number {
@@ -109,7 +109,7 @@ export function getRandomValue(range: Range | undefined, integer: boolean = fals
 		return undefined;
 	}
 
-	if (range.max == null) {
+    if (range.max == range.min) {
 		return range.min;
 	} else {
 		const r = range.max - range.min;
