@@ -186,9 +186,9 @@ export class Grid {
 	/**
 	 * Return a specific node.
 	 */
-	public getNodeAt(position: Point, debug: boolean = false): Node {
+	public getNodeAt(position: Point, debug: boolean = false): Node | undefined {
 
-        let node: Node | undefined = undefined;
+		let node: Node | undefined = undefined;
 
 		if (this.isOnTheGrid(position)) {
 			if (debug) wlog('position', position)
@@ -204,16 +204,16 @@ export class Grid {
 				this.gridNodes[position.y]![position.x] = node;
 			}
 		}
-        if (node == null){
-            throw new Error("Position outside of the grid " + position);
-        }
+		if (debug) {
+			wlog("Position outside of the grid ", position);
+		}
 
 		return node;
 	}
 
 	private createNodeAt(p: Point): Node {
-        const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
-        const walkable = !obstacle || obstacle < this.obstacleDensityThreshold;
+		const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
+		const walkable = !obstacle || obstacle < this.obstacleDensityThreshold;
 		return new Node({
 			id: p.y * this.width + p.x,
 			position: { x: p.x, y: p.y },
@@ -230,11 +230,11 @@ export class Grid {
 	 */
 	public isWalkableAt(position: Point, debug: boolean = false): boolean {
 		const p = position;
-		if(!this.isOnTheGrid(p)){
+		if (!this.isOnTheGrid(p)) {
 			return false;
 		}
-        const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
-        return !obstacle || obstacle < this.obstacleDensityThreshold;
+		const obstacle = this.obstacleMatrix[p.y] ? this.obstacleMatrix[p.y]![p.x] : undefined;
+		return !obstacle || obstacle < this.obstacleDensityThreshold;
 	}
 
 	/**
@@ -249,9 +249,9 @@ export class Grid {
 		);
 	}
 
-	public getCandidateNodes (current: Node, goal: Node, diagonalAllowed : boolean, useJumpPointSearch: boolean): Node[]{
-		if(useJumpPointSearch){
-			if(!diagonalAllowed) throw new Error('Jump search requires diagonals to be allowed. Either deactivate jump search or enable diagonals.')
+	public getCandidateNodes(current: Node, goal: Node, diagonalAllowed: boolean, useJumpPointSearch: boolean): Node[] {
+		if (useJumpPointSearch) {
+			if (!diagonalAllowed) throw new Error('Jump search requires diagonals to be allowed. Either deactivate jump search or enable diagonals.')
 			return this.getJumpNodes(current, goal);
 		} else {
 			return this.getSurroundingNodes(current.position, diagonalAllowed)
@@ -273,8 +273,8 @@ export class Grid {
 					if (x == currentPosition.x || y == currentPosition.y || diagnonalMovementAllowed) {
 						if (this.isOnTheGrid({ x, y }) && this.isWalkableAt({ x, y })) {
 							const node = this.getNodeAt({ x, y });
-							if(!node.getIsOnClosedList()){
-								surroundingNodes.push(node);
+							if (!node?.getIsOnClosedList()) {
+								surroundingNodes.push(node!);
 							}
 						}
 					}
@@ -291,10 +291,10 @@ export class Grid {
 	private getNaturalNeighbors(
 		current: Node,
 	): Point[] {
-		const neighbors : Point[] = [];
+		const neighbors: Point[] = [];
 
 		const parent = current.getParent();
-		if(!parent){
+		if (!parent) {
 			throw new Error('Node must have a parent');
 		}
 
@@ -302,44 +302,44 @@ export class Grid {
 		const y = current.position.y;
 
 		const px = parent.position.x;
-        const py = parent.position.y;
-        // get the normalized direction of travel
-        const dx = (x - px) / Math.max(Math.abs(x - px), 1);
-        const dy = (y - py) / Math.max(Math.abs(y - py), 1);
+		const py = parent.position.y;
+		// get the normalized direction of travel
+		const dx = (x - px) / Math.max(Math.abs(x - px), 1);
+		const dy = (y - py) / Math.max(Math.abs(y - py), 1);
 
-        // search diagonally
-        if (dx !== 0 && dy !== 0) {
-            if (this.isWalkableAt({x, y: y + dy})) {
-                neighbors.push({x, y: y + dy});
-            }
-            if (this.isWalkableAt({x:x + dx, y})) {
-                neighbors.push({x :x + dx, y});
-            }
-            if (this.isWalkableAt({x:x + dx, y:y + dy})) {
-                neighbors.push({x:x + dx, y:y + dy});
-            }
+		// search diagonally
+		if (dx !== 0 && dy !== 0) {
+			if (this.isWalkableAt({ x, y: y + dy })) {
+				neighbors.push({ x, y: y + dy });
+			}
+			if (this.isWalkableAt({ x: x + dx, y })) {
+				neighbors.push({ x: x + dx, y });
+			}
+			if (this.isWalkableAt({ x: x + dx, y: y + dy })) {
+				neighbors.push({ x: x + dx, y: y + dy });
+			}
 			// turning points
-            if (!this.isWalkableAt({x:x - dx, y})) {
-                neighbors.push({x:x - dx, y:y + dy});
-            }
-            if (!this.isWalkableAt({x, y:y - dy})) {
-                neighbors.push({x:x + dx, y:y - dy});
-            }
-        }
-        // search horizontally/vertically
-        else {
+			if (!this.isWalkableAt({ x: x - dx, y })) {
+				neighbors.push({ x: x - dx, y: y + dy });
+			}
+			if (!this.isWalkableAt({ x, y: y - dy })) {
+				neighbors.push({ x: x + dx, y: y - dy });
+			}
+		}
+		// search horizontally/vertically
+		else {
 
-			if(this.isWalkableAt({x: x+dx, y: y+dy})){
-				neighbors.push({x: x+dx, y: y+dy})
+			if (this.isWalkableAt({ x: x + dx, y: y + dy })) {
+				neighbors.push({ x: x + dx, y: y + dy })
 			}
 			//turning points
-			if(!this.isWalkableAt({x: x+dy, y: y-dx})){
-				neighbors.push({x: x+dy+dx, y: y-dx+dy})
+			if (!this.isWalkableAt({ x: x + dy, y: y - dx })) {
+				neighbors.push({ x: x + dy + dx, y: y - dx + dy })
 			}
-			if(!this.isWalkableAt({x: x-dy, y: y+dx})){
-				neighbors.push({x: x-dy+dx, y: y+dx+dy})
+			if (!this.isWalkableAt({ x: x - dy, y: y + dx })) {
+				neighbors.push({ x: x - dy + dx, y: y + dx + dy })
 			}
-        }
+		}
 		return neighbors;
 	}
 
@@ -349,9 +349,9 @@ export class Grid {
 	 * https://zerowidth.com/2013/a-visual-explanation-of-jump-point-search.html
 	 * https://harablog.wordpress.com/2011/09/07/jump-point-search/
 	 */
-	private getJumpNodes(current: Node, goal: Node): Node[]{
+	private getJumpNodes(current: Node, goal: Node): Node[] {
 
-		if(!current.getParent()) // start node case
+		if (!current.getParent()) // start node case
 		{
 			const directNeighbors = this.getSurroundingNodes(current.position, true);
 			return directNeighbors;
@@ -361,37 +361,39 @@ export class Grid {
 		// see jps algorithm for a definition of natural neighbor
 		const naturalNeighbors = this.getNaturalNeighbors(current);
 
-		for(let i = 0; i < naturalNeighbors.length; i++) {
+		for (let i = 0; i < naturalNeighbors.length; i++) {
 
 			const n = naturalNeighbors[i]!;
 			const dir = sub(n, current.position);
 			const jumpPos = this.jump(current.position, dir, goal.position);
-			if(jumpPos){
-				res.push(this.getNodeAt(jumpPos));
+			if (jumpPos) {
+				const node = this.getNodeAt(jumpPos);
+				if (node) {
+					res.push(node);
+				}
 			}
 		}
 
 		return res;
 	}
 
-	private jump(pos: Point, dir: Point, goal: Point): Point | undefined{
+	private jump(pos: Point, dir: Point, goal: Point): Point | undefined {
 
 		const next = add(pos, dir);
-		if(!this.isOnTheGrid(next) || !this.isWalkableAt(next))
-		{
+		if (!this.isOnTheGrid(next) || !this.isWalkableAt(next)) {
 			return undefined;
 		}
-		if(equalsStrict(next, goal)){
+		if (equalsStrict(next, goal)) {
 			return next;
 		}
-		if(this.hasForcedNeighbors(next, dir)){
+		if (this.hasForcedNeighbors(next, dir)) {
 			return next;
 		}
-		if(dir.x != 0 && dir.y != 0){// diagonal case
-			const horiz = {x: dir.x, y : 0};
-			const vert = {x : 0, y : dir.y};
+		if (dir.x != 0 && dir.y != 0) {// diagonal case
+			const horiz = { x: dir.x, y: 0 };
+			const vert = { x: 0, y: dir.y };
 			// look if there are point of interest along vertical or horizontal directions
-			if(this.jump(next, horiz, goal) || this.jump(next, vert, goal)){
+			if (this.jump(next, horiz, goal) || this.jump(next, vert, goal)) {
 				return next;
 			}
 		}
@@ -403,40 +405,38 @@ export class Grid {
 	 */
 	private hasForcedNeighbors(pos: Point, dir: Point): boolean {
 
-		if(dir.x === 0 || dir.y === 0) { // cardinal direction case
+		if (dir.x === 0 || dir.y === 0) { // cardinal direction case
 			//blocked on the left when looking at dir
-			const left = {x: pos.x + dir.y, y: pos.y - dir.x }
+			const left = { x: pos.x + dir.y, y: pos.y - dir.x }
 			const leftDiag = add(left, dir);
-			if(this.isOnTheGrid(left) && !this.isWalkableAt(left)
-				&& this.isOnTheGrid(leftDiag) && this.isWalkableAt(leftDiag)){
+			if (this.isOnTheGrid(left) && !this.isWalkableAt(left)
+				&& this.isOnTheGrid(leftDiag) && this.isWalkableAt(leftDiag)) {
 				return true;
 			}
 			// block on the right when looking at dir
-			const right = {x: pos.x - dir.y, y: pos.y + dir.x }
+			const right = { x: pos.x - dir.y, y: pos.y + dir.x }
 			const rightDiag = add(right, dir);
-			if(this.isOnTheGrid(right) && !this.isWalkableAt(right)
-				&& this.isOnTheGrid(rightDiag) && this.isWalkableAt(rightDiag)){
+			if (this.isOnTheGrid(right) && !this.isWalkableAt(right)
+				&& this.isOnTheGrid(rightDiag) && this.isWalkableAt(rightDiag)) {
 				return true;
 			}
 
-		}else { // diagonals case
+		} else { // diagonals case
 			// case horizontal: suppose blocking node is an horizontal neighbor
-			const blockH = {x : pos.x - dir.x, y: pos.y};
-			const freeH = {x: blockH.x, y: blockH.y + dir.y};
+			const blockH = { x: pos.x - dir.x, y: pos.y };
+			const freeH = { x: blockH.x, y: blockH.y + dir.y };
 
-			if(this.isOnTheGrid(blockH) && this.isOnTheGrid(freeH)
-				&& !this.isWalkableAt(blockH) && this.isWalkableAt(freeH))
-			{
+			if (this.isOnTheGrid(blockH) && this.isOnTheGrid(freeH)
+				&& !this.isWalkableAt(blockH) && this.isWalkableAt(freeH)) {
 				return true;
 			}
 
 			// case vertical: suppose blocking node is a vertical neighbor
-			const blockV = {x : pos.x, y: pos.y - dir.y};
-			const freeV = {x: blockV.x + dir.x, y: blockH.y};
+			const blockV = { x: pos.x, y: pos.y - dir.y };
+			const freeV = { x: blockV.x + dir.x, y: blockH.y };
 
-			if(this.isOnTheGrid(blockV) && this.isOnTheGrid(freeV)
-				&& !this.isWalkableAt(blockV) && this.isWalkableAt(freeV))
-			{
+			if (this.isOnTheGrid(blockV) && this.isOnTheGrid(freeV)
+				&& !this.isWalkableAt(blockV) && this.isWalkableAt(freeV)) {
 				return true;
 			}
 
@@ -509,7 +509,7 @@ export class PathFinder {
 	private cellSize: number;
 	private offsetPoint: Point;
 
-	public counter : number = 0;
+	public counter: number = 0;
 
 	// Grid
 	public grid: Grid;
@@ -530,7 +530,7 @@ export class PathFinder {
 		this.grid = new Grid(props.grid);
 
 		// init min-heap to extract minimum value
-		this.openList = new Heap((a,b) => a.getFValue() <= b.getFValue());
+		this.openList = new Heap((a, b) => a.getFValue() <= b.getFValue());
 
 		// Set diagonal boolean
 		this.diagonalAllowed = props.diagonalAllowed ?? false;
@@ -557,7 +557,7 @@ export class PathFinder {
 	// evaluate shortest distance using cardinal directions
 	// .98 to be just a little pessimitic in the heuristic
 	private octileVal = 2 - Math.SQRT2;
-	private octileValHeuristic = this.octileVal* 0.98;
+	private octileValHeuristic = this.octileVal * 0.98;
 	/**
 	 * Calculate weighted distance with the selected heuristic
 	 */
@@ -607,7 +607,7 @@ export class PathFinder {
 		const endNode = this.grid.getNodeAt(endPosition);
 
 		// Break if start and/or end position is/are not walkable
-		if (
+		if (startNode == null || endNode == null ||
 			!this.grid.isWalkableAt(endPosition) ||
 			!this.grid.isWalkableAt(startPosition)
 		) {
@@ -783,9 +783,8 @@ export class PathFinder {
 				if (
 					dY > 0 &&
 					(cDx >= pDx || // LOS moved to next line after start of current column
-					pDx - cDx < 0.5) //  LOS will move to next line before next column
-				)
-				{
+						pDx - cDx < 0.5) //  LOS will move to next line before next column
+				) {
 					// move to next line now
 					y0 += sY;
 					cDx -= pDx;
@@ -810,15 +809,14 @@ export class PathFinder {
 			while (y0 !== y1) {
 				const diff = Math.abs(cDy - pDy - 0.5)
 
-				if ( diff > 0.0001 && !testNode({ x: x0, y: y0 })) {
+				if (diff > 0.0001 && !testNode({ x: x0, y: y0 })) {
 					return false;
 				}
 				if (
 					dX > 0 &&
 					(cDy >= pDy || // LOS moved to next column after start of current line
-					pDy - cDy < 0.5) //  LOS will move to next column before next line
-				)
-				{
+						pDy - cDy < 0.5) //  LOS will move to next column before next line
+				) {
 					// move to next column now
 					x0 += sX;
 					cDy -= pDy;
@@ -999,47 +997,47 @@ export class PathFinder {
 	/* find all points loacated at exactlly nCells from the given center.
    * Diagonals allowed, diag counts as 1 cell
    */
-  private findPointsAtDistance(center: Point, nCells: number): Point[] {
-    if (nCells === 0){
-      return [center];
-    }
+	private findPointsAtDistance(center: Point, nCells: number): Point[] {
+		if (nCells === 0) {
+			return [center];
+		}
 
-    const points: Point[] = [];
+		const points: Point[] = [];
 
-    const xMin = center.x - nCells;
-    const xMax = center.x + nCells;
+		const xMin = center.x - nCells;
+		const xMax = center.x + nCells;
 
-    const yMin = center.y - nCells;
-    const yMax = center.y + nCells;
+		const yMin = center.y - nCells;
+		const yMax = center.y + nCells;
 
-    // Top anb bottom lines
-    for (let x = xMin; x <= xMax; x++) {
-      points.push({x, y: yMin}, {x, y: yMax});
-    }
+		// Top anb bottom lines
+		for (let x = xMin; x <= xMax; x++) {
+			points.push({ x, y: yMin }, { x, y: yMax });
+		}
 
-    // left and right lines
-    for (let y = yMin+1; y < yMax; y++) {
-      points.push({x: xMin, y}, {x: xMax, y});
-    }
+		// left and right lines
+		for (let y = yMin + 1; y < yMax; y++) {
+			points.push({ x: xMin, y }, { x: xMax, y });
+		}
 
-    return points;
-  }
+		return points;
+	}
 
-  /*
-   * Find the nearest point without obstacle
-   */
-  public findNearestWalkablePoint(worldPoint: Point): Point | undefined {
-    const gridPosition = PathFinder.worldPointToGridPoint(worldPoint, this.cellSize, this.offsetPoint);
+	/*
+	 * Find the nearest point without obstacle
+	 */
+	public findNearestWalkablePoint(worldPoint: Point): Point | undefined {
+		const gridPosition = PathFinder.worldPointToGridPoint(worldPoint, this.cellSize, this.offsetPoint);
 
-    for (let distance = 0; distance< 5;distance++){
-      const points = this.findPointsAtDistance(gridPosition, distance);
-      for (let point of points){
-        if (this.getGrid().isWalkableAt(point)){
-          return PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint);
-        }
-      }
-    }
-  }
+		for (let distance = 0; distance < 5; distance++) {
+			const points = this.findPointsAtDistance(gridPosition, distance);
+			for (let point of points) {
+				if (this.getGrid().isWalkableAt(point)) {
+					return PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint);
+				}
+			}
+		}
+	}
 
 	// Getter methods
 
@@ -1057,7 +1055,7 @@ export class PathFinder {
 		offsetPoint: Point,
 	): Point {
 		return {
-			x: cell.x * cellSize + offsetPoint.x + cellSize /2,
+			x: cell.x * cellSize + offsetPoint.x + cellSize / 2,
 			y: cell.y * cellSize + offsetPoint.y + cellSize / 2,
 		}
 	}
