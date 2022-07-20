@@ -163,7 +163,11 @@ export class Grid {
 	// General properties
 	readonly width: number;
 	readonly height: number;
-	readonly numberOfFields: number;
+	/**
+	 * max number of nodes
+	 * width * height
+	 */
+	readonly nodeMax: number;
 
 	readonly obstacleDensityThreshold: number;
 	readonly obstacleMatrix: number[][];
@@ -171,16 +175,25 @@ export class Grid {
 	// The node grid
 	private gridNodes: Node[][];
 
+	private nodeCount: number = 0;
+
 	constructor(props: GridProps) {
 		// Set the general properties
 		this.width = props.width;
 		this.height = props.height;
-		this.numberOfFields = this.width * this.height;
+		this.nodeMax = this.width * this.height;
 
 		this.obstacleDensityThreshold = props.obstacleDensityThreshold || 0;
 		this.obstacleMatrix = props.matrix;
 
 		this.gridNodes = [];
+	}
+
+	/**
+	 * Gets the number of instantiated nodes
+	 */
+	public getNodeCount(): number {
+		return this.nodeCount;
 	}
 
 	/**
@@ -492,6 +505,18 @@ interface PathFinderProps {
 	cellSize: number;
 	offsetPoint: Point;
 	useJumpPointSearch?: boolean;
+	/**
+	 * Stop condition.
+	 * If more than this ratio of nodes is covered.
+	 * The search stops and an empty path is returned.
+	 * defaults to 1 (deactivated)
+	 */
+	maxCoverageRatio?: number;
+	/**
+	 * Stop condition.
+	 * Search stops after this time has elapsed
+	 */
+	maxComputationTimeMs?: number;
 }
 
 /**
@@ -525,6 +550,14 @@ export class PathFinder {
 
 	readonly useJumpPointSearch: boolean;
 
+	readonly nodeCoverageLimit: number
+
+	/**
+	 * Stop condition.
+	 * Search stops after this time has elapsed
+	 */
+	readonly maxComputationTimeMs: number;
+
 	constructor(props: PathFinderProps) {
 		// Create grid
 		this.grid = new Grid(props.grid);
@@ -542,16 +575,19 @@ export class PathFinder {
 		this.heuristic = props.heuristic ?? (props.diagonalAllowed ? 'Octile' : 'Manhattan');
 
 		// Set if start node included
-		this.includeStartNode =
-			props.includeStartNode !== undefined ? props.includeStartNode : true;
+		this.includeStartNode =	props.includeStartNode ?? true;
 
 		// Set if end node included
-		this.includeEndNode =
-			props.includeEndNode !== undefined ? props.includeEndNode : true;
+		this.includeEndNode = props.includeEndNode ?? true;
 
 		// Set world values
 		this.cellSize = props.cellSize;
 		this.offsetPoint = props.offsetPoint;
+
+		const maxNodeRatio = props.maxCoverageRatio ?? 1;
+		this.nodeCoverageLimit = this.grid.nodeMax * maxNodeRatio;
+
+		this.maxComputationTimeMs = props.maxComputationTimeMs ?? Infinity;
 	}
 
 	// evaluate shortest distance using cardinal directions
@@ -619,8 +655,12 @@ export class PathFinder {
 		startNode.setIsOnOpenList(true);
 		this.openList.insert(startNode);
 
+		const timeLimit = performance.now() + this.maxComputationTimeMs;
+
 		// As long the open list is not empty, continue searching a path
-		while (!this.openList.isEmpty()) {
+		while (!this.openList.isEmpty()
+			&& performance.now() < timeLimit
+			&& this.grid.getNodeCount() < this.nodeCoverageLimit) {
 
 			//get node with minimum f value
 			const currentNode = this.openList.extract();
@@ -629,12 +669,11 @@ export class PathFinder {
 			currentNode.setIsOnClosedList(true);
 
 			// for debug ordering
-			//currentNode.counter = ++this.counter;
+			currentNode.counter = ++this.counter;
 
 			// End of path is reached
 			if (currentNode === endNode) {
 				const path = this.backtrace(endNode, this.includeStartNode, this.includeEndNode);
-				wlog('Explored nodes', this.counter)
 				if (algorithm === "AStarSmooth") {
 					return this.smoothPath(path)
 				}
@@ -650,12 +689,10 @@ export class PathFinder {
 				this.diagonalAllowed,
 				this.useJumpPointSearch
 			);
-			const neighIteration = ++this.counter;
 
 			// Loop through all the neighbors
 			for (let i in neighbors) {
 				const neighbor = neighbors[i]!;
-				neighbor.counter = neighIteration;
 				// Continue if node on closed list
 				if (neighbor.getIsOnClosedList()) {
 					continue;
@@ -1026,14 +1063,16 @@ export class PathFinder {
 	/*
 	 * Find the nearest point without obstacle
 	 */
-	public findNearestWalkablePoint(worldPoint: Point): Point | undefined {
-		const gridPosition = PathFinder.worldPointToGridPoint(worldPoint, this.cellSize, this.offsetPoint);
+	public findNearestWalkablePoint(worldPoint: Point | undefined): Point | undefined {
+		if(worldPoint){
+			const gridPosition = PathFinder.worldPointToGridPoint(worldPoint, this.cellSize, this.offsetPoint);
 
-		for (let distance = 0; distance < 5; distance++) {
-			const points = this.findPointsAtDistance(gridPosition, distance);
-			for (let point of points) {
-				if (this.getGrid().isWalkableAt(point)) {
-					return PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint);
+			for (let distance = 0; distance < 5; distance++) {
+				const points = this.findPointsAtDistance(gridPosition, distance);
+				for (let point of points) {
+					if (this.getGrid().isWalkableAt(point)) {
+						return PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint);
+					}
 				}
 			}
 		}
