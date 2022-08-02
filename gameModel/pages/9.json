@@ -264,6 +264,7 @@
                 } ],
                 "id" : "",
                 "layout" : { },
+                "layoutClassName" : "patients-generation--patient-title",
                 "layoutStyle" : { },
                 "name" : "Header",
                 "style" : { }
@@ -277,68 +278,251 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "initialSelectedPageId" : "19",
                             "layoutStyle" : { },
-                            "name" : "patientPathologyEditor",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Time [s]<br></p>\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "displayValues" : "NumberInput",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newTime = Context.newTime as number;\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex];\nevent.time = newTime;\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});\n\n\n",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newTime\"",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "wlog(\"Context.scriptedEvent\", Context.scriptedEvent.time);\n({value: Context.scriptedEvent.time, min: 0, max: 1000});",
+                              "language" : "JavaScript"
+                            },
                             "style" : { }
                           },
-                          "type" : "PageLoader"
+                          "type" : "NumberSlider"
                         } ],
-                        "exposeAs" : "pathologyEditorContext",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getPatientPathologyConfigs } from \"./pathologyEditor\";\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]",
-                          "language" : "TypeScript"
+                        "layout" : {
+                          "flexDirection" : "column"
                         },
-                        "itemKey" : "id",
-                        "layout" : { },
                         "layoutStyle" : { },
                         "style" : { }
                       },
-                      "type" : "For each"
+                      "type" : "FlexList"
                     }, {
                       "props" : {
-                        "layoutStyle" : {
-                          "alignItems" : "center"
-                        },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"change: \"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "choices" : {
-                          "@class" : "Script",
-                          "content" : "import { getAvailablePathologies } from \"./patientGeneration\";\ngetAvailablePathologies();",
-                          "language" : "typescript"
-                        },
-                        "layoutStyle" : {
-                          "alignItems" : "center"
-                        },
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "import { buildScriptedPathologyPayload } from \"./patientGeneration\";\n\nconst p = buildScriptedPathologyPayload(Context.newPathologyId, 10);\n\nContext.patient.meta.scriptedEvents.splice(Context.scriptedEvent.seIndex, 1, p);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
-                            "language" : "TypeScript"
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTreatmentName } from \"./patientGeneration\";\n`<h2>${getTreatmentName(Context.scriptedEvent.payload)}</h2>`;",
+                              "language" : "JavaScript"
+                            }
                           },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"newPathologyId\"",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "script" : {
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<h3>Block</h3>\"",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "choices" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getBlocksChoices } from \"./patientGeneration\";\ngetBlocksChoices(Context.scriptedEvent.payload);",
+                                  "language" : "typescript"
+                                },
+                                "layoutStyle" : {
+                                  "alignItems" : "center"
+                                },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { HumanTreatmentEvent } from \"./the_world\";\n\n\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\nevent.payload.blocks = [Context.newBlock];\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newBlock\"",
+                                    "language" : "JavaScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "import { HumanTreatmentEvent } from \"./the_world\";\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\n\nevent.payload.blocks[0] || '';",
+                                  "language" : "JavaScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Select input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "alignItems" : "center"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"change: \"",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "choices" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAvailableTreatments } from \"./patientGeneration\";\ngetAvailableTreatments();",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "scriptedEvent__change",
+                                "layoutStyle" : {
+                                  "alignItems" : "center"
+                                },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { buildScriptedTreatmentPayload, getAvailableTreatmentFromValue } from \"./patientGeneration\";\n\nconst treatment = getAvailableTreatmentFromValue(Context.newTreatment);\n\nif (treatment) {\n\tconst p = buildScriptedTreatmentPayload(treatment, 10);\n\n\tContext.patient.meta.scriptedEvents.splice(Context.scriptedEvent.seIndex, 1, p);\n\n\tconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\n\tAPIMethods.runScript(script, {});\n}",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newTreatment\"",
+                                    "language" : "JavaScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "'';",
+                                  "language" : "JavaScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Select input"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "params",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "hideIf" : {
                           "@class" : "Script",
-                          "content" : "'';",
+                          "content" : "Context.scriptedEvent.payload.type !== 'HumanTreatment';",
                           "language" : "JavaScript"
                         },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "Treatment",
                         "style" : { }
                       },
-                      "type" : "Select input"
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "initialSelectedPageId" : "19",
+                                "layoutStyle" : { },
+                                "name" : "patientPathologyEditor",
+                                "style" : { }
+                              },
+                              "type" : "PageLoader"
+                            } ],
+                            "exposeAs" : "pathologyEditorContext",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getPatientPathologyConfigs } from \"./pathologyEditor\";\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : {
+                              "alignItems" : "center"
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"change: \"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getAvailablePathologies } from \"./patientGeneration\";\ngetAvailablePathologies();",
+                              "language" : "typescript"
+                            },
+                            "layoutClassName" : "scriptedEvent__change",
+                            "layoutStyle" : {
+                              "alignItems" : "center"
+                            },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { buildScriptedPathologyPayload } from \"./patientGeneration\";\n\nconst p = buildScriptedPathologyPayload(Context.newPathologyId, 10);\n\nContext.patient.meta.scriptedEvents.splice(Context.scriptedEvent.seIndex, 1, p);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newPathologyId\"",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "'';",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.scriptedEvent.payload.type !== 'HumanPathology';",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "pathology",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
                     }, {
                       "props" : {
                         "label" : {
@@ -372,6 +556,7 @@
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
+                "name" : "scripted events",
                 "style" : { }
               },
               "type" : "For each"
@@ -381,7 +566,7 @@
                   "props" : {
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Add pathology\"",
+                      "content" : "\"<p>Add pathology</p>\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
@@ -392,6 +577,26 @@
                         "language" : "typescript"
                       }
                     },
+                    "name" : "add pathology",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Add treatment</p>\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { getHumanGenerator } from \"./patientGeneration\"\n\ngetHumanGenerator().addTreatments(Context.patient.meta, 1);\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty(\"${Context.patient.id}\", ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\n\nAPIMethods.runScript(script, Context);\n",
+                        "language" : "typescript"
+                      }
+                    },
+                    "name" : "add treatment",
                     "style" : { }
                   },
                   "type" : "Button"
@@ -420,6 +625,7 @@
           "flexDirection" : "column"
         },
         "layoutStyle" : { },
+        "name" : "patients",
         "style" : { }
       },
       "type" : "For each"

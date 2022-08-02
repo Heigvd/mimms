@@ -194,7 +194,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCellConfigByIndex, getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\nconst config = getCellConfigByIndex(Context.cellDef.id);\nconst title = config.tooltip ?? '';\nconst button = `${selected ? \"◉\" : \"○\"} ${Context.cellDef.def.label}`;\n`<span title=\"${title}\">${button}</span>`;",
+                                                      "content" : "import { getCellConfigByIndex, getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\nconst config = getCellConfigByIndex(Context.cellDef.id);\nconst title = config.tooltip ?? '';\nconst button = `${selected ? \"⬤\" : \"◯\"} ${Context.cellDef.def.label}`;\n`<span title=\"${title}\">${button}</span>`;",
                                                       "language" : "JavaScript"
                                                     }
                                                   },

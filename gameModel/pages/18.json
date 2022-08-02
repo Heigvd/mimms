@@ -32,6 +32,17 @@
               "type" : "Button"
             }, {
               "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import {getCurrentPatientFinalState} from './lickert';\ngetCurrentPatientFinalState();",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "children" : [ {

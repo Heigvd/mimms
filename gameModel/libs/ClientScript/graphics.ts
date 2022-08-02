@@ -4,6 +4,7 @@ import { Point } from "./point2D";
 import { BlockName, BodyPosition, extBlocks, Glasgow, HumanBody } from "./HUMAn";
 import { Categorization, getCurrentPatientBody, getHuman, getHumans, lineOfSightRadius, Located } from "./the_world";
 import { Category, getCategory } from "./triage";
+import { convertMeterToMapUnit, getMapResolution } from "./layersData";
 
 export interface HumanOverview {
 	height_cm: number;
@@ -309,7 +310,7 @@ export function getMouth(cyanosis: boolean) {
  *	
  */
 function convertMeterToPixel(m: number, resolution: number) {
-	return m / resolution;
+	return convertMeterToMapUnit(m) / resolution;
 }
 
 function getBodyPicto(overview: HumanOverview, resolution: number = 0.05, offset: boolean = true): string {
@@ -319,7 +320,7 @@ function getBodyPicto(overview: HumanOverview, resolution: number = 0.05, offset
 
 	const height_px = convertMeterToPixel(overview.height_cm / 100, resolution);
 
-	const options: PictoOptions = { height_px, classes, bloodStyle, category: overview.category, offset };
+	const options: PictoOptions = { height_px: Math.max(height_px, 20), classes, bloodStyle, category: overview.category, offset };
 
 	switch (overview.position) {
 		case 'STANDING':
@@ -439,7 +440,7 @@ export function getVisualOverviewForHumanId(id: string, resolution: number = 0.0
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
-			output.push(getBodyPicto(overview, resolution / 4));
+			output.push(getBodyPicto(overview, resolution));
 		}
 	}
 	return output.join("");

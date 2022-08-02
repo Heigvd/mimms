@@ -57,7 +57,7 @@ import {
 } from './communication';
 import { calculateLOS, isPointInPolygon } from './lineOfSight';
 import { PathFinder } from './pathFinding';
-import { obstacleGrid } from './layersData';
+import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrid } from './layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
@@ -191,7 +191,7 @@ interface HumanLogMessageEvent extends TargetedEvent {
 	message: string;
 }
 
-type ActionSource =
+export type ActionSource =
 	| {
 			type: 'act';
 			actId: string;
@@ -270,8 +270,6 @@ export interface DelayedAction {
 ///////////////////////////////////////////////////////////////////////////
 
 // const spatialIndex: PositionState = {};
-
-const humanSpeed = 2; // unit/s
 
 const humanMetas: Record<string, HumanMeta> = {};
 
@@ -636,6 +634,13 @@ function initHuman(humanId: string): HumanState {
 }
 
 /**
+ * get unit/s speed
+ */
+function getHumanSpeed() {
+	return convertMeterToMapUnit(1.4); // 5 kph
+}
+
+/**
  * build state of the world at given time
  */
 function rebuildState(time: number, env: Environnment) {
@@ -672,7 +677,7 @@ function rebuildState(time: number, env: Environnment) {
 					oKey,
 					positionS.mostRecent.state,
 					time,
-					humanSpeed,
+					getHumanSpeed(),
 				);
 				worldLogger.log('RebuildPosition: ', positionS, locationsSnapshots[oKey]);
 				locationsSnapshots[oKey]!.splice(positionS.mostRecentIndex + 1, 0, {
@@ -994,7 +999,7 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 
 	// Update futures
 	futures.forEach(snapshot => {
-		const loc = computeCurrentLocation(oKey, currentSnapshot.state, snapshot.time, humanSpeed);
+		const loc = computeCurrentLocation(oKey, currentSnapshot.state, snapshot.time, getHumanSpeed());
 
 		worldLogger.log('Update Future: ', { snapshot, loc });
 		snapshot.state.location = loc?.location;
@@ -1088,12 +1093,12 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 	return action?.type === 'ActionBodyMeasure';
 }
 
-interface ResolvedAction {
+export interface ResolvedAction {
 	source: ActDefinition | ItemDefinition;
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 
-function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): ResolvedAction | undefined {
+export function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): ResolvedAction | undefined {
 	if (event.source.type === 'act') {
 		const act = getAct(event.source.actId);
 		const action = act?.action;
@@ -1863,6 +1868,9 @@ export function handleClickOnMap(
 	}
 }
 
+/**
+ * Get the distance between two human, in meters.
+ */
 export function getDistanceBetweenHumans(h1: string | undefined, h2: string | undefined): number {
 	if (h1 && h2) {
 		const time = getCurrentSimulationTime();
@@ -1876,7 +1884,7 @@ export function getDistanceBetweenHumans(h1: string | undefined, h2: string | un
 		} else {
 			if (h1Loc.mostRecent.state.location.mapId === h2Loc.mostRecent.state.location.mapId) {
 				const vector = sub(h1Loc.mostRecent.state.location, h2Loc.mostRecent.state.location);
-				return length(vector);
+				return convertMapUnitToMeter(length(vector));
 			} else {
 				return Infinity;
 			}

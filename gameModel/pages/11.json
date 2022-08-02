@@ -546,6 +546,11 @@
             "style" : { },
             "viewOptions" : {
               "center" : [ 2539119, 1181103 ],
+              "extent" : {
+                "@class" : "Script",
+                "content" : "import { fullExtentRef } from \"./layersData\";\nfullExtentRef.current;",
+                "language" : "typescript"
+              },
               "projection" : "EPSG:2056"
             }
           },
@@ -554,7 +559,7 @@
         "exposeAs" : "debugPanels",
         "initialState" : {
           "@class" : "Script",
-          "content" : "({\n\tvisibleBuildings: false,\n\tvisiblePath: false,\n\tvisibleGrid: null\n})",
+          "content" : "({\n\tvisibleBuildings: false,\n\tvisiblePath: true,\n\tvisibleGrid: null\n})",
           "language" : "TypeScript"
         },
         "layoutStyle" : {

@@ -32,6 +32,18 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
+          "id" : "26",
+          "name" : "mainLickertPage",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "27",
+          "name" : "loading",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "22",
           "name" : "intro",
           "scenaristPage" : null,

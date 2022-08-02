@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Hello</p>\"",
+          "content" : "I18n.toString(Variable.find(gameModel,'lickertWelcome'))",
           "language" : "JavaScript"
         }
       },
@@ -15,7 +15,7 @@
       "props" : {
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Start</p>\"",
+          "content" : "\"<p>Start</p>\";",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },

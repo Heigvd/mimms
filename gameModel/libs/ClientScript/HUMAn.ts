@@ -218,6 +218,7 @@ export interface BodyState {
 			QR: number;
 			/** Tidal volume in L*/
 			tidalVolume_L: number;
+			alveolarVolume_L: number;
 			/** Arterial oxygen saturation [%] */
 			SaO2: number;
 			/** Pulsed oxygen saturation [%] */
@@ -225,6 +226,7 @@ export interface BodyState {
 			/** TODO */
 			CaO2: number;
 			PaO2: number;
+			PaCO2: number;
 			/** Respiratory rate  */
 			rr: number;
 			/** aka upper airways resistance > 25% */
@@ -261,7 +263,10 @@ export interface BodyState {
 			// on peut baser sur la taille et utiliser des constante
 			/** end systolic volume [mL] (Vts)*/
 			endSystolicVolume_mL: number; // idem // idem
-
+			/**
+			 * Stroke volume
+			 */
+			strokeVolume_mL: number;
 			/** Arterial Resistance */
 			Ra_mmHgMinPerL: number; //idem
 			/**  Resistance Retour Veineux */
@@ -278,6 +283,8 @@ export interface BodyState {
 
 			/** Mean arterial pressure */
 			MAP: number;
+
+			systolicPressure: number;
 
 			/** cardiac output [L/min]*/
 			cardiacOutput_LPerMin: number;
@@ -324,7 +331,12 @@ export interface BodyState {
 		 */
 		pericardial_ml: number;
 		pericardial_deltaMin: number;
-		positivePressure?: boolean;
+		/**
+		 * true: ventilation
+		 * false: no ventilation
+		 * aborted: ventilation stopped itself
+		 */
+		positivePressure?: true | false | 'aborted';
 	};
 }
 
@@ -398,6 +410,14 @@ export interface Block {
 		 * 1: 100% reduction
 		 */
 		internalBleedingReductionFactor?: number;
+		/**
+		 * maximum blood volume the block can contains ouside vessels
+		 */
+		internalBleedingCapacity_mL?: number;
+		/**
+		 * current internal losses count
+		 */
+		internalBleedingTotal_mL?: number;
 		/**
 		 * Total external losses
 		 */
@@ -615,6 +635,19 @@ export const bonesBlocks = [
 
 export type BoneBlock = typeof bonesBlocks[number];
 
+
+export const simpleFractureBonesBlocks = [
+	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
+	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
+	"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
+	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT",
+] as const;
+
+export type SipleFractureBoneBlock = typeof simpleFractureBonesBlocks[number];
+
+
+
+
 export const nervousSystemBlocks = [
 	"HEAD",
 	"BRAIN",
@@ -744,7 +777,7 @@ function createRespiratoryUnits(
  * Compute ideal weight based on height (cm) and sex.
  */
 function computeIdealWeight(sex: Sex, height_cm: number): number {
-	return sex === "female" ? 45.5 : 50 + 0.9 * (height_cm - 152.4);
+	return (sex === "female" ? 45.5 : 50) + 0.9 * (height_cm - 152.4);
 }
 
 /**
@@ -840,6 +873,14 @@ export function computeMetas(param: BodyFactoryParam) {
 	};
 }
 
+/**
+ * 70kg reference
+ */
+function calculateBlockInternalCapacity(volume: number, meta: HumanMeta): number {
+	return meta.idealWeight_kg * volume / 70;
+}
+
+
 export function createHumanBody(
 	param: BodyFactoryParam,
 	env: Environnment
@@ -869,11 +910,13 @@ export function createHumanBody(
 				respiration: {
 					QR: 0.84,
 					tidalVolume_L: 0.5,
+					alveolarVolume_L: 0.45,
 					rr: 15,
 					SaO2: 0.97,
 					SpO2: 0.97,
 					CaO2: 200,
-					PaO2: 50,
+					PaO2: 80,
+					PaCO2: 50,
 					stridor: false,
 					thoraxCompliance: 1,
 				},
@@ -887,8 +930,9 @@ export function createHumanBody(
 					extLossesFlow_mlPerMin: 0,
 					radialPulse: true,
 					chemicals: {},
-					endDiastolicVolume_mL: 120, // so what ?
-					endSystolicVolume_mL: 50, // so what ?
+					endDiastolicVolume_mL: 120,
+					endSystolicVolume_mL: 50,
+					strokeVolume_mL: 70,
 					Ra_mmHgMinPerL: 13, // idem
 					// Rrv_mmHgMinPerL: 2.5, // idem
 					// const totalCapacitance = bloodVolume * .65; // Marieb p808; 65%
@@ -900,6 +944,7 @@ export function createHumanBody(
 					//cardiacOutputRv_LPerMin: 4.9,
 					q_delta_mLPermin: 0,
 					MAP: 70,
+					systolicPressure: 105,
 					hr: 70,
 					DO2Sys: 1000,
 				},
@@ -936,39 +981,39 @@ export function createHumanBody(
 	createBlock(body.state, "THORAX_LEFT");
 	createBlock(body.state, "THORAX_RIGHT");
 
-	createBlock(body.state, "MEDIASTINUM", { airResistance: 0 });
+	createBlock(body.state, "MEDIASTINUM", { airResistance: 0, internalBleedingCapacity_mL: calculateBlockInternalCapacity(6000, meta) });
 
 	createBlock(body.state, "LUNG", { airResistance: 0 });
 	createBlock(body.state, "HEART");
 
-	createBlock(body.state, "LEFT_SHOULDER");
-	createBlock(body.state, "LEFT_ARM");
-	createBlock(body.state, "LEFT_ELBOW");
-	createBlock(body.state, "LEFT_FOREARM");
-	createBlock(body.state, "LEFT_WRIST");
-	createBlock(body.state, "LEFT_HAND");
+	createBlock(body.state, "LEFT_SHOULDER", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(50, meta) });
+	createBlock(body.state, "LEFT_ARM", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(300, meta) });
+	createBlock(body.state, "LEFT_ELBOW", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(25, meta) });
+	createBlock(body.state, "LEFT_FOREARM", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(150, meta) });
+	createBlock(body.state, "LEFT_WRIST", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
+	createBlock(body.state, "LEFT_HAND", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
 
-	createBlock(body.state, "RIGHT_SHOULDER");
-	createBlock(body.state, "RIGHT_ARM");
-	createBlock(body.state, "RIGHT_ELBOW");
-	createBlock(body.state, "RIGHT_FOREARM");
-	createBlock(body.state, "RIGHT_WRIST");
-	createBlock(body.state, "RIGHT_HAND");
+	createBlock(body.state, "RIGHT_SHOULDER", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(50, meta) });
+	createBlock(body.state, "RIGHT_ARM", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(300, meta) });
+	createBlock(body.state, "RIGHT_ELBOW", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(25, meta) });
+	createBlock(body.state, "RIGHT_FOREARM", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(150, meta) });
+	createBlock(body.state, "RIGHT_WRIST", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
+	createBlock(body.state, "RIGHT_HAND", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
 
-	createBlock(body.state, "ABDOMEN");
-	createBlock(body.state, "PELVIS");
+	createBlock(body.state, "ABDOMEN", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(8000, meta) });
+	createBlock(body.state, "PELVIS", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(5000, meta) });
 
-	createBlock(body.state, "LEFT_THIGH");
-	createBlock(body.state, "LEFT_KNEE");
-	createBlock(body.state, "LEFT_LEG");
-	createBlock(body.state, "LEFT_ANKLE");
-	createBlock(body.state, "LEFT_FOOT");
+	createBlock(body.state, "LEFT_THIGH", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1500, meta) });
+	createBlock(body.state, "LEFT_KNEE", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(50, meta) });
+	createBlock(body.state, "LEFT_LEG", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(500, meta) });
+	createBlock(body.state, "LEFT_ANKLE", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
+	createBlock(body.state, "LEFT_FOOT", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
 
-	createBlock(body.state, "RIGHT_THIGH");
-	createBlock(body.state, "RIGHT_KNEE");
-	createBlock(body.state, "RIGHT_LEG");
-	createBlock(body.state, "RIGHT_ANKLE");
-	createBlock(body.state, "RIGHT_FOOT");
+	createBlock(body.state, "RIGHT_THIGH", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1500, meta) });
+	createBlock(body.state, "RIGHT_KNEE", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(50, meta) });
+	createBlock(body.state, "RIGHT_LEG", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(500, meta) });
+	createBlock(body.state, "RIGHT_ANKLE", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
+	createBlock(body.state, "RIGHT_FOOT", { internalBleedingCapacity_mL: calculateBlockInternalCapacity(1, meta) });
 
 	connect(body.state, "HEAD", "NECK", { blood: 1, o2: true });
 
@@ -1362,11 +1407,18 @@ interface BloodInputOutput {
 	};
 }
 
-// x: absolute thrombocytes
+// x: wbc ratio
 // y: coagulation amount [0;1] per minutes
-const coagulationModel: Point[] = [
+const plateletsModel: Point[] = [
 	{ x: 0, y: 0 }, // no thrombocyte, no hemostasis
-	{ x: 100, y: 1 }, // to review !
+	{ x: 0.00166, y: 0 }, // 50*10⁹ platelets / L
+	{ x: 0.01, y: 1 }, // 50*10⁹ platelets / L
+];
+
+// ml/min
+const flowModel : Point[] = [
+	{x: 0, y: 1},
+	{x: 100, y: 0},
 ];
 
 /**
@@ -1374,20 +1426,32 @@ const coagulationModel: Point[] = [
  */
 function hemostasis_thrombocytes(
 	bleedingFactor: number,
-	bleeding_mlPerMin: number,
+	loss_ml: number,
 	wbc_ratio: number,
-	loss: number
+	duration_min: number
 ): number {
 	if (coagulationEnabled) {
-		// total number of platelets
-		if (bleeding_mlPerMin < 0.10) {
+		const bleeding_mlPerMin = loss_ml / duration_min;
+		if (bleeding_mlPerMin < 0.0001) {
 			return 0;
 		}
-		const absWbc = loss * wbc_ratio;
-		const newBlFactor = add(bleedingFactor, -interpolate(absWbc, coagulationModel), {
-			min: 0,
-		});
-		bloodLogger.debug("Platelets", { wbc_ratio, loss, absWbc, bleedingFactor, bleeding_mlPerMin, newBlFactor });
+
+		const plateletsFactor = interpolate(wbc_ratio, plateletsModel);
+
+		const flowFactor = interpolate(bleeding_mlPerMin, flowModel);
+
+		const coagulationFactor = plateletsFactor * flowFactor;
+
+		const flowDelta = 0.015 * coagulationFactor * duration_min;
+
+		const newBlFactor = bleedingFactor * (bleeding_mlPerMin -  flowDelta) / bleeding_mlPerMin
+
+		// total number of platelets
+		// const absWbc = loss_ml * wbc_ratio;
+		//const newBlFactor = add(bleedingFactor, -interpolate(absWbc, platelets), {
+		//	min: 0,
+		//});
+		bloodLogger.warn("Platelets", { plateletsFactor, flowFactor, coagulationFactor, flowDelta, wbc_ratio, loss_ml, bleedingFactor, bleeding_mlPerMin, newBlFactor });
 		return newBlFactor;
 	} else {
 		return bleedingFactor;
@@ -1663,9 +1727,9 @@ function sumBloodInOut(
 
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.arterialBleedingFactor,
-					loss / durationInMin,
+					loss,
 					wbc_ratio,
-					loss
+					durationInMin
 				);
 				bloodLogger.debug("Arterial loss: ", { loss, newBlFactor });
 				block.params.arterialBleedingFactor = newBlFactor;
@@ -1685,9 +1749,9 @@ function sumBloodInOut(
 					(1 - reduction);
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.venousBleedingFactor,
-					loss / durationInMin,
+					loss,
 					wbc_ratio,
-					loss
+					durationInMin,
 				);
 				bloodLogger.debug("Venous loss: ", { loss, newBlFactor });
 				block.params.venousBleedingFactor = newBlFactor;
@@ -1706,23 +1770,33 @@ function sumBloodInOut(
 
 			if (block.params.internalBleedingFactor) {
 				const reduction = block.params.internalBleedingReductionFactor ?? 0;
-				const loss =
+				let loss =
 					block.params.internalBleedingFactor *
 					flow_mLPerMin *
 					durationInMin *
 					bleedFactor *
 					(1 - reduction);
+
+				const capacity = block.params.internalBleedingCapacity_mL;
+				const current = block.params.internalBleedingTotal_mL ?? 0;
+				if (capacity != null) {
+					// block has a maximum capacity.
+					// do not exeed!
+					loss = Math.min(loss, capacity - current);
+				}
+
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.internalBleedingFactor,
-					loss / durationInMin,
+					loss,
 					wbc_ratio,
-					loss
+					durationInMin
 				);
 				bloodLogger.debug("Internal loss: ", { loss, newBlFactor });
 				block.params.internalBleedingFactor = newBlFactor;
 				block.params.totalInternalLosses_ml = (block.params.totalInternalLosses_ml || 0) + loss;
 				sum.bloodLosses_mL += loss;
 				delta_mL -= loss;
+				block.params.internalBleedingTotal_mL = current + loss;
 			}
 
 			if (block.params.instantaneousBloodLoss) {
@@ -1957,193 +2031,195 @@ function updateVitals(
 ): BodyState {
 	//const newState = cloneDeep(previousState);
 	const newState = previousState;
-	const durationInMin = (newTime - previousState.time) / 60;
+	if (newState.vitals.cardiacArrest == null) {
+		const durationInMin = (newTime - previousState.time) / 60;
 
-	const initialTotalVolume_mL = newState.vitals.cardio.totalVolume_mL;
+		const initialTotalVolume_mL = newState.vitals.cardio.totalVolume_mL;
 
-	vitalsLogger.info("UPDATE VITALS", newTime, newState.time);
+		vitalsLogger.info("UPDATE VITALS", newTime, newState.time);
 
-	updateAirResistance(newState, durationInMin);
-	updateCompliances(newState, durationInMin);
-	updateICP(newState, durationInMin);
-	updatePericardialPressure(newState, durationInMin);
-	updateThoraxCompliance(newState, durationInMin);
+		updateAirResistance(newState, durationInMin);
+		updateCompliances(newState, durationInMin);
+		updateICP(newState, durationInMin);
+		updatePericardialPressure(newState, durationInMin);
+		updateThoraxCompliance(newState, durationInMin);
 
-	const sumBlood = sumBloodInOut(newState, meta, durationInMin);
-	const {
-		bloodLosses_mL,
-		salineInput_mL,
-		bloodInput_mL,
-		chemicalsInput,
-		renalBloodOutput_mLperMin,
-		extLosses_mL,
-	} = sumBlood;
+		const sumBlood = sumBloodInOut(newState, meta, durationInMin);
+		const {
+			bloodLosses_mL,
+			salineInput_mL,
+			bloodInput_mL,
+			chemicalsInput,
+			renalBloodOutput_mLperMin,
+			extLosses_mL,
+		} = sumBlood;
 
-	newState.vitals.cardio.totalExtLosses_ml += extLosses_mL;
-	newState.vitals.cardio.extLossesFlow_mlPerMin = extLosses_mL / durationInMin;
+		newState.vitals.cardio.totalExtLosses_ml += extLosses_mL;
+		newState.vitals.cardio.extLossesFlow_mlPerMin = extLosses_mL / durationInMin;
 
-	const effectiveLosses = bloodLosses_mL;
+		const effectiveLosses = bloodLosses_mL;
 
-	vitalsLogger.info("Blood +/-", sumBlood);
+		vitalsLogger.info("Blood +/-", sumBlood);
 
-	let proteins_mL = newState.vitals.cardio.totalVolumeOfPlasmaProteins_mL;
-	let water_mL = newState.vitals.cardio.totalVolumeOfWater_mL;
-	let wbc_mL = newState.vitals.cardio.totalVolumeOfWhiteBloodCells_mL;
-	let rbc_mL = newState.vitals.cardio.totalVolumeOfErythrocytes_mL;
+		let proteins_mL = newState.vitals.cardio.totalVolumeOfPlasmaProteins_mL;
+		let water_mL = newState.vitals.cardio.totalVolumeOfWater_mL;
+		let wbc_mL = newState.vitals.cardio.totalVolumeOfWhiteBloodCells_mL;
+		let rbc_mL = newState.vitals.cardio.totalVolumeOfErythrocytes_mL;
 
-	let bloodVolume_mL = proteins_mL + water_mL + wbc_mL + rbc_mL;
+		let bloodVolume_mL = proteins_mL + water_mL + wbc_mL + rbc_mL;
 
-	const plasma_mL = water_mL + proteins_mL;
+		const plasma_mL = water_mL + proteins_mL;
 
-	const renal_mL = renalBloodOutput_mLperMin * durationInMin;
-	const plasmaRatio = bloodVolume_mL > 0 ? plasma_mL / bloodVolume_mL : 0;
-	const renalPlasma_mL = renal_mL * plasmaRatio;
+		const renal_mL = renalBloodOutput_mLperMin * durationInMin;
+		const plasmaRatio = bloodVolume_mL > 0 ? plasma_mL / bloodVolume_mL : 0;
+		const renalPlasma_mL = renal_mL * plasmaRatio;
 
-	bloodLogger.info("CurrentVolume: ", bloodVolume_mL, { plasmaRatio });
+		bloodLogger.info("CurrentVolume: ", bloodVolume_mL, { plasmaRatio });
 
-	// clean chemicals
-	Object.entries(newState.vitals.cardio.chemicals).forEach(
-		([chemId, value]) => {
-			const chemical = getChemical(chemId);
-			if (chemical != null) {
-				if (chemical.clearance_mLperMin && chemical.vd_LperKg) {
-					// TODO: ideal or effective
-					const vd_L = chemical.vd_LperKg * meta.effectiveWeight_kg;
-					const concentration_perMl = value / (vd_L * 1000);
-
-					const theoreticalCleaned_mL =
-						chemical.clearance_mLperMin * durationInMin;
-					const eCleaned_mL = Math.min(theoreticalCleaned_mL, renalPlasma_mL);
-					const delta = eCleaned_mL * concentration_perMl;
-
-					bloodLogger.info("Clean ", chemical, {
-						value,
-						plasma_mL,
-						renal_mL,
-						plasmaRatio,
-						renalPlasma_mL,
-						durationInMin,
-						concentration_perMl,
-						eCleaned_mL,
-						delta,
-					});
-					newState.vitals.cardio.chemicals[chemId] -= delta;
-				} else if (chemical.halflife_s) {
-					const ke = LN_2 / chemical.halflife_s;
-					const r = Math.exp(-ke * (durationInMin * 60));
-
-					newState.vitals.cardio.chemicals[chemId] *= r;
-				}
-			}
-		}
-	);
-
-	if (effectiveLosses > 0) {
-		const newVolume = normalize(bloodVolume_mL - effectiveLosses, { min: 0 });
-
-		const ratio = bloodVolume_mL > 0 ? newVolume / bloodVolume_mL : 0;
-		bloodLogger.info(
-			"Losses: ",
-			ratio,
-			" = ",
-			newVolume,
-			" / ",
-			bloodVolume_mL
-		);
-
-		proteins_mL *= ratio;
-		water_mL *= ratio;
-		wbc_mL *= ratio;
-		rbc_mL *= ratio;
-		bloodVolume_mL = newVolume;
-
-		// apply ratio to chemicals too
+		// clean chemicals
 		Object.entries(newState.vitals.cardio.chemicals).forEach(
 			([chemId, value]) => {
-				bloodLogger.info("Ratio on Chem: ", chemId, value, ratio);
-				newState.vitals.cardio.chemicals[chemId] = value * ratio;
-				bloodLogger.info("Chem: ", newState.vitals.cardio.chemicals[chemId]);
+				const chemical = getChemical(chemId);
+				if (chemical != null) {
+					if (chemical.clearance_mLperMin && chemical.vd_LperKg) {
+						// TODO: ideal or effective
+						const vd_L = chemical.vd_LperKg * meta.effectiveWeight_kg;
+						const concentration_perMl = value / (vd_L * 1000);
+
+						const theoreticalCleaned_mL =
+							chemical.clearance_mLperMin * durationInMin;
+						const eCleaned_mL = Math.min(theoreticalCleaned_mL, renalPlasma_mL);
+						const delta = eCleaned_mL * concentration_perMl;
+
+						bloodLogger.info("Clean ", chemical, {
+							value,
+							plasma_mL,
+							renal_mL,
+							plasmaRatio,
+							renalPlasma_mL,
+							durationInMin,
+							concentration_perMl,
+							eCleaned_mL,
+							delta,
+						});
+						newState.vitals.cardio.chemicals[chemId] -= delta;
+					} else if (chemical.halflife_s) {
+						const ke = LN_2 / chemical.halflife_s;
+						const r = Math.exp(-ke * (durationInMin * 60));
+
+						newState.vitals.cardio.chemicals[chemId] *= r;
+					}
+				}
 			}
 		);
-	}
 
-	if (salineInput_mL > 0) {
-		bloodVolume_mL += salineInput_mL;
-		water_mL += salineInput_mL;
-	}
+		if (effectiveLosses > 0) {
+			const newVolume = normalize(bloodVolume_mL - effectiveLosses, { min: 0 });
 
-	if (bloodInput_mL > 0) {
-		bloodVolume_mL += bloodInput_mL;
-		rbc_mL += bloodInput_mL;
-	}
+			const ratio = bloodVolume_mL > 0 ? newVolume / bloodVolume_mL : 0;
+			bloodLogger.info(
+				"Losses: ",
+				ratio,
+				" = ",
+				newVolume,
+				" / ",
+				bloodVolume_mL
+			);
 
-	newState.vitals.cardio.totalVolumeOfPlasmaProteins_mL = proteins_mL;
-	newState.vitals.cardio.totalVolumeOfWater_mL = water_mL;
-	newState.vitals.cardio.totalVolumeOfWhiteBloodCells_mL = wbc_mL;
-	newState.vitals.cardio.totalVolumeOfErythrocytes_mL = rbc_mL;
+			proteins_mL *= ratio;
+			water_mL *= ratio;
+			wbc_mL *= ratio;
+			rbc_mL *= ratio;
+			bloodVolume_mL = newVolume;
 
-	//	newState.vitals.cardio.totalVolumeOfInstantaneousLosses_mL =
-	//		instantaneous_mL * newState.variables.bleedFactor;
+			// apply ratio to chemicals too
+			Object.entries(newState.vitals.cardio.chemicals).forEach(
+				([chemId, value]) => {
+					bloodLogger.info("Ratio on Chem: ", chemId, value, ratio);
+					newState.vitals.cardio.chemicals[chemId] = value * ratio;
+					bloodLogger.info("Chem: ", newState.vitals.cardio.chemicals[chemId]);
+				}
+			);
+		}
 
-	newState.vitals.cardio.totalVolume_mL = bloodVolume_mL;
+		if (salineInput_mL > 0) {
+			bloodVolume_mL += salineInput_mL;
+			water_mL += salineInput_mL;
+		}
 
-	// chemical input
-	Object.entries(chemicalsInput).forEach(([chemId, input]) => {
-		newState.vitals.cardio.chemicals[chemId] =
-			newState.vitals.cardio.chemicals[chemId] || 0;
-		newState.vitals.cardio.chemicals[chemId] += input;
-	});
+		if (bloodInput_mL > 0) {
+			bloodVolume_mL += bloodInput_mL;
+			rbc_mL += bloodInput_mL;
+		}
 
-	bloodLogger.info("Chemicals:", newState.vitals.cardio.chemicals);
+		newState.vitals.cardio.totalVolumeOfPlasmaProteins_mL = proteins_mL;
+		newState.vitals.cardio.totalVolumeOfWater_mL = water_mL;
+		newState.vitals.cardio.totalVolumeOfWhiteBloodCells_mL = wbc_mL;
+		newState.vitals.cardio.totalVolumeOfErythrocytes_mL = rbc_mL;
 
-	// Too much water. half-life 40min
+		//	newState.vitals.cardio.totalVolumeOfInstantaneousLosses_mL =
+		//		instantaneous_mL * newState.variables.bleedFactor;
 
-	// water
-	const idealWaterVolume = bloodVolume_mL * (1 - meta.hematocrit - 0.01) * 0.9;
-	const extraWater = water_mL - idealWaterVolume;
-	bloodLogger.info("Water: ", { idealWaterVolume, water_mL, extraWater });
+		newState.vitals.cardio.totalVolume_mL = bloodVolume_mL;
 
-	if (extraWater > 0) {
-		// too much water
-		const ke = LN_2 / (60 * 40);
-		const r = Math.exp(-ke * (durationInMin * 60));
-
-		//const newExtra = extraWater * r;
-		const wLoss = extraWater * (1 - r);
-
-		newState.vitals.cardio.totalVolumeOfWater_mL -= wLoss;
-		newState.vitals.cardio.totalVolume_mL -= wLoss;
-
-		bloodLogger.info("Water: ", {
-			extraWater,
-			r,
-			wLoss,
-			new: newState.vitals.cardio.totalVolumeOfWater_mL,
+		// chemical input
+		Object.entries(chemicalsInput).forEach(([chemId, input]) => {
+			newState.vitals.cardio.chemicals[chemId] =
+				newState.vitals.cardio.chemicals[chemId] || 0;
+			newState.vitals.cardio.chemicals[chemId] += input;
 		});
+
+		bloodLogger.info("Chemicals:", newState.vitals.cardio.chemicals);
+
+		// Too much water. half-life 40min
+
+		// water
+		const idealWaterVolume = bloodVolume_mL * (1 - meta.hematocrit - 0.01) * 0.9;
+		const extraWater = water_mL - idealWaterVolume;
+		bloodLogger.info("Water: ", { idealWaterVolume, water_mL, extraWater });
+
+		if (extraWater > 0) {
+			// too much water
+			const ke = LN_2 / (60 * 40);
+			const r = Math.exp(-ke * (durationInMin * 60));
+
+			//const newExtra = extraWater * r;
+			const wLoss = extraWater * (1 - r);
+
+			newState.vitals.cardio.totalVolumeOfWater_mL -= wLoss;
+			newState.vitals.cardio.totalVolume_mL -= wLoss;
+
+			bloodLogger.info("Water: ", {
+				extraWater,
+				r,
+				wLoss,
+				new: newState.vitals.cardio.totalVolumeOfWater_mL,
+			});
+		}
+
+		//
+		const delta_ml =
+			newState.vitals.cardio.totalVolume_mL - initialTotalVolume_mL;
+		logger.info("Blood Sum: ", {
+			delta_ml,
+			initialTotalVolume_mL,
+			newTotal: newState.vitals.cardio.totalVolume_mL,
+		});
+
+		newState.vitals.cardio.q_delta_mLPermin =
+			durationInMin > 0 ? delta_ml / durationInMin : 0;
+		logger.debug(
+			"Blood Sum delta/min: ",
+			newState.vitals.cardio.q_delta_mLPermin
+		);
+
+		const newVitals = compute(newState, meta, env, durationInMin);
+		newState.vitals = newVitals;
+
+		compensate(newState, meta, durationInMin);
+
+		inferExtraOutputs({ state: newState, meta: meta });
 	}
-
-	//
-	const delta_ml =
-		newState.vitals.cardio.totalVolume_mL - initialTotalVolume_mL;
-	logger.info("Blood Sum: ", {
-		delta_ml,
-		initialTotalVolume_mL,
-		newTotal: newState.vitals.cardio.totalVolume_mL,
-	});
-
-	newState.vitals.cardio.q_delta_mLPermin =
-		durationInMin > 0 ? delta_ml / durationInMin : 0;
-	logger.debug(
-		"Blood Sum delta/min: ",
-		newState.vitals.cardio.q_delta_mLPermin
-	);
-
-	const newVitals = compute(newState, meta, env, durationInMin);
-	newState.vitals = newVitals;
-
-	compensate(newState, meta, durationInMin);
-
-	inferExtraOutputs({ state: newState, meta: meta });
 	newState.time = newTime;
 	return newState;
 }
@@ -2213,7 +2289,7 @@ export function computeState(
 			checkpointTime
 		);
 
-		const newState = checkpointTime > previousTime ?  updateVitals(acc, meta, env, checkpointTime) : acc;
+		const newState = checkpointTime > previousTime ? updateVitals(acc, meta, env, checkpointTime) : acc;
 
 		detectCardiacArrest(newState);
 
@@ -2401,6 +2477,10 @@ export function computeState(
 								} else if (key === "PACO2") {
 									// not impactable
 								} else if (key === 'totalInternalLosses_ml') {
+									// not impactable
+								} else if (key === 'internalBleedingCapacity_mL') {
+									// not impactable
+								} else if (key === 'internalBleedingTotal_mL') {
 									// not impactable
 								} else {
 									checkUnreachable(key);

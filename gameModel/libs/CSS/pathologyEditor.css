@@ -1,7 +1,16 @@
+.patients-generation--patient-title {
+	font-size: 32px;
+	font-weight: 700;
+}
+
 .pathologyEditor h1, .pathologyEditor h2, .pathologyEditor h3 {
 	margin: 0;
 }
 
 .pathologyEditor .blockSelector {
 	min-width:  200px;
+}
+
+.scriptedEvent__change {
+	width: 200px;
 }

@@ -1,0 +1,37 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "import { getLickertPage } from \"./lickert\";\ngetLickertPage();",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "fullSize",
+        "layoutStyle" : { },
+        "name" : "lickerMainPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "className" : "",
+    "exposeAs" : "lickertState",
+    "initialState" : {
+      "@class" : "Script",
+      "content" : "import { getInitialLickertState } from \"./lickert\";\ngetInitialLickertState();",
+      "language" : "TypeScript"
+    },
+    "layout" : {
+      "flexDirection" : ""
+    },
+    "layoutClassName" : "",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "localState" : true,
+    "style" : { }
+  },
+  "type" : "State"
+}

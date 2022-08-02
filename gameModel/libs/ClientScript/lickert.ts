@@ -1,5 +1,6 @@
 import { formatMetric } from './currentPatientZoom';
-import {checkUnreachable} from './helper';
+import { getDrillStatus } from './drill';
+import { checkUnreachable } from './helper';
 import { BodyStateKeys, computeMetas } from './HUMAn';
 import {
 	CellDef,
@@ -7,8 +8,8 @@ import {
 	EhancedCellData,
 	MatrixConfig,
 } from './MatrixEditor';
-import { getPathology } from './registries';
-import { LickertData, run_lickert, Serie } from './RUN';
+import { prettyPrinterAfflictedPathology } from './pathology';
+import { ClKeys, LickertData, PhKeys, run_lickert, Serie } from './RUN';
 import {
 	getCurrentPatientBodyParam,
 	getCurrentPatientId,
@@ -36,6 +37,59 @@ export function gotoValidatePage() {
 		{},
 	);
 }
+
+
+
+/** PAGE STATE */
+
+
+interface LickertState {
+	data: 'NOT_INITIALIZED' | 'INITIALIZING' | 'INITIALIZED';
+}
+
+export function getInitialLickertState(): LickertState {
+	return {
+		data: 'NOT_INITIALIZED',
+	};
+}
+
+export function getLickertState(): LickertState {
+	return Context.lickertState.state;
+}
+
+export function setLickertState(state: LickertState | ((state: LickertState) => LickertState)) {
+	Context.lickertState.setState(state);
+}
+
+
+
+export function getLickertPage(): string {
+	const state = getLickertState();
+	if (state.data === 'NOT_INITIALIZED') {
+		setLickertState({ data: 'INITIALIZING' });
+		initAllPatients();
+		return "27";
+	} else if (state.data === 'INITIALIZING') {
+		return "27";
+	} else {
+		switch (getDrillStatus()) {
+			case 'not_started':
+				return '22';
+			case 'ongoing':
+			case 'completed':
+				return '17';
+			case 'validated':
+				return '23';
+		}
+	}
+	return "404";
+}
+
+
+
+
+
+
 
 export function nextUndonePatient() {
 	const allIds = getSortedPatientIds();
@@ -86,33 +140,41 @@ export function prettyPrintCurrentPatientMeta() {
 	const id = getCurrentPatientId();
 	const param = getCurrentPatientBodyParam();
 	let title = '';
-	let p = '';
+
 	if (param) {
 		const { meta } = computeMetas(param);
-		title = `${id} - ${meta.sex}, ${meta.age}y, ${
-			meta.height_cm
-		}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
-		p = (param.scriptedEvents || [])
-			.map(sp => {
-				if (sp.payload.type === 'HumanPathology') {
-					const pId = sp.payload.pathologyId;
-					return getPathology(pId)?.name || '';
-                } else if (sp.payload.type === 'HumanTreatment'){
-					const source = sp.payload.source;
-					return `${source.type === 'act' ? source.actId : source.itemId}`;
-                } else if (sp.payload.type === 'Teleport'){
-                    return '';
-				} else {
-                    checkUnreachable(sp.payload)
-                }
-			})
-			.join('<br />');
+		title = `${id} - ${meta.sex}, ${meta.age}y, ${meta.height_cm
+			}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
 	} else {
 		title = 'No patient';
 	}
 
-	return `<h1>${title}</h1><p>${p}</p>`;
+	return `<h1>${title}</h1>`;
 }
+
+export function prettyPrintCurrentPatientScript(): string {
+	const param = getCurrentPatientBodyParam();
+
+	if (param) {
+		return (param.scriptedEvents || [])
+			.map(sp => {
+				if (sp.payload.type === 'HumanPathology') {
+					return prettyPrinterAfflictedPathology(sp.payload);
+				} else if (sp.payload.type === 'HumanTreatment') {
+					const source = sp.payload.source;
+					return `${source.type === 'act' ? source.actId : source.itemId}`;
+				} else if (sp.payload.type === 'Teleport') {
+					return '';
+				} else {
+					checkUnreachable(sp.payload)
+				}
+			})
+			.join('<br />');
+	} else {
+		return '';
+	}
+}
+
 
 type TimeId = string;
 type KeyId = string;
@@ -154,15 +216,15 @@ const lickerCellDef_select: CellDef[] = [
 
 const lickerCellDef: CellDef[] = [
 	/*{
-        type: 'enum',
-        label: '-',
-        values: [
-            {
-                label: 'undef',
-                value: undefined,
-            }
-        ],
-    },*/
+		type: 'enum',
+		label: '-',
+		values: [
+			{
+				label: 'undef',
+				value: undefined,
+			}
+		],
+	},*/
 	{
 		type: 'enum',
 		label: '1',
@@ -222,7 +284,7 @@ const lickerCellDef: CellDef[] = [
 
 type LickertMatrixCell = undefined | LickertLevel;
 
-const currentData: Record<string, LickertData> = {};
+const currentData: Record<string, {data: LickertData, cardiacArrest: number | undefined}> = {};
 
 type Matrix = Record<TimeId, Record<KeyId, EhancedCellData<LickertMatrixCell>>>;
 
@@ -230,11 +292,14 @@ const clinicalMatrix: Record<string, Matrix> = {};
 
 const physiologicalMatrix: Record<string, Matrix> = {};
 
+const timeMatrix: Record<string, Matrix> = {};
+
 type PMatrix = Record<TimeId, Record<KeyId, LickertMatrixCell>>;
 
 interface PersistedMatrix {
 	clinical: PMatrix;
 	physio: PMatrix;
+	timing: PMatrix;
 }
 
 type LickertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LickertMatrixCell) => void;
@@ -256,6 +321,7 @@ function getPersistedData(patientId: string): PersistedMatrix {
 		return {
 			clinical: {},
 			physio: {},
+			timing: {},
 		};
 	}
 }
@@ -264,6 +330,7 @@ function convertData(data: Data): PersistedMatrix {
 	const pm: PersistedMatrix = {
 		clinical: {},
 		physio: {},
+		timing: {},
 	};
 
 	Object.entries(data.clMatrix).forEach(([timeId, keys]) => {
@@ -288,15 +355,29 @@ function convertData(data: Data): PersistedMatrix {
 		});
 	});
 
+	Object.entries(data.timeMatrix).forEach(([timeId, keys]) => {
+		Object.entries(keys).forEach(([keyId, value]) => {
+			pm.timing[timeId] = pm.timing[timeId] || {};
+			if (typeof value === 'object') {
+				pm.timing[timeId]![keyId] = value.value;
+			} else {
+				pm.timing[timeId]![keyId] = value;
+			}
+		});
+	});
+
 	return pm;
 }
 
 interface Data {
 	data: LickertData;
+	cardiacArrest: number | undefined;
 	clMatrix: Matrix;
 	phMatrix: Matrix;
+	timeMatrix: Matrix;
 }
 
+/*
 function check(matrix: Matrix, data: Record<string, Serie>): boolean {
 	for (const mKey in data) {
 		for (const mTime in data[mKey]) {
@@ -314,21 +395,21 @@ function check(matrix: Matrix, data: Record<string, Serie>): boolean {
 	return true;
 }
 
-/*export function isPatientDone(patientId: string): boolean {
-    const data = currentData[patientId];
-    const clMmatrix = clinicalMatrix[patientId];
-    const phMmatrix = physiologicalMatrix[patientId];
+export function isPatientDone(patientId: string): boolean {
+	const data = currentData[patientId];
+	const clMmatrix = clinicalMatrix[patientId];
+	const phMmatrix = physiologicalMatrix[patientId];
 
-    if (data == null || clMmatrix == null || phMmatrix == null) {
-        return false;
-    }
+	if (data == null || clMmatrix == null || phMmatrix == null) {
+		return false;
+	}
 
-    if (check(clMmatrix, data.clinical)
-        && check(phMmatrix, data.physiological)) {
-        return true;
-    }
+	if (check(clMmatrix, data.clinical)
+		&& check(phMmatrix, data.physiological)) {
+		return true;
+	}
 
-    return false;
+	return false;
 }*/
 
 function countCell(matrix: PMatrix) {
@@ -344,7 +425,10 @@ export function isPatientDone(patientId: string): boolean {
 
 	const persistedData = getPersistedData(patientId);
 
-	if (countCell(persistedData.clinical) < 30 || countCell(persistedData.physio) < 30) {
+	if (countCell(persistedData.clinical) < 30
+		|| countCell(persistedData.physio) < 30
+		|| countCell(persistedData.timing) < 5
+	) {
 		return false;
 	}
 
@@ -378,11 +462,11 @@ export function getPatientMenu(): MenuItem[] {
 	}));
 }
 
-export function getCurrentPatientData(force: boolean = false): Data {
-	const patientId = getCurrentPatientId();
+function getPatientData(patientId: string, force: boolean = false): Data {
 
 	if (currentData[patientId] == null || force) {
-		currentData[patientId] = run_lickert();
+		wlog("RUN MODEL FOR PATIENT ", patientId);
+		currentData[patientId] = run_lickert(patientId);
 	}
 	const patientData = currentData[patientId]!;
 
@@ -390,15 +474,13 @@ export function getCurrentPatientData(force: boolean = false): Data {
 		const data = getPersistedData(patientId);
 
 		clinicalMatrix[patientId] = {};
-		const clKeys = Object.keys(patientData.clinical);
-		// @ts-ignore
-		const times = Object.keys(patientData.clinical[clKeys[0]]);
+		const clKeys = Object.keys(patientData.data.clinical) as ClKeys[];
+		const times = Object.keys(patientData.data.clinical[clKeys[0]]);
 		times.forEach(time => {
 			clinicalMatrix[patientId]![time] = {};
 			clKeys.forEach(clKey => {
 				clinicalMatrix[patientId]![time]![clKey] = {
-					// @ts-ignore
-					label: prettyPrintValue(clKey, patientData.clinical[clKey][+time]),
+					label: prettyPrintValue(clKey, patientData.data.clinical[clKey][+time]),
 					value: (data.clinical[+time] || {})[clKey],
 				};
 			});
@@ -409,43 +491,94 @@ export function getCurrentPatientData(force: boolean = false): Data {
 		const data = getPersistedData(patientId);
 
 		physiologicalMatrix[patientId] = {};
-		const phKey = Object.keys(patientData.physiological);
-		// @ts-ignore
-		const times = Object.keys(patientData.physiological[phKey[0]]);
+		const keys = Object.keys(patientData.data.physiological) as PhKeys[];
+		const times = Object.keys(patientData.data.physiological[keys[0]]);
 		times.forEach(time => {
 			physiologicalMatrix[patientId]![time] = {};
-			phKey.forEach(clKey => {
-				physiologicalMatrix[patientId]![time]![clKey] = {
-					// @ts-ignore
-					label: prettyPrintValue(clKey, patientData.physiological[clKey]![+time]),
-					value: (data.physio[+time] || {})[clKey],
+			keys.forEach(key => {
+				physiologicalMatrix[patientId]![time]![key] = {
+					label: prettyPrintValue(key, patientData.data.physiological[key]![+time]),
+					value: (data.physio[+time] || {})[key],
 				};
 			});
 		});
 	}
 
+	if (timeMatrix[patientId] == null || force) {
+		const data = getPersistedData(patientId);
+
+		timeMatrix[patientId] = {};
+
+		const times = Object.keys(Object.values(patientData.data.clinical)[0]);
+		times.forEach(time => {
+			timeMatrix[patientId]![time] = {
+				timing: { label: time, value: (data.timing[+time] || {})['timing'] }
+			};
+		});
+	}
+
 	return {
-		data: patientData,
+		data: patientData.data,
+		cardiacArrest: patientData.cardiacArrest,
 		clMatrix: clinicalMatrix[patientId]!,
 		phMatrix: physiologicalMatrix[patientId]!,
+		timeMatrix: timeMatrix[patientId]!,
 	};
 }
 
-function formatSecond(time: number) {
-	if (time < 60) {
-		return `${time}s`;
+function getCurrentPatientData(force: boolean = false): Data {
+	const patientId = getCurrentPatientId();
+	return getPatientData(patientId, force);
+}
+
+export function getCurrentPatientFinalState() : string {
+	const cardiacArrest = getCurrentPatientData().cardiacArrest;
+	if (cardiacArrest /* > 0*/){
+		return `Patient <strong>died</strong> after <strong>${formatSecond(cardiacArrest)}</strong>`;
 	} else {
-		const min = Math.floor(time / 60);
-		const sec = time - min * 60;
-		return `${min}min ${sec}s`;
+		return "Patient <strong>still alive</strong> after 4h";
 	}
 }
+
+export function initAllPatients() {
+	const state = Context.lickertState;
+	setTimeout(() => {
+		const allIds = getSortedPatientIds();
+		allIds.forEach(pId => getPatientData(pId));
+		state.setState({data: 'INITIALIZED'});
+	}, 500)
+}
+
+
+
+function formatSecond(time: number) {
+	if (time <= 0){
+		return 'état initial';
+	}
+
+	if (time < 60) {
+		return `${time}s`;
+	} else if (time < 3600) {
+		const min = Math.floor(time / 60);
+		const sec = time - min * 60;
+		return `${min}m ${sec}s`;
+	} else {
+		const hour = Math.floor(time / 3600);
+		const rest = time - hour * 3600;
+		const min = Math.floor(rest / 60);
+		const sec = rest - min * 60;
+		return `${hour}h ${min}m ${sec}s`;
+	}
+}
+
+
+/************************************* Clinical Matrix Config ********************************************/
 
 const ClinicalLickertOnChangeRefName = 'clinicalOnChange';
 
 const onClinicalChangeRef = Helpers.useRef<LickertOnChangeFn>(
 	ClinicalLickertOnChangeRefName,
-	() => {},
+	() => { },
 );
 
 onClinicalChangeRef.current = (x, y, newData) => {
@@ -483,9 +616,56 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 	};
 }
 
+/************************************* Timing Matrix Config ********************************************/
+
+const TimingLickertOnChangeRefName = 'timingOnChange';
+
+const onTimingChangeRef = Helpers.useRef<LickertOnChangeFn>(
+	TimingLickertOnChangeRefName,
+	() => { },
+);
+
+onTimingChangeRef.current = (x, y, newData) => {
+	const timeId = x.id;
+	const keyId = y.id;
+
+	const patientId = getCurrentPatientId();
+
+	const current = timeMatrix[patientId]![timeId]![keyId];
+	if (typeof current === 'object') {
+		timeMatrix[patientId]![timeId]![keyId] = { label: current.label, value: newData };
+	} else {
+		timeMatrix[patientId]![timeId]![keyId] = newData;
+	}
+
+	save();
+};
+
+export function getTimeMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+	const data = getCurrentPatientData();
+
+	return {
+		x: Object.keys(data.timeMatrix).map(time => ({
+			id: time,
+			label: formatSecond(+time),
+		})),
+		y: Object.keys(data.timeMatrix[0]!).map(key => ({
+			id: key,
+			label: prettyPrintKey(key),
+		})),
+		data: data.timeMatrix,
+		cellDef: lickerCellDef,
+		hideFilter: true,
+		onChangeRefName: TimingLickertOnChangeRefName,
+	};
+}
+
+
+/************************************* Physiological Matrix Config ********************************************/
+
 const PhysioLickertOnChangeRefName = 'physioOnChange';
 
-const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => {});
+const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => { });
 
 onPhysioChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
@@ -522,6 +702,10 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 	};
 }
 
+
+
+/*************** Persistance **************/
+
 export function saveData() {
 	const data = getCurrentPatientData();
 	const pData = convertData(data);
@@ -533,23 +717,20 @@ export function saveData() {
 	APIMethods.runScript(script, {});
 }
 
-//                    teamId       patientId                                     time           metric  value
+//      
 type RawData = Record<
-	string,
-	Record<string, Record<'clinical' | 'physio', Record<string, Record<string, number>>>>
+	string, // teamId
+	//     patientId                                               time           metric  value   
+	Record<string, Record<'clinical' | 'physio' | 'timing', Record<string, Record<string, number>>>>
 >;
 
 function formatCsvLine(...cells: unknown[]) {
 	return cells.map(cell => String(cell)).join(', ');
 }
 
-interface ManagedResponse {
-	updatedEntities: [RawData];
-}
-
 export function getAllLickertData() {
 	APIMethods.runScript('getLickerData();', {}).then(result => {
-		const data = (result as ManagedResponse).updatedEntities[0];
+		const data = result.updatedEntities[0] as RawData;
 		const csv: string[] = [];
 
 		let counter = 1;
@@ -557,13 +738,15 @@ export function getAllLickertData() {
 		// print header
 		csv.push(formatCsvLine('expertId', 'patientId', 'group', 'time [s]', 'metric', 'lickert'));
 
+		// TOOD: long format
+
 		Object.entries(data).forEach(([teamId, teamData]) => {
 			const expertId = counter++;
 			Object.entries(teamData).forEach(([patientId, patientData]) => {
 				Object.entries(patientData).forEach(([mType, mData]) => {
 					Object.entries(mData).forEach(([time, timeData]) => {
 						Object.entries(timeData).forEach(([metric, value]) => {
-							csv.push(formatCsvLine(expertId, patientId, mType, time, metric, value));
+							csv.push(formatCsvLine(expertId, patientId, mType, time, prettyPrintKey(metric), value));
 						});
 					});
 				});
@@ -574,6 +757,11 @@ export function getAllLickertData() {
 		Helpers.downloadDataAsFile('lickert.csv', txt);
 	});
 }
+
+
+
+
+
 
 /**
  * Read-only data

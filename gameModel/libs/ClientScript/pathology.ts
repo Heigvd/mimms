@@ -40,7 +40,7 @@ export interface PathologyAction {
 }
 
 
-type RangeDefs<T extends string> = Record<T,Range | undefined>;
+type RangeDefs<T extends string> = Record<T, Range | undefined>;
 type Args<T extends string> = Record<T, number | undefined>;
 
 /**
@@ -139,7 +139,7 @@ interface PneumothoraxMeta extends BaseModule<typeof pneumothoraxArgKeys[number]
 	config: {
 		type: 'Pneumothorax';
 		blocks: ('UNIT_BRONCHUS_1' | 'UNIT_BRONCHUS_2')[],
-		pneumothoraxType: BlockPatch['pneumothorax'];
+		pneumothoraxType: NonNullable<BlockPatch['pneumothorax']>;
 		compliance: Range | undefined;
 		complianceDelta: Range | undefined;
 	};
@@ -289,7 +289,45 @@ export interface RevivedPathology {
 	modules: InstantiatedModule[];
 }
 
+function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: ModuleArgs): string {
+	// TODO => args!
+	switch (mod.type) {
+		case 'AirwaysResistance':
+			return `${block}: airways resistance`;
+		case 'Burn':
+			return `${block}: ${mod.level} degree burn`;
+		case 'Fracture':
+			return `${block}: ${mod.fractureType} fracture`;
+		case 'Hemorrhage':
+			return `${block}: ${mod.subtype} hemorrhage`;
+		case 'ICP':
+			return `Intracranial pressure`
+		case 'NervousSystem':
+			return `${block}: nervous system damage`
+		case 'Pneumothorax':
+			const side = block.startsWith("UNIT_BRONCHUS_1") ? 'Left' : 'Right';
+			return `${side} lung: ${mod.pneumothoraxType.toLowerCase()} pneumothorax`;
+		case 'Tamponade':
+			return 'Tamponade';
+	}
+}
 
+export function prettyPrinterAfflictedPathology(ap: AfflictedPathology): string {
+	const pDef = getPathology(ap.pathologyId);
+	if (pDef == null) {
+		return `Unknown pathology ${ap.pathologyId}`;
+	}
+
+	const pName = pDef.name;
+
+	const mods = pDef.modules.map((mod, i) => {
+		return prettyPrintModuleDef(mod, ap.afflictedBlocks[i]!, ap.modulesArguments[i]);
+	});
+
+	return `<h3>${pName}</h3>
+	<ul>${mods.map(m => `<li>${m}</li>`).join("")}
+	</ul>`;
+}
 
 
 type PathologyMeta = Pick<PathologyDefinition, 'id' | 'name' | 'blockSelectionMode'>;

@@ -426,8 +426,8 @@ Helpers.registerEffect(() => {
 										required: true,
 										//TODO config
 										itemSchema: {
-											lowerBound: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
-											upperBound: { type: 'number', view: { label: 'Max', layout: "shortInline" } },
+											min: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
+											max: { type: 'number', view: { label: 'Max', layout: "shortInline" } },
 											cardinality: { type: 'number', view: { label: 'Ratio', layout: "shortInline" } },
 										}
 									}),

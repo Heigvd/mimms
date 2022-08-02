@@ -172,12 +172,14 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "fullSize",
                 "id" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
                   "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "fullSize",
                 "layoutStyle" : { },
                 "name" : "gamePageLoader",
                 "style" : { }

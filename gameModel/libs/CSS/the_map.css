@@ -61,6 +61,12 @@
 	pointer-events: auto;
 }
 
+.humanOverlay {
+	stroke: white;
+	stroke-width: 1px;
+}
+
+
 .humanOverlay.me {
 	stroke: hotpink;
 	stroke-width: 5px;

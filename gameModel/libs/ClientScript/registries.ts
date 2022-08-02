@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { BlockName, extBlocks, ExternalBlock } from './HUMAn';
+import { BlockName, extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './HUMAn';
 import {
 	ChemicalDefinition,
 	buildPathology,
@@ -128,14 +128,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'full_ah',
-				name: 'massive arterial cut, no initial loss',
+				name: 'catastrophic arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.85, max: 1 },
+					bleedingFactor: { min: 0.75, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
 						'LEFT_ARM',
@@ -156,14 +156,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'semi_ah',
-				name: 'semi arterial cut, no initial loss',
+				name: 'severe arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.4, max: 0.6 },
+					bleedingFactor: { min: 0.4, max: 0.75 },
 					instantaneousBloodLoss: undefined,
 					blocks: arterialBlocks,
 				},
@@ -175,14 +175,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'quarter_ah',
-				name: 'quarter arterial cut, no initial loss',
+				name: 'moderate arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.25, max: 0.25 },
+					bleedingFactor: { min: 0.15, max: 0.4 },
 					instantaneousBloodLoss: undefined,
 					blocks: arterialBlocks,
 				},
@@ -194,33 +194,14 @@ function init() {
 		buildPathology(
 			{
 				id: '20p_ah',
-				name: '20% arterial cut, no initial loss',
+				name: 'minor arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.2, max: 0.2},
-					instantaneousBloodLoss: undefined,
-					blocks: arterialBlocks,
-				},
-			],
-		),
-	);
-
-	registerPathology(
-		buildPathology(
-			{
-				id: 'tenth_ah',
-				name: '10% arterial cut, no initial loss',
-				blockSelectionMode: 'any',
-			},
-			[
-				{
-					type: 'Hemorrhage',
-					subtype: 'arterial',
-					bleedingFactor: { min: 0.1, max: 0.1},
+					bleedingFactor: { min: 0.01, max: 0.15 },
 					instantaneousBloodLoss: undefined,
 					blocks: arterialBlocks,
 				},
@@ -234,14 +215,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'full_vh',
-				name: 'full venous cut, no initial loss',
+				name: 'catastrophic venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 1, max: 1},
+					bleedingFactor: { min: 0.85, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: venousBlocks,
 				},
@@ -253,14 +234,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'semi_vh',
-				name: 'semi venous cut, no initial loss',
+				name: 'severe venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.4, max: 0.5 },
+					bleedingFactor: { min: 0.4, max: 0.85 },
 					instantaneousBloodLoss: undefined,
 					blocks: venousBlocks,
 				},
@@ -272,14 +253,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'quarter_vh',
-				name: 'quarter venous cut, no initial loss',
+				name: 'moderate venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.25, max: 0.25},
+					bleedingFactor: { min: 0.0001, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: venousBlocks,
 				},
@@ -291,33 +272,14 @@ function init() {
 		buildPathology(
 			{
 				id: '20p_vh',
-				name: '20% venous cut, no initial loss',
+				name: 'minor venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.2, max: 0.2},
-					instantaneousBloodLoss: undefined,
-					blocks: venousBlocks,
-				},
-			],
-		),
-	);
-
-	registerPathology(
-		buildPathology(
-			{
-				id: 'tenth_vh',
-				name: '10% venous cut, no initial loss',
-				blockSelectionMode: 'any',
-			},
-			[
-				{
-					type: 'Hemorrhage',
-					subtype: 'venous',
-					bleedingFactor: { min: 0.1, max: 0.1},
+					bleedingFactor: { min: 0.0001, max: 0.15 },
 					instantaneousBloodLoss: undefined,
 					blocks: venousBlocks,
 				},
@@ -329,15 +291,72 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'tenth_ih',
-				name: '10% internal Hemorrhage, no initial loss',
+				id: 'catastrophic_ih',
+				name: 'catastrophic internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.1, max: 0.1},
+					bleedingFactor: { min: 0.85, max: 1 },
+					instantaneousBloodLoss: undefined,
+					blocks: ['ABDOMEN'],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'moderate_ih',
+				name: 'severe internal hemorrhage',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'internal',
+					bleedingFactor: { min: 0.5, max: 0.85 },
+					instantaneousBloodLoss: undefined,
+					blocks: ['ABDOMEN'],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'moderate_ih',
+				name: 'moderate internal hemorrhage',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'internal',
+					bleedingFactor: { min: 0.25, max: 0.5 },
+					instantaneousBloodLoss: undefined,
+					blocks: ['ABDOMEN'],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'minor_ih',
+				name: 'minor internal hemorrhage',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'internal',
+					bleedingFactor: { min: 0.01, max: 0.25 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},
@@ -359,7 +378,7 @@ function init() {
 				{
 					type: 'AirwaysResistance',
 					blocks: ['NECK', 'HEAD'],
-					airResistance: { min: 0.5, max: 0.5},
+					airResistance: { min: 0.5, max: 0.5 },
 					airResistanceDelta: undefined,
 				},
 			],
@@ -377,7 +396,7 @@ function init() {
 				{
 					type: 'AirwaysResistance',
 					blocks: ['NECK', 'HEAD'],
-					airResistance: { min: 1, max: 1},
+					airResistance: { min: 1, max: 1 },
 					airResistanceDelta: undefined,
 				},
 			],
@@ -395,7 +414,7 @@ function init() {
 				{
 					type: 'AirwaysResistance',
 					blocks: ['BRONCHUS_1', 'BRONCHUS_2'],
-					airResistanceDelta: { min: 0.05, max: 0.05},
+					airResistanceDelta: { min: 0.05, max: 0.05 },
 					airResistance: undefined,
 				},
 			],
@@ -413,14 +432,14 @@ function init() {
 				{
 					type: 'AirwaysResistance',
 					blocks: ['NECK'],
-					airResistanceDelta: { min: 0.05, max: 0.05},
+					airResistanceDelta: { min: 0.01, max: 0.1 },
 					airResistance: undefined,
 				},
 				{
 					type: 'Burn',
 					blocks: ['HEAD'],
 					level: '2',
-					percent: { min: 0.5, max: 0.5},
+					percent: { min: 0.25, max: 0.6 },
 				},
 			],
 		),
@@ -438,14 +457,14 @@ function init() {
 					type: 'Pneumothorax',
 					blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 					pneumothoraxType: 'SIMPLE',
-					compliance: { min: 0, max: 0},
+					compliance: { min: 0, max: 0 },
 					complianceDelta: undefined,
 				},
 				{
 					type: 'Hemorrhage',
 					blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
 					subtype: 'venous',
-					instantaneousBloodLoss: { min: 40, max: 60},
+					instantaneousBloodLoss: { min: 0, max: 60 },
 					bleedingFactor: undefined,
 				},
 				{
@@ -473,14 +492,14 @@ function init() {
 					type: 'Pneumothorax',
 					blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 					pneumothoraxType: 'OPEN',
-					compliance: { min: 0, max: 0},
+					compliance: { min: 0, max: 0 },
 					complianceDelta: undefined,
 				},
 				{
 					type: 'Hemorrhage',
 					blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
 					subtype: 'venous',
-					instantaneousBloodLoss: { min: 100, max: 200},
+					instantaneousBloodLoss: { min: 100, max: 200 },
 					bleedingFactor: undefined,
 				},
 				{
@@ -499,22 +518,22 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'cityHunter',
-				name: 'Coup de masse sur la tête',
+				id: 'cranialTrauma',
+				name: 'cranial trauma with hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'ICP',
 					blocks: ['HEAD'],
-					delta_perMin: { min: 1, max: 1},
+					delta_perMin: { min: 0.05, max: 2 },
 					icp_mmHg: undefined,
 				},
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
 					blocks: ['HEAD'],
-					bleedingFactor: { min: 0.01, max: 0.01},
+					bleedingFactor: { min: 0.01, max: 0.05 },
 					instantaneousBloodLoss: undefined,
 				},
 			],
@@ -533,13 +552,13 @@ function init() {
 					type: 'Burn',
 					blocks: ['THORAX_LEFT'],
 					level: '3',
-					percent: { min: 1, max: 1},
+					percent: { min: 1, max: 1 },
 				},
 				{
 					type: 'Burn',
 					blocks: ['THORAX_RIGHT'],
 					level: '3',
-					percent: { min: 1, max: 1},
+					percent: { min: 1, max: 1 },
 				},
 			],
 		),
@@ -549,14 +568,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'tamponade_slow',
-				name: 'Tamponade +5ml/min',
+				name: 'Tamponade Light',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Tamponade',
 					blocks: ['HEART'],
-					pericardial_deltaMin: { min: 5, max: 5},
+					pericardial_deltaMin: { min: 0.1, max: 5 },
 					pericardial_mL: undefined,
 				},
 			],
@@ -567,14 +586,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'tamponade_mild',
-				name: 'Tamponade +10ml/min',
+				name: 'Tamponade Mild',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Tamponade',
 					blocks: ['HEART'],
-					pericardial_deltaMin: { min: 10, max: 10},
+					pericardial_deltaMin: { min: 5, max: 25 },
 					pericardial_mL: undefined,
 				},
 			],
@@ -585,14 +604,14 @@ function init() {
 		buildPathology(
 			{
 				id: 'tamponade_hard',
-				name: 'Tamponade +50ml/min',
+				name: 'Tamponade Hot',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Tamponade',
 					blocks: ['HEART'],
-					pericardial_deltaMin: { min: 50, max: 50},
+					pericardial_deltaMin: { min: 0.1, max: 50 },
 					pericardial_mL: undefined,
 				},
 			],
@@ -646,6 +665,69 @@ function init() {
 			],
 		),
 	);
+
+	registerPathology(buildPathology({
+		id: 'fracture_simple',
+		name: 'fracture non-displaced',
+		blockSelectionMode: 'same',
+	}, [
+		{
+			type: 'Fracture',
+			blocks: [...simpleFractureBonesBlocks],
+			fractureType: 'nonDisplaced',
+		},
+		{
+			type: 'Hemorrhage',
+			subtype: 'internal',
+			blocks: [...simpleFractureBonesBlocks],
+			bleedingFactor: {
+				min: 0, max: 0.5
+			},
+			instantaneousBloodLoss: undefined,
+		}
+	]));
+
+	registerPathology(buildPathology({
+		id: 'fracture_displaced',
+		name: 'fracture displaced',
+		blockSelectionMode: 'same',
+	}, [
+		{
+			type: 'Fracture',
+			blocks: [...simpleFractureBonesBlocks],
+			fractureType: 'displaced',
+		},
+		{
+			type: 'Hemorrhage',
+			subtype: 'internal',
+			blocks: [...simpleFractureBonesBlocks],
+			bleedingFactor: {
+				min: 0.5, max: 1
+			},
+			instantaneousBloodLoss: undefined,
+		}
+	]));
+
+	registerPathology(buildPathology({
+		id: 'fracture_open',
+		name: 'fracture open & displaced',
+		blockSelectionMode: 'same',
+	}, [
+		{
+			type: 'Fracture',
+			blocks: [...simpleFractureBonesBlocks],
+			fractureType: 'displaced',
+		},
+		{
+			type: 'Hemorrhage',
+			subtype: 'venous',
+			blocks: [...simpleFractureBonesBlocks],
+			bleedingFactor: {
+				min: 0.5, max: 1
+			},
+			instantaneousBloodLoss: undefined,
+		}
+	]));
 
 	////////////////////////////////////////
 	// Chemicals

@@ -6,7 +6,7 @@ import { logger } from "./logger";
 import { Compensation, SympSystem } from "./physiologicalModel";
 import { getAct, getItem, getPathology } from './registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "./the_world";
-import {checkUnreachable} from "./helper";
+import { checkUnreachable } from "./helper";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -47,14 +47,14 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed)
 			? // 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			  [{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
+			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
 			: // many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
-			  Object.entries(parsed).map(([k, v]) => {
-					return {
-						label: k,
-						points: (v as RawPoints).map(([x, y]) => ({ x, y })),
-					};
-			  });
+			Object.entries(parsed).map(([k, v]) => {
+				return {
+					label: k,
+					points: (v as RawPoints).map(([x, y]) => ({ x, y })),
+				};
+			});
 
 		return {
 			id: key,
@@ -132,22 +132,22 @@ export function getCurrentPatientBodyParam(): BodyFactoryParam | undefined {
 
 /*
 interface PathologyEvent {
-    time: number;
-    blocks: BlockName[];
-    event: {
-        type: 'HumanPathology',
-        pathologyId: string;
-    }
+	time: number;
+	blocks: BlockName[];
+	event: {
+		type: 'HumanPathology',
+		pathologyId: string;
+	}
 }
 
 interface ItemActionEvent {
-    time: number;
-    blocks: BlockName[];
-    event: {
-        type: 'ItemActionOnHuman',
-        itemId: string;
-        actionId: string;
-    }
+	time: number;
+	blocks: BlockName[];
+	event: {
+		type: 'ItemActionOnHuman',
+		itemId: string;
+		actionId: string;
+	}
 }*/
 
 type CleanEvent<T extends TargetedEvent> = Omit<
@@ -163,275 +163,6 @@ export interface TestScenario {
 	description: string;
 	events: TestScenarioEvent[];
 }
-
-const testScenarios: Record<string, TestScenario> = {};
-
-testScenarios['0_Healthy'] = {
-	description: 'Healthy',
-	events: [],
-};
-
-testScenarios['1_intHemoAbd'] = {
-	description: 'Hemorragie interne abdomen (rate)',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'tenth_ih',
-			afflictedBlocks: ['ABDOMEN'],
-			modulesArguments: [
-				{
-					type: 'HemorrhageArgs',
-					bleedingFactor: 0.1,
-					instantaneousBloodLoss: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['2_leftForearmVenousHem'] = {
-	description: 'Hemorragie veineuse avant-bras gauche',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'semi_vh',
-			afflictedBlocks: ['LEFT_FOREARM'],
-			modulesArguments: [
-				{
-					type: 'HemorrhageArgs',
-					bleedingFactor: 0.5,
-					instantaneousBloodLoss: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['2v_leftForearmVenousHem'] = {
-	description: 'Hemorragie arteriel avant-bras gauche',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'full_ah',
-			afflictedBlocks: ['LEFT_THIGH'],
-			modulesArguments: [
-				{
-					type: 'HemorrhageArgs',
-					bleedingFactor: 1,
-					instantaneousBloodLoss: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['2c_leftKneeACut'] = {
-	description: 'Hemorragie arteriel genoux gauche',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'full_ah',
-			afflictedBlocks: ['LEFT_KNEE'],
-			modulesArguments: [
-				{
-					type: 'HemorrhageArgs',
-					bleedingFactor: 1,
-					instantaneousBloodLoss: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['3_tamponade_mild'] = {
-	description: 'Mild Tamponade',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'tamponade_mild',
-			afflictedBlocks: ['HEART'],
-			modulesArguments: [
-				{
-					type: 'TamponadeArgs',
-					pericardial_deltaMin: 10,
-					pericardial_mL: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['4_simple_pno_left'] = {
-	description: 'Simple full unilateral pneumothorax',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'simple_pno_full',
-			afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX_LEFT', 'THORAX_LEFT'],
-			modulesArguments: [
-				{
-					type: 'PneumothoraxArgs',
-					compliance: 0,
-					complianceDelta: undefined,
-				},
-				{
-					type: 'HemorrhageArgs',
-					instantaneousBloodLoss: 50,
-					bleedingFactor: undefined,
-				},
-				{
-					type: 'NoArgs',
-				},
-			],
-		},
-	],
-};
-
-testScenarios['5_upper_airways_burn'] = {
-	description: 'Upper airways burn',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'upper_airways_burn',
-			afflictedBlocks: ['NECK', 'HEAD'],
-			modulesArguments: [
-				{
-					type: 'AirwaysResistanceArgs',
-					airResistanceDelta: 0.05,
-					airResistance: undefined,
-				},
-				{
-					type: 'BurnArgs',
-					percent: 0.5,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['6_thorac_circ_burn'] = {
-	description: 'Circumferential Thorax Burn',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'thorax_circ',
-			afflictedBlocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
-			modulesArguments: [
-				{
-					type: 'BurnArgs',
-					percent: 1,
-				},
-				{
-					type: 'BurnArgs',
-					percent: 1,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['7_ICP'] = {
-	description: 'Coup de masse',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'cityHunter',
-			afflictedBlocks: ['HEAD', 'HEAD'],
-			modulesArguments: [
-				{
-					type: 'ICPArgs',
-					delta_perMin: 1,
-					icp_mmHg: undefined,
-				},
-				{
-					type: 'HemorrhageArgs',
-					bleedingFactor: 0.01,
-					instantaneousBloodLoss: undefined,
-				},
-			],
-		},
-	],
-};
-
-testScenarios['8_dislocation_c1c2'] = {
-	description: 'C1-C2 dislocation',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'disclocation_c1c2',
-			afflictedBlocks: ['C1-C4'],
-			modulesArguments: [
-				{
-					type: 'NoArgs',
-				},
-			],
-		},
-	],
-};
-
-testScenarios['9_dislocation_c7c8'] = {
-	description: 'C7-C8 dislocation',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'disclocation_c5c7',
-			afflictedBlocks: ['C5-C7'],
-			modulesArguments: [
-				{
-					type: 'NoArgs',
-				},
-			],
-		},
-	],
-};
-
-testScenarios['10_tension_pneumothorax'] = {
-	description: 'Tension Pneumothorax',
-	events: [
-		{
-			type: 'HumanPathology',
-			time: 10,
-			pathologyId: 'simple_pno_full',
-			afflictedBlocks: ['UNIT_BRONCHUS_1', 'THORAX_LEFT', 'THORAX_LEFT'],
-			modulesArguments: [
-				{
-					type: 'PneumothoraxArgs',
-					compliance: 0,
-					complianceDelta: undefined,
-				},
-				{
-					type: 'HemorrhageArgs',
-					instantaneousBloodLoss: 50,
-					bleedingFactor: undefined,
-				},
-				{
-					type: 'NoArgs',
-				},
-			],
-		},
-		{
-			type: 'HumanTreatment',
-			time: 600,
-			source: {
-				type: 'itemAction',
-				itemId: 'balloon',
-				actionId: 'setup',
-			},
-			blocks: ['HEAD'],
-		},
-	],
-};
 
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
 	return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
@@ -505,7 +236,7 @@ export function getPatientsBodyFactoryParamsArray() {
 			return { id: id, meta: meta };
 		})
 		.sort((a, b) => {
-			return a.id.localeCompare(b.id);
+			return alphaNumericSort(a.id, b.id)
 		});
 }
 
@@ -517,20 +248,20 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
 			if (sp.payload.type === 'HumanPathology') {
 				const def = getPathology(sp.payload.pathologyId);
 				return def?.name || '';
-            } else if (sp.payload.type === 'HumanTreatment') {
-                const source = sp.payload.source;
-                if (source.type === 'act') {
-                    const act = getAct(source.actId);
-                    return act?.name || '';
-                } else {
-                    const item = getItem(source.itemId);
-                    return item?.name || '';
-                }
-            } else if (sp.payload.type === 'Teleport') {
-                return `Located at [${sp.payload.location.x};${sp.payload.location.y}] on ${sp.payload.location.mapId}`;
+			} else if (sp.payload.type === 'HumanTreatment') {
+				const source = sp.payload.source;
+				if (source.type === 'act') {
+					const act = getAct(source.actId);
+					return act?.name || '';
+				} else {
+					const item = getItem(source.itemId);
+					return item?.name || '';
+				}
+			} else if (sp.payload.type === 'Teleport') {
+				return `Located at [${sp.payload.location.x};${sp.payload.location.y}] on ${sp.payload.location.mapId}`;
 			} else {
-                checkUnreachable(sp.payload);
-            }
+				checkUnreachable(sp.payload);
+			}
 		})
 		.filter(p => p)
 		.join(', ');
@@ -538,6 +269,10 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
 	return short
 		? `${id} (${param.age}${param.sex === 'male' ? 'M' : 'F'}) ${skill}`
 		: `${id} ${skill} (${param.sex}; ${param.age} years; ${param.height_cm}cm; ${param.bmi} (BMI); 2^${param.lungDepth} lungs) ${ps}`;
+}
+
+export function sortChoicesByLabel(choices: { label: string }[]) {
+	return [...choices].sort((a, b) => alphaNumericSort(a.label, b.label));
 }
 
 function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
@@ -555,15 +290,15 @@ function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 }
 
 export function getPatientsAsChoices(short: boolean = false) {
-	return getHumansAsChoices(Variable.find(gameModel, 'patients'), short);
+	return sortChoicesByLabel(getHumansAsChoices(Variable.find(gameModel, 'patients'), short));
 }
 
 export function getCharactersAsChoices(short: boolean = false) {
-	return getHumansAsChoices(Variable.find(gameModel, 'characters'), short);
+	return sortChoicesByLabel(getHumansAsChoices(Variable.find(gameModel, 'characters'), short));
 }
 
 export function getAllHumansAsChoices(short: boolean = false) {
-	return [...getCharactersAsChoices(short), ...getPatientsAsChoices(short)];
+	return sortChoicesByLabel([...getCharactersAsChoices(short), ...getPatientsAsChoices(short)]);
 }
 
 export function getAutonomicNervousSystemModelsAsChoices() {

@@ -29,8 +29,32 @@
                             }
                           },
                           "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { prettyPrintCurrentPatientScript } from \"./lickert\";\nprettyPrintCurrentPatientScript();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import {getCurrentPatientFinalState} from './lickert';\ngetCurrentPatientFinalState();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
                         } ],
-                        "layout" : { },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
                         "layoutStyle" : { },
                         "style" : { }
                       },
@@ -49,9 +73,12 @@
                       "type" : "Text"
                     } ],
                     "layout" : {
-                      "flexDirection" : "column"
+                      "flexDirection" : "row",
+                      "justifyContent" : "space-between"
                     },
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
                     "name" : "header",
                     "style" : { }
                   },
@@ -60,90 +87,152 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<h2>Clinical Parameters<br></h2>\"",
-                          "language" : "JavaScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<h2>Clinical Parameters<br></h2>\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ]
                       },
-                      "type" : "Text"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
+                      "type" : "FlexList"
+                    }, {
                       "props" : {
-                        "initialSelectedPageId" : {
+                        "children" : [ {
+                          "props" : {
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"10\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "clinicalMatrixPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "exposeAs" : "matrixConfig",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "\"10\"",
-                          "language" : "JavaScript"
+                          "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
+                          "language" : "TypeScript"
                         },
+                        "itemKey" : "id",
+                        "itemsOnly" : true,
+                        "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "dsafdasfsfdasd",
                         "style" : { }
                       },
-                      "type" : "PageLoader"
-                    } ],
-                    "exposeAs" : "matrixConfig",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "id",
-                    "itemsOnly" : true,
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "For each"
-                }, {
-                  "props" : {
-                    "children" : [ {
+                      "type" : "For each"
+                    }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<h2>Physiological Parameters<br></h2>\"",
-                          "language" : "JavaScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<h2>Physiological Parameters<br></h2>\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ]
                       },
-                      "type" : "Text"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
+                      "type" : "FlexList"
+                    }, {
                       "props" : {
-                        "initialSelectedPageId" : {
+                        "children" : [ {
+                          "props" : {
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"10\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "physioMatrixPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "exposeAs" : "matrixConfig",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "\"10\"",
-                          "language" : "JavaScript"
+                          "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
+                          "language" : "TypeScript"
                         },
+                        "itemKey" : "id",
+                        "itemsOnly" : true,
+                        "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "dsafdasfsfdasd",
                         "style" : { }
                       },
-                      "type" : "PageLoader"
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<h2>Timing</h2>\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"10\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "timingMatrixPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "exposeAs" : "matrixConfig",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getTimeMatrix } from \"./lickert\";\n[{id: 0, ...getTimeMatrix()}];",
+                          "language" : "TypeScript"
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "true;",
+                          "language" : "JavaScript"
+                        },
+                        "itemKey" : "id",
+                        "itemsOnly" : true,
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
                     } ],
-                    "exposeAs" : "matrixConfig",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
-                      "language" : "TypeScript"
+                    "layout" : {
+                      "flexDirection" : "column"
                     },
-                    "itemKey" : "id",
-                    "itemsOnly" : true,
-                    "layout" : { },
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "flexShrink" : "1",
+                      "overflow" : "auto"
+                    },
                     "style" : { }
                   },
-                  "type" : "For each"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
@@ -178,7 +267,9 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "width" : "100%"
+                },
                 "style" : { }
               },
               "type" : "FlexList"
@@ -199,21 +290,26 @@
           },
           "type" : "PlayerElse"
         } ],
+        "className" : "",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() !== 'completed';",
           "language" : "JavaScript"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "flexGrow" : "1",
+          "overflow" : "auto"
+        },
         "style" : { }
       },
       "type" : "If Else"
     } ],
-    "className" : "",
+    "className" : "fullSize",
     "layout" : {
       "flexDirection" : "row"
     },
-    "layoutClassName" : "lickertPage",
+    "layoutClassName" : "lickertPage fullSize",
     "layoutStyle" : { },
     "style" : { }
   },

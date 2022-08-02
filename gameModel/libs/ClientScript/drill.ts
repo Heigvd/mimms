@@ -15,6 +15,15 @@ export function getDrillStatus(): DrillStatus['status'] {
 	return Variable.find(gameModel, 'drillStatus').getProperty(self, 'status') as DrillStatus['status'];
 }
 
+function getSetDrillStatusScript(status: DrillStatus['status']) : string {
+	return `Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', '${status}');`;
+}
+
+export function setDrillStatus(status: DrillStatus['status']) {
+	const script = getSetDrillStatusScript(status);
+	APIMethods.runScript(script, {});
+}
+
 export function isCurrentPatientCategorized() {
 	const current = getCurrentPatientBody();
 	return current?.category != null;
@@ -46,7 +55,7 @@ export function selectNextPatient() {
 					};
 				}, { min: Infinity, max: currentTime + delay });
 
-				const toPost: string[] = ["Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');"];
+				const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
 				const teleport: TeleportEvent = {
 					...emitter,
@@ -78,7 +87,7 @@ export function selectNextPatient() {
 				APIMethods.runScript(toPost.join(""), {});
 			}
 		} else {
-			APIMethods.runScript(`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+			APIMethods.runScript( getSetDrillStatusScript('completed') +`Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 		}
 	}
 }

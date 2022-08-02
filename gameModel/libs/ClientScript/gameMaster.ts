@@ -29,16 +29,7 @@ export function getGamePageId() {
 			case 'PRE-TRIAGE_ON_MAP':
 				return "11";
 			case 'LICKERT':
-				switch (getDrillStatus()) {
-					case 'not_started':
-						return '22';
-					case 'ongoing':
-					case 'completed':
-						return '17';
-					case 'validated':
-						return '23';
-				}
-
+			return '26';
 		}
 	} else {
 		// multiplayers game
