@@ -58,7 +58,7 @@ function prettyPrintItemAction(item: ItemDefinition, action: HumanAction ) : str
 }
 
 function getItemTreatment(item: ItemDefinition, actionId: string): Treatment {
-	const action = item.actions[actionId];
+	const action = item.actions[actionId]!;
 	return {
 		label: prettyPrintItemAction(item, action),
 		value: `item::${item.id}::${actionId}`,
@@ -94,9 +94,9 @@ export function getAvailableTreatmentFromValue(value: string): Treatment | undef
 		if (act) {
 			return getActTreatment(act);
 		}
-	} else if (split[0]) {
-		const item = getItem(split[1]);
-		const actionId = split[2];
+	} else if (split[0] === 'item') {
+		const item = getItem(split[1]!);
+		const actionId = split[2]!;
 		if (item) {
 			return getItemTreatment(item, actionId);
 		}

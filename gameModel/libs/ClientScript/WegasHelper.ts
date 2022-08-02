@@ -271,7 +271,7 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
 		: `${id} ${skill} (${param.sex}; ${param.age} years; ${param.height_cm}cm; ${param.bmi} (BMI); 2^${param.lungDepth} lungs) ${ps}`;
 }
 
-export function sortChoicesByLabel(choices: { label: string }[]) {
+export function sortChoicesByLabel(choices: { label: string, value: string }[]) {
 	return [...choices].sort((a, b) => alphaNumericSort(a.label, b.label));
 }
 

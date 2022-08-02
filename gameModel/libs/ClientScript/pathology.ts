@@ -321,7 +321,7 @@ export function prettyPrinterAfflictedPathology(ap: AfflictedPathology): string 
 	const pName = pDef.name;
 
 	const mods = pDef.modules.map((mod, i) => {
-		return prettyPrintModuleDef(mod, ap.afflictedBlocks[i]!, ap.modulesArguments[i]);
+		return prettyPrintModuleDef(mod, ap.afflictedBlocks[i]!, ap.modulesArguments[i]!);
 	});
 
 	return `<h3>${pName}</h3>

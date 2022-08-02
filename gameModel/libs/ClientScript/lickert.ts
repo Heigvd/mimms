@@ -475,7 +475,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 
 		clinicalMatrix[patientId] = {};
 		const clKeys = Object.keys(patientData.data.clinical) as ClKeys[];
-		const times = Object.keys(patientData.data.clinical[clKeys[0]]);
+		const times = Object.keys(patientData.data.clinical[clKeys[0]!]);
 		times.forEach(time => {
 			clinicalMatrix[patientId]![time] = {};
 			clKeys.forEach(clKey => {
@@ -492,7 +492,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 
 		physiologicalMatrix[patientId] = {};
 		const keys = Object.keys(patientData.data.physiological) as PhKeys[];
-		const times = Object.keys(patientData.data.physiological[keys[0]]);
+		const times = Object.keys(patientData.data.physiological[keys[0]!]);
 		times.forEach(time => {
 			physiologicalMatrix[patientId]![time] = {};
 			keys.forEach(key => {
@@ -509,7 +509,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 
 		timeMatrix[patientId] = {};
 
-		const times = Object.keys(Object.values(patientData.data.clinical)[0]);
+		const times = Object.keys(Object.values(patientData.data.clinical)[0]!);
 		times.forEach(time => {
 			timeMatrix[patientId]![time] = {
 				timing: { label: time, value: (data.timing[+time] || {})['timing'] }
@@ -717,10 +717,10 @@ export function saveData() {
 	APIMethods.runScript(script, {});
 }
 
-//      
+//
 type RawData = Record<
 	string, // teamId
-	//     patientId                                               time           metric  value   
+	//     patientId                                               time           metric  value
 	Record<string, Record<'clinical' | 'physio' | 'timing', Record<string, Record<string, number>>>>
 >;
 
