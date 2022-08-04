@@ -352,14 +352,12 @@ function computeCurrentLocation(
 				offsetPoint,
 				heuristic: 'Octile',
 				diagonalAllowed: true,
-				//includeEndNode: true,
-				//includeStartNode :true,
+				includeEndNode: true,
+				includeStartNode :true,
 				useJumpPointSearch: true,
+				maxComputationTimeMs: 1500,
+				maxCoverageRatio: 0.1
 			});
-
-			if (location.location == null) {
-				return location.location;
-			}
 
 			// This should be done only when the direction changes
 			const newPath = pathFinder.findPath(location.location, location.direction, 'AStarSmooth');
@@ -371,13 +369,13 @@ function computeCurrentLocation(
 			let remainingDistance_sq = distance * distance;
 			let pathIndex = 1;
 			let segStart: Point = location.location;
-			let segEnd = newPath[pathIndex]!;
+			let segEnd : Point | undefined = undefined;
 
-			let destinationReached = false;
+			let destinationReached = newPath.length < 2;
 
 			paths.current['moving'] = [segStart];
 
-			while (remainingDistance_sq > 0) {
+			while (remainingDistance_sq > 0 && !destinationReached) {
 				segEnd = newPath[pathIndex]!;
 				// If we could run further than the last point of the path stop at the end of the path
 				// Also if the path has no lenght
