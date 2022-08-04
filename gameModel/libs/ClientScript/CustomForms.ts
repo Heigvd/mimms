@@ -218,13 +218,13 @@ Helpers.registerEffect(() => {
 						schema: {
 							type: 'object',
 							properties: {
-								min: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
-								max: { type: 'number', view: { label: 'Max', layout: "shortInline" } },
+								/*min: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
+								max: { type: 'number', view: { label: 'Max', layout: "shortInline" } },*/
 								points: schemaProps.array({
 									label: "Points",
 									itemSchema: {
 										x: { type: 'number', view: { label: 'system', layout: "shortInline" } },
-										y: { type: 'number', view: { label: 'Effect / min', layout: "shortInline" } },
+										y: { type: 'number', view: { label: 'value', layout: "shortInline" } },
 									}
 								}),
 							}

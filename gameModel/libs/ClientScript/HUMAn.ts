@@ -21,6 +21,7 @@ import {
 	compute,
 	detectCardiacArrest,
 	doCompensate,
+	gambateMax,
 	inferExtraOutputs,
 } from "./physiologicalModel";
 import { getChemical } from "./registries";
@@ -34,7 +35,6 @@ export type BodyPosition =
 	| "STANDING";
 
 //import { uniq } from "lodash";
-
 
 // const cloneDeep = Helpers.cloneDeep;
 
@@ -206,6 +206,7 @@ export interface BodyState {
 		 * Time cariac arrest occured; undefined means alive
 		 */
 		cardiacArrest: number | undefined;
+		gambateBar: number;
 		/** Glasgow coma scale */
 		glasgow: Glasgow;
 		/** Capillary refill time (crt) in sec */
@@ -303,6 +304,8 @@ export interface BodyState {
 
 			/** systemic So2 */
 			DO2Sys: number;
+			/** Vo2 */
+			vo2_mLperMin: number;
 		};
 		brain: {
 			/** Res cerebral */
@@ -897,6 +900,7 @@ export function createHumanBody(
 			connections: [],
 			vitals: {
 				cardiacArrest: undefined,
+				gambateBar: gambateMax,
 				capillaryRefillTime_s: 3,
 				pain: 0,
 				canWalk: true,
@@ -1451,7 +1455,7 @@ function hemostasis_thrombocytes(
 		//const newBlFactor = add(bleedingFactor, -interpolate(absWbc, platelets), {
 		//	min: 0,
 		//});
-		bloodLogger.warn("Platelets", { plateletsFactor, flowFactor, coagulationFactor, flowDelta, wbc_ratio, loss_ml, bleedingFactor, bleeding_mlPerMin, newBlFactor });
+		bloodLogger.log("Platelets", { plateletsFactor, flowFactor, coagulationFactor, flowDelta, wbc_ratio, loss_ml, bleedingFactor, bleeding_mlPerMin, newBlFactor });
 		return newBlFactor;
 	} else {
 		return bleedingFactor;
@@ -2289,10 +2293,12 @@ export function computeState(
 			checkpointTime
 		);
 
-		const newState = checkpointTime > previousTime ? updateVitals(acc, meta, env, checkpointTime) : acc;
+		const durationInMin = (checkpointTime - previousTime) / 60;
 
-		detectCardiacArrest(newState);
+		const newState = durationInMin > 0 ? updateVitals(acc, meta, env, checkpointTime) : acc;
 
+	
+		detectCardiacArrest(newState, durationInMin);
 
 		function addToBlockVariable(
 			block: Block,

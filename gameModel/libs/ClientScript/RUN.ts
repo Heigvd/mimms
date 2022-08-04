@@ -107,7 +107,10 @@ function extractMetric(
 		'PaCO2': body.vitals.respiration.PaCO2,
 	}, outputResp);
 
-	pushMetric('DO2Sys [mL/min]', time, body.vitals.cardio.DO2Sys, outputResp);
+	pushComposedMetric('DO2', time, {
+		"DO2Sys [mL/min]": body.vitals.cardio.DO2Sys,
+		"VO2 [mL/min]": body.vitals.cardio.vo2_mLperMin,
+	}, outputResp);
 	pushMetric('DO2Brain [mL/min]', time, body.vitals.brain.DO2, outputResp);
 
 	pushMetric('RR', time, body.vitals.respiration.rr, outputResp);

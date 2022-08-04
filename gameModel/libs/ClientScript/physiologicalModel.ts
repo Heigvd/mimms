@@ -34,37 +34,60 @@ import { getCompensationModel, getSystemModel } from "./registries";
 //import { cloneDeep } from "lodash";
 //const cloneDeep = Helpers.cloneDeep;
 
+export const gambateMax = 15;
 
-export function detectCardiacArrest(bodyState: BodyState) {
+function computeGambateScore(bodyState: BodyState, durationInMin: number) {
+	let score = 0;
+	//return durationInMin;
+	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin){
+		score += (bodyState.vitals.cardio.vo2_mLperMin - bodyState.vitals.cardio.DO2Sys) / 100;
+		wlog("critical DO2 => ", score);
+	}
+
+	if (bodyState.vitals.cardio.MAP < 65){
+		score += (65 - bodyState.vitals.cardio.MAP) / 100;
+		wlog("Critical MAP => ", score);
+	}
+
+	return score * durationInMin;
+}
+
+export function detectCardiacArrest(bodyState: BodyState, durationInMin: number) {
 	logger.log("Detect cardiac arrest");
 	if (
 		bodyState.vitals.cardiacArrest! > 0 ||
 		bodyState.vitals.cardio.hr < 30 ||
-		bodyState.vitals.cardio.MAP < 40 ||
+		bodyState.vitals.cardio.MAP < 65 ||
 		//bodyState.vitals.respiration.rr < 4 ||
-		bodyState.vitals.respiration.SaO2 < 0.4
+		bodyState.vitals.respiration.SaO2 < 0.7
 		// todo: check DO2 brain
 	) {
-		logger.log("Cardiac Arrest");
-		bodyState.vitals.cardiacArrest =
-			bodyState.vitals.cardiacArrest || bodyState.time;
-		bodyState.vitals.cardio.hr = 0;
-		bodyState.vitals.cardio.MAP = 0;
-		bodyState.vitals.respiration.rr = 0;
-		bodyState.vitals.respiration.SaO2 = 0;
-		bodyState.vitals.respiration.SpO2 = 0;
-		bodyState.vitals.respiration.CaO2 = 0;
-		// bodyState.vitals.respiration.PaCO2 += bodyState.vitals.respiration.PaO2;
-		// bodyState.vitals.respiration.PaO2 = 0;
-		bodyState.vitals.respiration.tidalVolume_L = 0;
-		bodyState.vitals.respiration.alveolarVolume_L = 0;
-		bodyState.vitals.brain.DO2 = 0;
-		bodyState.vitals.glasgow.total = 3;
-		bodyState.vitals.glasgow.eye = 1;
-		bodyState.vitals.glasgow.motor = 1;
-		bodyState.vitals.glasgow.verbal = 1;
-
+		if (bodyState.vitals.gambateBar > 0) {
+			bodyState.vitals.gambateBar -= computeGambateScore(bodyState, durationInMin);
+		} else {
+			logger.log("Cardiac Arrest");
+			bodyState.vitals.cardiacArrest =
+				bodyState.vitals.cardiacArrest || bodyState.time;
+			bodyState.vitals.cardio.hr = 0;
+			bodyState.vitals.cardio.MAP = 0;
+			bodyState.vitals.respiration.rr = 0;
+			bodyState.vitals.respiration.SaO2 = 0;
+			bodyState.vitals.respiration.SpO2 = 0;
+			bodyState.vitals.respiration.CaO2 = 0;
+			// bodyState.vitals.respiration.PaCO2 += bodyState.vitals.respiration.PaO2;
+			// bodyState.vitals.respiration.PaO2 = 0;
+			bodyState.vitals.respiration.tidalVolume_L = 0;
+			bodyState.vitals.respiration.alveolarVolume_L = 0;
+			bodyState.vitals.brain.DO2 = 0;
+			bodyState.vitals.glasgow.total = 3;
+			bodyState.vitals.glasgow.eye = 1;
+			bodyState.vitals.glasgow.motor = 1;
+			bodyState.vitals.glasgow.verbal = 1;
+		}
 	} else {
+		if (bodyState.vitals.gambateBar < 15){
+			bodyState.vitals.gambateBar = add(bodyState.vitals.gambateBar, durationInMin, {max: gambateMax})
+		}
 		logger.log("Not dead yet");
 	}
 }
@@ -84,7 +107,7 @@ const spo2BlVolumneModel: Point[] = [
 
 function getSpO2Ratio(human: HumanBody) {
 	const bloodRatio = getBloodRatio(human);
-	return interpolate(bloodRatio, spo2BlVolumneModel);	
+	return interpolate(bloodRatio, spo2BlVolumneModel);
 }
 
 
@@ -472,28 +495,35 @@ export function compute(
 	//		body.vitals.cardio.endDiastolicVolume_mL -
 	//		body.vitals.cardio.endSystolicVolume_mL, stressedCapacitance_L * 1000);
 
+	const edv_th_max = 160;
+
 	const esv = body.vitals.cardio.endSystolicVolume_mL;
+
 	// x: %volemie
 	const edvMax_model: Point[] = [
 		{ x: 0, y: esv },
 		{ x: 0.4, y: esv + 10 },
+		{ x: 0.6, y: esv + 20 },
 		{ x: 0.9, y: 120 },
+		{ x: 1, y: 120 },
+		{ x: 1.2, y: edv_th_max - 5 },
+		{ x: 1.3, y: edv_th_max },
 	];
 
 
 	const rBlood = bloodVolume_mL / meta.initialBloodVolume_mL;
 
-	const edvMax_volume = interpolate(rBlood, edvMax_model);
+	const edv_preload = interpolate(rBlood, edvMax_model);
 
 	const tamponade_model: Point[] = [
-		{ x: 0, y: 120 },
+		{ x: 0, y: edv_th_max },
 		{ x: 10, y: 110 },
 		{ x: 150, y: esv },
 	];
 
 	// tamponade := pericardial_pressure [0;1]
 	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
-	const edvMax_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
+	const edv_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
 
 	const itp_l_raw = body.blocks.get("THORAX_LEFT")!.params.internalPressure;
 
@@ -506,30 +536,32 @@ export function compute(
 	const itp = (itp_L + itp_R) / 2
 
 	const tensionPneumothoraxModel: Point[] = [
-		{ x: 0, y: 120 },
+		{ x: 0, y: edv_th_max },
 		{ x: 4, y: esv },
 	];
-	const edvMax_pno = interpolate(itp, tensionPneumothoraxModel);
+
+	const edv_pno = interpolate(itp, tensionPneumothoraxModel);
 
 	const edvEffective = Math.min(
-		body.vitals.cardio.endDiastolicVolume_mL,
-		edvMax_volume,
-		edvMax_tamponade,
-		edvMax_pno
+		//body.vitals.cardio.endDiastolicVolume_mL,
+		edv_preload,
+		edv_tamponade,
+		edv_pno
 	);
 
+	calcLogger.info("Ratio Blood: ", rBlood, edvEffective, { edv_preload, edv_tamponade });
 
-	
+
 	// Quick fix to limit maximum MAP to 200
-	const MAX_MAP = 200;
+	//const MAX_MAP = 200;
 	/*const strokeVolume_Max = 1000 * MAX_MAP / (body.vitals.cardio.Ra_mmHgMinPerL * body.vitals.cardio.hr);
 
 	let strokeVolume_mL = add(edvEffective, - body.vitals.cardio.endSystolicVolume_mL, {
 		min: 0, max: strokeVolume_Max
 	});*/
-	
-	const strokeVolume_mL = edvEffective - body.vitals.cardio.endSystolicVolume_mL;
-	
+
+	const strokeVolume_mL = edvEffective - esv;
+
 	/*
 	const fe = strokeVolume_mL / edvEffective;
 	if (fe < 0.6) {
@@ -567,17 +599,32 @@ export function compute(
 	//const MAP = Qcm * (body.vitals.cardio.Ra_mmHgMinPerL);
 	let MAP = Qc_LPerMin * body.vitals.cardio.Ra_mmHgMinPerL;
 
+
+	// Afterload
+	/////////////////
+
 	// strokeVolume to pressure
+	/*const ventricularPressureModel: Point[] = [
+		{ x: 0, y: 0 },
+		{ x: 50, y: 60 },
+		{ x: 70, y: 120 },
+		{ x: 100, y: 200 },
+		{ x: 140, y: 240 },
+	];*/
+
 	const ventricularPressureModel: Point[] = [
 		{ x: 0, y: 0 },
-		{ x: 140, y: 240 },
+		{ x: 50, y: 80 },
+		{ x: 70, y: 120 },
+		{ x: 100, y: 145 },
+		{ x: 140, y: 160 },
 	];
 	const ventricularPressure = interpolate(strokeVolume_mL, ventricularPressureModel);
 
 	// Computed map is bigger than ventricular pressure
 	// Afterload
 	if (MAP > ventricularPressure) {
-		calcLogger.warn("MAP greater than ventricular pressure", {MAP, ventricularPressure});
+		calcLogger.warn("MAP greater than ventricular pressure", { time: body.time, MAP, ventricularPressure });
 		MAP = ventricularPressure;
 		Qc_LPerMin = MAP / body.vitals.cardio.Ra_mmHgMinPerL;
 	}
@@ -813,7 +860,7 @@ export function compute(
 
 	const AaDO2 = 0.3 * meta.age + (upperAirways.FIO2 - 0.21) * 10 * 6;
 
-	const PaCO2_mmHg = add(body.vitals.respiration.QR * ((upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PaO2_mmHg), -AaDO2, {min: 0});
+	const PaCO2_mmHg = add(body.vitals.respiration.QR * ((upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PaO2_mmHg), -AaDO2, { min: 0 });
 
 	//const recomputedSaO2 = computeSaO2(computedPaO2_v2);
 
@@ -950,6 +997,8 @@ export function compute(
 
 	const do2Sys = Qc_LPerMin * CaO2;
 	body.vitals.cardio.DO2Sys = do2Sys;
+	body.vitals.cardio.vo2_mLperMin = vo2_mLperMin;
+
 
 	//const PaO2_mmHg_fromSaO2 = computePaO2_mmHg(SaO2);
 	body.vitals.respiration.PaO2 = PaO2_mmHg;
@@ -959,7 +1008,7 @@ export function compute(
 
 	logger.info("VO2 VS DO2", vo2_mLperMin, do2Sys);
 	if (do2Sys < vo2_mLperMin * 0.8) {
-		logger.log("CHOC");
+		logger.log("DO2 < VO2: Gambate !!!");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1047,10 +1096,10 @@ const getGCSTotal = ({ state, meta }: HumanBody): Glasgow["total"] => {
 
 	const gDO2 = Math.round(interpolate(DO2_100g, GCS_DO2_MODEL)) as Glasgow["total"];
 
-	const bloodRatio = getBloodRatio({meta: meta, state: state});
+	const bloodRatio = getBloodRatio({ meta: meta, state: state });
 	const gBloodVolume = Math.ceil(interpolate(bloodRatio, GCS_BlVol_MODEL)) as Glasgow["total"];
 
-	return Math.min(gDO2, gBloodVolume)  as Glasgow["total"];
+	return Math.min(gDO2, gBloodVolume) as Glasgow["total"];
 };
 
 const computeGlasgow = (body: HumanBody): Glasgow => {
@@ -1117,8 +1166,6 @@ export type SympSystem = Partial<Record<BodyStateKeys, Point[]>>;
  *
  */
 interface CompensationRule {
-	min: number;
-	max: number;
 	points: Point[];
 }
 
@@ -1127,6 +1174,13 @@ export type Compensation = Partial<Record<BodyStateKeys, CompensationRule>>;
 //'respiration.rr'?: CompensationRule;
 //'respiration.tidalVolume_L?': CompensationRule;
 //'cardio.hr?': CompensationRule;
+
+const icp_model: Point[] = [
+	{x: 0,  y: 100},
+	{x: 35,  y: 100},
+	{x: 100,  y: 0}
+];
+
 
 let average = false;
 
@@ -1175,7 +1229,14 @@ export function computeOrthoLevel(
 		max: 100,
 	});
 	compLogger.log("SympLevel: ", level);
-	state.variables.paraOrthoLevel = level;
+
+	const brainDisfunction = interpolate(state.variables.ICP_mmHg, icp_model);
+
+	// sailing ship issues...
+	//level *= brainDisfunction;
+
+
+	state.variables.paraOrthoLevel = Math.min(level, brainDisfunction);
 }
 
 /**
@@ -1274,7 +1335,7 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.glasgow = computeGlasgow(human);
 	human.state.vitals.canWalk = canWalk(human);
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
-    human.state.vitals.pain = getPain(human);
+	human.state.vitals.pain = getPain(human);
 
 	if (!human.state.vitals.canWalk) {
 		if (human.state.variables.bodyPosition === 'STANDING') {

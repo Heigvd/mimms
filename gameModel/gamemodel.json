@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1659423110644,
+  "createdTime" : 1659599918442,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -582,11 +582,11 @@
       },
       "name" : "comp",
       "properties" : {
-        "vitals.cardio.Ra_mmHgMinPerL" : "{\"min\":11,\"max\":20,\"points\":[{\"x\":0,\"y\":11},{\"x\":100,\"y\":20}]}",
-        "vitals.cardio.endSystolicVolume_mL" : "{\"min\":0,\"max\":1,\"points\":[{\"x\":0,\"y\":1},{\"x\":100,\"y\":0}]}",
-        "vitals.cardio.hr" : "{\"min\":0,\"max\":1,\"points\":[{\"x\":0,\"y\":0},{\"x\":100,\"y\":1}]}",
-        "vitals.respiration.rr" : "{\"min\":10,\"max\":50,\"points\":[{\"x\":0,\"y\":10},{\"y\":15,\"x\":30},{\"x\":40,\"y\":35},{\"x\":100,\"y\":50}]}",
-        "vitals.respiration.tidalVolume_L" : "{\"min\":0,\"max\":1,\"points\":[{\"x\":0,\"y\":0},{\"x\":20,\"y\":0.1},{\"x\":100,\"y\":1}]}"
+        "vitals.cardio.Ra_mmHgMinPerL" : "{\"points\":[{\"x\":0,\"y\":11},{\"x\":100,\"y\":20}]}",
+        "vitals.cardio.endSystolicVolume_mL" : "{\"points\":[{\"x\":0,\"y\":1},{\"x\":100,\"y\":0}]}",
+        "vitals.cardio.hr" : "{\"points\":[{\"x\":0,\"y\":0},{\"x\":100,\"y\":1}]}",
+        "vitals.respiration.rr" : "{\"points\":[{\"x\":0,\"y\":10},{\"y\":15,\"x\":30},{\"x\":40,\"y\":35},{\"x\":100,\"y\":50}]}",
+        "vitals.respiration.tidalVolume_L" : "{\"points\":[{\"x\":0,\"y\":0},{\"x\":20,\"y\":0.1},{\"x\":100,\"y\":1}]}"
       },
       "refId" : "ObjectDescriptor:24033361:SjN1C1",
       "scopeType" : "GameModelScope",
