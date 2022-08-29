@@ -15,12 +15,13 @@ import {
 import { logger, vitalsLogger, calcLogger, compLogger } from './logger';
 import { RevivedPathology, revivePathology } from './pathology';
 
-import { getAct, getChemical, getItem, setCompensationModel, setSystemModel } from './registries';
+import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
 import {
 getBodyParam,
 	getCurrentPatientId,
 	getEnv,
 	loadCompensationModel,
+	loadOverdriveModel,
 	loadSystem,
 	saveToObjectInstance,
 	TestScenario,
@@ -271,6 +272,10 @@ function internal_run(
 	const compensation = loadCompensationModel();
 	compLogger.info('Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
+
+	const overdrive= loadOverdriveModel();
+	compLogger.info('Overdrive Profile: ', overdrive);
+	setOverdriveModel(overdrive);
 
 	// Body Setup
 	const meta = getBodyParam(patientId) || defaultMeta;

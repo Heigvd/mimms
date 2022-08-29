@@ -21,10 +21,24 @@
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : { },
+                            "name" : "Title",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { prettyPrintCurrentPatientMeta } from \"./lickert\";\nprettyPrintCurrentPatientMeta();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutClassName" : "patientInfos",
+                            "layoutStyle" : { },
+                            "name" : "patient infos",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { prettyPrintCurrentPatientInfos } from \"./lickert\";\nprettyPrintCurrentPatientInfos();",
                               "language" : "JavaScript"
                             }
                           },
@@ -43,6 +57,7 @@
                         }, {
                           "props" : {
                             "layoutStyle" : { },
+                            "name" : "final state",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
@@ -63,7 +78,11 @@
                       "props" : {
                         "layout" : { },
                         "layoutStyle" : { },
-                        "style" : { },
+                        "style" : {
+                          "alignSelf" : "flex-start",
+                          "border" : "3px solid var(--colors-primarycolor)",
+                          "padding" : "0 15px"
+                        },
                         "text" : {
                           "@class" : "Script",
                           "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
@@ -73,14 +92,15 @@
                       "type" : "Text"
                     } ],
                     "layout" : {
-                      "flexDirection" : "row",
-                      "justifyContent" : "space-between"
+                      "flexDirection" : "row"
                     },
                     "layoutStyle" : {
                       "width" : "100%"
                     },
                     "name" : "header",
-                    "style" : { }
+                    "style" : {
+                      "gap" : "40px"
+                    }
                   },
                   "type" : "FlexList"
                 }, {
@@ -181,7 +201,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "\"<h2>Timing</h2>\"",
+                              "content" : "\"<h2>Comments<br></h2>\"",
                               "language" : "JavaScript"
                             }
                           },
@@ -191,37 +211,29 @@
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "initialSelectedPageId" : {
-                              "@class" : "Script",
-                              "content" : "\"10\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "timingMatrixPageLoader",
-                            "style" : { }
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { saveCurrentPatientComments } from \"./lickert\";\n\nsaveCurrentPatientComments(Context.comments);",
+                            "language" : "TypeScript"
                           },
-                          "type" : "PageLoader"
-                        } ],
-                        "exposeAs" : "matrixConfig",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getTimeMatrix } from \"./lickert\";\n[{id: 0, ...getTimeMatrix()}];",
-                          "language" : "TypeScript"
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"comments\"",
+                            "language" : "JavaScript"
+                          }
                         },
-                        "hideIf" : {
+                        "rows" : 5,
+                        "script" : {
                           "@class" : "Script",
-                          "content" : "true;",
+                          "content" : "import { getCurrentPatientComments } from \"./lickert\";\ngetCurrentPatientComments() || '';",
                           "language" : "JavaScript"
                         },
-                        "itemKey" : "id",
-                        "itemsOnly" : true,
-                        "layout" : { },
-                        "layoutStyle" : { },
                         "style" : { }
                       },
-                      "type" : "For each"
+                      "type" : "String input"
                     } ],
                     "layout" : {
                       "flexDirection" : "column"

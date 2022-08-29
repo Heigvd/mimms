@@ -23,7 +23,8 @@ const acts: Record<string, ActDefinition> = {};
 const chemicals: Record<string, ChemicalDefinition> = {};
 
 let model: SympSystem = {};
-let compensation: Compensation = {};
+let compensation: Compensation | undefined = undefined;
+let overdrive: Compensation | undefined = undefined;
 
 let initialized = false;
 
@@ -96,12 +97,21 @@ export function getChemical(id: string): ChemicalDefinition | undefined {
 	return chemicals[id];
 }
 
-export function getCompensationModel(): Compensation {
+export function getCompensationModel(): Compensation | undefined {
 	return compensation;
 }
 
 export function setCompensationModel(c: Compensation) {
 	compensation = c;
+}
+
+
+export function getOverdriveModel(): Compensation | undefined {
+	return overdrive;
+}
+
+export function setOverdriveModel(c: Compensation) {
+	overdrive= c;
 }
 
 export function getSystemModel(): SympSystem {
@@ -533,8 +543,8 @@ function init() {
 					type: 'Hemorrhage',
 					subtype: 'venous',
 					blocks: ['HEAD'],
-					bleedingFactor: { min: 0.01, max: 0.05 },
-					instantaneousBloodLoss: undefined,
+					bleedingFactor: undefined,
+					instantaneousBloodLoss: { min: 1, max: 150 },
 				},
 			],
 		),
@@ -660,7 +670,7 @@ function init() {
 			[
 				{
 					type: 'NervousSystem',
-					blocks: ['T1-L4'],
+					blocks: ['T1-T4'],
 				},
 			],
 		),

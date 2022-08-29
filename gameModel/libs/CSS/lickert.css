@@ -41,15 +41,30 @@
 }
 
 .lickertMenu .completed:after {
-	content : '(done)';
+	content : ' \2714';
+	color: var(--colors-successcolor);
+	font-size: 1.2em;
 }
 
 
 .lickertMenu .lickertMenuItem {
 	padding: 5px;
 	cursor: pointer;
+	white-space: nowrap;
+	flex-grow: 1;
 }
 
 .lickertMenu .lickertMenuItem:hover {
 	box-shadow: inset 0 0 0 1px var(--colors-hovercolor);
+}
+
+/** HEADER **/
+
+.lickertPage .patientInfos h3{
+margin: 0;
+}
+.lickertPage .patientInfos ul{
+margin: 0;
+padding-inline-start: 20px;
+padding-top: 5px;
 }

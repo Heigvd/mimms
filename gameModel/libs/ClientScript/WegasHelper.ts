@@ -319,13 +319,13 @@ export function getEnv(): Environnment {
 }
 
 export function loadSystem(): SympSystem {
-	const systemVarName = Variable.find(gameModel, 'ansModel').getValue(self);
-	const obj = findObjectDescriptor(systemVarName);
-	if (obj) {
-		return parseObjectDescriptor(obj);
-	} else {
-		return {};
-	}
+	const sympathetic: SympSystem = {
+		"vitals.cardio.MAP": [{ "x": 0, "y": 100 }, { "x": 40, "y": 35 }, { "x": 70, "y": 0 }, { "x": 90, "y": 0 }, { "x": 180, "y": 0 }, { "x": 200, "y": 0 }],
+		"vitals.cardio.DO2Sys": [{ "x": 0, "y": 100 }, { "y": 0, "x": 850 }, { "x": 1100, "y": 0 }, { "x": 2000, "y": 0 }],
+		"vitals.respiration.PaO2": [{ "x": 0, "y": 100 }, { "y": 100, "x": 0 }, { "x": 50, "y": 50 }, { "x": 70, "y": 20 }, { "y": 5, "x": 80 }, { "x": 90, "y": 0 }]
+	};
+
+	return sympathetic;
 }
 
 export function getSystemSeries(): Graph[] {
@@ -345,13 +345,148 @@ export function getSystemSeries(): Graph[] {
 
 	return graphs;
 }
-
 export function loadCompensationModel(): Compensation {
-	return parseObjectDescriptor(Variable.find(gameModel, 'comp'));
+	const model: Compensation = {
+		"vitals.respiration.tidalVolume_L": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": 20,
+				"y": 0.1
+			}, {
+				"x": 100,
+				"y": 1
+			}]
+		},
+		"vitals.cardio.hr": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": 100,
+				"y": 1
+			}],
+			"t4Nerve": true
+		},
+		"vitals.cardio.endSystolicVolume_mL": {
+			"points": [{
+				"x": 0,
+				"y": 1
+			}, {
+				"x": 100,
+				"y": 0
+			}],
+			"t4Nerve": true
+		},
+		"vitals.cardio.Ra_mmHgMinPerL": {
+			"points": [{
+				"x": 0,
+				"y": 11
+			}, {
+				"x": 100,
+				"y": 20
+			}],
+			"t4Nerve": true
+		},
+		"vitals.respiration.rr": {
+			"points": [{
+				"x": 0,
+				"y": 10
+			}, {
+				"y": 15,
+				"x": 30
+			}, {
+				"x": 40,
+				"y": 35
+			}, {
+				"x": 100,
+				"y": 50
+			}]
+		},
+	};
+	return model;
 }
 
 export function getCompensationSeries(): Graph[] {
 	const system = loadCompensationModel();
+
+	const graphs = Object.entries(system).map(([key, value]) => {
+		return {
+			id: key,
+			series: [
+				{
+					label: key,
+					points: value.points,
+				},
+			],
+		};
+	});
+
+	return graphs;
+}
+
+
+export function loadOverdriveModel(): Compensation {
+	const max = 1;
+	const overdrive : Compensation = {
+		"vitals.respiration.tidalVolume_L": {
+			"points": [{
+				"x": 0,
+				"y": 0.2
+			}, {
+				"x": 0.1,
+				"y": 0.2
+			}, {
+				"x": max,
+				"y": 0.2
+			}]
+		},
+		"vitals.cardio.hr": {
+			"points": [{
+				"x": 0,
+				"y": 0.5
+			}, {
+				"x": max,
+				"y": 0.20
+			}],
+			"t4Nerve": true
+		},
+		"vitals.cardio.endSystolicVolume_mL": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": max,
+				"y": 1
+			}],
+			"t4Nerve": true
+		},
+		"vitals.cardio.Ra_mmHgMinPerL": {
+			"points": [{
+				"x": 0,
+				"y": 13
+			}, {
+				"x": 0.5,
+				"y": 30
+			}],
+			"t4Nerve": true
+		},
+		"vitals.respiration.rr": {
+			"points": [{
+				"x": 0,
+				"y": 15
+			}, {
+				"x": max,
+				"y": 15
+			}]
+		},
+	};
+	return overdrive;
+}
+
+export function getOverdriveSeries(): Graph[] {
+	const system = loadOverdriveModel();
 
 	const graphs = Object.entries(system).map(([key, value]) => {
 		return {

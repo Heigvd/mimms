@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1659599918442,
+  "createdTime" : 1661754115613,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -172,7 +172,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24074354:GlnxpN::EN",
               "status" : "",
-              "translation" : "<h3>Legend</h3><ol><li>impossible</li><li>unlikely</li><li>acceptable</li><li>quite realistic</li><li>fully realistic<br></li></ol>"
+              "translation" : "<h3>Legend</h3><ol><li>Impossible</li><li>Unlikely</li><li>Acceptable</li><li>Quite realistic</li><li>Fully realistic<br></li></ol>"
             }
           }
         },
@@ -480,7 +480,7 @@
         "patient-4" : "{\"sex\":\"female\",\"age\":63,\"height_cm\":161,\"bmi\":20.55,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":20,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_1\",\"THORAX_LEFT\",\"THORAX_LEFT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":40},{\"type\":\"NoArgs\"}]}}]}",
         "patient-5" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":23.95,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.01},{\"type\":\"BurnArgs\",\"percent\":0.5}]}}]}",
         "patient-6" : "{\"sex\":\"female\",\"age\":50,\"height_cm\":170,\"bmi\":20.99,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}}]}",
-        "patient-7" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":161,\"bmi\":23.78,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":0.3},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.01}]}}]}",
+        "patient-7" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":161,\"bmi\":23.78,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":0.3},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":27}]}}]}",
         "patient-8" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":164,\"bmi\":25.58,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
         "patient-9" : "{\"sex\":\"male\",\"age\":44,\"height_cm\":168,\"bmi\":20.24,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}"
       },
@@ -576,15 +576,15 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:24033363:yX9CmI::EN",
             "status" : "",
-            "translation" : "model 1"
+            "translation" : "deprecated"
           }
         }
       },
       "name" : "comp",
       "properties" : {
-        "vitals.cardio.Ra_mmHgMinPerL" : "{\"points\":[{\"x\":0,\"y\":11},{\"x\":100,\"y\":20}]}",
-        "vitals.cardio.endSystolicVolume_mL" : "{\"points\":[{\"x\":0,\"y\":1},{\"x\":100,\"y\":0}]}",
-        "vitals.cardio.hr" : "{\"points\":[{\"x\":0,\"y\":0},{\"x\":100,\"y\":1}]}",
+        "vitals.cardio.Ra_mmHgMinPerL" : "{\"points\":[{\"x\":0,\"y\":11},{\"x\":100,\"y\":20}],\"t4Nerve\":true}",
+        "vitals.cardio.endSystolicVolume_mL" : "{\"points\":[{\"x\":0,\"y\":1},{\"x\":100,\"y\":0}],\"t4Nerve\":true}",
+        "vitals.cardio.hr" : "{\"points\":[{\"x\":0,\"y\":0},{\"x\":100,\"y\":1}],\"t4Nerve\":true}",
         "vitals.respiration.rr" : "{\"points\":[{\"x\":0,\"y\":10},{\"y\":15,\"x\":30},{\"x\":40,\"y\":35},{\"x\":100,\"y\":50}]}",
         "vitals.respiration.tidalVolume_L" : "{\"points\":[{\"x\":0,\"y\":0},{\"x\":20,\"y\":0.1},{\"x\":100,\"y\":1}]}"
       },
@@ -595,7 +595,7 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "TeamScope",
-      "comments" : "",
+      "comments" : "DEPRECATED",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
@@ -658,7 +658,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24033353:ehlfAa::EN",
               "status" : "",
-              "translation" : "Autonomic nervous system"
+              "translation" : "Autonomic nervous system DEPRECATED"
             }
           }
         },
@@ -693,7 +693,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24035108:coyesy::EN",
               "status" : "",
-              "translation" : "deactivated"
+              "translation" : "deactivated DEPRECATED"
             }
           }
         },
@@ -713,7 +713,7 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:24035103:VlYu5S::EN",
             "status" : "",
-            "translation" : "Autonomic Nervous System"
+            "translation" : "Autonomic Nervous System DEPRECATED"
           }
         }
       },
@@ -1115,7 +1115,7 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:24035114:ZGXeIi::EN",
             "status" : "",
-            "translation" : "ansModel"
+            "translation" : "ansModel DEPRECATED"
           }
         }
       },

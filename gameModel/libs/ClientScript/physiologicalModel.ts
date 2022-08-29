@@ -26,10 +26,13 @@ import {
 	canWalk,
 	canBreathe,
 	HumanMeta,
+	findConnection,
+	isNervousSystemFine,
+	isNervousSystemConnection,
 } from "./HUMAn";
 import { logger, calcLogger, compLogger, respLogger } from "./logger";
 // import { computePaO2 } from "./quarticSolver";
-import { getCompensationModel, getSystemModel } from "./registries";
+import { getCompensationModel, getOverdriveModel, getSystemModel } from "./registries";
 
 //import { cloneDeep } from "lodash";
 //const cloneDeep = Helpers.cloneDeep;
@@ -39,13 +42,18 @@ export const gambateMax = 15;
 function computeGambateScore(bodyState: BodyState, durationInMin: number) {
 	let score = 0;
 	//return durationInMin;
-	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin){
+	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin) {
 		score += (bodyState.vitals.cardio.vo2_mLperMin - bodyState.vitals.cardio.DO2Sys) / 100;
 		wlog("critical DO2 => ", score);
 	}
 
-	if (bodyState.vitals.cardio.MAP < 65){
-		score += (65 - bodyState.vitals.cardio.MAP) / 100;
+	if (bodyState.vitals.cardio.MAP < 40) {
+		score += (40 - bodyState.vitals.cardio.MAP) / 100;
+		wlog("Critical MAP => ", score);
+	}
+
+	if (bodyState.vitals.respiration.SaO2 < 0.7) {
+		score += (0.7 - bodyState.vitals.respiration.SaO2) * 20;
 		wlog("Critical MAP => ", score);
 	}
 
@@ -57,7 +65,7 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 	if (
 		bodyState.vitals.cardiacArrest! > 0 ||
 		bodyState.vitals.cardio.hr < 30 ||
-		bodyState.vitals.cardio.MAP < 65 ||
+		bodyState.vitals.cardio.MAP < 40 ||
 		//bodyState.vitals.respiration.rr < 4 ||
 		bodyState.vitals.respiration.SaO2 < 0.7
 		// todo: check DO2 brain
@@ -70,6 +78,7 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 				bodyState.vitals.cardiacArrest || bodyState.time;
 			bodyState.vitals.cardio.hr = 0;
 			bodyState.vitals.cardio.MAP = 0;
+			bodyState.vitals.cardio.strokeVolume_mL = 0;
 			bodyState.vitals.respiration.rr = 0;
 			bodyState.vitals.respiration.SaO2 = 0;
 			bodyState.vitals.respiration.SpO2 = 0;
@@ -85,8 +94,8 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 			bodyState.vitals.glasgow.verbal = 1;
 		}
 	} else {
-		if (bodyState.vitals.gambateBar < 15){
-			bodyState.vitals.gambateBar = add(bodyState.vitals.gambateBar, durationInMin, {max: gambateMax})
+		if (bodyState.vitals.gambateBar < 15) {
+			bodyState.vitals.gambateBar = add(bodyState.vitals.gambateBar, durationInMin, { max: gambateMax })
 		}
 		logger.log("Not dead yet");
 	}
@@ -670,7 +679,23 @@ export function compute(
 
 	// todo: ideal of effective ?
 	const vo2_mLperMin = getVO2_mLperMin(body, meta);
-	const vco2_mLPerMin = vo2_mLperMin * body.vitals.respiration.QR;
+
+	/*
+	const vo2_mLperMin = Math.min(
+		vo2_mLperMin,
+		body.vitals.cardio.DO2Sys,
+	);
+	*/
+
+	const vco2_mLPerMin =
+		// vo2_mLperMin * body.vitals.respiration.QR;
+		vo2_mLperMin
+		/*Math.min(
+			vo2_mLperMin,
+			body.vitals.cardio.DO2Sys,
+		)*/
+		* body.vitals.respiration.QR;
+
 
 
 
@@ -732,6 +757,8 @@ export function compute(
 	 * Constant value for vapour pressure of water
 	 */
 	const pH2O_mmHg = 47; /// =~ f(37C°)
+	// Compute Alveolar–arterial gradient [mmHg]
+	const AaDO2 = 0.3 * meta.age + (upperAirways.FIO2 - 0.21) * 10 * 6;
 
 	// Compute SaO2 and CaO2 for each respiratory unit
 	const unitOutputs = units.map((unit, i) => {
@@ -806,14 +833,11 @@ export function compute(
 			{ min: 0 }
 		);
 
-		// Compute Alveolar–arterial gradient [mmHg]
-		const AaDO2 = 0.3 * meta.age + (upperAirways.FIO2 - 0.21) * 10 * 6;
-
 		let PaO2_mmHg = normalize(PAO2 - AaDO2, { min: 0 });
 		//const PaO2_kPa = convertTorrToKPa(PaO2_mmHg); // useless
 
 		if (indexChoc > 1) {
-			PaO2_mmHg /= (1 * indexChoc);
+			PaO2_mmHg /= indexChoc;
 		}
 
 		const SaO2 = computeSaO2(PaO2_mmHg);
@@ -855,12 +879,26 @@ export function compute(
 	const computedPaO2 = computePaO2_mmHg(SaO2);
 	//const computedPaO2_v2 = computePaO2(hb_gPerL, CaO2);
 
-
 	let PaO2_mmHg = computedPaO2;
+	wlog("PaO2 to PaCO2", {
+		PaO2_mmHg,
+		indexChoc,
+		result: (indexChoc > 1 ? PaO2_mmHg * indexChoc : PaO2_mmHg)
+	});
+	// see indexChoc hack
 
-	const AaDO2 = 0.3 * meta.age + (upperAirways.FIO2 - 0.21) * 10 * 6;
+	const PAO2 = AaDO2 + (indexChoc > 1 ? PaO2_mmHg * indexChoc : PaO2_mmHg);
 
-	const PaCO2_mmHg = add(body.vitals.respiration.QR * ((upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PaO2_mmHg), -AaDO2, { min: 0 });
+	const PaCO2_mmHg =
+		body.vitals.respiration.QR * (
+			(upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PAO2);
+
+	/* const PaCO2_mmHg = add(
+		body.vitals.respiration.QR * (
+			(upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2
+			// - PaO2_mmHg
+		), -AaDO2, { min: 0 });
+		*/
 
 	//const recomputedSaO2 = computeSaO2(computedPaO2_v2);
 
@@ -1166,21 +1204,30 @@ export type SympSystem = Partial<Record<BodyStateKeys, Point[]>>;
  *
  */
 interface CompensationRule {
+	t4Nerve?: boolean | undefined;
 	points: Point[];
 }
 
-export type Compensation = Partial<Record<BodyStateKeys, CompensationRule>>;
+
+
+export type CompesationKeys =
+	| "vitals.respiration.tidalVolume_L"
+	| "vitals.cardio.hr"
+	| "vitals.cardio.endSystolicVolume_mL"
+	| "vitals.cardio.Ra_mmHgMinPerL"
+	| "vitals.respiration.rr";
+
+export type Compensation = Record<CompesationKeys, CompensationRule>;
+
 
 //'respiration.rr'?: CompensationRule;
 //'respiration.tidalVolume_L?': CompensationRule;
 //'cardio.hr?': CompensationRule;
 
 const icp_model: Point[] = [
-	{x: 0,  y: 100},
-	{x: 35,  y: 100},
-	{x: 100,  y: 0}
+	{ x: 10, y: 0 },
+	{ x: 50, y: 1 },
 ];
-
 
 let average = false;
 
@@ -1193,6 +1240,7 @@ export function computeOrthoLevel(
 		state.variables.paraOrthoLevel = 0;
 		return;
 	}
+
 	/*
 	 * compute (para)symptathic system level
 	 */
@@ -1230,36 +1278,26 @@ export function computeOrthoLevel(
 	});
 	compLogger.log("SympLevel: ", level);
 
-	const brainDisfunction = interpolate(state.variables.ICP_mmHg, icp_model);
-
-	// sailing ship issues...
-	//level *= brainDisfunction;
-
-
-	state.variables.paraOrthoLevel = Math.min(level, brainDisfunction);
+	state.variables.paraOrthoLevel = level;
 }
 
-/**
- * Update some vitals according to current orthosympathetic kevel
- */
-export function doCompensate(
+
+function computeVitals(
+	level: number,
+	model: Compensation,
 	state: BodyState,
 	meta: HumanBody["meta"],
-	duration_min: number) {
+	duration_min: number,
+	t4Fine: boolean,
+	noT4Level: number): Record<CompesationKeys, number> {
 
-	if (state.vitals.cardiacArrest! > 0) {
-		return;
-	}
 
-	const level = state.variables.paraOrthoLevel;// + state.vitals.pain;
-	/*
-	 * (para)symptathic system
-	 * then infer extra output (glasgow, etc)
-	 */
-	const compensation = getCompensationModel();
-	compLogger.info("CompensationProfile: ", compensation);
-	Object.entries(compensation).forEach(([k, value]) => {
-		const key = k as BodyStateKeys;
+	compLogger.info("CompensationProfile: ", model);
+
+	const result: Partial<Record<CompesationKeys, number>> = {};
+
+	Object.entries(model).forEach(([k, value]) => {
+		const key = k as CompesationKeys;
 		const currentValue = getVitals(state, key);
 
 		if ((key === 'vitals.respiration.rr' || key === 'vitals.respiration.tidalVolume_L') &&
@@ -1279,39 +1317,94 @@ export function doCompensate(
 			duration_min,
 			"[s])"
 		);
-		if (currentValue != null) {
-			let newValue = interpolate(level, value.points);
+		let newValue = interpolate(value.t4Nerve && !t4Fine ? noT4Level : level, value.points);
 
-			const bounds = readKey<Bound>(meta.bounds, key);
-			if (bounds != null) {
-				compLogger.info("Within Bounds: ", { percent: newValue, bounds });
-				newValue = bounds.min + newValue * (bounds.max - bounds.min);
-			}
-
+		const bounds = readKey<Bound>(meta.bounds, key);
+		if (bounds != null) {
+			compLogger.info("Within Bounds: ", { percent: newValue, bounds });
+			newValue = bounds.min + newValue * (bounds.max - bounds.min);
 			compLogger.info(
 				"CompensateNewvalue: ",
 				key,
-				"=>",
-				currentValue,
 				" => ",
 				newValue,
 				" within bounds ",
 				bounds
 			);
-
-			if (currentValue !== newValue) {
-				//const normalized =
-				// normalize(newValue, {
-				//	min: value.min,
-				//	max: value.max,
-				//});
-				compLogger.log("Sympatic system: ", key, currentValue, " => ", newValue);
-				setVital(state, key, newValue);
-			}
-		} else {
-			logger.warn("Key does not exists:", key);
 		}
+
+		//const normalized =
+		// normalize(newValue, {
+		//	min: value.min,
+		//	max: value.max,
+		//});
+		compLogger.log("Compensated value: ", key, currentValue, " => ", newValue);
+		result[key] = newValue;
 	});
+
+	return result as Record<CompesationKeys, number>;
+}
+
+/**
+ * Update some vitals according to current orthosympathetic kevel
+ */
+export function doCompensate(
+	state: BodyState,
+	meta: HumanBody["meta"],
+	duration_min: number) {
+
+	if (state.vitals.cardiacArrest! > 0) {
+		return;
+	}
+
+	// is the connection to t4 fine?
+	const t4Fine = findConnection(state, "BRAIN", "T5-L4", {
+		validBlock: isNervousSystemFine,
+		shouldWalk: isNervousSystemConnection,
+	}).length > 0;
+
+	const level = state.variables.paraOrthoLevel;// + state.vitals.pain;
+
+	const compensation = getCompensationModel();
+	if (compensation == null) {
+		throw new Error("No compensation model");
+	}
+
+	const sympValues = computeVitals(level,
+		compensation!,
+		state,
+		meta,
+		duration_min,
+		t4Fine,
+		20);
+
+
+	const overdriveLevel = interpolate(state.variables.ICP_mmHg, icp_model);
+
+	if (overdriveLevel > 0) {
+		wlog("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
+		const overdriveModel = getOverdriveModel();
+
+		const overdrivenValues = computeVitals(overdriveLevel,
+			overdriveModel!,
+			state,
+			meta,
+			duration_min,
+			t4Fine,
+			10);
+		wlog("Values", sympValues, overdrivenValues);
+		Object.entries(sympValues).forEach(([key, sympValue]) => {
+			const overdriven = overdrivenValues[key as CompesationKeys];
+
+			const value = overdriveLevel * overdriven + (1 - overdriveLevel) * sympValue;
+			wlog("Set ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
+			setVital(state, key as BodyStateKeys, value);
+		});
+	} else {
+		Object.entries(sympValues).forEach(([key, value]) => {
+			setVital(state, key as BodyStateKeys, value);
+		});
+	}
 
 	compLogger.info("After (para)Sympatic: ", state.vitals);
 }

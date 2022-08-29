@@ -598,7 +598,7 @@ export const allBlocks = [
 	"HEAD",
 	"BRAIN",
 	"NECK",
-	"C1-C4", "C5-C7", "T1-L4",
+	"C1-C4", "C5-C7", "T1-T4", "T5-L4",
 	"THORAX_LEFT", "THORAX_RIGHT",
 	"MEDIASTINUM", "LUNG", "HEART",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
@@ -628,7 +628,7 @@ export const bonesBlocks = [
 	"HEAD",
 	"NECK",
 	"THORAX_LEFT", "THORAX_RIGHT",
-	"C1-C4", "C5-C7", "T1-L4",
+	"C1-C4", "C5-C7", "T1-T4", "T5-L4",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
 	"PELVIS",
@@ -654,7 +654,7 @@ export type SipleFractureBoneBlock = typeof simpleFractureBonesBlocks[number];
 export const nervousSystemBlocks = [
 	"HEAD",
 	"BRAIN",
-	"C1-C4", "C5-C7", "T1-L4",
+	"C1-C4", "C5-C7", "T1-T4", "T5-L4",
 	"PELVIS",
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
@@ -951,6 +951,7 @@ export function createHumanBody(
 					systolicPressure: 105,
 					hr: 70,
 					DO2Sys: 1000,
+					vo2_mLperMin: meta.VO2min_mLperKgMin * meta.effectiveWeight_kg,
 				},
 				brain: {
 					Rbr: 60,
@@ -980,7 +981,8 @@ export function createHumanBody(
 
 	createBlock(body.state, "C1-C4");
 	createBlock(body.state, "C5-C7");
-	createBlock(body.state, "T1-L4");
+	createBlock(body.state, "T1-T4");
+	createBlock(body.state, "T5-L4");
 
 	createBlock(body.state, "THORAX_LEFT");
 	createBlock(body.state, "THORAX_RIGHT");
@@ -1027,11 +1029,13 @@ export function createHumanBody(
 	connect(body.state, "C1-C4", "C5-C7", { nervousSystem: true, bones: true });
 	connect(body.state, "C1-C4", "LUNG", { nervousSystem: true });
 
-	connect(body.state, "C5-C7", "T1-L4", { nervousSystem: true, bones: true });
+	connect(body.state, "C5-C7", "T1-T4", { nervousSystem: true, bones: true });
 	connect(body.state, "C5-C7", "LEFT_SHOULDER", { nervousSystem: true, bones: true });
 	connect(body.state, "C5-C7", "RIGHT_SHOULDER", { nervousSystem: true, bones: true });
 
-	connect(body.state, "T1-L4", "PELVIS", { nervousSystem: true, bones: true });
+
+	connect(body.state, "T1-T4", "T5-L4", { nervousSystem: true, bones: true });
+	connect(body.state, "T5-L4", "PELVIS", { nervousSystem: true, bones: true });
 
 
 	connect(body.state, "NECK", "MEDIASTINUM", { blood: 0.15, o2: true });
@@ -2641,11 +2645,11 @@ export function doActionOnHumanBody(
 	};
 }
 
-function isNervousSystemFine(block: Block): boolean {
+export function isNervousSystemFine(block: Block): boolean {
 	return !block.params.nervousSystemBroken;
 }
 
-function isNervousSystemConnection(c: RevivedConnection) {
+export function isNervousSystemConnection(c: RevivedConnection) {
 	return !!c.params.nervousSystem;
 }
 
@@ -2679,6 +2683,12 @@ export function canBreathe(bodyState: BodyState): boolean {
 }
 
 export function canWalk(body: HumanBody): boolean {
+
+	const maxHr = 0.9 * body.meta.bounds.vitals.cardio.hr.max;
+	if (body.state.vitals.cardio.hr > maxHr){
+		visitorLogger.debug("Can not walk: Heart rate too high");
+		return false;
+	}
 
 	if (body.state.vitals.glasgow.eye < 4) {
 		visitorLogger.debug("Can not walk: GCS Eye < 4");

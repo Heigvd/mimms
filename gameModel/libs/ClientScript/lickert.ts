@@ -143,13 +143,29 @@ export function prettyPrintCurrentPatientMeta() {
 
 	if (param) {
 		const { meta } = computeMetas(param);
-		title = `${id} - ${meta.sex}, ${meta.age}y, ${meta.height_cm
-			}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
+		title = `${id}`;
 	} else {
 		title = 'No patient';
 	}
 
 	return `<h1>${title}</h1>`;
+}
+
+export function prettyPrintCurrentPatientInfos() {
+	const param = getCurrentPatientBodyParam();
+	let title = '';
+
+	if (param) {
+		const { meta } = computeMetas(param);
+		title = `<h3>Infos</h3><ul><li><b>Gender:</b>  ${meta.sex} </li>
+		<li><b>Age:</b>  ${meta.age}y.o.</li>
+		<li><b>Height:</b>  ${meta.height_cm}cm</li>
+		<li><b>Weight:</b>   ${meta.effectiveWeight_kg.toFixed()}kg</li></ul>`;
+	} else {
+		title = '';
+	}
+
+	return `${title}`;
 }
 
 export function prettyPrintCurrentPatientScript(): string {
@@ -284,7 +300,7 @@ const lickerCellDef: CellDef[] = [
 
 type LickertMatrixCell = undefined | LickertLevel;
 
-const currentData: Record<string, {data: LickertData, cardiacArrest: number | undefined}> = {};
+const currentData: Record<string, { data: LickertData, cardiacArrest: number | undefined }> = {};
 
 type Matrix = Record<TimeId, Record<KeyId, EhancedCellData<LickertMatrixCell>>>;
 
@@ -292,14 +308,14 @@ const clinicalMatrix: Record<string, Matrix> = {};
 
 const physiologicalMatrix: Record<string, Matrix> = {};
 
-const timeMatrix: Record<string, Matrix> = {};
+const comments: Record<string, string> = {};
 
 type PMatrix = Record<TimeId, Record<KeyId, LickertMatrixCell>>;
 
 interface PersistedMatrix {
 	clinical: PMatrix;
 	physio: PMatrix;
-	timing: PMatrix;
+	comments: string;
 }
 
 type LickertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LickertMatrixCell) => void;
@@ -321,7 +337,7 @@ function getPersistedData(patientId: string): PersistedMatrix {
 		return {
 			clinical: {},
 			physio: {},
-			timing: {},
+			comments: ''
 		};
 	}
 }
@@ -330,7 +346,7 @@ function convertData(data: Data): PersistedMatrix {
 	const pm: PersistedMatrix = {
 		clinical: {},
 		physio: {},
-		timing: {},
+		comments: data.comments,
 	};
 
 	Object.entries(data.clMatrix).forEach(([timeId, keys]) => {
@@ -355,17 +371,6 @@ function convertData(data: Data): PersistedMatrix {
 		});
 	});
 
-	Object.entries(data.timeMatrix).forEach(([timeId, keys]) => {
-		Object.entries(keys).forEach(([keyId, value]) => {
-			pm.timing[timeId] = pm.timing[timeId] || {};
-			if (typeof value === 'object') {
-				pm.timing[timeId]![keyId] = value.value;
-			} else {
-				pm.timing[timeId]![keyId] = value;
-			}
-		});
-	});
-
 	return pm;
 }
 
@@ -374,7 +379,7 @@ interface Data {
 	cardiacArrest: number | undefined;
 	clMatrix: Matrix;
 	phMatrix: Matrix;
-	timeMatrix: Matrix;
+	comments: string;
 }
 
 /*
@@ -427,7 +432,6 @@ export function isPatientDone(patientId: string): boolean {
 
 	if (countCell(persistedData.clinical) < 30
 		|| countCell(persistedData.physio) < 30
-		|| countCell(persistedData.timing) < 5
 	) {
 		return false;
 	}
@@ -469,9 +473,10 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 		currentData[patientId] = run_lickert(patientId);
 	}
 	const patientData = currentData[patientId]!;
+	const data = getPersistedData(patientId);
 
 	if (clinicalMatrix[patientId] == null || force) {
-		const data = getPersistedData(patientId);
+
 
 		clinicalMatrix[patientId] = {};
 		const clKeys = Object.keys(patientData.data.clinical) as ClKeys[];
@@ -488,8 +493,6 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 	}
 
 	if (physiologicalMatrix[patientId] == null || force) {
-		const data = getPersistedData(patientId);
-
 		physiologicalMatrix[patientId] = {};
 		const keys = Object.keys(patientData.data.physiological) as PhKeys[];
 		const times = Object.keys(patientData.data.physiological[keys[0]!]);
@@ -504,17 +507,8 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 		});
 	}
 
-	if (timeMatrix[patientId] == null || force) {
-		const data = getPersistedData(patientId);
-
-		timeMatrix[patientId] = {};
-
-		const times = Object.keys(Object.values(patientData.data.clinical)[0]!);
-		times.forEach(time => {
-			timeMatrix[patientId]![time] = {
-				timing: { label: time, value: (data.timing[+time] || {})['timing'] }
-			};
-		});
+	if (comments[patientId] == null || force) {
+		comments[patientId] = data.comments;
 	}
 
 	return {
@@ -522,7 +516,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 		cardiacArrest: patientData.cardiacArrest,
 		clMatrix: clinicalMatrix[patientId]!,
 		phMatrix: physiologicalMatrix[patientId]!,
-		timeMatrix: timeMatrix[patientId]!,
+		comments: comments[patientId],
 	};
 }
 
@@ -531,9 +525,9 @@ function getCurrentPatientData(force: boolean = false): Data {
 	return getPatientData(patientId, force);
 }
 
-export function getCurrentPatientFinalState() : string {
+export function getCurrentPatientFinalState(): string {
 	const cardiacArrest = getCurrentPatientData().cardiacArrest;
-	if (cardiacArrest /* > 0*/){
+	if (cardiacArrest /* > 0*/) {
 		return `Patient <strong>died</strong> after <strong>${formatSecond(cardiacArrest)}</strong>`;
 	} else {
 		return "Patient <strong>still alive</strong> after 4h";
@@ -545,14 +539,14 @@ export function initAllPatients() {
 	setTimeout(() => {
 		const allIds = getSortedPatientIds();
 		allIds.forEach(pId => getPatientData(pId));
-		state.setState({data: 'INITIALIZED'});
+		state.setState({ data: 'INITIALIZED' });
 	}, 500)
 }
 
 
 
 function formatSecond(time: number) {
-	if (time <= 0){
+	if (time <= 0) {
 		return 'état initial';
 	}
 
@@ -616,51 +610,6 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 	};
 }
 
-/************************************* Timing Matrix Config ********************************************/
-
-const TimingLickertOnChangeRefName = 'timingOnChange';
-
-const onTimingChangeRef = Helpers.useRef<LickertOnChangeFn>(
-	TimingLickertOnChangeRefName,
-	() => { },
-);
-
-onTimingChangeRef.current = (x, y, newData) => {
-	const timeId = x.id;
-	const keyId = y.id;
-
-	const patientId = getCurrentPatientId();
-
-	const current = timeMatrix[patientId]![timeId]![keyId];
-	if (typeof current === 'object') {
-		timeMatrix[patientId]![timeId]![keyId] = { label: current.label, value: newData };
-	} else {
-		timeMatrix[patientId]![timeId]![keyId] = newData;
-	}
-
-	save();
-};
-
-export function getTimeMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
-	const data = getCurrentPatientData();
-
-	return {
-		x: Object.keys(data.timeMatrix).map(time => ({
-			id: time,
-			label: formatSecond(+time),
-		})),
-		y: Object.keys(data.timeMatrix[0]!).map(key => ({
-			id: key,
-			label: prettyPrintKey(key),
-		})),
-		data: data.timeMatrix,
-		cellDef: lickerCellDef,
-		hideFilter: true,
-		onChangeRefName: TimingLickertOnChangeRefName,
-	};
-}
-
-
 /************************************* Physiological Matrix Config ********************************************/
 
 const PhysioLickertOnChangeRefName = 'physioOnChange';
@@ -703,6 +652,18 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 }
 
 
+/*************** Comments ****************/
+export function getCurrentPatientComments(): string {
+	const data = getCurrentPatientData();
+	return data.comments;
+}
+
+export function saveCurrentPatientComments(newComments: string) {
+	const id = getCurrentPatientId();
+	comments[id] = newComments;
+	save();
+};
+
 
 /*************** Persistance **************/
 
@@ -719,13 +680,44 @@ export function saveData() {
 
 //
 type RawData = Record<
-	string, // teamId
-	//     patientId                                               time           metric  value
-	Record<string, Record<'clinical' | 'physio' | 'timing', Record<string, Record<string, number>>>>
+	string,// teamId
+	//     patientId
+	Record<string, {
+		//               time           metric  value
+		clinical: Record<string, Record<string, number>>;
+		//               time           metric  value
+		physio: Record<string, Record<string, number>>;
+		comments: string;
+	}>
 >;
 
+
+function formatCsvCell(data: unknown): string {
+	wlog("Format ", data);
+	const str = String(data);
+	if (str.indexOf(",") >= 0) {
+		return `"${str.replace(/"/g, '""')}"`;
+	} else {
+		return str;
+	}
+}
 function formatCsvLine(...cells: unknown[]) {
-	return cells.map(cell => String(cell)).join(', ');
+	wlog("format data", cells);
+	return cells.map(cell => formatCsvCell(cell)).join(', ');
+}
+
+const mTypes = ["clinical", "physio"] as const;
+
+function pushValue(allData: Record<string, Record<number, string>>,
+	expertId: number,
+	patientId: string,
+	time: string | undefined,
+	metricName: string,
+	value: string
+) {
+	const colName = `p-${patientId}_${time != null ? `t${time}` : ''}-${metricName}`;
+	allData[colName] = allData[colName] || {};
+	allData[colName][expertId] = value;
 }
 
 export function getAllLickertData() {
@@ -735,25 +727,36 @@ export function getAllLickertData() {
 
 		let counter = 1;
 
-		// print header
-		csv.push(formatCsvLine('expertId', 'patientId', 'group', 'time [s]', 'metric', 'lickert'));
-
-		// TOOD: long format
+		// Collect all data
+		const experts: number[] = [];
+		//                     metric name    expert  value
+		const allData: Record<string, Record<number, string>> = {}
 
 		Object.entries(data).forEach(([teamId, teamData]) => {
 			const expertId = counter++;
+			experts.push(expertId);
+
 			Object.entries(teamData).forEach(([patientId, patientData]) => {
-				Object.entries(patientData).forEach(([mType, mData]) => {
+				pushValue(allData, expertId, patientId, undefined, 'comments', patientData.comments);
+				mTypes.forEach(mType => {
+					const mData = patientData[mType];
 					Object.entries(mData).forEach(([time, timeData]) => {
 						Object.entries(timeData).forEach(([metric, value]) => {
-							csv.push(formatCsvLine(expertId, patientId, mType, time, prettyPrintKey(metric), value));
+							pushValue(allData, expertId, patientId, time, prettyPrintKey(metric), String(value));
 						});
 					});
 				});
 			});
 		});
+
+		const keys = Object.keys(allData).sort();
+		// print header
+		csv.push(formatCsvLine("expert", ...keys));
+		for (const expertId of experts) {
+			csv.push(formatCsvLine(expertId, ...keys.map(key => allData[key][expertId] || '')));
+		}
+
 		const txt = csv.join('\n');
-		wlog(txt);
 		Helpers.downloadDataAsFile('lickert.csv', txt);
 	});
 }

@@ -530,6 +530,7 @@
               "type" : "WegasMapVectorLayer"
             } ],
             "debug" : true,
+            "id" : "",
             "layoutStyle" : {
               "backgroundColor" : "rgb(191, 242, 191)",
               "flexGrow" : "1",
@@ -548,7 +549,7 @@
               "center" : [ 2539119, 1181103 ],
               "extent" : {
                 "@class" : "Script",
-                "content" : "import { fullExtentRef } from \"./layersData\";\nfullExtentRef.current;",
+                "content" : "import { fullExtentRef } from \"./layersData\";\n\tfullExtentRef.current || [-Infinity, -Infinity, Infinity, Infinity];",
                 "language" : "typescript"
               },
               "projection" : "EPSG:2056"

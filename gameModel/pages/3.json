@@ -146,6 +146,83 @@
         "style" : { }
       },
       "type" : "For each"
+    }, {
+      "props" : {
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "",
+          "language" : "JavaScript"
+        },
+        "itemKey" : "id",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p><strong>Overdrive Effects</strong>&nbsp;</p>\"",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "allowDoubleClick" : false,
+            "allowDrag" : false,
+            "height" : 300,
+            "layoutStyle" : { },
+            "onDblClickCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragEndCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "onDragStartCallback" : {
+              "@class" : "Script",
+              "content" : "undefined;",
+              "language" : "typescript"
+            },
+            "scales" : {
+              "@class" : "Script",
+              "content" : "({\"x\":{\n\t\"min\":0,\n\t\"max\":100,\n\ttitle: {\n\t\tdisplay: true,\n\t\ttext: 'ortho',\n\t}\n},\"y\":{\n\t\n\t\n\t}});",
+              "language" : "typescript"
+            },
+            "series" : {
+              "@class" : "Script",
+              "content" : "Context.item.series;",
+              "language" : "JavaScript"
+            },
+            "showLine" : true,
+            "style" : { }
+          },
+          "type" : "Scatter"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getOverdriveSeries } from \"./WegasHelper\";\ngetOverdriveSeries();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : false,
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
     } ],
     "layout" : {
       "flexDirection" : "column"

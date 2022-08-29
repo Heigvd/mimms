@@ -220,6 +220,7 @@ Helpers.registerEffect(() => {
 							properties: {
 								/*min: { type: 'number', view: { label: 'Min', layout: "shortInline" } },
 								max: { type: 'number', view: { label: 'Max', layout: "shortInline" } },*/
+								t4Nerve: {type: 'boolean', view: {label: 'T4?'}},
 								points: schemaProps.array({
 									label: "Points",
 									itemSchema: {

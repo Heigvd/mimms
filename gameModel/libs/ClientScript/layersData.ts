@@ -122,6 +122,7 @@ export function onBuildingLayerReady(layer: any, map: any) {
 	const meterPerUnit = map.getView().getProjection().getMetersPerUnit();
 	mapResolution.current = meterPerUnit;
 
+wlog("Load buildings");
 	extendCurrentExtent(extent);
 
 	const extentWidth = Math.abs(extent[2] - extent[0]);

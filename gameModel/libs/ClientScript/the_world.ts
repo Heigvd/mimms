@@ -26,7 +26,7 @@ import {
 	RevivedPathology,
 	revivePathology,
 } from './pathology';
-import { getAct, getItem, getPathology, setCompensationModel, setSystemModel } from './registries';
+import { getAct, getItem, getPathology, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -38,6 +38,7 @@ import {
 	loadCompensationModel,
 	loadSystem,
 	whoAmI,
+loadOverdriveModel,
 } from './WegasHelper';
 import { initEmitterIds, TargetedEvent } from './baseEvent';
 import {
@@ -2001,6 +2002,11 @@ Helpers.registerEffect(() => {
 	const compensation = loadCompensationModel();
 	worldLogger.log('Load Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
+
+	const overdrive= loadOverdriveModel();
+	worldLogger.info('Overdrive Profile: ', overdrive);
+	setOverdriveModel(overdrive);
+
 	clearState();
 
 	return () => {
