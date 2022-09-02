@@ -58,11 +58,20 @@ export const emptyFeatureCollection: FeatureCollection = {
 	features: []
 }
 
+export function getCurrentMapId(): string | undefined {
+	const hId = whoAmI();
+	const humans = getHumans();
+	const me = humans.find(h => h.id === hId);
+	//TODO why is this called every second ?
+	//wlog('location', me?.location?.mapId);
+	return me?.location?.mapId;
+}
+
 export function getFogOfWarLayer(): FeatureCollection {
 	const hId = whoAmI();
 	const humans = getHumans();
 	const me = humans.find(h => h.id === hId);
-
+	
 	const initialMap = mapRef.current;
 	if (initialMap) {
 
@@ -312,7 +321,7 @@ export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): Fe
 				addSquareFeature(source, minWorldPoint.x, minWorldPoint.y, maxWorldPoint.x, maxWorldPoint.y);
 				*/
 
-				addSquareFeature(source, minPoint.x, minPoint.y, maxPoint.x, maxPoint.y);
+				//addSquareFeature(source, minPoint.x, minPoint.y, maxPoint.x, maxPoint.y);
 			}
 		}
 	}

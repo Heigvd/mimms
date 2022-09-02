@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1661754115613,
+  "createdTime" : 1662143036733,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2609,6 +2609,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "layerStyling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:58091:noAdiD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "lickert",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2901,7 +2910,7 @@
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_cat_fa",
     "logID" : null,
