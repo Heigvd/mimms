@@ -1,7 +1,9 @@
 import { Heap } from "./heap";
-import { ObstacleType } from "./layersData";
+import { Segment } from "./helper";
+import { DiscreteExtent, ObstacleType } from "./layersData";
 import { pathFindingLogger } from "./logger";
 import { Point, add, equalsStrict, sub, lengthSquared } from "./point2D";
+
 
 /**
  * Class that implement a Node (or Vertex) for a pathfinding grid
@@ -461,15 +463,6 @@ export class Grid {
 		return false;
 	}
 
-	/**
-	 * Transfor the node grid into a visual matrix with · for allowed cell and X for obstacles
-	 */
-	/*
-	public gridToMatrix(): string[][] {
-		return this.gridNodes.map(line => line.map(node =>
-			node ? (node.getIsWalkable() ? "·" : "X") : '!'))
-	}*/
-
 }
 
 
@@ -622,7 +615,6 @@ export class PathFinder {
 		// Reset lists
 		this.openList.clear();
 		this.counter = 0;
-		//this.grid.resetExistingNodes();
 
 		pathFindingLogger.info('******',startPosition);
 		pathFindingLogger.info('******', endPosition);
@@ -670,9 +662,7 @@ export class PathFinder {
 				pathFindingLogger.info('Explored nodes', this.counter);
 				pathFindingLogger.info('Node count end', this.grid.getNodeCount());
 				if (algorithm === "AStarSmooth") {
-					console.time('smooth');
 					path = this.smoothPath(path, this.useJumpPointSearch, true);
-					console.timeEnd('smooth');
 				}
 				return path;
 			}
@@ -708,6 +698,7 @@ export class PathFinder {
 			}
 		}
 
+		// failed to find a path
 		pathFindingLogger.debug('time',performance.now() < timeLimit);
 		pathFindingLogger.debug('time',performance.now(), timeLimit);
 		pathFindingLogger.debug('coverage', this.counter < this.nodeCoverageLimit);
@@ -776,7 +767,7 @@ export class PathFinder {
 			const pDx = dX / dY;
 
 			// pattern starts at the middle of the first cell
-			let cDx = pDx / 2;
+			let cDx = pDx == Infinity ? 0 : pDx / 2;
 
 			while (x0 !== x1) {
 				const diff = Math.abs(cDx - pDx - 0.5)
@@ -808,7 +799,7 @@ export class PathFinder {
 			const pDy = dY / dX;
 
 			// pattern starts at the middle of the first cell
-			let cDy = pDy / 2;
+			let cDy = pDy == Infinity ? 0 : pDy / 2;
 
 			while (y0 !== y1) {
 				const diff = Math.abs(cDy - pDy - 0.5)
@@ -902,24 +893,14 @@ export class PathFinder {
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm): Point[] {
 		// Translate into grid points
-		const roundedStart = {x : Math.round(startWorldPosition.x), y : Math.round(startWorldPosition.y)};
-		const roundedEnd = {x : Math.round(endWorldPosition.x), y : Math.round(endWorldPosition.y)};
-		let startPosition = PathFinder.worldPointToGridPoint(roundedStart, this.cellSize, this.offsetPoint)
-		let endPosition = PathFinder.worldPointToGridPoint(roundedEnd, this.cellSize, this.offsetPoint)
+		let startPosition = PathFinder.worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
+		let endPosition = PathFinder.worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
 
-		//TODO
-		/*if(!this.grid.isWalkableAt(startPosition)){
-			startPosition = this.findClosestWalkablePoint(startPosition, 5);
-		}
-
-		if(!this.grid.isWalkableAt(endPosition)){
-			endPosition = this.findClosestWalkablePoint(startPosition, 5);
-		}*/
 		// Compute path
 		const path = this._findPath(startPosition, endPosition, algorithm);
 
 		// Translate back into world point and return
-		return this.toWorldPath(path);
+		return this.toWorldPath(path, startWorldPosition, startPosition, endWorldPosition);
 	}
 
 	public getGrid(): Grid {
@@ -927,10 +908,96 @@ export class PathFinder {
 	}
 
 	/**
-	 * Translate path in grid coordinates into world coordinates
+	 * Translate path in grid coordinates into world coordinates.
+	 * Path beginning correction :
+	 * Prepend a point such that from current position (which is decimal), 
+	 * the trajectory goes out of the current cell with the same direction as it
+	 * would if it was moving from the center of the cell
 	 */
-	private toWorldPath(path: Point[]): Point[] {
-		return path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
+	private toWorldPath(path: Point[], worldStart: Point, localStart: Point, worldEnd: Point): Point[] {
+
+		if(path.length < 2){
+			return [worldStart, worldEnd];
+		}
+		const worldPath = path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
+
+
+		const firstPathSegment : Segment = [worldPath[0], worldPath[1]];
+		const contour = this.getCellContour(localStart);
+		
+		let intersection: Point | undefined = undefined;
+		let i = 0;
+		do{
+			const seg: Segment = [contour[i], contour[i+1]]
+			intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
+			i++;
+		}while(intersection == undefined && i < contour.length-1);
+
+		if(!intersection) {
+			pathFindingLogger.warn('this is impooooosssible. There should be an intersection');
+			pathFindingLogger.warn(contour);
+			pathFindingLogger.warn(firstPathSegment);
+		}
+		pathFindingLogger.debug('path beginning', worldStart, intersection, worldPath)
+		return [worldStart, intersection!, ...worldPath.slice(1), worldEnd]
+	}
+
+	private getCellContour(localStart: Point): Point[] {
+		const p = localStart;
+		const extent = new DiscreteExtent(
+			p.x,
+			p.y,
+			p.x + 1,
+			p.y + 1
+		);
+		return extent.contourWorld(this.cellSize, this.offsetPoint).map((p) => {return {x : p[0], y : p[1]}});
+
+	}
+
+	/**
+	 * Segment intersection including segment extremities
+	 */
+	private static getSegmentIntersection(s1: Segment, s2: Segment, debug: boolean = false): Point | undefined {
+		const p0 = s1[0], p1 = s1[1],
+			p2 = s2[0], p3 = s2[1];
+
+		const s10_x = p1.x - p0.x, s10_y = p1.y - p0.y,
+			s32_x = p3.x - p2.x, s32_y = p3.y - p2.y;
+
+		const denom = s10_x * s32_y - s32_x * s10_y
+
+		if (denom == 0){
+			if(debug) pathFindingLogger.debug('collinear', denom)
+			return undefined // collinear
+		}
+
+		const s02_x = p0.x - p2.x,
+			s02_y = p0.y - p2.y
+		const s_numer = s10_x * s02_y - s10_y * s02_x
+		if (s_numer != 0 && (s_numer < 0 == denom > 0)) {
+			if(debug) pathFindingLogger.debug('s numer < 0', s_numer, denom);
+			// no collision: s < 0
+			return undefined
+		}
+
+		const t_numer = s32_x * s02_y - s32_y * s02_x
+		if (t_numer != 0 && (t_numer < 0 == denom > 0)) {
+			if(debug) pathFindingLogger.debug('t numer < 0', t_numer, denom);
+			// no collision: t < 0
+			return undefined
+		}
+
+		if (s_numer > denom == denom > 0 || t_numer > denom == denom > 0) {
+			if(debug) pathFindingLogger.debug('s', s_numer, denom);
+			if(debug) pathFindingLogger.debug('t', t_numer, denom);
+
+			// no collision: s or t > 1
+			return undefined;
+		}
+		// collision detected
+		const t = t_numer / denom
+
+		return { x: p0.x + (t * s10_x), y: p0.y + (t * s10_y) }
 	}
 
 	/**
@@ -1090,8 +1157,8 @@ export class PathFinder {
 		offsetPoint: Point,
 	): Point {
 		return {
-			x: cell.x * cellSize + offsetPoint.x, //+ cellSize / 2,
-			y: cell.y * cellSize + offsetPoint.y //+ cellSize / 2,
+			x: cell.x * cellSize + offsetPoint.x + cellSize / 2,
+			y: cell.y * cellSize + offsetPoint.y + cellSize / 2
 		}
 	}
 
@@ -1108,4 +1175,5 @@ export class PathFinder {
 			y: Math.floor((point.y - offsetPoint.y) / cellSize),
 		}
 	}
+
 }

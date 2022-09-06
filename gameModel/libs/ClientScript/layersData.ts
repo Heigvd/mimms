@@ -76,7 +76,7 @@ type ObstacleLayer = {
 	processed: boolean
 }
 
-class DiscreteExtent {
+export class DiscreteExtent {
 
 	minX: number;
 	minY: number;

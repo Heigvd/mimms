@@ -263,7 +263,7 @@
                             "layerStyle" : {
                               "@class" : "ScriptCallback",
                               "args" : [ "feature", "resolution" ],
-                              "content" : "import { getWaterStyle } from \"./layerStyling\";\n//wlog(feature.getProperties());\n//console.log(feature)\ngetWaterStyle(feature, resolution);"
+                              "content" : "import { getWaterStyle } from \"./layerStyling\";\n//wlog(feature.getProperties());\n//console.log(feature.getProperties())\ngetWaterStyle(feature, resolution);"
                             },
                             "layoutStyle" : { },
                             "name" : "water",
@@ -512,7 +512,7 @@
                             "onLayerReady" : {
                               "@class" : "ScriptCallback",
                               "args" : [ "layer", "map" ],
-                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Building, false, 'Recursive', 32);\nreturn;"
+                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
                             },
                             "style" : { }
                           },
@@ -534,7 +534,7 @@
                             },
                             "layerStyle" : {
                               "fill" : {
-                                "color" : "#8f96a300",
+                                "color" : "#8f96a3aa",
                                 "type" : "FillStyle"
                               },
                               "zIndex" : 1
@@ -578,11 +578,6 @@
                           "type" : "WegasMapVectorLayer"
                         }, {
                           "props" : {
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "!Context.debugPanels.state.visibleGrid;",
-                              "language" : "JavaScript"
-                            },
                             "layerId" : "",
                             "layerProps" : {
                               "zIndex" : 10000
@@ -591,7 +586,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\nconst density = Context.debugPanels.state.visibleGrid?.value ?? 0.1;\ngetObstacleGridLayer(density);",
+                                "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\nimport { getGridDebug } from \"./mapLayers\";\nconst g = getGridDebug();;\n//wlog(g); \nreturn getGridDebug();\nconst density = Context.debugPanels.state.visibleGrid?.value ?? 0.1;\ngetObstacleGridLayer(density);",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:2056",
@@ -599,18 +594,12 @@
                               "useSpatialIndex" : true
                             },
                             "layerStyle" : {
-                              "fill" : {
-                                "color" : "red",
-                                "type" : "FillStyle"
-                              }
+                              "@class" : "ScriptCallback",
+                              "args" : [ "feature", "resolution" ],
+                              "content" : "import { getCellStyle } from \"./mapLayers\";\ngetCellStyle(feature);"
                             },
                             "layoutStyle" : { },
                             "name" : "[DEBUG] Obstacle grid",
-                            "onLayerReady" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "layer", "map", "projection" ],
-                              "content" : "return;"
-                            },
                             "style" : { }
                           },
                           "type" : "WegasMapVectorLayer"

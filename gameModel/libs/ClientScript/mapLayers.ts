@@ -67,6 +67,7 @@ export function getCurrentMapId(): string | undefined {
 	return me?.location?.mapId;
 }
 
+
 export function getFogOfWarLayer(): FeatureCollection {
 	const hId = whoAmI();
 	const humans = getHumans();
@@ -75,9 +76,9 @@ export function getFogOfWarLayer(): FeatureCollection {
 	const initialMap = mapRef.current;
 	if (initialMap) {
 
-
-		const extent = initialMap.getView().calculateExtent(initialMap.getSize());
-		//wlog("extent: ", extent);
+		const extent = initialMap.getView().calculateExtent();
+		//wlog(extent);
+		//const extent = initialMap.getView().calculateExtent(initialMap.getSize());
 		const width = extent[2] - extent[0];
 		const height = extent[3] - extent[1];
 
@@ -112,6 +113,7 @@ export function getFogOfWarLayer(): FeatureCollection {
 
 		const visionPoints = me?.lineOfSight || [];
 
+		
 		visionPoints.forEach(point => {
 			hole.push([point.x, point.y])
 		})
@@ -253,6 +255,37 @@ export function getDebugBuildingLayer(): FeatureCollection {
 
 export function getEmptyLayer(): FeatureCollection {
 	return emptyFeatureCollection;
+}
+
+
+let gridDebug: FeatureCollection = {
+	"type": "FeatureCollection",
+	"name": "obstacle layer",
+	"features": []
+};
+
+export function setDebugGrid(fc : FeatureCollection){
+	gridDebug = fc;
+}
+export function getGridDebug(): FeatureCollection {
+	return gridDebug;
+}
+
+export function getCellStyle(feature: any): LayerStyleObject {
+
+	const style : LayerStyleObject = {
+		fill: {
+			type: 'FillStyle',
+			color: feature.getProperties().color,
+		},
+		stroke: {
+			type: 'StrokeStyle',
+			color: 'white',
+			width:0.5
+		},
+		zIndex: feature.getProperties().zindex
+	}
+	return style;
 }
 
 export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): FeatureCollection {

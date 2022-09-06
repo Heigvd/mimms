@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, dot, length } from './point2D';
+import { Point, add, sub, mul, proj, lengthSquared, dot, length, equals } from './point2D';
 
 import {
 	BlockName,
@@ -64,6 +64,7 @@ import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from './logger';
 import { SkillLevel } from './GameModelerHelper';
+import { FeatureCollection, getGridDebug, setDebugGrid } from './mapLayers';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -327,6 +328,29 @@ interface CurrentLocationOutput {
 	direction?: Location;
 }
 
+let lastPos : Point = {x:0, y:0};
+
+
+function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number, properties : Record<string, string>) {
+	collection.features.push({
+		type: 'Feature',
+		properties: properties,
+		geometry: {
+			type: 'Polygon',
+			coordinates: [
+				[
+					[minX, minY],
+					[minX, maxY],
+					[maxX, maxY],
+					[maxX, minY],
+					[minX, minY],
+				]
+			]
+		}
+	} as never)
+}
+
+
 /**
  * speed: unit/sec
  */
@@ -370,7 +394,7 @@ function computeCurrentLocation(
 			let segStart: Point = location.location;
 			let segEnd : Point = segStart;
 
-			let destinationReached = newPath.length < 2;
+			let destinationReached = false;
 
 			paths.current['moving'] = [segStart];
 
@@ -401,7 +425,30 @@ function computeCurrentLocation(
 				}
 			}
 
-			wlog(segEnd);
+			//if(equals(segEnd, lastPos)){
+				//wlog(newPath);
+
+				const lpr = {x: Math.round(lastPos.x), y: Math.round(lastPos.y)};
+				const rad = 10;
+				const gridDebug : FeatureCollection = {
+					"type": "FeatureCollection",
+					"name": "obstacle layer",
+					"features": []
+				};	
+				for(let y = lpr.y - rad; y < lpr.y + rad; y++){
+					for(let x = lpr.x - rad; x < lpr.x + rad; x++){
+
+						const minPoint = PathFinder.worldPointToGridPoint({ x, y }, cellSize, offsetPoint)
+						const g = pathFinder.getGrid();
+						addSquareFeature(gridDebug, x, y, x+1, y+1, {color : g.isWalkableAt(minPoint) ? `#88223388` : `#88AA3344`});
+					}
+				}
+
+				setDebugGrid(gridDebug);
+
+
+			//}
+			lastPos = segEnd;
 
 			if (destinationReached) {
 				delete paths.current[pathId];
