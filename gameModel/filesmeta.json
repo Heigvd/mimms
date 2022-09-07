@@ -35,6 +35,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/geneva/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/geneva/buildings.geojson" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
@@ -62,6 +68,12 @@
   "/maps/yverdon/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },

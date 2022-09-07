@@ -81,25 +81,6 @@
       "type" : "Icon"
     }, {
       "props" : {
-        "confirm" : true,
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Remove from map<br></p>\"",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "Script",
-            "content" : "import { setMapIdForPlayer } from \"./the_world\";\n\nsetMapIdForPlayer('')",
-            "language" : "typescript"
-          }
-        },
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
         "initialSelectedPageId" : "21",
         "layoutStyle" : { },
         "name" : "timetoolbar_map",
@@ -116,564 +97,549 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"1e vague\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "Script",
-                                "content" : "import {premiereVague} from './scenario';\n\npremiereVague();",
-                                "language" : "typescript"
-                              }
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"Visible buildings\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "buildings",
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "Context.debugPanels.setState(o=>{\n\treturn {...o,visibleBuildings : !o.visibleBuildings};\n})",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Boolean(Context.debugPanels.state.visibleBuildings);",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"Visible path\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "path",
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "Context.debugPanels.setState(o=>{\n\treturn {...o,visiblePath : !o.visiblePath};\n})",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Boolean(Context.debugPanels.state.visiblePath);",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"Visible grid\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "grid",
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "Context.debugPanels.setState(o => {\n\tlet newVisibleGrid = undefined;\n\tif (o[\"visibleGrid\"] == null) {\n\t\tnewVisibleGrid = { value: 0.1, min: 0.1, max: 1 };\n\t}\n\treturn {...o,visibleGrid : newVisibleGrid};\n})",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Context.debugPanels.state.visibleGrid != null;",
-                              "language" : "JavaScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "displayValues" : "Internal",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "Context.debugPanels.state.visibleGrid == null;",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "Grid density",
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "Context.debugPanels.setState(o => ({\n\t...o,\n\tvisibleGrid: { value: Context.value, min: 0.1, max: 1 }\n}))\n",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Context.debugPanels.state.visibleGrid ?? {value:0.1,min:0.1,max:1}",
-                              "language" : "JavaScript"
-                            },
-                            "steps" : 9,
-                            "style" : { }
-                          },
-                          "type" : "NumberSlider"
-                        } ],
-                        "layout" : { },
+                        "confirm" : true,
+                        "icon" : "user-ninja",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Leave map<br></p>\"",
+                          "language" : "JavaScript"
+                        },
                         "layoutStyle" : { },
-                        "name" : "Debug panel",
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { setMapIdForPlayer } from \"./the_world\";\n\nsetMapIdForPlayer('')",
+                            "language" : "typescript"
+                          }
+                        },
+                        "name" : "leave map",
                         "style" : { }
                       },
-                      "type" : "FlexList"
+                      "type" : "Button"
                     }, {
                       "props" : {
-                        "OSMLayer" : false,
                         "children" : [ {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "return(`maps/${Context.mapId.mapId}/water.geojson`)",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:4326",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "import { getWaterStyle } from \"./layerStyling\";\n//wlog(feature.getProperties());\n//console.log(feature.getProperties())\ngetWaterStyle(feature, resolution);"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "water",
-                            "onLayerReady" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "layer", "map" ],
-                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "return(`maps/${Context.mapId.mapId}/rails.geojson`)",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:4326",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "import { getRailwayStyle } from \"./layerStyling\";\ngetRailwayStyle(resolution);"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "rails",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : {
-                              "zIndex" : 10
-                            },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "return(`maps/${Context.mapId.mapId}/roads.geojson`)",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:4326",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "import { getRoadStyle } from \"./layerStyling\";\ngetRoadStyle(feature, resolution);"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "roads",
-                            "onLayerReady" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "layer", "map" ],
-                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Road, true, 'Recursive', 64);\nreturn;"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : {
-                              "zIndex" : 15
-                            },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { getHumanLayer } from \"./mapLayers\";\ngetHumanLayer();",
-                                "language" : "typescript"
-                              },
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "image" : {
-                                "fill" : {
-                                  "color" : "blue",
-                                  "type" : "FillStyle"
-                                },
-                                "radius" : 3,
-                                "stroke" : {
-                                  "color" : "black",
-                                  "lineCap" : "round",
-                                  "lineJoin" : "round",
-                                  "miterLimit" : 10,
-                                  "type" : "StrokeStyle",
-                                  "width" : 1
-                                },
-                                "type" : "CircleStyle"
-                              },
-                              "zIndex" : 5
-                            },
-                            "layoutStyle" : { },
-                            "name" : "humans",
-                            "onLayerReady" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "layer" ],
-                              "content" : "return;"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getVisualOverviewForHumanId } from \"./graphics\";\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
-                                      "language" : "JavaScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "icon" : "stethoscope",
-                                    "impactVariable" : {
-                                      "impact" : {
-                                        "@class" : "Script",
-                                        "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
-                                        "language" : "JavaScript"
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "\"1e vague\"",
+                                              "language" : "JavaScript"
+                                            },
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "Script",
+                                                "content" : "import {premiereVague} from './scenario';\n\npremiereVague();",
+                                                "language" : "typescript"
+                                              }
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ],
+                                        "layout" : { },
+                                        "layoutStyle" : { },
+                                        "name" : "Debug panel",
+                                        "style" : { }
                                       },
-                                      "priority" : 2
+                                      "type" : "FlexList"
+                                    }, {
+                                      "props" : {
+                                        "OSMLayer" : false,
+                                        "children" : [ {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "return(`maps/${Context.mapId.mapId}/water.geojson`)",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:4326",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "import { getWaterStyle } from \"./layerStyling\";\n//wlog(feature.getProperties());\n//console.log(feature.getProperties())\ngetWaterStyle(feature, resolution);"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "water",
+                                            "onLayerReady" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "layer", "map" ],
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "return(`maps/${Context.mapId.mapId}/rails.geojson`)",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:4326",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "import { getRailwayStyle } from \"./layerStyling\";\ngetRailwayStyle(resolution);"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "rails",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : {
+                                              "zIndex" : 10
+                                            },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "return(`maps/${Context.mapId.mapId}/roads.geojson`)",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:4326",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "import { getRoadStyle } from \"./layerStyling\";\ngetRoadStyle(feature, resolution);"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "roads",
+                                            "onLayerReady" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "layer", "map" ],
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Road, true, 'Recursive', 64);\nreturn;"
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : {
+                                              "zIndex" : 15
+                                            },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getHumanLayer } from \"./mapLayers\";\ngetHumanLayer();",
+                                                "language" : "typescript"
+                                              },
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "image" : {
+                                                "fill" : {
+                                                  "color" : "blue",
+                                                  "type" : "FillStyle"
+                                                },
+                                                "radius" : 3,
+                                                "stroke" : {
+                                                  "color" : "black",
+                                                  "lineCap" : "round",
+                                                  "lineJoin" : "round",
+                                                  "miterLimit" : 10,
+                                                  "type" : "StrokeStyle",
+                                                  "width" : 1
+                                                },
+                                                "type" : "CircleStyle"
+                                              },
+                                              "zIndex" : 5
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "humans",
+                                            "onLayerReady" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "layer" ],
+                                              "content" : "return;"
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getVisualOverviewForHumanId } from \"./graphics\";\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
+                                                      "language" : "JavaScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "icon" : "stethoscope",
+                                                    "impactVariable" : {
+                                                      "impact" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
+                                                        "language" : "JavaScript"
+                                                      },
+                                                      "priority" : 2
+                                                    },
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"&nbsp;\"",
+                                                      "language" : "JavaScript"
+                                                    },
+                                                    "layoutClassName" : "stethoscope",
+                                                    "layoutStyle" : { },
+                                                    "localScriptEval" : {
+                                                      "priority" : 1,
+                                                      "script" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { goToHuman } from \"./the_world\";\n\ngoToHuman(Context.human.id);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    },
+                                                    "stopPropagation" : true,
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ],
+                                                "className" : "humanOverlay",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "me",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id === whoAmI();",
+                                                    "language" : "JavaScript"
+                                                  }
+                                                }, {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "not-me",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id !== whoAmI();",
+                                                    "language" : "JavaScript"
+                                                  }
+                                                } ],
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "exposedValueKeys" : {
+                                              "exposePayloadAs" : "human",
+                                              "exposeResolutionAs" : "resolution"
+                                            },
+                                            "getItemsFn" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getHumanOverlays } from \"./mapLayers\";\ngetHumanOverlays();",
+                                              "language" : "TypeScript"
+                                            },
+                                            "itemKey" : "id",
+                                            "layoutStyle" : { },
+                                            "name" : "Human Picto",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapOverlays"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getBubbleLayer } from \"./mapLayers\";\ngetBubbleLayer();",
+                                                "language" : "typescript"
+                                              },
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "bubbles",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/${Context.mapId.mapId}/buildings.geojson`)",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:4326",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "fill" : {
+                                                "color" : "grey",
+                                                "type" : "FillStyle"
+                                              }
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "buildings",
+                                            "onLayerReady" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "layer", "map" ],
+                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer();",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:2056",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : false
+                                            },
+                                            "layerStyle" : {
+                                              "fill" : {
+                                                "color" : "#8f96a3aa",
+                                                "type" : "FillStyle"
+                                              },
+                                              "zIndex" : 1
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "fogOfWar",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "!Boolean(Context.debugPanels.state.visibleBuildings);",
+                                              "language" : "JavaScript"
+                                            },
+                                            "layerId" : "",
+                                            "layerProps" : {
+                                              "zIndex" : 1000
+                                            },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:2056",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "[DEBUG] Visible buildings",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : {
+                                              "zIndex" : 10000
+                                            },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\nimport { getGridDebug } from \"./mapLayers\";\nconst g = getGridDebug();;\n//wlog(g); \nreturn getGridDebug();\nconst density = Context.debugPanels.state.visibleGrid?.value ?? 0.1;\ngetObstacleGridLayer(density);",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:2056",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "import { getCellStyle } from \"./mapLayers\";\ngetCellStyle(feature);"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "[DEBUG] Obstacle grid",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        }, {
+                                          "props" : {
+                                            "layerId" : "",
+                                            "layerProps" : { },
+                                            "layerSource" : {
+                                              "dataType" : "GeoJSON",
+                                              "source" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getPathLayer } from \"./mapLayers\";\ngetPathLayer();",
+                                                "language" : "typescript"
+                                              },
+                                              "sourceProjection" : "EPSG:2056",
+                                              "type" : "VectorLayer",
+                                              "useSpatialIndex" : true
+                                            },
+                                            "layerStyle" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "feature", "resolution" ],
+                                              "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n}})"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "[DEBUG] Character Paths",
+                                            "style" : { }
+                                          },
+                                          "type" : "WegasMapVectorLayer"
+                                        } ],
+                                        "debug" : true,
+                                        "id" : "",
+                                        "layoutStyle" : {
+                                          "backgroundColor" : "rgb(191, 242, 191)",
+                                          "flexGrow" : "1",
+                                          "height" : "500px",
+                                          "width" : "100%"
+                                        },
+                                        "mapOptions" : {
+                                          "onClick" : {
+                                            "@class" : "ScriptCallback",
+                                            "args" : [ "coord", "features" ],
+                                            "content" : "import { handleClickOnMap } from \"./the_world\";\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
+                                          }
+                                        },
+                                        "style" : { },
+                                        "viewOptions" : {
+                                          "center" : [ 2539119, 1181103 ],
+                                          "extent" : {
+                                            "@class" : "Script",
+                                            "content" : "wlog(Context.debugPanels.state);\n([2537500,1179500,2540500,1182500])",
+                                            "language" : "typescript"
+                                          },
+                                          "projection" : "EPSG:2056"
+                                        }
+                                      },
+                                      "type" : "WegasMap"
+                                    } ],
+                                    "layout" : {
+                                      "flexDirection" : "column"
                                     },
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"&nbsp;\"",
-                                      "language" : "JavaScript"
+                                    "layoutStyle" : {
+                                      "overflow" : "auto",
+                                      "width" : "100%"
                                     },
-                                    "layoutClassName" : "stethoscope",
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "priority" : 1,
-                                      "script" : {
-                                        "@class" : "Script",
-                                        "content" : "import { goToHuman } from \"./the_world\";\n\ngoToHuman(Context.human.id);",
-                                        "language" : "typescript"
-                                      }
-                                    },
-                                    "stopPropagation" : true,
                                     "style" : { }
                                   },
-                                  "type" : "Button"
-                                } ],
-                                "className" : "humanOverlay",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "me",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id === whoAmI();",
-                                    "language" : "JavaScript"
-                                  }
-                                }, {
-                                  "applyOn" : "Inside",
-                                  "className" : "not-me",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "import { whoAmI } from \"./WegasHelper\";\nContext.human.id !== whoAmI();",
-                                    "language" : "JavaScript"
-                                  }
-                                } ],
-                                "layout" : { },
-                                "layoutStyle" : { },
-                                "style" : { }
+                                  "type" : "FlexList"
+                                } ]
                               },
-                              "type" : "FlexList"
+                              "type" : "PlayerIf"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { tryLoadExtent } from \"./layersData\";\n\ntryLoadExtent(Context.mapId.mapId, Context.debugPanels.state, Context.debugPanels.setState);\nwlog(Context.debugPanels.state);\n`<p>Load state : ${Context.debugPanels.state.loadState}<br></p>`",
+                                          "language" : "JavaScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ]
+                                  },
+                                  "type" : "FlexList"
+                                } ]
+                              },
+                              "type" : "PlayerElse"
                             } ],
-                            "exposedValueKeys" : {
-                              "exposePayloadAs" : "human",
-                              "exposeResolutionAs" : "resolution"
-                            },
-                            "getItemsFn" : {
+                            "ifCondition" : {
                               "@class" : "Script",
-                              "content" : "import { getHumanOverlays } from \"./mapLayers\";\ngetHumanOverlays();",
-                              "language" : "TypeScript"
-                            },
-                            "itemKey" : "id",
-                            "layoutStyle" : { },
-                            "name" : "Human Picto",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapOverlays"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { getBubbleLayer } from \"./mapLayers\";\ngetBubbleLayer();",
-                                "language" : "typescript"
-                              },
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "bubbles",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/${Context.mapId.mapId}/buildings.geojson`)",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:4326",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "fill" : {
-                                "color" : "grey",
-                                "type" : "FillStyle"
-                              }
-                            },
-                            "layoutStyle" : { },
-                            "name" : "buildings",
-                            "onLayerReady" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "layer", "map" ],
-                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer();",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:2056",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : false
-                            },
-                            "layerStyle" : {
-                              "fill" : {
-                                "color" : "#8f96a3aa",
-                                "type" : "FillStyle"
-                              },
-                              "zIndex" : 1
-                            },
-                            "layoutStyle" : { },
-                            "name" : "fogOfWar",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "!Boolean(Context.debugPanels.state.visibleBuildings);",
+                              "content" : "Context.debugPanels.state.loadState == 'LOADED';",
                               "language" : "JavaScript"
                             },
-                            "layerId" : "",
-                            "layerProps" : {
-                              "zIndex" : 1000
+                            "layoutStyle" : {
+                              "width" : "100%"
                             },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:2056",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "[DEBUG] Visible buildings",
                             "style" : { }
                           },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "layerId" : "",
-                            "layerProps" : {
-                              "zIndex" : 10000
-                            },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\nimport { getGridDebug } from \"./mapLayers\";\nconst g = getGridDebug();;\n//wlog(g); \nreturn getGridDebug();\nconst density = Context.debugPanels.state.visibleGrid?.value ?? 0.1;\ngetObstacleGridLayer(density);",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:2056",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "import { getCellStyle } from \"./mapLayers\";\ngetCellStyle(feature);"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "[DEBUG] Obstacle grid",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
-                        }, {
-                          "props" : {
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "true;\n!Boolean(Context.debugPanels.state.visiblePath);",
-                              "language" : "JavaScript"
-                            },
-                            "layerId" : "",
-                            "layerProps" : { },
-                            "layerSource" : {
-                              "dataType" : "GeoJSON",
-                              "source" : {
-                                "@class" : "Script",
-                                "content" : "import { getPathLayer } from \"./mapLayers\";\ngetPathLayer();",
-                                "language" : "typescript"
-                              },
-                              "sourceProjection" : "EPSG:2056",
-                              "type" : "VectorLayer",
-                              "useSpatialIndex" : true
-                            },
-                            "layerStyle" : {
-                              "@class" : "ScriptCallback",
-                              "args" : [ "feature", "resolution" ],
-                              "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n}})"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "[DEBUG] Character Paths",
-                            "style" : { }
-                          },
-                          "type" : "WegasMapVectorLayer"
+                          "type" : "If Else"
                         } ],
-                        "debug" : true,
-                        "id" : "",
+                        "exposeAs" : "debugPanels",
+                        "initialState" : {
+                          "@class" : "Script",
+                          "content" : "import { getInitialExtentState } from \"./layersData\";\ngetInitialExtentState();",
+                          "language" : "TypeScript"
+                        },
                         "layoutStyle" : {
-                          "backgroundColor" : "rgb(191, 242, 191)",
+                          "flexDirection" : "column",
                           "flexGrow" : "1",
-                          "height" : "500px",
                           "width" : "100%"
                         },
-                        "mapOptions" : {
-                          "onClick" : {
-                            "@class" : "ScriptCallback",
-                            "args" : [ "coord", "features" ],
-                            "content" : "import { handleClickOnMap } from \"./the_world\";\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
-                          }
-                        },
-                        "style" : { },
-                        "viewOptions" : {
-                          "center" : [ 2539119, 1181103 ],
-                          "extent" : [ 2537500, 1179500, 2540500, 1182500 ],
-                          "projection" : "EPSG:2056"
-                        }
+                        "localState" : true,
+                        "name" : "Debug state",
+                        "style" : { }
                       },
-                      "type" : "WegasMap"
+                      "type" : "State"
                     } ],
-                    "exposeAs" : "debugPanels",
-                    "initialState" : {
-                      "@class" : "Script",
-                      "content" : "({\n\tvisibleBuildings: false,\n\tvisiblePath: true,\n\tvisibleGrid: null\n})",
-                      "language" : "TypeScript"
+                    "layout" : {
+                      "flexDirection" : "column"
                     },
                     "layoutStyle" : {
-                      "flexDirection" : "column",
-                      "flexGrow" : "1",
+                      "overflow" : "auto",
                       "width" : "100%"
                     },
-                    "localState" : true,
-                    "name" : "Debug state",
                     "style" : { }
                   },
-                  "type" : "State"
+                  "type" : "FlexList"
                 } ]
               },
               "type" : "PlayerIf"
@@ -720,7 +686,7 @@
             } ],
             "ifCondition" : {
               "@class" : "Script",
-              "content" : "Context.mapId.mapId != undefined && Context.mapId.mapId.length > 0;",
+              "content" : "Context.mapId?.mapId?.length > 0;",
               "language" : "JavaScript"
             },
             "layoutStyle" : {
@@ -733,7 +699,7 @@
         "exposeAs" : "mapId",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCurrentMapId } from \"./mapLayers\";\n[{mapId : getCurrentMapId()}];",
+          "content" : "import { getCurrentMapId } from \"./mapLayers\";\nwlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "mapId",

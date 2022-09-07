@@ -24,6 +24,49 @@ export const mapResolution = Helpers.useRef<any>("mapResolution", 1);
 
 const CELL_SIZE_METER = 1;
 
+interface ExtentState {
+	extent : ExtentLikeObject | undefined,
+	loadState : 'LOADED' | 'LOADING' | 'NOT LOADED'
+}
+
+export function getInitialExtentState(): ExtentState {
+	//wlog('getting initial state')
+	return {
+		extent : undefined,
+		loadState : 'NOT LOADED'
+	}
+}
+
+type ExtentStateSetter = ((s : ExtentState) => void)
+
+export function tryLoadExtent(mapId : string, extentState : ExtentState, setState : ExtentStateSetter ): ExtentState {
+	
+	switch(extentState.loadState){
+		case 'NOT LOADED':
+			extentState.loadState = "LOADING"
+			const req = Helpers.downloadFile(`maps/${mapId}/bbox.data`, 'TEXT');
+
+			req.then((t) => {
+				wlog(t);
+				const ext = parseExtent(t);
+				wlog('parsed ext', ext);
+				// convert extent to map
+				
+				extentState.extent = ext;
+				extentState.loadState = "LOADED";
+				setState(extentState);
+			}).catch((r) => {
+				extentState.loadState = 'NOT LOADED';
+				layerDataLogger.error('Error when loading extent', r);
+			})
+			break;
+		case 'LOADING':
+		case 'LOADED':
+	}
+
+	return extentState;
+}
+
 export function getMapResolution() : number {
 	return mapResolution.current;
 }
@@ -198,6 +241,8 @@ function buildObstacleLayerUid(ol : ObstacleLayer): string{
  */
 export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValue: ObstacleType, canOverride: boolean, algo : ObstacleAlgo, cutGeometry?: number, logTime: boolean = false){
 
+	mapRef.current = map; // TODO better (if more than one map, havoc)
+
 	if(algo === 'None'){
 		return;
 	}
@@ -217,7 +262,6 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValu
 	obstacleLayers.current[uid] = ol;
 	layerDataLogger.info('Processing ', uid);
 
-	mapRef.current = map; // TODO better (if more than one map, havoc)
 
 	if(!obstacleGrid.current.init){
 
@@ -533,4 +577,9 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 		extent.fillWithValue(grid, 0, false);
 	}
 
+}
+
+export function parseExtent(extentString: string) : ExtentLikeObject{
+
+	return extentString.split(',').map((v)=> parseFloat(v)) as ExtentLikeObject;
 }

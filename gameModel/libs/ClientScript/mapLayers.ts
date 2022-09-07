@@ -64,7 +64,7 @@ export function getCurrentMapId(): string | undefined {
 	const me = humans.find(h => h.id === hId);
 	//TODO why is this called every second ?
 	//wlog('location', me?.location?.mapId);
-	return me?.location?.mapId;
+	return me?.location?.mapId || '';
 }
 
 
@@ -77,7 +77,7 @@ export function getFogOfWarLayer(): FeatureCollection {
 	if (initialMap) {
 
 		const extent = initialMap.getView().calculateExtent();
-		//wlog(extent);
+		wlog(extent);
 		//const extent = initialMap.getView().calculateExtent(initialMap.getSize());
 		const width = extent[2] - extent[0];
 		const height = extent[3] - extent[1];

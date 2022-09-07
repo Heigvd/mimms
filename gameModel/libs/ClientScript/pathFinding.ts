@@ -9,10 +9,7 @@ import { Point, add, equalsStrict, sub, lengthSquared } from "./point2D";
  * Class that implement a Node (or Vertex) for a pathfinding grid
  */
 class Node {
-	// General properties
-	//readonly id: number;
 	readonly position: Point;
-	//private isWalkable: boolean;
 
 	// Calculated weights
 	private fValue: number;
@@ -917,7 +914,7 @@ export class PathFinder {
 	private toWorldPath(path: Point[], worldStart: Point, localStart: Point, worldEnd: Point): Point[] {
 
 		if(path.length < 2){
-			return [worldStart, worldEnd];
+			return [worldStart];
 		}
 		const worldPath = path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
 
