@@ -172,14 +172,14 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getWaterStyle } from \"./layerStyling\";\n//wlog(feature.getProperties());\n//console.log(feature.getProperties())\ngetWaterStyle(feature, resolution);"
+                                              "content" : "import { getWaterStyle } from \"./layerStyling\";\ngetWaterStyle(feature, resolution);"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "water",
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -206,6 +206,11 @@
                                             },
                                             "layoutStyle" : { },
                                             "name" : "rails",
+                                            "onLayerReady" : {
+                                              "@class" : "ScriptCallback",
+                                              "args" : [ "layer", "map" ],
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Train, false, 'Recursive', 64);\nreturn;"
+                                            },
                                             "style" : { }
                                           },
                                           "type" : "WegasMapVectorLayer"
@@ -236,7 +241,7 @@
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Road, true, 'Recursive', 64);\nreturn;"
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Road, true, 'Recursive', 64, true);\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -374,7 +379,9 @@
                                         }, {
                                           "props" : {
                                             "layerId" : "",
-                                            "layerProps" : { },
+                                            "layerProps" : {
+                                              "zIndex" : 100
+                                            },
                                             "layerSource" : {
                                               "dataType" : "GeoJSON",
                                               "source" : {
@@ -421,7 +428,7 @@
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map,ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
+                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -434,7 +441,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer();",
+                                                "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer(Context.mapId.mapId);",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -457,7 +464,7 @@
                                           "props" : {
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "!Boolean(Context.debugPanels.state.visibleBuildings);",
+                                              "content" : "true;",
                                               "language" : "JavaScript"
                                             },
                                             "layerId" : "",
@@ -495,7 +502,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { emptyFeatureCollection, getObstacleGridLayer } from \"./mapLayers\";\nimport { getGridDebug } from \"./mapLayers\";\nconst g = getGridDebug();;\n//wlog(g); \nreturn getGridDebug();\nconst density = Context.debugPanels.state.visibleGrid?.value ?? 0.1;\ngetObstacleGridLayer(density);",
+                                                "content" : "import { getGridDebug } from \"./mapLayers\";\ngetGridDebug();",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -530,7 +537,7 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n}})"
+                                              "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n\twidth: 2\n}})"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "[DEBUG] Character Paths",
@@ -541,7 +548,7 @@
                                         "debug" : true,
                                         "id" : "",
                                         "layoutStyle" : {
-                                          "backgroundColor" : "rgb(191, 242, 191)",
+                                          "backgroundColor" : "rgb(255,255,255)",
                                           "flexGrow" : "1",
                                           "height" : "500px",
                                           "width" : "100%"
@@ -558,7 +565,7 @@
                                           "center" : [ 2539119, 1181103 ],
                                           "extent" : {
                                             "@class" : "Script",
-                                            "content" : "//wlog(Context.debugPanels.state);\nContext.debugPanels.state.extent;",
+                                            "content" : "//wlog(Context.mapExtentState.state);\nContext.mapExtentState.state.extent;",
                                             "language" : "typescript"
                                           },
                                           "projection" : {
@@ -593,7 +600,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { tryLoadExtentAsync } from \"./layersData\";\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.debugPanels.state, Context.debugPanels.setState);\n`<p>Load state : ${Context.debugPanels.state.loadState}<br></p>`",
+                                          "content" : "import { tryLoadExtentAsync } from \"./layersData\";\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.mapExtentState.state, Context.mapExtentState.setState);\n`<p>Load state : ${Context.mapExtentState.state.loadState}<br></p>`",
                                           "language" : "JavaScript"
                                         }
                                       },
@@ -607,7 +614,7 @@
                             } ],
                             "ifCondition" : {
                               "@class" : "Script",
-                              "content" : "Context.debugPanels.state.loadState == 'LOADED';",
+                              "content" : "Context.mapExtentState.state.loadState == 'LOADED';",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : {
@@ -617,7 +624,7 @@
                           },
                           "type" : "If Else"
                         } ],
-                        "exposeAs" : "debugPanels",
+                        "exposeAs" : "mapExtentState",
                         "initialState" : {
                           "@class" : "Script",
                           "content" : "import { getInitialExtentState } from \"./layersData\";\ngetInitialExtentState();",

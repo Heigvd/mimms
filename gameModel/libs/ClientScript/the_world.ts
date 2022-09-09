@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, dot, length, equals } from './point2D';
+import { Point, add, sub, mul, proj, lengthSquared, length } from './point2D';
 
 import {
 	BlockName,
@@ -58,13 +58,13 @@ import {
 } from './communication';
 import { calculateLOS, isPointInPolygon } from './lineOfSight';
 import { PathFinder } from './pathFinding';
-import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrid } from './layersData';
+import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from './logger';
 import { SkillLevel } from './GameModelerHelper';
-import { FeatureCollection, getGridDebug, setDebugGrid } from './mapLayers';
+import { addSquareFeature, FeatureCollection, getGridDebug, setDebugGrid } from './mapLayers';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -331,26 +331,6 @@ interface CurrentLocationOutput {
 let lastPos : Point = {x:0, y:0};
 
 
-function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number, properties : Record<string, string>) {
-	collection.features.push({
-		type: 'Feature',
-		properties: properties,
-		geometry: {
-			type: 'Polygon',
-			coordinates: [
-				[
-					[minX, minY],
-					[minX, maxY],
-					[maxX, maxY],
-					[maxX, minY],
-					[minX, minY],
-				]
-			]
-		}
-	} as never)
-}
-
-
 /**
  * speed: unit/sec
  */
@@ -365,7 +345,7 @@ function computeCurrentLocation(
 	if (location?.location != null) {
 		if (location.direction != null) {
 			// This should be done only when the obstacle grid changes
-			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrid.current;
+			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrids.current[location.location.mapId];
 
 			const pathFinder = new PathFinder({
 				grid: {
@@ -479,6 +459,7 @@ function computeCurrentLocation(
 }
 
 /**
+ * TODO REMOVE ??
  * Is there an intersection between sebment AB and circle (c, sqrt(sqRadius))
  *
  * (using sqRadius to prevent uselesss sqrt computation)

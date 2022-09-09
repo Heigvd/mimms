@@ -4,19 +4,14 @@ import { layerDataLogger } from "./logger";
 import { Point } from "./point2D";
 
 export type Shape = Point[];
-export type Polygon = Point[]
-export type Polygons = Polygon[]
+export type Polygon = Point[];
+export type Polygons = Polygon[];
+
+type MapId = string;
 
 export const buildingLayer = Helpers.useRef<any>("buildingLayer", null);
-export const mapRef = Helpers.useRef<any>("mapRef", null);
-export const obstacleGrid = Helpers.useRef<WorldGrid>("obstacleGridSource", {
-	init: false,
-	grid: [[]],
-	cellSize: 1,
-	gridWidth: 1,
-	gridHeight: 1,
-	offsetPoint: { x: 0, y: 0 }
-});
+export const mapRefs = Helpers.useRef<Record<MapId, any>>("mapRefs", {});
+export const obstacleGrids = Helpers.useRef<Record<MapId,WorldGrid>>("obstacleGridSource", {});
 
 export const obstacleLayers = Helpers.useRef('obstacleRefs', {} as Record<string, ObstacleLayer>);
 export const obstacleExtents = Helpers.useRef('recursiveExtents', {} as Record<ObstacleType, DiscreteExtent[]>); 
@@ -33,7 +28,6 @@ interface ExtentState {
 }
 
 export function getInitialExtentState(): ExtentState {
-	//wlog('getting initial state')
 	return {
 		extent : undefined,
 		loadState : 'NOT LOADED'
@@ -51,9 +45,8 @@ export function tryLoadExtentAsync(mapId : string, extentState : ExtentState, se
 
 			req.then((t) => {
 				const ext = parseExtent(t);
-				// convert extent to map
-				const convExt = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
-				extentState.extent = convExt;
+				// convert extent to map projection
+				extentState.extent = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
 				extentState.loadState = "LOADED";
 				setState(extentState);
 			}).catch((r) => {
@@ -85,7 +78,6 @@ export function convertMapUnitToMeter(length: number){
 }
 
 export interface WorldGrid {
-	init: boolean;
 	grid: number[][];
 	gridWidth: number;
 	gridHeight: number;
@@ -118,7 +110,7 @@ const obstacleSplitValues : Record<ObstacleType, number> = {
 
 type ObstacleLayer = {
 	layer: any,
-	map: any,
+	mapId: MapId,
 	obstacleValue: ObstacleType,
 	canOverride: boolean,
 	cutGeometry: number,
@@ -215,26 +207,10 @@ export class DiscreteExtent {
 }
 
 
-/**
- * Register a layer for obstacle grid computation
- * @see buildObstacleMatrix
- */
-export function registerObstacleLayer(layer: any, map: any, obstacleValue: ObstacleType, canOverride: boolean, algo : ObstacleAlgo, cutGeometry?: number) {
-
-	mapRef.current = map; // TODO better (if more than one map, havoc)
-	layerDataLogger.info('Registering obstacle layer', algo, ObstacleType[obstacleValue]);
-	if(cutGeometry == undefined){
-		cutGeometry = obstacleSplitValues[obstacleValue];
-		layerDataLogger.info(cutGeometry, ObstacleType[obstacleValue]);
-	}
-	const ol : ObstacleLayer = {layer, map, obstacleValue, canOverride, algo, cutGeometry, processed: false};
-	const uid = buildObstacleLayerUid(ol);
-	obstacleLayers.current[uid] = ol;
-}
-
 function buildObstacleLayerUid(ol : ObstacleLayer): string{
 
 	return [
+		ol.mapId,
 		ol.layer.get('layerId'), 
 		ObstacleType[ol.obstacleValue], 
 		ol.algo, 
@@ -246,9 +222,9 @@ function buildObstacleLayerUid(ol : ObstacleLayer): string{
 /**
  * Updates the obstacle grid with a layer. Creates the grid if uninitialized.
  */
-export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValue: ObstacleType, canOverride: boolean, algo : ObstacleAlgo, cutGeometry?: number, logTime: boolean = false){
+export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: string, obstacleValue: ObstacleType, canOverride: boolean, algo : ObstacleAlgo, cutGeometry?: number, logTime: boolean = false){
 
-	mapRef.current = map; // TODO better (if more than one map, havoc)
+	mapRefs.current[mapId] = map;
 
 	if(algo === 'None'){
 		return;
@@ -259,7 +235,7 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValu
 		layerDataLogger.info(cutGeometry, ObstacleType[obstacleValue]);
 	}
 
-	const ol : ObstacleLayer = {layer, map, obstacleValue, canOverride, algo, cutGeometry, processed : false};
+	const ol : ObstacleLayer = {layer, mapId, obstacleValue, canOverride, algo, cutGeometry, processed : false};
 	const uid = buildObstacleLayerUid(ol);
 	if(obstacleLayers.current[uid]?.processed){
 		layerDataLogger.info('Already processed, ignoring', uid);
@@ -269,36 +245,35 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValu
 	obstacleLayers.current[uid] = ol;
 	layerDataLogger.info('Processing ', uid);
 
+	let worldGrid : WorldGrid = obstacleGrids.current[mapId];
+	if(!worldGrid){
 
-	if(!obstacleGrid.current.init){
-
-		const extent = mapRef.current.getView().get('extent');
-		const meterPerUnit = mapRef.current.getView().getProjection().getMetersPerUnit();
+		const cellSize = CELL_SIZE_METER;
+		const extent = map.getView().get('extent');
+		const meterPerUnit = map.getView().getProjection().getMetersPerUnit();
 		const extentWidth = Math.abs(extent[2] - extent[0]);
 		const extentHeight = Math.abs(extent[3] - extent[1]);
 		const worldWidth = extentWidth * meterPerUnit;
 		const worldHeight = extentHeight * meterPerUnit;
-		const cellSize = CELL_SIZE_METER;
 		const offsetPoint: Point = { x: extent[0] * meterPerUnit, y: extent[1] * meterPerUnit};
 
-		const grid: number[][] = [];
 		let gridHeight = Math.round(worldHeight / cellSize);
 		let gridWidth = Math.round(worldWidth / cellSize);
 
-		obstacleGrid.current = {
-			init: true,
-			grid,
+		obstacleGrids.current[mapId] = {
+			grid: [],
 			gridWidth,
 			gridHeight,
 			cellSize,
 			offsetPoint,
 		}
+		worldGrid = obstacleGrids.current[mapId]
 	}
 
-	const gridHeight = obstacleGrid.current.gridHeight;
-	const gridWidth = obstacleGrid.current.gridWidth;
-	const cellSize = obstacleGrid.current.cellSize;
-	const offsetPoint = obstacleGrid.current.offsetPoint;
+	const gridHeight = worldGrid.gridHeight;
+	const gridWidth = worldGrid.gridWidth;
+	const cellSize = worldGrid.cellSize;
+	const offsetPoint = worldGrid.offsetPoint;
 
 	if(logTime){
 		const keys = Object.values(ObstacleType).filter((v) => !isNaN(Number(v))) as ObstacleType[];
@@ -326,7 +301,7 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValu
 
 	switch(ol.algo){
 		case 'Recursive':
-			recursiveMatrixFill(obstacleGrid.current.grid, cutLayers, ol, offsetPoint, cellSize, logTime);
+			recursiveMatrixFill(worldGrid.grid, cutLayers, ol, offsetPoint, cellSize, logTime);
 			break;
 		default: // do nothing
 	}
@@ -336,92 +311,6 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, obstacleValu
 	if(logTime){
 		console.timeEnd("genGridMatrix");
 		console.timeEnd('full processing one layer');
-	}
-
-}
-
-/**
- * Build obstacle matrix from all the registered layers
- * @see registerObstacleLayer
- */
-export function buildObstacleMatrix(logTime: boolean = false){
-
-	if(logTime){
-		console.time('FULL PROCESSING');
-	}
-
-	const extent = mapRef.current.getView().get('extent');
-	const meterPerUnit = mapRef.current.getView().getProjection().getMetersPerUnit();
-	const extentWidth = Math.abs(extent[2] - extent[0]);
-	const extentHeight = Math.abs(extent[3] - extent[1]);
-	const worldWidth = extentWidth * meterPerUnit;
-	const worldHeight = extentHeight * meterPerUnit;
-	const cellSize = CELL_SIZE_METER;
-	const offsetPoint: Point = { x: extent[0] * meterPerUnit, y: extent[1] * meterPerUnit};
-
-	const grid: number[][] = [];
-	let gridHeight = Math.round(worldHeight / cellSize);
-	let gridWidth = Math.round(worldWidth / cellSize);
-
-	if(logTime){
-		layerDataLogger.info('grid size', gridWidth, gridHeight);
-	}
-
-	obstacleGrid.current = {
-		init: true,
-		grid,
-		gridWidth,
-		gridHeight,
-		cellSize,
-		offsetPoint,
-	}
-
-	if(logTime){
-		const keys = Object.values(ObstacleType).filter((v) => !isNaN(Number(v))) as ObstacleType[];
-		keys.forEach((k : ObstacleType) => obstacleExtents.current[k]= [])
-	}
-
-	const mapExtent = new DiscreteExtent(0,0,gridWidth, gridHeight);
-
-	const layers = Object.values(obstacleLayers.current);
-	for(let k = 0; k < layers.length; k++){
-
-		const ol = layers[k];
-		layerDataLogger.info('******* Processing', ObstacleType[ol.obstacleValue]);
-		if(ol.algo === 'None' || ol.processed){
-			layerDataLogger.info('Ignoring ', ol);
-			continue;
-		}
-
-		if(logTime){
-			console.time('full processing one layer');
-		}
-		// Cut huge geometries to extent (typically rivers and lakes)
-		const cutLayers = layerCut(ol, mapExtent, cellSize, offsetPoint, logTime);
-
-		if(logTime){
-			console.time("genGridMatrix");
-		}
-		obstacleExtents.current[ol.obstacleValue] = [];
-
-		switch(ol.algo){
-			case 'Recursive':
-				recursiveMatrixFill(grid, cutLayers, ol, offsetPoint, cellSize, logTime);
-				break;
-			default: // do nothing
-		}
-
-		ol.processed = true;
-
-		if(logTime){
-			console.timeEnd("genGridMatrix");
-			console.timeEnd('full processing one layer');
-		}
-
-	}
-
-	if(logTime){
-		console.timeEnd('FULL PROCESSING')
 	}
 
 }
@@ -460,12 +349,15 @@ function layerCut(ol : ObstacleLayer, mapExtent : DiscreteExtent, cellSize: numb
 		const e = ext.toExtentWorld(cellSize, offsetPoint,1);
 		vecSource.forEachFeatureIntersectingExtent(e, (f:any) => {
 			const g = f.getGeometry();
+			const coord = g.getCoordinates();
 			let shape : any = undefined;
 			switch(g.getType()){
 				case 'Polygon':
 					shape = Turf.polygon(g.getCoordinates());
 					break;
 				case 'MultiPolygon':
+					layerDataLogger.info(coord);
+					layerDataLogger.info(coord)
 					shape = Turf.multiPolygon(g.getCoordinates());
 					break;
 				case 'LineString':
@@ -477,12 +369,17 @@ function layerCut(ol : ObstacleLayer, mapExtent : DiscreteExtent, cellSize: numb
 			}
 
 			if(shape){
-				const cutFeat = Turf.bboxClip(shape, e);
-				const newFeat = new OpenLayer.format.GeoJSON().readFeatureFromObject(cutFeat);
+				const cutShape = Turf.bboxClip(shape, e);
+				if(g.getType() === 'MultiPolygon'){
+					// empty arrays make GeoJson's read method very sad
+					// => remove them
+					cutShape.geometry.coordinates = cutShape.geometry.coordinates.filter((c : any) => c.length > 0);
+				}
+				const newFeat = new OpenLayer.format.GeoJSON().readFeatureFromObject(cutShape);
 				cutFeatures.push(newFeat);
 			}else{
-					// typically a Point
-					cutFeatures.push(f);
+				// typically a Point
+				cutFeatures.push(f);
 			}
 		});
 
@@ -530,7 +427,7 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 				return false;
 			}
 			const contour = extent.contourWorld(cellSize, offset);
-			if(g.intersectsCoordinate(contour[0])){
+			if(g.intersectsCoordinate(contour[0])){ // at least one point inside
 				const contourLine = Turf.lineString(contour);
 
 				switch(g.getType()){
@@ -554,9 +451,9 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 				
 			}
 			// stop after first intersection.
-			// assumption : if extent is contained => no need to continue,
+			// assumption : if extent is contained => no need to continue anyway,
 			// if not, it is unlikely that another overlapping feature will cross
-			// thus we can just continue splitting
+			// thus we can just continue splitting, that doesn't hurt
 			return true;
 
 		});
@@ -572,7 +469,7 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 			}
 
 		}else{
-			// while would be logical to split in 2
+			// while it would sound logical to split in 2
 			// splitting in 4 is more efficient empirically in all cases
 			const partitions = extent.split(4);
 			for(let j = 0; j < partitions.length; j++){

@@ -119,8 +119,8 @@ export function getWaterStyle(feature: any, resolution: number): LayerStyleObjec
 			scale : 1.5,
 			"text": label
 		}
-		color = "rgba(250,150,20,0.5)";
-		stroke = "rgb(200,150,20)";
+		//color = "rgba(250,150,20,0.5)";
+		//stroke = "rgb(200,150,20)";
 		//return {"stroke":{"type":"StrokeStyle","lineCap":"round","lineJoin":"round","miterLimit":10, width:2},"padding":[null,null,null,null],"overflow":false,"placement":"point","text": name,"scale":2, "placement":"line"}})
 	}else{
 		//wlog('no label', feature.getGeometry().getType());
