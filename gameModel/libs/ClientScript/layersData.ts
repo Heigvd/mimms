@@ -24,6 +24,9 @@ export const mapResolution = Helpers.useRef<any>("mapResolution", 1);
 
 const CELL_SIZE_METER = 1;
 
+export const swissDefaultProjection = 'EPSG:2056';
+const gpsProjection = 'EPSG:4326';
+
 interface ExtentState {
 	extent : ExtentLikeObject | undefined,
 	loadState : 'LOADED' | 'LOADING' | 'NOT LOADED'
@@ -39,7 +42,7 @@ export function getInitialExtentState(): ExtentState {
 
 type ExtentStateSetter = ((s : ExtentState) => void)
 
-export function tryLoadExtent(mapId : string, extentState : ExtentState, setState : ExtentStateSetter ): ExtentState {
+export function tryLoadExtentAsync(mapId : string, extentState : ExtentState, setState : ExtentStateSetter ): ExtentState {
 	
 	switch(extentState.loadState){
 		case 'NOT LOADED':
@@ -47,12 +50,10 @@ export function tryLoadExtent(mapId : string, extentState : ExtentState, setStat
 			const req = Helpers.downloadFile(`maps/${mapId}/bbox.data`, 'TEXT');
 
 			req.then((t) => {
-				wlog(t);
 				const ext = parseExtent(t);
-				wlog('parsed ext', ext);
 				// convert extent to map
-				
-				extentState.extent = ext;
+				const convExt = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
+				extentState.extent = convExt;
 				extentState.loadState = "LOADED";
 				setState(extentState);
 			}).catch((r) => {
@@ -65,6 +66,12 @@ export function tryLoadExtent(mapId : string, extentState : ExtentState, setStat
 	}
 
 	return extentState;
+}
+
+export function parseExtent(extentString: string) : ExtentLikeObject{
+
+	const ext = extentString.split(',').map((v)=> parseFloat(v));
+	return [ext[1], ext[0], ext[3], ext[2]] as ExtentLikeObject;
 }
 
 export function getMapResolution() : number {
@@ -577,9 +584,4 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 		extent.fillWithValue(grid, 0, false);
 	}
 
-}
-
-export function parseExtent(extentString: string) : ExtentLikeObject{
-
-	return extentString.split(',').map((v)=> parseFloat(v)) as ExtentLikeObject;
 }

@@ -558,10 +558,14 @@
                                           "center" : [ 2539119, 1181103 ],
                                           "extent" : {
                                             "@class" : "Script",
-                                            "content" : "wlog(Context.debugPanels.state);\n([2537500,1179500,2540500,1182500])",
+                                            "content" : "//wlog(Context.debugPanels.state);\nContext.debugPanels.state.extent;",
                                             "language" : "typescript"
                                           },
-                                          "projection" : "EPSG:2056"
+                                          "projection" : {
+                                            "@class" : "Script",
+                                            "content" : "import { swissDefaultProjection } from \"./layersData\";\nswissDefaultProjection;",
+                                            "language" : "typescript"
+                                          }
                                         }
                                       },
                                       "type" : "WegasMap"
@@ -589,7 +593,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { tryLoadExtent } from \"./layersData\";\n\ntryLoadExtent(Context.mapId.mapId, Context.debugPanels.state, Context.debugPanels.setState);\nwlog(Context.debugPanels.state);\n`<p>Load state : ${Context.debugPanels.state.loadState}<br></p>`",
+                                          "content" : "import { tryLoadExtentAsync } from \"./layersData\";\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.debugPanels.state, Context.debugPanels.setState);\n`<p>Load state : ${Context.debugPanels.state.loadState}<br></p>`",
                                           "language" : "JavaScript"
                                         }
                                       },
@@ -625,7 +629,7 @@
                           "width" : "100%"
                         },
                         "localState" : true,
-                        "name" : "Debug state",
+                        "name" : "Extent state",
                         "style" : { }
                       },
                       "type" : "State"
@@ -674,6 +678,27 @@
                             "language" : "typescript"
                           }
                         },
+                        "name" : "Yverdon",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "icon" : "location-arrow",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Go to Geneva<br></p>\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { setMapIdForPlayer } from \"./the_world\";\n\nsetMapIdForPlayer('geneva');",
+                            "language" : "typescript"
+                          }
+                        },
+                        "name" : "Geneva",
                         "style" : { }
                       },
                       "type" : "Button"
@@ -699,7 +724,7 @@
         "exposeAs" : "mapId",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCurrentMapId } from \"./mapLayers\";\nwlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
+          "content" : "import { getCurrentMapId } from \"./mapLayers\";\n//wlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "mapId",
