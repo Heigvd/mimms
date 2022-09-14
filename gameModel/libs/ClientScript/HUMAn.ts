@@ -89,7 +89,11 @@ export interface BodyFactoryParam {
 	/** Effective number of respiratory units is 2^depth */
 	lungDepth: number;
 
+	/** initial event */
 	scriptedEvents?: ScriptedEvent[];
+
+	/** description */
+	description?: string;
 
 	/** Skill id. 'empty' menas no special skill' */
 	skillId?: string;

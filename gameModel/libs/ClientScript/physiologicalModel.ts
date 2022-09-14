@@ -880,7 +880,7 @@ export function compute(
 	//const computedPaO2_v2 = computePaO2(hb_gPerL, CaO2);
 
 	let PaO2_mmHg = computedPaO2;
-	wlog("PaO2 to PaCO2", {
+	logger.info("PaO2 to PaCO2", {
 		PaO2_mmHg,
 		indexChoc,
 		result: (indexChoc > 1 ? PaO2_mmHg * indexChoc : PaO2_mmHg)

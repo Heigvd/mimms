@@ -233,7 +233,7 @@ export class HumanGenerator {
 	}
 
 	// TODO gravity factor and more configuration and avoid apply twice with the same parameters
-	public addPathologies(human: BodyFactoryParam, n: number): BodyFactoryParam {
+	public addPathologies(human: BodyFactoryParam, n: number, time: number = 10): BodyFactoryParam {
 
 		if (!human.scriptedEvents) {
 			human.scriptedEvents = [];
@@ -244,7 +244,7 @@ export class HumanGenerator {
 
 			const def = pickRandom(pList);
 			// TODO : time
-			const p = buildScriptedPathologyPayload(def?.value, 10);
+			const p = buildScriptedPathologyPayload(def?.value, time);
 			human.scriptedEvents.push(p);
 		}
 
@@ -255,7 +255,7 @@ export class HumanGenerator {
 	/**
 	 * Add random treatment
 	 */
-	public addTreatments(human: BodyFactoryParam, n: number): BodyFactoryParam {
+	public addTreatments(human: BodyFactoryParam, n: number, time: number = 10): BodyFactoryParam {
 
 		if (!human.scriptedEvents) {
 			human.scriptedEvents = [];
@@ -266,7 +266,7 @@ export class HumanGenerator {
 
 			const def = pickRandom(list);
 			// TODO : time
-			const p = buildScriptedTreatmentPayload(def!, 10);
+			const p = buildScriptedTreatmentPayload(def!, time);
 			human.scriptedEvents.push(p);
 		}
 

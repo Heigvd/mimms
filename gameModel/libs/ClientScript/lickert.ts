@@ -9,7 +9,9 @@ import {
 	MatrixConfig,
 } from './MatrixEditor';
 import { prettyPrinterAfflictedPathology } from './pathology';
+import { prettyPrintScript } from './pathologyEditor';
 import { ClKeys, LickertData, PhKeys, run_lickert, Serie } from './RUN';
+import { ScriptedEvent } from './the_world';
 import {
 	getCurrentPatientBodyParam,
 	getCurrentPatientId,
@@ -142,7 +144,7 @@ export function prettyPrintCurrentPatientMeta() {
 	let title = '';
 
 	if (param) {
-		const { meta } = computeMetas(param);
+		//const { meta } = computeMetas(param);
 		title = `${id}`;
 	} else {
 		title = 'No patient';
@@ -158,7 +160,7 @@ export function prettyPrintCurrentPatientInfos() {
 	if (param) {
 		const { meta } = computeMetas(param);
 		title = `<h3>Infos</h3><ul><li><b>Gender:</b>  ${meta.sex} </li>
-		<li><b>Age:</b>  ${meta.age}y.o.</li>
+		<li><b>Age:</b>  ${meta.age}</li>
 		<li><b>Height:</b>  ${meta.height_cm}cm</li>
 		<li><b>Weight:</b>   ${meta.effectiveWeight_kg.toFixed()}kg</li></ul>`;
 	} else {
@@ -168,27 +170,11 @@ export function prettyPrintCurrentPatientInfos() {
 	return `${title}`;
 }
 
+
+
 export function prettyPrintCurrentPatientScript(): string {
 	const param = getCurrentPatientBodyParam();
-
-	if (param) {
-		return (param.scriptedEvents || [])
-			.map(sp => {
-				if (sp.payload.type === 'HumanPathology') {
-					return prettyPrinterAfflictedPathology(sp.payload);
-				} else if (sp.payload.type === 'HumanTreatment') {
-					const source = sp.payload.source;
-					return `${source.type === 'act' ? source.actId : source.itemId}`;
-				} else if (sp.payload.type === 'Teleport') {
-					return '';
-				} else {
-					checkUnreachable(sp.payload)
-				}
-			})
-			.join('<br />');
-	} else {
-		return '';
-	}
+	return param?.description || '';
 }
 
 

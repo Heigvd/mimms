@@ -3,10 +3,12 @@
  * Pathology editor
  */
 
-import { Range } from "./helper";
-import { BlockName } from "./HUMAn";
-import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, pneumothoraxArgKeys, tamponadeArgKeys } from "./pathology";
+import { checkUnreachable, Range } from "./helper";
+import { BlockName, BodyFactoryParam } from "./HUMAn";
+import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "./pathology";
+import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
 import { getPathology } from "./registries";
+import { ScriptedEvent } from "./the_world";
 import { getBodyParam, getCurrentPatientId } from "./WegasHelper";
 
 
@@ -103,34 +105,130 @@ export function getPatientPathologyConfigs(patientId: string): PathologyEditorCo
 	}
 
 	return (param.scriptedEvents || [])
-        .flatMap(event => {
-            if (event.payload.type === 'HumanPathology'){
-                return [event.payload];
-            } else {
-                return [];
-            }
-        })
-        .map((payload, i) => getConfigFromAfflictedPathology(i, patientId, payload));
+		.flatMap(event => {
+			if (event.payload.type === 'HumanPathology') {
+				return [event.payload];
+			} else {
+				return [];
+			}
+		})
+		.map((payload, i) => getConfigFromAfflictedPathology(i, patientId, payload));
+}
+
+export function prettyPrintScript(script: ScriptedEvent[] = []): string {
+	if (script.length > 0) {
+		return (script || [])
+			.map(event => {
+				if (event.payload.type === 'HumanPathology') {
+					return prettyPrinterAfflictedPathology(event.payload);
+				} else if (event.payload.type === 'HumanTreatment') {
+					const source = event.payload.source;
+					return `${source.type === 'act' ? source.actId : source.itemId}`;
+				} else if (event.payload.type === 'Teleport') {
+					return '';
+				} else {
+					checkUnreachable(event.payload)
+				}
+			})
+			.join('<br />');
+	}
+
+	return 'Patient is healthy';
 }
 
 
-
-function updatePatient(patientId: string, newAp: AfflictedPathology) {
-	const param = getBodyParam(patientId);
-	const context = getPathologyEditorContext();
-
-	const pathologyIndex = context.id;
-
-	if (param?.scriptedEvents) {
-		const current = param.scriptedEvents[pathologyIndex]!.payload;
-		param.scriptedEvents[pathologyIndex]!.payload = { ...current, ...newAp };
+/**
+ * persist patient
+ * Overide patient description
+ */
+function persistPatient(patientId: string, param: BodyFactoryParam, generateDescription: boolean) {
+	if (generateDescription){
+		param.description = prettyPrintScript(param.scriptedEvents);
 	}
 
 	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(JSON.stringify(param))})`
 	APIMethods.runScript(script, {});
 }
 
+export function generateDescription(patientId: string, param: BodyFactoryParam){
+	persistPatient(patientId, param, true);
+}
 
+export function saveDescription(patientId: string, param: BodyFactoryParam, description: string) {
+	param.description = description;
+	persistPatient(patientId, param, false);
+}
+
+export function removeScriptedEvent(patientId: string, param: BodyFactoryParam, eventIndex: number) {
+	if (param.scriptedEvents) {
+		param.scriptedEvents.splice(eventIndex, 1);
+		persistPatient(patientId, param, true);
+	} else {
+		wlog("Unable to remove scripted event");
+	}
+}
+
+export function changePathology(patientId: string, param: BodyFactoryParam, pathologyIndex: number, pathologyId: string, time: number) {
+	const p = buildScriptedPathologyPayload(pathologyId, time);
+
+	(param.scriptedEvents || []).splice(pathologyIndex, 1, p);
+
+	persistPatient(patientId, param, true);
+}
+
+export function inoculate(patientId: string, param: BodyFactoryParam, pathologyId: string, time: number) {
+	const p = buildScriptedPathologyPayload(pathologyId, time);
+
+	if (param.scriptedEvents == null) {
+		param.scriptedEvents = [];
+	}
+	param.scriptedEvents.push(p);
+
+	persistPatient(patientId, param, true);
+}
+
+export function inoculateRandom(patientId: string, param: BodyFactoryParam, time: number) {
+	getHumanGenerator().addPathologies(param, 1, time);
+	persistPatient(patientId, param, true);
+}
+
+
+export function addRandomTreatment(patientId: string, param: BodyFactoryParam, time: number) {
+	getHumanGenerator().addTreatments(param, 1, time);
+	persistPatient(patientId, param, true);
+}
+
+
+export function changeTreatment(patientId: string, param: BodyFactoryParam, tIndex: number, newTreatment: string, time: number) {
+
+	const treatment = getAvailableTreatmentFromValue(newTreatment);
+
+	if (treatment) {
+		if (param.scriptedEvents == null) {
+			param.scriptedEvents = [];
+		}
+
+		const p = buildScriptedTreatmentPayload(treatment, time);
+		param.scriptedEvents.splice(tIndex, 1, p);
+		persistPatient(patientId, param, true);
+	}
+}
+
+
+function updatePatientPathology(patientId: string, newAp: AfflictedPathology) {
+	const param = getBodyParam(patientId);
+	if (param) {
+		const context = getPathologyEditorContext();
+
+		const pathologyIndex = context.id;
+
+		if (param?.scriptedEvents) {
+			const current = param.scriptedEvents[pathologyIndex]!.payload;
+			param.scriptedEvents[pathologyIndex]!.payload = { ...current, ...newAp };
+		}
+		persistPatient(patientId, param, true);
+	}
+}
 
 export function getCurrentPatientPathologyConfigs(): PathologyEditorContext[] {
 	return getPatientPathologyConfigs(getCurrentPatientId());
@@ -205,7 +303,7 @@ export function updateModuleBlock(blockName: BlockName) {
 	const ap = context.afflictedPathology;
 	ap.afflictedBlocks[moduleIndex] = blockName
 
-	updatePatient(context.patientId, ap);
+	updatePatientPathology(context.patientId, ap);
 }
 
 
@@ -223,5 +321,5 @@ export function updateModuleArg(value: number) {
 	// @ts-ignore: check typings
 	args[key] = value;
 
-	updatePatient(context.patientId, ap);
+	updatePatientPathology(context.patientId, ap);
 }
