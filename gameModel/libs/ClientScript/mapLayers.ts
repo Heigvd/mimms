@@ -1,10 +1,8 @@
-import { mapRef, obstacleGrid } from "./layersData";
 import { getDirectMessagesFrom } from "./communication";
+import { mapRefs } from "./layersData";
 import { getBuildingInExtent } from "./lineOfSight";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
-import { PathFinder } from "./pathFinding";
-import { getBodyPictoOffset } from "./graphics";
 
 interface PointFeature {
 	type: "Point";
@@ -25,7 +23,6 @@ interface MultiPolygonFeature {
 	type: "MultiPolygon";
 	coordinates: PointLikeObject[][][];
 }
-
 
 type Geometry = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature;
 
@@ -58,17 +55,24 @@ export const emptyFeatureCollection: FeatureCollection = {
 	features: []
 }
 
-export function getFogOfWarLayer(): FeatureCollection {
+export function getCurrentMapId(): string | undefined {
 	const hId = whoAmI();
 	const humans = getHumans();
 	const me = humans.find(h => h.id === hId);
+	//TODO why is this called every second ?
+	return me?.location?.mapId || '';
+}
 
-	const initialMap = mapRef.current;
+
+export function getFogOfWarLayer(mapId: string): FeatureCollection {
+	const hId = whoAmI();
+	const humans = getHumans();
+	const me = humans.find(h => h.id === hId);
+	
+	const initialMap = mapRefs.current[mapId];
 	if (initialMap) {
 
-
-		const extent = initialMap.getView().calculateExtent(initialMap.getSize());
-		//wlog("extent: ", extent);
+		const extent = initialMap.getView().calculateExtent();
 		const width = extent[2] - extent[0];
 		const height = extent[3] - extent[1];
 
@@ -103,6 +107,7 @@ export function getFogOfWarLayer(): FeatureCollection {
 
 		const visionPoints = me?.lineOfSight || [];
 
+		
 		visionPoints.forEach(point => {
 			hole.push([point.x, point.y])
 		})
@@ -246,77 +251,55 @@ export function getEmptyLayer(): FeatureCollection {
 	return emptyFeatureCollection;
 }
 
-export function getObstacleGridLayer(density: number = 0.5, debug?: boolean): FeatureCollection {
-	if (obstacleGrid?.current == null) {
-		return emptyFeatureCollection;
+
+let gridDebug: FeatureCollection = {
+	"type": "FeatureCollection",
+	"name": "obstacle layer",
+	"features": []
+};
+
+export function setDebugGrid(fc : FeatureCollection){
+	gridDebug = fc;
+}
+export function getGridDebug(): FeatureCollection {
+	return gridDebug;
+}
+
+export function getCellStyle(feature: any): LayerStyleObject {
+
+	const style : LayerStyleObject = {
+		fill: {
+			type: 'FillStyle',
+			color: feature.getProperties().color,
+		},
+		stroke: {
+			type: 'StrokeStyle',
+			color: 'white',
+			width:0.5
+		},
+		zIndex: feature.getProperties().zindex
 	}
+	return style;
+}
 
-	const {
-		grid,
-		gridWidth,
-		gridHeight,
-		cellSize,
-		offsetPoint
-	} = obstacleGrid.current;
 
-	const source: FeatureCollection = {
-		"type": "FeatureCollection",
-		"name": "obstacle layer",
-		"features": []
-	};
-
-	function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number,) {
-		collection.features.push({
-			type: 'Feature',
-			geometry: {
-				type: 'Polygon',
-				coordinates: [
-					[
-						[minX, minY],
-						[minX, maxY],
-						[maxX, maxY],
-						[maxX, minY],
-						[minX, minY],
-					]
+export function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number, properties : Record<string, string>) {
+	collection.features.push({
+		type: 'Feature',
+		properties: properties,
+		geometry: {
+			type: 'Polygon',
+			coordinates: [
+				[
+					[minX, minY],
+					[minX, maxY],
+					[maxX, maxY],
+					[maxX, minY],
+					[minX, minY],
 				]
-			}
-		} as never)
-	}
-	const totalCells = gridHeight * gridWidth;
-
-	// Debug ///////////////////////////////////////
-	const slices = Math.round(totalCells / 100);
-	const step = 1 + Math.round((1 - Math.max(0.1, Math.min(density, 1))) * 10);
-	////////////////////////////////////////////////
-
-	for (let j = 0; j < gridHeight; j += step) {
-		for (let i = 0; i < gridWidth; i += step) {
-
-			const cellIndex = i + j * gridWidth;
-			if (debug && cellIndex % slices === 0) {
-				wlog(Math.round(cellIndex * 100 / totalCells) + "%");
-			}
-
-			if (grid[j]![i]) {
-				const minPoint = PathFinder.gridPointToWorldPoint({ x: i, y: j }, cellSize, offsetPoint)
-				const maxPoint = PathFinder.gridPointToWorldPoint({ x: i + 1, y: j + 1 }, cellSize, offsetPoint);
-
-				/*
-				// Testing
-				const minCellPoint = worldPointToGridPoint(minPoint, cellSize, offsetPoint);
-				const maxCellPoint = worldPointToGridPoint(maxPoint, cellSize, offsetPoint);
-
-				const minWorldPoint = gridPointToWorldPoint(minCellPoint, cellSize, offsetPoint);
-				const maxWorldPoint = gridPointToWorldPoint(maxCellPoint, cellSize, offsetPoint);
-
-				addSquareFeature(source, minWorldPoint.x, minWorldPoint.y, maxWorldPoint.x, maxWorldPoint.y);
-				*/
-
-				addSquareFeature(source, minPoint.x, minPoint.y, maxPoint.x, maxPoint.y);
-			}
+			]
 		}
-	}
-	return source;
+	} as never)
 }
 
 export function getPathLayer() {
@@ -335,7 +318,7 @@ export function getPathLayer() {
 				coordinates: v.map(point => ([point.x, point.y]))
 			},
 			properties: {
-				color: i === 0 ? "hotpink" : i === 1 ? "#888" : "red"
+				color: "red",
 			}
 		}
 		source.features.push(newFeature);

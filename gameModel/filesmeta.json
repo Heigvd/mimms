@@ -23,6 +23,84 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/geneva/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/yverdon/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

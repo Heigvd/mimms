@@ -41,6 +41,51 @@ function angleDistanceToXY(
 	};
 }
 
+
+export function getSegmentIntersection(s1: Segment, s2: Segment): Point | undefined {
+	const p0 = s1[0], p1 = s1[1],
+		p2 = s2[0], p3 = s2[1];
+
+	const s10_x = p1.x - p0.x, s10_y = p1.y - p0.y,
+		s32_x = p3.x - p2.x, s32_y = p3.y - p2.y;
+
+	const denom = s10_x * s32_y - s32_x * s10_y
+
+	if (denom == 0){
+		return undefined // collinear
+	}
+
+
+	//const s = (-s1.y * (a[0].x - b[0].x) + s1.x * (a[0].y - b[0].y)) / denom;
+	//const t = (s2.x * (a[0].y - b[0].y) - s2.y * (a[0].x - b[0].x)) / denom;
+
+
+	const s02_x = p0.x - p2.x,
+		s02_y = p0.y - p2.y
+	const s_numer = s10_x * s02_y - s10_y * s02_x
+	if (s_numer < 0 == denom > 0) {
+		// no collision: s < 0
+		return undefined
+	}
+
+	const t_numer = s32_x * s02_y - s32_y * s02_x
+	if (t_numer < 0 == denom > 0) {
+		// no collision: t < 0
+		return undefined
+	}
+
+	if (s_numer > denom == denom > 0 || t_numer > denom == denom > 0) {
+		// no collision: s or t > 1
+		return undefined;
+	}
+	// collision detected
+	const t = t_numer / denom
+
+	return { x: p0.x + (t * s10_x), y: p0.y + (t * s10_y) }
+}
+
+
+/*
 export function lineSegmentInterception(s1: Segment, s2: Segment): Point | false {
 	const p0 = s1[0], p1 = s1[1],
 		p2 = s2[0], p3 = s2[1]
@@ -58,7 +103,7 @@ export function lineSegmentInterception(s1: Segment, s2: Segment): Point | false
 	// collision detected
 	const t = t_numer / denom
 	return { x: p0.x + (t * s10_x), y: p0.y + (t * s10_y) }
-}
+}*/
 
 
 export function computeVisionPolygon(
@@ -118,11 +163,10 @@ export function computeVisionPolygon(
 
 			const intersections = bSegments
 				.map(function mapIntersections({ segment }) {
-					return lineSegmentInterception(segmentFromPlayer, segment!);
-					//return segment_intersection(segmentFromPlayer, segment);
+					return getSegmentIntersection(segmentFromPlayer, segment!);
 				})
 				.filter(function filterIntersections(intersection) {
-					return intersection != false;
+					return intersection != undefined;
 				})
 				.map(function computeIntersections(intersection) {
 					const point = (intersection as Point)

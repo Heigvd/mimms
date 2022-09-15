@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, dot, length } from './point2D';
+import { Point, add, sub, mul, proj, lengthSquared, length } from './point2D';
 
 import {
 	BlockName,
@@ -58,12 +58,13 @@ import {
 } from './communication';
 import { calculateLOS, isPointInPolygon } from './lineOfSight';
 import { PathFinder } from './pathFinding';
-import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrid } from './layersData';
+import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from './logger';
 import { SkillLevel } from './GameModelerHelper';
+import { addSquareFeature, FeatureCollection, getGridDebug, setDebugGrid } from './mapLayers';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -327,6 +328,9 @@ interface CurrentLocationOutput {
 	direction?: Location;
 }
 
+let lastPos : Point = {x:0, y:0};
+
+
 /**
  * speed: unit/sec
  */
@@ -341,7 +345,7 @@ function computeCurrentLocation(
 	if (location?.location != null) {
 		if (location.direction != null) {
 			// This should be done only when the obstacle grid changes
-			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrid.current;
+			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrids.current[location.location.mapId];
 
 			const pathFinder = new PathFinder({
 				grid: {
@@ -353,8 +357,6 @@ function computeCurrentLocation(
 				offsetPoint,
 				heuristic: 'Octile',
 				diagonalAllowed: true,
-				includeEndNode: true,
-				includeStartNode :true,
 				useJumpPointSearch: true,
 				maxComputationTimeMs: 1500,
 				maxCoverageRatio: 0.1
@@ -370,16 +372,16 @@ function computeCurrentLocation(
 			let remainingDistance_sq = distance * distance;
 			let pathIndex = 1;
 			let segStart: Point = location.location;
-			let segEnd : Point | undefined = undefined;
+			let segEnd : Point = segStart;
 
-			let destinationReached = newPath.length < 2;
+			let destinationReached = false;
 
 			paths.current['moving'] = [segStart];
 
 			while (remainingDistance_sq > 0 && !destinationReached) {
 				segEnd = newPath[pathIndex]!;
-				// If we could run further than the last point of the path stop at the end of the path
-				// Also if the path has no lenght
+				// If we could run further than the last point of the path, stop at the end of the path
+				// Also if the path has no length
 				if (segEnd == null) {
 					destinationReached = true;
 					segEnd = segStart;
@@ -390,7 +392,7 @@ function computeCurrentLocation(
 				const segmentDistance_sq = lengthSquared(delta);
 				if (remainingDistance_sq < segmentDistance_sq) {
 					// distance still to walk is shorter than current segement distance
-					const ratio = Math.sqrt(remainingDistance_sq) / Math.sqrt(segmentDistance_sq);
+					const ratio = Math.sqrt(remainingDistance_sq / segmentDistance_sq);
 					segEnd = add(mul(delta, ratio), segStart);
 					paths.current['moving'].push(segEnd);
 					break;
@@ -402,24 +404,38 @@ function computeCurrentLocation(
 					paths.current['moving'].push(segEnd);
 				}
 			}
-			// TODO: follow each path segments, stop as sonne as distance has been walked
 
-			// Ensure the endPoint is not in an obstacle
-			segEnd = pathFinder.findNearestWalkablePoint(segEnd) ?? segStart;
-			/*
-            const delta = sub(location.direction, location.location);
-            const duration = currentTime - location.time;
-            const fullDistance = Math.sqrt(hypotSq(delta));
-            const distance = speed * duration;
-            const ratio = distance > fullDistance ? 1 : distance / fullDistance;
-            */
+			//if(equals(segEnd, lastPos)){
+				//wlog(newPath);
+
+				const lpr = {x: Math.round(lastPos.x), y: Math.round(lastPos.y)};
+				const rad = 10;
+				const gridDebug : FeatureCollection = {
+					"type": "FeatureCollection",
+					"name": "obstacle layer",
+					"features": []
+				};	
+				for(let y = lpr.y - rad; y < lpr.y + rad; y++){
+					for(let x = lpr.x - rad; x < lpr.x + rad; x++){
+
+						const minPoint = PathFinder.worldPointToGridPoint({ x, y }, cellSize, offsetPoint)
+						const g = pathFinder.getGrid();
+						addSquareFeature(gridDebug, x, y, x+1, y+1, {color : g.isWalkableAt(minPoint) ? `#88223388` : `#88AA3344`});
+					}
+				}
+
+				setDebugGrid(gridDebug);
+
+
+			//}
+			lastPos = segEnd;
+
 			if (destinationReached) {
 				delete paths.current[pathId];
 				return {
 					location: {
 						mapId: location.location.mapId,
-						...segEnd,
-						//...add(mul(delta, ratio), location.location)
+						...segEnd!,
 					},
 					direction: undefined,
 				};
@@ -427,8 +443,7 @@ function computeCurrentLocation(
 				return {
 					location: {
 						mapId: location.location.mapId,
-						...segEnd,
-						//...add(mul(delta, ratio), location.location)
+						...segEnd!,
 					},
 					direction: location.direction,
 				};
@@ -444,6 +459,7 @@ function computeCurrentLocation(
 }
 
 /**
+ * TODO REMOVE ??
  * Is there an intersection between sebment AB and circle (c, sqrt(sqRadius))
  *
  * (using sqRadius to prevent uselesss sqrt computation)
@@ -1838,14 +1854,16 @@ export function handleClickOnMap(
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
-		const destination: Location = { ...point, mapId: 'the_world' };
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
+		const mapId = currentLocation ? currentLocation.mapId : '';
+		const destination: Location = { ...point, mapId};//, mapId: 'yverdon' };
+
 		worldLogger.info('HandleOn: ', { objectId, destination, currentLocation, myState });
-		if (currentLocation != null) {
+		if (currentLocation != null && currentLocation.x != 0 && currentLocation.y != 0) {
 			// Move from current location to given point
-			const from: Location = { ...currentLocation, mapId: 'the_world' };
+			const from: Location = { ...currentLocation};
 			sendEvent({
 				...initEmitterIds(),
 				type: 'FollowPath',
@@ -1866,6 +1884,29 @@ export function handleClickOnMap(
 		}
 	}
 }
+
+
+
+export function setMapIdForPlayer(mapId: string): void {
+
+	const myId = whoAmI();
+
+	if(myId){
+		sendEvent({
+			...initEmitterIds(),
+			type: 'Teleport',
+			targetType: 'Human',
+			targetId: myId,
+			location: {
+				mapId: mapId,
+				x: 0,
+				y: 0
+			},
+		});
+	}
+	
+}
+
 
 /**
  * Get the distance between two human, in meters.
