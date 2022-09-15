@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1663149629496,
+  "createdTime" : 1663245986385,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -94,7 +94,7 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:22373380:f4iibq::EN",
             "status" : "",
-            "translation" : "<strong>H</strong>uman is an <strong>U</strong>ncomplicated <strong>M</strong>odel of <strong>An</strong>atomy"
+            "translation" : "<p><strong>H</strong>uman is an <strong>U</strong>ncomplicated <strong>M</strong>odel of <strong>An</strong>atomy</p>"
           }
         }
       },
@@ -139,7 +139,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24075204:WvycAG::EN",
               "status" : "",
-              "translation" : "<p>Welcome ...<br></p>"
+              "translation" : "<p><span style=\"font-size: 24px;\"><strong>H</strong>uman is an <strong>U</strong>ncomplicated <strong>M</strong>odel of <strong>An</strong>atomy</span></p><p><br></p><p>You are here to evaluate HUMAn, a physiological model that is used to simulate the evolution of patients with different traumas</p>"
             }
           }
         },
@@ -205,7 +205,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24074420:OPUoYi::EN",
               "status" : "",
-              "translation" : "<p>You have not finished all the cases. Use the menu on the left.</p>"
+              "translation" : "<p>You have not finished all the cases.</p><p>Please use the menu on the left to complete your reviews.<br></p>"
             }
           }
         },
@@ -238,7 +238,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24074426:8MD0r7::EN",
               "status" : "",
-              "translation" : "<p>Well done!</p><p>You have completed all the cases!</p><p>You still have opportunity to checl your answers using the left menu.</p><p>Once you are satisfied, please validate your results using the button below.<br></p>"
+              "translation" : "<p>Well done!</p><p>You have completed all the cases!</p><p>You still have opportunity to check your answers using the left menu.</p><p>Once you are satisfied, please validate your results using the button below.<br></p>"
             }
           }
         },

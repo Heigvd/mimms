@@ -44,17 +44,17 @@ function computeGambateScore(bodyState: BodyState, durationInMin: number) {
 	//return durationInMin;
 	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin) {
 		score += (bodyState.vitals.cardio.vo2_mLperMin - bodyState.vitals.cardio.DO2Sys) / 100;
-		wlog("critical DO2 => ", score);
+		logger.info("critical DO2 => ", score);
 	}
 
 	if (bodyState.vitals.cardio.MAP < 40) {
 		score += (40 - bodyState.vitals.cardio.MAP) / 100;
-		wlog("Critical MAP => ", score);
+		logger.info("Critical MAP => ", score);
 	}
 
 	if (bodyState.vitals.respiration.SaO2 < 0.7) {
 		score += (0.7 - bodyState.vitals.respiration.SaO2) * 20;
-		wlog("Critical MAP => ", score);
+		logger.info("Critical MAP => ", score);
 	}
 
 	return score * durationInMin;
@@ -1382,7 +1382,7 @@ export function doCompensate(
 	const overdriveLevel = interpolate(state.variables.ICP_mmHg, icp_model);
 
 	if (overdriveLevel > 0) {
-		wlog("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
+		compLogger.warn("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
 		const overdriveModel = getOverdriveModel();
 
 		const overdrivenValues = computeVitals(overdriveLevel,
@@ -1392,12 +1392,12 @@ export function doCompensate(
 			duration_min,
 			t4Fine,
 			10);
-		wlog("Values", sympValues, overdrivenValues);
+		compLogger.warn("Values", sympValues, overdrivenValues);
 		Object.entries(sympValues).forEach(([key, sympValue]) => {
 			const overdriven = overdrivenValues[key as CompesationKeys];
 
 			const value = overdriveLevel * overdriven + (1 - overdriveLevel) * sympValue;
-			wlog("Set ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
+			compLogger.warn("OverdriveSet ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
 			setVital(state, key as BodyStateKeys, value);
 		});
 	} else {

@@ -194,9 +194,13 @@
               "language" : "typescript"
             },
             "scales" : {
-              "@class" : "Script",
-              "content" : "({\"x\":{\n\t\"min\":0,\n\t\"max\":100,\n\ttitle: {\n\t\tdisplay: true,\n\t\ttext: 'ortho',\n\t}\n},\"y\":{\n\t\n\t\n\t}});",
-              "language" : "typescript"
+              "x" : {
+                "title" : {
+                  "display" : true,
+                  "text" : "ortho"
+                }
+              },
+              "y" : { }
             },
             "series" : {
               "@class" : "Script",

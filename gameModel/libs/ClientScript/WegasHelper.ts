@@ -448,7 +448,7 @@ export function loadOverdriveModel(): Compensation {
 				"y": 0.5
 			}, {
 				"x": max,
-				"y": 0.20
+				"y": 0.0
 			}],
 			"t4Nerve": true
 		},
