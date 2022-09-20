@@ -72,6 +72,7 @@ export function getFogOfWarLayer(mapId: string): FeatureCollection {
 	const initialMap = mapRefs.current[mapId];
 	if (initialMap) {
 
+		/*
 		const extent = initialMap.getView().calculateExtent();
 		const width = extent[2] - extent[0];
 		const height = extent[3] - extent[1];
@@ -79,12 +80,17 @@ export function getFogOfWarLayer(mapId: string): FeatureCollection {
 		const left = extent[0] - width;
 		const top = extent[1] - height;
 		const right = extent[2] + width;
-		const bottom = extent[3] + height;
+		const bottom = extent[3] + height;*/
+
+		const left = 0;
+		const top = 100000000;
+		const right = 100000000;
+		const bottom = 0;
 
 		const layer: FeatureCollection = {
 			"type": "FeatureCollection",
 			"name": "fogOfWar",
-			"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
+			//"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4326" } },
 			"features": [
 				{
 					"type": "Polygon",

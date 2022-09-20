@@ -1,5 +1,5 @@
 import { sendEvents } from "./EventManager";
-import { mapRef } from "./layersData";
+import { mapRefs } from "./layersData";
 import { EventPayload, ScriptedEvent, TeleportEvent } from "./the_world";
 import { getPatientsBodyFactoryParamsArray } from "./WegasHelper";
 
@@ -17,7 +17,7 @@ export function reviveScriptedEvent(emitter: {
 }
 
 function getFirstCoordinate() : [number, number] {
- 	return mapRef.current.getView().getCenter();
+ 	return mapRefs.current[Context.mapId.mapId].getView().getCenter();
 }
 
 export function premiereVague() {
@@ -44,7 +44,7 @@ export function premiereVague() {
 			targetType: 'Human',
 			targetId: id,
 			location: {
-				mapId: "the_world",
+				mapId: Context.mapId.mapId,
 				x: x,
 				y: y,
 			},

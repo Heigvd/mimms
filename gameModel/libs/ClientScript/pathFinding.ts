@@ -885,8 +885,10 @@ export class PathFinder {
 	}
 
 	/**
-	 * Find path between two points by visiting the graph
-	 * Take world coordinate and return path in world coordinate
+	 * Find a path between two points by visiting the graph
+	 * Takes world coordinates and returns path in world coordinates
+	 * If no path is found, the path will be a single point, which contains
+	 * the startWorldPosition
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm): Point[] {
 		// Translate into grid points
@@ -897,7 +899,7 @@ export class PathFinder {
 		const path = this._findPath(startPosition, endPosition, algorithm);
 
 		// Translate back into world point and return
-		return this.toWorldPath(path, startWorldPosition, startPosition, endWorldPosition);
+		return this.toWorldPath(path, startWorldPosition, startPosition, endWorldPosition, endPosition);
 	}
 
 	public getGrid(): Grid {
@@ -907,36 +909,66 @@ export class PathFinder {
 	/**
 	 * Translate path in grid coordinates into world coordinates.
 	 * Path beginning correction :
-	 * Prepend a point such that from current position (which is decimal), 
+	 * Prepend a point such that from current position (which is not grid-normalized),
 	 * the trajectory goes out of the current cell with the same direction as it
 	 * would if it was moving from the center of the cell
 	 */
-	private toWorldPath(path: Point[], worldStart: Point, localStart: Point, worldEnd: Point): Point[] {
+	private toWorldPath(path: Point[], worldStart: Point, localStart: Point, worldEnd: Point, localEnd: Point): Point[] {
 
 		if(path.length < 2){
 			return [worldStart];
 		}
 		const worldPath = path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
 
+		const startIntermediate = this.intersectSegmentWithContour(worldPath, 0, 1, localStart);
 
-		const firstPathSegment : Segment = [worldPath[0], worldPath[1]];
-		const contour = this.getCellContour(localStart);
-		
-		let intersection: Point | undefined = undefined;
-		let i = 0;
-		do{
-			const seg: Segment = [contour[i], contour[i+1]]
-			intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
-			i++;
-		}while(intersection == undefined && i < contour.length-1);
+		const l = worldPath.length;
 
-		if(!intersection) {
-			pathFindingLogger.warn('this is impooooosssible. There should be an intersection');
-			pathFindingLogger.warn(contour);
-			pathFindingLogger.warn(firstPathSegment);
+		const correctedPath = [worldStart];
+		if(startIntermediate){
+			correctedPath.push(startIntermediate);
+		}else{
+			correctedPath.push(worldPath[0]);
 		}
-		pathFindingLogger.debug('path beginning', worldStart, intersection, worldPath)
-		return [worldStart, intersection!, ...worldPath.slice(1), worldEnd]
+		correctedPath.push(...worldPath.slice(1, l-1));
+
+		const endIntermediate = this.intersectSegmentWithContour(worldPath, l-1, l-2, localEnd);
+
+		if(endIntermediate){
+			if(startIntermediate == undefined || !equalsStrict(startIntermediate, endIntermediate)){
+				correctedPath.push(endIntermediate);
+			}
+		}else{
+			correctedPath.push(worldPath[l-1]);
+		}
+		correctedPath.push(worldEnd);
+		return correctedPath;
+
+	}
+
+	private intersectSegmentWithContour(path: Point[], startIdx: number, endIdx: number, contourCenter: Point): Point | undefined {
+
+			if(equalsStrict(path[startIdx], path[endIdx])){
+				return undefined;
+			}
+			const firstPathSegment : Segment = [path[startIdx], path[endIdx]];
+			const contour = this.getCellContour(contourCenter);
+
+			let intersection: Point | undefined = undefined;
+			let i = 0;
+			do{
+				const seg: Segment = [contour[i], contour[i+1]]
+				intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
+				i++;
+			}while(intersection == undefined && i < contour.length-1);
+
+			if(!intersection) {
+				pathFindingLogger.warn('this is impooooosssible. There should be an intersection');
+				pathFindingLogger.warn(contour);
+				pathFindingLogger.warn(firstPathSegment);
+			}
+			pathFindingLogger.debug('path beginning', intersection, path.slice(1));
+			return intersection;
 	}
 
 	private getCellContour(localStart: Point): Point[] {
