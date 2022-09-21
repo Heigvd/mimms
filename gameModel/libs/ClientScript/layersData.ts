@@ -3,10 +3,6 @@
 import { layerDataLogger } from "./logger";
 import { Point } from "./point2D";
 
-export type Shape = Point[];
-export type Polygon = Point[];
-export type Polygons = Polygon[];
-
 type MapId = string;
 
 export const buildingLayer = Helpers.useRef<any>("buildingLayer", null);
@@ -24,7 +20,7 @@ const gpsProjection = 'EPSG:4326';
 
 interface ExtentState {
 	extent : ExtentLikeObject | undefined,
-	loadState : 'LOADED' | 'LOADING' | 'NOT LOADED'
+	loadState : 'LOADED' | 'LOADING' | 'NOT LOADED'
 }
 
 export function getInitialExtentState(): ExtentState {
@@ -38,23 +34,24 @@ type ExtentStateSetter = ((s : ExtentState) => void)
 
 export function tryLoadExtentAsync(mapId : string, extentState : ExtentState, setState : ExtentStateSetter ): ExtentState {
 	
-	switch(extentState.loadState){
-		case 'NOT LOADED':
-			extentState.loadState = "LOADING"
-			const req = Helpers.downloadFile(`maps/${mapId}/bbox.data`, 'TEXT');
+    switch (extentState.loadState) {
+        case 'NOT LOADED': {
+            extentState.loadState = "LOADING"
+            const req = Helpers.downloadFile(`maps/${mapId}/bbox.data`, 'TEXT');
 
-			req.then((t) => {
-				const ext = parseExtent(t);
-				// convert extent to map projection
-				//layerDataLogger.warn(ext);
-				extentState.extent = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
-				extentState.loadState = "LOADED";
-				setState(extentState);
-			}).catch((r) => {
-				extentState.loadState = 'NOT LOADED';
-				layerDataLogger.error('Error when loading extent', r);
-			})
+            req.then((t) => {
+                const ext = parseExtent(t);
+                // convert extent to map projection
+                //layerDataLogger.warn(ext);
+                extentState.extent = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
+                extentState.loadState = "LOADED";
+                setState(extentState);
+            }).catch((r) => {
+                extentState.loadState = 'NOT LOADED';
+                layerDataLogger.error('Error when loading extent', r);
+            })
 			break;
+        }
 		case 'LOADING':
 		case 'LOADED':
 	}
@@ -289,12 +286,14 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: strin
 	}
 
 	if(logTime){
+        // eslint-disable-next-line no-console
 		console.time('full processing one layer');
 	}
 	// Cut huge geometries to extent (typically rivers and lakes)
 	const cutLayers = layerCut(ol, mapExtent, cellSize, offsetPoint, logTime);
 
 	if(logTime){
+        // eslint-disable-next-line no-console
 		console.time("genGridMatrix");
 	}
 
@@ -310,7 +309,9 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: strin
 	ol.processed = true;
 
 	if(logTime){
+        // eslint-disable-next-line no-console
 		console.timeEnd("genGridMatrix");
+        // eslint-disable-next-line no-console
 		console.timeEnd('full processing one layer');
 	}
 
@@ -334,6 +335,7 @@ function layerCut(ol : ObstacleLayer, mapExtent : DiscreteExtent, cellSize: numb
 	}
 
 	if(logTime){
+        // eslint-disable-next-line no-console
 		console.time("Cut geometries");
 		layerDataLogger.info('Cut factor', ol.cutGeometry);
 	}
@@ -391,6 +393,7 @@ function layerCut(ol : ObstacleLayer, mapExtent : DiscreteExtent, cellSize: numb
 	}
 
 	if(logTime){
+        // eslint-disable-next-line no-console
 		console.timeEnd("Cut geometries");
 	}
 	return newVectorSources;
@@ -432,13 +435,14 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 				const contourLine = Turf.lineString(contour);
 
 				switch(g.getType()){
-					case 'Polygon':
+					case 'Polygon':{
 						const poly = Turf.polygon(g.getCoordinates());
 						const intersection = Turf.lineIntersect(poly, contourLine);
 						if(intersection.features.length === 0){
 							canFillAll = true;
 						}
 						break;
+                    }
 					case 'MultiPolygon' :
 						canFillAll = g.getCoordinates().some((p: any) => {
 							const poly = Turf.polygon(p);

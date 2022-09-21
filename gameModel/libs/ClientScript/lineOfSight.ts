@@ -1,6 +1,5 @@
 import { buildingLayer } from "./layersData";
-import { Polygons, Segment } from "./helper";
-import { Point } from "./point2D";
+import {Point, Polygons, Segment } from "./point2D";
 
 /// TYPES
 interface ObjectSegment {
@@ -212,19 +211,21 @@ export function calculateLOS(
 	]
 
 	const buildings = getBuildingInExtent(extentAroundPlayer);
+    // eslint-disable-next-line no-console
 	console.time("LOS");
 
 	const los = computeVisionPolygon(position, buildings, visionDistance, nbBoundingSegments);
 
+    // eslint-disable-next-line no-console
 	console.timeEnd("LOS");
 
 	return los;
 
 }
 
-export function isPointInPolygon(point: Point | undefined, polygon: Point[]) {
+export function isPointInPolygon(point: Point | undefined, polygon: Point[] | undefined) {
 	// code from Randolph Franklin (found at http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/)
-    if (!point){
+    if (!point || !polygon){
         return false;
     }
 	const { x, y } = point;

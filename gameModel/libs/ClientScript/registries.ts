@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { BlockName, extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './HUMAn';
+import { extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './HUMAn';
 import {
 	ChemicalDefinition,
 	buildPathology,
@@ -28,7 +28,7 @@ let overdrive: Compensation | undefined = undefined;
 
 let initialized = false;
 
-export function registerPathology(def: PathologyDefinition): void {
+function registerPathology(def: PathologyDefinition): void {
 	pathologies[def.id] = def;
 }
 
@@ -53,7 +53,7 @@ export function getPathologiesMap(): Record<string, string> {
 	}, {});
 }
 
-export function registerItem(def: Omit<ItemDefinition, 'type'>): void {
+function registerItem(def: Omit<ItemDefinition, 'type'>): void {
 	items[def.id] = { ...def, type: 'item' };
 }
 
@@ -70,7 +70,7 @@ export function getItems(): { id: string; item: ItemDefinition }[] {
 	}));
 }
 
-export function registerAct(def: Omit<ActDefinition, 'type'>): void {
+function registerAct(def: Omit<ActDefinition, 'type'>): void {
 	acts[def.id] = { ...def, type: 'act' };
 }
 
@@ -88,7 +88,7 @@ export function getActs(): ActDefinition[] {
 	return Object.values(acts);
 }
 
-export function registerChemical(def: ChemicalDefinition): void {
+function registerChemical(def: ChemicalDefinition): void {
 	chemicals[def.id] = def;
 }
 

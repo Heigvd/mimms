@@ -1,22 +1,23 @@
+// ts-unused-exports:disable-next-line
 export interface MatrixState {
 	xFilter: string;
 	yFilter: string;
 	toggle: boolean;
 }
 
-export function getInitialMatrixState() : MatrixState {
+export function getInitialMatrixState(): MatrixState {
 	return {
 		xFilter: '',
 		yFilter: '',
 		toggle: true,
-	}
+	};
 }
 
-export function getMatrixState() : MatrixState {
+export function getMatrixState(): MatrixState {
 	return Context.matrixState.state;
 }
 
-export function setMatrixState(setter: (state : MatrixState) => MatrixState) {
+export function setMatrixState(setter: (state: MatrixState) => MatrixState) {
 	Context.matrixState.setState(setter);
 }
 
@@ -34,6 +35,7 @@ export interface DataDef<T> {
 /**
  * Display as checkboxes
  */
+// ts-unused-exports:disable-next-line
 export interface BooleanDef {
 	type: 'boolean';
 	tooltip?: string;
@@ -45,16 +47,18 @@ type EnumValue = undefined | number | boolean | string;
 /**
  * Display as selects
  */
+// ts-unused-exports:disable-next-line
 export interface EnumDef {
 	type: 'enum';
 	tooltip?: string;
 	label: string;
-	values: (EnumValue | {label: string, value: EnumValue})[];
+	values: (EnumValue | { label: string; value: EnumValue })[];
 }
 
 /**
  * Input
  */
+// ts-unused-exports:disable-next-line
 export interface NumberDef {
 	type: 'number';
 	tooltip?: string;
@@ -65,14 +69,18 @@ export interface NumberDef {
 
 export type CellDef = EnumDef | BooleanDef | NumberDef;
 
+// ts-unused-exports:disable-next-line
 export type MatrixKey = string | number;
 
+// ts-unused-exports:disable-next-line
 export type CellData = number | boolean | undefined | string;
 
-export type EhancedCellData<T extends CellData> = T | {
-	label: string;
-	value: T;
-}
+export type EhancedCellData<T extends CellData> =
+	| T
+	| {
+			label: string;
+			value: T;
+    };
 
 export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data extends CellData> {
 	x: DataDef<X>[];
@@ -86,33 +94,31 @@ export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data ext
 	hideFilter?: boolean;
 }
 
-
-function filterSerie(serie: DataDef<MatrixKey>[], motif: string) : DataDef<MatrixKey>[] {
-	if (!motif){
-		return serie
+function filterSerie(serie: DataDef<MatrixKey>[], motif: string): DataDef<MatrixKey>[] {
+	if (!motif) {
+		return serie;
 	} else {
-		const regexes = motif.split(/\s+/).map(m => new RegExp(Helpers.escapeRegExp(m), "i"));
+		const regexes = motif.split(/\s+/).map(m => new RegExp(Helpers.escapeRegExp(m), 'i'));
 		return serie.filter(item => {
 			// item must match all regexes
 			// if any does not match, the item does not match
-			return regexes.find(regex => {
-				// try to tind one regex which does not match
-				return !regex.exec(item.label)
-			}) == null;
-		})
+			return (
+				regexes.find(regex => {
+					// try to tind one regex which does not match
+					return !regex.exec(item.label);
+				}) == null
+			);
+		});
 	}
-
 }
 
-export function getFilteredXSerie() : DataDef<MatrixKey>[]{
+export function getFilteredXSerie(): DataDef<MatrixKey>[] {
 	return filterSerie(Context.matrixConfig.x, getMatrixState().xFilter);
 }
 
-
-export function getFilteredYSerie() : DataDef<MatrixKey>[] {
+export function getFilteredYSerie(): DataDef<MatrixKey>[] {
 	return filterSerie(Context.matrixConfig.y, getMatrixState().yFilter);
 }
-
 
 const noDefs: EnumDef = {
 	type: 'enum',
@@ -127,27 +133,26 @@ export function getCellValue() {
 	const y = Context.line.id;
 	const col = config.data[x];
 	const data = col == null ? undefined : col[y];
-	if (typeof data === 'object'){
+	if (typeof data === 'object') {
 		return data.value;
 	} else {
 		return data;
 	}
 }
 
-export function getCellLabel() : string | undefined{
+export function getCellLabel(): string | undefined {
 	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
 
 	const x = Context.column.id;
 	const y = Context.line.id;
 	const col = config.data[x];
 	const data = col == null ? undefined : col[y];
-	if (typeof data === 'object'){
+	if (typeof data === 'object') {
 		return data.label;
 	} else {
 		return undefined;
 	}
 }
-
 
 export function getCellCurrentConfigIndex(): number {
 	const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
@@ -170,8 +175,8 @@ export function getCellCurrentConfigIndex(): number {
 						break;
 					case 'enum':
 						for (const item of def.values) {
-							const v = typeof item === 'object'? item.value: item;
-							if (v === data){
+							const v = typeof item === 'object' ? item.value : item;
+							if (v === data) {
 								return +index;
 							}
 						}
@@ -189,7 +194,7 @@ export function getCellCurrentConfigIndex(): number {
 	}
 }
 
-export function getCellConfigByIndex(index :number): CellDef {
+export function getCellConfigByIndex(index: number): CellDef {
 	if (index >= 0) {
 		const config: MatrixConfig<MatrixKey, MatrixKey, CellData> = Context.matrixConfig;
 		return config.cellDef[index] || noDefs;
@@ -232,12 +237,12 @@ export function getCellCurrentConfigChoices(): {
 	const cellDef = getCellCurrentConfig();
 	if (cellDef.type === 'enum') {
 		return cellDef.values.map(v => {
-			if (typeof v === 'object'){
+			if (typeof v === 'object') {
 				return { label: v.label, value: String(v.value) };
 			} else {
 				return { label: String(v), value: String(v) };
 			}
-	});
+		});
 	} else {
 		return [];
 	}
@@ -247,13 +252,14 @@ function getValueFromDef(def: CellDef) {
 	switch (def.type) {
 		case 'boolean':
 			return true;
-		case 'enum':
+		case 'enum': {
 			const item = def.values[0];
-			if (typeof item === 'object'){
+			if (typeof item === 'object') {
 				return item.value;
 			} else {
 				return item;
 			}
+		}
 		case 'number':
 			return def.min ?? 0;
 	}
@@ -278,7 +284,7 @@ export function updateValueFromSelect(value: string) {
 	const def = getCellCurrentConfig();
 	if (def.type === 'enum') {
 		const index = def.values.findIndex(v => {
-			if (typeof v === 'object'){
+			if (typeof v === 'object') {
 				return String(v.value) === value;
 			} else {
 				return String(v) === value;
@@ -298,7 +304,7 @@ export function updateValue(value: unknown) {
 		config.onChangeRefName,
 		(x: DataDef<MatrixKey>, y: DataDef<MatrixKey>, value: unknown) => {},
 	);
-	wlog("OnChange: ", Context.column, Context.line, value);
+	wlog('OnChange: ', Context.column, Context.line, value);
 	onChange.current(Context.column, Context.line, value);
 }
 
@@ -336,13 +342,13 @@ const onChangeRef = Helpers.useRef(
 
 onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData) => {
 	testMatrix[x.id]![y.id] = newData;
-	setMatrixState(s => ({...s, toggle: !s.toggle}));
+	setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 
 	// Hack: touch boolean to force UIsync
 	/*APIMethods.runScript(
-		"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())",
-		{},
-	);*/
+        "var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())",
+        {},
+    );*/
 };
 
 export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
@@ -370,7 +376,7 @@ export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
 		{
 			type: 'enum',
 			label: 'enum',
-			values: ["raw", {label: 'lets cook', value: 'cooked'}],
+			values: ['raw', { label: 'lets cook', value: 'cooked' }],
 		},
 	],
 	onChangeRefName: 'testMatrixOnChange',

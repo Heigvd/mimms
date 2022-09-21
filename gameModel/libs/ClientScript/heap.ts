@@ -102,18 +102,18 @@ export class Heap<T> {
 		return idx < this.data.length;
 	}
 }
-
-function test1(){
-	const values = [7,5,86,3,4,24,23,6,8,4,2,5,332,34,5,3,4,2,3,554,2,45];
-
-	const minHeap = new Heap((x:number,y: number) => x <= y);
-
-	for(let i = 0; i < values.length; i++){
-		minHeap.insert(values[i]!);
-	}
-
-	for(let i = 0; i < values.length; i++){
-		wlog(minHeap.extract());
-	}
-
-}
+//
+//function test1(){
+//	const values = [7,5,86,3,4,24,23,6,8,4,2,5,332,34,5,3,4,2,3,554,2,45];
+//
+//	const minHeap = new Heap((x:number,y: number) => x <= y);
+//
+//	for(let i = 0; i < values.length; i++){
+//		minHeap.insert(values[i]!);
+//	}
+//
+//	for(let i = 0; i < values.length; i++){
+//		wlog(minHeap.extract());
+//	}
+//
+//}

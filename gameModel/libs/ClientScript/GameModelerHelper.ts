@@ -1,18 +1,18 @@
 import { BodyFactoryParam, createHumanBody, defaultMeta } from "./HUMAn";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
-import { generateOnePatient, setTestPatients, testPatients } from "./patientGeneration";
+import { generateOnePatient, setTestPatients } from "./patientGeneration";
 import { getActs, getItems, getPathologies } from "./registries";
 import { BagDefinition } from "./the_world";
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
 
-const observableVitals = [
-	{ label: 'SaO2', value: "respiration.SaO2" },
-	{ label: "CaO2", value: "respiration.CaO2" },
-	{ label: "GCS (sum)", value: "glasgow.total" },
-	{ label: "GCS (sum)", value: "glasgow.eye" },
-	{ label: "GCS (sum)", value: "glasgow.verbal" },
-	{ label: "GCS (sum)", value: "glasgow.total" },
-];
+//const observableVitals = [
+//	{ label: 'SaO2', value: "respiration.SaO2" },
+//	{ label: "CaO2", value: "respiration.CaO2" },
+//	{ label: "GCS (sum)", value: "glasgow.total" },
+//	{ label: "GCS (sum)", value: "glasgow.eye" },
+//	{ label: "GCS (sum)", value: "glasgow.verbal" },
+//	{ label: "GCS (sum)", value: "glasgow.total" },
+//];
 
 function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 	Object.entries(obj).forEach(([k, v]) => {
@@ -26,6 +26,14 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 }
 
 
+/**
+ * Used to extract all vitals keys as string.
+ *
+ * Used one in a while
+ *
+ * please keep it
+ */
+ // ts-unused-exports:disable-next-line
 export function extractVitalKeys() {
 	// Instantiate a body
 	const env = getEnv();
@@ -41,6 +49,14 @@ export function extractVitalKeys() {
 }
 
 
+/**
+ * Used to extract all blocks as string.
+ *
+ * Used one in a while
+ *
+ * please keep it
+ */
+ // ts-unused-exports:disable-next-line
 export function extractBlockChoices() {
 	// Instantiate a body
 	const env = getEnv();
@@ -143,7 +159,7 @@ onChangeRef.current = (x, y, newData) => {
 	APIMethods.runScript(script, {});
 };
 
-export function getBagsDefinitions() {
+function getBagsDefinitions() {
 	return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
 }
 
@@ -256,7 +272,7 @@ onSituationChangeRef.current = (x, y, newData) => {
 	APIMethods.runScript(script, {});
 };
 
-export function getSituationsDefinitions() {
+function getSituationsDefinitions() {
 	return parseObjectDescriptor<SituationDefinition>(Variable.find(gameModel, 'situationsDefinitions'));
 }
 
@@ -382,7 +398,7 @@ onSkillChangeRef.current = (x, y, newData) => {
 	APIMethods.runScript(script, {});
 };
 
-export function getSkillsDefinitions() {
+function getSkillsDefinitions() {
 	return parseObjectDescriptor<SkillDefinition>(Variable.find(gameModel, 'skillsDefinitions'));
 }
 
@@ -400,11 +416,11 @@ export function getSkillsDefinitionsAsChoices() {
 }
 
 
-export function getSkillActId(actId: string) {
+function getSkillActId(actId: string) {
 	return `act::${actId}`;
 }
 
-export function getSkillItemActionId(itemId: string, actionId: string) {
+function getSkillItemActionId(itemId: string, actionId: string) {
 	return `item::${itemId}::${actionId}`;
 }
 

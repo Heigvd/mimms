@@ -17,7 +17,7 @@ export function reviveScriptedEvent(emitter: {
 }
 
 function getFirstCoordinate() : [number, number] {
- 	return mapRefs.current[Context.mapId.mapId].getView().getCenter();
+    return mapRefs.current[Context.mapId.mapId].getView().getCenter();
 }
 
 export function premiereVague() {
@@ -60,7 +60,3 @@ export function premiereVague() {
 
 	sendEvents(events);
 }
-
-export function deuxiemeVague() {
-}
-

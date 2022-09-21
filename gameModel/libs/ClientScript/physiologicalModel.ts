@@ -1077,11 +1077,11 @@ export function compute(
 // Compensation
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-const TRC_MODEL: Point[] = [
-	{ x: 0, y: 10 }, // MAP=0 => TRC=>10
-	{ x: 60, y: 2 },
-	{ x: 200, y: 0 },
-];
+//const TRC_MODEL: Point[] = [
+//	{ x: 0, y: 10 }, // MAP=0 => TRC=>10
+//	{ x: 60, y: 2 },
+//	{ x: 200, y: 0 },
+//];
 
 const computeRecap = (state: BodyState): number => {
 	const indexChoc = state.vitals.cardio.hr / state.vitals.cardio.systolicPressure;

@@ -26,7 +26,14 @@ import {
 	RevivedPathology,
 	revivePathology,
 } from './pathology';
-import { getAct, getItem, getPathology, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
+import {
+	getAct,
+	getItem,
+	getPathology,
+	setCompensationModel,
+	setOverdriveModel,
+	setSystemModel,
+} from './registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -38,7 +45,7 @@ import {
 	loadCompensationModel,
 	loadSystem,
 	whoAmI,
-loadOverdriveModel,
+	loadOverdriveModel,
 } from './WegasHelper';
 import { initEmitterIds, TargetedEvent } from './baseEvent';
 import {
@@ -196,12 +203,12 @@ export type ActionSource =
 	| {
 			type: 'act';
 			actId: string;
-	  }
+	}
 	| {
 			type: 'itemAction';
 			itemId: string;
 			actionId: string;
-	  };
+	};
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
@@ -315,11 +322,6 @@ function getObjectKey(object: ObjectId) {
 	return object.objectType + '::' + object.objectId;
 }
 
-function rndInt(min: number, max: number) {
-	const range = max - min;
-	return Math.floor(Math.random() * range + min);
-}
-
 export const paths = Helpers.useRef<Record<string, Point[]>>('paths', {});
 
 interface CurrentLocationOutput {
@@ -341,7 +343,8 @@ function computeCurrentLocation(
 	if (location?.location != null) {
 		if (location.direction != null) {
 			// This should be done only when the obstacle grid changes
-			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrids.current[location.location.mapId]!;
+			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } =
+				obstacleGrids.current[location.location.mapId]!;
 
 			const pathFinder = new PathFinder({
 				grid: {
@@ -355,7 +358,7 @@ function computeCurrentLocation(
 				diagonalAllowed: true,
 				useJumpPointSearch: true,
 				maxComputationTimeMs: 1500,
-				maxCoverageRatio: 0.1
+				maxCoverageRatio: 0.1,
 			});
 
 			// This should be done only when the direction changes
@@ -368,7 +371,7 @@ function computeCurrentLocation(
 			let remainingDistance_sq = distance * distance;
 			let pathIndex = 1;
 			let segStart: Point = location.location;
-			let segEnd : Point = segStart;
+			let segEnd: Point = segStart;
 
 			let destinationReached = false;
 
@@ -427,56 +430,6 @@ function computeCurrentLocation(
 			};
 		}
 	}
-}
-
-/**
- * TODO REMOVE ??
- * Is there an intersection between sebment AB and circle (c, sqrt(sqRadius))
- *
- * (using sqRadius to prevent uselesss sqrt computation)
- */
-function doIntersect(c: Point, sqRadius: number, a: Point, b: Point): boolean {
-	if (a.x === b.x && a.y === b.y) {
-		// A and B are the same point
-		return isPointInCircle(c, sqRadius, a);
-	}
-
-	//
-	// find point of AB segment which is the nearest of point C
-	const ac_Vector = sub(c, a);
-	const ab_Vector = sub(b, a);
-
-	// Project AC on AB line
-	const d = add(proj(ac_Vector, ab_Vector), a);
-
-	const ad_Vector = sub(d, a);
-	// is d on AB segment ? (thales th. against greater delta to avoid division by zero)
-	const k =
-		Math.abs(ab_Vector.x) > Math.abs(ab_Vector.y)
-			? ad_Vector.x / ab_Vector.x
-			: ad_Vector.y / ab_Vector.y;
-
-	if (k <= 0) {
-		// d is not on seg AB (before A)
-		return isPointInCircle(c, sqRadius, a);
-	} else if (k >= 1) {
-		// d is not on seg AB (after B)
-		return isPointInCircle(c, sqRadius, b);
-	} else {
-		// D is on seg AB
-		return isPointInCircle(c, sqRadius, d);
-	}
-}
-
-function isPointInCircle(c: Point | undefined, sqRadius: number, p: Point | undefined) {
-	if (c == null || p == null) {
-		return false;
-	}
-	const deltaX = Math.abs(p.x - c.x);
-	const deltaY = Math.abs(p.y - c.y);
-	// sqrt(dx² + dy²) < radius
-	// => dx²+dy² < radius²
-	return deltaX * deltaX + deltaY * deltaY < sqRadius;
 }
 
 function filterOutFutureEvents(events: FullEvent<EventPayload>[], time: number) {
@@ -713,7 +666,7 @@ function rebuildState(time: number, env: Environnment) {
 		myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 	}
 
-	const lineOfSight = myPosition.mostRecent?.state.lineOfSight!;
+	const lineOfSight = myPosition.mostRecent?.state.lineOfSight;
 
 	if (fogType === 'NONE') {
 		// no fog: update all objects
@@ -771,9 +724,9 @@ function rebuildState(time: number, env: Environnment) {
 		if (current != null && current.location != null) {
 			if (current.id != myHumanId) {
 				/*if (current.direction) {
-                    current.location = undefined;
-                    current.direction = undefined;
-                }*/
+current.location = undefined;
+current.direction = undefined;
+}*/
 				if (current.direction != null) {
 					// last time I saw this object, it was moving
 					current.location = undefined;
@@ -1001,12 +954,14 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	const oKey = getObjectKey(objId);
 
 	const env = getEnv();
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+    const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		time,
 		//{ strictTime: true },
 	);
+    let { mostRecent } = mostRecents;
+    const { mostRecentIndex, futures} = mostRecents;
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1084,7 +1039,9 @@ export interface ResolvedAction {
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 
-export function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): ResolvedAction | undefined {
+export function resolveAction(
+	event: HumanTreatmentEvent | HumanMeasureEvent,
+): ResolvedAction | undefined {
 	if (event.source.type === 'act') {
 		const act = getAct(event.source.actId);
 		const action = act?.action;
@@ -1110,11 +1067,10 @@ export function resolveAction(event: HumanTreatmentEvent | HumanMeasureEvent): R
 
 function doMeasure(
 	time: number,
-	source: ItemDefinition | ActDefinition,
+	_source: ItemDefinition | ActDefinition,
 	action: ActionBodyMeasure,
 	fEvent: FullEvent<HumanMeasureEvent>,
 ) {
-	const name = action.name;
 	const metrics = action.metricName;
 
 	const event = fEvent.payload;
@@ -1125,11 +1081,14 @@ function doMeasure(
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+    const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		fEvent.time,
 	);
+    
+	let { mostRecent } = mostRecents;
+	const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1209,7 +1168,7 @@ function checkItemAvailabilityAndConsume(
 			return false;
 		}
 	} else {
-		//  infinity never decreases
+		// infinity never decreases
 		inventoryLogger.info('Infinity');
 		return true;
 	}
@@ -1373,7 +1332,9 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(humanSnapshots, objId, time);
+    const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time);
+	let { mostRecent } = mostRecents;
+	const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1455,12 +1416,14 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
 	// Fetch most recent human snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+    const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		event.time,
 		{ before: next },
 	);
+	let { mostRecent } = mostRecents;
+	const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1608,7 +1571,7 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 		processDirectMessageEvent(event, event.payload.sender);
 	} else {
 		// worldLogger.warn(
-		// 	`Ignoring direct comm event(${event.id}), too far :  ${Math.sqrt(distanceSquared)}`,
+		// 	`Ignoring direct comm event(${event.id}), too far : ${Math.sqrt(distanceSquared)}`,
 		// );
 	}
 }
@@ -1645,11 +1608,13 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
-	let { mostRecent, mostRecentIndex, futures } = getMostRecentSnapshot(
+    const mostRecents = getMostRecentSnapshot(
 		inventoriesSnapshots,
 		owner,
 		time,
 	);
+    let { mostRecent } = mostRecents;
+    const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: Inventory };
 
@@ -1792,7 +1757,7 @@ export function getHumans() {
 export function getHuman(id: string):
 	| (HumanBody & {
 			category: Categorization | undefined;
-	  })
+	})
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
@@ -1829,12 +1794,12 @@ export function handleClickOnMap(
 		const myState = worldState.humans[key];
 		const currentLocation = myState?.location;
 		const mapId = currentLocation ? currentLocation.mapId : '';
-		const destination: Location = { ...point, mapId};//, mapId: 'yverdon' };
+		const destination: Location = { ...point, mapId }; //, mapId: 'yverdon' };
 
 		worldLogger.info('HandleOn: ', { objectId, destination, currentLocation, myState });
 		if (currentLocation != null && currentLocation.x != 0 && currentLocation.y != 0) {
 			// Move from current location to given point
-			const from: Location = { ...currentLocation};
+			const from: Location = { ...currentLocation };
 			sendEvent({
 				...initEmitterIds(),
 				type: 'FollowPath',
@@ -1856,13 +1821,10 @@ export function handleClickOnMap(
 	}
 }
 
-
-
 export function setMapIdForPlayer(mapId: string): void {
-
 	const myId = whoAmI();
 
-	if(myId){
+	if (myId) {
 		sendEvent({
 			...initEmitterIds(),
 			type: 'Teleport',
@@ -1871,13 +1833,11 @@ export function setMapIdForPlayer(mapId: string): void {
 			location: {
 				mapId: mapId,
 				x: 0,
-				y: 0
+				y: 0,
 			},
 		});
 	}
-	
 }
-
 
 /**
  * Get the distance between two human, in meters.
@@ -2015,7 +1975,7 @@ Helpers.registerEffect(() => {
 	worldLogger.log('Load Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
 
-	const overdrive= loadOverdriveModel();
+	const overdrive = loadOverdriveModel();
 	worldLogger.info('Overdrive Profile: ', overdrive);
 	setOverdriveModel(overdrive);
 

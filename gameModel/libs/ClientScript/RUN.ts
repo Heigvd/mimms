@@ -339,6 +339,7 @@ function internal_run(
 	//doItemActionOnHumanBody(tracheostomyTube.actions[0]!, body, 'NECK', 25);
 
 	calcLogger.warn('Start');
+    // eslint-disable-next-line no-console
 	console.time('Human.run');
 	//Helpers.cloneDeep(body.state);
 
@@ -357,6 +358,7 @@ function internal_run(
 
 	calcLogger.info('End with ', initialBody.state);
 	calcLogger.warn('Done');
+    // eslint-disable-next-line no-console
 	console.timeEnd('Human.run');
 
 	return body;
@@ -409,17 +411,9 @@ export function run() {
 	saveMetrics(outputOther, 'outputOther');
 }
 
-const keys: BodyStateKeys[] = [
-	'vitals.respiration.PaO2',
-	'vitals.respiration.PaCO2',
-	'vitals.respiration.alveolarVolume_L',
-	'vitals.cardio.totalVolume_mL',
-	'vitals.cardio.endSystolicVolume_mL',
-	'variables.ICP_mmHg',
-];
-
 type Time = number;
 
+// ts-unused-exports:disable-next-line
 export type Serie = Record<Time, unknown>;
 
 const clKeys = [

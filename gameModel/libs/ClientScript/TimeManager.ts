@@ -40,7 +40,8 @@ function computeEpochSimTime(epoch: number): number {
 		const currentInSim_s = inSim_ref + (epoch - epoch_ref + delta_epoch) / 1000;
 		//wlog("TIME: ", { inSim_ref, epoch, epoch_ref, delta_epoch });
 		if (currentInSim_s < 0) {
-			debugger;
+            timeLogger.error("Negative Simulation Time!!!");
+			return 0;
 		}
 		return Math.floor(currentInSim_s);
 	} else {
@@ -173,7 +174,6 @@ const timerRef: {
 function stopInterval() {
 	if (timerRef.intervalId) {
 		wlog("Clear Interval");
-		//@ts-ignore
 		clearInterval(timerRef.intervalId);
 		timerRef.intervalId = undefined;
 	}
@@ -201,7 +201,6 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 		updateInSimCurrentTime();
 		if (timerRef.intervalId == null) {
 			timeLogger.info("Init World interval interval");
-			//@ts-ignore
 			timerRef.intervalId = setInterval(() => {
 				timeLogger.info("Tick");
 				if (!isRunning()) {
@@ -210,7 +209,7 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 				}
 				updateInSimCurrentTime();
 				syncWorld();
-				
+
 				const ka = Variable.find(gameModel, 'keepalive').getValue(self);
 				if (currentTime_s > ka + KEEPALIVE_TICK_S) {
 					timeLogger.info("KeepAlive");

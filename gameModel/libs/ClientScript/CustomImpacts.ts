@@ -1,101 +1,101 @@
 //import { getBlocksSelector } from "./GameModelerHelper";
-import { getItems, getPathologies } from "./registries";
-import { getPatientsAsChoices } from "./WegasHelper";
+//import { getItems, getPathologies } from "./registries";
+//import { getPatientsAsChoices } from "./WegasHelper";
 
 Helpers.registerEffect(() => {
 
-	const humanSelector = {
-		type: 'string',
-		required: true,
-		view: {
-			label: 'Human',
-			type: 'select',
-			choices: getPatientsAsChoices(true),
-		}
-	};
+//	const humanSelector = {
+//		type: 'string',
+//		required: true,
+//		view: {
+//			label: 'Human',
+//			type: 'select',
+//			choices: getPatientsAsChoices(true),
+//		}
+//	};
 
-	const moveableObjectSelector = {
-		type: 'object',
-		required: true,
-		view: {
-			label: 'Human',
-			type: 'select',
-			choices: getPatientsAsChoices(true).map(opt => ({
-				label: `Human: ${opt.label}`,
-				value: {
-					objectType: 'Human',
-					objectId: opt.value
-				}
-			})),
-		}
-	}
+//	const moveableObjectSelector = {
+//		type: 'object',
+//		required: true,
+//		view: {
+//			label: 'Human',
+//			type: 'select',
+//			choices: getPatientsAsChoices(true).map(opt => ({
+//				label: `Human: ${opt.label}`,
+//				value: {
+//					objectType: 'Human',
+//					objectId: opt.value
+//				}
+//			})),
+//		}
+//	}
 
-	const pathologiesChoices = {
-		type: 'string',
-		required: true,
-		view: {
-			label: 'Pathology',
-			type: 'select',
-			choices: getPathologies(),
-		}
-	}
+//	const pathologiesChoices = {
+//		type: 'string',
+//		required: true,
+//		view: {
+//			label: 'Pathology',
+//			type: 'select',
+//			choices: getPathologies(),
+//		}
+//	}
 
 	//const blocksSelector = getBlocksSelector();
 
-	const allItems = getItems();
+//	const allItems = getItems();
 
-	const itemChoices = allItems.flatMap(({ id, item }) => {
-		return Object.entries(item.actions)
-			.map(([actionId, action]) => ({
-				label: `${item.name} / ${action.name}`,
-				value: {
-					itemId: id,
-					actionId: actionId,
-				}
-			}))
-	});
+//	const itemChoices = allItems.flatMap(({ id, item }) => {
+//		return Object.entries(item.actions)
+//			.map(([actionId, action]) => ({
+//				label: `${item.name} / ${action.name}`,
+//				value: {
+//					itemId: id,
+//					actionId: actionId,
+//				}
+//			}))
+//	});
 
-	const itemSelector = {
-		type: 'object',
-		required: true,
-		view: {
-			label: 'Item / Action',
-			type: 'select',
-			choices: itemChoices,
-		}
-	}
+//	const itemSelector = {
+//		type: 'object',
+//		required: true,
+//		view: {
+//			label: 'Item / Action',
+//			type: 'select',
+//			choices: itemChoices,
+//		}
+//	}
+//
+//	const optionalTime = {
+//		type: "number",
+//		value: undefined,
+//		required: false,
+//		view: {
+//			label: 'time',
+//			placeholder: 'now',
+//			description: 'no indication means "now"'
+//		}
+//	}
 
-	const optionalTime = {
-		type: "number",
-		value: undefined,
-		required: false,
-		view: {
-			label: 'time',
-			placeholder: 'now',
-			description: 'no indication means "now"'
-		}
-	}
-
-	function locationParam(label: string = 'Location') {
-		return {
-			type: 'object',
-			required: true,
-			view: {
-				label: label,
-			},
-			properties: {
-				mapId: {
-					type: 'string',
-					value: 'the_world',
-					view: {
-						type: 'hidden',
-					}
-				},
-				x: { type: 'number', required: true, view: { label: 'x' } },
-				y: { type: 'number', required: true, view: { label: 'y' } }
-			}
-		}
-	}
+//	function locationParam(label: string = 'Location') {
+//		return {
+//			type: 'object',
+//			required: true,
+//			view: {
+//				label: label,
+//			},
+//			properties: {
+//				mapId: {
+//					type: 'string',
+//					value: 'the_world',
+//					view: {
+//						type: 'hidden',
+//					}
+//				},
+//				x: { type: 'number', required: true, view: { label: 'x' } },
+//				y: { type: 'number', required: true, view: { label: 'y' } }
+//			}
+//		}
+//	}
 
 	ServerMethods.registerGlobalMethod(['TimeManager'], 'start', {
 		label: 'Start Simulation',

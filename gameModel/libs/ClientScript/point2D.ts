@@ -1,7 +1,13 @@
+// Basic geometry types
 export interface Point {
 	x: number;
 	y: number;
 }
+
+export type Polygon = Point[]
+export type Polygons = Polygon[]
+export type Segment = [Point, Point]
+
 
 export function sub(a: Point, b: Point): Point{
 	return {x: a.x - b.x, y: a.y - b.y};

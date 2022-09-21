@@ -4,7 +4,7 @@ import { pickRandom } from './helper';
 import { BodyFactoryParam, Sex } from './HUMAn';
 import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from './pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from './registries';
-import { ActionSource, HumanTreatmentEvent, resolveAction, ResolvedAction, ScriptedEvent } from './the_world';
+import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from './the_world';
 import { getPatientsBodyFactoryParams, parseObjectDescriptor } from './WegasHelper';
 
 
@@ -208,12 +208,10 @@ export class HumanGenerator {
 		this.bmiDistribution = new NormalDistribution(s.BMImean, s.BMIstdDev);
 	}
 
-	public generateOneHuman(sex?: Sex): BodyFactoryParam {
+	public generateOneHuman(sexArg?: Sex): BodyFactoryParam {
 
 		//pick sex if undefined
-		if (!sex) {
-			sex = Math.random() > this.settings.WomanManRatio ? 'female' : 'male';
-		}
+        const sex = sexArg || Math.random() > this.settings.WomanManRatio ? 'female' : 'male';
 
 		const heightDist: NormalDistribution = sex === 'female' ? this.heightDistributionWomen : this.heightDistributionMen;
 		const height = Math.floor(heightDist.sample());

@@ -291,12 +291,15 @@ export function getButtonLabel(item: WheelItem | SubWheel): string {
 			if (item.disposable) {
 				return `${item.label} (${item.counter === 'infinity' ? '∞' : item.counter})`;
 			} else {
-				item.label;
+				return item.label;
 			}
 
 		case 'WheelSubMenu':
+            // falls through
 		case 'WheelAct':
+            // falls through
 		case 'ExtraPanel':
+            // falls through
 		case 'SubWheel':
 			return item.label;
 	}

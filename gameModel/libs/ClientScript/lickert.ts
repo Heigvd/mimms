@@ -1,6 +1,5 @@
 import { formatMetric } from './currentPatientZoom';
 import { getDrillStatus } from './drill';
-import { checkUnreachable } from './helper';
 import { BodyStateKeys, computeMetas } from './HUMAn';
 import {
 	CellDef,
@@ -8,10 +7,7 @@ import {
 	EhancedCellData,
 	MatrixConfig,
 } from './MatrixEditor';
-import { prettyPrinterAfflictedPathology } from './pathology';
-import { prettyPrintScript } from './pathologyEditor';
-import { ClKeys, LickertData, PhKeys, run_lickert, Serie } from './RUN';
-import { ScriptedEvent } from './the_world';
+import { ClKeys, LickertData, PhKeys, run_lickert } from './RUN';
 import {
 	getCurrentPatientBodyParam,
 	getCurrentPatientId,
@@ -183,38 +179,38 @@ type KeyId = string;
 
 export type LickertLevel = 1 | 2 | 3 | 4 | 5;
 
-const lickerCellDef_select: CellDef[] = [
-	{
-		type: 'enum',
-		label: 'licekrt',
-		values: [
-			{
-				label: '-',
-				value: undefined,
-			},
-			{
-				label: 'impossible',
-				value: 1,
-			},
-			{
-				label: 'unlikely',
-				value: 2,
-			},
-			{
-				label: 'acceptable',
-				value: 3,
-			},
-			{
-				label: 'quite realistic',
-				value: 4,
-			},
-			{
-				label: 'fully realistic',
-				value: 5,
-			},
-		],
-	},
-];
+//const lickerCellDef_select: CellDef[] = [
+//	{
+//		type: 'enum',
+//		label: 'licekrt',
+//		values: [
+//			{
+//				label: '-',
+//				value: undefined,
+//			},
+//			{
+//				label: 'impossible',
+//				value: 1,
+//			},
+//			{
+//				label: 'unlikely',
+//				value: 2,
+//			},
+//			{
+//				label: 'acceptable',
+//				value: 3,
+//			},
+//			{
+//				label: 'quite realistic',
+//				value: 4,
+//			},
+//			{
+//				label: 'fully realistic',
+//				value: 5,
+//			},
+//		],
+//	},
+//];
 
 const lickerCellDef: CellDef[] = [
 	/*{

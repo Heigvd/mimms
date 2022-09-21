@@ -608,6 +608,7 @@ export class PathFinder {
 				updateVertexFN = this.ThetaStarUpdateVertex.bind(this);
 		}
 
+        // eslint-disable-next-line no-console
 		console.time('Path search');
 		// Reset lists
 		this.openList.clear();
@@ -653,6 +654,7 @@ export class PathFinder {
 			currentNode.counter = ++this.counter;
 			// End of path is reached
 			if (currentNode === endNode) {
+                // eslint-disable-next-line no-console
 				console.timeEnd('Path search');
 
 				let path = this.backtrace(endNode);

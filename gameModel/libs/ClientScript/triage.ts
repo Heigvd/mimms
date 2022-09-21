@@ -696,7 +696,7 @@ const doSapPreTriage: TriageFunction<SAP_CATEGORY> = (data, console) => {
 };
 
 const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
-	const { human, actions } = data;
+	const { actions } = data;
 
 	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
 		actions.push('Goto PMA');
@@ -769,7 +769,7 @@ const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console)
 };
 
 const doSievePreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
-	const { human, actions } = data;
+	const { actions } = data;
 
 	if (massiveHemorrhage(data)) {
 		healHemorrhages(data);
@@ -958,7 +958,7 @@ const doSaccoPreTriage: TriageFunction<SACCO_CATEGORY> = (data, console) => {
 };
 
 const doStartPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
-	const { human, actions } = data;
+	const { actions } = data;
 
 	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
 		actions.push('Goto PMA');
@@ -1043,7 +1043,7 @@ const doStartPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 };
 
 const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
-	const { human, actions } = data;
+	const { actions } = data;
 
 	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
 		actions.push('Goto PMA');

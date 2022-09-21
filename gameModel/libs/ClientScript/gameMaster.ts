@@ -1,4 +1,3 @@
-import { getDrillStatus } from "./drill";
 import { FogType } from "./the_world";
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LICKERT';

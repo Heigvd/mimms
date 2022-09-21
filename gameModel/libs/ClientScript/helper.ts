@@ -9,30 +9,23 @@
 import { logger } from "./logger";
 import { Point } from "./point2D";
 
-// Basic geometry types
-
-export type Polygon = Point[]
-export type Polygons = Polygon[]
-export type Segment = [Point, Point]
-
-
 export function checkUnreachable(x: never): void {
   throw new Error("Unreachable code: " + (x as unknown));
 }
 
-/**
- * Convert kPa to mmHg
- */
-export function convertKiloPascalToTorr(x: number): number {
-  return x * 760 / 101.325
-}
-
-/**
- * Convert mmHg to kPa
- */
-export function convertTorrToKPa(x: number): number {
-  return x * 101.325 / 760;
-}
+///**
+// * Convert kPa to mmHg
+// */
+//export function convertKiloPascalToTorr(x: number): number {
+//  return x * 760 / 101.325
+//}
+//
+///**
+// * Convert mmHg to kPa
+// */
+//export function convertTorrToKPa(x: number): number {
+//  return x * 101.325 / 760;
+//}
 
 interface Bounds {
   min?: number;
@@ -67,7 +60,7 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
 export function interpolate(x: number, points: Point[], defaultValue: number = 0) : number  {
 	//const points = pointsArg.sort((a, b) => a.x - b.x);
 
-  	logger.info("Interpolate: ", {x, points});
+	logger.info("Interpolate: ", {x, points});
 
 	if (points.length === 1) {
 		logger.info("One point: ", points[0]!.y)

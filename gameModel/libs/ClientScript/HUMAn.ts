@@ -64,9 +64,9 @@ export function enableCoagulation(enabled: boolean) {
 	coagulationEnabled = enabled;
 }
 
-export interface BodyAction {
-	id: string;
-}
+//export interface BodyAction {
+//	id: string;
+//}
 
 export interface Environnment {
 	/** atmospheric pressusre in mmHg */
@@ -597,7 +597,7 @@ export const defaultMeta: BodyFactoryParam = {
 	lungDepth: 0,
 };
 
-
+// ts-unused-exports:disable-next-line
 export const allBlocks = [
 	"HEAD",
 	"BRAIN",
@@ -626,8 +626,10 @@ export const extBlocks = [
 	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT",
 ] as const;
 
+// ts-unused-exports:disable-next-line
 export type ExternalBlock = typeof extBlocks[number];
 
+// ts-unused-exports:disable-next-line
 export const bonesBlocks = [
 	"HEAD",
 	"NECK",
@@ -650,11 +652,12 @@ export const simpleFractureBonesBlocks = [
 	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT",
 ] as const;
 
-export type SipleFractureBoneBlock = typeof simpleFractureBonesBlocks[number];
+// ts-unused-exports:disable-next-line
+export type SimpleFractureBoneBlock = typeof simpleFractureBonesBlocks[number];
 
 
 
-
+// ts-unused-exports:disable-next-line
 export const nervousSystemBlocks = [
 	"HEAD",
 	"BRAIN",
@@ -1127,11 +1130,13 @@ function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
 }
 
 
+// ts-unused-exports:disable-next-line
 export interface ConnectionWithPayload<Payload> {
 	connection: RevivedConnection;
 	payload?: Payload;
 }
 
+// ts-unused-exports:disable-next-line
 export type VisitorOptions<Payload> =
 	| {
 		leaveBlock?: (block: Block) => void;
@@ -1219,13 +1224,6 @@ function _visit<Payload>(
 		}
 	}
 	return "CONTINUE";
-}
-
-export function prettyPrint(body: HumanBody): void {
-	visit(body.state, "HEAD", (bloc) => {
-		logger.debug(`Visit ${bloc.name}`);
-		return "CONTINUE";
-	});
 }
 
 export function findConnection(
@@ -1507,66 +1505,66 @@ function hemostasis_vasoconstriction(
 	}
 }
 
-function dispatch(bodyState: BodyState, connections: RevivedConnection[], co: number) {
-	// extract qPercent and nextBlock resistance
-	let effectiveSum = 0;
-	let initialSum = 0;
-
-	const data = connections.map((c) => {
-		const nextBlock = findBlock(bodyState, c.to);
-		if (nextBlock != null) {
-			initialSum += c.params.blood || 0;
-
-			const eQ = (c.params.blood || 0) *
-				(1 - (nextBlock.params.bloodFlow
-					? nextBlock.params.bloodResistance || 0
-					: 1));
-			effectiveSum += eQ;
-
-			return {
-				c: c,
-				initialQFactor: c.params.blood,
-				effectiveQFactor: eQ,
-			};
-		} else {
-			return {
-				c: c,
-				initialQFactor: c.params.blood,
-				effectiveQFactor: 0,
-			};
-		}
-	});
-
-	if (initialSum > 1) {
-		logger.error("Please review qFactors", connections);
-	}
-
-	const enabled = initialSum !== effectiveSum;
-
-	// percentage "consumed by the current block"
-	const initialBlockQFactor = 1 - initialSum;
-	effectiveSum += initialBlockQFactor;
-	const redirected = 1 - effectiveSum;
-
-	const prepared = data.map((d) => {
-		return {
-			connection: d.c,
-			payload:
-				(d.effectiveQFactor + (d.effectiveQFactor * redirected) / effectiveSum) * co,
-		};
-	});
-
-	if (enabled) {
-		bloodLogger.log("DATA: ", data);
-		bloodLogger.log("Vasoconstricted BloodFlow ", prepared, {
-			co,
-			effectiveSum,
-			initialBlockQFactor,
-			initialSum,
-		});
-	}
-	return prepared;
-}
+//function dispatch(bodyState: BodyState, connections: RevivedConnection[], co: number) {
+//	// extract qPercent and nextBlock resistance
+//	let effectiveSum = 0;
+//	let initialSum = 0;
+//
+//	const data = connections.map((c) => {
+//		const nextBlock = findBlock(bodyState, c.to);
+//		if (nextBlock != null) {
+//			initialSum += c.params.blood || 0;
+//
+//			const eQ = (c.params.blood || 0) *
+//				(1 - (nextBlock.params.bloodFlow
+//					? nextBlock.params.bloodResistance || 0
+//					: 1));
+//			effectiveSum += eQ;
+//
+//			return {
+//				c: c,
+//				initialQFactor: c.params.blood,
+//				effectiveQFactor: eQ,
+//			};
+//		} else {
+//			return {
+//				c: c,
+//				initialQFactor: c.params.blood,
+//				effectiveQFactor: 0,
+//			};
+//		}
+//	});
+//
+//	if (initialSum > 1) {
+//		logger.error("Please review qFactors", connections);
+//	}
+//
+//	const enabled = initialSum !== effectiveSum;
+//
+//	// percentage "consumed by the current block"
+//	const initialBlockQFactor = 1 - initialSum;
+//	effectiveSum += initialBlockQFactor;
+//	const redirected = 1 - effectiveSum;
+//
+//	const prepared = data.map((d) => {
+//		return {
+//			connection: d.c,
+//			payload:
+//				(d.effectiveQFactor + (d.effectiveQFactor * redirected) / effectiveSum) * co,
+//		};
+//	});
+//
+//	if (enabled) {
+//		bloodLogger.log("DATA: ", data);
+//		bloodLogger.log("Vasoconstricted BloodFlow ", prepared, {
+//			co,
+//			effectiveSum,
+//			initialBlockQFactor,
+//			initialSum,
+//		});
+//	}
+//	return prepared;
+//}
 
 interface ConstrictedConnection {
 	c: RevivedConnection,
@@ -2566,60 +2564,6 @@ export function computeState(
 		return newState;
 		//}, cloneDeep(body.state));
 	}, state);
-}
-
-function _doSelectBetweenMinAndMaxBlocks(
-	blocks: string[],
-	numBlocks: number,
-	repeat: boolean = false
-): string[] {
-	if ((!repeat && blocks.length < numBlocks) || blocks.length === 0) {
-		throw "Not enough blocks:";
-	}
-	const bl = [...blocks];
-
-	const selectedBlocks: string[] = [];
-	for (let k = 0; k < numBlocks; k++) {
-		const l = bl.length;
-		const i = Math.floor(Math.random() * l);
-		selectedBlocks.push(bl[i]!);
-		if (!repeat) {
-			bl.splice(i, 1);
-		}
-	}
-	return selectedBlocks;
-}
-
-function selectBetweenMinAndMaxBlocks(
-	blocks: string[],
-	min: number,
-	max: number,
-	repeat: boolean = false,
-	preferredBlocks?: string[]
-): string[] {
-	const range = max - min;
-	const numBlocks = min + Math.floor(Math.random() * range);
-	logger.debug("Select ", numBlocks, " within ", preferredBlocks, blocks);
-	if (preferredBlocks?.length) {
-		if (repeat || preferredBlocks.length >= numBlocks) {
-			// select all blocks within preferred
-			return _doSelectBetweenMinAndMaxBlocks(
-				preferredBlocks,
-				numBlocks,
-				repeat
-			);
-		} else {
-			// select all preferred blocks and fetch missings from others
-			const nbMissing = numBlocks - preferredBlocks.length;
-			const restBlocks = blocks.filter((b) => !preferredBlocks.includes(b));
-			return [
-				...preferredBlocks,
-				..._doSelectBetweenMinAndMaxBlocks(restBlocks, nbMissing, false),
-			];
-		}
-	} else {
-		return _doSelectBetweenMinAndMaxBlocks(blocks, numBlocks, repeat);
-	}
 }
 
 export function doActionOnHumanBody(

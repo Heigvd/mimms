@@ -304,9 +304,10 @@ function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: Module
 			return `Intracranial pressure`
 		case 'NervousSystem':
 			return `${block}: nervous system damage`
-		case 'Pneumothorax':
+		case 'Pneumothorax': {
 			const side = block.startsWith("UNIT_BRONCHUS_1") ? 'Left' : 'Right';
 			return `${side} lung: ${mod.pneumothoraxType.toLowerCase()} pneumothorax`;
+        }
 		case 'Tamponade':
 			return 'Tamponade';
 	}
