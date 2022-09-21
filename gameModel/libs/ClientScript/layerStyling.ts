@@ -86,7 +86,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
 	const name = feature.getProperties().name;
 	if(name){
 		style.push(
-			{"text":{"type":"TextStyle","fill":{"type":"FillStyle","color":"white"},"stroke":{"type":"StrokeStyle","lineCap":"round","lineJoin":"round","miterLimit":10, width:3},"padding":[null,null,null,null],"text":name, scale:1.25, "placement":"line","overflow":false}}
+			{"text":{"type":"TextStyle","fill":{"type":"FillStyle","color":"white"},"stroke":{"type":"StrokeStyle","lineCap":"round","lineJoin":"round","miterLimit":10, width:3},"text":name, scale:1.25, "placement":"line","overflow":false}}
 		)
 	}
 	return style;

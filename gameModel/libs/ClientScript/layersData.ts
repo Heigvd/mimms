@@ -188,8 +188,8 @@ export class DiscreteExtent {
 				grid[y] = [];
 			}
 			for(let x = this.minX; x < this.maxX; x++){
-				if(!grid[y][x] || canOverride){
-					grid[y][x] = value;	
+				if(!grid[y]![x] || canOverride){
+					grid[y]![x] = value;	
 				}
 			}
 		}
@@ -246,7 +246,7 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: strin
 	obstacleLayers.current[uid] = ol;
 	layerDataLogger.info('Processing ', uid);
 
-	let worldGrid : WorldGrid = obstacleGrids.current[mapId];
+    let worldGrid: WorldGrid | undefined = obstacleGrids.current[mapId];
 	if(!worldGrid){
 
 		const cellSize = CELL_SIZE_METER;
@@ -268,7 +268,7 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: strin
 			cellSize,
 			offsetPoint,
 		}
-		worldGrid = obstacleGrids.current[mapId]
+		worldGrid = obstacleGrids.current[mapId]!
 	}
 
 	const gridHeight = worldGrid.gridHeight;
@@ -474,7 +474,7 @@ function internalRecursiveFill(grid: number[][], extent: DiscreteExtent, vecSrc:
 			// splitting in 4 is more efficient empirically in all cases
 			const partitions = extent.split(4);
 			for(let j = 0; j < partitions.length; j++){
-				internalRecursiveFill(grid, partitions[j], vecSrc, oLayer, offset, cellSize, debug);
+				internalRecursiveFill(grid, partitions[j]!, vecSrc, oLayer, offset, cellSize, debug);
 			}
 		}
 	

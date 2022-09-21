@@ -341,7 +341,7 @@ function computeCurrentLocation(
 	if (location?.location != null) {
 		if (location.direction != null) {
 			// This should be done only when the obstacle grid changes
-			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrids.current[location.location.mapId];
+			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrids.current[location.location.mapId]!;
 
 			const pathFinder = new PathFinder({
 				grid: {

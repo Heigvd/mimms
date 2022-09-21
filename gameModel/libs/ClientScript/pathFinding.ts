@@ -231,7 +231,7 @@ export class Grid {
 		if (!this.isOnTheGridXY(x,y)) {
 			return false;
 		}
-		return this.obstacleMatrix[y][x] < this.obstacleDensityThreshold;
+		return this.obstacleMatrix[y]![x]! < this.obstacleDensityThreshold;
 	}
 
 	public walkabilityValue(position: Point): number {
@@ -838,11 +838,11 @@ export class PathFinder {
 
 		if(resamplePath){
 		//build a path that has no jump (only 1 distance moves)
-			resampledPath.push(path[0]);
+			resampledPath.push(path[0]!);
 			for (let i = 0; i < path.length - 1; ++i) 
 			{
-				const curr = path[i];
-				const next = path[i+1];
+				const curr = path[i]!;
+				const next = path[i+1]!;
 				const dir = sub(next, curr);
 				dir.x = dir.x / Math.max(Math.abs(dir.x), 1);
 				dir.y = dir.y / Math.max(Math.abs(dir.y), 1);
@@ -928,7 +928,7 @@ export class PathFinder {
 		if(startIntermediate){
 			correctedPath.push(startIntermediate);
 		}else{
-			correctedPath.push(worldPath[0]);
+			correctedPath.push(worldPath[0]!);
 		}
 		correctedPath.push(...worldPath.slice(1, l-1));
 
@@ -939,7 +939,7 @@ export class PathFinder {
 				correctedPath.push(endIntermediate);
 			}
 		}else{
-			correctedPath.push(worldPath[l-1]);
+			correctedPath.push(worldPath[l-1]!);
 		}
 		correctedPath.push(worldEnd);
 		return correctedPath;
@@ -947,17 +947,23 @@ export class PathFinder {
 	}
 
 	private intersectSegmentWithContour(path: Point[], startIdx: number, endIdx: number, contourCenter: Point): Point | undefined {
+            const pStart = path[startIdx];
+            const pEnd = path[endIdx];
 
-			if(equalsStrict(path[startIdx], path[endIdx])){
+            if (pStart == null || pEnd == null){
+                return undefined;
+            }
+
+			if(equalsStrict(pStart, pEnd)){
 				return undefined;
 			}
-			const firstPathSegment : Segment = [path[startIdx], path[endIdx]];
+			const firstPathSegment : Segment = [pStart, pEnd];
 			const contour = this.getCellContour(contourCenter);
 
 			let intersection: Point | undefined = undefined;
 			let i = 0;
 			do{
-				const seg: Segment = [contour[i], contour[i+1]]
+				const seg: Segment = [contour[i]!, contour[i+1]!]
 				intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
 				i++;
 			}while(intersection == undefined && i < contour.length-1);
@@ -972,14 +978,13 @@ export class PathFinder {
 	}
 
 	private getCellContour(localStart: Point): Point[] {
-		const p = localStart;
 		const extent = new DiscreteExtent(
-			p.x,
-			p.y,
-			p.x + 1,
-			p.y + 1
+			localStart.x,
+			localStart.y,
+			localStart.x + 1,
+			localStart.y + 1
 		);
-		return extent.contourWorld(this.cellSize, this.offsetPoint).map((p) => {return {x : p[0], y : p[1]}});
+		return extent.contourWorld(this.cellSize, this.offsetPoint).map((p) => {return {x : p[0]!, y : p[1]!}});
 
 	}
 

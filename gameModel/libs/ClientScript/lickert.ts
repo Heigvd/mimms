@@ -502,7 +502,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 		cardiacArrest: patientData.cardiacArrest,
 		clMatrix: clinicalMatrix[patientId]!,
 		phMatrix: physiologicalMatrix[patientId]!,
-		comments: comments[patientId],
+		comments: comments[patientId] || '',
 	};
 }
 
@@ -703,7 +703,7 @@ function pushValue(allData: Record<string, Record<number, string>>,
 ) {
 	const colName = `p-${patientId}_${time != null ? `t${time}` : ''}-${metricName}`;
 	allData[colName] = allData[colName] || {};
-	allData[colName][expertId] = value;
+	allData[colName]![expertId] = value;
 }
 
 export function getAllLickertData() {
@@ -739,7 +739,7 @@ export function getAllLickertData() {
 		// print header
 		csv.push(formatCsvLine("expert", ...keys));
 		for (const expertId of experts) {
-			csv.push(formatCsvLine(expertId, ...keys.map(key => allData[key][expertId] || '')));
+			csv.push(formatCsvLine(expertId, ...keys.map(key => allData[key]![expertId] || '')));
 		}
 
 		const txt = csv.join('\n');
