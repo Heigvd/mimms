@@ -4,10 +4,10 @@
  */
 
 import { checkUnreachable, Range } from "./helper";
-import { BlockName, BodyFactoryParam } from "./HUMAn";
-import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "./pathology";
+import { BlockName, BodyFactoryParam } from "./HUMAn/human";
+import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "./HUMAn/pathology";
 import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
-import { getPathology } from "./registries";
+import { getPathology } from "./HUMAn/registries";
 import { ScriptedEvent } from "./the_world";
 import { getBodyParam, getCurrentPatientId } from "./WegasHelper";
 

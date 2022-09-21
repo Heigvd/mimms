@@ -1,6 +1,6 @@
 import { formatMetric } from './currentPatientZoom';
 import { getDrillStatus } from './drill';
-import { BodyStateKeys, computeMetas } from './HUMAn';
+import { BodyStateKeys, computeMetas } from './HUMAn/human';
 import {
 	CellDef,
 	DataDef,

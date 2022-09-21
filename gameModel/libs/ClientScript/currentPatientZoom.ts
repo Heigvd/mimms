@@ -1,9 +1,9 @@
 import { initEmitterIds } from "./baseEvent";
 import { sendEvent } from "./EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "./HUMAn";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "./HUMAn/human";
 import { logger } from "./logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./pathology";
-import { getAct, getItem, getPathology } from "./registries";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./HUMAn/pathology";
+import { getAct, getItem, getPathology } from "./HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "./triage";

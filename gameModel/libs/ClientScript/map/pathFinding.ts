@@ -1,7 +1,7 @@
-import { Heap } from "./heap";
-import { Segment } from "./helper";
+import { Heap } from "../heap";
+import { Segment } from "./point2D";
 import { DiscreteExtent, ObstacleType } from "./layersData";
-import { pathFindingLogger } from "./logger";
+import { pathFindingLogger } from "../logger";
 import { Point, add, equalsStrict, sub, lengthSquared } from "./point2D";
 
 

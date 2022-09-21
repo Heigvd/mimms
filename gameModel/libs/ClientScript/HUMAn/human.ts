@@ -5,9 +5,9 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { add, checkUnreachable, interpolate, normalize } from "./helper";
-import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "./logger";
-import { Point } from "./point2D";
+import { add, checkUnreachable, interpolate, normalize } from "../helper";
+import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "../logger";
+import { Point } from "../map/point2D";
 
 import {
 	ActDefinition,
@@ -25,7 +25,7 @@ import {
 	inferExtraOutputs,
 } from "./physiologicalModel";
 import { getChemical } from "./registries";
-import { ScriptedEvent } from "./the_world";
+import { ScriptedEvent } from "../the_world";
 
 export type BodyPosition =
 	| "RECOVERY"

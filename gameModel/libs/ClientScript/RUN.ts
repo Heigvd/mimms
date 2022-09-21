@@ -11,11 +11,11 @@ import {
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
 	readKey,
-} from './HUMAn';
+} from './HUMAn/human';
 import { logger, vitalsLogger, calcLogger, compLogger } from './logger';
-import { RevivedPathology, revivePathology } from './pathology';
+import { RevivedPathology, revivePathology } from './HUMAn/pathology';
 
-import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
+import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './HUMAn/registries';
 import {
 getBodyParam,
 	getCurrentPatientId,

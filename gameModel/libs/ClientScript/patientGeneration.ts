@@ -1,9 +1,9 @@
 import { Histogram, HistogramDistribution, IHistogram, NormalDistribution } from './distributionSampling'
 import { getSituationDefinition } from './GameModelerHelper';
 import { pickRandom } from './helper';
-import { BodyFactoryParam, Sex } from './HUMAn';
-import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from './pathology';
-import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from './registries';
+import { BodyFactoryParam, Sex } from './HUMAn/human';
+import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from './HUMAn/pathology';
+import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from './HUMAn/registries';
 import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from './the_world';
 import { getPatientsBodyFactoryParams, parseObjectDescriptor } from './WegasHelper';
 

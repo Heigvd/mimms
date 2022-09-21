@@ -1,7 +1,7 @@
 import { initEmitterIds } from './baseEvent';
 import { sendEvent } from './EventManager';
 import { checkUnreachable, normalize } from './helper';
-import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from './HUMAn';
+import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from './HUMAn/human';
 import {
 	ConsoleLog,
 	getCurrentPatientBody,

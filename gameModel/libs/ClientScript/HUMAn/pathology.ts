@@ -6,9 +6,9 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { SkillLevel } from "./GameModelerHelper";
-import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "./helper";
-import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./HUMAn";
+import { SkillLevel } from "../GameModelerHelper";
+import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../helper";
+import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";
 
 export type VariablePatch = Partial<BodyState["variables"]>;

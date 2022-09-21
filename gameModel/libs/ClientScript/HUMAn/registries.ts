@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './HUMAn';
+import { extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './human';
 import {
 	ChemicalDefinition,
 	buildPathology,
@@ -15,7 +15,7 @@ import {
 	ActDefinition,
 } from './pathology';
 import { Compensation, SympSystem } from './physiologicalModel';
-import { substraction } from './helper';
+import { substraction } from '../helper';
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};

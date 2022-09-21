@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, length } from './point2D';
+import { Point, add, sub, mul, proj, lengthSquared, length } from './map/point2D';
 
 import {
 	BlockName,
@@ -15,7 +15,7 @@ import {
 	HumanBody,
 	HumanMeta,
 	readKey,
-} from './HUMAn';
+} from './HUMAn/human';
 import {
 	ActDefinition,
 	ActionBodyEffect,
@@ -25,7 +25,7 @@ import {
 	ItemDefinition,
 	RevivedPathology,
 	revivePathology,
-} from './pathology';
+} from './HUMAn/pathology';
 import {
 	getAct,
 	getItem,
@@ -33,7 +33,7 @@ import {
 	setCompensationModel,
 	setOverdriveModel,
 	setSystemModel,
-} from './registries';
+} from './HUMAn/registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -63,9 +63,9 @@ import {
 	processPhoneCommunication,
 	clearAllCommunicationState,
 } from './communication';
-import { calculateLOS, isPointInPolygon } from './lineOfSight';
-import { PathFinder } from './pathFinding';
-import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './layersData';
+import { calculateLOS, isPointInPolygon } from './map/lineOfSight';
+import { PathFinder } from './map/pathFinding';
+import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './map/layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';

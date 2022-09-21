@@ -1,10 +1,10 @@
 import { TargetedEvent } from "./baseEvent";
 import { getSkillDefinition, SkillDefinition, SkillLevel } from "./GameModelerHelper";
-import { Point } from "./point2D";
-import { BodyFactoryParam, Environnment } from "./HUMAn";
+import { Point } from "./map/point2D";
+import { BodyFactoryParam, Environnment } from "./HUMAn/human";
 import { logger } from "./logger";
-import { Compensation, SympSystem } from "./physiologicalModel";
-import { getAct, getItem, getPathology } from './registries';
+import { Compensation, SympSystem } from "./HUMAn/physiologicalModel";
+import { getAct, getItem, getPathology } from './HUMAn/registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "./the_world";
 import { checkUnreachable } from "./helper";
 

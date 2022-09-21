@@ -1,6 +1,6 @@
 import { getDirectMessagesFrom } from "./communication";
-import { mapRefs } from "./layersData";
-import { getBuildingInExtent } from "./lineOfSight";
+import { mapRefs } from "./map/layersData";
+import { getBuildingInExtent } from "./map/lineOfSight";
 import { getHumans, lineOfSightRadius, paths } from "./the_world";
 import { whoAmI } from "./WegasHelper";
 

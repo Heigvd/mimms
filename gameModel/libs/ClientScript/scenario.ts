@@ -1,5 +1,5 @@
 import { sendEvents } from "./EventManager";
-import { mapRefs } from "./layersData";
+import { mapRefs } from "./map/layersData";
 import { EventPayload, ScriptedEvent, TeleportEvent } from "./the_world";
 import { getPatientsBodyFactoryParamsArray } from "./WegasHelper";
 

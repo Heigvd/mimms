@@ -2589,7 +2589,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "HUMAn",
+    "contentKey" : "HUMAn/human",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032585:1mALBz",
@@ -2598,7 +2598,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "layersData",
+    "contentKey" : "map/layersData",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:427114:jexCPN",
@@ -2625,7 +2625,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "lineOfSight",
+    "contentKey" : "map/lineOfSight",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24073812:LHvCPq",
@@ -2661,7 +2661,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pathFinding",
+    "contentKey" : "map/pathFinding",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:441099:z0DmoU",
@@ -2670,7 +2670,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pathology",
+    "contentKey" : "HUMAn/pathology",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033054:IBXSyh",
@@ -2697,7 +2697,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "physiologicalModel",
+    "contentKey" : "HUMAn/physiologicalModel",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033055:ZDaFlx",
@@ -2715,7 +2715,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "registries",
+    "contentKey" : "HUMAn/registries",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033056:aPYlLD",

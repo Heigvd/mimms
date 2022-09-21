@@ -2,7 +2,7 @@
 
 import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "./GameModelerHelper";
 
-import { getItems, getPathologies } from "./registries";
+import { getItems, getPathologies } from "./HUMAn/registries";
 
 Helpers.registerEffect(() => {
 
