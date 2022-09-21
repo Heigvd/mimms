@@ -6,6 +6,15 @@
             function timeEnd(label: string, ...data: unknown[]);
         };
 
+        declare const setTimeout : (callback: () => void, delay: number) => number;
+        declare const clearTimeout : (id: number) => void;
+        declare const setInterval : (callback: () => void, delay: number) => number;
+        declare const clearInterval : (id: number) => void;
+
+        declare namespace performance {
+          function now();
+        }
+
         declare const gameModel: SGameModel;
         declare const teams: STeam[];
         declare const self: SPlayer;
@@ -85,6 +94,7 @@
 "lickertPages": SListDescriptor;
 "notCompletedYet": SStaticTextDescriptor;
 "congrats": SStaticTextDescriptor;
+"lickertWelcome": SStaticTextDescriptor;
         }
 
         interface VariableIds {
@@ -161,6 +171,7 @@
 24074412: SListDescriptor;
 24074417: SStaticTextDescriptor;
 24074423: SStaticTextDescriptor;
+24075201: SStaticTextDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -187,7 +198,7 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: unknown, pageId: IScript) => void;
+          setPageLoaders: (name: "gamePageLoader"|"timetoolbar_map", pageId: IScript) => void;
         };
 
         interface ClientMethodList {
@@ -239,6 +250,35 @@
         declare const Roles : RolesMehtods;
 
         declare const wlog : (...args: unknown[])=>void;
+
+        type BBox2d = [number, number, number, number];
+        type BBox3d = [number, number, number, number, number, number];
+        type BBox = BBox2d | BBox3d;
+
+        type TurfGeometryOption = {
+          bbox?: BBox,
+          id?: string|number
+        }
+
+        declare const Turf : {
+          lineIntersect: ((geom1: unknown, geom2: unknown) => any),
+          bboxClip: ((feature: unknown, bbox: [number, number, number, number]) => any),
+          lineString: ((coordinates: number[][], properties?: AnyValuesObject, options?: TurfGeometryOption) => any),
+          multiLineString: ((coordinates: number[][][], properties?: AnyValuesObject, options?: TurfGeometryOption) => any),
+          polygon: ((points: number[][][], properties?: AnyValuesObject, options?: TurfGeometryOption) => any),
+          multiPolygon : ((points: number[][][][], properties?: AnyValuesObject, options?: TurfGeometryOption) => any),
+        };
+
+        declare const OpenLayer: {
+          format: {
+            GeoJSON : any,
+          },
+          source: {
+            VectorSource : any 
+          },
+          transformExtent : ((extent : ExtentLikeObject, srcProj : ProjectionLike, destProj : ProjectionLike) => ExtentLikeObject)
+        }
+
         
 
         
