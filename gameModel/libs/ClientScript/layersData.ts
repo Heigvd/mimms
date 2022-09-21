@@ -46,6 +46,7 @@ export function tryLoadExtentAsync(mapId : string, extentState : ExtentState, se
 			req.then((t) => {
 				const ext = parseExtent(t);
 				// convert extent to map projection
+				//layerDataLogger.warn(ext);
 				extentState.extent = OpenLayer.transformExtent(ext, gpsProjection, swissDefaultProjection);
 				extentState.loadState = "LOADED";
 				setState(extentState);
