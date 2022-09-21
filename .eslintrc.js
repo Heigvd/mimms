@@ -15,7 +15,7 @@ module.exports = {
   },
   env: { browser: false, es6: true },
   rules: {
-    'no-console': 'error',
+    'no-console': 1,
     'no-alert': 'error',
     'no-var': 'error',
     'no-eval': 'error',
