@@ -33,7 +33,7 @@ type WheelItemAction = BaseItem &
 			actionId: string;
 		};
 		disposable: boolean;
-		counter: Number | 'infinity';
+		counter: number | 'infinity';
 	};
 
 type WheelAct = BaseItem &
@@ -471,11 +471,11 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
 		const source =
 			measure.type === 'WheelAct'
 				? {
-					type: 'act' as 'act',
+					type: 'act' as const,
 					actId: measure.id,
 				}
 				: {
-					type: 'itemAction' as 'itemAction',
+					type: 'itemAction' as const,
 					...measure.itemActionId,
 				};
 		sendEvent({
@@ -495,11 +495,11 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 		const source =
 			treatment.type === 'WheelAct'
 				? {
-					type: 'act' as 'act',
+					type: 'act' as const,
 					actId: treatment.id,
 				}
 				: {
-					type: 'itemAction' as 'itemAction',
+					type: 'itemAction' as const,
 					...treatment.itemActionId,
 				};
 		sendEvent({
@@ -877,7 +877,7 @@ function getBreathingOverview(overview: HumanOverview): string {
 
 export function getHumanVisualInfos(): string {
 	const human = getCurrentPatientBody();
-	let output: string[] = [''];
+	const output: string[] = [''];
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {

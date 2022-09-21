@@ -1669,7 +1669,7 @@ function sumBloodInOut(
 	bodyMeta: HumanMeta,
 	durationInMin: number
 ): BloodInputOutput {
-	let sum: BloodInputOutput = {
+	const sum: BloodInputOutput = {
 		//instantaneous_mL: 0,
 		bloodLosses_mL: 0,
 		extLosses_mL: 0,

@@ -284,7 +284,7 @@ function internal_run(
 
 	calcLogger.info('ENV', env);
 	let i: number;
-	let body = initialBody;
+	const body = initialBody;
 	cb(body.state, 0);
 
 	//const scenario = getCurrentScenario();

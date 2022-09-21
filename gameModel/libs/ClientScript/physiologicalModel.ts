@@ -879,7 +879,7 @@ export function compute(
 	const computedPaO2 = computePaO2_mmHg(SaO2);
 	//const computedPaO2_v2 = computePaO2(hb_gPerL, CaO2);
 
-	let PaO2_mmHg = computedPaO2;
+	const PaO2_mmHg = computedPaO2;
 	/*wlog("PaO2 to PaCO2", {
 		PaO2_mmHg,
 		indexChoc,
@@ -1229,7 +1229,7 @@ const icp_model: Point[] = [
 	{ x: 50, y: 1 },
 ];
 
-let average = false;
+const average = false;
 
 
 export function computeOrthoLevel(

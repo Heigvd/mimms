@@ -77,7 +77,7 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 }
 
 export function getRoadStyle(feature: any, resolution: number): LayerStyleObject[] {
-	let {color, size} = getRoadParams(feature, resolution);
+	const {color, size} = getRoadParams(feature, resolution);
 	const style : LayerStyleObject[] = 
 	[
 		{"stroke":{"type":"StrokeStyle","lineCap":"butt","lineJoin":"round","miterLimit":10,"width":size,"color":'black'}},
@@ -106,8 +106,8 @@ export function getWaterStyle(feature: any, resolution: number): LayerStyleObjec
 
 	const style : LayerStyleObject = {};
 
-	let color = "rgba(80,150,200,0.5)";
-	let stroke = "rgb(80,150,200)";
+	const color = "rgba(80,150,200,0.5)";
+	const stroke = "rgb(80,150,200)";
 	if(label){
 		//wlog('laaaabel', label, feature.getGeometry().getType());
 		style.text = {

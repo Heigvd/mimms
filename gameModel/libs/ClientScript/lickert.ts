@@ -648,7 +648,7 @@ export function saveCurrentPatientComments(newComments: string) {
 	const id = getCurrentPatientId();
 	comments[id] = newComments;
 	save();
-};
+}
 
 
 /*************** Persistance **************/

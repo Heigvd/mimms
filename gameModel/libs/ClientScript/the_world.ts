@@ -816,7 +816,7 @@ function getMostRecentSnapshot<T>(
 	if (oSnapshots != null) {
 		// find most recent snapshot
 		for (let i = oSnapshots.length - 1; i >= 0; i--) {
-			if (!!options.strictTime ? oSnapshots[i]!.time < time : oSnapshots[i]!.time <= time) {
+			if (options.strictTime ? oSnapshots[i]!.time < time : oSnapshots[i]!.time <= time) {
 				snapshot = oSnapshots[i];
 				index = i;
 				futures = oSnapshots.slice(i + 1);

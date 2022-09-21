@@ -33,7 +33,7 @@ function getCategoryCardSvgRect(category: Category<string> | undefined, x: numbe
 interface PictoConfig {
 	className: string;
 	bloodRatio: number
-};
+}
 
 function getPicoClassNames(overview: HumanOverview): PictoConfig {
 	const classes: string[] = ["mouth_neutral"];
@@ -50,7 +50,7 @@ function getPicoClassNames(overview: HumanOverview): PictoConfig {
 		classes.push("eyes_N-A");
 	}
 
-	let bloodRatio = normalize(overview.totalExternalBloodLosses_ml / 500, { max: 1 });
+	const bloodRatio = normalize(overview.totalExternalBloodLosses_ml / 500, { max: 1 });
 	if (overview.totalExternalBloodLosses_ml > 0) {
 		classes.push("blood");
 	}
@@ -401,7 +401,7 @@ export function getHumanPosition(humanId: string): BodyPosition {
 export function getCategoryCard(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
-	let output: string[] = [''];
+	const output: string[] = [''];
 
 	const human = getHuman(id);
 	if (human != null) {
@@ -418,7 +418,7 @@ export function getCategoryCard(): string {
 export function getVisualOverview(): string {
 	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
-	let output: string[] = [''];
+	const output: string[] = [''];
 
 	const human = getHuman(id);
 	if (human != null) {
@@ -434,7 +434,7 @@ export function getVisualOverview(): string {
 
 export function getVisualOverviewForHumanId(id: string, resolution: number = 0.05): string {
 
-	let output: string[] = [];
+	const output: string[] = [];
 
 	const human = getHuman(id);
 	if (human != null) {
@@ -458,7 +458,7 @@ function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 }
 export function getVisualDetails(): string {
 
-	let output: string[] = [];
+	const output: string[] = [];
 
 	const human = getCurrentPatientBody();
 	if (human != null) {
@@ -564,7 +564,7 @@ export function getLocalizedBlocks(blocks: string[]) {
 		localized: [],
 		not_localized: [],
 	}
-	let toDisplay: BlockName[] = blocks as BlockName[];
+	const toDisplay: BlockName[] = blocks as BlockName[];
 
 	//toDisplay = allBlocks;
 	//toDisplay = extBlocks;

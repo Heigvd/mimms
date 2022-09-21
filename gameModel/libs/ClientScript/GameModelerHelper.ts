@@ -153,7 +153,7 @@ export function getBagsDefinitionsAsChoices() {
 		label: bagDef.name,
 		value: bagId,
 	}));
-};
+}
 
 
 export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> {
@@ -271,7 +271,7 @@ export function getSituationsDefinitionsAsChoices() {
 		value: '',
 	})
 	return choices;
-};
+}
 
 
 export function getSituationsDefsMatrix(): MatrixConfig<SituationId, PathologyId, SituationMatrixCell> {
@@ -397,7 +397,7 @@ export function getSkillsDefinitionsAsChoices() {
 		value: '',
 	})
 	return choices;
-};
+}
 
 
 export function getSkillActId(actId: string) {

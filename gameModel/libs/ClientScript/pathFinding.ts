@@ -282,8 +282,8 @@ export class Grid {
 	): Node[] {
 		const surroundingNodes: Node[] = [];
 
-		for (var y = currentPosition.y - 1; y <= currentPosition.y + 1; y++) {
-			for (var x = currentPosition.x - 1; x <= currentPosition.x + 1; x++) {
+		for (let y = currentPosition.y - 1; y <= currentPosition.y + 1; y++) {
+			for (let x = currentPosition.x - 1; x <= currentPosition.x + 1; x++) {
 				if (x !== currentPosition.x || y !== currentPosition.y) {
 					if (x == currentPosition.x || y == currentPosition.y || diagnonalMovementAllowed) {
 						if (this.isOnTheGrid({ x, y }) && this.isWalkableAt({ x, y })) {
@@ -673,7 +673,7 @@ export class PathFinder {
 			);
 
 			// Loop through all the neighbors
-			for (let i in candidates) {
+			for (const i in candidates) {
 				const neighbor = candidates[i]!;
 				// Continue if node on closed list
 				if (neighbor.getIsOnClosedList()) {
@@ -739,8 +739,8 @@ export class PathFinder {
 
 		let x0 = start.x;
 		let y0 = start.y;
-		let x1 = end.x;
-		let y1 = end.y;
+		const x1 = end.x;
+		const y1 = end.y;
 
 		let dX = x1 - x0;
 		let dY = y1 - y0;
@@ -892,8 +892,8 @@ export class PathFinder {
 	 */
 	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm): Point[] {
 		// Translate into grid points
-		let startPosition = PathFinder.worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
-		let endPosition = PathFinder.worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
+		const startPosition = PathFinder.worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
+		const endPosition = PathFinder.worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
 
 		// Compute path
 		const path = this._findPath(startPosition, endPosition, algorithm);

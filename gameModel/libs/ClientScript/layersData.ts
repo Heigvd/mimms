@@ -258,8 +258,8 @@ export function updateObstacleMatrixWithLayer(layer: any, map: any, mapId: strin
 		const worldHeight = extentHeight * meterPerUnit;
 		const offsetPoint: Point = { x: extent[0] * meterPerUnit, y: extent[1] * meterPerUnit};
 
-		let gridHeight = Math.round(worldHeight / cellSize);
-		let gridWidth = Math.round(worldWidth / cellSize);
+		const gridHeight = Math.round(worldHeight / cellSize);
+		const gridWidth = Math.round(worldWidth / cellSize);
 
 		obstacleGrids.current[mapId] = {
 			grid: [],
@@ -342,7 +342,7 @@ function layerCut(ol : ObstacleLayer, mapExtent : DiscreteExtent, cellSize: numb
 	const extents : DiscreteExtent[] = mapExtent.split(ol.cutGeometry);
 	const vecSource = ol.layer?.getSource();
 
-	for(let ext of extents){
+	for(const ext of extents){
 
 		const cutFeatures: any[] = [];
 
