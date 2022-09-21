@@ -172,14 +172,14 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getWaterStyle } from \"./layerStyling\";\ngetWaterStyle(feature, resolution);"
+                                              "content" : "import { getWaterStyle } from './map/layerStyling';\ngetWaterStyle(feature, resolution);"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "water",
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -202,14 +202,14 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getRailwayStyle } from \"./layerStyling\";\ngetRailwayStyle(resolution);"
+                                              "content" : "import { getRailwayStyle } from './map/layerStyling';\ngetRailwayStyle(resolution);"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "rails",
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Train, false, 'Recursive', 64);\nreturn;"
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Train, false, 'Recursive', 64);\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -234,14 +234,14 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getRoadStyle } from \"./layerStyling\";\ngetRoadStyle(feature, resolution);"
+                                              "content" : "import { getRoadStyle } from './map/layerStyling';\ngetRoadStyle(feature, resolution);"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "roads",
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Road, true, 'Recursive', 64, true);\nreturn;"
+                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Road, true, 'Recursive', 64, true);\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -256,7 +256,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getHumanLayer } from \"./mapLayers\";\ngetHumanLayer();",
+                                                "content" : "import { getHumanLayer } from './map/mapLayers';\ngetHumanLayer();",
                                                 "language" : "typescript"
                                               },
                                               "type" : "VectorLayer",
@@ -367,7 +367,7 @@
                                             },
                                             "getItemsFn" : {
                                               "@class" : "Script",
-                                              "content" : "import { getHumanOverlays } from \"./mapLayers\";\ngetHumanOverlays();",
+                                              "content" : "import { getHumanOverlays } from './map/mapLayers';\ngetHumanOverlays();",
                                               "language" : "TypeScript"
                                             },
                                             "itemKey" : "id",
@@ -386,7 +386,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getBubbleLayer } from \"./mapLayers\";\ngetBubbleLayer();",
+                                                "content" : "import { getBubbleLayer } from './map/mapLayers';\ngetBubbleLayer();",
                                                 "language" : "typescript"
                                               },
                                               "type" : "VectorLayer",
@@ -428,7 +428,7 @@
                                             "onLayerReady" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "layer", "map" ],
-                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from \"./layersData\";\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
+                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
                                             },
                                             "style" : { }
                                           },
@@ -441,7 +441,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getFogOfWarLayer } from \"./mapLayers\";\ngetFogOfWarLayer(Context.mapId.mapId);",
+                                                "content" : "import { getFogOfWarLayer } from './map/mapLayers';\ngetFogOfWarLayer(Context.mapId.mapId);",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -475,7 +475,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getDebugBuildingLayer } from \"./mapLayers\";\ngetDebugBuildingLayer()",
+                                                "content" : "import { getDebugBuildingLayer } from './map/mapLayers';\ngetDebugBuildingLayer()",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -502,7 +502,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getGridDebug } from \"./mapLayers\";\ngetGridDebug();",
+                                                "content" : "import { getGridDebug } from './map/mapLayers';\ngetGridDebug();",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -512,7 +512,7 @@
                                             "layerStyle" : {
                                               "@class" : "ScriptCallback",
                                               "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getCellStyle } from \"./mapLayers\";\ngetCellStyle(feature);"
+                                              "content" : "import { getCellStyle } from './map/mapLayers';\ngetCellStyle(feature);"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "[DEBUG] Obstacle grid",
@@ -527,7 +527,7 @@
                                               "dataType" : "GeoJSON",
                                               "source" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getPathLayer } from \"./mapLayers\";\ngetPathLayer();",
+                                                "content" : "import { getPathLayer } from './map/mapLayers';\ngetPathLayer();",
                                                 "language" : "typescript"
                                               },
                                               "sourceProjection" : "EPSG:2056",
@@ -570,7 +570,7 @@
                                           },
                                           "projection" : {
                                             "@class" : "Script",
-                                            "content" : "import { swissDefaultProjection } from \"./layersData\";\nswissDefaultProjection;",
+                                            "content" : "import { swissDefaultProjection } from './map/layersData';\nswissDefaultProjection;",
                                             "language" : "typescript"
                                           }
                                         }
@@ -600,7 +600,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { tryLoadExtentAsync } from \"./layersData\";\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.mapExtentState.state, Context.mapExtentState.setState);\n`<p>Load state : ${Context.mapExtentState.state.loadState}<br></p>`",
+                                          "content" : "import { tryLoadExtentAsync } from './map/layersData';\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.mapExtentState.state, Context.mapExtentState.setState);\n`<p>Load state : ${Context.mapExtentState.state.loadState}<br></p>`",
                                           "language" : "JavaScript"
                                         }
                                       },
@@ -627,7 +627,7 @@
                         "exposeAs" : "mapExtentState",
                         "initialState" : {
                           "@class" : "Script",
-                          "content" : "import { getInitialExtentState } from \"./layersData\";\ngetInitialExtentState();",
+                          "content" : "import { getInitialExtentState } from './map/layersData';\ngetInitialExtentState();",
                           "language" : "TypeScript"
                         },
                         "layoutStyle" : {
@@ -731,7 +731,7 @@
         "exposeAs" : "mapId",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCurrentMapId } from \"./mapLayers\";\n//wlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
+          "content" : "import { getCurrentMapId } from './map/mapLayers';\n//wlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "mapId",

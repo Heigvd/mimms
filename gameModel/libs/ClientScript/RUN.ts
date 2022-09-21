@@ -12,7 +12,7 @@ import {
 	enableVasoconstriction,
 	readKey,
 } from './HUMAn/human';
-import { logger, vitalsLogger, calcLogger, compLogger } from './logger';
+import { logger, vitalsLogger, calcLogger, compLogger } from './tools/logger';
 import { RevivedPathology, revivePathology } from './HUMAn/pathology';
 
 import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './HUMAn/registries';

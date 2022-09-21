@@ -1,5 +1,5 @@
 import { getAfflictedBlocks } from "./currentPatientZoom";
-import { interpolate, normalize } from "./helper";
+import { interpolate, normalize } from "./tools/helper";
 import { Point } from "./map/point2D";
 import { BlockName, BodyPosition, Glasgow, HumanBody } from "./HUMAn/human";
 import { Categorization, getCurrentPatientBody, getHuman } from "./the_world";

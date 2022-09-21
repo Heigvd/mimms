@@ -3,7 +3,7 @@
  * Pathology editor
  */
 
-import { checkUnreachable, Range } from "./helper";
+import { checkUnreachable, Range } from "./tools/helper";
 import { BlockName, BodyFactoryParam } from "./HUMAn/human";
 import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "./HUMAn/pathology";
 import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";

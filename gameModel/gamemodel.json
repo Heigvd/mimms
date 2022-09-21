@@ -2490,7 +2490,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "CustomForms",
+    "contentKey" : "tools/CustomForms",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:22373365:oLnoNc",
@@ -2499,7 +2499,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "CustomImpacts",
+    "contentKey" : "tools/CustomImpacts",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034201:e0dXYH",
@@ -2571,7 +2571,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "heap",
+    "contentKey" : "tools/heap",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57417:pGJqzW",
@@ -2580,7 +2580,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "helper",
+    "contentKey" : "tools/helper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033053:2q6P6E",
@@ -2607,7 +2607,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "layerStyling",
+    "contentKey" : "map/layerStyling",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:58091:noAdiD",
@@ -2634,7 +2634,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "logger",
+    "contentKey" : "tools/logger",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
@@ -2643,7 +2643,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "mapLayers",
+    "contentKey" : "map/mapLayers",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24048393:QEBkEa",
@@ -2706,7 +2706,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "point2D",
+    "contentKey" : "map/point2D",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57478:23476j",

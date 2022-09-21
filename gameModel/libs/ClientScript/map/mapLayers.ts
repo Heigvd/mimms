@@ -1,8 +1,8 @@
-import { getDirectMessagesFrom } from "./communication";
-import { mapRefs } from "./map/layersData";
-import { getBuildingInExtent } from "./map/lineOfSight";
-import { getHumans, lineOfSightRadius, paths } from "./the_world";
-import { whoAmI } from "./WegasHelper";
+import { getDirectMessagesFrom } from "../communication";
+import { mapRefs } from "./layersData";
+import { getBuildingInExtent } from "./lineOfSight";
+import { getHumans, lineOfSightRadius, paths } from "../the_world";
+import { whoAmI } from "../WegasHelper";
 
 interface PointFeature {
 	type: "Point";

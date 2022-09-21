@@ -1,6 +1,6 @@
 import { Histogram, HistogramDistribution, IHistogram, NormalDistribution } from './distributionSampling'
 import { getSituationDefinition } from './GameModelerHelper';
-import { pickRandom } from './helper';
+import { pickRandom } from './tools/helper';
 import { BodyFactoryParam, Sex } from './HUMAn/human';
 import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from './HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from './HUMAn/registries';

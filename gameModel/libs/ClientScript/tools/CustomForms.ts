@@ -1,8 +1,8 @@
 // THIS IS NOT A MODULE
 
-import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "./GameModelerHelper";
+import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "../GameModelerHelper";
 
-import { getItems, getPathologies } from "./HUMAn/registries";
+import { getItems, getPathologies } from "../HUMAn/registries";
 
 Helpers.registerEffect(() => {
 

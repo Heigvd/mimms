@@ -7,7 +7,7 @@
  */
 
 import { logger } from "./logger";
-import { Point } from "./map/point2D";
+import { Point } from "../map/point2D";
 
 export function checkUnreachable(x: never): void {
   throw new Error("Unreachable code: " + (x as unknown));

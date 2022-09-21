@@ -1,6 +1,6 @@
 // Basic geometry types
 
-import { layerDataLogger } from "../logger";
+import { layerDataLogger } from "../tools/logger";
 import { Point } from "./point2D";
 
 type MapId = string;

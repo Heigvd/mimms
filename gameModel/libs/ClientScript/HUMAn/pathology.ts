@@ -7,7 +7,7 @@
  */
 
 import { SkillLevel } from "../GameModelerHelper";
-import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../helper";
+import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";
 

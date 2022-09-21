@@ -1,4 +1,4 @@
-import { layerDataLogger } from "./logger";
+import { layerDataLogger } from "../tools/logger";
 
 interface RoadParams {
 	color: string;

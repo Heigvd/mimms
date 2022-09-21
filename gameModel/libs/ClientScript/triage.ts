@@ -1,6 +1,6 @@
 import { initEmitterIds } from './baseEvent';
 import { sendEvent } from './EventManager';
-import { checkUnreachable, normalize } from './helper';
+import { checkUnreachable, normalize } from './tools/helper';
 import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from './HUMAn/human';
 import {
 	ConsoleLog,

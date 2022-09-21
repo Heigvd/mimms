@@ -5,8 +5,8 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { add, checkUnreachable, interpolate, normalize } from "../helper";
-import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "../logger";
+import { add, checkUnreachable, interpolate, normalize } from "../tools/helper";
+import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "../tools/logger";
 import { Point } from "../map/point2D";
 
 import {

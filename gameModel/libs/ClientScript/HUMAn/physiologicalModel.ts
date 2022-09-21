@@ -5,7 +5,7 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { add, interpolate, normalize } from "../helper";
+import { add, interpolate, normalize } from "../tools/helper";
 import { Point } from "../map/point2D";
 
 import {
@@ -30,7 +30,7 @@ import {
 	isNervousSystemFine,
 	isNervousSystemConnection,
 } from "./human";
-import { logger, calcLogger, compLogger, respLogger } from "../logger";
+import { logger, calcLogger, compLogger, respLogger } from "../tools/logger";
 // import { computePaO2 } from "./quarticSolver";
 import { getCompensationModel, getOverdriveModel, getSystemModel } from "./registries";
 

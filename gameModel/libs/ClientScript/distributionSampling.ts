@@ -1,4 +1,4 @@
-import { Range } from "./helper";
+import { Range } from "./tools/helper";
 
 interface IDistribution {
 	/**

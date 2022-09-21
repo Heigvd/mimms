@@ -69,7 +69,7 @@ import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './m
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger } from './logger';
+import { worldLogger, inventoryLogger, delayedLogger } from './tools/logger';
 import { SkillLevel } from './GameModelerHelper';
 
 ///////////////////////////////////////////////////////////////////////////

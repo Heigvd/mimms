@@ -15,7 +15,7 @@ import {
 	ActDefinition,
 } from './pathology';
 import { Compensation, SympSystem } from './physiologicalModel';
-import { substraction } from '../helper';
+import { substraction } from '../tools/helper';
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};
