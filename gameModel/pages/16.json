@@ -18,7 +18,7 @@
         "exposeAs" : "matrixConfig",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getSkillsDefsMatrix } from \"./GameModelerHelper\";\n[{id: 0, ...getSkillsDefsMatrix()}];",
+          "content" : "import { getSkillsDefsMatrix } from './edition/GameModelerHelper';\n[{id: 0, ...getSkillsDefsMatrix()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

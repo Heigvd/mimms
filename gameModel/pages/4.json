@@ -43,7 +43,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getBagsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetBagsDefinitionsAsChoices();",
+              "content" : "import { getBagsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetBagsDefinitionsAsChoices();",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -61,7 +61,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getSkillsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetSkillsDefinitionsAsChoices();",
+              "content" : "import { getSkillsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSkillsDefinitionsAsChoices();",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -79,7 +79,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillType } from \"./gameMaster\";\ngetDrillType() !== 'LICKERT'",
+              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'LICKERT'",
               "language" : "JavaScript"
             },
             "label" : {
@@ -91,7 +91,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { getAllLickertData } from \"./lickert\";\n\ngetAllLickertData();",
+                "content" : "import { getAllLickertData } from './game/logic/lickert';\n\ngetAllLickertData();",
                 "language" : "typescript"
               }
             },

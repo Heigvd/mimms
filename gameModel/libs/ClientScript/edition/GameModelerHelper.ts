@@ -1,9 +1,9 @@
-import { BodyFactoryParam, createHumanBody, defaultMeta } from "./HUMAn/human";
+import { BodyFactoryParam, createHumanBody, defaultMeta } from "../HUMAn/human";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
 import { generateOnePatient, setTestPatients } from "./patientGeneration";
-import { getActs, getItems, getPathologies } from "./HUMAn/registries";
-import { BagDefinition } from "./the_world";
-import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "./WegasHelper";
+import { getActs, getItems, getPathologies } from "../HUMAn/registries";
+import { BagDefinition } from "../game/logic/the_world";
+import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
 
 //const observableVitals = [
 //	{ label: 'SaO2', value: "respiration.SaO2" },

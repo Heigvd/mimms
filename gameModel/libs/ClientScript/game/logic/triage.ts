@@ -1,7 +1,7 @@
 import { initEmitterIds } from './baseEvent';
 import { sendEvent } from './EventManager';
-import { checkUnreachable, normalize } from './tools/helper';
-import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from './HUMAn/human';
+import { checkUnreachable, normalize } from '../../tools/helper';
+import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from '../../HUMAn/human';
 import {
 	ConsoleLog,
 	getCurrentPatientBody,
@@ -9,7 +9,7 @@ import {
 	getHumanConsole,
 	HumanHealth,
 } from './the_world';
-import { getEnv } from './WegasHelper';
+import { getEnv } from '../../tools/WegasHelper';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)

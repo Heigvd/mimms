@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import {getPatientsAsChoices} from './WegasHelper'\ngetPatientsAsChoices();",
+          "content" : "import { getPatientsAsChoices } from './tools/WegasHelper'\ngetPatientsAsChoices();",
           "language" : "typescript"
         },
         "layoutStyle" : {
@@ -33,7 +33,7 @@
         "exposeAs" : "pathologyEditorContext",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCurrentPatientPathologyConfigs } from \"./pathologyEditor\";\ngetCurrentPatientPathologyConfigs();",
+          "content" : "import { getCurrentPatientPathologyConfigs } from './edition/pathologyEditor';\ngetCurrentPatientPathologyConfigs();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

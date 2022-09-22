@@ -2463,7 +2463,7 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "baseEvent",
+    "contentKey" : "game/logic/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48402:lGu9ss",
@@ -2472,7 +2472,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "communication",
+    "contentKey" : "game/logic/communication",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48401:Ve4BQW",
@@ -2481,7 +2481,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "currentPatientZoom",
+    "contentKey" : "game/display/currentPatientZoom",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24036051:ztApZh",
@@ -2508,7 +2508,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "distributionSampling",
+    "contentKey" : "edition/distributionSampling",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56275:82YVxT",
@@ -2517,7 +2517,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "drill",
+    "contentKey" : "game/logic/drill",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24054901:bbSDJz",
@@ -2526,7 +2526,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "EventManager",
+    "contentKey" : "game/logic/EventManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24049824:epY4oR",
@@ -2535,7 +2535,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameMaster",
+    "contentKey" : "game/logic/gameMaster",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24054702:2tMzal",
@@ -2544,7 +2544,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "GameModelerHelper",
+    "contentKey" : "edition/GameModelerHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032621:Jryctw",
@@ -2553,16 +2553,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "geoData",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:424897:M8hntW",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "graphics",
+    "contentKey" : "game/display/graphics",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034415:otYUNi",
@@ -2616,7 +2607,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "lickert",
+    "contentKey" : "game/logic/lickert",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24059683:1NMuL8",
@@ -2652,7 +2643,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "MatrixEditor",
+    "contentKey" : "edition/MatrixEditor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24055651:hf6ZEg",
@@ -2679,7 +2670,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pathologyEditor",
+    "contentKey" : "edition/pathologyEditor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24069001:Ja2K5c",
@@ -2688,7 +2679,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "patientGeneration",
+    "contentKey" : "edition/patientGeneration",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56339:9xzhBc",
@@ -2724,7 +2715,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "RUN",
+    "contentKey" : "HUMAn/run",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033057:Kcnfxm",
@@ -2733,7 +2724,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "scenario",
+    "contentKey" : "game/logic/scenario",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24049849:6Sh9Xt",
@@ -2742,7 +2733,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "the_world",
+    "contentKey" : "game/logic/the_world",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034257:SD9os9",
@@ -2751,7 +2742,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "TimeManager",
+    "contentKey" : "game/logic/TimeManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034173:6MYV6p",
@@ -2760,7 +2751,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "triage",
+    "contentKey" : "game/logic/triage",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24046951:nJSvVn",
@@ -2769,7 +2760,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "WegasHelper",
+    "contentKey" : "tools/WegasHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033052:uGpD6q",
@@ -2805,7 +2796,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pateintZoom_general",
+    "contentKey" : "patientZoom_general",
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:55844:8AkZhd",

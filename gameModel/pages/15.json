@@ -18,7 +18,7 @@
         "exposeAs" : "matrixConfig",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getSituationsDefsMatrix } from \"./GameModelerHelper\";\n[{id: 0, ...getSituationsDefsMatrix()}];",
+          "content" : "import { getSituationsDefsMatrix } from './edition/GameModelerHelper';\n[{id: 0, ...getSituationsDefsMatrix()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

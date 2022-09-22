@@ -1,7 +1,7 @@
 import { sendEvents } from "./EventManager";
-import { mapRefs } from "./map/layersData";
+import { mapRefs } from "../../map/layersData";
 import { EventPayload, ScriptedEvent, TeleportEvent } from "./the_world";
-import { getPatientsBodyFactoryParamsArray } from "./WegasHelper";
+import { getPatientsBodyFactoryParamsArray } from "../../tools/WegasHelper";
 
 export function reviveScriptedEvent(emitter: {
 	emitterCharacterId: string,

@@ -18,7 +18,7 @@
         "exposeAs" : "matrixConfig",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getBagsDefsMatrix } from \"./GameModelerHelper\";\n[{id: 0, ...getBagsDefsMatrix()}];",
+          "content" : "import { getBagsDefsMatrix } from './edition/GameModelerHelper';\n[{id: 0, ...getBagsDefsMatrix()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

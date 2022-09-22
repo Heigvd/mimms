@@ -14,7 +14,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import {getCharactersAsChoices} from './WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
+                              "content" : "import {getCharactersAsChoices} from './tools/WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -41,7 +41,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                                "content" : "import { sendEvent } from './game/logic/EventManager';\nimport { whoAmI } from './tools/WegasHelper';\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'banane_pre',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
                                 "language" : "typescript"
                               }
                             },
@@ -59,7 +59,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { sendEvent } from \"./EventManager\";\nimport { whoAmI } from \"./WegasHelper\";\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'fousytout',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
+                                "content" : "import { sendEvent } from './game/logic/EventManager';\nimport { whoAmI } from './tools/WegasHelper';\n\nconst myId = whoAmI();\n\n\nsendEvent({\n\ttype: 'GiveBag',\n\tbagId: 'fousytout',\n\temitterCharacterId: myId,\n\temitterPlayerId: \"\" + self.getId(),\n\ttargetType: 'Human',\n\ttargetId: myId,\n});",
                                 "language" : "typescript"
                               }
                             },
@@ -75,7 +75,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { registerSetStateAndThrottle } from \"./TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                              "content" : "import { registerSetStateAndThrottle } from './game/logic/TimeManager';\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
                               "language" : "typescript"
                             }
                           },
@@ -86,7 +86,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getWorldTime } from \"./TimeManager\";\n\"Simulation Time: \" + getWorldTime().time;",
+                              "content" : "import { getWorldTime } from './game/logic/TimeManager';\n\"Simulation Time: \" + getWorldTime().time;",
                               "language" : "JavaScript"
                             }
                           },
@@ -112,7 +112,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { clearState } from \"./the_world\";\n\nclearState();",
+                                "content" : "import { clearState } from './game/logic/the_world';\n\nclearState();",
                                 "language" : "TypeScript"
                               }
                             }
@@ -130,7 +130,7 @@
                         "id" : "",
                         "initialSelectedPageId" : {
                           "@class" : "Script",
-                          "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
+                          "content" : "import { getGamePageId } from './game/logic/gameMaster';\ngetGamePageId()",
                           "language" : "TypeScript"
                         },
                         "layoutStyle" : {
@@ -176,7 +176,7 @@
                 "id" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
-                  "content" : "import { getGamePageId } from \"./gameMaster\";\ngetGamePageId()",
+                  "content" : "import { getGamePageId } from './game/logic/gameMaster';\ngetGamePageId()",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "fullSize",
@@ -193,7 +193,7 @@
         "id" : "ifID",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getTimeMode } from \"./gameMaster\";\ngetTimeMode() === 'LIVE_WORLD';",
+          "content" : "import { getTimeMode } from './game/logic/gameMaster';\ngetTimeMode() === 'LIVE_WORLD';",
           "language" : "JavaScript"
         },
         "layoutClassName" : "fullSize",

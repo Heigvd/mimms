@@ -12,7 +12,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\n`<h2>${getPathologyEditorContext().description}</h2>`;",
+                      "content" : "import { getPathologyEditorContext } from './edition/pathologyEditor';\n`<h2>${getPathologyEditorContext().description}</h2>`;",
                       "language" : "JavaScript"
                     }
                   },
@@ -21,14 +21,14 @@
                   "props" : {
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext().preset == null",
+                      "content" : "import { getPathologyEditorContext } from './edition/pathologyEditor';\ngetPathologyEditorContext().preset == null",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\n`Preset: ${getPathologyEditorContext().preset}`;",
+                      "content" : "import { getPathologyEditorContext } from './edition/pathologyEditor';\n`Preset: ${getPathologyEditorContext().preset}`;",
                       "language" : "JavaScript"
                     }
                   },
@@ -43,7 +43,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { prettyPrintModule } from \"./pathologyEditor\";\n`<h3>${prettyPrintModule(Context.module.meta)}</h3>`;",
+                              "content" : "import { prettyPrintModule } from './edition/pathologyEditor';\n`<h3>${prettyPrintModule(Context.module.meta)}</h3>`;",
                               "language" : "JavaScript"
                             }
                           },
@@ -65,7 +65,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getBlockChoices } from \"./pathologyEditor\";\ngetBlockChoices();",
+                                  "content" : "import { getBlockChoices } from './edition/pathologyEditor';\ngetBlockChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "blockSelector",
@@ -73,7 +73,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateModuleBlock } from \"./pathologyEditor\";\n\nupdateModuleBlock(Context.newBlockName);",
+                                    "content" : "import { updateModuleBlock } from './edition/pathologyEditor';\n\nupdateModuleBlock(Context.newBlockName);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -138,7 +138,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateModuleArg } from \"./pathologyEditor\";\n\nupdateModuleArg(Context.newValue);",
+                                        "content" : "import { updateModuleArg } from './edition/pathologyEditor';\n\nupdateModuleArg(Context.newValue);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -162,7 +162,7 @@
                             "exposeAs" : "moduleArg",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getModuleArguments } from \"./pathologyEditor\";\ngetModuleArguments(Context.module.meta);",
+                              "content" : "import { getModuleArguments } from './edition/pathologyEditor';\ngetModuleArguments(Context.module.meta);",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -185,7 +185,7 @@
                     "exposeAs" : "module",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext().modules",
+                      "content" : "import { getPathologyEditorContext } from './edition/pathologyEditor';\ngetPathologyEditorContext().modules",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -225,7 +225,7 @@
         "exposeAs" : "",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getPathologyEditorContext } from \"./pathologyEditor\";\ngetPathologyEditorContext() != null;",
+          "content" : "import { getPathologyEditorContext } from './edition/pathologyEditor';\ngetPathologyEditorContext() != null;",
           "language" : "JavaScript"
         },
         "initialState" : {

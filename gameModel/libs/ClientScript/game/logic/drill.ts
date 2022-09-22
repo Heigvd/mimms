@@ -1,10 +1,10 @@
 import { initEmitterIds } from "./baseEvent";
 import { getSendEventServerScript } from "./EventManager";
-import { pickRandom } from "./tools/helper";
+import { pickRandom } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
 import { getCurrentPatientBody, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { getBodyParam, getSortedPatientIds } from "./WegasHelper";
+import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 
 
 interface DrillStatus {

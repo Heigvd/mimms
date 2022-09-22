@@ -25,7 +25,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientMeta } from \"./lickert\";\nprettyPrintCurrentPatientMeta();",
+                              "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
                               "language" : "JavaScript"
                             }
                           },
@@ -38,7 +38,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientInfos } from \"./lickert\";\nprettyPrintCurrentPatientInfos();",
+                              "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
                               "language" : "JavaScript"
                             }
                           },
@@ -49,7 +49,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientScript } from \"./lickert\";\nprettyPrintCurrentPatientScript();",
+                              "content" : "import { prettyPrintCurrentPatientScript } from './game/logic/lickert';\nprettyPrintCurrentPatientScript();",
                               "language" : "JavaScript"
                             }
                           },
@@ -61,7 +61,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import {getCurrentPatientFinalState} from './lickert';\ngetCurrentPatientFinalState();",
+                              "content" : "import {getCurrentPatientFinalState} from './game/logic/lickert';\ngetCurrentPatientFinalState();",
                               "language" : "JavaScript"
                             }
                           },
@@ -139,7 +139,7 @@
                         "exposeAs" : "matrixConfig",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getClinicalMatrix } from \"./lickert\";\n[{id: 0, ...getClinicalMatrix()}];",
+                          "content" : "import { getClinicalMatrix } from './game/logic/lickert';\n[{id: 0, ...getClinicalMatrix()}];",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -183,7 +183,7 @@
                         "exposeAs" : "matrixConfig",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getPhysioMatrix } from \"./lickert\";\n[{id: 0, ...getPhysioMatrix()}];",
+                          "content" : "import { getPhysioMatrix } from './game/logic/lickert';\n[{id: 0, ...getPhysioMatrix()}];",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -216,7 +216,7 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "import { saveCurrentPatientComments } from \"./lickert\";\n\nsaveCurrentPatientComments(Context.comments);",
+                            "content" : "import { saveCurrentPatientComments } from './game/logic/lickert';\n\nsaveCurrentPatientComments(Context.comments);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -228,7 +228,7 @@
                         "rows" : 5,
                         "script" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentPatientComments } from \"./lickert\";\ngetCurrentPatientComments() || '';",
+                          "content" : "import { getCurrentPatientComments } from './game/logic/lickert';\ngetCurrentPatientComments() || '';",
                           "language" : "JavaScript"
                         },
                         "style" : { }
@@ -251,7 +251,7 @@
                       "props" : {
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { isCurrentPatientDone } from \"./lickert\";\n!isCurrentPatientDone();",
+                          "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\n!isCurrentPatientDone();",
                           "language" : "JavaScript"
                         },
                         "label" : {
@@ -263,7 +263,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { nextUndonePatient} from \"./lickert\";\n\nnextUndonePatient();",
+                            "content" : "import { nextUndonePatient} from './game/logic/lickert';\n\nnextUndonePatient();",
                             "language" : "typescript"
                           }
                         },
@@ -305,7 +305,7 @@
         "className" : "",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() !== 'completed';",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed';",
           "language" : "JavaScript"
         },
         "layoutClassName" : "",

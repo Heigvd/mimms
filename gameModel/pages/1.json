@@ -26,7 +26,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAutonomicNervousSystemModelsAsChoices } from \"./WegasHelper\";\nconst choices = getAutonomicNervousSystemModelsAsChoices();\t\nchoices;",
+              "content" : "import { getAutonomicNervousSystemModelsAsChoices } from './tools/WegasHelper';\nconst choices = getAutonomicNervousSystemModelsAsChoices();\t\nchoices;",
               "language" : "typescript"
             },
             "flexGrow" : 1,
@@ -116,7 +116,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { dropObjectInstance } from \"./WegasHelper\";\n\ndropObjectInstance(Variable.find(gameModel, 'output').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputCardio').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputOther').getInstance(self));",
+                "content" : "import { dropObjectInstance } from './tools/WegasHelper';\n\ndropObjectInstance(Variable.find(gameModel, 'output').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputCardio').getInstance(self));\ndropObjectInstance(Variable.find(gameModel, 'outputOther').getInstance(self));",
                 "language" : "TypeScript"
               }
             },
@@ -136,7 +136,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { run } from \"./RUN\";\n\nrun();",
+                "content" : "import { run } from './tools/run';\n\nrun();",
                 "language" : "TypeScript"
               }
             },
@@ -208,7 +208,7 @@
         "exposeAs" : "graph",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getVitalsSeries } from \"./WegasHelper\";\ngetVitalsSeries();",
+          "content" : "import { getVitalsSeries } from './tools/WegasHelper';\ngetVitalsSeries();",
           "language" : "JavaScript"
         },
         "itemKey" : "id",
@@ -278,7 +278,7 @@
         "exposeAs" : "graph",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCardioVitalsSeries } from \"./WegasHelper\";\ngetCardioVitalsSeries();",
+          "content" : "import { getCardioVitalsSeries } from './tools/WegasHelper';\ngetCardioVitalsSeries();",
           "language" : "JavaScript"
         },
         "itemKey" : "id",
@@ -348,7 +348,7 @@
         "exposeAs" : "graph",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getOtherVitalsSeries } from \"./WegasHelper\";\ngetOtherVitalsSeries();",
+          "content" : "import { getOtherVitalsSeries } from './tools/WegasHelper';\ngetOtherVitalsSeries();",
           "language" : "JavaScript"
         },
         "itemKey" : "id",

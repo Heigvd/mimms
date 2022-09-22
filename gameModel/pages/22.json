@@ -22,7 +22,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { nextUndonePatient } from \"./lickert\";\n\nnextUndonePatient();",
+            "content" : "import { nextUndonePatient } from './game/logic/lickert';\n\nnextUndonePatient();",
             "language" : "typescript"
           }
         },

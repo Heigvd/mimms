@@ -1,18 +1,18 @@
-import { formatMetric } from './currentPatientZoom';
+import { formatMetric } from '../display/currentPatientZoom';
 import { getDrillStatus } from './drill';
-import { BodyStateKeys, computeMetas } from './HUMAn/human';
+import { BodyStateKeys, computeMetas } from '../../HUMAn/human';
 import {
 	CellDef,
 	DataDef,
 	EhancedCellData,
 	MatrixConfig,
-} from './MatrixEditor';
-import { ClKeys, LickertData, PhKeys, run_lickert } from './RUN';
+} from '../../edition/MatrixEditor';
+import { ClKeys, LickertData, PhKeys, run_lickert } from '../../HUMAn/run';
 import {
 	getCurrentPatientBodyParam,
 	getCurrentPatientId,
 	getSortedPatientIds,
-} from './WegasHelper';
+} from '../../tools/WegasHelper';
 
 function save() {
 	saveData();

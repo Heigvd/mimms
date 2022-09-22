@@ -57,7 +57,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getSystemSeries } from \"./WegasHelper\";\ngetSystemSeries();",
+          "content" : "import { getSystemSeries } from './tools/WegasHelper';\ngetSystemSeries();",
           "language" : "JavaScript"
         },
         "itemKey" : "id",
@@ -134,7 +134,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCompensationSeries } from \"./WegasHelper\";\ngetCompensationSeries();",
+          "content" : "import { getCompensationSeries } from './tools/WegasHelper';\ngetCompensationSeries();",
           "language" : "JavaScript"
         },
         "itemKey" : "id",
@@ -215,7 +215,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getOverdriveSeries } from \"./WegasHelper\";\ngetOverdriveSeries();",
+          "content" : "import { getOverdriveSeries } from './tools/WegasHelper';\ngetOverdriveSeries();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

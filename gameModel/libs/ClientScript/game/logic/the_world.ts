@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, length } from './map/point2D';
+import { Point, add, sub, mul, proj, lengthSquared, length } from '../../map/point2D';
 
 import {
 	BlockName,
@@ -15,7 +15,7 @@ import {
 	HumanBody,
 	HumanMeta,
 	readKey,
-} from './HUMAn/human';
+} from '../../HUMAn/human';
 import {
 	ActDefinition,
 	ActionBodyEffect,
@@ -25,7 +25,7 @@ import {
 	ItemDefinition,
 	RevivedPathology,
 	revivePathology,
-} from './HUMAn/pathology';
+} from '../../HUMAn/pathology';
 import {
 	getAct,
 	getItem,
@@ -33,7 +33,7 @@ import {
 	setCompensationModel,
 	setOverdriveModel,
 	setSystemModel,
-} from './HUMAn/registries';
+} from '../../HUMAn/registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -46,7 +46,7 @@ import {
 	loadSystem,
 	whoAmI,
 	loadOverdriveModel,
-} from './WegasHelper';
+} from '../../tools/WegasHelper';
 import { initEmitterIds, TargetedEvent } from './baseEvent';
 import {
 	DirectCommunicationEvent,
@@ -63,14 +63,14 @@ import {
 	processPhoneCommunication,
 	clearAllCommunicationState,
 } from './communication';
-import { calculateLOS, isPointInPolygon } from './map/lineOfSight';
-import { PathFinder } from './map/pathFinding';
-import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from './map/layersData';
+import { calculateLOS, isPointInPolygon } from '../../map/lineOfSight';
+import { PathFinder } from '../../map/pathFinding';
+import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
 import { getFogType, infiniteBags } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger } from './tools/logger';
-import { SkillLevel } from './GameModelerHelper';
+import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
+import { SkillLevel } from '../../edition/GameModelerHelper';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings

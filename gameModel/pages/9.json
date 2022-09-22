@@ -42,7 +42,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getSituationsDefinitionsAsChoices } from \"./GameModelerHelper\";\ngetSituationsDefinitionsAsChoices()",
+              "content" : "import { getSituationsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSituationsDefinitionsAsChoices()",
               "language" : "typescript"
             },
             "layoutStyle" : {
@@ -72,7 +72,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { createPatients } from \"./GameModelerHelper\";\nconst n = Math.floor(Variable.find(gameModel, 'patientNumber').getValue(self));\ncreatePatients( n ,'patient-');",
+            "content" : "import { createPatients } from './edition/GameModelerHelper';\nconst n = Math.floor(Variable.find(gameModel, 'patientNumber').getValue(self));\ncreatePatients( n ,'patient-');",
             "language" : "typescript"
           }
         },
@@ -112,7 +112,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { getPatientsHeight } from \"./patientGeneration\";\n\ngetPatientsHeight();",
+              "content" : "import { getPatientsHeight } from './edition/patientGeneration';\n\ngetPatientsHeight();",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -150,7 +150,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { getPatientBmi } from \"./patientGeneration\";\ngetPatientBmi();",
+              "content" : "import { getPatientBmi } from './edition/patientGeneration';\ngetPatientBmi();",
               "language" : "TypeScript"
             },
             "showLine" : true,
@@ -188,7 +188,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { getPatientAge } from \"./patientGeneration\";\ngetPatientAge();",
+              "content" : "import { getPatientAge } from './edition/patientGeneration';\ngetPatientAge();",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -278,7 +278,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { saveDescription } from \"./pathologyEditor\";\n\nsaveDescription(Context.patient.id, Context.patient.meta, Context.newDescription);",
+                    "content" : "import { saveDescription } from './edition/pathologyEditor';\n\nsaveDescription(Context.patient.id, Context.patient.meta, Context.newDescription);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -352,7 +352,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTreatmentName } from \"./patientGeneration\";\n`<h2>${getTreatmentName(Context.scriptedEvent.payload)}</h2>`;",
+                              "content" : "import { getTreatmentName } from './edition/patientGeneration';\n`<h2>${getTreatmentName(Context.scriptedEvent.payload)}</h2>`;",
                               "language" : "JavaScript"
                             }
                           },
@@ -374,7 +374,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getBlocksChoices } from \"./patientGeneration\";\ngetBlocksChoices(Context.scriptedEvent.payload);",
+                                  "content" : "import { getBlocksChoices } from './edition/patientGeneration';\ngetBlocksChoices(Context.scriptedEvent.payload);",
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : {
@@ -383,7 +383,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { HumanTreatmentEvent } from \"./the_world\";\n\n\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\nevent.payload.blocks = [Context.newBlock];\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
+                                    "content" : "import { HumanTreatmentEvent } from './game/logic/the_world';\n\n\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\nevent.payload.blocks = [Context.newBlock];\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -394,7 +394,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { HumanTreatmentEvent } from \"./the_world\";\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\n\nevent.payload.blocks[0] || '';",
+                                  "content" : "import { HumanTreatmentEvent } from './game/logic/the_world';\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\n\nevent.payload.blocks[0] || '';",
                                   "language" : "JavaScript"
                                 },
                                 "style" : { }
@@ -417,7 +417,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAvailableTreatments } from \"./patientGeneration\";\ngetAvailableTreatments();",
+                                  "content" : "import { getAvailableTreatments } from './edition/patientGeneration';\ngetAvailableTreatments();",
                                   "language" : "typescript"
                                 },
                                 "layoutClassName" : "scriptedEvent__change",
@@ -427,7 +427,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changeTreatment } from \"./pathologyEditor\";\n\nchangeTreatment(Context.patient.id, Context.patient.meta, Context.scriptedEvent.seIndex, Context.newTreatment, 10);",
+                                    "content" : "import { changeTreatment } from './edition/pathologyEditor';\n\nchangeTreatment(Context.patient.id, Context.patient.meta, Context.scriptedEvent.seIndex, Context.newTreatment, 10);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -483,7 +483,7 @@
                             "exposeAs" : "pathologyEditorContext",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getPatientPathologyConfigs } from \"./pathologyEditor\";\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]",
+                              "content" : "import { getPatientPathologyConfigs } from './edition/pathologyEditor';\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -509,7 +509,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import { getAvailablePathologies } from \"./patientGeneration\";\ngetAvailablePathologies();",
+                              "content" : "import { getAvailablePathologies } from './edition/patientGeneration';\ngetAvailablePathologies();",
                               "language" : "typescript"
                             },
                             "layoutClassName" : "scriptedEvent__change",
@@ -519,7 +519,7 @@
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "import { changePathology } from \"./pathologyEditor\";\n\nchangePathology(Context.patient.id, Context.patient.meta,Context.scriptedEvent.seIndex, Context.newPathologyId, 10);",
+                                "content" : "import { changePathology } from './edition/pathologyEditor';\n\nchangePathology(Context.patient.id, Context.patient.meta,Context.scriptedEvent.seIndex, Context.newPathologyId, 10);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
@@ -559,7 +559,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { removeScriptedEvent } from \"./pathologyEditor\";\n\nremoveScriptedEvent(Context.patient.id, Context.patient.meta, Context.scriptedEvent.seIndex);",
+                            "content" : "import { removeScriptedEvent } from './edition/pathologyEditor';\n\nremoveScriptedEvent(Context.patient.id, Context.patient.meta, Context.scriptedEvent.seIndex);",
                             "language" : "typescript"
                           }
                         },
@@ -599,7 +599,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { inoculateRandom } from \"./pathologyEditor\";\n\ninoculateRandom(Context.patient.id, Context.patient.meta, 10);",
+                        "content" : "import { inoculateRandom } from './edition/pathologyEditor';\n\ninoculateRandom(Context.patient.id, Context.patient.meta, 10);",
                         "language" : "typescript"
                       }
                     },
@@ -619,7 +619,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { addRandomTreatment } from \"./pathologyEditor\";\n\naddRandomTreatment(Context.patient.id, Context.patient.meta, 10);\n",
+                        "content" : "import { addRandomTreatment } from './edition/pathologyEditor';\n\naddRandomTreatment(Context.patient.id, Context.patient.meta, 10);\n",
                         "language" : "typescript"
                       }
                     },
@@ -639,7 +639,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { generateDescription } from \"./pathologyEditor\";\n\ngenerateDescription(Context.patient.id, Context.patient.meta);\n",
+                        "content" : "import { generateDescription } from './edition/pathologyEditor';\n\ngenerateDescription(Context.patient.id, Context.patient.meta);\n",
                         "language" : "typescript"
                       }
                     },
@@ -664,7 +664,7 @@
         "exposeAs" : "patient",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import {  getPatientsBodyFactoryParamsArray } from \"./WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
+          "content" : "import {  getPatientsBodyFactoryParamsArray } from './tools/WegasHelper';\ngetPatientsBodyFactoryParamsArray();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

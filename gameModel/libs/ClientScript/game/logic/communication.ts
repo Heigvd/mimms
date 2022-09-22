@@ -2,7 +2,7 @@ import { BaseEvent, initEmitterIds} from "./baseEvent";
 import { FullEvent, sendEvent } from "./EventManager";
 import { EventPayload } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
-import { whoAmI } from "./WegasHelper";
+import { whoAmI } from "../../tools/WegasHelper";
 
 export type Channel = string;
 

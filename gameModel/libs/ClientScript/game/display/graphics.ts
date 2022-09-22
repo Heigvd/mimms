@@ -1,10 +1,10 @@
 import { getAfflictedBlocks } from "./currentPatientZoom";
-import { interpolate, normalize } from "./tools/helper";
-import { Point } from "./map/point2D";
-import { BlockName, BodyPosition, Glasgow, HumanBody } from "./HUMAn/human";
-import { Categorization, getCurrentPatientBody, getHuman } from "./the_world";
-import { Category, getCategory } from "./triage";
-import { convertMeterToMapUnit } from "./map/layersData";
+import { interpolate, normalize } from "../../tools/helper";
+import { Point } from "../../map/point2D";
+import { BlockName, BodyPosition, Glasgow, HumanBody } from "../../HUMAn/human";
+import { Categorization, getCurrentPatientBody, getHuman } from "../logic/the_world";
+import { Category, getCategory } from "../logic/triage";
+import { convertMeterToMapUnit } from "../../map/layersData";
 
 export interface HumanOverview {
 	height_cm: number;

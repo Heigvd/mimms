@@ -1,5 +1,5 @@
 import { EventPayload } from "./the_world";
-import { parse } from "./WegasHelper";
+import { parse } from "../../tools/WegasHelper";
 
 export interface FullEvent<T extends EventPayload> {
 	id: number;

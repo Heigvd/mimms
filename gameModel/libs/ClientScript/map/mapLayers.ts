@@ -1,8 +1,8 @@
-import { getDirectMessagesFrom } from "../communication";
+import { getDirectMessagesFrom } from "../game/logic/communication";
 import { mapRefs } from "./layersData";
 import { getBuildingInExtent } from "./lineOfSight";
-import { getHumans, lineOfSightRadius, paths } from "../the_world";
-import { whoAmI } from "../WegasHelper";
+import { getHumans, lineOfSightRadius, paths } from "../game/logic/the_world";
+import { whoAmI } from "../tools/WegasHelper";
 
 interface PointFeature {
 	type: "Point";

@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { SkillLevel } from "../GameModelerHelper";
+import { SkillLevel } from "../edition/GameModelerHelper";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";

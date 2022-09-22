@@ -13,7 +13,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { regenerateSamples } from \"./distributionSampling\";\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+                "content" : "import { regenerateSamples } from './edition/distributionSampling';\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
                 "language" : "TypeScript"
               }
             },
@@ -57,7 +57,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { uniformSample } from \"./distributionSampling\";\nuniformSample;",
+              "content" : "import { uniformSample } from './edition/distributionSampling';\nuniformSample;",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -101,7 +101,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { histogramSample } from \"./distributionSampling\";\nhistogramSample;",
+              "content" : "import { histogramSample } from './edition/distributionSampling';\nhistogramSample;",
               "language" : "TypeScript"
             },
             "showLine" : true,
@@ -145,7 +145,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { normalSample } from \"./distributionSampling\";\nnormalSample;",
+              "content" : "import { normalSample } from './edition/distributionSampling';\nnormalSample;",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -168,7 +168,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { generateTestPatients } from \"./patientGeneration\";\n\ngenerateTestPatients(true);\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+                "content" : "import { generateTestPatients } from './edition/patientGeneration';\n\ngenerateTestPatients(true);\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
                 "language" : "TypeScript"
               }
             },
@@ -212,7 +212,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { uniformSample } from \"./distributionSampling\";\nimport { generateTestPatients, testPatientsHeight } from \"./patientGeneration\";\n\ntestPatientsHeight();",
+              "content" : "import { uniformSample } from './edition/distributionSampling';\nimport { generateTestPatients, testPatientsHeight } from './edition/patientGeneration';\n\ntestPatientsHeight();",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -256,7 +256,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { histogramSample } from \"./distributionSampling\";\nimport { testPatientBmi } from \"./patientGeneration\";\ntestPatientBmi();",
+              "content" : "import { histogramSample } from './edition/distributionSampling';\nimport { testPatientBmi } from './edition/patientGeneration';\ntestPatientBmi();",
               "language" : "TypeScript"
             },
             "showLine" : true,
@@ -300,7 +300,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { normalSample } from \"./distributionSampling\";\nimport { testPatientAge } from \"./patientGeneration\";\ntestPatientAge();",
+              "content" : "import { normalSample } from './edition/distributionSampling';\nimport { testPatientAge } from './edition/patientGeneration';\ntestPatientAge();",
               "language" : "TypeScript"
             },
             "showLine" : false,

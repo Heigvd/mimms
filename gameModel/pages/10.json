@@ -30,7 +30,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { setMatrixState } from \"./MatrixEditor\";\n\nsetMatrixState(s => ({...s, yFilter: Context.mFilter}) )",
+                                    "content" : "import { setMatrixState } from './edition/MatrixEditor';\n\nsetMatrixState(s => ({...s, yFilter: Context.mFilter}) )",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -41,7 +41,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { getMatrixState } from \"./MatrixEditor\";\ngetMatrixState().yFilter;",
+                                  "content" : "import { getMatrixState } from './edition/MatrixEditor';\ngetMatrixState().yFilter;",
                                   "language" : "JavaScript"
                                 },
                                 "style" : { }
@@ -65,7 +65,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { setMatrixState } from \"./MatrixEditor\";\n\nsetMatrixState(s => ({...s, xFilter: Context.mFilter}) )",
+                                    "content" : "import { setMatrixState } from './edition/MatrixEditor';\n\nsetMatrixState(s => ({...s, xFilter: Context.mFilter}) )",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -76,7 +76,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { getMatrixState } from \"./MatrixEditor\";\ngetMatrixState().xFilter;",
+                                  "content" : "import { getMatrixState } from './edition/MatrixEditor';\ngetMatrixState().xFilter;",
                                   "language" : "JavaScript"
                                 },
                                 "style" : { }
@@ -124,7 +124,7 @@
                                 "exposeAs" : "column",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getFilteredXSerie } from \"./MatrixEditor\";\ngetFilteredXSerie()",
+                                  "content" : "import { getFilteredXSerie } from './edition/MatrixEditor';\ngetFilteredXSerie()",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -172,7 +172,7 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellLabel } from \"./MatrixEditor\";\ngetCellLabel();",
+                                                  "content" : "import { getCellLabel } from './edition/MatrixEditor';\ngetCellLabel();",
                                                   "language" : "JavaScript"
                                                 }
                                               },
@@ -187,14 +187,14 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { getCellCurrentConfig, switchToDef } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.def === getCellCurrentConfig();\n\nif (!selected) {\n\tswitchToDef(Context.cellDef.def)\n}",
+                                                        "content" : "import { getCellCurrentConfig, switchToDef } from './edition/MatrixEditor';\nconst selected =  Context.cellDef.def === getCellCurrentConfig();\n\nif (!selected) {\n\tswitchToDef(Context.cellDef.def)\n}",
                                                         "language" : "typescript"
                                                       }
                                                     },
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCellConfigByIndex, getCellCurrentConfigIndex } from \"./MatrixEditor\";\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\nconst config = getCellConfigByIndex(Context.cellDef.id);\nconst title = config.tooltip ?? '';\nconst button = `${selected ? \"⬤\" : \"◯\"} ${Context.cellDef.def.label}`;\n`<span title=\"${title}\">${button}</span>`;",
+                                                      "content" : "import { getCellConfigByIndex, getCellCurrentConfigIndex } from './edition/MatrixEditor';\nconst selected =  Context.cellDef.id === getCellCurrentConfigIndex();\nconst config = getCellConfigByIndex(Context.cellDef.id);\nconst title = config.tooltip ?? '';\nconst button = `${selected ? \"⬤\" : \"◯\"} ${Context.cellDef.def.label}`;\n`<span title=\"${title}\">${button}</span>`;",
                                                       "language" : "JavaScript"
                                                     }
                                                   },
@@ -203,12 +203,12 @@
                                                 "exposeAs" : "cellDef",
                                                 "getItemsFn" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs();",
+                                                  "content" : "import { getIterableCellDefs } from './edition/MatrixEditor';\ngetIterableCellDefs();",
                                                   "language" : "TypeScript"
                                                 },
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getIterableCellDefs } from \"./MatrixEditor\";\ngetIterableCellDefs().length <= 1;",
+                                                  "content" : "import { getIterableCellDefs } from './edition/MatrixEditor';\ngetIterableCellDefs().length <= 1;",
                                                   "language" : "JavaScript"
                                                 },
                                                 "itemKey" : "id",
@@ -221,7 +221,7 @@
                                               "props" : {
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'boolean';",
+                                                  "content" : "import { getCellCurrentConfig } from './edition/MatrixEditor';\ngetCellCurrentConfig().type !== 'boolean';",
                                                   "language" : "JavaScript"
                                                 },
                                                 "layoutClassName" : "cell-input",
@@ -229,7 +229,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateValue } from \"./MatrixEditor\";\n\nupdateValue(Context.cellValue);",
+                                                    "content" : "import { updateValue } from './edition/MatrixEditor';\n\nupdateValue(Context.cellValue);",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -240,7 +240,7 @@
                                                 },
                                                 "script" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellBooleanValue } from \"./MatrixEditor\";\ngetCellBooleanValue();",
+                                                  "content" : "import { getCellBooleanValue } from './edition/MatrixEditor';\ngetCellBooleanValue();",
                                                   "language" : "JavaScript"
                                                 },
                                                 "style" : { },
@@ -251,12 +251,12 @@
                                               "props" : {
                                                 "choices" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellCurrentConfigChoices } from \"./MatrixEditor\";\ngetCellCurrentConfigChoices();",
+                                                  "content" : "import { getCellCurrentConfigChoices } from './edition/MatrixEditor';\ngetCellCurrentConfigChoices();",
                                                   "language" : "typescript"
                                                 },
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\nconst def = getCellCurrentConfig();\ndef.type !== 'enum' || def.values.length <= 1;",
+                                                  "content" : "import { getCellCurrentConfig } from './edition/MatrixEditor';\nconst def = getCellCurrentConfig();\ndef.type !== 'enum' || def.values.length <= 1;",
                                                   "language" : "JavaScript"
                                                 },
                                                 "layoutClassName" : "cell-input",
@@ -264,7 +264,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateValueFromSelect } from \"./MatrixEditor\";\n\nupdateValueFromSelect(Context.newValue);",
+                                                    "content" : "import { updateValueFromSelect } from './edition/MatrixEditor';\n\nupdateValueFromSelect(Context.newValue);",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -275,7 +275,7 @@
                                                 },
                                                 "script" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellStringValue } from \"./MatrixEditor\";\ngetCellStringValue();",
+                                                  "content" : "import { getCellStringValue } from './edition/MatrixEditor';\ngetCellStringValue();",
                                                   "language" : "JavaScript"
                                                 },
                                                 "style" : { }
@@ -285,7 +285,7 @@
                                               "props" : {
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellCurrentConfig } from \"./MatrixEditor\";\ngetCellCurrentConfig().type !== 'number';",
+                                                  "content" : "import { getCellCurrentConfig } from './edition/MatrixEditor';\ngetCellCurrentConfig().type !== 'number';",
                                                   "language" : "JavaScript"
                                                 },
                                                 "layoutClassName" : "cell-input",
@@ -294,7 +294,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateNumericValue } from \"./MatrixEditor\";\n\nupdateNumericValue(Context.textValue);",
+                                                    "content" : "import { updateNumericValue } from './edition/MatrixEditor';\n\nupdateNumericValue(Context.textValue);",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -310,7 +310,7 @@
                                                 },
                                                 "script" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getCellNumericValue } from \"./MatrixEditor\";\n\"\" + getCellNumericValue();",
+                                                  "content" : "import { getCellNumericValue } from './edition/MatrixEditor';\n\"\" + getCellNumericValue();",
                                                   "language" : "JavaScript"
                                                 },
                                                 "style" : { }
@@ -323,7 +323,7 @@
                                               "attrName" : "data-cell-value",
                                               "attrValue" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getCellValue } from \"./MatrixEditor\";\ngetCellValue();",
+                                                "content" : "import { getCellValue } from './edition/MatrixEditor';\ngetCellValue();",
                                                 "language" : "JavaScript"
                                               }
                                             } ],
@@ -339,7 +339,7 @@
                                         "exposeAs" : "column",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getFilteredXSerie } from \"./MatrixEditor\";\ngetFilteredXSerie()",
+                                          "content" : "import { getFilteredXSerie } from './edition/MatrixEditor';\ngetFilteredXSerie()",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "id",
@@ -369,7 +369,7 @@
                                 "exposeAs" : "line",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getFilteredYSerie } from \"./MatrixEditor\";\ngetFilteredYSerie();",
+                                  "content" : "import { getFilteredYSerie } from './edition/MatrixEditor';\ngetFilteredYSerie();",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -402,7 +402,7 @@
                     "exposeAs" : "matrixState",
                     "initialState" : {
                       "@class" : "Script",
-                      "content" : "import { getInitialMatrixState } from \"./MatrixEditor\";\ngetInitialMatrixState();",
+                      "content" : "import { getInitialMatrixState } from './edition/MatrixEditor';\ngetInitialMatrixState();",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },

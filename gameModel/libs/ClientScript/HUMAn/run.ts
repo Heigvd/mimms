@@ -11,11 +11,11 @@ import {
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
 	readKey,
-} from './HUMAn/human';
-import { logger, vitalsLogger, calcLogger, compLogger } from './tools/logger';
-import { RevivedPathology, revivePathology } from './HUMAn/pathology';
+} from './human';
+import { logger, vitalsLogger, calcLogger, compLogger } from '../tools/logger';
+import { RevivedPathology, revivePathology } from './pathology';
 
-import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './HUMAn/registries';
+import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
 import {
 getBodyParam,
 	getCurrentPatientId,
@@ -25,7 +25,7 @@ getBodyParam,
 	loadSystem,
 	saveToObjectInstance,
 	TestScenario,
-} from './WegasHelper';
+} from '../tools/WegasHelper';
 
 function saveMetrics(output: object, vdName: keyof VariableClasses) {
 	const oi = Variable.find(gameModel, vdName).getInstance(self) as SObjectInstance;

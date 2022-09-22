@@ -1,12 +1,12 @@
-import { initEmitterIds } from "./baseEvent";
-import { sendEvent } from "./EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "./HUMAn/human";
-import { logger } from "./tools/logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "./HUMAn/pathology";
-import { getAct, getItem, getPathology } from "./HUMAn/registries";
-import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "./the_world";
-import { getCurrentSimulationTime } from "./TimeManager";
-import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "./triage";
+import { initEmitterIds } from "../logic/baseEvent";
+import { sendEvent } from "../logic/EventManager";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
+import { logger } from "../../tools/logger";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
+import { getAct, getItem, getPathology } from "../../HUMAn/registries";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "../logic/the_world";
+import { getCurrentSimulationTime } from "../logic/TimeManager";
+import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 
 /////////////////////////////////

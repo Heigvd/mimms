@@ -26,7 +26,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "Script",
-                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
                     "language" : "typescript"
                   }
                 },
@@ -43,7 +43,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'not_started'",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'not_started'",
           "language" : "JavaScript"
         },
         "layout" : { },
@@ -92,7 +92,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentPatientAutoTriage } from \"./currentPatientZoom\";\ngetCurrentPatientAutoTriage();",
+                          "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
                           "language" : "JavaScript"
                         }
                       },
@@ -158,7 +158,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "Script",
-                    "content" : "import { selectNextPatient } from \"./drill\";\n\nselectNextPatient();",
+                    "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
                     "language" : "typescript"
                   }
                 },
@@ -168,7 +168,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { isCurrentPatientCategorized } from \"./drill\";\n!!Variable.find(gameModel, 'currentPatient').getValue(self) && !isCurrentPatientCategorized()",
+              "content" : "import { isCurrentPatientCategorized } from './game/logic/drill';\n!!Variable.find(gameModel, 'currentPatient').getValue(self) && !isCurrentPatientCategorized()",
               "language" : "JavaScript"
             },
             "layout" : { },
@@ -180,7 +180,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'ongoing'",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'ongoing'",
           "language" : "JavaScript"
         },
         "layout" : {
@@ -216,7 +216,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from \"./drill\";\ngetDrillStatus() != 'done'",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'done'",
           "language" : "JavaScript"
         },
         "layout" : { },
