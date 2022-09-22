@@ -136,7 +136,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { run } from './tools/run';\n\nrun();",
+                "content" : "import { run } from './HUMAn/run';\n\nrun();",
                 "language" : "TypeScript"
               }
             },
