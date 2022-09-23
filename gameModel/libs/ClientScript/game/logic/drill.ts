@@ -69,7 +69,6 @@ export function selectNextPatient() {
 					},
 				};
 
-
 				// the_world ignore not located humans
 				toPost.push(getSendEventServerScript(teleport, currentTime));
 

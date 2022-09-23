@@ -48,6 +48,7 @@
         },
         "layout" : { },
         "layoutStyle" : { },
+        "name" : "not_started",
         "style" : { }
       },
       "type" : "FlexList"
@@ -206,6 +207,24 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>validate</p>\"",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { setDrillStatus } from './game/logic/drill';\n\nsetDrillStatus('validated');",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
             } ],
             "layout" : { },
             "layoutStyle" : { },
