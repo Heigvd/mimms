@@ -100,6 +100,12 @@
         "name" : "setup",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "28",
+        "name" : "drillDashboard",
+        "scenaristPage" : null,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {

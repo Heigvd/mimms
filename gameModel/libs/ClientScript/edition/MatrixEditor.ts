@@ -75,7 +75,7 @@ export type MatrixKey = string | number;
 // ts-unused-exports:disable-next-line
 export type CellData = number | boolean | undefined | string;
 
-export type EhancedCellData<T extends CellData> =
+export type EnhancedCellData<T extends CellData> =
 	| T
 	| {
 			label: string;
@@ -85,7 +85,7 @@ export type EhancedCellData<T extends CellData> =
 export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data extends CellData> {
 	x: DataDef<X>[];
 	y: DataDef<Y>[];
-	data: Record<X, Record<Y, EhancedCellData<Data>>>;
+	data: Record<X, Record<Y, EnhancedCellData<Data>>>;
 	cellDef: CellDef[];
 	/**
 	 * HACK: onChange Callback register as ref (Helpers.useRef(THE_NAME, () => ))

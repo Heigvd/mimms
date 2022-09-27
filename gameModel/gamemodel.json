@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1663941004625,
+  "createdTime" : 1664287189485,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -472,14 +472,14 @@
       },
       "name" : "patients",
       "properties" : {
-        "patient-1" : "{\"sex\":\"male\",\"age\":45,\"height_cm\":159,\"bmi\":25.19,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.02}]}}],\"description\":\"<h3>minor internal hemorrhage</h3>\\n\\t<ul><li>ABDOMEN: internal hemorrhage</li>\\n\\t</ul>\"}",
-        "patient-2" : "{\"sex\":\"female\",\"age\":30,\"height_cm\":164,\"bmi\":24.9,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_vh\",\"afflictedBlocks\":[\"LEFT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.03}]}}],\"description\":\"<h3>moderate venous hemorrhage</h3>\\t<ul><li>LEFT_FOREARM: venous hemorrhage</li></ul>\"}",
-        "patient-3" : "{\"sex\":\"male\",\"age\":42,\"height_cm\":182,\"bmi\":26.07,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":1}]}}],\"description\":\"<h3>Tamponade Hot</h3>\\n\\t<ul><li>Tamponade</li>\\n\\t</ul>\"}",
+        "patient-1" : "{\"sex\":\"male\",\"age\":45,\"height_cm\":159,\"bmi\":25.19,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.02}]}}],\"description\":\"<h3>minor internal hemorrhage</h3>\\t<ul><li>ABDOMEN: internal hemorrhage</li>\\t</ul>\"}",
+        "patient-2" : "{\"sex\":\"female\",\"age\":30,\"height_cm\":164,\"bmi\":24.9,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_vh\",\"afflictedBlocks\":[\"LEFT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.03}]}}],\"description\":\"<h3>moderate venous hemorrhage</h3>\\n\\t<ul><li>LEFT_FOREARM: venous hemorrhage</li>\\n\\t</ul>\"}",
+        "patient-3" : "{\"sex\":\"male\",\"age\":42,\"height_cm\":182,\"bmi\":26.07,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":1}]}}],\"description\":\"<h3>Tamponade Hot</h3>\\t<ul><li>Tamponade</li>\\t</ul>\"}",
         "patient-4" : "{\"sex\":\"female\",\"age\":63,\"height_cm\":161,\"bmi\":20.55,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":20,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_1\",\"THORAX_LEFT\",\"THORAX_LEFT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":40},{\"type\":\"NoArgs\"}]}}],\"description\":\"<h3>Simple pneumothorax full</h3>\\n\\t<ul><li>Left lung: simple pneumothorax</li><li>THORAX_LEFT: venous hemorrhage</li><li>THORAX_LEFT: nonDisplaced fracture</li>\\n\\t</ul>\"}",
-        "patient-5" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":23.95,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.01},{\"type\":\"BurnArgs\",\"percent\":0.5}]}}],\"description\":\"<h3>Upper airways burn</h3>\\n\\t<ul><li>NECK: airways resistance</li><li>HEAD: 2 degree burn</li>\\n\\t</ul>\"}",
-        "patient-6" : "{\"sex\":\"female\",\"age\":50,\"height_cm\":170,\"bmi\":20.99,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}}],\"description\":\"<h3>Circumferential Thorax Burn</h3>\\n\\t<ul><li>THORAX_LEFT: 3 degree burn</li><li>THORAX_RIGHT: 3 degree burn</li>\\n\\t</ul>\"}",
+        "patient-5" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":168,\"bmi\":23.95,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.01},{\"type\":\"BurnArgs\",\"percent\":0.5}]}}],\"description\":\"<h3>Upper airways burn</h3>\\t<ul><li>NECK: airways resistance</li><li>HEAD: 2 degree burn</li>\\t</ul>\"}",
+        "patient-6" : "{\"sex\":\"female\",\"age\":50,\"height_cm\":170,\"bmi\":20.99,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}}],\"description\":\"<h3>Circumferential Thorax Burn</h3>\\t<ul><li>THORAX_LEFT: 3 degree burn</li><li>THORAX_RIGHT: 3 degree burn</li>\\t</ul>\"}",
         "patient-7" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":161,\"bmi\":23.78,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":0.3},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":27}]}}],\"description\":\"<h3>cranial trauma with hemorrhage</h3>\\n\\t<ul><li>Intracranial pressure</li><li>HEAD: venous hemorrhage</li>\\n\\t</ul>\"}",
-        "patient-8" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":164,\"bmi\":25.58,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"description\":\"<h3>Dislocation C1/C2</h3>\\n\\t<ul><li>C1-C4: nervous system damage</li>\\n\\t</ul>\"}",
+        "patient-8" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":164,\"bmi\":25.58,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"description\":\"<h3>Dislocation C1/C2</h3>\\t<ul><li>C1-C4: nervous system damage</li>\\t</ul>\"}",
         "patient-9" : "{\"sex\":\"male\",\"age\":44,\"height_cm\":168,\"bmi\":20.24,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"description\":\"<h3>Dislocation C5/C7</h3>\\n\\t<ul><li>C5-C7: nervous system damage</li>\\n\\t</ul>\"}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
@@ -2463,6 +2463,15 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "dashboard/patient",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24076751:9QkC9G",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/distributionSampling",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2863,6 +2872,15 @@
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24070212:CWLosV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "PatientOverview",
+    "contentType" : "application/javascript",
+    "libraryType" : "ServerScript",
+    "refId" : "GameModelContent:24076752:gXgWkb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

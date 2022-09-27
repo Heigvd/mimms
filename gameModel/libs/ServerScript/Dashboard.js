@@ -28,14 +28,11 @@ function getEvents(inboxInstance /*: SInboxInstance*/) /*: FullEvent<EventPayloa
 	return events;
 }
 
-
-
 function getDashboard() {
 	var events = getEvents(Variable.find(gameModel, "events").getInstance(self));
-	return getPretirage(events);
+	return getPretriage(events);
 
 }
-
 
 function objectValues(object) {
 	var values = [];
@@ -45,7 +42,7 @@ function objectValues(object) {
 	return values;
 }
 
-function getPretirage(events) {
+function getPretriage(events) {
 	var nbPatients = Variable.find(gameModel, 'patients').getInternalProperties().length;
 
 	var perPatients = objectValues(events.filter(function (event) {
@@ -105,30 +102,91 @@ if (drillType === 'LICKERT') {
 			});
 			return counter / max;
 		},
-		formatter: function(num){
-			return (num*100).toFixed(2) + "%";
+		formatter: function (num) {
+			return (num * 100).toFixed(2) + "%";
 		}
 	})
 
 
 } else {
+	// teamId => {correct: number, etc.} 
+	var catCache = {}
 
 	WegasDashboard.registerVariable("events", {
-		label: 'Pre-Tri',
-		kind: 'object',
+		label: 'Not categorized',
+		section: 'Pre-Triage',
+		id: "not_categorized",
+		kind: 'number',
 		mapFn: function (teamId, events) {
-			return getPretirage(getEvents(events));
+			var cache = catCache[teamId];
+			if (!cache) {
+				cache = getPretriage(getEvents(events));
+				catCache[teamId] = cache;
+			}
+			return cache.notCategorized;
 		},
-		formatter: function (data) {
-			return Object.entries(data).map(function (entry) {
-				return "<strong>" + entry[0] + ":</strong> " + entry[1];
-			}).join("<br />");
-		}
+		sortable: true,
 	});
 
+	WegasDashboard.registerVariable("events", {
+		label: 'Correct',
+		section: 'Pre-Triage',
+		id: "correct",
+		kind: 'number',
+		mapFn: function (teamId, events) {
+			var cache = catCache[teamId];
+			if (!cache) {
+				cache = getPretriage(getEvents(events));
+				catCache[teamId] = cache;
+			}
+			return cache.correct;
+		},
+		sortable: true,
+	});
 
-	WegasDashboard.registerVariable('inSim_ref');
-	WegasDashboard.registerVariable('epoch_ref');
+	WegasDashboard.registerVariable("events", {
+		label: 'Over categorized',
+		section: 'Pre-Triage',
+		id: "Overcategorized",
+		kind: 'number',
+		mapFn: function (teamId, events) {
+			var cache = catCache[teamId];
+			if (!cache) {
+				cache = getPretriage(getEvents(events));
+				catCache[teamId] = cache;
+			}
+			return cache.overCategorized;
+		},
+		sortable: true,
+	});
+
+	WegasDashboard.registerVariable("events", {
+		label: 'Under categorized',
+		section: 'Pre-Triage',
+		id: "undercategorized",
+		kind: 'number',
+		mapFn: function (teamId, events) {
+			var cache = catCache[teamId];
+			if (!cache) {
+				cache = getPretriage(getEvents(events));
+				catCache[teamId] = cache;
+			}
+			return cache.underCategorized;
+		},
+		sortable: true,
+	});
+
+	WegasDashboard.registerVariable('epoch_ref', {
+		section: 'truc'
+	});
+
+	WegasDashboard.registerVariable('epoch_ref', {
+		id: "trutrucucuc",
+		section: 'truc'
+	});
+
+	WegasDashboard.setSectionLabel("Chose", "truc")
+
 	WegasDashboard.registerVariable('running');
 
 	WegasDashboard.registerVariable('keepalive');

@@ -101,7 +101,9 @@
                               "props" : {
                                 "icon" : "database",
                                 "layoutClassName" : "matrix-line-header matrix-column-header",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "visibility" : "hidden"
+                                },
                                 "style" : { }
                               },
                               "type" : "Icon"

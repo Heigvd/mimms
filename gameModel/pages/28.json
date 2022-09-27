@@ -1,0 +1,114 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "sync",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { updatePatientDashboard } from \"./dashboard/patient\";\n\nupdatePatientDashboard();",
+                    "language" : "typescript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "`<h2>${Context.matrixConfig.title}<br></h2>`",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "initialSelectedPageId" : {
+                          "@class" : "Script",
+                          "content" : "\"10\"",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "patientOverviewMatricLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "matrixConfig",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getMatrix } from './dashboard/patient';\n[\n\t{id: 0, title: 'Patient Overview', ...getMatrix()},\n];",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "itemsOnly" : false,
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "flexShrink" : "1",
+                  "overflow" : "auto"
+                },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patientDashboardState",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "({\n\ttoggle: true\n})",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localState" : true,
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "className" : "pathologyEditorPage",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "pathologyEditor",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

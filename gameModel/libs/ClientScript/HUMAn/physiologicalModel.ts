@@ -633,7 +633,7 @@ export function compute(
 	// Computed map is bigger than ventricular pressure
 	// Afterload
 	if (MAP > ventricularPressure) {
-		calcLogger.warn("MAP greater than ventricular pressure", { time: body.time, MAP, ventricularPressure });
+		calcLogger.info("MAP greater than ventricular pressure", { time: body.time, MAP, ventricularPressure });
 		MAP = ventricularPressure;
 		Qc_LPerMin = MAP / body.vitals.cardio.Ra_mmHgMinPerL;
 	}
@@ -1382,7 +1382,7 @@ export function doCompensate(
 	const overdriveLevel = interpolate(state.variables.ICP_mmHg, icp_model);
 
 	if (overdriveLevel > 0) {
-		compLogger.warn("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
+		compLogger.info("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
 		const overdriveModel = getOverdriveModel();
 
 		const overdrivenValues = computeVitals(overdriveLevel,
@@ -1392,12 +1392,12 @@ export function doCompensate(
 			duration_min,
 			t4Fine,
 			10);
-		compLogger.warn("Values", sympValues, overdrivenValues);
+		compLogger.info("Values", sympValues, overdrivenValues);
 		Object.entries(sympValues).forEach(([key, sympValue]) => {
 			const overdriven = overdrivenValues[key as CompesationKeys];
 
 			const value = overdriveLevel * overdriven + (1 - overdriveLevel) * sympValue;
-			compLogger.warn("OverdriveSet ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
+			compLogger.info("OverdriveSet ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
 			setVital(state, key as BodyStateKeys, value);
 		});
 	} else {

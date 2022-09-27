@@ -4,7 +4,7 @@ import { BodyStateKeys, computeMetas } from '../../HUMAn/human';
 import {
 	CellDef,
 	DataDef,
-	EhancedCellData,
+	EnhancedCellData,
 	MatrixConfig,
 } from '../../edition/MatrixEditor';
 import { ClKeys, LickertData, PhKeys, run_lickert } from '../../HUMAn/run';
@@ -284,7 +284,7 @@ type LickertMatrixCell = undefined | LickertLevel;
 
 const currentData: Record<string, { data: LickertData, cardiacArrest: number | undefined }> = {};
 
-type Matrix = Record<TimeId, Record<KeyId, EhancedCellData<LickertMatrixCell>>>;
+type Matrix = Record<TimeId, Record<KeyId, EnhancedCellData<LickertMatrixCell>>>;
 
 const clinicalMatrix: Record<string, Matrix> = {};
 

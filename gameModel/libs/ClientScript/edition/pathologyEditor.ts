@@ -139,30 +139,26 @@ export function prettyPrintScript(script: ScriptedEvent[] = []): string {
 
 /**
  * persist patient
- * Overide patient description
  */
-function persistPatient(patientId: string, param: BodyFactoryParam, generateDescription: boolean) {
-	if (generateDescription){
-		param.description = prettyPrintScript(param.scriptedEvents);
-	}
-
+function persistPatient(patientId: string, param: BodyFactoryParam) {
 	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(JSON.stringify(param))})`
 	APIMethods.runScript(script, {});
 }
 
 export function generateDescription(patientId: string, param: BodyFactoryParam){
-	persistPatient(patientId, param, true);
+	param.description = prettyPrintScript(param.scriptedEvents);
+	persistPatient(patientId, param);
 }
 
 export function saveDescription(patientId: string, param: BodyFactoryParam, description: string) {
 	param.description = description;
-	persistPatient(patientId, param, false);
+	persistPatient(patientId, param);
 }
 
 export function removeScriptedEvent(patientId: string, param: BodyFactoryParam, eventIndex: number) {
 	if (param.scriptedEvents) {
 		param.scriptedEvents.splice(eventIndex, 1);
-		persistPatient(patientId, param, true);
+		persistPatient(patientId, param);
 	} else {
 		wlog("Unable to remove scripted event");
 	}
@@ -173,7 +169,7 @@ export function changePathology(patientId: string, param: BodyFactoryParam, path
 
 	(param.scriptedEvents || []).splice(pathologyIndex, 1, p);
 
-	persistPatient(patientId, param, true);
+	persistPatient(patientId, param);
 }
 
 export function inoculate(patientId: string, param: BodyFactoryParam, pathologyId: string, time: number) {
@@ -184,18 +180,18 @@ export function inoculate(patientId: string, param: BodyFactoryParam, pathologyI
 	}
 	param.scriptedEvents.push(p);
 
-	persistPatient(patientId, param, true);
+	persistPatient(patientId, param);
 }
 
 export function inoculateRandom(patientId: string, param: BodyFactoryParam, time: number) {
 	getHumanGenerator().addPathologies(param, 1, time);
-	persistPatient(patientId, param, true);
+	persistPatient(patientId, param);
 }
 
 
 export function addRandomTreatment(patientId: string, param: BodyFactoryParam, time: number) {
 	getHumanGenerator().addTreatments(param, 1, time);
-	persistPatient(patientId, param, true);
+	persistPatient(patientId, param);
 }
 
 
@@ -210,7 +206,7 @@ export function changeTreatment(patientId: string, param: BodyFactoryParam, tInd
 
 		const p = buildScriptedTreatmentPayload(treatment, time);
 		param.scriptedEvents.splice(tIndex, 1, p);
-		persistPatient(patientId, param, true);
+		persistPatient(patientId, param);
 	}
 }
 
@@ -226,7 +222,7 @@ function updatePatientPathology(patientId: string, newAp: AfflictedPathology) {
 			const current = param.scriptedEvents[pathologyIndex]!.payload;
 			param.scriptedEvents[pathologyIndex]!.payload = { ...current, ...newAp };
 		}
-		persistPatient(patientId, param, true);
+		persistPatient(patientId, param);
 	}
 }
 
