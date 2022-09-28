@@ -289,7 +289,7 @@ export const getHumanGenerator = (() => {
 	}
 })();
 
-export function generateOnePatient(sex?: Sex, nPathologies?: number) {
+export function generateOnePatient(sex?: Sex, nPathologies?: number): BodyFactoryParam {
 	const h = getHumanGenerator().generateOneHuman(sex);
 	return getHumanGenerator().addPathologies(h, nPathologies || 0);
 }

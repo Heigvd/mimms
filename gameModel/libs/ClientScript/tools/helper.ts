@@ -148,3 +148,16 @@ export function substraction<T>(...lists: Readonly<T[]>[]): T[] {
 	return result;
 }
 
+export function compare(a?: string, b?: string){
+	if (a == null && b == null){
+		return 0;
+	}
+	if (a == null){
+		return -1;
+	}
+	if (b == null){
+		return 1;
+	}
+	return a.localeCompare(b);
+}
+

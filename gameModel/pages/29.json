@@ -1,0 +1,42 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"10\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "name" : "dsafdasfsfdasd",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "matrixConfig",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getPatientPresetMatrix } from './edition/patientPreset';\n[{id: 0, ...getPatientPresetMatrix()}];",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "itemsOnly" : true,
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

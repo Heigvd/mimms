@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1664287189485,
+  "createdTime" : 1664373005850,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -785,7 +785,7 @@
       },
       "name" : "situationsDefinitions",
       "properties" : {
-        "debug" : "{\"pathologies\":{\"simple_pno_full\":true},\"name\":\"pour debug\"}",
+        "debug" : "{\"pathologies\":{\"simple_pno_full\":true,\"thorax_circ\":true},\"name\":\"pour debug\"}",
         "incendie" : "{\"pathologies\":{\"upper_airways_burn\":true,\"thorax_circ\":true},\"name\":\"Incendie\"}",
         "validation_model" : "{\"pathologies\":{\"20p_ah\":true,\"major_ih\":true,\"upper_airways_burn\":true,\"simple_pno_full\":true,\"disclocation_c1c2\":true,\"disclocation_c5c7\":true,\"cityHunter\":true,\"thorax_circ\":true,\"20p_vh\":true,\"minor_ih\":true,\"catastrophic_ih\":true,\"moderate_ih\":true,\"full_vh\":true,\"quarter_vh\":true,\"semi_vh\":true,\"tamponade_hard\":true,\"tamponade_mild\":true,\"tamponade_slow\":true},\"name\":\"Pour validation\"}"
       },
@@ -817,6 +817,32 @@
       },
       "refId" : "ObjectDescriptor:24057033:xY2WkZ",
       "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:62153:1iFurH"
+      },
+      "description" : "",
+      "editorTag" : "drill - presets",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:62154:3LZquA",
+        "translations" : { }
+      },
+      "name" : "drill_Presets",
+      "properties" : {
+        "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"patient-1\":true,\"patient-4\":true,\"patient-5\":true,\"patient-2\":true}}",
+        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-2\":true,\"patient-3\":true}}"
+      },
+      "refId" : "ObjectDescriptor:62152:1EvqsB",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -2517,6 +2543,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/patientPreset",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:62142:mk6Rtm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/display/currentPatientZoom",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2911,7 +2946,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn",
+  "name" : "HUMAn (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

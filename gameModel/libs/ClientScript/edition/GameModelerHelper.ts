@@ -4,6 +4,7 @@ import { generateOnePatient, setTestPatients } from "./patientGeneration";
 import { getActs, getItems, getPathologies } from "../HUMAn/registries";
 import { BagDefinition } from "../game/logic/the_world";
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
+import { compare } from "../tools/helper";
 
 //const observableVitals = [
 //	{ label: 'SaO2', value: "respiration.SaO2" },
@@ -109,20 +110,6 @@ export function createPatients(n: number, namer: string | ((n: number) => string
 	const patientDesc = Variable.find(gameModel, 'patients');
 
 	saveToObjectDescriptor(patientDesc, patients);
-}
-
-
-function compare(a?: string, b?: string){
-	if (a == null && b == null){
-		return 0;
-	}
-	if (a == null){
-		return -1;
-	}
-	if (b == null){
-		return 1;
-	}
-	return a.localeCompare(b);
 }
 
 /**
@@ -265,6 +252,8 @@ onSituationChangeRef.current = (x, y, newData) => {
 			delete def.pathologies[pathologyId];
 		}
 	}
+
+	wlog(def);
 
 	const script = `Variable.find(gameModel, "situationsDefinitions").setProperty('${situationId}',
 		 ${JSON.stringify(JSON.stringify(def))});`

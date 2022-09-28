@@ -146,6 +146,12 @@
         "name" : "skills config",
         "scenaristPage" : true,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "29",
+        "name" : "patientPresets",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

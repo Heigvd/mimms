@@ -451,9 +451,22 @@ Helpers.registerEffect(() => {
 
 			};
 			return newSchema;
-		} else if (od.editorTag === 'bags' || od.editorTag === 'situations' || od.editorTag === 'skills') {
+		} else if (['bags', 'situations', 'skills', 'drill - presets'].indexOf(od.editorTag) > -1) {
 
-			const keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
+			let keyName = 'actions';
+			switch(od.editorTag){
+				case 'bags':
+					keyName = 'items';
+					break;
+				case 'situations' :
+					keyName = 'pathologies';
+					break;
+				case 'drill - presets':
+					keyName = 'patients';
+					break;
+			}
+			//keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
+			
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
