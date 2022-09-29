@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1664373005850,
+  "createdTime" : 1664444111580,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1448,6 +1448,35 @@
         "validationPattern" : null,
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:62352:ylS5UC",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:62353:ZUgMGV",
+            "translations" : { }
+          }
+        },
+        "editorTag" : "patientSet",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:62354:t6pwRP",
+          "translations" : { }
+        },
+        "maxSelectable" : 1,
+        "name" : "patientSet",
+        "refId" : "StringDescriptor:62351:MxVFA7",
+        "scopeType" : "GameModelScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -2862,6 +2891,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:55844:8AkZhd",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "setupTrainer",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:62358:Qf2X8r",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

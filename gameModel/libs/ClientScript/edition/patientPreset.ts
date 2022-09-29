@@ -1,3 +1,4 @@
+import { BodyFactoryParam } from "../HUMAn/human";
 import { compare } from "../tools/helper";
 import { getPatientsBodyFactoryParamsArray, parse, parseObjectDescriptor } from "../tools/WegasHelper";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
@@ -26,8 +27,21 @@ function getPatientPreset(presetId : string): PatientPreset | null {
 
 }
 
+export function getPatientsParamsFromPreset(presetId: string){
+	const preset = getPatientPreset(presetId);
+	const patients = getPatientsBodyFactoryParamsArray();
+	//TODO null case
+	return patients.filter((p) => preset!.patients[p.id]);
+}
+
 function getPatientPresets(){
 	return parseObjectDescriptor<PatientPreset>(Variable.find(gameModel, patientPresetVarName));
+}
+
+export function getPresetsAsChoices(): {label: string, value: string}[]{
+
+	return Object.entries(getPatientPresets())
+		.map(([k,v]) => {return {label: v.name, value: k}});
 }
 
 export function getPatientPresetMatrix(): MatrixConfig<PatientPresetId, PatientId , PatientPresetMatrixCell> {

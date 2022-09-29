@@ -17,8 +17,6 @@ interface IDistribution {
 
 export interface IHistogramEntry extends Range {
 	cardinality : number;
-	// min: number;
-	// max: number;
 }
 
 export type IHistogram = IHistogramEntry[]
