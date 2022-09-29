@@ -18,11 +18,11 @@ type PatientPreset = {
 type PatientId = string;
 type PatientPresetMatrixCell = undefined | boolean;
 
-const patientPresetVarName = 'drill_Presets';
+const patientPresetsVarName = 'drill_Presets';
 
-function getPatientPreset(presetId : string): PatientPreset | null {
+export function getPatientPreset(presetId : string): PatientPreset | null {
 
-	const preset = Variable.find(gameModel, patientPresetVarName).getProperties()[presetId];
+	const preset = Variable.find(gameModel, patientPresetsVarName).getProperties()[presetId];
 	return parse<PatientPreset>(preset || "");
 
 }
@@ -35,7 +35,7 @@ export function getPatientsParamsFromPreset(presetId: string){
 }
 
 function getPatientPresets(){
-	return parseObjectDescriptor<PatientPreset>(Variable.find(gameModel, patientPresetVarName));
+	return parseObjectDescriptor<PatientPreset>(Variable.find(gameModel, patientPresetsVarName));
 }
 
 export function getPresetsAsChoices(): {label: string, value: string}[]{
@@ -101,7 +101,7 @@ onPresetChangeRef.current = (x, y, newData) => {
 		}
 	}
 
-	const script = `Variable.find(gameModel, '${patientPresetVarName}').setProperty('${presetId}',
+	const script = `Variable.find(gameModel, '${patientPresetsVarName}').setProperty('${presetId}',
 		 ${JSON.stringify(JSON.stringify(preset))});`
 
 	APIMethods.runScript(script, {});
