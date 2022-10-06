@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1665060641756,
+  "createdTime" : 1665072997921,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -840,7 +840,7 @@
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"patient-1\":true,\"patient-4\":true,\"patient-5\":true,\"patient-2\":true}}",
         "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-2\":true,\"patient-3\":true}}",
-        "6375429148" : "{\"name\":\"New preset\",\"patients\":{\"patient-1\":true}}"
+        "6375429148" : "{\"name\":\"New preset\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-4\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",

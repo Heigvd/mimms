@@ -1,4 +1,6 @@
 import { EnhancedCellData, MatrixConfig } from "../edition/MatrixEditor";
+import { getCurrentPresetSortedPatientIds } from "../game/logic/drill";
+import { compare } from "../tools/helper";
 
 type PatientId = string;
 type CellConfig = number;
@@ -36,8 +38,17 @@ Helpers.useRef(onChangeRef, () => { });
 export function getMatrix(): MatrixConfig<CatId, PatientId, CellConfig> {
 	if (dashboard) {
 
+		let filteredDashboard = Object.entries(dashboard);
+		const preset = getCurrentPresetSortedPatientIds();
+		if(preset){
+			filteredDashboard = filteredDashboard.filter(([k, _]) => {
+				return preset.indexOf(k) > -1;
+			});
+		}
+
 		return {
-			y: Object.keys(dashboard).sort().map(patientId => {
+			y: filteredDashboard.sort(([k1, _], [k2, __]) => compare(k1,k2))
+				.map(([patientId, _]) => {
 				return {
 					id: patientId,
 					label: patientId,

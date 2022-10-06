@@ -254,6 +254,17 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
+                      "content" : "import { resultToHtml } from \"./game/logic/triage\";\nresultToHtml(Context.patient.categorization.autoTriage);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
                       "content" : "JSON.stringify(Context.patient)",
                       "language" : "TypeScript"
                     }

@@ -34,7 +34,7 @@ export function isCurrentPatientCategorized() {
 /**
  * If no preset is currently set, returns all patients
  */
-function getCurrentPresetSortedPatientIds(): string[]{
+export function getCurrentPresetSortedPatientIds(): string[]{
 	const presetId = Variable.find(gameModel, 'patientSet').getValue(self);
 	if(presetId){
 		const preset = getPatientPreset(presetId);
@@ -103,7 +103,6 @@ export function selectNextPatient() {
 
 				//toPost.push(`TimeManager.fastForward('${times.max - currentTime}s');`);
 
-				wlog("EVENTS: ", toPost.join("\n"));
 				APIMethods.runScript(toPost.join(""), {});
 			}
 		} else {
@@ -118,7 +117,6 @@ export function toSummaryScreen() {
 
 export function showPatient(patientId: number){
 
-	wlog('ID', patientId);
 	const script = [
 		`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`,
 		getSetDrillStatusScript('completed_review')

@@ -20,7 +20,7 @@
         "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
