@@ -92,6 +92,66 @@
                               "flexDirection" : "row"
                             },
                             "layoutStyle" : { },
+                            "name" : "filter",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import {canAddRow} from './edition/MatrixEditor'\n!canAddRow()",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "plus",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAddRowButtonLabel } from \"./edition/MatrixEditor\";\ngetAddRowButtonLabel();",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updateYRow } from \"./edition/MatrixEditor\";\n\nupdateYRow()",
+                                    "language" : "typescript"
+                                  }
+                                },
+                                "name" : "row",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import {canAddColumn} from './edition/MatrixEditor'\n!canAddColumn()",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "plus",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAddColumnButtonLabel } from \"./edition/MatrixEditor\";\ngetAddColumnButtonLabel()",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updateXColumn } from \"./edition/MatrixEditor\";\n\nupdateXColumn()",
+                                    "language" : "typescript"
+                                  }
+                                },
+                                "name" : "column",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "add",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -111,16 +171,90 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "layoutStyle" : { },
+                                                "onCancel" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateXColumn } from \"./edition/MatrixEditor\"\n\nupdateXColumn(Context.column.id, Context.newLabel)",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"newLabel\"",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.column.label;",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "style" : { },
+                                                "validator" : false
+                                              },
+                                              "type" : "String input"
+                                            }, {
+                                              "props" : {
+                                                "className" : "matrix-editor-delete-button",
+                                                "confirm" : true,
+                                                "icon" : "minus-circle",
+                                                "label" : {
+                                                  "@class" : "Script",
+                                                  "content" : "\"\"",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { removeColumn } from \"./edition/MatrixEditor\";\n\nremoveColumn(Context.column.id)",
+                                                    "language" : "typescript"
+                                                  }
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "Button"
+                                            } ]
+                                          },
+                                          "type" : "FlexList"
+                                        } ]
+                                      },
+                                      "type" : "PlayerIf"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : { },
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "`<span title='${Context.column.id}'>${Context.column.label}</span>`;",
+                                              "language" : "JavaScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        } ]
+                                      },
+                                      "type" : "PlayerElse"
+                                    } ],
+                                    "ifCondition" : {
+                                      "@class" : "Script",
+                                      "content" : "import {canEditColumn} from './edition/MatrixEditor'\ncanEditColumn();",
+                                      "language" : "typescript"
+                                    },
                                     "layoutClassName" : "matrix-column-header",
                                     "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "`<span title='${Context.column.id}'>${Context.column.label}</span>`;",
-                                      "language" : "JavaScript"
-                                    }
+                                    "style" : { }
                                   },
-                                  "type" : "Text"
+                                  "type" : "If Else"
                                 } ],
                                 "className" : "",
                                 "exposeAs" : "column",
@@ -148,17 +282,91 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "",
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "layoutStyle" : { },
+                                                    "onCancel" : { },
+                                                    "onVariableChange" : {
+                                                      "client" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { updateYRow } from \"./edition/MatrixEditor\"\n\nupdateYRow(Context.line.id, Context.newLabel)",
+                                                        "language" : "TypeScript"
+                                                      },
+                                                      "exposeVariableAs" : {
+                                                        "@class" : "Script",
+                                                        "content" : "\"newLabel\"",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "script" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.line.label;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "style" : { },
+                                                    "validator" : false
+                                                  },
+                                                  "type" : "String input"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "matrix-editor-delete-button",
+                                                    "confirm" : true,
+                                                    "icon" : "minus-circle",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutStyle" : { },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { removeRow } from \"./edition/MatrixEditor\";\n\nremoveRow(Context.line.id)",
+                                                        "language" : "typescript"
+                                                      }
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ]
+                                              },
+                                              "type" : "FlexList"
+                                            } ]
+                                          },
+                                          "type" : "PlayerIf"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "className" : "",
+                                                "layoutClassName" : "matrix-line-header",
+                                                "layoutStyle" : { },
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "`<span title='${Context.line.id}'>${Context.line.label}</span>`;",
+                                                  "language" : "JavaScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ]
+                                          },
+                                          "type" : "PlayerElse"
+                                        } ],
+                                        "ifCondition" : {
+                                          "@class" : "Script",
+                                          "content" : "import {canEditRow} from './edition/MatrixEditor'\ncanEditRow();",
+                                          "language" : "typescript"
+                                        },
                                         "layoutClassName" : "matrix-line-header",
                                         "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "`<span title='${Context.line.id}'>${Context.line.label}</span>`;",
-                                          "language" : "JavaScript"
-                                        }
+                                        "style" : { }
                                       },
-                                      "type" : "Text"
+                                      "type" : "If Else"
                                     }, {
                                       "props" : {
                                         "children" : [ {

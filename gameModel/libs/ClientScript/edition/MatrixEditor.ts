@@ -21,7 +21,7 @@ export function setMatrixState(setter: (state: MatrixState) => MatrixState) {
 	Context.matrixState.setState(setter);
 }
 
-export interface DataDef<T> {
+export interface DataDef<T extends MatrixKey> {
 	/**
 	 * Row/cell label
 	 */
@@ -31,6 +31,20 @@ export interface DataDef<T> {
 	 */
 	id: T;
 }
+
+interface DataDefChange {
+
+	enableCreation : boolean;
+
+	createdEntryDefaultLabel?: string;
+
+	addEntryButtonLabel?: string;
+	/**
+	 * HACK: onChange Callback register as ref (Helpers.useRef(THE_NAME, () => ))
+	 */
+	callbackRefName : string;
+}
+
 
 /**
  * Display as checkboxes
@@ -92,6 +106,12 @@ export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data ext
 	 */
 	onChangeRefName: string;
 	hideFilter?: boolean;
+
+	dataDefChangeColumn?: DataDefChange;
+	dataDefChangeRow?: DataDefChange;
+
+	dataDefRemoveColumn?: string;
+	dataDefRemoveRow?: string;
 }
 
 function filterSerie(serie: DataDef<MatrixKey>[], motif: string): DataDef<MatrixKey>[] {
@@ -105,7 +125,7 @@ function filterSerie(serie: DataDef<MatrixKey>[], motif: string): DataDef<Matrix
 			return (
 				regexes.find(regex => {
 					// try to tind one regex which does not match
-					return !regex.exec(item.label);
+					return !regex.exec(item.label || '');
 				}) == null
 			);
 		});
@@ -308,6 +328,99 @@ export function updateValue(value: unknown) {
 	onChange.current(Context.column, Context.line, value);
 }
 
+export function updateXColumn(id?: MatrixKey, label?: string) {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+
+	if(config.dataDefChangeColumn){
+		const onChange = Helpers.useRef(
+			config.dataDefChangeColumn.callbackRefName,
+			(x: DataDef<MatrixKey> | undefined) => {},
+		);
+		//wlog('OnChange: ', Context.column, Context.line, value);
+		const l = label || config.dataDefChangeColumn.createdEntryDefaultLabel || 'new';
+
+		onChange.current({label: l, id: id || makeUid()});
+		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	}
+	
+}
+
+function makeUid(): MatrixKey {
+	return Math.floor(Math.random()*10000000000);
+}
+
+export function updateYRow(id?: MatrixKey, label?: string) {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+
+	if(config.dataDefChangeRow){
+		const onChange = Helpers.useRef(
+			config.dataDefChangeRow.callbackRefName,
+			(y: DataDef<MatrixKey>) => {},
+		);
+		const l = label || config.dataDefChangeRow.createdEntryDefaultLabel || 'new';
+		onChange.current({label: l, id: id || makeUid()});
+		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	}
+	
+}
+
+export function removeColumn(id: MatrixKey){
+
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	if(config.dataDefRemoveColumn){
+		const removeX = Helpers.useRef(
+			config.dataDefRemoveColumn,
+			(id: MatrixKey) => {},
+		);
+		removeX.current(id);
+		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	}
+}
+
+export function removeRow(id: MatrixKey){
+
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	if(config.dataDefRemoveRow){
+		const removeY = Helpers.useRef(
+			config.dataDefRemoveRow,
+			(id: MatrixKey) => {},
+		);
+		removeY.current(id);
+		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
+	}
+
+}
+
+export function getAddColumnButtonLabel(): string{
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return config.dataDefChangeColumn?.addEntryButtonLabel || 'Add Column';
+}
+
+export function getAddRowButtonLabel(): string{
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return config.dataDefChangeRow?.addEntryButtonLabel || 'Add Row';
+}
+
+export function canAddRow(): boolean {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return !!config.dataDefChangeRow?.enableCreation;
+}
+
+export function canAddColumn(): boolean {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return !!config.dataDefChangeColumn?.enableCreation;
+}
+
+export function canEditRow(): boolean {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return config.dataDefChangeRow != null;
+}
+
+export function canEditColumn(): boolean {
+	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
+	return config.dataDefChangeColumn != null;
+}
+
 /**********************************************
  * DEBUG
  */
@@ -332,7 +445,9 @@ const testMatrix: Record<number, Record<number, CellData>> = {
 		0: true,
 		1: true,
 		2: false,
+		3: true
 	},
+
 };
 
 const onChangeRef = Helpers.useRef(
@@ -341,7 +456,7 @@ const onChangeRef = Helpers.useRef(
 );
 
 onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData) => {
-	testMatrix[x.id]![y.id] = newData;
+	testMatrix[x.id!]![y.id!] = newData;
 	setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 
 	// Hack: touch boolean to force UIsync
@@ -351,7 +466,75 @@ onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData
     );*/
 };
 
-export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
+const onRowChangeRef = Helpers.useRef(
+	'testMatrixOnRowChangeRef',
+	(y: DataDef<number>) => {},
+);
+
+let lastId = 100;
+
+const defaultLabel = 'New entry'
+
+onRowChangeRef.current = (y: DataDef<number>) => {
+
+	// search existing
+	const elem = testMatrixData.x.find((e) => e.id === y.id);
+	if(elem){ // update it
+		elem.label = y.label || defaultLabel;
+	}else{
+		y.id = lastId++;
+		y.label = y.label || defaultLabel;
+		testMatrixData.y.push(y);
+	}
+}
+
+const onColumnChangeRef = Helpers.useRef(
+	'testMatrixOnColumnChangeRef',
+	(y: DataDef<number>) => {},
+);
+
+onColumnChangeRef.current = (x: DataDef<number>) => {
+
+	// search existing
+	const elem = testMatrixData.x.find((e) => e.id === x.id);
+	if(elem){ // update it
+		elem.label = x.label || '';
+	}else{
+		x.id = lastId++;
+		x.label = x.label || defaultLabel;
+		testMatrixData.x.push(x);
+	}
+}
+
+const onColumnDeleteRef = Helpers.useRef(
+	'testRemoveX',
+	(id: number) => {}
+)
+
+onColumnDeleteRef.current = (xid : number) => {
+	
+	const i = testMatrixData.x.findIndex((e)=> e.id == xid);
+	if(i > -1){
+		testMatrixData.x.splice(i,1);
+		wlog('deleted ', i, xid)
+	}
+}
+
+const onRowDeleteRef = Helpers.useRef(
+	'testRemoveY',
+	(id: number) => {}
+)
+
+onRowDeleteRef.current = (xid : number) => {
+	
+	const i = testMatrixData.y.findIndex((e)=> e.id == xid);
+	if(i > -1){
+		testMatrixData.y.splice(i,1);
+		wlog('deleted ', i, xid)
+	}
+}
+ 
+const testMatrixData = {
 	x: [
 		{ label: 'x 1st', id: 0 },
 		{ label: 'x 2nd', id: 1 },
@@ -363,21 +546,40 @@ export const testMatrixConfig: MatrixConfig<number, number, CellData> = {
 		{ label: 'y 2e', id: 1 },
 		{ label: 'y 3e', id: 2 },
 	],
-	data: testMatrix,
-	cellDef: [
-		{
-			type: 'number',
-			label: 'limited',
+}
+
+
+export function testMatrixConfig() : MatrixConfig<number, number, CellData> { 
+	return {
+		...testMatrixData,
+		data: testMatrix,
+		cellDef: [
+			{
+				type: 'number',
+				label: 'limited',
+			},
+			{
+				type: 'boolean',
+				label: 'bool',
+			},
+			{
+				type: 'enum',
+				label: 'enum',
+				values: ['raw', { label: 'lets cook', value: 'cooked' }],
+			},
+		],
+		onChangeRefName: 'testMatrixOnChange',
+		dataDefChangeColumn : {
+			enableCreation: true,
+			createdEntryDefaultLabel : 'New column',
+			callbackRefName: "testMatrixOnColumnChangeRef"
 		},
-		{
-			type: 'boolean',
-			label: 'bool',
+		dataDefChangeRow : {
+			enableCreation: false,
+			callbackRefName: "testMatrixOnRowChangeRef"
 		},
-		{
-			type: 'enum',
-			label: 'enum',
-			values: ['raw', { label: 'lets cook', value: 'cooked' }],
-		},
-	],
-	onChangeRefName: 'testMatrixOnChange',
-};
+		dataDefRemoveColumn : "testRemoveX",
+		dataDefRemoveRow : "testRemoveY",
+
+	};
+}

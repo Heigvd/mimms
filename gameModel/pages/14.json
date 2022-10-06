@@ -18,7 +18,7 @@
         "exposeAs" : "matrixConfig",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { testMatrixConfig } from './edition/MatrixEditor';\n[{id: 0, ...testMatrixConfig}];",
+          "content" : "import { testMatrixConfig } from './edition/MatrixEditor';\n[{id: 0, ...testMatrixConfig()}];",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

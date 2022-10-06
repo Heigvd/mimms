@@ -13,3 +13,14 @@
 .matrix-cell {
 	border: 1px solid black;
 }
+
+.matrix-editor-delete-button .confirmBtn{
+	position: absolute;
+	z-index: 1;
+	box-shadow: 0 0 6px 1px lightgray;
+	top: 0;
+}
+
+.matrix-editor-delete-button .confirmBtn::before{
+	display: none;
+}

@@ -10,7 +10,7 @@ import { drillLogger } from "../../tools/logger";
 
 
 interface DrillStatus {
-	status: 'not_started' | 'ongoing' | 'completed' | 'validated';
+	status: 'not_started' | 'ongoing' | 'completed_summary' | 'completed_review' | 'validated';
 }
 
 export function getDrillStatus(): DrillStatus['status'] {
@@ -31,6 +31,9 @@ export function isCurrentPatientCategorized() {
 	return current?.category != null;
 }
 
+/**
+ * If no preset is currently set, returns all patients
+ */
 function getCurrentPresetSortedPatientIds(): string[]{
 	const presetId = Variable.find(gameModel, 'patientSet').getValue(self);
 	if(presetId){
@@ -42,19 +45,19 @@ function getCurrentPresetSortedPatientIds(): string[]{
 	}
 	drillLogger.warn('could not get current preset id, variable patientSet is not set');
 
-	return [];
+	//fallback, get all patients
+
+	return getSortedPatientIds();
 }
 
 export function selectNextPatient() {
 	const status = getDrillStatus();
 	if (status === 'not_started' || status === 'ongoing') {
-		const allIds = getCurrentPresetSortedPatientIds();//getSortedPatientIds();
-		wlog(allIds);
+		const allIds = getCurrentPresetSortedPatientIds();
 		const processed = getInstantiatedHumanIds();
 
 		const ids = allIds.filter(id => !processed.includes(id));
 
-		wlog(ids);
 		const patientId = pickRandom(ids);
 
 		if (patientId) {
@@ -104,7 +107,22 @@ export function selectNextPatient() {
 				APIMethods.runScript(toPost.join(""), {});
 			}
 		} else {
-			APIMethods.runScript( getSetDrillStatusScript('completed') +`Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+			toSummaryScreen();
 		}
 	}
+}
+
+export function toSummaryScreen() {
+	APIMethods.runScript( getSetDrillStatusScript('completed_summary') +`Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+}
+
+export function showPatient(patientId: number){
+
+	wlog('ID', patientId);
+	const script = [
+		`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`,
+		getSetDrillStatusScript('completed_review')
+	]
+
+	APIMethods.runScript(script.join('') , {});
 }

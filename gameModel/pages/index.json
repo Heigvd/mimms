@@ -182,7 +182,7 @@
         "@class" : "Page",
         "id" : "14",
         "name" : "debug_matrix",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       } ],
       "name" : "debug_pages"

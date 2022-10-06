@@ -1,12 +1,17 @@
-import { BodyFactoryParam } from "../HUMAn/human";
-import { compare } from "../tools/helper";
 import { getPatientsBodyFactoryParamsArray, parse, parseObjectDescriptor } from "../tools/WegasHelper";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
 
-const PresetOnChangeRefName = 'presetDefOnChange';
-const onPresetChangeRef = Helpers.useRef<PresetOnChangeFn>(PresetOnChangeRefName, () => { });
-type PresetOnChangeFn = (x: DataDef<PatientPresetId>, y: DataDef<PatientId>, value: PatientPresetMatrixCell) => void;
+const onPresetChangeRefName = 'presetDefOnChange';
+const onPresetChangeRef = Helpers.useRef<PresetOnChangeFn>(onPresetChangeRefName, () => { });
 
+const onPresetsUpdateRefName = 'updatePresetsRef';
+const onPresetsUpdateRef = Helpers.useRef<PresetsUpdateFn>(onPresetsUpdateRefName, () => { });
+
+const onPresetsDeleteRefName = 'deletePresetsRef';
+const onPresetsDeleteRef = Helpers.useRef<((id: number) => void)>(onPresetsDeleteRefName, () => { });
+
+type PresetOnChangeFn = (x: DataDef<PatientPresetId>, y: DataDef<PatientId>, value: PatientPresetMatrixCell) => void;
+type PresetsUpdateFn = (x: DataDef<PatientPresetId>) => void;
 
 type PatientPresetId = string;
 
@@ -30,8 +35,11 @@ export function getPatientPreset(presetId : string): PatientPreset | null {
 export function getPatientsParamsFromPreset(presetId: string){
 	const preset = getPatientPreset(presetId);
 	const patients = getPatientsBodyFactoryParamsArray();
-	//TODO null case
-	return patients.filter((p) => preset!.patients[p.id]);
+	if(preset){
+		return patients.filter((p) => preset!.patients[p.id]);
+	}else {
+		return patients;
+	}
 }
 
 function getPatientPresets(){
@@ -67,7 +75,7 @@ export function getPatientPresetMatrix(): MatrixConfig<PatientPresetId, PatientI
 			id: p.id,
 		})),
 		x: Object.entries(presets)
-			.sort(([,a], [,b]) => compare(a.name, b.name))
+			//.sort(([,a], [,b]) => compare(a.name, b.name))
 			.map(([id, preset]) => ({
 				id: id,
 				label: preset.name || 'unamed',
@@ -79,8 +87,45 @@ export function getPatientPresetMatrix(): MatrixConfig<PatientPresetId, PatientI
 				label: '',
 			}
 		],
-		onChangeRefName: PresetOnChangeRefName,
+		onChangeRefName: onPresetChangeRefName,
+		dataDefChangeColumn : {
+			enableCreation: true,
+			createdEntryDefaultLabel : 'New preset',
+			addEntryButtonLabel: 'Add new preset',
+			callbackRefName: onPresetsUpdateRefName
+		},
+		dataDefRemoveColumn : onPresetsDeleteRefName
 	};
+}
+
+
+// rename or create preset
+onPresetsUpdateRef.current = (x) => {
+	let updatedPreset = getPatientPresets()[x.id];
+	if(updatedPreset){
+		updatedPreset.name = x.label;
+	}else{ // create new
+		updatedPreset = {name: x.label, patients: {} }
+	}
+	const id = x.id;
+
+	persistPreset(id, updatedPreset);
+}
+
+// delete preset
+onPresetsDeleteRef.current = (id) => {
+
+	const preset = getPatientPresets()[id];
+	if(preset){
+		const script = `Variable.find(gameModel, '${patientPresetsVarName}').removeProperty('${id}');`;
+		APIMethods.runScript(script, {});
+	}//else, nothing to delete
+}
+
+function persistPreset(id: PatientPresetId, preset: PatientPreset){
+	const script = `Variable.find(gameModel, '${patientPresetsVarName}').setProperty('${id}',
+		 ${JSON.stringify(JSON.stringify(preset))});`;
+	APIMethods.runScript(script, {});
 }
 
 onPresetChangeRef.current = (x, y, newData) => {
@@ -101,8 +146,5 @@ onPresetChangeRef.current = (x, y, newData) => {
 		}
 	}
 
-	const script = `Variable.find(gameModel, '${patientPresetsVarName}').setProperty('${presetId}',
-		 ${JSON.stringify(JSON.stringify(preset))});`
-
-	APIMethods.runScript(script, {});
+	persistPreset(presetId, preset);
 };

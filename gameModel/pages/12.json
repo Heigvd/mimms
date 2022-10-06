@@ -150,6 +150,11 @@
               "type" : "State"
             }, {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"next patient\"",
@@ -163,6 +168,32 @@
                     "language" : "typescript"
                   }
                 },
+                "name" : "next",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
+                  "language" : "typescript"
+                },
+                "icon" : "envelope-open-text",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>back to summary<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "Script",
+                    "content" : "import { toSummaryScreen } from \"./game/logic/drill\";\n\ntoSummaryScreen()",
+                    "language" : "typescript"
+                  }
+                },
+                "name" : "to summary",
                 "style" : { }
               },
               "type" : "Button"
@@ -181,8 +212,8 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'ongoing'",
-          "language" : "JavaScript"
+          "content" : "import { getDrillStatus } from './game/logic/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
+          "language" : "typescript"
         },
         "layout" : {
           "flexDirection" : "column"
@@ -195,6 +226,58 @@
     }, {
       "props" : {
         "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "eye",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>View</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { showPatient } from \"./game/logic/drill\";\n\nshowPatient(Context.patient.id)",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "JSON.stringify(Context.patient)",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ]
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "patient",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getHumans } from \"./game/logic/the_world\";\ngetHumans()",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "For each"
+        }, {
           "props" : {
             "children" : [ {
               "props" : {
@@ -235,12 +318,14 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'done'",
-          "language" : "JavaScript"
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed_summary'",
+          "language" : "typescript"
         },
-        "layout" : { },
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
-        "name" : "DONE",
+        "name" : "summary",
         "style" : { }
       },
       "type" : "FlexList"

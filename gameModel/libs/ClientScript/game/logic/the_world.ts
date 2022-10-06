@@ -1751,6 +1751,7 @@ export function getHumans() {
 		location: h.location,
 		direction: h.direction,
 		lineOfSight: h.lineOfSight,
+		categorization : h.category,
 	}));
 }
 
