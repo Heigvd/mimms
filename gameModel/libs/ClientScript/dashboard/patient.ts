@@ -14,7 +14,6 @@ interface PatientSummary {
 
 type CatId = keyof PatientSummary;
 
-
 type PatientDashboard = Record<PatientId, PatientSummary>;
 
 let dashboard: PatientDashboard = {};
@@ -29,7 +28,6 @@ export function updatePatientDashboard() {
 		ctx.patientDashboardState.setState(s => ({ toggle: !s.toggle }));
 	})
 }
-
 
 const onChangeRef = 'no-op';
 Helpers.useRef(onChangeRef, () => { });

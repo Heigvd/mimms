@@ -1316,19 +1316,28 @@ export function doAutomaticTriageAndLogToConsole() {
 	}
 }
 
+/**
+ * Html formated pre-triage category
+ */
+export function categoryToHtml(categoryId: string | undefined): string {
+
+	const cat = getCategory(categoryId)?.category;
+	if (cat) {
+		return `<div class='tagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}">${cat.name}</div>`;
+	} else {
+		return `Error: unresolved category: ${categoryId}`;
+	}
+}
+
+/**
+ * Html formatted suggested pre-triage
+ */
 export function resultToHtml(result: PreTriageResult<string>) {
 	const tagSystem = getTagSystem();
-
-	const sCategory = getCategory(result.categoryId);
 	const output: string[] = [`<h3>PreTriage ${tagSystem}</h3>`];
-	if (sCategory) {
-		const {category} = sCategory;
-		output.push(
-			`<div class='tagCategory' style="color: ${category.color}; background-color: ${category.bgColor}">${category.name}</div>`,
-		);
-	} else {
-		output.push(`Error: unresolved category: ${result.categoryId}`);
-	}
+
+	output.push(categoryToHtml(result.categoryId));
+	
 	output.push('<div>');
 	if (result.explanations.length > 0) {
 		output.push('<strong>Because:</strong>');

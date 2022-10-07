@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p></p><h1>Drill</h1><p></p>\"",
+          "content" : "import { getTagSystem } from \"./game/logic/triage\";\n`<p></p><h1>Drill pre-triage ${getTagSystem()}</h1><p></p>`",
           "language" : "JavaScript"
         }
       },
@@ -229,12 +229,54 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Review patient<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Correction</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Given answer<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "header",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "icon" : "eye",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"<p>View</p>\"",
+                      "content" : "\"<p>Review</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
@@ -254,7 +296,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { resultToHtml } from \"./game/logic/triage\";\nresultToHtml(Context.patient.categorization.autoTriage);",
+                      "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.categorization.autoTriage.categoryId);",
                       "language" : "TypeScript"
                     }
                   },
@@ -265,7 +307,18 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "JSON.stringify(Context.patient)",
+                      "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.categorization.category);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "if(Context.patient.categorization.category == \n\tContext.patient.categorization.autoTriage.categoryId){\n\treturn 'Correct'\n}\n'Wrong'",
                       "language" : "TypeScript"
                     }
                   },
@@ -305,7 +358,7 @@
               "props" : {
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>validate</p>\"",
+                  "content" : "\"<p>End exercise<br></p>\"",
                   "language" : "JavaScript"
                 },
                 "layoutStyle" : { },
