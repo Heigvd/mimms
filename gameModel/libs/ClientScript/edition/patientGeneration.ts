@@ -6,6 +6,8 @@ import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDef
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
 import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from '../game/logic/the_world';
 import { getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
+import { removeAllPatientsFromPresets } from './patientPreset';
+import { patientGenerationLogger } from '../tools/logger';
 
 
 /**
@@ -35,7 +37,30 @@ export function createPatients(n: number, namer: string | ((n: number) => string
 	saveToObjectDescriptor(patientDesc, patients);
 }
 
-function makeUid(length: number) {
+export function deleteAllPatients(): void {
+
+	if(!Editor.getFeatures().ADVANCED){
+		patientGenerationLogger.error('Cannot delete all patient if not in ADVANCED mode');
+		return;
+	}
+
+	patientGenerationLogger.warn('Deleting all patients !!!');
+
+	const patientDesc = Variable.find(gameModel, 'patients');
+	setTestPatients(Object.values({}));
+	saveToObjectDescriptor(patientDesc, {});
+
+	// clean up presets
+	removeAllPatientsFromPresets();
+
+	APIMethods.runScript(
+		`Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
+		{},
+	);
+
+}
+
+function makeUid(length: number): string {
 	let id = "";
 	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -71,11 +96,9 @@ function makeName(length : number): string {
  */
 export function deletePatient(patientId: string)
 : void {
-	wlog(patientId);
 	const patients = getPatientsBodyFactoryParams();
 	delete patients[patientId];
 	const patientDesc = Variable.find(gameModel, 'patients');
-
 	saveToObjectDescriptor(patientDesc, patients);
 }
 

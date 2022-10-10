@@ -83,6 +83,32 @@
       "type" : "Button"
     }, {
       "props" : {
+        "confirm" : true,
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "!Editor.getFeatures().ADVANCED",
+          "language" : "typescript"
+        },
+        "icon" : "book-dead",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Delete all<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "Script",
+            "content" : "import { deleteAllPatients } from \"./edition/patientGeneration\";\n\ndeleteAllPatients()",
+            "language" : "typescript"
+          }
+        },
+        "name" : "delete all",
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "allowDoubleClick" : false,
@@ -485,7 +511,7 @@
                             "exposeAs" : "pathologyEditorContext",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getPatientPathologyConfigs } from './edition/pathologyEditor';\nconst patientId = Context.patient.id;\n[getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]",
+                              "content" : "import { getPatientPathologyConfigs } from './edition/pathologyEditor';\nconst patientId = Context.patient.id;\nconst patient = getPatientPathologyConfigs(patientId);\nif(patient){\n\treturn [getPatientPathologyConfigs(patientId)[Context.scriptedEvent.seIndex]]\n}\n[];",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",

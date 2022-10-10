@@ -12,3 +12,5 @@ export const layerDataLogger = Helpers.getLogger("human.map.layerdata");
 export const inventoryLogger = Helpers.getLogger("human.world.inventory");
 export const delayedLogger = Helpers.getLogger("human.world.delay");
 export const drillLogger = Helpers.getLogger("human.drill");
+export const drillPresetLogger = Helpers.getLogger("human.drill.preset");
+export const patientGenerationLogger = Helpers.getLogger("human.patient.generation");

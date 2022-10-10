@@ -1,4 +1,4 @@
-import { getPatientsBodyFactoryParamsArray, parse, parseObjectDescriptor } from "../tools/WegasHelper";
+import { getPatientsBodyFactoryParamsArray, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
 
 const onPresetChangeRefName = 'presetDefOnChange';
@@ -29,7 +29,6 @@ export function getPatientPreset(presetId : string): PatientPreset | null {
 
 	const preset = Variable.find(gameModel, patientPresetsVarName).getProperties()[presetId];
 	return parse<PatientPreset>(preset || "");
-
 }
 
 export function getPatientsParamsFromPreset(presetId: string){
@@ -44,6 +43,14 @@ export function getPatientsParamsFromPreset(presetId: string){
 
 function getPatientPresets(){
 	return parseObjectDescriptor<PatientPreset>(Variable.find(gameModel, patientPresetsVarName));
+}
+
+export function removeAllPatientsFromPresets(){
+	
+	const presets = getPatientPresets();
+	Object.values(presets).forEach((p) => p.patients = {});
+	const presetsDesc = Variable.find(gameModel, patientPresetsVarName);
+	saveToObjectDescriptor(presetsDesc, presets);
 }
 
 export function getPresetsAsChoices(): {label: string, value: string}[]{

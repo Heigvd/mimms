@@ -98,10 +98,12 @@ function getConfigFromAfflictedPathology(
 }
 
 
-export function getPatientPathologyConfigs(patientId: string): PathologyEditorContext[] {
+export function getPatientPathologyConfigs(patientId: string): PathologyEditorContext[] | undefined {
+	//patientGenerationLogger.warn(patientId)
 	const param = getBodyParam(patientId);
 	if (param == null) {
-		throw new Error("Patient not found");
+		//throw new Error("Patient not found");
+		return undefined;
 	}
 
 	return (param.scriptedEvents || [])
