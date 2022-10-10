@@ -3,7 +3,7 @@ import { DataDef, MatrixConfig } from "./MatrixEditor";
 import { generateOnePatient, setTestPatients } from "./patientGeneration";
 import { getActs, getItems, getPathologies } from "../HUMAn/registries";
 import { BagDefinition } from "../game/logic/the_world";
-import { getBagDefinition, getEnv, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
+import { getBagDefinition, getEnv, getPatientsBodyFactoryParams, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
 import { compare } from "../tools/helper";
 
 //const observableVitals = [
@@ -93,24 +93,6 @@ export function getBlocksSelector() {
 	};
 }
 
-export function createPatients(n: number, namer: string | ((n: number) => string)) {
-	//const patients = parseObjectDescriptor<BodyFactoryParam>(patientDesc);
-
-	const patients: Record<string, BodyFactoryParam> = {};
-	for (let i = 1; i <= n; i++) {
-		let name = `${i}`;
-		if (typeof namer === 'string') {
-			name = `${namer}${i}`;
-		} else if (typeof namer === 'function') {
-			name = namer(i);
-		}
-		patients[name] = generateOnePatient(undefined, 1);
-	}
-	setTestPatients(Object.values(patients));
-	const patientDesc = Variable.find(gameModel, 'patients');
-
-	saveToObjectDescriptor(patientDesc, patients);
-}
 
 /**
  * Bags Definitions Edition
@@ -316,12 +298,6 @@ export function getSituationsDefsMatrix(): MatrixConfig<SituationId, PathologyId
 		onChangeRefName: SituationOnChangeRefName,
 	};
 }
-
-
-
-
-
-
 
 
 /**

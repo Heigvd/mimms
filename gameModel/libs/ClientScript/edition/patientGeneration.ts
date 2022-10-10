@@ -5,7 +5,79 @@ import { BodyFactoryParam, Sex } from '../HUMAn/human';
 import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from '../HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
 import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from '../game/logic/the_world';
-import { getPatientsBodyFactoryParams, parseObjectDescriptor } from '../tools/WegasHelper';
+import { getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
+
+
+/**
+ * Add patients to the existing list
+ */
+export function createPatients(n: number, namer: string | ((n: number) => string)) {
+
+	const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
+
+	for (let i = 1; i <= n; i++) {
+		let name = `${i}`;
+		if (typeof namer === 'string') 
+		{
+			name = `${namer}${i}`;
+		} else if (typeof namer === 'function') {
+			name = namer(i);
+		}
+		while(patients[name]) // collision
+		{
+			name = makeName(5);
+		}
+		patients[name] = generateOnePatient(undefined, 1);
+	}
+	setTestPatients(Object.values(patients));
+	const patientDesc = Variable.find(gameModel, 'patients');
+
+	saveToObjectDescriptor(patientDesc, patients);
+}
+
+function makeUid(length: number) {
+	let id = "";
+	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (let i = 0; i < length; i++){
+		id += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+
+	return id;
+}
+
+function makeName(length : number): string {
+
+	const consonants = "bcdfghjklmnpqrstvwxz";
+	const vowels = "aeiouy";
+
+	const all : string[] = [consonants, vowels];
+	let letterType = Math.random() > 0.8 ? 1:0;
+
+	let name = "";
+
+	for (let i = 0; i < length; i++){
+		const letters = all[letterType];
+		name += letters.charAt(Math.floor(Math.random() * letters.length));
+		letterType = (letterType + 1)%2;
+	}
+
+	return name.charAt(0).toUpperCase() + name.slice(1);;
+}
+
+
+/**
+ * Delete one patient permanently
+ */
+export function deletePatient(patientId: string)
+: void {
+	wlog(patientId);
+	const patients = getPatientsBodyFactoryParams();
+	delete patients[patientId];
+	const patientDesc = Variable.find(gameModel, 'patients');
+
+	saveToObjectDescriptor(patientDesc, patients);
+}
 
 
 /**
@@ -340,9 +412,6 @@ export function testPatientAge() {
 	const d = getHumanGenerator().ageDistribution;
 	return generateTestPoints(Math.floor(d.min()), Math.ceil(d.max()), 'age');
 }
-
-
-
 
 export function getPatientsHeight() {
 	const min = Math.floor(getHumanGenerator().heightDistributionWomen.min());
