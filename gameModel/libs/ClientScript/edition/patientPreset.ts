@@ -45,12 +45,32 @@ function getPatientPresets(){
 	return parseObjectDescriptor<PatientPreset>(Variable.find(gameModel, patientPresetsVarName));
 }
 
-export function removeAllPatientsFromPresets(){
+export function clearAllPatientsFromPresets(){
 	
 	const presets = getPatientPresets();
 	Object.values(presets).forEach((p) => p.patients = {});
 	const presetsDesc = Variable.find(gameModel, patientPresetsVarName);
 	saveToObjectDescriptor(presetsDesc, presets);
+}
+
+export function removePatientFromPresets(patientId: string): void {
+
+	const presets = getPatientPresets();
+	let changes = false;
+	wlog(presets);
+	Object.values(presets).forEach((p) => 
+	{
+		if(p.patients[patientId]){
+			changes = true;
+			delete p.patients[patientId];
+		}
+	});
+
+	if(changes){
+		const presetsDesc = Variable.find(gameModel, patientPresetsVarName);
+		saveToObjectDescriptor(presetsDesc, presets);
+		wlog(presets);
+	}
 }
 
 export function getPresetsAsChoices(): {label: string, value: string}[]{

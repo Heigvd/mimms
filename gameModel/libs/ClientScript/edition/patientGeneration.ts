@@ -5,8 +5,8 @@ import { BodyFactoryParam, Sex } from '../HUMAn/human';
 import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from '../HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
 import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from '../game/logic/the_world';
-import { getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
-import { removeAllPatientsFromPresets } from './patientPreset';
+import { getCurrentPatientId, getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
+import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
 import { patientGenerationLogger } from '../tools/logger';
 
 
@@ -27,7 +27,7 @@ export function createPatients(n: number, namer: string | ((n: number) => string
 		}
 		while(patients[name]) // collision
 		{
-			name = makeName(5);
+			name = makeRandomName(5);
 		}
 		patients[name] = generateOnePatient(undefined, 1);
 	}
@@ -46,18 +46,41 @@ export function deleteAllPatients(): void {
 
 	patientGenerationLogger.warn('Deleting all patients !!!');
 
+	resetCurrentPatient();
+
 	const patientDesc = Variable.find(gameModel, 'patients');
 	setTestPatients(Object.values({}));
 	saveToObjectDescriptor(patientDesc, {});
 
-	// clean up presets
-	removeAllPatientsFromPresets();
+	// clean up drill presets
+	clearAllPatientsFromPresets();
+	
+}
 
+/**
+ * Delete one patient permanently
+ */
+export function deletePatient(patientId: string)
+: void {
+	const patients = getPatientsBodyFactoryParams();
+	delete patients[patientId];
+	if(getCurrentPatientId() == patientId){
+		// reset current patient
+		resetCurrentPatient();
+	}
+	const patientDesc = Variable.find(gameModel, 'patients');
+	saveToObjectDescriptor(patientDesc, patients);
+
+	// update drill presets
+	removePatientFromPresets(patientId);
+}
+
+
+function resetCurrentPatient(): void {
 	APIMethods.runScript(
 		`Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
 		{},
 	);
-
 }
 
 function makeUid(length: number): string {
@@ -71,7 +94,7 @@ function makeUid(length: number): string {
 	return id;
 }
 
-function makeName(length : number): string {
+function makeRandomName(length : number): string {
 
 	const consonants = "bcdfghjklmnpqrstvwxz";
 	const vowels = "aeiouy";
@@ -89,19 +112,6 @@ function makeName(length : number): string {
 
 	return name.charAt(0).toUpperCase() + name.slice(1);;
 }
-
-
-/**
- * Delete one patient permanently
- */
-export function deletePatient(patientId: string)
-: void {
-	const patients = getPatientsBodyFactoryParams();
-	delete patients[patientId];
-	const patientDesc = Variable.find(gameModel, 'patients');
-	saveToObjectDescriptor(patientDesc, patients);
-}
-
 
 /**
  * Todo: filter pathologies according to current situation

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1665411586237,
+  "createdTime" : 1665467759907,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -472,10 +472,16 @@
       },
       "name" : "patients",
       "properties" : {
-        "Niruk" : "{\"sex\":\"male\",\"age\":63,\"height_cm\":177,\"bmi\":22.27,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "Noboq" : "{\"sex\":\"male\",\"age\":55,\"height_cm\":178,\"bmi\":22.48,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":39.86536847675608}]}}]}",
-        "Nubab" : "{\"sex\":\"male\",\"age\":35,\"height_cm\":184,\"bmi\":27.36,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":11.391697064588643}]}}]}",
-        "Okobo" : "{\"sex\":\"female\",\"age\":33,\"height_cm\":175,\"bmi\":18.03,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.3782303022889276}]}}]}"
+        "Jujyn" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":167,\"bmi\":23.6,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"LEFT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.35460658579464527}]}}]}",
+        "Napan" : "{\"sex\":\"female\",\"age\":24,\"height_cm\":175,\"bmi\":21.7,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_vh\",\"afflictedBlocks\":[\"RIGHT_FOOT\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.43522445525392256}]}}]}",
+        "Riges" : "{\"sex\":\"male\",\"age\":63,\"height_cm\":176,\"bmi\":24.19,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":47.4647921119238}]}}]}",
+        "Tuzit" : "{\"sex\":\"female\",\"age\":33,\"height_cm\":154,\"bmi\":24.31,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_vh\",\"afflictedBlocks\":[\"LEFT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.08282959856602701}]}}]}",
+        "Umeqo" : "{\"sex\":\"female\",\"age\":28,\"height_cm\":161,\"bmi\":24.93,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}}]}",
+        "patient-1" : "{\"sex\":\"female\",\"age\":20,\"height_cm\":166,\"bmi\":22.68,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_ah\",\"afflictedBlocks\":[\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.08773786009030436}]}}]}",
+        "patient-2" : "{\"sex\":\"male\",\"age\":42,\"height_cm\":167,\"bmi\":21.87,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}}]}",
+        "patient-3" : "{\"sex\":\"male\",\"age\":58,\"height_cm\":181,\"bmi\":25.34,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":19.45846270019602}]}}]}",
+        "patient-4" : "{\"sex\":\"male\",\"age\":30,\"height_cm\":183,\"bmi\":24.56,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"lung_r1_5pm\",\"afflictedBlocks\":[\"BRONCHUS_2\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05}]}}]}",
+        "patient-5" : "{\"sex\":\"male\",\"age\":56,\"height_cm\":188,\"bmi\":21.89,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"moderate_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.4973462954110086}]}}]}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "GameModelScope",
@@ -833,9 +839,9 @@
       },
       "name" : "drill_Presets",
       "properties" : {
-        "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"patient-1\":true,\"patient-4\":true,\"patient-5\":true,\"patient-2\":true,\"Akawe\":true}}",
-        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-2\":true,\"patient-3\":true,\"Akawe\":true}}",
-        "6375429148" : "{\"name\":\"New preset\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-4\":true,\"Aqebo\":true}}"
+        "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"Jujyn\":true,\"Napan\":true}}",
+        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}",
+        "6375429148" : "{\"name\":\"New preset\",\"patients\":{\"Riges\":true,\"Tuzit\":true,\"Umeqo\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
