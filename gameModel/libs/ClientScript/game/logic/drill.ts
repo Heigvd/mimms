@@ -3,7 +3,7 @@ import { getSendEventServerScript } from "./EventManager";
 import { compare, pickRandom } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
 import { getCurrentPatientBody, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
-import { getCurrentSimulationTime } from "./TimeManager";
+import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
 import { drillLogger } from "../../tools/logger";
@@ -17,7 +17,7 @@ export function getDrillStatus(): DrillStatus['status'] {
 	return Variable.find(gameModel, 'drillStatus').getProperty(self, 'status') as DrillStatus['status'];
 }
 
-function getSetDrillStatusScript(status: DrillStatus['status']) : string {
+function getSetDrillStatusScript(status: DrillStatus['status']): string {
 	return `Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', '${status}');`;
 }
 
@@ -25,6 +25,39 @@ export function setDrillStatus(status: DrillStatus['status']) {
 	const script = getSetDrillStatusScript(status);
 	APIMethods.runScript(script, {});
 }
+
+
+export function autoTimeManager() {
+	const currentMode = getRunningMode();
+	if (currentMode === 'GLOBAL_PAUSE') {
+		// paused by trainer
+		return;
+	}
+
+	let expected: 'pause' | 'running' = 'pause';
+	const drillStatus = getDrillStatus();
+	if (drillStatus === 'ongoing' || drillStatus === 'completed_review') {
+		expected = 'running';
+	}
+
+	if (expected === 'pause' && currentMode === 'RUNNING') {
+		// pause
+		return APIMethods.runScript("TimeManager.pause()", {});
+	}
+
+	if (expected === 'running' && currentMode != 'RUNNING') {
+		switch (currentMode) {
+			case 'REPLAY':
+			case 'REPLAY_DONE':
+				return APIMethods.runScript("TimeManager.quitReplay();TimeManager.start();", {});
+			case 'TEAM_PAUSE':
+				return APIMethods.runScript("TimeManager.start();", {});
+			case 'IDLE':
+				return APIMethods.runScript('TimeManager.revive();', {});
+		}
+	}
+}
+
 
 export function isCurrentPatientCategorized() {
 	const current = getCurrentPatientBody();
@@ -34,11 +67,11 @@ export function isCurrentPatientCategorized() {
 /**
  * If no preset is currently set, returns all patients
  */
-export function getCurrentPresetSortedPatientIds(): string[]{
+export function getCurrentPresetSortedPatientIds(): string[] {
 	const presetId = Variable.find(gameModel, 'patientSet').getValue(self);
-	if(presetId){
+	if (presetId) {
 		const preset = getPatientPreset(presetId);
-		if(preset){
+		if (preset) {
 			return Object.keys(preset.patients).sort(compare);
 		}
 		drillLogger.warn('preset with id ' + presetId + ' not found');
@@ -112,15 +145,15 @@ export function selectNextPatient() {
 }
 
 export function toSummaryScreen() {
-	APIMethods.runScript( getSetDrillStatusScript('completed_summary') +`Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+	APIMethods.runScript(getSetDrillStatusScript('completed_summary') + `Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 }
 
-export function showPatient(patientId: number){
+export function showPatient(patientId: number) {
 
 	const script = [
 		`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`,
 		getSetDrillStatusScript('completed_review')
 	]
 
-	APIMethods.runScript(script.join('') , {});
+	APIMethods.runScript(script.join(''), {});
 }

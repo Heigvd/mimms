@@ -3,10 +3,11 @@
     "children" : [ {
       "props" : {
         "layoutStyle" : { },
+        "name" : "(do not delete: genuine hack inside)",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTagSystem } from \"./game/logic/triage\";\n`<p></p><h1>Drill pre-triage ${getTagSystem()}</h1><p></p>`",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystem } from \"./game/logic/triage\";\nautoTimeManager();\n`<p></p><h1>Drill pre-triage ${getTagSystem()}</h1><p></p>`",
           "language" : "JavaScript"
         }
       },
@@ -55,6 +56,17 @@
     }, {
       "props" : {
         "children" : [ {
+          "props" : {
+            "className" : "",
+            "id" : "",
+            "initialSelectedPageId" : "21",
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "drill-time-toolbar",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
           "props" : {
             "className" : "",
             "id" : "",

@@ -47,40 +47,6 @@
       "type" : "Modal"
     }, {
       "props" : {
-        "className" : "paused-overlay",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running').getValue(self);",
-          "language" : "JavaScript"
-        },
-        "icon" : "pause",
-        "ifCondition" : {
-          "@class" : "",
-          "content" : "",
-          "language" : ""
-        },
-        "layoutStyle" : {
-          "height" : "100%",
-          "pointerEvents" : "none",
-          "position" : "absolute",
-          "width" : "100%"
-        },
-        "name" : "pause-overlay",
-        "style" : {
-          "color" : "red",
-          "height" : "50%",
-          "left" : "25%",
-          "margin" : "auto",
-          "opacity" : "0.2",
-          "position" : "absolute",
-          "top" : "25%",
-          "width" : "50%",
-          "zIndex" : "999"
-        }
-      },
-      "type" : "Icon"
-    }, {
-      "props" : {
         "initialSelectedPageId" : "21",
         "layoutStyle" : { },
         "name" : "timetoolbar_map",

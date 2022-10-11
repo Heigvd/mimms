@@ -3,10 +3,32 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	margin : 0;
 }
 
-
-
 .fullSize {
 	height: 100%;
 	width: 100%;
 	padding: 0;
+}
+
+.pause-overlay {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background-color: #fffa;
+}
+
+.pause-overlay > svg {
+	position: absolute;
+	width: 50% !important;
+	height: 50%;
+	top: 25%;
+	left: 25%;
+	color: red;
+	margin: auto;
+	opacity: 0.75;
+	z-index: 999;
+}
+
+.pause-overlay > svg > path {
+	stroke: black;
+	stroke-width: 5px;
 }

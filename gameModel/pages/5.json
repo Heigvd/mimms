@@ -75,7 +75,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { registerSetStateAndThrottle } from './game/logic/TimeManager';\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
                               "language" : "typescript"
                             }
                           },
@@ -140,6 +140,26 @@
                         "style" : { }
                       },
                       "type" : "PageLoader"
+                    }, {
+                      "props" : {
+                        "className" : "paused-overlay",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Variable.find(gameModel, 'running').getValue(self);",
+                          "language" : "JavaScript"
+                        },
+                        "icon" : "pause",
+                        "ifCondition" : {
+                          "@class" : "",
+                          "content" : "",
+                          "language" : ""
+                        },
+                        "layoutClassName" : "pause-overlay",
+                        "layoutStyle" : { },
+                        "name" : "",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
                     } ],
                     "className" : "fullSize",
                     "layout" : {
