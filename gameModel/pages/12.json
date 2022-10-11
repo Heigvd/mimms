@@ -30,6 +30,7 @@
                     "language" : "typescript"
                   }
                 },
+                "name" : "start",
                 "style" : { }
               },
               "type" : "Button"
@@ -73,7 +74,13 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                  "language" : "typescript"
+                },
                 "layoutStyle" : { },
+                "name" : "categorized",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
@@ -89,15 +96,49 @@
                     "attachedToId" : "drillPretriPage",
                     "children" : [ {
                       "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                              "language" : "typescript"
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"next patient\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "next",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
                         "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
-                          "language" : "JavaScript"
-                        }
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "FlexList"
                     } ],
                     "hideIf" : {
                       "@class" : "Script",
@@ -118,10 +159,15 @@
                   "type" : "Modal"
                 }, {
                   "props" : {
-                    "icon" : "key",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                      "language" : "typescript"
+                    },
+                    "icon" : "check",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Show explanation</p>\"",
+                      "content" : "\"<p>Validate</p>\"",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
@@ -132,6 +178,7 @@
                         "language" : "typescript"
                       }
                     },
+                    "name" : "validation",
                     "style" : { }
                   },
                   "type" : "Button"
@@ -152,37 +199,13 @@
               "props" : {
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
-                  "language" : "typescript"
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"next patient\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
-                    "language" : "typescript"
-                  }
-                },
-                "name" : "next",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
                   "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
                   "language" : "typescript"
                 },
                 "icon" : "envelope-open-text",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>back to summary<br></p>\"",
+                  "content" : "\"<p>Back to summary<br></p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },

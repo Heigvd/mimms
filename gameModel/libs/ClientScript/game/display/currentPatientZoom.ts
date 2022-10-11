@@ -950,7 +950,5 @@ export function getCurrentPatientAutoTriage() {
 		return `<em>${id} has not been categorized yet</em>`;
 	}
 
-	const html = resultToHtml(human.category.autoTriage);
-
-	return `Result: ${html}`;
+	return resultToHtml(human.category.autoTriage);
 }

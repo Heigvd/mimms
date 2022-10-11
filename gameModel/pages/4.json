@@ -26,6 +26,60 @@
       "type" : "Boolean"
     }, {
       "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+          "language" : "JavaScript"
+        },
+        "icon" : "play",
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "TimeManager.globalStart();",
+            "language" : "JavaScript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "JavaScript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "start",
+        "onVariableChange" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
+          "language" : "JavaScript"
+        },
+        "icon" : "pause",
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "TimeManager.globalPause();",
+            "language" : "JavaScript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "JavaScript"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "pause",
+        "onVariableChange" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
         "choices" : {
           "@class" : "Script",
           "content" : "import { getPresetsAsChoices } from \"./edition/patientPreset\";\ngetPresetsAsChoices();",
@@ -312,58 +366,6 @@
         "type" : "toggler"
       },
       "type" : "Boolean"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
-          "language" : "JavaScript"
-        },
-        "icon" : "pause",
-        "impactVariable" : {
-          "impact" : {
-            "@class" : "Script",
-            "content" : "TimeManager.globalPause();",
-            "language" : "JavaScript"
-          }
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"\"",
-          "language" : "JavaScript"
-        },
-        "layoutClassName" : "",
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
-          "language" : "JavaScript"
-        },
-        "icon" : "play",
-        "impactVariable" : {
-          "impact" : {
-            "@class" : "Script",
-            "content" : "TimeManager.globalStart();",
-            "language" : "JavaScript"
-          }
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"\"",
-          "language" : "JavaScript"
-        },
-        "layout" : { },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "style" : { }
-      },
-      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"
