@@ -145,8 +145,8 @@
                         "className" : "paused-overlay",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "Variable.find(gameModel, 'running').getValue(self);",
-                          "language" : "JavaScript"
+                          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+                          "language" : "typescript"
                         },
                         "icon" : "pause",
                         "ifCondition" : {
@@ -154,7 +154,7 @@
                           "content" : "",
                           "language" : ""
                         },
-                        "layoutClassName" : "pause-overlay",
+                        "layoutClassName" : "global-pause-overlay",
                         "layoutStyle" : { },
                         "name" : "",
                         "style" : { }

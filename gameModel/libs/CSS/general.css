@@ -9,14 +9,14 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	padding: 0;
 }
 
-.pause-overlay {
+.global-pause-overlay {
 	height: 100%;
 	width: 100%;
 	position: absolute;
 	background-color: #fffa;
 }
 
-.pause-overlay > svg {
+.global-pause-overlay > svg {
 	position: absolute;
 	width: 50% !important;
 	height: 50%;
@@ -28,7 +28,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	z-index: 999;
 }
 
-.pause-overlay > svg > path {
+.global-pause-overlay > svg > path {
 	stroke: black;
 	stroke-width: 5px;
 }
