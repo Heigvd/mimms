@@ -151,7 +151,7 @@
         "id" : "29",
         "name" : "patientPresets",
         "scenaristPage" : true,
-        "trainerPage" : null
+        "trainerPage" : true
       } ],
       "name" : "Scenarist"
     }, {

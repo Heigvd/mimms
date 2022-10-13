@@ -117,7 +117,12 @@ type MeasureLog = BaseLog & {
 	metrics: { metric: BodyStateKeys; value: unknown }[];
 };
 
-export type ConsoleLog = MessageLog | MeasureLog;
+type TreatmentLog = BaseLog & {
+	type: 'TreatmentLog';
+	message: string,
+}
+
+export type ConsoleLog = MessageLog | MeasureLog | TreatmentLog;
 
 export interface Categorization {
 	system: SystemName;
@@ -200,7 +205,7 @@ interface HumanLogMessageEvent extends TargetedEvent {
 }
 
 export type ActionSource =
-	| {
+	{
 			type: 'act';
 			actId: string;
 	}
@@ -835,7 +840,7 @@ function computeHumanState(state: HumanState, to: number, env: Environnment) {
 	return newState;
 }
 
-function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
+function processTeleportEvent(event: FullEvent<TeleportEvent>) {
 	// TODO: is object an obstacle ?
 	const objId = { objectType: event.payload.targetType, objectId: event.payload.targetId };
 	const oKey = getObjectKey(objId);
@@ -887,7 +892,6 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>): boolean {
 		snapshot.state.lineOfSight = undefined;
 	});
 
-	return false;
 }
 
 function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
@@ -951,48 +955,19 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 function updateHumanSnapshots(humanId: string, time: number) {
 	// Update HUMAn body states
 	const objId = { objectType: 'Human', objectId: humanId };
-	const oKey = getObjectKey(objId);
+	//const oKey = getObjectKey(objId);
 
 	const env = getEnv();
-    const mostRecents = getMostRecentSnapshot(
-		humanSnapshots,
-		objId,
-		time,
-		//{ strictTime: true },
-	);
-    let { mostRecent } = mostRecents;
-    const { mostRecentIndex, futures} = mostRecents;
 
-	let currentSnapshot: { time: number; state: HumanState };
-
-	if (mostRecent == null) {
-		mostRecent = {
-			time: 0,
-			state: initHuman(objId.objectId),
-		};
-		humanSnapshots[oKey]!.unshift(mostRecent);
-	}
-	worldLogger.log('Update human snapshot', oKey, { mostRecent, futures });
-	if (mostRecent.time < time) {
-		// catch-up human state
-		currentSnapshot = {
-			time: time,
-			state: computeHumanState(mostRecent.state, time, env),
-		};
-		// register new snapshot
-		worldLogger.log('Update human snapshot at time ', time);
-		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
-	} else {
-		// update mostRecent snapshot in place
-		currentSnapshot = mostRecent;
-	}
+	let {snapshot, futures} = getHumanSnapshotAtTime(objId, time);
+	
 	// Update futures
-	futures.forEach(snapshot => {
-		worldLogger.log('Update future human snapshot at time ', snapshot.time);
-		const state = Helpers.cloneDeep(currentSnapshot.state);
-		snapshot.state = computeHumanState(state, snapshot.time, env);
+	futures.forEach(sshot => {
+		worldLogger.log('Update future human snapshot at time ', sshot.time);
+		const state = Helpers.cloneDeep(snapshot.state);
+		sshot.state = computeHumanState(state, sshot.time, env);
 
-		currentSnapshot = snapshot;
+		snapshot = sshot;
 	});
 }
 
@@ -1078,43 +1053,9 @@ function doMeasure(
 		objectType: event.targetType,
 		objectId: event.targetId,
 	};
-	const oKey = getObjectKey(objId);
 
-	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(
-		humanSnapshots,
-		objId,
-		fEvent.time,
-	);
-    
-	let { mostRecent } = mostRecents;
-	const { mostRecentIndex, futures } = mostRecents;
-
-	let currentSnapshot: { time: number; state: HumanState };
-
-	if (mostRecent == null) {
-		mostRecent = {
-			time: 0,
-			state: initHuman(objId.objectId),
-		};
-		humanSnapshots[oKey]!.unshift(mostRecent);
-	}
-
-	if (mostRecent.time < time) {
-		// catch-up human state
-		const env = getEnv();
-		currentSnapshot = {
-			time: time,
-			state: computeHumanState(mostRecent.state, time, env),
-		};
-		// register new snapshot
-		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
-	} else {
-		// update mostRecent snapshot in place
-		currentSnapshot = mostRecent;
-	}
-
-	const body = currentSnapshot.state.bodyState;
+	const {snapshot, futures} = getHumanSnapshotAtTime(objId, fEvent.time);
+	const body = snapshot.state.bodyState;
 
 	const values: MeasureLog['metrics'] = metrics.map(metric => {
 		return {
@@ -1129,7 +1070,7 @@ function doMeasure(
 		emitterCharacterId: event.emitterCharacterId,
 		metrics: values,
 	};
-	currentSnapshot.state.console.push(logEntry);
+	snapshot.state.console.push(logEntry);
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
@@ -1329,14 +1270,27 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 }
 
 function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
+
+	let {snapshot, futures} = getHumanSnapshotAtTime(objId, time)
+	snapshot.state.console.push(logEntry);
+
+	futures.forEach(sshot => {
+		sshot.state.console.push({ ...logEntry });
+		sshot.state.console.sort((a, b) => a.time - b.time);
+	});
+}
+
+function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?: FullEvent<EventPayload>): 
+	{ snapshot: Snapshot<HumanState>, futures : Snapshot<HumanState>[]}
+{
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time);
+    const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time, {before : lastEventBefore});
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
-	let currentSnapshot: { time: number; state: HumanState };
+	let snapshot: Snapshot<HumanState> ;
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1349,23 +1303,17 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	if (mostRecent.time < time) {
 		// catch-up human state
 		const env = getEnv();
-		currentSnapshot = {
+		snapshot = {
 			time: time,
 			state: computeHumanState(mostRecent.state, time, env),
 		};
 		// register new snapshot
-		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
+		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, snapshot);
 	} else {
 		// update mostRecent snapshot in place
-		currentSnapshot = mostRecent;
+		snapshot = mostRecent;
 	}
-
-	currentSnapshot.state.console.push(logEntry);
-
-	futures.forEach(snapshot => {
-		snapshot.state.console.push({ ...logEntry });
-		snapshot.state.console.sort((a, b) => a.time - b.time);
-	});
+	return {snapshot, futures};
 }
 
 /**
@@ -1406,48 +1354,16 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 }
 
 function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
-	const time = event.time;
+	//const time = event.time;
 	const objId = {
 		objectType: event.payload.targetType,
 		objectId: event.payload.targetId,
 	};
-	const oKey = getObjectKey(objId);
+	//const oKey = getObjectKey(objId);
 
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
-	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(
-		humanSnapshots,
-		objId,
-		event.time,
-		{ before: next },
-	);
-	let { mostRecent } = mostRecents;
-	const { mostRecentIndex, futures } = mostRecents;
-
-	let currentSnapshot: { time: number; state: HumanState };
-
-	if (mostRecent == null) {
-		mostRecent = {
-			time: 0,
-			state: initHuman(objId.objectId),
-		};
-		humanSnapshots[oKey]!.unshift(mostRecent);
-	}
-
-	if (mostRecent.time < time) {
-		// catch-up human state
-		const env = getEnv();
-		currentSnapshot = {
-			time: time,
-			state: computeHumanState(mostRecent.state, time, env),
-		};
-		// register new snapshot
-		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
-	} else {
-		// update mostRecent snapshot in place
-		currentSnapshot = mostRecent;
-	}
+	const {snapshot, futures} = getHumanSnapshotAtTime(objId, event.time, next);
 
 	const category: Categorization = {
 		category: event.payload.category,
@@ -1455,10 +1371,10 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		autoTriage: event.payload.autoTriage,
 		severity: event.payload.severity,
 	};
-	currentSnapshot.state.category = category;
+	snapshot.state.category = category;
 
-	futures.forEach(snapshot => {
-		snapshot.state.category = { ...category };
+	futures.forEach(sshot => {
+		sshot.state.category = { ...category };
 	});
 }
 
@@ -1483,6 +1399,39 @@ function doTreatment(
 		healths[event.payload.targetId] = health;
 		updateHumanSnapshots(event.payload.targetId, time);
 	}
+
+	const evt = event.payload;
+	const objId = {
+		objectType: evt.targetType,
+		objectId: evt.targetId,
+	};
+
+	const {snapshot, futures} = getHumanSnapshotAtTime(objId, event.time);
+
+	// TODO translation
+	let message = 'Traitement: ';
+	const src = event.payload.source;
+	if(src.type === 'act'){
+		const act = getAct(src.actId);
+		message += act?.name;
+	}else if(event.payload.source.type === 'itemAction'){
+		const item = getItem(src.itemId);
+		const action = item?.actions[src.actionId];
+		message += action?.name + ' ' + item?.name;
+
+	}
+
+	const entry : TreatmentLog = {
+		time : event.time,
+		message : message,
+		emitterCharacterId : event.payload.emitterCharacterId,
+		type : 'TreatmentLog'
+	}
+
+	snapshot.state.console.push(entry);
+	futures.forEach(f => {
+		f.state.console.push(entry);
+	})
 }
 
 function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
@@ -1566,14 +1515,9 @@ function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEve
 		distanceSquared = lengthSquared(vec);
 	}
 
-	//worldLogger.debug('Computed distance : ' + Math.sqrt(distanceSquared));
 	if (distanceSquared < sqRadius) {
 		processDirectMessageEvent(event, event.payload.sender);
-	} else {
-		// worldLogger.warn(
-		// 	`Ignoring direct comm event(${event.id}), too far : ${Math.sqrt(distanceSquared)}`,
-		// );
-	}
+	} 
 }
 
 function updateInventory(inventory: Inventory, from: Inventory) {

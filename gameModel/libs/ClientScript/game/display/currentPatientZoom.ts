@@ -799,6 +799,8 @@ function formatLog(log: ConsoleLog): string {
 			return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
 		});
 		return `<div class='log_container'>${time} <div class='msr_list'>${lines.join("")}</div></div>`;
+	} else if(log.type === 'TreatmentLog'){
+		return `<div class='log_container'>${time} <div class='msr_list'>${log.message}</div></div>`;
 	}
 	return `<div class='log_container'>${time}: UNKWOWN LOG TYPE: ${(log as any).type}</div>`;
 }
