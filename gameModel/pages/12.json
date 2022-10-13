@@ -110,39 +110,40 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-            }, {
-              "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
-                  "language" : "typescript"
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"next patient\"",
-                  "language" : "JavaScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
-                    "language" : "typescript"
-                  }
-                },
-                "name" : "next",
-                "style" : { }
-              },
-              "type" : "Button"
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                              "language" : "typescript"
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"next patient\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown>"
+                              }
+                            },
+                            "name" : "next",
+                            "style" : { }
+                          },
+                          "type" : "Button"
                         } ],
                         "layout" : {
                           "flexDirection" : "column"
@@ -223,9 +224,10 @@
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
-                    "@class" : "Script",
+                    "@class" : "ClientScript",
                     "content" : "import { toSummaryScreen } from \"./game/logic/drill\";\n\ntoSummaryScreen()",
-                    "language" : "typescript"
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown>"
                   }
                 },
                 "name" : "to summary",

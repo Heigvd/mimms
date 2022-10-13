@@ -151,7 +151,7 @@ var TimeManager = ((function () {
 			var currentInSim = computeEffectiveSimulationTime(thePlayer);
 			var currentEpoch = new Date().getTime();
 			Variable.find(gameModel, 'epoch_ref').setValue(thePlayer, currentEpoch);
-			Variable.find(gameModel, "keepalive").setValue(thePlayer, currentInSim);
+			//Variable.find(gameModel, "keepalive").setValue(thePlayer, currentInSim);
 			Variable.find(gameModel, 'inSim_ref').setValue(thePlayer, currentInSim);
 		},
 		/**
@@ -176,15 +176,19 @@ var TimeManager = ((function () {
 		 *   - "1d" menas 1 day
 		 * 
 		 */
-		fastForward: function (value) {
-			//if (TimeManager.isRunning()) {
-			//	throw "Please Pause the Game";
-			//} else {
+		fastForward: function (value, player) {
+			var thePlayer = player || self;
+			var isInReplay = Variable.find(gameModel, 'replay').getValue(thePlayer);
+			if(isInReplay){
+				print("Cannot fast forward while in replay mode");
+				return;
+			}
 			var parse = /^(\d+)([smhd])?$/;
 			var parsed = parse.exec(value);
 			if (parsed) {
 				if (parsed.length > 1) {
 					var number = +parsed[1];
+					print(number)
 					var unit = parsed[2];
 					switch (unit) {
 						case 'd':
@@ -199,6 +203,8 @@ var TimeManager = ((function () {
 						default:
 						//number = number
 					}
+
+					print(number)
 
 					if (number > 0) {
 						Variable.find(gameModel, 'inSim_ref').add(thePlayer, number);

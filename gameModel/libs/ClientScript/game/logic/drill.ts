@@ -26,8 +26,22 @@ export function setDrillStatus(status: DrillStatus['status']) {
 	APIMethods.runScript(script, {});
 }
 
+let timeManagerRequestOngoing = false;
+
+async function sendRequest(request: string): Promise<unknown>
+{
+	if(timeManagerRequestOngoing){
+		return;
+	}
+
+	timeManagerRequestOngoing = true;
+	await APIMethods.runScript(request, {});
+	timeManagerRequestOngoing = false;
+	return;
+}
 
 export function autoTimeManager() {
+
 	const currentMode = getRunningMode();
 	if (currentMode === 'GLOBAL_PAUSE') {
 		// paused by trainer
@@ -42,21 +56,22 @@ export function autoTimeManager() {
 
 	if (expected === 'pause' && currentMode === 'RUNNING') {
 		// pause
-		return APIMethods.runScript("TimeManager.pause()", {});
+		return sendRequest("TimeManager.pause()");
 	}
 
 	if (expected === 'running' && currentMode != 'RUNNING') {
 		switch (currentMode) {
 			case 'REPLAY':
 			case 'REPLAY_DONE':
-				return APIMethods.runScript("TimeManager.quitReplay();TimeManager.start();", {});
+				return sendRequest("TimeManager.quitReplay();TimeManager.start();");
 			case 'TEAM_PAUSE':
-				return APIMethods.runScript("TimeManager.start();", {});
+				return sendRequest("TimeManager.start();");
 			case 'IDLE':
-				return APIMethods.runScript('TimeManager.revive();', {});
+				return sendRequest('TimeManager.revive();');
 		}
 	}
 }
+
 
 
 export function isCurrentPatientCategorized() {
@@ -111,6 +126,7 @@ export function selectNextPatient() {
 
 				const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
+				// TODO needed ?
 				const teleport: TeleportEvent = {
 					...emitter,
 					type: 'Teleport',
@@ -134,7 +150,11 @@ export function selectNextPatient() {
 
 				toPost.push(`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`);
 
+				// move time forward
 				//toPost.push(`TimeManager.fastForward('${times.max - currentTime}s');`);
+				// TODO parametrized ??
+				// TODO test
+				toPost.push(`TimeManager.fastForward('1h');`);
 
 				APIMethods.runScript(toPost.join(""), {});
 			}

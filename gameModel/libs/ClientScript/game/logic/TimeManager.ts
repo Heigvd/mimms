@@ -3,9 +3,9 @@ import { syncWorld } from "./the_world";
 const timeLogger = Helpers.getLogger("TimeManager");
 
 
-const KEEPALIVE_TICK_S = 10; // 10 sec
+const KEEPALIVE_TICK_S = 30; // 10 sec
 
-const KEEPALIVE_DELAY_S = 30; // 30 sec
+const KEEPALIVE_DELAY_S = 60; // 30 sec
 
 let delta_epoch: number | undefined = undefined;
 let currentTime_s = 0;
@@ -193,7 +193,7 @@ export function isRunning(): boolean {
 }
 
 
-// timeLogger.setLevel('INFO');
+ timeLogger.setLevel('INFO');
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	setWorldTimeState = setTime;
 	if (isRunning()) {
