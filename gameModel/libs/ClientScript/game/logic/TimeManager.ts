@@ -193,7 +193,7 @@ export function isRunning(): boolean {
 }
 
 
- timeLogger.setLevel('INFO');
+// timeLogger.setLevel('INFO');
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	setWorldTimeState = setTime;
 	if (isRunning()) {

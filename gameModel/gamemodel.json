@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1665669557045,
+  "createdTime" : 1665677211004,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1407,7 +1407,15 @@
           "trValue" : {
             "@class" : "TranslatableContent",
             "refId" : "TranslatableContent:24056512:YqArEC",
-            "translations" : { }
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:24056512:YqArEC::EN",
+                "status" : "",
+                "translation" : "banane_pre"
+              }
+            }
           }
         },
         "editorTag" : "bagType",
@@ -2990,7 +2998,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn (2)",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

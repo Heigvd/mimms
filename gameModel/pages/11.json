@@ -63,28 +63,28 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "confirm" : true,
-                        "icon" : "user-ninja",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Leave map<br></p>\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('')",
-                            "language" : "typescript"
-                          }
-                        },
-                        "name" : "leave map",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
                         "children" : [ {
+                          "props" : {
+                            "confirm" : true,
+                            "icon" : "user-ninja",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Leave map<br></p>\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('')",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "leave map",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
@@ -94,741 +94,661 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "label" : {
-                                              "@class" : "Script",
-                                              "content" : "\"1e vague\"",
-                                              "language" : "JavaScript"
-                                            },
-                                            "layoutStyle" : { },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "Script",
-                                                "content" : "import {premiereVague} from './game/logic/scenario';\n\npremiereVague();",
-                                                "language" : "typescript"
-                                              }
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "Button"
-                                        } ],
-                                        "layout" : { },
-                                        "layoutStyle" : { },
-                                        "name" : "Debug panel",
-                                        "style" : { }
-                                      },
-                                      "type" : "FlexList"
-                                    }, {
-                                      "props" : {
-                                        "OSMLayer" : false,
-                                        "children" : [ {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : { },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "return(`maps/${Context.mapId.mapId}/water.geojson`)",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:4326",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getWaterStyle } from './map/layerStyling';\ngetWaterStyle(feature, resolution);"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "water",
-                                            "onLayerReady" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : { },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "return(`maps/${Context.mapId.mapId}/rails.geojson`)",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:4326",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getRailwayStyle } from './map/layerStyling';\ngetRailwayStyle(resolution);"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "rails",
-                                            "onLayerReady" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Train, false, 'Recursive', 64);\nreturn;"
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : {
-                                              "zIndex" : 10
-                                            },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "return(`maps/${Context.mapId.mapId}/roads.geojson`)",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:4326",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getRoadStyle } from './map/layerStyling';\ngetRoadStyle(feature, resolution);"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "roads",
-                                            "onLayerReady" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "layer", "map" ],
-                                              "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Road, true, 'Recursive', 64, true);\nreturn;"
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : {
-                                              "zIndex" : 15
-                                            },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getHumanLayer } from './map/mapLayers';\ngetHumanLayer();",
-                                                "language" : "typescript"
-                                              },
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "image" : {
-                                                "fill" : {
-                                                  "color" : "blue",
-                                                  "type" : "FillStyle"
-                                                },
-                                                "radius" : 3,
-                                                "stroke" : {
-                                                  "color" : "black",
-                                                  "lineCap" : "round",
-                                                  "lineJoin" : "round",
-                                                  "miterLimit" : 10,
-                                                  "type" : "StrokeStyle",
-                                                  "width" : 1
-                                                },
-                                                "type" : "CircleStyle"
-                                              },
-                                              "zIndex" : 5
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "humans",
-                                            "onLayerReady" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "layer" ],
-                                              "content" : "return;"
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
                                             "children" : [ {
+                                              "props" : {
+                                                "label" : {
+                                                  "@class" : "Script",
+                                                  "content" : "\"1e vague\"",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import {premiereVague} from './game/logic/scenario';\n\npremiereVague();",
+                                                    "language" : "typescript"
+                                                  }
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "Button"
+                                            } ],
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "Debug panel",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "OSMLayer" : false,
+                                            "children" : [ {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : { },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "return(`maps/${Context.mapId.mapId}/water.geojson`)",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:4326",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "import { getWaterStyle } from './map/layerStyling';\ngetWaterStyle(feature, resolution);"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "water",
+                                                "onLayerReady" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "layer", "map" ],
+                                                  "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Water, false, 'Recursive',8);\nreturn;"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : { },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "return(`maps/${Context.mapId.mapId}/rails.geojson`)",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:4326",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "import { getRailwayStyle } from './map/layerStyling';\ngetRailwayStyle(resolution);"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "rails",
+                                                "onLayerReady" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "layer", "map" ],
+                                                  "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Train, false, 'Recursive', 64);\nreturn;"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : {
+                                                  "zIndex" : 10
+                                                },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "return(`maps/${Context.mapId.mapId}/roads.geojson`)",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:4326",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "import { getRoadStyle } from './map/layerStyling';\ngetRoadStyle(feature, resolution);"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "roads",
+                                                "onLayerReady" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "layer", "map" ],
+                                                  "content" : "import { ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Road, true, 'Recursive', 64, true);\nreturn;"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : {
+                                                  "zIndex" : 15
+                                                },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getHumanLayer } from './map/mapLayers';\ngetHumanLayer();",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "image" : {
+                                                    "fill" : {
+                                                      "color" : "blue",
+                                                      "type" : "FillStyle"
+                                                    },
+                                                    "radius" : 3,
+                                                    "stroke" : {
+                                                      "color" : "black",
+                                                      "lineCap" : "round",
+                                                      "lineJoin" : "round",
+                                                      "miterLimit" : 10,
+                                                      "type" : "StrokeStyle",
+                                                      "width" : 1
+                                                    },
+                                                    "type" : "CircleStyle"
+                                                  },
+                                                  "zIndex" : 5
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "humans",
+                                                "onLayerReady" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "layer" ],
+                                                  "content" : "return;"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "layoutStyle" : { },
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { getVisualOverviewForHumanId } from './game/display/graphics';\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
-                                                      "language" : "JavaScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
-                                                }, {
-                                                  "props" : {
-                                                    "icon" : "stethoscope",
-                                                    "impactVariable" : {
-                                                      "impact" : {
-                                                        "@class" : "Script",
-                                                        "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
-                                                        "language" : "JavaScript"
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getVisualOverviewForHumanId } from './game/display/graphics';\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
+                                                          "language" : "JavaScript"
+                                                        }
                                                       },
-                                                      "priority" : 2
-                                                    },
-                                                    "label" : {
-                                                      "@class" : "Script",
-                                                      "content" : "\"&nbsp;\"",
-                                                      "language" : "JavaScript"
-                                                    },
-                                                    "layoutClassName" : "stethoscope",
-                                                    "layoutStyle" : { },
-                                                    "localScriptEval" : {
-                                                      "priority" : 1,
-                                                      "script" : {
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "icon" : "stethoscope",
+                                                        "impactVariable" : {
+                                                          "impact" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, Context.human.id);\nVariable.find(gameModel, 'showPatientModal').setValue(self, true);",
+                                                            "language" : "JavaScript"
+                                                          },
+                                                          "priority" : 2
+                                                        },
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"&nbsp;\"",
+                                                          "language" : "JavaScript"
+                                                        },
+                                                        "layoutClassName" : "stethoscope",
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "priority" : 1,
+                                                          "script" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { goToHuman } from './game/logic/the_world';\n\ngoToHuman(Context.human.id);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        },
+                                                        "stopPropagation" : true,
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "className" : "humanOverlay",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "me",
+                                                      "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { goToHuman } from './game/logic/the_world';\n\ngoToHuman(Context.human.id);",
-                                                        "language" : "typescript"
+                                                        "content" : "import { whoAmI } from './tools/WegasHelper';\nContext.human.id === whoAmI();",
+                                                        "language" : "JavaScript"
                                                       }
-                                                    },
-                                                    "stopPropagation" : true,
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "not-me",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { whoAmI } from './tools/WegasHelper';\nContext.human.id !== whoAmI();",
+                                                        "language" : "JavaScript"
+                                                      }
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
                                                     "style" : { }
                                                   },
-                                                  "type" : "Button"
+                                                  "type" : "FlexList"
                                                 } ],
-                                                "className" : "humanOverlay",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "me",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { whoAmI } from './tools/WegasHelper';\nContext.human.id === whoAmI();",
-                                                    "language" : "JavaScript"
-                                                  }
-                                                }, {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "not-me",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { whoAmI } from './tools/WegasHelper';\nContext.human.id !== whoAmI();",
-                                                    "language" : "JavaScript"
-                                                  }
-                                                } ],
-                                                "layout" : { },
+                                                "exposedValueKeys" : {
+                                                  "exposePayloadAs" : "human",
+                                                  "exposeResolutionAs" : "resolution"
+                                                },
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getHumanOverlays } from './map/mapLayers';\ngetHumanOverlays();",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "itemKey" : "id",
                                                 "layoutStyle" : { },
+                                                "name" : "Human Picto",
                                                 "style" : { }
                                               },
-                                              "type" : "FlexList"
+                                              "type" : "WegasMapOverlays"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : {
+                                                  "zIndex" : 100
+                                                },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getBubbleLayer } from './map/mapLayers';\ngetBubbleLayer();",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "bubbles",
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : { },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/${Context.mapId.mapId}/buildings.geojson`)",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:4326",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "fill" : {
+                                                    "color" : "grey",
+                                                    "type" : "FillStyle"
+                                                  }
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "buildings",
+                                                "onLayerReady" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "layer", "map" ],
+                                                  "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : { },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getFogOfWarLayer } from './map/mapLayers';\ngetFogOfWarLayer(Context.mapId.mapId);",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:2056",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : false
+                                                },
+                                                "layerStyle" : {
+                                                  "fill" : {
+                                                    "color" : "#8f96a3aa",
+                                                    "type" : "FillStyle"
+                                                  },
+                                                  "zIndex" : 1
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "fogOfWar",
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "true;",
+                                                  "language" : "JavaScript"
+                                                },
+                                                "layerId" : "",
+                                                "layerProps" : {
+                                                  "zIndex" : 1000
+                                                },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getDebugBuildingLayer } from './map/mapLayers';\ngetDebugBuildingLayer()",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:2056",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "[DEBUG] Visible buildings",
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : {
+                                                  "zIndex" : 10000
+                                                },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getGridDebug } from './map/mapLayers';\ngetGridDebug();",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:2056",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "import { getCellStyle } from './map/mapLayers';\ngetCellStyle(feature);"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "[DEBUG] Obstacle grid",
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
+                                            }, {
+                                              "props" : {
+                                                "layerId" : "",
+                                                "layerProps" : { },
+                                                "layerSource" : {
+                                                  "dataType" : "GeoJSON",
+                                                  "source" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getPathLayer } from './map/mapLayers';\ngetPathLayer();",
+                                                    "language" : "typescript"
+                                                  },
+                                                  "sourceProjection" : "EPSG:2056",
+                                                  "type" : "VectorLayer",
+                                                  "useSpatialIndex" : true
+                                                },
+                                                "layerStyle" : {
+                                                  "@class" : "ScriptCallback",
+                                                  "args" : [ "feature", "resolution" ],
+                                                  "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n\twidth: 2\n}})"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "[DEBUG] Character Paths",
+                                                "style" : { }
+                                              },
+                                              "type" : "WegasMapVectorLayer"
                                             } ],
-                                            "exposedValueKeys" : {
-                                              "exposePayloadAs" : "human",
-                                              "exposeResolutionAs" : "resolution"
+                                            "debug" : true,
+                                            "id" : "",
+                                            "layoutStyle" : {
+                                              "backgroundColor" : "rgb(255,255,255)",
+                                              "flexGrow" : "1",
+                                              "height" : "500px",
+                                              "width" : "100%"
                                             },
-                                            "getItemsFn" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getHumanOverlays } from './map/mapLayers';\ngetHumanOverlays();",
-                                              "language" : "TypeScript"
-                                            },
-                                            "itemKey" : "id",
-                                            "layoutStyle" : { },
-                                            "name" : "Human Picto",
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapOverlays"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : {
-                                              "zIndex" : 100
-                                            },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getBubbleLayer } from './map/mapLayers';\ngetBubbleLayer();",
-                                                "language" : "typescript"
-                                              },
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "({\n\t\"text\": {\n\t\t\"type\": \"TextStyle\",\n\t\t//\"fill\": { \"type\": \"FillStyle\" },\n\t\t//\"stroke\": { \"type\": \"StrokeStyle\", \"lineCap\": \"round\", \"lineJoin\": \"round\", \"miterLimit\": 1 },\n\t\t\"text\": feature.get(\"text\"), \n\t\t\"textAlign\": \"start\", \n\t\t\"placement\": \"point\", \n\t\t\"textBaseline\": \"bottom\"\n\t}\n})"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "bubbles",
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : { },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/${Context.mapId.mapId}/buildings.geojson`)",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:4326",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "fill" : {
-                                                "color" : "grey",
-                                                "type" : "FillStyle"
+                                            "mapOptions" : {
+                                              "onClick" : {
+                                                "@class" : "ScriptCallback",
+                                                "args" : [ "coord", "features" ],
+                                                "content" : "import { handleClickOnMap } from './game/logic/the_world';\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
                                               }
                                             },
-                                            "layoutStyle" : { },
-                                            "name" : "buildings",
-                                            "onLayerReady" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "layer", "map" ],
-                                              "content" : "import { buildingLayer, ObstacleType, updateObstacleMatrixWithLayer } from './map/layersData';\nupdateObstacleMatrixWithLayer(layer, map, Context.mapId.mapId, ObstacleType.Building, false, 'Recursive', 32);\nbuildingLayer.current = layer;\nreturn;"
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : { },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
+                                            "style" : { },
+                                            "viewOptions" : {
+                                              "center" : [ 2539119, 1181103 ],
+                                              "extent" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getFogOfWarLayer } from './map/mapLayers';\ngetFogOfWarLayer(Context.mapId.mapId);",
+                                                "content" : "//wlog(Context.mapExtentState.state);\nContext.mapExtentState.state.extent;",
                                                 "language" : "typescript"
                                               },
-                                              "sourceProjection" : "EPSG:2056",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : false
-                                            },
-                                            "layerStyle" : {
-                                              "fill" : {
-                                                "color" : "#8f96a3aa",
-                                                "type" : "FillStyle"
-                                              },
-                                              "zIndex" : 1
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "fogOfWar",
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "true;",
-                                              "language" : "JavaScript"
-                                            },
-                                            "layerId" : "",
-                                            "layerProps" : {
-                                              "zIndex" : 1000
-                                            },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
+                                              "projection" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getDebugBuildingLayer } from './map/mapLayers';\ngetDebugBuildingLayer()",
+                                                "content" : "import { swissDefaultProjection } from './map/layersData';\nswissDefaultProjection;",
                                                 "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:2056",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "const timeColor = (Context.worldTime.state.time ?? 0)*10 % 256;\n({\"fill\":{\"color\":\"rgb(\"+timeColor+\",100,0)\",\"type\":\"FillStyle\"}})"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "[DEBUG] Visible buildings",
-                                            "style" : { }
+                                              }
+                                            }
                                           },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : {
-                                              "zIndex" : 10000
-                                            },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getGridDebug } from './map/mapLayers';\ngetGridDebug();",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:2056",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "import { getCellStyle } from './map/mapLayers';\ngetCellStyle(feature);"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "[DEBUG] Obstacle grid",
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
-                                        }, {
-                                          "props" : {
-                                            "layerId" : "",
-                                            "layerProps" : { },
-                                            "layerSource" : {
-                                              "dataType" : "GeoJSON",
-                                              "source" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getPathLayer } from './map/mapLayers';\ngetPathLayer();",
-                                                "language" : "typescript"
-                                              },
-                                              "sourceProjection" : "EPSG:2056",
-                                              "type" : "VectorLayer",
-                                              "useSpatialIndex" : true
-                                            },
-                                            "layerStyle" : {
-                                              "@class" : "ScriptCallback",
-                                              "args" : [ "feature", "resolution" ],
-                                              "content" : "({stroke:{\n\ttype:\"StrokeStyle\",\n\tcolor:feature.get(\"color\"),\n\twidth: 2\n}})"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "[DEBUG] Character Paths",
-                                            "style" : { }
-                                          },
-                                          "type" : "WegasMapVectorLayer"
+                                          "type" : "WegasMap"
                                         } ],
-                                        "debug" : true,
-                                        "id" : "",
+                                        "className" : "ICI",
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
                                         "layoutStyle" : {
-                                          "backgroundColor" : "rgb(255,255,255)",
-                                          "flexGrow" : "1",
-                                          "height" : "500px",
+                                          "overflow" : "auto",
                                           "width" : "100%"
                                         },
-                                        "mapOptions" : {
-                                          "onClick" : {
-                                            "@class" : "ScriptCallback",
-                                            "args" : [ "coord", "features" ],
-                                            "content" : "import { handleClickOnMap } from './game/logic/the_world';\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
-                                          }
-                                        },
-                                        "style" : { },
-                                        "viewOptions" : {
-                                          "center" : [ 2539119, 1181103 ],
-                                          "extent" : {
-                                            "@class" : "Script",
-                                            "content" : "//wlog(Context.mapExtentState.state);\nContext.mapExtentState.state.extent;",
-                                            "language" : "typescript"
-                                          },
-                                          "projection" : {
-                                            "@class" : "Script",
-                                            "content" : "import { swissDefaultProjection } from './map/layersData';\nswissDefaultProjection;",
-                                            "language" : "typescript"
-                                          }
-                                        }
+                                        "style" : { }
                                       },
-                                      "type" : "WegasMap"
-                                    } ],
-                                    "layout" : {
-                                      "flexDirection" : "column"
-                                    },
-                                    "layoutStyle" : {
-                                      "overflow" : "auto",
-                                      "width" : "100%"
-                                    },
-                                    "style" : { }
+                                      "type" : "FlexList"
+                                    } ]
                                   },
-                                  "type" : "FlexList"
-                                } ]
-                              },
-                              "type" : "PlayerIf"
-                            }, {
-                              "props" : {
-                                "children" : [ {
+                                  "type" : "PlayerIf"
+                                }, {
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { tryLoadExtentAsync } from './map/layersData';\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.mapExtentState.state, Context.mapExtentState.setState);\n`<p>Load state : ${Context.mapExtentState.state.loadState}<br></p>`",
-                                          "language" : "JavaScript"
-                                        }
+                                        "children" : [ {
+                                          "props" : {
+                                            "layoutStyle" : { },
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { tryLoadExtentAsync } from './map/layersData';\n\ntryLoadExtentAsync(Context.mapId.mapId, Context.mapExtentState.state, Context.mapExtentState.setState);\n`<p>Load state : ${Context.mapExtentState.state.loadState}<br></p>`",
+                                              "language" : "JavaScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        } ]
                                       },
-                                      "type" : "Text"
+                                      "type" : "FlexList"
                                     } ]
                                   },
-                                  "type" : "FlexList"
-                                } ]
+                                  "type" : "PlayerElse"
+                                } ],
+                                "ifCondition" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.mapExtentState.state.loadState == 'LOADED';",
+                                  "language" : "JavaScript"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : {
+                                  "flexGrow" : "1",
+                                  "width" : "100%"
+                                },
+                                "style" : { }
                               },
-                              "type" : "PlayerElse"
+                              "type" : "If Else"
                             } ],
-                            "ifCondition" : {
+                            "exposeAs" : "mapExtentState",
+                            "initialState" : {
                               "@class" : "Script",
-                              "content" : "Context.mapExtentState.state.loadState == 'LOADED';",
-                              "language" : "JavaScript"
+                              "content" : "import { getInitialExtentState } from './map/layersData';\ngetInitialExtentState();",
+                              "language" : "TypeScript"
                             },
                             "layoutStyle" : {
+                              "flexDirection" : "column",
+                              "flexGrow" : "1",
                               "width" : "100%"
                             },
+                            "localState" : true,
+                            "name" : "Extent state",
                             "style" : { }
                           },
-                          "type" : "If Else"
+                          "type" : "State"
                         } ],
-                        "exposeAs" : "mapExtentState",
-                        "initialState" : {
-                          "@class" : "Script",
-                          "content" : "import { getInitialExtentState } from './map/layersData';\ngetInitialExtentState();",
-                          "language" : "TypeScript"
+                        "layout" : {
+                          "flexDirection" : "column"
                         },
+                        "layoutClassName" : "",
                         "layoutStyle" : {
-                          "flexDirection" : "column",
-                          "flexGrow" : "1",
+                          "overflow" : "auto",
                           "width" : "100%"
                         },
-                        "localState" : true,
-                        "name" : "Extent state",
                         "style" : { }
                       },
-                      "type" : "State"
-                    } ],
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : {
-                      "overflow" : "auto",
-                      "width" : "100%"
-                    },
-                    "style" : { }
+                      "type" : "FlexList"
+                    } ]
                   },
-                  "type" : "FlexList"
-                } ]
-              },
-              "type" : "PlayerIf"
-            }, {
-              "props" : {
-                "children" : [ {
+                  "type" : "PlayerIf"
+                }, {
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Your player is nowhere.</p><p>Where do you wanna pop ?<br></p>\"",
-                          "language" : "JavaScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Your player is nowhere.</p><p>Where do you wanna pop ?<br></p>\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "location-arrow",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Go to Yverdon<br></p>\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('yverdon');",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "Yverdon",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "icon" : "location-arrow",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Go to Geneva<br></p>\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('geneva');",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "Geneva",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ]
                       },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "icon" : "location-arrow",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Go to Yverdon<br></p>\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('yverdon');",
-                            "language" : "typescript"
-                          }
-                        },
-                        "name" : "Yverdon",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "icon" : "location-arrow",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Go to Geneva<br></p>\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('geneva');",
-                            "language" : "typescript"
-                          }
-                        },
-                        "name" : "Geneva",
-                        "style" : { }
-                      },
-                      "type" : "Button"
+                      "type" : "FlexList"
                     } ]
                   },
-                  "type" : "FlexList"
-                } ]
+                  "type" : "PlayerElse"
+                } ],
+                "className" : "",
+                "ifCondition" : {
+                  "@class" : "Script",
+                  "content" : "Context.mapId?.mapId?.length > 0;",
+                  "language" : "JavaScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "width" : "100%"
+                },
+                "style" : { }
               },
-              "type" : "PlayerElse"
+              "type" : "If Else"
             } ],
-            "ifCondition" : {
+            "exposeAs" : "mapId",
+            "getItemsFn" : {
               "@class" : "Script",
-              "content" : "Context.mapId?.mapId?.length > 0;",
-              "language" : "JavaScript"
+              "content" : "import { getCurrentMapId } from './map/mapLayers';\n//wlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
+              "language" : "TypeScript"
             },
+            "itemKey" : "mapId",
+            "itemsOnly" : true,
+            "layout" : { },
+            "layoutClassName" : "",
             "layoutStyle" : {
               "width" : "100%"
             },
             "style" : { }
           },
-          "type" : "If Else"
-        } ],
-        "exposeAs" : "mapId",
-        "getItemsFn" : {
-          "@class" : "Script",
-          "content" : "import { getCurrentMapId } from './map/mapLayers';\n//wlog(getCurrentMapId());\n//return [{mapId : 'yverdon'}];\n[{mapId : getCurrentMapId()}];",
-          "language" : "TypeScript"
-        },
-        "itemKey" : "mapId",
-        "itemsOnly" : true,
-        "layout" : { },
-        "layoutStyle" : {
-          "width" : "100%"
-        },
-        "style" : { }
-      },
-      "type" : "For each"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<strong>Communication Type</strong>\"",
-              "language" : "JavaScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "choices" : [ ],
-            "layoutStyle" : { },
-            "name" : "comm type",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'communicationType')",
-              "language" : "JavaScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
+          "type" : "For each"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
                 "layoutStyle" : { },
-                "name" : "Direct Comm",
-                "onCancel" : { },
-                "onVariableChange" : { },
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "const selected = I18n.toString(Variable.find(gameModel, 'whoAmI'));\n\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
+                  "content" : "\"<strong>Communication Type</strong>\"",
                   "language" : "JavaScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Type a message\"",
-                      "language" : "JavaScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'lastMsg')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                }, {
-                  "props" : {
-                    "icon" : "microphone",
-                    "impactVariable" : {
-                      "impact" : {
-                        "@class" : "Script",
-                        "content" : "Variable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                        "language" : "JavaScript"
-                      },
-                      "priority" : 1
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Speak</p>\"",
-                      "language" : "JavaScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "priority" : 0,
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { initEmitterIds } from './game/logic/baseEvent';\nimport { sendEvent } from './game/logic/EventManager';\nimport { whoAmI } from './tools/WegasHelper';\n\nsendEvent({\n  ...initEmitterIds(),\n  type: 'DirectCommunication',\n  message : Variable.find(gameModel, 'lastMsg').getValue(self),\n  sender : whoAmI()\n});\n",
-                        "language" : "typescript"
-                      }
-                    },
-                    "name" : "Speak",
-                    "onCancel" : { },
-                    "onVariableChange" : { },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "",
-                "name" : ""
+                "choices" : [ ],
+                "layoutStyle" : { },
+                "name" : "comm type",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'communicationType')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
               },
-              "type" : "FlexList"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
-              "language" : "JavaScript"
-            },
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "Direct comm",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
+              "type" : "Select input"
+            }, {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layout" : { },
                     "layoutStyle" : { },
                     "name" : "Direct Comm",
                     "onCancel" : { },
@@ -836,134 +756,16 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "`<strong>Radio Communication</strong>`;",
+                      "content" : "const selected = I18n.toString(Variable.find(gameModel, 'whoAmI'));\n\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
                       "language" : "JavaScript"
                     }
                   },
                   "type" : "Text"
                 }, {
                   "props" : {
-                    "alignSelf" : "flex-start",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { getRadios } from './game/logic/communication';\ngetRadios().length > 0",
-                      "language" : "JavaScript"
-                    },
-                    "icon" : "air-freshener",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Create Radios</p>\"",
-                      "language" : "JavaScript"
-                    },
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { emitRadioCreation } from './game/logic/communication';\n\nemitRadioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nemitRadioCreation('Renard balafré', ['A', 'B', 'C'], 'B');\n",
-                        "language" : "typescript"
-                      }
-                    },
-                    "name" : "Create radio",
-                    "onVariableChange" : { },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
                     "children" : [ {
                       "props" : {
-                        "choices" : {
-                          "@class" : "Script",
-                          "content" : "import {getRadios} from './game/logic/communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
-                          "language" : "typescript"
-                        },
-                        "exposeAs" : "state",
-                        "initialState" : {
-                          "@class" : "Script",
-                          "content" : "({})",
-                          "language" : "TypeScript"
-                        },
-                        "layout" : { },
                         "layoutStyle" : { },
-                        "localState" : false,
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "wlog(Context.radioId)\nContext.radioState.setState({selectedRadioId: Context.radioId})",
-                            "language" : "TypeScript"
-                          },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"radioId\"",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "Context.radioState.state.selectedRadioId;",
-                          "language" : "JavaScript"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Select input"
-                    }, {
-                      "props" : {
-                        "choices" : {
-                          "@class" : "Script",
-                          "content" : "import { getChannelChoices } from './game/logic/communication';\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
-                          "language" : "typescript"
-                        },
-                        "exposeAs" : "item",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "onCancel" : { },
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "import { emitRadioChannelUpdateEvent } from './game/logic/communication';\n\nemitRadioChannelUpdateEvent(Context.radioState.state.selectedRadioId, Context.newChannel);",
-                            "language" : "TypeScript"
-                          },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"newChannel\"",
-                            "language" : "JavaScript"
-                          },
-                          "server" : {
-                            "@class" : "Script",
-                            "content" : ";",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "import { getRadio } from './game/logic/communication';\nconst r = getRadio(Context.radioState.state.selectedRadioId);\nr ? r.channel : 'No channel';",
-                          "language" : "JavaScript"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Select input"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "exposeAs" : "state",
-                        "initialState" : {
-                          "@class" : "Script",
-                          "content" : "({})",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localState" : false,
                         "onCancel" : { },
                         "onVariableChange" : { },
                         "placeholder" : {
@@ -973,7 +775,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Variable.find(gameModel,'lastRadioMsg')",
+                          "content" : "Variable.find(gameModel,'lastMsg')",
                           "language" : "JavaScript"
                         },
                         "style" : { }
@@ -985,7 +787,7 @@
                         "impactVariable" : {
                           "impact" : {
                             "@class" : "Script",
-                            "content" : "Variable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                            "content" : "Variable.find(gameModel, 'lastMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
                             "language" : "JavaScript"
                           },
                           "priority" : 1
@@ -1000,7 +802,7 @@
                           "priority" : 0,
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { emitRadioCommunication } from './game/logic/communication';\n\nconst msg = Variable.find(gameModel, 'lastRadioMsg').getValue(self);\nemitRadioCommunication(msg, Context.radioState.state.selectedRadioId);",
+                            "content" : "import { initEmitterIds } from './game/logic/baseEvent';\nimport { sendEvent } from './game/logic/EventManager';\nimport { whoAmI } from './tools/WegasHelper';\n\nsendEvent({\n  ...initEmitterIds(),\n  type: 'DirectCommunication',\n  message : Variable.find(gameModel, 'lastMsg').getValue(self),\n  sender : whoAmI()\n});\n",
                             "language" : "typescript"
                           }
                         },
@@ -1015,122 +817,442 @@
                     "name" : ""
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.radioState.state);",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : " Radio Title",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<span style=\\\"font-size: 12pt;\\\"><strong>Heard Radio Messages</strong></span>\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : " Radio Messages",
-                    "onVariableChange" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getRadio, getRadioMessages } from './game/logic/communication';\nconst radioId = Context.radioState.state.selectedRadioId || -1;\nconst channel = getRadio(radioId)?.channel;\ngetRadioMessages(channel || '').join('<br>')",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
                 } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Direct\");",
+                  "language" : "JavaScript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
-                "name" : "Radio comm",
+                "name" : "Direct comm",
                 "style" : { }
               },
               "type" : "FlexList"
-            } ],
-            "exposeAs" : "radioState",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Radio\");",
-              "language" : "JavaScript"
-            },
-            "initialState" : {
-              "@class" : "Script",
-              "content" : "import { getInitialRadioState } from './game/logic/communication';\ngetInitialRadioState();",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "localState" : true,
-            "name" : " Radio",
-            "style" : { }
-          },
-          "type" : "State"
-        }, {
-          "props" : {
-            "children" : [ {
+            }, {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutStyle" : { },
-                    "name" : " Title",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<strong>Phone Communication</strong>\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "alignSelf" : "flex-start",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\np !== undefined && p.phoneId > 0;",
-                      "language" : "JavaScript"
-                    },
-                    "icon" : "phone",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { whoAmI } from './tools/WegasHelper';\n\"Create Phone for \" + whoAmI();",
-                      "language" : "JavaScript"
-                    },
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { emitPhoneCreationEvent } from './game/logic/communication';\nimport { whoAmI } from './tools/WegasHelper';\n\nemitPhoneCreationEvent(whoAmI())",
-                        "language" : "typescript"
-                      }
-                    },
-                    "name" : "Create phone",
-                    "onVariableChange" : { },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
                     "children" : [ {
+                      "props" : {
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Direct Comm",
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "`<strong>Radio Communication</strong>`;",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "flex-start",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getRadios } from './game/logic/communication';\ngetRadios().length > 0",
+                          "language" : "JavaScript"
+                        },
+                        "icon" : "air-freshener",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Create Radios</p>\"",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { emitRadioCreation } from './game/logic/communication';\n\nemitRadioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nemitRadioCreation('Renard balafré', ['A', 'B', 'C'], 'B');\n",
+                            "language" : "typescript"
+                          }
+                        },
+                        "name" : "Create radio",
+                        "onVariableChange" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import {getRadios} from './game/logic/communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
+                              "language" : "typescript"
+                            },
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "wlog(Context.radioId)\nContext.radioState.setState({selectedRadioId: Context.radioId})",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"radioId\"",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Context.radioState.state.selectedRadioId;",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getChannelChoices } from './game/logic/communication';\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
+                              "language" : "typescript"
+                            },
+                            "exposeAs" : "item",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "onCancel" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { emitRadioChannelUpdateEvent } from './game/logic/communication';\n\nemitRadioChannelUpdateEvent(Context.radioState.state.selectedRadioId, Context.newChannel);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newChannel\"",
+                                "language" : "JavaScript"
+                              },
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : ";",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { getRadio } from './game/logic/communication';\nconst r = getRadio(Context.radioState.state.selectedRadioId);\nr ? r.channel : 'No channel';",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"Type a message\"",
+                              "language" : "JavaScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'lastRadioMsg')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        }, {
+                          "props" : {
+                            "icon" : "microphone",
+                            "impactVariable" : {
+                              "impact" : {
+                                "@class" : "Script",
+                                "content" : "Variable.find(gameModel, 'lastRadioMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                                "language" : "JavaScript"
+                              },
+                              "priority" : 1
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Speak</p>\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "priority" : 0,
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { emitRadioCommunication } from './game/logic/communication';\n\nconst msg = Variable.find(gameModel, 'lastRadioMsg').getValue(self);\nemitRadioCommunication(msg, Context.radioState.state.selectedRadioId);",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "Speak",
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "",
+                        "name" : ""
+                      },
+                      "type" : "FlexList"
+                    }, {
                       "props" : {
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Send to\"",
+                          "content" : "JSON.stringify(Context.radioState.state);",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Radio Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<span style=\\\"font-size: 12pt;\\\"><strong>Heard Radio Messages</strong></span>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Radio Messages",
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getRadio, getRadioMessages } from './game/logic/communication';\nconst radioId = Context.radioState.state.selectedRadioId || -1;\nconst channel = getRadio(radioId)?.channel;\ngetRadioMessages(channel || '').join('<br>')",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Radio comm",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "radioState",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Radio\");",
+                  "language" : "JavaScript"
+                },
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getInitialRadioState } from './game/logic/communication';\ngetInitialRadioState();",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localState" : true,
+                "name" : " Radio",
+                "style" : { }
+              },
+              "type" : "State"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : " Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<strong>Phone Communication</strong>\"",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "flex-start",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\np !== undefined && p.phoneId > 0;",
+                          "language" : "JavaScript"
+                        },
+                        "icon" : "phone",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { whoAmI } from './tools/WegasHelper';\n\"Create Phone for \" + whoAmI();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "Script",
+                            "content" : "import { emitPhoneCreationEvent } from './game/logic/communication';\nimport { whoAmI } from './tools/WegasHelper';\n\nemitPhoneCreationEvent(whoAmI())",
+                            "language" : "typescript"
+                          }
+                        },
+                        "name" : "Create phone",
+                        "onVariableChange" : { },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Send to\"",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getPhoneDropDownList } from './game/logic/communication';\ngetPhoneDropDownList();",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "onVariableChange" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'recipientPhoneId')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "row"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposeAs" : "state",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "({})",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localState" : false,
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"Type a message\"",
+                              "language" : "JavaScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'lastPhoneMsg')",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        }, {
+                          "props" : {
+                            "icon" : "microphone",
+                            "impactVariable" : {
+                              "impact" : {
+                                "@class" : "Script",
+                                "content" : "Variable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
+                                "language" : "JavaScript"
+                              },
+                              "priority" : 1
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Speak</p>\"",
+                              "language" : "JavaScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "priority" : 0,
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { emitPhoneMessageEvent } from './game/logic/communication';\n\nconst recipient = Variable.find(gameModel, 'recipientPhoneId').getValue(self);\nconst msg = Variable.find(gameModel, 'lastPhoneMsg').getValue(self);\nemitPhoneMessageEvent(Context.phoneState.state.myPhoneId, recipient, msg);\n",
+                                "language" : "typescript"
+                              }
+                            },
+                            "name" : "Speak",
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
+                          "language" : "JavaScript"
+                        },
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<strong>Received messages<br /><br /></strong>from\"",
                           "language" : "JavaScript"
                         }
                       },
@@ -1146,183 +1268,83 @@
                         "onVariableChange" : { },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Variable.find(gameModel,'recipientPhoneId')",
+                          "content" : "Variable.find(gameModel,'fromPhone')",
                           "language" : "JavaScript"
                         },
                         "style" : { }
                       },
                       "type" : "Select input"
-                    } ],
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
-                      "language" : "JavaScript"
-                    },
-                    "layout" : {
-                      "flexDirection" : "row"
-                    },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "exposeAs" : "state",
-                        "initialState" : {
-                          "@class" : "Script",
-                          "content" : "({})",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localState" : false,
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "placeholder" : {
-                          "@class" : "Script",
-                          "content" : "\"Type a message\"",
-                          "language" : "JavaScript"
-                        },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "Variable.find(gameModel,'lastPhoneMsg')",
-                          "language" : "JavaScript"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "String input"
                     }, {
                       "props" : {
-                        "icon" : "microphone",
-                        "impactVariable" : {
-                          "impact" : {
-                            "@class" : "Script",
-                            "content" : "Variable.find(gameModel, 'lastPhoneMsg').setValue(self, {\n  \"@class\": \"TranslatableContent\",\n  \"translations\": {\n    \"EN\": {\n      \"@class\": \"Translation\",\n      \"lang\": \"EN\",\n      \"status\": \"\",\n      \"translation\": \"\"\n    }\n  },\n  \"version\": 0\n});",
-                            "language" : "JavaScript"
-                          },
-                          "priority" : 1
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Speak</p>\"",
-                          "language" : "JavaScript"
-                        },
                         "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "priority" : 0,
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { emitPhoneMessageEvent } from './game/logic/communication';\n\nconst recipient = Variable.find(gameModel, 'recipientPhoneId').getValue(self);\nconst msg = Variable.find(gameModel, 'lastPhoneMsg').getValue(self);\nemitPhoneMessageEvent(Context.phoneState.state.myPhoneId, recipient, msg);\n",
-                            "language" : "typescript"
-                          }
-                        },
-                        "name" : "Speak",
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "style" : { }
+                        "name" : "msg list",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPhoneMessages } from './game/logic/communication';\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\nlet v = '';\nif(selectedPhone){\n\tv = getPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');\n}else {\n\tv = 'no phone selected'\n}\nv;",
+                          "language" : "JavaScript"
+                        }
                       },
-                      "type" : "Button"
+                      "type" : "Text"
                     } ],
-                    "className" : "",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
-                      "language" : "JavaScript"
+                    "layout" : {
+                      "flexDirection" : "column"
                     },
-                    "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "id" : "",
                     "layoutStyle" : { },
-                    "name" : "title",
+                    "name" : "debug state",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<strong>Received messages<br /><br /></strong>from\"",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import { getPhoneDropDownList } from './game/logic/communication';\ngetPhoneDropDownList();",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : { },
-                    "onVariableChange" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'fromPhone')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : "msg list",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getPhoneMessages } from './game/logic/communication';\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\nlet v = '';\nif(selectedPhone){\n\tv = getPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');\n}else {\n\tv = 'no phone selected'\n}\nv;",
+                      "content" : "JSON.stringify(Context.phoneState.state);",
                       "language" : "JavaScript"
                     }
                   },
                   "type" : "Text"
                 } ],
-                "layout" : {
-                  "flexDirection" : "column"
+                "exposeAs" : "phoneState",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Phone\");",
+                  "language" : "JavaScript"
+                },
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
+                  "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
+                "localState" : true,
+                "name" : "Phone",
                 "style" : { }
               },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "id" : "",
-                "layoutStyle" : { },
-                "name" : "debug state",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "JSON.stringify(Context.phoneState.state);",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
+              "type" : "State"
             } ],
-            "exposeAs" : "phoneState",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'communicationType').isNotSelectedValue(self, \"Phone\");",
-              "language" : "JavaScript"
+            "layout" : {
+              "flexDirection" : "column"
             },
-            "initialState" : {
-              "@class" : "Script",
-              "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
-              "language" : "TypeScript"
+            "layoutStyle" : {
+              "flexGrow" : "1"
             },
-            "layoutStyle" : { },
-            "localState" : true,
-            "name" : "Phone",
+            "name" : "comPanel",
             "style" : { }
           },
-          "type" : "State"
+          "type" : "FlexList"
         } ],
-        "layout" : {
-          "flexDirection" : "column"
+        "layout" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "flexGrow" : "1"
         },
-        "layoutStyle" : { },
-        "name" : "comPanel",
-        "style" : { }
+        "style" : {
+          "flexGrow" : "1"
+        }
       },
       "type" : "FlexList"
     } ],

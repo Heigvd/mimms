@@ -145,6 +145,7 @@ export interface HumanState {
 	bodyState: BodyState;
 	console: ConsoleLog[];
 	category: Categorization | undefined;
+	frozen: boolean;
 }
 
 export interface WorldState {
@@ -240,6 +241,11 @@ export interface GiveBagEvent extends TargetedEvent {
 	bagId: string;
 }
 
+export interface FreezeEvent extends TargetedEvent {
+	type: 'Freeze';
+	mode: "freeze" | 'unfreeze';
+}
+
 export interface ScriptedEvent {
 	time: number;
 	payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
@@ -260,7 +266,8 @@ export type EventPayload =
 	| PhoneCommunicationEvent
 	| PhoneCreationEvent
 	| GiveBagEvent
-	| CancelActionEvent;
+	| CancelActionEvent
+	| FreezeEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -579,6 +586,7 @@ function initHuman(humanId: string): HumanState {
 		bodyState: humanBody.state,
 		time: 0,
 		console: [],
+		frozen: false,
 		category: undefined,
 	};
 }
@@ -808,42 +816,57 @@ function getMostRecentSnapshot<T>(
 	};
 }
 
-function computeHumanState(state: HumanState, to: number, env: Environnment) {
+function computeHumanState(state: HumanState, to: number, env: Environnment): HumanState {
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
 	const meta = humanMetas[state.id];
+
 	if (meta == null) {
 		throw `Unable to find meta for ${state.id}`;
 	}
-	const newState = Helpers.cloneDeep(state);
-
-	const from = state.bodyState.time;
 
 	const health = healths[state.id] || { effects: [], pathologies: [] };
-	for (let i = from + stepDuration; i <= to; i += stepDuration) {
-		worldLogger.log('Compute Human Step ', { currentTime: newState.time, stepDuration, health });
-		computeState(newState.bodyState, meta, env, stepDuration, health.pathologies, health.effects);
-		worldLogger.debug('Step Time: ', newState.bodyState.time);
-	}
 
-	// last tick
-	if (newState.time < to) {
-		worldLogger.log('Compute Human Step ', {
-			currentTime: newState.time,
-			stepDuration: to - newState.bodyState.time,
-			health,
-		});
-		computeState(
-			newState.bodyState,
-			meta,
-			env,
-			to - newState.bodyState.time,
-			health.pathologies,
-			health.effects,
-		);
+	if (state.frozen || (health.effects.length === 0 && health.pathologies.length === 0)) {
+		// no need to compute state; Human is stable
+		const newState: HumanState = {
+			...state,
+			time: to,
+
+		};
+		worldLogger.debug("Skip Human ", state.id);
+		return newState;
+	} else {
+		worldLogger.debug("Update Human ", state.id);
+		const newState = Helpers.cloneDeep(state);
+
+		const from = state.bodyState.time;
+
+		for (let i = from + stepDuration; i <= to; i += stepDuration) {
+			worldLogger.log('Compute Human Step ', { currentTime: newState.time, stepDuration, health });
+			computeState(newState.bodyState, meta, env, stepDuration, health.pathologies, health.effects);
+			worldLogger.debug('Step Time: ', newState.bodyState.time);
+		}
+
+		// last tick
+		if (newState.time < to) {
+			worldLogger.log('Compute Human Step ', {
+				currentTime: newState.time,
+				stepDuration: to - newState.bodyState.time,
+				health,
+			});
+			computeState(
+				newState.bodyState,
+				meta,
+				env,
+				to - newState.bodyState.time,
+				health.pathologies,
+				health.effects,
+			);
+		}
+		newState.time = newState.bodyState.time;
+		worldLogger.debug('FinalStateTime: ', newState.time);
+		return newState;
 	}
-	newState.time = newState.bodyState.time;
-	worldLogger.debug('FinalStateTime: ', newState.time);
-	return newState;
 }
 
 function processTeleportEvent(event: FullEvent<TeleportEvent>) {
@@ -965,7 +988,7 @@ function updateHumanSnapshots(humanId: string, time: number) {
 
 	const env = getEnv();
 
-	let {snapshot, futures} = getHumanSnapshotAtTime(objId, time);
+	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
 
 	// Update futures
 	futures.forEach(sshot => {
@@ -1060,7 +1083,7 @@ function doMeasure(
 		objectId: event.targetId,
 	};
 
-	const {snapshot, futures} = getHumanSnapshotAtTime(objId, fEvent.time);
+	const { snapshot, futures } = getHumanSnapshotAtTime(objId, fEvent.time);
 	const body = snapshot.state.bodyState;
 
 	const values: MeasureLog['metrics'] = metrics.map(metric => {
@@ -1277,7 +1300,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 
 function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 
-	let {snapshot, futures} = getHumanSnapshotAtTime(objId, time)
+	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time)
 	snapshot.state.console.push(logEntry);
 
 	futures.forEach(sshot => {
@@ -1286,17 +1309,15 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	});
 }
 
-function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?: FullEvent<EventPayload>): 
-	{ snapshot: Snapshot<HumanState>, futures : Snapshot<HumanState>[]}
-{
+function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?: FullEvent<EventPayload>): { snapshot: Snapshot<HumanState>, futures: Snapshot<HumanState>[] } {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time, {before : lastEventBefore});
+	const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time, { before: lastEventBefore });
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
-	let snapshot: Snapshot<HumanState> ;
+	let snapshot: Snapshot<HumanState>;
 
 	if (mostRecent == null) {
 		mostRecent = {
@@ -1319,7 +1340,7 @@ function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?:
 		// update mostRecent snapshot in place
 		snapshot = mostRecent;
 	}
-	return {snapshot, futures};
+	return { snapshot, futures };
 }
 
 /**
@@ -1369,7 +1390,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
-	const {snapshot, futures} = getHumanSnapshotAtTime(objId, event.time, next);
+	const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time, next);
 
 	const category: Categorization = {
 		category: event.payload.category,
@@ -1412,26 +1433,26 @@ function doTreatment(
 		objectId: evt.targetId,
 	};
 
-	const {snapshot, futures} = getHumanSnapshotAtTime(objId, event.time);
+	const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
 	// TODO translation
 	let message = 'Traitement: ';
 	const src = event.payload.source;
-	if(src.type === 'act'){
+	if (src.type === 'act') {
 		const act = getAct(src.actId);
 		message += act?.name;
-	}else if(event.payload.source.type === 'itemAction'){
+	} else if (event.payload.source.type === 'itemAction') {
 		const item = getItem(src.itemId);
 		const action = item?.actions[src.actionId];
 		message += action?.name + ' ' + item?.name;
 
 	}
 
-	const entry : TreatmentLog = {
-		time : event.time,
-		message : message,
-		emitterCharacterId : event.payload.emitterCharacterId,
-		type : 'TreatmentLog'
+	const entry: TreatmentLog = {
+		time: event.time,
+		message: message,
+		emitterCharacterId: event.payload.emitterCharacterId,
+		type: 'TreatmentLog'
 	}
 
 	snapshot.state.console.push(entry);
@@ -1610,6 +1631,30 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	}
 }
 
+function processFreezeEvent(event: FullEvent<FreezeEvent>) {
+	const owner = {
+		objectType: event.payload.targetType,
+		objectId: event.payload.targetId,
+	};
+
+	//const bag = getBagDefinition(event.payload.bagId);
+
+	worldLogger.debug('Process Freeze Event', { owner, event });
+
+	//if (bag != null) {
+	//	updateInventoriesSnapshots(owner, event.time, bag.items);
+	//}
+	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Freeze'], owner);
+
+	const { snapshot, futures } = getHumanSnapshotAtTime(owner, event.time, next);
+	const frozen = event.payload.mode === 'freeze';
+	snapshot.state.frozen = frozen;
+
+	futures.forEach(sshot => {
+		sshot.state.frozen = frozen;
+	});
+}
+
 function processEvent(event: FullEvent<EventPayload>) {
 	worldLogger.debug('ProcessEvent: ', event);
 
@@ -1660,6 +1705,9 @@ function processEvent(event: FullEvent<EventPayload>) {
 			break;
 		case 'CancelAction':
 			processCancelActionEvent(event as FullEvent<CancelActionEvent>);
+			break;
+		case 'Freeze':
+			processFreezeEvent(event as FullEvent<FreezeEvent>);
 			break;
 		default:
 			unreachable(eType);

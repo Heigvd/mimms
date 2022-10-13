@@ -209,7 +209,9 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
             "name" : "drill type",
             "onVariableChange" : { },
             "script" : {
@@ -227,7 +229,9 @@
               "content" : "import { getBagsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetBagsDefinitionsAsChoices();",
               "language" : "typescript"
             },
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
             "name" : "bag type",
             "onVariableChange" : { },
             "script" : {
@@ -245,7 +249,9 @@
               "content" : "import { getSkillsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSkillsDefinitionsAsChoices();",
               "language" : "typescript"
             },
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
             "name" : "skill",
             "onVariableChange" : { },
             "script" : {
@@ -268,7 +274,9 @@
               "content" : "\"<p>Lickert: Downalod&nbsp;CSV data<br></p>\"",
               "language" : "JavaScript"
             },
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
@@ -285,7 +293,9 @@
           "content" : " !gameModel.getProperties().getFreeForAll();",
           "language" : "JavaScript"
         },
-        "layout" : { },
+        "layout" : {
+          "alignItems" : "stretch"
+        },
         "layoutStyle" : { },
         "name" : "drill config",
         "style" : { }
