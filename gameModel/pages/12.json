@@ -342,7 +342,7 @@
             "exposeAs" : "patient",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getHumans } from \"./game/logic/the_world\";\ngetHumans()",
+              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr;",
               "language" : "TypeScript"
             },
             "itemKey" : "id",

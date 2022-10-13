@@ -75,7 +75,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\n\"\"",
+                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\"\"",
                               "language" : "typescript"
                             }
                           },

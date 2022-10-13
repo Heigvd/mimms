@@ -68,7 +68,7 @@ import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
-import { getFogType, infiniteBags } from './gameMaster';
+import { getDefaultBag, getFogType, infiniteBags, shouldProvideDefaultBag } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 
@@ -201,13 +201,13 @@ interface HumanLogMessageEvent extends TargetedEvent {
 
 export type ActionSource =
 	| {
-			type: 'act';
-			actId: string;
+		type: 'act';
+		actId: string;
 	}
 	| {
-			type: 'itemAction';
-			itemId: string;
-			actionId: string;
+		type: 'itemAction';
+		itemId: string;
+		actionId: string;
 	};
 
 interface HumanMeasureEvent extends TargetedEvent {
@@ -338,88 +338,94 @@ function computeCurrentLocation(
 	currentTime: number,
 	speed: number,
 ): CurrentLocationOutput | undefined {
-	// TODO multi map
 	worldLogger.log('ComputeCurrentLocation', { location, currentTime, speed });
 	if (location?.location != null) {
 		if (location.direction != null) {
-			// This should be done only when the obstacle grid changes
-			const { grid, cellSize, offsetPoint, gridHeight, gridWidth } =
-				obstacleGrids.current[location.location.mapId]!;
+			const obstacleGrid = obstacleGrids.current[location.location.mapId];
+			if (obstacleGrid) {
+				const { grid, cellSize, offsetPoint, gridHeight, gridWidth } = obstacleGrid;
 
-			const pathFinder = new PathFinder({
-				grid: {
-					matrix: grid,
-					width: gridWidth,
-					height: gridHeight,
-				},
-				cellSize,
-				offsetPoint,
-				heuristic: 'Octile',
-				diagonalAllowed: true,
-				useJumpPointSearch: true,
-				maxComputationTimeMs: 1500,
-				maxCoverageRatio: 0.1,
-			});
+				const pathFinder = new PathFinder({
+					grid: {
+						matrix: grid,
+						width: gridWidth,
+						height: gridHeight,
+					},
+					cellSize,
+					offsetPoint,
+					heuristic: 'Octile',
+					diagonalAllowed: true,
+					useJumpPointSearch: true,
+					maxComputationTimeMs: 1500,
+					maxCoverageRatio: 0.1,
+				});
 
-			// This should be done only when the direction changes
-			const newPath = pathFinder.findPath(location.location, location.direction, 'AStarSmooth');
-			paths.current[pathId] = newPath;
+				// This should be done only when the direction changes
+				const newPath = pathFinder.findPath(location.location, location.direction, 'AStarSmooth');
+				paths.current[pathId] = newPath;
 
-			const duration = currentTime - location.time;
-			const distance = speed * duration;
+				const duration = currentTime - location.time;
+				const distance = speed * duration;
 
-			let remainingDistance_sq = distance * distance;
-			let pathIndex = 1;
-			let segStart: Point = location.location;
-			let segEnd: Point = segStart;
+				let remainingDistance_sq = distance * distance;
+				let pathIndex = 1;
+				let segStart: Point = location.location;
+				let segEnd: Point = segStart;
 
-			let destinationReached = false;
+				let destinationReached = false;
 
-			paths.current['moving'] = [segStart];
+				paths.current['moving'] = [segStart];
 
-			while (remainingDistance_sq > 0 && !destinationReached) {
-				segEnd = newPath[pathIndex]!;
-				// If we could run further than the last point of the path, stop at the end of the path
-				// Also if the path has no length
-				if (segEnd == null) {
-					destinationReached = true;
-					segEnd = segStart;
-					break;
+				while (remainingDistance_sq > 0 && !destinationReached) {
+					segEnd = newPath[pathIndex]!;
+					// If we could run further than the last point of the path, stop at the end of the path
+					// Also if the path has no length
+					if (segEnd == null) {
+						destinationReached = true;
+						segEnd = segStart;
+						break;
+					}
+
+					const delta = sub(segEnd, segStart);
+					const segmentDistance_sq = lengthSquared(delta);
+					if (remainingDistance_sq < segmentDistance_sq) {
+						// distance still to walk is shorter than current segement distance
+						const ratio = Math.sqrt(remainingDistance_sq / segmentDistance_sq);
+						segEnd = add(mul(delta, ratio), segStart);
+						paths.current['moving'].push(segEnd);
+						break;
+					} else {
+						// walk the current segment fully and move to next segment
+						remainingDistance_sq -= segmentDistance_sq;
+						pathIndex += 1;
+						segStart = segEnd;
+						paths.current['moving'].push(segEnd);
+					}
 				}
 
-				const delta = sub(segEnd, segStart);
-				const segmentDistance_sq = lengthSquared(delta);
-				if (remainingDistance_sq < segmentDistance_sq) {
-					// distance still to walk is shorter than current segement distance
-					const ratio = Math.sqrt(remainingDistance_sq / segmentDistance_sq);
-					segEnd = add(mul(delta, ratio), segStart);
-					paths.current['moving'].push(segEnd);
-					break;
+				if (destinationReached) {
+					delete paths.current[pathId];
+					return {
+						location: {
+							mapId: location.location.mapId,
+							...segEnd!,
+						},
+						direction: undefined,
+					};
 				} else {
-					// walk the current segment fully and move to next segment
-					remainingDistance_sq -= segmentDistance_sq;
-					pathIndex += 1;
-					segStart = segEnd;
-					paths.current['moving'].push(segEnd);
+					return {
+						location: {
+							mapId: location.location.mapId,
+							...segEnd!,
+						},
+						direction: location.direction,
+					};
 				}
-			}
-
-			if (destinationReached) {
-				delete paths.current[pathId];
-				return {
-					location: {
-						mapId: location.location.mapId,
-						...segEnd!,
-					},
-					direction: undefined,
-				};
 			} else {
+				// almost impossible case: the map does not exists
 				return {
-					location: {
-						mapId: location.location.mapId,
-						...segEnd!,
-					},
-					direction: location.direction,
+					location: location.location,
+					direction: undefined,
 				};
 			}
 		} else {
@@ -954,14 +960,14 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	const oKey = getObjectKey(objId);
 
 	const env = getEnv();
-    const mostRecents = getMostRecentSnapshot(
+	const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		time,
 		//{ strictTime: true },
 	);
-    let { mostRecent } = mostRecents;
-    const { mostRecentIndex, futures} = mostRecents;
+	let { mostRecent } = mostRecents;
+	const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: HumanState };
 
@@ -1081,12 +1087,12 @@ function doMeasure(
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(
+	const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		fEvent.time,
 	);
-    
+
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
@@ -1332,7 +1338,7 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time);
+	const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time);
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
@@ -1416,7 +1422,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 	const next = findNextTargetedEvent(currentProcessedEvents, event, ['Categorize'], objId);
 
 	// Fetch most recent human snapshot
-    const mostRecents = getMostRecentSnapshot(
+	const mostRecents = getMostRecentSnapshot(
 		humanSnapshots,
 		objId,
 		event.time,
@@ -1608,13 +1614,13 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
-    const mostRecents = getMostRecentSnapshot(
+	const mostRecents = getMostRecentSnapshot(
 		inventoriesSnapshots,
 		owner,
 		time,
 	);
-    let { mostRecent } = mostRecents;
-    const { mostRecentIndex, futures } = mostRecents;
+	let { mostRecent } = mostRecents;
+	const { mostRecentIndex, futures } = mostRecents;
 
 	let currentSnapshot: { time: number; state: Inventory };
 
@@ -1751,13 +1757,13 @@ export function getHumans() {
 		location: h.location,
 		direction: h.direction,
 		lineOfSight: h.lineOfSight,
-		categorization : h.category
+		categorization: h.category
 	}));
 }
 
 export function getHuman(id: string):
 	| (HumanBody & {
-			category: Categorization | undefined;
+		category: Categorization | undefined;
 	})
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
@@ -1906,7 +1912,7 @@ export function getCurrentPatientHealth(): HumanHealth | undefined {
 	return getHealth(getCurrentPatientId());
 }
 
-export function getInventory(time: number, objectId: ObjectId): Inventory {
+function getInventory(time: number, objectId: ObjectId): Inventory {
 	const state = getMostRecentSnapshot(inventoriesSnapshots, objectId, time);
 	if (state.mostRecent != null) {
 		return state.mostRecent.state;
@@ -1915,15 +1921,41 @@ export function getInventory(time: number, objectId: ObjectId): Inventory {
 	}
 }
 
+
+let drillInventoryByPassDone: string | undefined = undefined;
 /**
  * Get current character inventory.
- *
- * TODO Event to manage inventory (Got/Consume/Transfer)
  */
 export function getMyInventory(): Inventory {
+	const myHumanId = whoAmI();
+
+	if (shouldProvideDefaultBag()) {
+		const defaultBag = getDefaultBag();
+		if (drillInventoryByPassDone != defaultBag) {
+
+
+			drillInventoryByPassDone = defaultBag;
+			if (defaultBag) {
+				worldLogger.warn("Got a bag", defaultBag);
+				processEvent({
+					id: -1008,
+					timestamp: Date.now(),
+					time: 1,
+					payload: {
+						type: 'GiveBag',
+						bagId: defaultBag,
+						targetId: myHumanId,
+						targetType: 'Human',
+						emitterCharacterId: myHumanId,
+						emitterPlayerId: String(self.getId()),
+					}
+				});
+			}
+		}
+	}
+
 	const time = getCurrentSimulationTime();
 
-	const myHumanId = whoAmI();
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 
 	return getInventory(time, myId);

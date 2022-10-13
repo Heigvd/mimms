@@ -40,7 +40,7 @@ function computeEpochSimTime(epoch: number): number {
 		const currentInSim_s = inSim_ref + (epoch - epoch_ref + delta_epoch) / 1000;
 		//wlog("TIME: ", { inSim_ref, epoch, epoch_ref, delta_epoch });
 		if (currentInSim_s < 0) {
-            timeLogger.error("Negative Simulation Time!!!");
+			timeLogger.error("Negative Simulation Time!!!");
 			return 0;
 		}
 		return Math.floor(currentInSim_s);

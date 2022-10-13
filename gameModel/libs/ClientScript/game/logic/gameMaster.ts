@@ -56,6 +56,37 @@ export function infiniteBags(): boolean {
 	return false;
 }
 
+/**
+ * Does the current game mode provide a bag automatically?
+ */
+export function shouldProvideDefaultBag(): boolean {
+	if (gameModel.getProperties().getFreeForAll()) {
+		// DRILL / individually
+		switch (getDrillType()) {
+			case 'PRE-TRIAGE':
+				return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Does the current game mode provide a bag automatically?
+ * @returns name of the bag to give or undefined
+ */
+export function getDefaultBag(): string | undefined {
+	if (gameModel.getProperties().getFreeForAll()) {
+		// DRILL / individually
+		switch (getDrillType()) {
+			case 'PRE-TRIAGE':
+				return Variable.find(gameModel, "bagType").getValue(self);
+		}
+	}
+
+	return undefined;
+}
+
 export function getFogType(): FogType {
 	if (gameModel.getProperties().getFreeForAll()) {
 		// DRILL / individually
