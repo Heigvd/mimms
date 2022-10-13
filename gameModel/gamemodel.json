@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1665467759907,
+  "createdTime" : 1665651113074,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -472,7 +472,7 @@
       },
       "name" : "patients",
       "properties" : {
-        "Jujyn" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":167,\"bmi\":23.6,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"LEFT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.35460658579464527}]}}]}",
+        "Jujyn" : "{\"sex\":\"female\",\"age\":42,\"height_cm\":167,\"bmi\":23.6,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_ah\",\"afflictedBlocks\":[\"LEFT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.35460658579464527}]}}],\"description\":\"<h3>moderate arterial hemorrhage</h3>\\n\\t<ul><li>LEFT_SHOULDER: arterial hemorrhage</li>\\n\\t</ul>\"}",
         "Napan" : "{\"sex\":\"female\",\"age\":24,\"height_cm\":175,\"bmi\":21.7,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"quarter_vh\",\"afflictedBlocks\":[\"RIGHT_FOOT\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.43522445525392256}]}}]}",
         "Riges" : "{\"sex\":\"male\",\"age\":63,\"height_cm\":176,\"bmi\":24.19,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":47.4647921119238}]}}]}",
         "Tuzit" : "{\"sex\":\"female\",\"age\":33,\"height_cm\":154,\"bmi\":24.31,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"20p_vh\",\"afflictedBlocks\":[\"LEFT_KNEE\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.08282959856602701}]}}]}",

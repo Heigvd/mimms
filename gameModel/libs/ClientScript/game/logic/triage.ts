@@ -1334,7 +1334,10 @@ export function categoryToHtml(categoryId: string | undefined): string {
  */
 export function resultToHtml(result: PreTriageResult<string>) {
 	const tagSystem = getTagSystem();
-	const output: string[] = [`<h3>PreTriage ${tagSystem}</h3>`];
+	const output: string[] = [
+		`<h3>PreTriage ${tagSystem}</h3>`,
+		`<div><h4>Suggested answer</h4></div>`
+	];
 
 	output.push(categoryToHtml(result.categoryId));
 	

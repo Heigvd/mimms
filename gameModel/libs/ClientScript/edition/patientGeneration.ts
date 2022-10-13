@@ -13,17 +13,18 @@ import { patientGenerationLogger } from '../tools/logger';
 /**
  * Add patients to the existing list
  */
-export function createPatients(n: number, namer: string | ((n: number) => string)) {
+export function createPatients(n: number, namer: string | ((n: number) => string) | undefined) {
 
 	const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
 
 	for (let i = 1; i <= n; i++) {
-		let name = `${i}`;
-		if (typeof namer === 'string') 
-		{
+		let name : string;
+		if (typeof namer === 'string') {
 			name = `${namer}${i}`;
 		} else if (typeof namer === 'function') {
 			name = namer(i);
+		} else {
+			name = makeRandomName(5);
 		}
 		while(patients[name]) // collision
 		{
@@ -33,7 +34,6 @@ export function createPatients(n: number, namer: string | ((n: number) => string
 	}
 	setTestPatients(Object.values(patients));
 	const patientDesc = Variable.find(gameModel, 'patients');
-
 	saveToObjectDescriptor(patientDesc, patients);
 }
 
@@ -96,7 +96,7 @@ function makeUid(length: number): string {
 
 function makeRandomName(length : number): string {
 
-	const consonants = "bcdfghjklmnpqrstvwxz";
+	const consonants = "bcdfghjklmnprstvwxz";
 	const vowels = "aeiouy";
 
 	const all : string[] = [consonants, vowels];

@@ -31,6 +31,7 @@
                     "language" : "typescript"
                   }
                 },
+                "name" : "start",
                 "style" : { }
               },
               "type" : "Button"
@@ -85,7 +86,13 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                  "language" : "typescript"
+                },
                 "layoutStyle" : { },
+                "name" : "categorized",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
@@ -101,6 +108,8 @@
                     "attachedToId" : "drillPretriPage",
                     "children" : [ {
                       "props" : {
+                        "children" : [ {
+                          "props" : {
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
@@ -110,56 +119,6 @@
                         }
                       },
                       "type" : "Text"
-                    } ],
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "!Context.explanation.state.showExplanation;",
-                      "language" : "JavaScript"
-                    },
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "onExitActions" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "Context.explanation.setState({showExplanation: false});",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Modal"
-                }, {
-                  "props" : {
-                    "icon" : "key",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Show explanation</p>\"",
-                      "language" : "JavaScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "Context.explanation.setState({showExplanation: true});",
-                        "language" : "typescript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "exposeAs" : "explanation",
-                "initialState" : {
-                  "@class" : "Script",
-                  "content" : "({showExplanation: false});",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "localState" : true,
-                "name" : "",
-                "style" : { }
-              },
-              "type" : "State"
             }, {
               "props" : {
                 "hideIf" : {
@@ -184,6 +143,70 @@
                 "style" : { }
               },
               "type" : "Button"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.explanation.state.showExplanation;",
+                      "language" : "JavaScript"
+                    },
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "onExitActions" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "Context.explanation.setState({showExplanation: false});",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                      "language" : "typescript"
+                    },
+                    "icon" : "check",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Validate</p>\"",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "Context.explanation.setState({showExplanation: true});",
+                        "language" : "typescript"
+                      }
+                    },
+                    "name" : "validation",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "explanation",
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "({showExplanation: false});",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localState" : true,
+                "name" : "",
+                "style" : { }
+              },
+              "type" : "State"
             }, {
               "props" : {
                 "hideIf" : {
@@ -194,7 +217,7 @@
                 "icon" : "envelope-open-text",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>back to summary<br></p>\"",
+                  "content" : "\"<p>Back to summary<br></p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
