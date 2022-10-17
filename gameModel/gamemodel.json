@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1665677211004,
+  "createdTime" : 1666015872726,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2519,6 +2519,198 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "ObjectDescriptor",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "GameModelScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:63753:FeXzOs"
+    },
+    "editorTag" : "",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:63763:HFvdvj"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:63758:g2mpYf"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:63759:aIXmhh",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:63759:aIXmhh::EN",
+              "status" : "",
+              "translation" : "block"
+            }
+          }
+        },
+        "name" : "human-block",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:63757:maBPdr",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:63768:nI9wq6"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:63769:iN6xkk",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:63769:iN6xkk::EN",
+              "status" : "",
+              "translation" : "pathology"
+            }
+          }
+        },
+        "name" : "human-pathology",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:63767:kzbbmK",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:63781:cqve75"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:63782:g2titq",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:63782:g2titq::EN",
+              "status" : "",
+              "translation" : "general"
+            }
+          }
+        },
+        "name" : "human-general",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:63780:6Wkeqn",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:63764:eZFeyN",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:63764:eZFeyN::EN",
+            "status" : "",
+            "translation" : "human"
+          }
+        }
+      },
+      "name" : "pathologies_517FG4",
+      "refId" : "ListDescriptor:63762:5hFPUT",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:63786:coxy5j"
+      },
+      "description" : "",
+      "editorTag" : "localization",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:63787:gsFfPf",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:63787:gsFfPf::EN",
+            "status" : "",
+            "translation" : "pretriage-interface"
+          }
+        }
+      },
+      "name" : "pretriage-interface",
+      "properties" : {
+        "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Coloration\"}},\"version\":0}",
+        "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Console\"}},\"version\":0}",
+        "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Details\"},\"FR\":{\"status\":\"\",\"translation\":\"Détails\",\"lang\":\"FR\"}},\"version\":0}",
+        "pain" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain\"}},\"version\":0}",
+        "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Drill Pretriage\"},\"FR\":{\"status\":\"\",\"translation\":\"Drill Pré-triage\",\"lang\":\"FR\"}},\"version\":0}"
+      },
+      "refId" : "ObjectDescriptor:63785:8sYyho",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:63754:Ltci3t",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:63754:Ltci3t::EN",
+          "status" : "",
+          "translation" : "localization"
+        }
+      }
+    },
+    "name" : "localization",
+    "refId" : "ListDescriptor:63752:ISsY6g",
+    "scopeType" : "GameModelScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -2528,6 +2720,14 @@
     "lang" : "english",
     "refId" : "gamemodellanguage:9624873OgkFz7",
     "visibility" : "PROTECTED"
+  }, {
+    "@class" : "GameModelLanguage",
+    "active" : false,
+    "code" : "FR",
+    "indexOrder" : 1,
+    "lang" : "français",
+    "refId" : "GameModelLanguage:63794:dY54fm",
+    "visibility" : "PRIVATE"
   } ],
   "libraries" : [ {
     "@class" : "GameModelContent",
@@ -2847,6 +3047,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "tools/translation",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:63751:xqifWO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/WegasHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -2998,7 +3207,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn",
+  "name" : "HUMAn (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

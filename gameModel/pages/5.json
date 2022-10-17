@@ -17,6 +17,11 @@
                               "content" : "import {getCharactersAsChoices} from './tools/WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
                               "language" : "typescript"
                             },
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "true",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
                             "layoutStyle" : {
                               "width" : "300px"
@@ -32,9 +37,14 @@
                           "type" : "Select input"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true",
+                              "language" : "typescript"
+                            },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"give me some item !\"",
+                              "content" : "\"<p>give me some item !</p>\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
@@ -50,6 +60,11 @@
                           "type" : "Button"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true",
+                              "language" : "typescript"
+                            },
                             "label" : {
                               "@class" : "Script",
                               "content" : "\"give me more item!\"",
@@ -104,18 +119,25 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true",
+                              "language" : "typescript"
+                            },
                             "label" : {
                               "@class" : "Script",
                               "content" : "\"Clear State\"",
                               "language" : "JavaScript"
                             },
+                            "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
                                 "content" : "import { clearState } from './game/logic/the_world';\n\nclearState();",
                                 "language" : "TypeScript"
                               }
-                            }
+                            },
+                            "style" : { }
                           },
                           "type" : "Button"
                         } ],

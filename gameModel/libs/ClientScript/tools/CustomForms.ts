@@ -506,6 +506,39 @@ Helpers.registerEffect(() => {
 			};
 
 			return newSchema;
+		} else if (od.editorTag === 'localization') {
+
+			const newSchema = Helpers.cloneDeep(schema);
+			//hideProperty(newSchema, "description");
+			//hideProperty(newSchema, "defaultInstance")
+			//turnPropertyReadOnly(newSchema, "editorTag");
+
+			newSchema.properties.properties.view = {
+				label: 'Translations',
+				type: 'dictionary',
+				value: {},
+				keySchema: {
+					type: 'string',
+					view: {
+						label: 'Key',
+					}
+				},
+				valueSchema: {
+					type: 'string',
+					value: "{}",
+					view: {
+						type: "serializer",
+						schema: {
+							view : {
+								label: 'translation',
+								type : 'i18nstring'
+							}
+						}
+					}
+				}
+			};
+
+			return newSchema;
 		}
 	}, 'ObjectDescriptor');
 
