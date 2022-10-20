@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1666275012037,
+  "createdTime" : 1666281461381,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -844,7 +844,8 @@
       "name" : "drill_Presets",
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"Jujyn\":true,\"Napan\":true}}",
-        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}"
+        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}",
+        "375634383" : "{\"name\":\"New preset\",\"patients\":{}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
@@ -2640,7 +2641,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",
@@ -2666,7 +2667,38 @@
         "name" : "human-actions",
         "properties" : { },
         "refId" : "ObjectDescriptor:65494:QS8Lvu",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:65676:bYWALA"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:65677:dq3JaX",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:65677:dq3JaX::EN",
+              "status" : "",
+              "translation" : "items"
+            }
+          }
+        },
+        "name" : "human-items",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:65675:bQVXjx",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -2735,12 +2767,16 @@
           "go to" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Go to\"},\"FR\":{\"status\":\"\",\"translation\":\"Envoyer au\",\"lang\":\"FR\"}},\"version\":0}",
           "measures" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Measures\"},\"FR\":{\"status\":\"\",\"translation\":\"Mesures\",\"lang\":\"FR\"}},\"version\":0}",
           "pain" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain\"},\"FR\":{\"status\":\"\",\"translation\":\"Douleur\",\"lang\":\"FR\"}},\"version\":0}",
+          "patient-set" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Patient set\"},\"FR\":{\"status\":\"\",\"translation\":\"Set de patients\",\"lang\":\"FR\"}},\"version\":0}",
+          "show" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"show\"},\"FR\":{\"status\":\"\",\"translation\":\"montrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Start\"},\"FR\":{\"status\":\"\",\"translation\":\"Commencer\",\"lang\":\"FR\"}},\"version\":0}",
+          "suggested-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Suggested answer\"},\"FR\":{\"status\":\"\",\"translation\":\"Réponse suggérée\",\"lang\":\"FR\"}},\"version\":0}",
           "test" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain2\"},\"FR\":{\"status\":\"\",\"translation\":\"Douleur2\",\"lang\":\"FR\"}},\"version\":0}",
           "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Drill Pretriage\"},\"FR\":{\"status\":\"\",\"translation\":\"Drill Pré-triage\",\"lang\":\"FR\"}},\"version\":0}",
           "treatment" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Treatment\"},\"FR\":{\"status\":\"\",\"translation\":\"Traitement\",\"lang\":\"FR\"}},\"version\":0}",
           "treatments" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Treatments\"},\"FR\":{\"status\":\"\",\"translation\":\"Traitements\",\"lang\":\"FR\"}},\"version\":0}",
-          "triage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Triage\"},\"FR\":{\"status\":\"\",\"translation\":\"Triage\",\"lang\":\"FR\"}},\"version\":0}"
+          "triage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Triage\"},\"FR\":{\"status\":\"\",\"translation\":\"Triage\",\"lang\":\"FR\"}},\"version\":0}",
+          "validate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"validate\"},\"FR\":{\"status\":\"\",\"translation\":\"valider\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:63785:8sYyho",
         "scopeType" : "GameModelScope",

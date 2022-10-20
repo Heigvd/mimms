@@ -80,131 +80,201 @@
       "type" : "Button"
     }, {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import { getPresetsAsChoices } from \"./edition/patientPreset\";\ngetPresetsAsChoices();",
-          "language" : "typescript"
-        },
-        "layoutStyle" : { },
-        "name" : "patient set",
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'patientSet')",
-          "language" : "TypeScript"
-        },
-        "style" : { }
-      },
-      "type" : "Select input"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "id" : "",
-                    "layoutStyle" : { },
-                    "name" : "",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.patient.id;",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.patient.meta.sex;",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm';",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "id" : "",
-                "layout" : { },
-                "layoutClassName" : "patients-list--patient-title",
-                "layoutStyle" : { },
-                "name" : "Header",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
               "props" : {
                 "layoutStyle" : { },
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.patient.meta.description || '';",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-set')",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : {
-              "border" : "1px solid"
-            },
-            "style" : { }
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getPresetsAsChoices } from \"./edition/patientPreset\";\ngetPresetsAsChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "patient set",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'patientSet')",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show')",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "Context.patients.setState({show: true});",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ]
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "id" : "",
+                            "layoutStyle" : { },
+                            "name" : "",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.patient.id;",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.patient.meta.sex;",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm';",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "id" : "",
+                        "layout" : { },
+                        "layoutClassName" : "patients-list--patient-title",
+                        "layoutStyle" : { },
+                        "name" : "Header",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "Context.patient.meta.description || '';",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : {
+                      "border" : "1px solid"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "patient",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getPatientsParamsFromPreset } from './edition/patientPreset';\nconst presetId = Variable.find(gameModel, 'patientSet').getValue(self);\ngetPatientsParamsFromPreset(presetId);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "patients",
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "!Context.patients.state.show",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "Context.patients.setState({show: false});",
+                "language" : "TypeScript"
+              }
+            },
+            "onExitActions" : { },
+            "style" : { }
+          },
+          "type" : "Modal"
         } ],
-        "exposeAs" : "patient",
-        "getItemsFn" : {
+        "exposeAs" : "patients",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getPatientsParamsFromPreset } from './edition/patientPreset';\nconst presetId = Variable.find(gameModel, 'patientSet').getValue(self);\ngetPatientsParamsFromPreset(presetId);",
+          "content" : "({show: false})",
           "language" : "TypeScript"
         },
-        "itemKey" : "id",
-        "layout" : {
-          "flexDirection" : "column"
-        },
         "layoutStyle" : { },
-        "name" : "patients",
+        "localState" : false,
         "style" : { }
       },
-      "type" : "For each"
+      "type" : "State"
     }, {
       "props" : {
         "children" : [ {

@@ -43,9 +43,22 @@ function objectValues(object) {
 }
 
 function getPretriage(events) {
-	//TODO get preset and count patients from there
-	var nbPatients = Variable.find(gameModel, 'patients').getInternalProperties().length;
+	var nbPatients = 0;
+	var presetId = Variable.find(gameModel, 'patientSet').getValue(self);
 
+	if(presetId){
+		var presetString = Variable.find(gameModel, 'drill_Presets').getProperties()[presetId];
+		if(presetString){
+			var preset = JSON.parse(presetString);
+			if(preset){
+				nbPatients = Object.keys(preset.patients).length;
+			}
+		}
+	}
+	if(nbPatients == 0){ // fall back on all patients
+		nbPatients = Variable.find(gameModel, 'patients').getInternalProperties().length;
+	}
+	
 	var perPatients = objectValues(events.filter(function (event) {
 		return event.payload.type === 'Categorize'
 	})
@@ -177,6 +190,7 @@ if (drillType === 'LICKERT') {
 		sortable: true,
 	});
 
+	/*
 	WegasDashboard.registerVariable('epoch_ref', {
 		section: 'truc'
 	});
@@ -187,7 +201,7 @@ if (drillType === 'LICKERT') {
 	});
 
 	WegasDashboard.setSectionLabel("Chose", "truc")
-
+	*/
 	WegasDashboard.registerVariable('running');
 
 	WegasDashboard.registerVariable('keepalive');

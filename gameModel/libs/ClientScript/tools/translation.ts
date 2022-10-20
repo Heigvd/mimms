@@ -41,10 +41,9 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 	Helpers.downloadFile(`translations/${filename}`, 'TEXT').then( tsv => {
 
 		if(tsv.startsWith('<!DOCTYPE')){ // TODO should be empty or raise and error
-			wlog('empty tsv file');
+			wlog('tsv file not found : ' +  filename);
 			return;
 		}
-		wlog(tsv);
 		const lines = tsv.split('\n');
 		const header = lines[0].split('\t');
 		if(header[1] !== 'EN' || header[2] !== 'FR'){
@@ -63,7 +62,6 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 
 		if(dryrun) {
 			wlog(statements)
-			return;
 		}else{
 			const script = statements.join(';');
 			APIMethods.runScript(script, {}).then(response => {
