@@ -2,12 +2,17 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "ifCondition" : {
+          "@class" : "Script",
+          "content" : "true",
+          "language" : "TypeScript"
+        },
         "layoutStyle" : { },
         "name" : "(do not delete: genuine hack inside)",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystem } from \"./game/logic/triage\";\nautoTimeManager();\n`<p></p><h1>Drill pre-triage ${getTagSystem()}</h1><p></p>`",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nlet title = getTranslation(\"pretriage-interface\", 'title');\ntitle += ' ' + getTagSystemName();\n`<p></p><h1>${title}</h1><p></p>`",
           "language" : "JavaScript"
         }
       },
@@ -20,7 +25,7 @@
               "props" : {
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Start !<br></p>\"",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
                   "language" : "JavaScript"
                 },
                 "layoutStyle" : { },

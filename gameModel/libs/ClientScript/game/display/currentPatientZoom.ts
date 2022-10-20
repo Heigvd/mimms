@@ -8,6 +8,7 @@ import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getH
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
+import { getTranslation } from "../../tools/translation";
 
 /////////////////////////////////
 // The Wheel
@@ -531,6 +532,7 @@ function formatBlockEntry(title: string, value?: string): string {
 	</div>`;
 }
 
+//TODO translations
 function getBlockDetails(block: Block | undefined, bodyState: BodyState): string[] {
 	const output: string[] = [];
 	if (block) {
@@ -846,13 +848,15 @@ export function getCurrentPatientTitle(): string {
 	const human = getHuman(id);
 	if (human != null) {
 		const age = getRoundedAge(human!);
+		const sex = getTranslation('human-general', human!.meta.sex);
 		return `<span class='human-id'>${id}</span>,
-		 <span class='human-sex'>${human!.meta.sex}</span>,
+		 <span class='human-sex'>${sex}</span>,
 		  <span class='human-age'>~${age}y</span>`;
 	}
 	return '';
 }
 
+// TODO translations
 function getAlertness(overview: HumanOverview): string {
 	if (overview.looksDead) {
 		return 'semble mort';
@@ -864,7 +868,7 @@ function getAlertness(overview: HumanOverview): string {
 		return 'yeux fermés';
 	}
 }
-
+// TODO translations
 function getBreathingOverview(overview: HumanOverview): string {
 	if (overview.rr === 0 || overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15) {
 		// coma + low respiration

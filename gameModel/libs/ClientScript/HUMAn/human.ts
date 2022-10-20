@@ -714,7 +714,7 @@ function connect(
 	}
 }
 
-function inpiratoryCapacityBasedOnAgeAndSex(age: number, sex: Sex): number {
+function inspiratoryCapacityBasedOnAgeAndSex(age: number, sex: Sex): number {
 	// TODO add height param then Randomize
 
 	// please review !
@@ -833,7 +833,7 @@ export function computeMetas(param: BodyFactoryParam) {
 	const effectiveWeight_kg = computeEffectiveWeight(param.bmi, param.height_cm);
 	const blood_mL = getBloodPart(idealWeight_kg, param.sex);
 
-	const inspiratoryCapacity_mL = inpiratoryCapacityBasedOnAgeAndSex(
+	const inspiratoryCapacity_mL = inspiratoryCapacityBasedOnAgeAndSex(
 		param.age,
 		param.sex
 	);

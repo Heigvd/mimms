@@ -20,8 +20,8 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\nconst mode = getRunningMode();\nmode !== 'RUNNING' && mode !== 'REPLAY';",
-          "language" : "JavaScript"
+          "content" : "import { getRunningMode } from './game/logic/TimeManager';\nconst mode = getRunningMode();\n(mode !== 'RUNNING' && mode !== 'REPLAY') || gameModel.getProperties().getFreeForAll();",
+          "language" : "typescript"
         },
         "icon" : "pause",
         "impactVariable" : {

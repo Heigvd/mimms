@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1666015872726,
+  "createdTime" : 1666275012037,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -844,8 +844,7 @@
       "name" : "drill_Presets",
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"Jujyn\":true,\"Napan\":true}}",
-        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}",
-        "6375429148" : "{\"name\":\"New preset\",\"patients\":{\"Riges\":true,\"Tuzit\":true,\"Umeqo\":true}}"
+        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
@@ -2533,9 +2532,9 @@
     "isolation" : "OPEN",
     "items" : [ {
       "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "addShortcut" : "ObjectDescriptor",
+      "allowedTypes" : [ "ObjectDescriptor" ],
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -2564,11 +2563,11 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:63759:aIXmhh::EN",
               "status" : "",
-              "translation" : "block"
+              "translation" : "blocks"
             }
           }
         },
-        "name" : "human-block",
+        "name" : "human-blocks",
         "properties" : { },
         "refId" : "ObjectDescriptor:63757:maBPdr",
         "scopeType" : "GameModelScope",
@@ -2607,7 +2606,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",
@@ -2631,8 +2630,42 @@
           }
         },
         "name" : "human-general",
-        "properties" : { },
+        "properties" : {
+          "female" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"femme\"},\"EN\":{\"status\":\"\",\"translation\":\"female\",\"lang\":\"EN\"}},\"version\":0}",
+          "male" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"homme\"},\"EN\":{\"status\":\"\",\"translation\":\"male\",\"lang\":\"EN\"}},\"version\":0}"
+        },
         "refId" : "ObjectDescriptor:63780:6Wkeqn",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:65495:tCtMQb"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:65496:reBYLu",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:65496:reBYLu::EN",
+              "status" : "",
+              "translation" : "actions"
+            }
+          }
+        },
+        "name" : "human-actions",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:65494:QS8Lvu",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -2652,43 +2685,116 @@
       },
       "name" : "pathologies_517FG4",
       "refId" : "ListDescriptor:63762:5hFPUT",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
-      "@class" : "ObjectDescriptor",
+      "@class" : "ListDescriptor",
+      "addShortcut" : "ObjectDescriptor",
+      "allowedTypes" : [ "ObjectDescriptor" ],
       "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:63786:coxy5j"
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:64102:EU7aFw"
       },
-      "description" : "",
-      "editorTag" : "localization",
+      "editorTag" : "",
       "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:63786:coxy5j"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:63787:gsFfPf",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:63787:gsFfPf::EN",
+              "status" : "",
+              "translation" : "interface"
+            }
+          }
+        },
+        "name" : "pretriage-interface",
+        "properties" : {
+          "PMA" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"PMA\"},\"FR\":{\"status\":\"\",\"translation\":\"PMA\",\"lang\":\"FR\"}},\"version\":0}",
+          "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"Coloration\",\"lang\":\"FR\"}},\"version\":0}",
+          "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Console\"},\"FR\":{\"status\":\"\",\"translation\":\"Console\",\"lang\":\"FR\"}},\"version\":0}",
+          "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Details\"},\"FR\":{\"status\":\"\",\"translation\":\"Détails\",\"lang\":\"FR\"}},\"version\":0}",
+          "explanation-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You have to perform pretriage on simulated patients. Use the central interface to evaluate their condition\"},\"FR\":{\"status\":\"\",\"translation\":\"Vous devez prétrier les patients suivants. Utilisez l'interface centrale pour\",\"lang\":\"FR\"}},\"version\":0}",
+          "go to" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Go to\"},\"FR\":{\"status\":\"\",\"translation\":\"Envoyer au\",\"lang\":\"FR\"}},\"version\":0}",
+          "measures" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Measures\"},\"FR\":{\"status\":\"\",\"translation\":\"Mesures\",\"lang\":\"FR\"}},\"version\":0}",
+          "pain" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain\"},\"FR\":{\"status\":\"\",\"translation\":\"Douleur\",\"lang\":\"FR\"}},\"version\":0}",
+          "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Start\"},\"FR\":{\"status\":\"\",\"translation\":\"Commencer\",\"lang\":\"FR\"}},\"version\":0}",
+          "test" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain2\"},\"FR\":{\"status\":\"\",\"translation\":\"Douleur2\",\"lang\":\"FR\"}},\"version\":0}",
+          "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Drill Pretriage\"},\"FR\":{\"status\":\"\",\"translation\":\"Drill Pré-triage\",\"lang\":\"FR\"}},\"version\":0}",
+          "treatment" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Treatment\"},\"FR\":{\"status\":\"\",\"translation\":\"Traitement\",\"lang\":\"FR\"}},\"version\":0}",
+          "treatments" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Treatments\"},\"FR\":{\"status\":\"\",\"translation\":\"Traitements\",\"lang\":\"FR\"}},\"version\":0}",
+          "triage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Triage\"},\"FR\":{\"status\":\"\",\"translation\":\"Triage\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:63785:8sYyho",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:64107:iQjQ15"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:64108:aulY2s",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:64108:aulY2s::EN",
+              "status" : "",
+              "translation" : "algorithms"
+            }
+          }
+        },
+        "name" : "pretriage-algorithms",
+        "properties" : {
+          "swissNew" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"swissNew\"},\"EN\":{\"status\":\"\",\"translation\":\"swissNew\",\"lang\":\"EN\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:64106:yw6s7E",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
       "label" : {
         "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:63787:gsFfPf",
+        "refId" : "TranslatableContent:64103:4cCTXc",
         "translations" : {
           "EN" : {
             "@class" : "Translation",
             "lang" : "EN",
-            "refId" : "TranslatableContent:63787:gsFfPf::EN",
+            "refId" : "TranslatableContent:64103:4cCTXc::EN",
             "status" : "",
-            "translation" : "pretriage-interface"
+            "translation" : "pretriage"
           }
         }
       },
-      "name" : "pretriage-interface",
-      "properties" : {
-        "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Coloration\"}},\"version\":0}",
-        "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Console\"}},\"version\":0}",
-        "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Details\"},\"FR\":{\"status\":\"\",\"translation\":\"Détails\",\"lang\":\"FR\"}},\"version\":0}",
-        "pain" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Pain\"}},\"version\":0}",
-        "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Drill Pretriage\"},\"FR\":{\"status\":\"\",\"translation\":\"Drill Pré-triage\",\"lang\":\"FR\"}},\"version\":0}"
-      },
-      "refId" : "ObjectDescriptor:63785:8sYyho",
+      "name" : "pretriage",
+      "refId" : "ListDescriptor:64101:iw3zLA",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"

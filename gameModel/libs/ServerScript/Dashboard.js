@@ -43,6 +43,7 @@ function objectValues(object) {
 }
 
 function getPretriage(events) {
+	//TODO get preset and count patients from there
 	var nbPatients = Variable.find(gameModel, 'patients').getInternalProperties().length;
 
 	var perPatients = objectValues(events.filter(function (event) {

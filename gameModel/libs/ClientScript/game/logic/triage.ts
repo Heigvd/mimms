@@ -8,8 +8,10 @@ import {
 	getCurrentPatientHealth,
 	getHumanConsole,
 	HumanHealth,
+NamedLocation,
 } from './the_world';
 import { getEnv } from '../../tools/WegasHelper';
+import { getTranslation } from '../../tools/translation';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)
@@ -518,6 +520,16 @@ export interface PreTriageResult<
 	severity: number;
 	actions: PreTriageAction[];
 	explanations: Explanation[];
+}
+
+/****** TRANSLATIONS *****/
+function getExplanationTranslation(explanationKey : Explanation): string{
+	return getTranslation('pretriage-algorithms', explanationKey);
+}
+
+export function getTagSystemName():string {
+	const system = getTagSystem();
+	return getTranslation('pretriage-algorithms', system);
 }
 
 function isInjured(data: PreTriageData) {
@@ -1364,4 +1376,12 @@ export function resultToHtml(result: PreTriageResult<string>) {
 	output.push('</div>');
 
 	return output.join('');
+}
+
+/**
+ * Send a patient somewhere
+ */
+export function sendTo(destination: NamedLocation): void {
+	//TODO if playing on map, emit displacement event
+	wlog('Go to', destination);
 }

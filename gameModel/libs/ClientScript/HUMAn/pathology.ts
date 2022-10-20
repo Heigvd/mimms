@@ -291,6 +291,7 @@ export interface RevivedPathology {
 
 function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: ModuleArgs): string {
 	// TODO => args!
+	// TODO replace by translations
 	switch (mod.type) {
 		case 'AirwaysResistance':
 			return `${block}: airways resistance`;

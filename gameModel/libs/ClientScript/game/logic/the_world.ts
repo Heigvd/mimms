@@ -71,6 +71,7 @@ import { Category, PreTriageResult, SystemName } from './triage';
 import { getDefaultBag, getFogType, infiniteBags, shouldProvideDefaultBag } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
+import { getTranslation } from '../../tools/translation';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -79,6 +80,10 @@ import { SkillLevel } from '../../edition/GameModelerHelper';
 export type Location = Point & {
 	mapId: string;
 };
+
+export type NamedLocation = Location & {
+	name : string;
+}
 
 export interface Located {
 	location: Location | undefined;
@@ -1436,7 +1441,7 @@ function doTreatment(
 	const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
 	// TODO translation
-	let message = 'Traitement: ';
+	let message = getTranslation('pretriage-interface', 'treatment')+': ';
 	const src = event.payload.source;
 	if (src.type === 'act') {
 		const act = getAct(src.actId);
@@ -1609,7 +1614,10 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 		currentSnapshot = mostRecent;
 	}
 
+	wlog('curr state', currentSnapshot.state);
+	wlog('old inventory', inventory);
 	updateInventory(currentSnapshot.state, inventory);
+	wlog('new inventory', inventory);
 
 	futures.forEach(snapshot => {
 		updateInventory(snapshot.state, inventory);
@@ -1623,8 +1631,9 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	};
 
 	const bag = getBagDefinition(event.payload.bagId);
-
+	worldLogger.setLevel("INFO");
 	worldLogger.info('Process Give Bag Event', { owner, bag });
+	worldLogger.setLevel("WARN");
 
 	if (bag != null) {
 		updateInventoriesSnapshots(owner, event.time, bag.items);
@@ -1701,6 +1710,7 @@ function processEvent(event: FullEvent<EventPayload>) {
 			processPhoneCreation(event as FullEvent<PhoneCreationEvent>);
 			break;
 		case 'GiveBag':
+			wlog('GiveBag processing...')
 			processGiveBagEvent(event as FullEvent<GiveBagEvent>);
 			break;
 		case 'CancelAction':
@@ -1920,11 +1930,10 @@ let drillInventoryByPassDone: string | undefined = undefined;
  */
 export function getMyInventory(): Inventory {
 	const myHumanId = whoAmI();
-
 	if (shouldProvideDefaultBag()) {
 		const defaultBag = getDefaultBag();
+		wlog(defaultBag)
 		if (drillInventoryByPassDone != defaultBag) {
-
 
 			drillInventoryByPassDone = defaultBag;
 			if (defaultBag) {

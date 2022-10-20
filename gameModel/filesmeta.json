@@ -148,5 +148,17 @@
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
+  },
+  "/translations/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/pretriage-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
   }
 }
