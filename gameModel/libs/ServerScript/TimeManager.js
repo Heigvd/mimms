@@ -173,7 +173,7 @@ var TimeManager = ((function () {
 		 *   - "1s" means 1 sec
 		 * 	 - "1m" means 1 min
 		 *   - "1h" means 1 hour
-		 *   - "1d" menas 1 day
+		 *   - "1d" means 1 day
 		 * 
 		 */
 		fastForward: function (value, player) {
@@ -204,10 +204,9 @@ var TimeManager = ((function () {
 						//number = number
 					}
 
-					print(number)
-
 					if (number > 0) {
 						Variable.find(gameModel, 'inSim_ref').add(thePlayer, number);
+						Variable.find(gameModel, 'keepalive').add(thePlayer, number);
 					} else {
 						throw "Please do not go backward";
 					}
@@ -215,7 +214,6 @@ var TimeManager = ((function () {
 			} else {
 				throw "Unparseable value" + value;
 			}
-			//	}
 		}
 	};
 })());
