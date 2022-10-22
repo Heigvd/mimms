@@ -5,6 +5,7 @@ import { BlockName, BodyPosition, Glasgow, HumanBody } from "../../HUMAn/human";
 import { Categorization, getCurrentPatientBody, getHuman } from "../logic/the_world";
 import { Category, getCategory } from "../logic/triage";
 import { convertMeterToMapUnit } from "../../map/layersData";
+import { getTranslation } from "../../tools/translation";
 
 export interface HumanOverview {
 	height_cm: number;
@@ -457,10 +458,12 @@ export function getVisualDetails(): string {
 		if (overview) {
 			const painPath = getPainIcon(human.state.vitals.pain, overview);
 			const painURL = Helpers.getFilePath(painPath);
-			output.push(`<div class='visualDetail_elem'><p>Pain</p><img width="48px" src='${painURL}' style='display: block'></div>`);
+			const labelP = getTranslation('human-general', 'pain');
+			output.push(`<div class='visualDetail_elem'><p>${labelP}</p><img width="48px" src='${painURL}' style='display: block'></div>`);
 			const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
 			const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
-			output.push(`<div class='visualDetail_elem'><p>Coloration</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
+			const labelC = getTranslation('human-general', 'coloration');
+			output.push(`<div class='visualDetail_elem'><p>${labelC}</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
 		}
 	}
 	return output.join("");

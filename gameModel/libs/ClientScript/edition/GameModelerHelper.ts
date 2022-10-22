@@ -1,6 +1,5 @@
-import { BodyFactoryParam, createHumanBody, defaultMeta } from "../HUMAn/human";
+import { createHumanBody, defaultMeta } from "../HUMAn/human";
 import { DataDef, MatrixConfig } from "./MatrixEditor";
-import { generateOnePatient, setTestPatients } from "./patientGeneration";
 import { getActs, getItems, getPathologies } from "../HUMAn/registries";
 import { BagDefinition } from "../game/logic/the_world";
 import { getBagDefinition, getEnv, getPatientsBodyFactoryParams, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
@@ -129,6 +128,7 @@ onChangeRef.current = (x, y, newData) => {
 };
 
 function getBagsDefinitions() {
+	//TODO translations
 	return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
 }
 

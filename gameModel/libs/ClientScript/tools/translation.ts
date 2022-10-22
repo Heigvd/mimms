@@ -1,7 +1,7 @@
 import { translationLogger } from "./logger";
 
 
-export function getTranslation(category: keyof VariableClasses, key : string) : string {
+export function getTranslation(category: keyof VariableClasses, key : string, upperCaseFirstLetter = true) : string {
 
 	const descr = Variable.find(gameModel, category) as SObjectDescriptor;
 	if(descr){
@@ -10,7 +10,7 @@ export function getTranslation(category: keyof VariableClasses, key : string) : 
 			const t = JSON.parse(tr);
 			const translated = I18n.translate(t);
 			if(translated){
-				return translated;
+				return upperCaseFirstLetter ? upperCaseFirst(translated) : translated;
 			}
 		}
 	}
@@ -18,6 +18,7 @@ export function getTranslation(category: keyof VariableClasses, key : string) : 
 	translationLogger.info('Translation not found', fallback)
 	return fallback;
 }
+
 
 export function getBlockTranslation(blockName: string): string {
 	return getTranslation('human-blocks', blockName);
@@ -27,6 +28,10 @@ export function getPathologyTranslation(pathologyName: string): string {
 	return getTranslation('human-pathology', pathologyName);
 }
 
+export function upperCaseFirst(s: string): string {
+	if(s && s.length > 0) return s.charAt(0).toUpperCase() + s.slice(1);
+	return s;
+}
 
 /**
  * CSV to translation object

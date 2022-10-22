@@ -17,7 +17,7 @@
                               "content" : "import {getCharactersAsChoices} from './tools/WegasHelper'\nconst choices = getCharactersAsChoices();\t\nchoices;",
                               "language" : "typescript"
                             },
-                            "disableIf" : {
+                            "hideIf" : {
                               "@class" : "Script",
                               "content" : "true",
                               "language" : "typescript"
@@ -90,7 +90,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\n//wlog(\"Hello\" + new Date().getTime());\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\"\"",
+                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\"\"",
                               "language" : "typescript"
                             }
                           },

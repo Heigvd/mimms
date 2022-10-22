@@ -719,8 +719,10 @@ function rebuildState(time: number, env: Environnment) {
 		});
 	}
 
+	//worldLogger.setLevel('INFO')
 	worldLogger.info('Visible', visibles);
 	worldLogger.info('OutOfSight', outOfSight);
+	//worldLogger.setLevel('WARN')
 
 	visibles.forEach(oId => {
 		const key = getObjectKey(oId);
@@ -805,7 +807,7 @@ function getMostRecentSnapshot<T>(
 	}
 
 	if (snapshot == undefined) {
-		worldLogger.info('No Snapshot: init');
+		//worldLogger.info('No Snapshot: init');
 		// snapshot = { state: initObject<T>(obj), time: 0 };
 	} else {
 		worldLogger.info('Snapshot found at time ', snapshot.time);
@@ -991,6 +993,9 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	const objId = { objectType: 'Human', objectId: humanId };
 	//const oKey = getObjectKey(objId);
 
+	/*worldLogger.setLevel('INFO');
+	worldLogger.info('updating human snapshots', time );
+	worldLogger.setLevel('WARN')*/
 	const env = getEnv();
 
 	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
@@ -1325,6 +1330,7 @@ function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?:
 	let snapshot: Snapshot<HumanState>;
 
 	if (mostRecent == null) {
+		//worldLogger.warn('Init human....', objId.objectId);
 		mostRecent = {
 			time: 0,
 			state: initHuman(objId.objectId),
@@ -1335,12 +1341,15 @@ function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?:
 	if (mostRecent.time < time) {
 		// catch-up human state
 		const env = getEnv();
+		//worldLogger.warn('Compute human state ....', objId.objectId, time);
+
 		snapshot = {
 			time: time,
 			state: computeHumanState(mostRecent.state, time, env),
 		};
 		// register new snapshot
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, snapshot);
+
 	} else {
 		// update mostRecent snapshot in place
 		snapshot = mostRecent;
@@ -1614,10 +1623,7 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 		currentSnapshot = mostRecent;
 	}
 
-	wlog('curr state', currentSnapshot.state);
-	wlog('old inventory', inventory);
 	updateInventory(currentSnapshot.state, inventory);
-	wlog('new inventory', inventory);
 
 	futures.forEach(snapshot => {
 		updateInventory(snapshot.state, inventory);
@@ -1932,7 +1938,6 @@ export function getMyInventory(): Inventory {
 	const myHumanId = whoAmI();
 	if (shouldProvideDefaultBag()) {
 		const defaultBag = getDefaultBag();
-		wlog(defaultBag)
 		if (drillInventoryByPassDone != defaultBag) {
 
 			drillInventoryByPassDone = defaultBag;

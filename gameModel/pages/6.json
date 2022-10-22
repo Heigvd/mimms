@@ -991,7 +991,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"D&eacute;tails\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'details');",
                           "language" : "JavaScript"
                         }
                       },

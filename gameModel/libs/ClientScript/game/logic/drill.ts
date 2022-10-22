@@ -97,7 +97,7 @@ export function getCurrentPresetSortedPatientIds(): string[] {
 	return getSortedPatientIds();
 }
 
-export function selectNextPatient() {
+export function selectNextPatient(): Promise<unknown> {
 	const status = getDrillStatus();
 	if (status === 'not_started' || status === 'ongoing') {
 		const allIds = getCurrentPresetSortedPatientIds();
@@ -127,7 +127,7 @@ export function selectNextPatient() {
 
 				const currentPatientId = getCurrentPatientId();
 				if (currentPatientId) {
-					// freez currentPatient before switchin to new one
+					// freeze currentPatient before switchin to new one
 					toPost.push(getSendEventServerScript({
 						...emitter,
 						type: "Freeze",
@@ -159,7 +159,6 @@ export function selectNextPatient() {
 					return getSendEventServerScript(rEvent, currentTime + sEvent.time - times.min);
 				}));
 
-
 				toPost.push(`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`);
 
 				// move time forward
@@ -168,20 +167,25 @@ export function selectNextPatient() {
 				// TODO test
 				toPost.push(`TimeManager.fastForward('1h');`);
 
-				APIMethods.runScript(toPost.join(""), {});
+				return APIMethods.runScript(toPost.join(""), {});
 			}
 		} else {
-			toSummaryScreen();
+			return toSummaryScreen();
 		}
 	}
+	return emptyPromise();
 }
 
-export function toSummaryScreen() {
+function emptyPromise(): Promise<unknown> {
+	return new Promise<unknown>(((resolve, reject) => {resolve(undefined)}))
+}
+
+export function toSummaryScreen(): Promise<IManagedResponse>{
 	const currentTime = getCurrentSimulationTime();
 	const emitter = initEmitterIds();
 
 
-				const currentPatientId = getCurrentPatientId();
+	const currentPatientId = getCurrentPatientId();
 	// freeze the patient before switching to new one
 	const freeze =  currentPatientId ? getSendEventServerScript({
 		...emitter,
@@ -191,7 +195,7 @@ export function toSummaryScreen() {
 		mode: 'freeze'
 	}, currentTime) : '';
 
-	APIMethods.runScript(freeze + getSetDrillStatusScript('completed_summary')
+	return APIMethods.runScript(freeze + getSetDrillStatusScript('completed_summary')
 		+ `Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 }
 
@@ -199,7 +203,6 @@ export function showPatient(patientId: string) {
 	const currentTime = getCurrentSimulationTime();
 	const emitter = initEmitterIds();
 
-	// freez currentPatient before switchin to new one
 	const unfreeze = getSendEventServerScript({
 		...emitter,
 		type: "Freeze",

@@ -1,3 +1,8 @@
+/**
+ * Heap data structure. 
+ * insertion in log(N)
+ * extract "first" element with regard to a provided sort function in log(N)
+ */
 export class Heap<T> {
 
 	readonly compFunc: ((a: T, b: T) => boolean);
@@ -24,7 +29,8 @@ export class Heap<T> {
 
 	/**
 	 * returns the element E that satisfies comparison(E, X)
-	 * for any X in the heap
+	 * for any other element X in the heap
+	 * log(N) complexity
 	 */
 	extract(): T {
 		const res : T = this.data[0]!;
@@ -37,6 +43,9 @@ export class Heap<T> {
 		return res;
 	}
 
+	/**
+	 * Insert element. log(N) complexity
+	 */
 	insert(t: T): void {
 		const length = this.data.push(t);
 		this.heapUp(length-1);

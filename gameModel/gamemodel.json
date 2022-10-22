@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1666281461381,
+  "createdTime" : 1666440244091,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -843,9 +843,8 @@
       },
       "name" : "drill_Presets",
       "properties" : {
-        "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"Jujyn\":true,\"Napan\":true}}",
-        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}",
-        "375634383" : "{\"name\":\"New preset\",\"patients\":{}}"
+        "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true,\"patient-4\":true,\"patient-5\":true,\"patient-6\":true,\"patient-7\":true,\"patient-8\":true,\"patient-9\":true}}",
+        "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",

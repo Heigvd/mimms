@@ -517,15 +517,24 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 	}
 }
 
-function formatBlockTitle(title: string): string {
+function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
+	if(translationVar){
+		title = getTranslation(translationVar, title);
+	}
 	return `<div class='block-title'>${title}</div>`;
 }
 
-function formatBlockSubTitle(title: string): string {
+function formatBlockSubTitle(title: string, translationVar?: keyof VariableClasses): string {
+	if(translationVar){
+		title = getTranslation(translationVar, title);
+	}
 	return `<div class='block-subtitle'>${title}</div>`;
 }
 
-function formatBlockEntry(title: string, value?: string): string {
+function formatBlockEntry(title: string, translationVar?: keyof VariableClasses, value?: string): string {
+	if(translationVar){
+		title = getTranslation(translationVar, title);
+	}
 	return `<div class='block-entry'>
 		<span class='block-entry-title'>${title}${value ? ':' : ''}</span>
 		<span class='block-entry-value'>${value || ''}</span>
@@ -540,11 +549,11 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 		logger.info('Block: ', block.params);
 
 		if (block.params.pain) {
-			output.push(formatBlockEntry('Pain', '' + block.params.pain));
+			output.push(formatBlockEntry('pain', 'human-pathology', '' + block.params.pain));
 		}
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
-			output.push(formatBlockSubTitle('Hemorrhage'));
+			output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
 				const arterialLoss =
 					(block.params.arterialBleedingFactor ?? 0) -
@@ -556,49 +565,50 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 					0;
 
 				if (arterialLoss) {
-					output.push(formatBlockEntry('Arterial'));
+					output.push(formatBlockEntry('Arterial', 'human-pathology'));
 				}
 
 				if (venousLoss) {
-					output.push(formatBlockEntry('Venous'));
+					output.push(formatBlockEntry('Venous', 'human-pathology'));
 				}
 
 				output.push(
 					formatBlockEntry(
 						'current flow',
-						`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`,
+						'human-pathology',
+						`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
 					),
 				);
 			} else {
-				output.push(formatBlockEntry('Hemostasis'));
+				output.push(formatBlockEntry('Hemostasis', 'human-pathology'));
 			}
-			output.push(formatBlockEntry('Total', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
+			output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
 		}
 
 		if (block.params.salineSolutionInput_mLperMin || block.params.bloodInput_mLperMin) {
-			output.push(formatBlockSubTitle('Venous Catheter'));
+			output.push(formatBlockSubTitle('Venous Catheter', 'human-pathology'));
 			if (block.params.salineSolutionInput_mLperMin! > 0) {
-				output.push(formatBlockEntry('NaCl', `${block.params.salineSolutionInput_mLperMin!.toFixed(2)} mL/min`));
+				output.push(formatBlockEntry('NaCl', undefined, `${block.params.salineSolutionInput_mLperMin!.toFixed(2)} mL/min`));
 			}
 
 			if (block.params.bloodInput_mLperMin! > 0) {
-				output.push(formatBlockEntry('Blood', `${block.params.bloodInput_mLperMin!.toFixed(2)} mL/min`));
+				output.push(formatBlockEntry('Blood', 'human-pathology', `${block.params.bloodInput_mLperMin!.toFixed(2)} mL/min`));
 			}
 		}
 
 		if (block.params.broken) {
-			output.push(formatBlockSubTitle('Fracture'));
-			output.push(formatBlockEntry(block.params.broken));
+			output.push(formatBlockSubTitle('Fracture', 'human-pathology'));
+			output.push(formatBlockEntry(block.params.broken, 'human-pathology'));
 		}
 
 		if (block.params.burnedPercent! > 0) {
-			output.push(formatBlockSubTitle('Burn'));
-			output.push(formatBlockEntry('Degree', block.params.burnLevel || '1'));
-			output.push(formatBlockEntry('Surface: ', percentFormatter(block.params.burnedPercent)));
+			output.push(formatBlockSubTitle('Burn', 'human-pathology'));
+			output.push(formatBlockEntry('Degree', 'human-pathology', block.params.burnLevel || '1'));
+			output.push(formatBlockEntry('Surface: ', 'human-pathology', percentFormatter(block.params.burnedPercent)));
 		}
 
 		if (block.params.internalPressure === 'DRAIN') {
-			output.push(formatBlockSubTitle('Drained'));
+			output.push(formatBlockSubTitle('Drained', 'human-pathology'));
 		}
 
 		if (block.name === 'HEAD' || block.name === 'NECK') {
@@ -606,32 +616,34 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 			const printTitle = () => {
 				if (!title) {
 					title = true;
-					output.push(formatBlockSubTitle('Upper Airways'));
+					output.push(formatBlockSubTitle('Upper Airways'), 'human-pathology');
 				}
 			}
 			if ((block.params.airResistance ?? 0) > 0) {
 				printTitle();
-				output.push(formatBlockEntry("Obstruction", `${percentFormatter(block.params.airResistance!)}`));
+				output.push(formatBlockEntry("Obstruction", 'human-pathology', `${percentFormatter(block.params.airResistance!)}`));
 			}
 
 			if (block.params.intubated) {
 				printTitle();
-				output.push(formatBlockSubTitle('Intubated'));
+				output.push(formatBlockSubTitle('Intubated', 'human-pathology'));
 			}
 
 
 			if (block.params.fiO2 != null && block.params.fiO2 !== 'freshAir') {
 				printTitle();
-				output.push(formatBlockEntry("FiO2", `${percentFormatter(block.params.fiO2)}`));
+				output.push(formatBlockEntry("FiO2", undefined, `${percentFormatter(block.params.fiO2)}`));
 			}
 
 			if (block.name === 'HEAD' && bodyState.variables.positivePressure) {
 				printTitle();
+				let posP = getTranslation('human-general', 'Positive Pressure');
+
 				if (bodyState.variables.positivePressure === 'aborted') {
-					output.push(formatBlockEntry('Positive Pressure: aborted'));
-				} else {
-					output.push(formatBlockEntry('Positive Pressure'));
-				}
+					posP += ": " + getTranslation('human-general', 'aborted');
+				} 
+				output.push(formatBlockEntry(posP));
+
 			}
 		}
 	}
@@ -849,40 +861,53 @@ export function getCurrentPatientTitle(): string {
 	if (human != null) {
 		const age = getRoundedAge(human!);
 		const sex = getTranslation('human-general', human!.meta.sex);
+		const years = getTranslation('human-general', 'years');
 		return `<span class='human-id'>${id}</span>,
 		 <span class='human-sex'>${sex}</span>,
-		  <span class='human-age'>~${age}y</span>`;
+		  <span class='human-age'>~${age}${years}</span>`;
 	}
 	return '';
 }
 
-// TODO translations
 function getAlertness(overview: HumanOverview): string {
+	let alertness = 'closed eyes';
 	if (overview.looksDead) {
-		return 'semble mort';
+		alertness = 'looks dead';
 	} else if (overview.gcs.eye === 4) {
-		return 'alerte, vous regarde';
+		alertness = 'lively';
 	} else if (overview.gcs.eye === 3) {
-		return 'peu alerte, réagi à la voix';
+		alertness = 'apathetic';
 	} else {
-		return 'yeux fermés';
+		alertness = 'closed eyes';
 	}
+	return getTranslation('human-general', alertness);
 }
-// TODO translations
+
 function getBreathingOverview(overview: HumanOverview): string {
+	let breathing = 'respiration looks normal';
 	if (overview.rr === 0 || overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15) {
 		// coma + low respiration
-		return 'no apparent breathing';
+		breathing = 'no apparent breathing';
 	} else if (overview.tidalVolume_L > 1 && overview.rr > 25) {
-		return 'deep and rapid breathing';
+		breathing = 'deep and rapid breathing';
 	} else if (overview.tidalVolume_L > 1) {
-		return 'deep breathing';
+		breathing = 'deep breathing';
 	} else if (overview.rr > 25) {
-		return 'rapid breathing';
+		breathing = 'rapid breathing';
 	} else {
-		return 'respiration looks normal';
+		breathing = 'respiration looks normal';
+	}
+
+	return getTranslation('human-general', breathing);
+}
+
+function addBleedingDescription(output: string[], ho : HumanOverview): void {
+	if(ho.totalExternalBloodLosses_ml > 0)
+	{
+		output.push(getTranslation('human-general', 'bleeds'));
 	}
 }
+
 
 export function getHumanVisualInfos(): string {
 	const human = getCurrentPatientBody();
@@ -890,11 +915,9 @@ export function getHumanVisualInfos(): string {
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
-			output.push(overview.position.toLowerCase());
+			output.push(getTranslation('human-general', overview.position));
 			output.push(getAlertness(overview));
-			if (overview.totalExternalBloodLosses_ml > 0) {
-				output.push('saigne');
-			}
+			addBleedingDescription(output, overview);
 			output.push(getBreathingOverview(overview));
 		}
 	} else {

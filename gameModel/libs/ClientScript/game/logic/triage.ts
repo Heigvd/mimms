@@ -523,7 +523,7 @@ export interface PreTriageResult<
 }
 
 /****** TRANSLATIONS *****/
-function getExplanationTranslation(explanationKey : Explanation): string{
+export function getExplanationTranslation(explanationKey : Explanation): string{
 	return getTranslation('pretriage-algorithms', explanationKey);
 }
 
