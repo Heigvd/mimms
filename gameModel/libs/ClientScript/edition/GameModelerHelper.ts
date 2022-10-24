@@ -235,8 +235,6 @@ onSituationChangeRef.current = (x, y, newData) => {
 		}
 	}
 
-	wlog(def);
-
 	const script = `Variable.find(gameModel, "situationsDefinitions").setProperty('${situationId}',
 		 ${JSON.stringify(JSON.stringify(def))});`
 

@@ -160,7 +160,7 @@
         "@class" : "Page",
         "id" : "8",
         "name" : "DistributionTest",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "Tests"
@@ -182,7 +182,7 @@
         "@class" : "Page",
         "id" : "14",
         "name" : "debug_matrix",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "debug_pages"

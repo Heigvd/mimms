@@ -241,23 +241,6 @@
                 "style" : { }
               },
               "type" : "Button"
-            }, {
-              "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import {getDrillStatus, isCurrentPatientCategorized} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing' || !isCurrentPatientCategorized()",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "name" : "categorized",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patientCategorized');",
-                  "language" : "JavaScript"
-                }
-              },
-              "type" : "Text"
             } ],
             "hideIf" : {
               "@class" : "Script",

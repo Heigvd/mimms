@@ -795,7 +795,7 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'setup',
+				name: '',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
@@ -1000,7 +1000,7 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'apply',
+				name: '',
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
@@ -1102,7 +1102,7 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'apply',
+				name: '',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1222,7 +1222,7 @@ function init() {
 		actions: {
 			israeli: {
 				type: 'ActionBodyEffect',
-				name: 'apply',
+				name: '',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1471,7 +1471,7 @@ function init() {
 		name: 'Can you walk?',
 		action: {
 			type: 'ActionBodyMeasure',
-			category: 'E',
+			category: 'Z',
 			name: 'walk',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.canWalk'],
@@ -1623,6 +1623,7 @@ function init() {
 		},
 	});
 
+	/*
 	registerAct({
 		id: 'areYouDead?',
 		name: 'Are you dead?',
@@ -1634,5 +1635,5 @@ function init() {
 			metricName: ['vitals.cardiacArrest'],
 			duration: { low_skill: 0, high_skill: 0 },
 		},
-	});
+	});*/
 }

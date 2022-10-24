@@ -7,6 +7,7 @@ import { Compensation, SympSystem } from "../HUMAn/physiologicalModel";
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
+import { getDrillType } from "../game/logic/gameMaster";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -514,13 +515,18 @@ export function getBagDefinition(bagId: string) {
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
 	const humanDef = getBodyParam(humanId);
 	const skillId = humanDef?.skillId;
+	wlog(skillId);
 	return getSkillDefinition(skillId);
 }
 
 /**
- * Get current character skills
+ * Get current character skills, or drill skill level if in drill mode
  */
 export function getMySkillDefinition(): SkillDefinition {
+	if(getDrillType() === 'PRE-TRIAGE'){
+		const skillId = Variable.find(gameModel, 'skill').getValue(self);
+		return getSkillDefinition(skillId);
+	}
 	return getHumanSkillDefinition(whoAmI());
 }
 

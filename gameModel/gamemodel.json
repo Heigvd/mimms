@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1666440244091,
+  "createdTime" : 1666617785865,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -519,9 +519,9 @@
       "name" : "characters",
       "properties" : {
         "Marie" : "{\"age\":75,\"sex\":\"female\",\"height_cm\":161,\"lungDepth\":1,\"bmi\":22.5}",
-        "Mr. Good" : "{\"age\":39,\"sex\":\"male\",\"height_cm\":193,\"bmi\":20.7,\"lungDepth\":1}",
+        "Mr. Good" : "{\"age\":39,\"sex\":\"male\",\"height_cm\":193,\"bmi\":20.7,\"lungDepth\":1,\"skillId\":\"AmbulanceStudent1\"}",
         "georges" : "{\"age\":55,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":180,\"bmi\":22.5,\"skillId\":\"mcs\"}",
-        "oscar" : "{\"age\":21,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":170,\"bmi\":21,\"skillId\":\"ias3\"}"
+        "oscar" : "{\"age\":21,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":170,\"bmi\":21,\"skillId\":\"mcs\"}"
       },
       "refId" : "ObjectDescriptor:24054703:rgeAG3",
       "scopeType" : "GameModelScope",
@@ -817,6 +817,7 @@
       },
       "name" : "skillsDefinitions",
       "properties" : {
+        "AmbulanceStudent1" : "{\"actions\":{\"act::measureCRT\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::measureHR\":\"low_skill\"},\"name\":\"Ambulance Student 1st\"}",
         "ias3" : "{\"actions\":{\"act::areYouDead?\":\"low_skill\",\"act::canYouWalk\":\"high_skill\",\"act::recoveryPosition\":\"high_skill\",\"item::guedel::setup\":\"low_skill\",\"item::mask::setup\":\"low_skill\",\"item::3side::setup\":\"high_skill\",\"item::bandage::pressureBandage\":\"high_skill\",\"item::cat::setup\":\"high_skill\",\"item::israeliBandage::israeli\":\"high_skill\",\"act::measureCRT\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::proneDecubitus\":\"high_skill\",\"act::measureRR\":\"low_skill\",\"act::sitDown\":\"high_skill\",\"act::supineDecubitus\":\"high_skill\",\"item::balloon::setup\":\"low_skill\",\"act::measureHR\":\"low_skill\",\"item::sphygmomanometer::measure\":\"high_skill\"},\"name\":\"IAS 3\"}",
         "mcs" : "{\"actions\":{\"act::areYouDead?\":\"high_skill\",\"act::canYouWalk\":\"high_skill\",\"act::measureCRT\":\"high_skill\",\"item::wendel::setup\":\"high_skill\",\"item::thoracic_drain::drain\":\"high_skill\",\"item::TranexamicAcid_500::inject\":\"high_skill\",\"item::SalineSolution_1l::inject\":\"high_skill\",\"item::oxymeter::measure\":\"high_skill\",\"item::SalineSolution_100ml::inject\":\"high_skill\",\"act::measureGCS\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::measureHR\":\"high_skill\",\"act::proneDecubitus\":\"high_skill\",\"act::recoveryPosition\":\"high_skill\",\"act::measureRR\":\"high_skill\",\"act::sitDown\":\"high_skill\",\"act::supineDecubitus\":\"high_skill\",\"item::3side::setup\":\"high_skill\",\"item::balloon::setup\":\"high_skill\",\"item::bandage::pack\":\"high_skill\",\"item::bandage::pressureBandage\":\"high_skill\",\"item::Blood_1l::inject\":\"high_skill\",\"item::sphygmomanometer::measure\":\"high_skill\",\"item::cat::setup\":\"high_skill\",\"item::cricotomie::setup\":\"high_skill\",\"item::exsufflation::do\":\"high_skill\",\"item::guedel::setup\":\"high_skill\",\"item::igel::setup\":\"high_skill\",\"item::intubate::setup\":\"high_skill\",\"item::israeliBandage::israeli\":\"high_skill\",\"item::mask::setup\":\"high_skill\"},\"name\":\"MCS\"}"
       },

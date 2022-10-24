@@ -4,11 +4,12 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } fro
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, getMyMedicalActs, Inventory } from "../logic/the_world";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getTranslation } from "../../tools/translation";
+import { getMySkillDefinition } from "../../tools/WegasHelper";
 
 /////////////////////////////////
 // The Wheel
@@ -252,7 +253,7 @@ function getABCDEWheel(): Wheel {
 		},
 		Z: {
 			id: 'zMenu',
-			label: 'Z',
+			label: '  ',
 			icon: 'comments',
 			items: getSubMenu(bag.Z),
 			type: 'SubWheel',
@@ -280,6 +281,28 @@ function getABCDEWheel(): Wheel {
 
 export function getWheel(): Wheel {
 	return getABCDEWheel();
+}
+
+/**
+ * According to its skills, get all medical act available to current character and gameplay mode
+ */
+export function getMyMedicalActs(): ActDefinition[] {
+	const skill = getMySkillDefinition();
+
+	return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
+		if (actionId.startsWith('act::')) {
+			const actId = actionId.split('::')[1];
+			const act = getAct(actId);
+
+			if (act) {
+				return [act];
+			} else {
+				return [];
+			}
+		} else {
+			return [];
+		}
+	});
 }
 
 /////////////////////////////////

@@ -39,7 +39,6 @@ import {
 	getBagDefinition,
 	getBodyParam,
 	getEnv,
-	getMySkillDefinition,
 	getHumanSkillLevelForAct,
 	getHumanSkillLevelForItemAction,
 	loadCompensationModel,
@@ -1965,28 +1964,6 @@ export function getMyInventory(): Inventory {
 	const myId = { objectId: myHumanId, objectType: 'Human' };
 
 	return getInventory(time, myId);
-}
-
-/**
- * According to its skills, get all medical act available to current character
- */
-export function getMyMedicalActs(): ActDefinition[] {
-	const skill = getMySkillDefinition();
-
-	return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
-		if (actionId.startsWith('act::')) {
-			const actId = actionId.split('::')[1];
-			const act = getAct(actId);
-
-			if (act) {
-				return [act];
-			} else {
-				return [];
-			}
-		} else {
-			return [];
-		}
-	});
 }
 
 export function clearState() {

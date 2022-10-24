@@ -95,7 +95,7 @@ export interface BodyFactoryParam {
 	/** description */
 	description?: string;
 
-	/** Skill id. 'empty' menas no special skill' */
+	/** Skill id. 'empty' means no special skill' */
 	skillId?: string;
 }
 

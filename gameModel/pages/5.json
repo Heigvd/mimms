@@ -97,6 +97,11 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Editor.getFeatures().ADVANCED;",
+                              "language" : "typescript"
+                            },
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
@@ -108,6 +113,11 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Editor.getFeatures().ADVANCED;",
+                              "language" : "typescript"
+                            },
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
