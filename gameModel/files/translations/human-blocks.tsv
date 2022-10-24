@@ -1,0 +1,41 @@
+Key (DONT EDIT)	EN 	FR
+HEAD	Head	Tête
+BRAIN	Brain	Cerveau
+NECK	Neck	Cou
+C1-C4	C1-C4	C1-C4
+C5-C7	C5-C7	C5-C7
+T1-T4	T1-T4	T1-T4
+T5-L4	T5-L4	T5-L4
+THORAX_LEFT	Thorax Left	Thorax gauche
+THORAX_RIGHT	Thorax Right	Thorax droit
+MEDIASTINUM	Mediastinum	Médiastin
+LUNG	Lung	Poumon
+HEART	Heart	Coeur
+LEFT_SHOULDER	Left Shoulder	Epaule gauche
+LEFT_ARM	Left Arm	Bras gauche
+LEFT_ELBOW	Left Elbow	Coude gauche
+LEFT_FOREARM	Left Forearm	Avant bras gauche 
+LEFT_WRIST	Left Wrist	Poignet gauche 
+LEFT_HAND	Left Hand	Main gauche 
+RIGHT_SHOULDER	Right Shoulder	Épaule droite 
+RIGHT_ARM	Right Arm	Bras droit 
+RIGHT_ELBOW	Right Elbow	Coude droit 
+RIGHT_FOREARM	Right Forearm	Avant bras droit 
+RIGHT_WRIST	Right Wrist	Poignet droit 
+RIGHT_HAND	Right Hand	Main droite 
+ABDOMEN	Abdomen	Abdomen 
+PELVIS	Pelvis	Bassin 
+LEFT_THIGH	Left Thigh	Cuisse gauche
+LEFT_KNEE	Left Knee	Genou gauche 
+LEFT_LEG	Left Leg	Jambe gauche
+LEFT_ANKLE	Left Ankle	Cheville gauche 
+LEFT_FOOT	Left Foot	Pied gauche 
+RIGHT_THIGH	Right Thigh	Cuisse droite 
+RIGHT_KNEE	Right Knee	Genoud droit 
+RIGHT_LEG	Right Leg	Jambe droite 
+RIGHT_ANKLE	Right Ankle	Cheville droite 
+RIGHT_FOOT	Right Foot	Pied droit 
+BRONCHUS_1	Bronchus 1	Bronche 1
+UNIT_BRONCHUS_1	Unit Bronchus 1	Unité bronchique 1
+BRONCHUS_2	Bronchus 2	Bronche 2
+UNIT_BRONCHUS_2	Unit Bronchus 2	Unité bronchique 2

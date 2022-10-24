@@ -1,11 +1,18 @@
 import { translationLogger } from "./logger";
 
 
+const cache : Record<string, SObjectDescriptor> = {};
+
 export function getTranslation(category: keyof VariableClasses, key : string, upperCaseFirstLetter = true) : string {
 
-	const descr = Variable.find(gameModel, category) as SObjectDescriptor;
-	if(descr){
-		const tr = descr.getProperties()[key];
+	// TODO cache variable ??
+	// TODO cache translations ?
+
+	if(!cache[category]){
+		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
+	}
+	if(cache[category]){
+		const tr = cache[category].getProperties()[key];
 		if(tr){
 			const t = JSON.parse(tr);
 			const translated = I18n.translate(t);
@@ -33,6 +40,11 @@ export function upperCaseFirst(s: string): string {
 	return s;
 }
 
+export function lowerCaseFirst(s: string): string {
+	if(s && s.length > 0) return s.charAt(0).toLowerCase() + s.slice(1);
+	return s;
+}
+
 /**
  * CSV to translation object
  * expected format
@@ -51,15 +63,17 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 		}
 		const lines = tsv.split('\n');
 		const header = lines[0].split('\t');
-		if(header[1] !== 'EN' || header[2] !== 'FR'){
-			throw new Error(filename + ' bad format, expected header : key, EN, FR, <any>')
+		if(header[1].trim() !== 'EN' || header[2].trim() !== 'FR'){
+			
+			throw new Error(filename + ' bad format, expected header : key, EN, FR, <any>. received : ' + header)
 		}
 
 		const statements : string [] = [];
 
 		lines.slice(1).forEach(line => {
 			const l = line.split('\t');
-			const tr = buildTranslation(l[1]||'', l[2]||'');
+			if(!l) {return;}
+			const tr = buildTranslation(l[1], l[2]);
 			const key = l[0].trim();
 			const s = `Variable.find(gameModel, "${category}").setProperty('${key}', ${JSON.stringify(JSON.stringify(tr))})`;
 			statements.push(s);
@@ -77,11 +91,13 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 	});
 
 	function buildTranslation(en: string, fr: string){
+		const cleanFr = lowerCaseFirst(fr ? fr.trim() : '');
+		const cleanEn = lowerCaseFirst(en ? en.trim() : '');
 		return {
 			"@class":"TranslatableContent",
 			"translations":{
-				"EN":{"@class":"Translation","lang":"EN","status":"","translation": en.trim()},
-				"FR":{"status":"","translation": fr.trim(),"lang":"FR"}
+				"EN":{"@class":"Translation","lang":"EN","status":"","translation": cleanEn},
+				"FR":{"status":"","translation": cleanFr,"lang":"FR"}
 			},
 			"version":0
 		}
@@ -93,15 +109,16 @@ export function updateFromAllTsv(dryrun: boolean):void {
 
 	const variables : (keyof VariableClasses)[] = [
 		'pretriage-interface',
-		'pretriage-algorithms',
+		//'pretriage-algorithms',
 		'human-actions',
+		'human-items',
 		'human-blocks',
 		'human-general',
 		'human-pathology'
 	]
 
 	variables.forEach(v => {
-		wlog(v);
+		wlog('processing', v);
 		updateCategoryFromTsv(v + '.tsv', v, dryrun);
 	})
 }

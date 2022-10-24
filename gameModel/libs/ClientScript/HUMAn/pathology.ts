@@ -8,6 +8,7 @@
 
 import { SkillLevel } from "../edition/GameModelerHelper";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
+import { getTranslation } from "../tools/translation";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";
 
@@ -618,11 +619,6 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 }
 
 
-
-
-
-
-
 /**
  * Acts and Items
  */
@@ -664,21 +660,33 @@ export interface ActionBodyMeasure extends BaseAction {
 
 export type HumanAction = ActionBodyEffect | ActionBodyMeasure;
 
-/**
- * Definition of an Item
- */
-export interface ItemDefinition {
-	type: 'item',
+export interface BaseDefinition {
+	type: string,
 	/**
 	 * Kind of unique system-wide item identifier
 	 */
-	id: string;
+	id: string,
 	/**
-	 * To be displayed
+	 * Translation object name
 	 */
-	name: string;
+	translationGroup: keyof VariableClasses
+}
+
+export function getTranslationFromDefinition(def : BaseDefinition | undefined): string {
+	if(def){
+		return getTranslation(def.translationGroup, def.id);
+	}
+	return '**undefined';
+}
+
+/**
+ * Definition of an Item
+ */
+export interface ItemDefinition extends BaseDefinition {
+	type: 'item',
+
 	/**
-	 *
+	 * single use
 	 */
 	disposable: boolean;
 	/**
@@ -688,16 +696,9 @@ export interface ItemDefinition {
 }
 
 
-export interface ActDefinition {
+export interface ActDefinition extends BaseDefinition {
 	type: 'act',
-	/**
-	 * Kind of unique system-wide skill identifier
-	 */
-	id: string;
-	/**
-	 * To be displayed
-	 */
-	name: string;
+
 	/**
 	 * Actions
 	 */
@@ -717,15 +718,8 @@ export interface Skill {
 }
 
 
-export interface ChemicalDefinition {
-	/**
-	 * Kind of unique system-wide item identifier
-	 */
-	id: string;
-	/**
-	 * To be displayed
-	 */
-	name: string;
+export interface ChemicalDefinition extends BaseDefinition {
+	type : 'chemical';
 	/**
 	 * maximum volume of plasma cleaned per minutes
 	 */

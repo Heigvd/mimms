@@ -515,7 +515,6 @@ export function getBagDefinition(bagId: string) {
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
 	const humanDef = getBodyParam(humanId);
 	const skillId = humanDef?.skillId;
-	wlog(skillId);
 	return getSkillDefinition(skillId);
 }
 

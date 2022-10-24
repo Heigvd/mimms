@@ -1,16 +1,26 @@
 Key (DONT EDIT)	EN	FR	Remarks
-start	Start	Commencer	
-explanation-text	You have to perform pretriage on simulated patients. Use the central interface to evaluate their condition	Vous devez prétrier les patients suivants. Utilisez l'interface centrale pour	To be defined
-console	Console	Console	
-pain	Pain	Douleur	
-coloration	Coloration	Coloration	
-measures	Measures	Mesures	
-treatment	Treatment	Traitement	
-treatments	Treatments	Traitements	
-triage	Triage	Triage	
-go to	Go to	Envoyer au	
+start	start	commencer	
+explanation-text	You have to perform pretriage on simulated patients. Use the central interface to evaluate their condition	Vous devez prétrier les patients suivants. Utilisez l'interface centrale pour les évaluer	To be defined
+details	details	détails	
+console	console	console	
+pain	face	faciès	
+coloration	skin coloration	coloration cutanée	
+measures	measures	mesures	
+treatment	treatment	traitement	
+treatments	treatments	traitements	
+triage	triage	triage	
+assignTriage	assign triage category	assigner catégorie de triage	
+go to	go to	envoyer au	
 PMA	PMA	PMA	
 validate	validate	valider	
-suggested-answer	Suggested answer	Réponse suggérée	
-patient-set	Patient set	Set de patients	
-show	show	montrer	
+suggested-answer	suggested answer	réponse suggérée	
+patient-set	patient set	set de patients	
+patient-set-selection	patient set selection	sélection du set de patients	
+show	show	voir	
+view	view	voir	
+list	list	liste	
+patientCategorized	patient categorized	patient catégorisé	
+validate	validate	valider	
+backToSummary	back to summary	retourner au récapitulatif	
+startPauseSimulation	Start / Pause simulation	Reprendre / Mettre en pause	
+finish	finish	terminer	

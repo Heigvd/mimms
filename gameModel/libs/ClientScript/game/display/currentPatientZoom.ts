@@ -2,7 +2,7 @@ import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, BaseDefinition, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
@@ -135,9 +135,11 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 		const item = getItem(itemId);
 		if (item != null) {
 			return Object.entries(item.actions).map(([key, action]) => {
+				const name = getTranslationFromDefinition(item);
 				return {
 					id: `${item.id}::${key}`,
-					label: `${item.name} ${action.name}`,
+					//TODO action.name needed ??
+					label: `${name} ${action.name}`,
 					type: 'WheelItemAction',
 					actionType: action.type,
 					actionCategory: action.category,
@@ -157,13 +159,14 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 }
 
 function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
+
 	return acts.map(act => {
 		return {
 			type: 'WheelAct',
 			actionType: act.action.type,
 			actionCategory: act.action.category,
 			id: act.id,
-			label: act.name,
+			label: getTranslationFromDefinition(act),
 			icon: getActionIcon(act.action),
 		};
 	});
@@ -179,14 +182,14 @@ function getSubMenu(bag: ByType): SubMenu[] {
 		{
 			type: 'WheelSubMenu',
 			id: 'measureMenu',
-			label: 'Measures',
+			label: getTranslation('pretriage-interface', 'measures'),
 			items: bag.measures,
 			icon: 'ruler',
 		},
 		{
 			type: 'WheelSubMenu',
 			id: 'treatmentMenu',
-			label: 'Treatments',
+			label: getTranslation('pretriage-interface', 'treatments'),
 			items: bag.treatments,
 			icon: 'syringe',
 		},
@@ -727,12 +730,13 @@ export function getBlockDetail(observedBlock: string) {
 				output.push(formatBlockSubTitle("Treatments"));
 				output.push(
 					...data.effects.map(e => {
+						const name = getTranslationFromDefinition(e.source);
 						if (e.source.type === 'item') {
 							if (Object.keys(e.source.actions).length > 1) {
-								return `${e.source.name}/${e.action.name}`;
+								return `${name}/${e.action.name}`;
 							}
 						}
-						return e.source.name;
+						return name;
 					}).map(e => formatBlockEntry(e))
 				);
 			}
@@ -883,11 +887,11 @@ export function getCurrentPatientTitle(): string {
 	const human = getHuman(id);
 	if (human != null) {
 		const age = getRoundedAge(human!);
-		const sex = getTranslation('human-general', human!.meta.sex);
-		const years = getTranslation('human-general', 'years');
+		const sex = getTranslation('human-general', human!.meta.sex, false);
+		const years = getTranslation('human-general', 'years', false);
 		return `<span class='human-id'>${id}</span>,
 		 <span class='human-sex'>${sex}</span>,
-		  <span class='human-age'>~${age}${years}</span>`;
+		  <span class='human-age'>~${age} ${years}</span>`;
 	}
 	return '';
 }
@@ -903,7 +907,7 @@ function getAlertness(overview: HumanOverview): string {
 	} else {
 		alertness = 'closed eyes';
 	}
-	return getTranslation('human-general', alertness);
+	return getTranslation('human-general', alertness, false);
 }
 
 function getBreathingOverview(overview: HumanOverview): string {
@@ -921,13 +925,13 @@ function getBreathingOverview(overview: HumanOverview): string {
 		breathing = 'respiration looks normal';
 	}
 
-	return getTranslation('human-general', breathing);
+	return getTranslation('human-general', breathing, false);
 }
 
 function addBleedingDescription(output: string[], ho : HumanOverview): void {
 	if(ho.totalExternalBloodLosses_ml > 0)
 	{
-		output.push(getTranslation('human-general', 'bleeds'));
+		output.push(getTranslation('human-general', 'bleeds', false));
 	}
 }
 
@@ -944,7 +948,8 @@ export function getHumanVisualInfos(): string {
 			output.push(getBreathingOverview(overview));
 		}
 	} else {
-		output.push('<em>Error [patient not found]</em>');
+		output.push('<em>Loading...</em>');
+		//output.push('<em>Error [patient not found]</em>');
 	}
 
 	// join non-empty cells

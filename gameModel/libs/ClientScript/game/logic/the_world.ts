@@ -21,6 +21,7 @@ import {
 	ActionBodyEffect,
 	ActionBodyMeasure,
 	AfflictedPathology,
+	getTranslationFromDefinition,
 	HumanAction,
 	ItemDefinition,
 	RevivedPathology,
@@ -1128,8 +1129,9 @@ function checkItemAvailabilityAndConsume(
 
 	if (count == null) {
 		// character do not own such item;
-		inventoryLogger.info('Owner do not have any');
-		addLogMessage(ownerId.objectId, patientId, time, `You do not have any ${item.name}`);
+		inventoryLogger.info('Owner does not have any');
+		const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
+		addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getTranslationFromDefinition(item)}`);
 		return false;
 	} else if (typeof count === 'number') {
 		if (count > 0) {
@@ -1143,7 +1145,8 @@ function checkItemAvailabilityAndConsume(
 		} else {
 			// no more item
 			inventoryLogger.info('Owner do not have any item any longer');
-			addLogMessage(ownerId.objectId, patientId, time, `You do not have any ${item.name}`);
+			const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
+			addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getTranslationFromDefinition(item)}`);
 			return false;
 		}
 	} else {
@@ -1217,9 +1220,9 @@ function processDelayedActions(time: number) {
 
 export function getResolvedActionDisplayName(action: ResolvedAction): string {
 	if (action.source.type === 'act' || Object.keys(action.source.actions).length <= 1) {
-		return action.source.name;
+		return getTranslationFromDefinition(action.source);
 	} else {
-		return `${action.source.name}::${action.action.name}`;
+		return `${getTranslationFromDefinition(action.source)}::${action.action.name}`;
 	}
 }
 
@@ -1290,11 +1293,12 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 					doMeasure(event.time, source, action as ActionBodyMeasure, event);
 				}
 			} else {
+				const dontknow = getTranslation('pretriage-interface', 'skillMissing');
 				addLogMessage(
 					event.payload.emitterCharacterId,
 					event.payload.targetId,
 					event.time,
-					`You don't know how to measure ${getResolvedActionDisplayName(resolvedAction)}`,
+					`${dontknow} ${getResolvedActionDisplayName(resolvedAction)}`,
 				);
 			}
 		} else {
@@ -1453,11 +1457,11 @@ function doTreatment(
 	const src = event.payload.source;
 	if (src.type === 'act') {
 		const act = getAct(src.actId);
-		message += act?.name;
+		message += getTranslationFromDefinition(act);
 	} else if (event.payload.source.type === 'itemAction') {
 		const item = getItem(src.itemId);
 		const action = item?.actions[src.actionId];
-		message += action?.name + ' ' + item?.name;
+		message += action?.name + ' ' + getTranslationFromDefinition(item);
 
 	}
 

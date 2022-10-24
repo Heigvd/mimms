@@ -1,0 +1,44 @@
+Key (DONT EDIT)	EN 	FR
+STILL_NOT_BREATHING	Still not breathing after airway clearance	Pas de respiration après libération des voies aériennes
+BREATHES_AFTER_AIRWAYS_CLEARANCE	Breathes after airways clearance	Respiration présente après libération des voies aériennes
+INCOMPATIBLE_WITH_LIFE	Injuries incompatible with life	Blessures incompatibles avec la vie
+CAN_WALK	Can walk	Peut marcher
+RR_LT_10	RR < 10	FR < 10
+RR_GT_30	RR > 30	FR > 30
+INJURED	Injured	Blessé
+NOT_INJURED	Not injured	Indemne
+UNCONSCIOUS	Unconscious	Insconscient
+HR_GT_120	HR > 120	FC > 120
+CRT_GT_2	CRT > 2s	TRC > 2s
+NO_RADIAL_PULSE	No radial pulse	Pas de pouls radial
+MASSIVE_HEMORRHAGE	Massive hemorrhage	Hémorragie massive
+GCSM_LT_6	Glasgow Motor Response < 6	Glasgow < 6
+STRIDOR	Stridor	Stridor
+HIGH_PAIN	High plain (>=7)	Douleur: EVA > 7/10
+HAEMOSTASIS	Haemostasis	Hémostase
+CANNOT_WALK	Can not walk	Ne peut pas marcher
+CLEAR	Nothing detected	Aucun problème détecté
+SACCO_RR_0	RR 0 => 0 point	FR 0 => 0 point
+SACCO_RR_1	RR 1-9 => 1 point	FR 1-9 => 1 point
+SACCO_RR_2	RR 36+ => 2 points	FR 36+ => 2 points
+SACCO_RR_3	RR 25-35 => 3 points	FR 25-35 => 3 points
+SACCO_RR_4	RR 10-24 => 4 points	FR 10-24 => 4 points
+SACCO_HR_0	HR 0 => 0 point	FC 0 => 0 point
+SACCO_HR_1	HR 1-40 => 1 point	FC 1-40 => 1 point
+SACCO_HR_2	HR 41-60 => 2 points	FC 41-60 => 2 points
+SACCO_HR_3	HR 121+ => 3 points	FC >121 => 3 points
+SACCO_HR_4	HR 60-120 => 4 points	FC 60-120 => 4 points
+SACCO_GCS_0	No Motor response => 0 point	Pas de réponse motrice => 0 point
+SACCO_GCS_1	Extension/Flexions => 1 point	Extension/Flexion => 1 point
+SACCO_GCS_2	Withdraws => 2 points	Retrait à la douleur => 2 points
+SACCO_GCS_3	Localizes => 3 points	Localise => 3 points
+SACCO_GCS_4	Obeys commands => 4 points	Obéit => 4 points
+SACCO_AGE_2	AGE 0-7 => 2 points	AGE 0-7 => 2 points
+SACCO_AGE_1	AGE 8-14 => 1 point	AGE 8-14 => 1 point
+SACCO_AGE_0	AGE 15-54 => 0 point	AGE 15-54 => 0 point
+SACCO_AGE_-2	AGE 55-74 => -2 points	AGE 55-74 => -2 points
+SACCO_AGE_-3	AGE 75+ => -3 points	AGE 75+ => -3 points
+actions-taken	Actions	Actions
+no-actions-taken	No actions taken	Pas d'actions
+reason	Reason	Raison
+explanation	Explanation	Explication

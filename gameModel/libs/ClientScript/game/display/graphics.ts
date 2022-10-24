@@ -458,11 +458,11 @@ export function getVisualDetails(): string {
 		if (overview) {
 			const painPath = getPainIcon(human.state.vitals.pain, overview);
 			const painURL = Helpers.getFilePath(painPath);
-			const labelP = getTranslation('human-general', 'pain');
+			const labelP = getTranslation('pretriage-interface', 'face');
 			output.push(`<div class='visualDetail_elem'><p>${labelP}</p><img width="48px" src='${painURL}' style='display: block'></div>`);
 			const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
 			const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
-			const labelC = getTranslation('human-general', 'coloration');
+			const labelC = getTranslation('pretriage-interface', 'coloration');
 			output.push(`<div class='visualDetail_elem'><p>${labelC}</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
 		}
 	}

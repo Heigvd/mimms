@@ -4,6 +4,7 @@ import { getActs, getItems, getPathologies } from "../HUMAn/registries";
 import { BagDefinition } from "../game/logic/the_world";
 import { getBagDefinition, getEnv, getPatientsBodyFactoryParams, parse, parseObjectDescriptor, saveToObjectDescriptor } from "../tools/WegasHelper";
 import { compare } from "../tools/helper";
+import { getTranslationFromDefinition } from "../HUMAn/pathology";
 
 //const observableVitals = [
 //	{ label: 'SaO2', value: "respiration.SaO2" },
@@ -24,6 +25,7 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 		}
 	});
 }
+
 
 
 /**
@@ -144,7 +146,7 @@ export function getBagsDefinitionsAsChoices() {
 export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> {
 	const items = getItems()
 		.sort((a, b) => {
-			return a.item.name.localeCompare(b.item.name);
+			return getTranslationFromDefinition(a.item).localeCompare(getTranslationFromDefinition(b.item));
 		});
 	const bags = getBagsDefinitions();
 
@@ -159,7 +161,7 @@ export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> 
 
 	return {
 		y: items.map(item => ({
-			label: item.item.name,
+			label: getTranslationFromDefinition(item.item),
 			id: item.id,
 		})),
 		x: Object.entries(bags)
@@ -390,20 +392,21 @@ function getSkillItemActionId(itemId: string, actionId: string) {
 export function getSkillsDefsMatrix(): MatrixConfig<SkillId, ActionId, SkillMatrixCell> {
 	const actActions = getActs()
 		.sort((a, b) => {
-			return a.name.localeCompare(b.name);
+			return getTranslationFromDefinition(a).localeCompare(getTranslationFromDefinition(b));
 		}).map(act => ({
-			label: `Act ${act.name}`,
+			label: `Act ${getTranslationFromDefinition(act)}`,
 			id: getSkillActId(act.id),
 		}));
 
 	const itemActions = getItems()
 		.sort((a, b) => {
-			return a.item.name.localeCompare(b.item.name);
+			return getTranslationFromDefinition(a.item).localeCompare(getTranslationFromDefinition(b.item));
 		})
 		.flatMap(item => {
 			return Object.entries(item.item.actions).map(([actionId, action], i, entries) => {
+				const name = getTranslationFromDefinition(item.item);
 				return {
-					label: `Item ${item.item.name}${entries.length > 1 ? "/" + action.name: ''}`,
+					label: `Item ${name}${entries.length > 1 ? "/" + action.name: ''}`,
 					id: getSkillItemActionId(item.id, actionId),
 				};
 			});

@@ -700,7 +700,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`<b>Treatment:</b> ${Context.patientConsole.state.selectedAction?.id}`;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\n`<b>${treat}:</b> ${Context.patientConsole.state.selectedAction?.id}`;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -731,9 +731,10 @@
                                   "language" : "JavaScript"
                                 },
                                 "icon" : "check",
+                                "id" : "",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<strong><span style=\\\"font-size: 14pt;\\\">Apply</span></strong>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'apply')\nreturn`<strong><span style=\\\"font-size: 14pt;\\\">${apply}</span></strong>`",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },

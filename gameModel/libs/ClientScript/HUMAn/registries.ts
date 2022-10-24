@@ -53,8 +53,8 @@ export function getPathologiesMap(): Record<string, string> {
 	}, {});
 }
 
-function registerItem(def: Omit<ItemDefinition, 'type'>): void {
-	items[def.id] = { ...def, type: 'item' };
+function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): void {
+	items[def.id] = { ...def, type: 'item', translationGroup: 'human-items' };
 }
 
 export function getItem(id: string): ItemDefinition | undefined {
@@ -70,8 +70,8 @@ export function getItems(): { id: string; item: ItemDefinition }[] {
 	}));
 }
 
-function registerAct(def: Omit<ActDefinition, 'type'>): void {
-	acts[def.id] = { ...def, type: 'act' };
+function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
+	acts[def.id] = { ...def, type: 'act', translationGroup : 'human-actions' };
 }
 
 export function getAct(id?: string): ActDefinition | undefined {
@@ -88,8 +88,8 @@ export function getActs(): ActDefinition[] {
 	return Object.values(acts);
 }
 
-function registerChemical(def: ChemicalDefinition): void {
-	chemicals[def.id] = def;
+function registerChemical(def: Omit<ChemicalDefinition, 'type' | 'translationGroup'>): void {
+	chemicals[def.id] = {...def, type: 'chemical', translationGroup : 'human-chemicals'};
 }
 
 export function getChemical(id: string): ChemicalDefinition | undefined {
@@ -745,13 +745,13 @@ function init() {
 
 	registerChemical({
 		id: 'TranexamicAcid',
-		name: 'Acide tranexamique HL 3h',
+		//name: 'Acide tranexamique HL 3h',
 		halflife_s: 10800,
 	});
 
 	registerChemical({
 		id: 'TranexamicAcid_Clearance',
-		name: 'Acide tranexamique [Cl]',
+		//name: 'Acide tranexamique [Cl]',
 		clearance_mLperMin: 110,
 		vd_LperKg: 0.35,
 	});
@@ -764,7 +764,6 @@ function init() {
 	////////////////////////////////////////
 	registerAct({
 		id: 'recoveryPosition',
-		name: 'Recovery position',
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -790,7 +789,7 @@ function init() {
 
 	registerItem({
 		id: 'guedel',
-		name: 'Guedel',
+		//name: 'Guedel',
 		disposable: true,
 		actions: {
 			setup: {
@@ -819,7 +818,7 @@ function init() {
 
 	registerItem({
 		id: 'wendel',
-		name: 'Wendel',
+		//name: 'Wendel',
 		disposable: true,
 		actions: {
 			setup: {
@@ -848,7 +847,7 @@ function init() {
 
 	registerItem({
 		id: 'igel',
-		name: 'I-Gel',
+		//name: 'I-Gel',
 		disposable: true,
 		actions: {
 			setup: {
@@ -877,7 +876,7 @@ function init() {
 
 	registerItem({
 		id: 'mask',
-		name: 'Mask',
+		//name: 'Mask',
 		disposable: true,
 		actions: {
 			setup: {
@@ -906,7 +905,7 @@ function init() {
 
 	registerItem({
 		id: 'balloon',
-		name: 'Balloon',
+		//name: 'Balloon',
 		disposable: true,
 		actions: {
 			setup: {
@@ -935,7 +934,7 @@ function init() {
 
 	registerItem({
 		id: 'intubate',
-		name: 'intubate',
+		//name: 'intubate',
 		disposable: true,
 		actions: {
 			setup: {
@@ -964,7 +963,7 @@ function init() {
 
 	registerItem({
 		id: 'cricotomie',
-		name: 'Cricotomie',
+		//name: 'Cricotomie',
 		disposable: true,
 		actions: {
 			setup: {
@@ -995,7 +994,7 @@ function init() {
 	////////////////////////////////////////
 	registerItem({
 		id: '3side',
-		name: '3 sided dressing',
+		//name: '3 sided dressing',
 		disposable: true,
 		actions: {
 			setup: {
@@ -1024,7 +1023,7 @@ function init() {
 
 	registerItem({
 		id: 'exsufflation',
-		name: 'Exsufflation',
+		//name: 'Exsufflation',
 		disposable: true,
 		actions: {
 			do: {
@@ -1053,7 +1052,7 @@ function init() {
 
 	registerItem({
 		id: 'thoracic_drain',
-		name: 'Thoracic Drainage',
+		//name: 'Thoracic Drainage',
 		disposable: true,
 		actions: {
 			drain: {
@@ -1082,7 +1081,7 @@ function init() {
 
 	registerAct({
 		id: 'measureRR',
-		name: 'Respiratory Rate',
+		//name: 'Respiratory Rate',
 		action: {
 			category: 'B',
 			type: 'ActionBodyMeasure',
@@ -1097,7 +1096,7 @@ function init() {
 	////////////////////////////////////////
 	registerItem({
 		id: 'cat',
-		name: 'CAT',
+		//name: 'CAT',
 		disposable: true,
 		actions: {
 			setup: {
@@ -1138,7 +1137,7 @@ function init() {
 
 	registerItem({
 		id: 'bandage',
-		name: 'Bandage',
+		//name: 'Bandage',
 		disposable: true,
 		actions: {
 			pack: {
@@ -1217,7 +1216,7 @@ function init() {
 
 	registerItem({
 		id: 'israeliBandage',
-		name: 'Israeli Bandage',
+		//name: 'Israeli Bandage',
 		disposable: true,
 		actions: {
 			israeli: {
@@ -1272,7 +1271,7 @@ function init() {
 
 	registerItem({
 		id: 'TranexamicAcid_500',
-		name: 'Tranexamic Acid 500mg',
+		//name: 'Tranexamic Acid 500mg',
 		disposable: true,
 		actions: {
 			inject: {
@@ -1305,7 +1304,7 @@ function init() {
 
 	registerItem({
 		id: 'SalineSolution_1l',
-		name: 'NaCl 0.9% 1L',
+		//name: 'NaCl 0.9% 1L',
 		disposable: true,
 		actions: {
 			inject: {
@@ -1343,7 +1342,7 @@ function init() {
 
 	registerItem({
 		id: 'SalineSolution_100ml',
-		name: 'NaCl 0.9% 100mL',
+		//name: 'NaCl 0.9% 100mL',
 		disposable: true,
 		actions: {
 			inject: {
@@ -1381,7 +1380,7 @@ function init() {
 
 	registerItem({
 		id: 'Blood_1l',
-		name: 'Blood 1L',
+		//name: 'Blood 1L',
 		disposable: true,
 		actions: {
 			inject: {
@@ -1419,7 +1418,7 @@ function init() {
 
 	registerAct({
 		id: 'measureHR',
-		name: 'Heart Rate',
+		//name: 'Heart Rate',
 		action: {
 			type: 'ActionBodyMeasure',
 			name: 'HR',
@@ -1432,7 +1431,7 @@ function init() {
 
 	registerAct({
 		id: 'measureCRT',
-		name: 'CRT',
+		//name: 'CRT',
 		action: {
 			type: 'ActionBodyMeasure',
 			name: 'CRT',
@@ -1448,7 +1447,7 @@ function init() {
 
 	registerAct({
 		id: 'measureGCS',
-		name: 'GCS',
+		//name: 'GCS',
 		action: {
 			type: 'ActionBodyMeasure',
 			name: 'GCS',
@@ -1468,7 +1467,7 @@ function init() {
 	////////////////////////////////////////
 	registerAct({
 		id: 'canYouWalk',
-		name: 'Can you walk?',
+		//name: 'Can you walk?',
 		action: {
 			type: 'ActionBodyMeasure',
 			category: 'Z',
@@ -1486,7 +1485,7 @@ function init() {
 	//
 	registerItem({
 		id: 'oxymeter',
-		name: 'Pulse Oxymeter',
+		//name: 'Pulse Oxymeter',
 		disposable: false,
 		actions: {
 			measure: {
@@ -1502,7 +1501,7 @@ function init() {
 
 	registerItem({
 		id: 'sphygmomanometer',
-		name: 'Blood Pressure gauge',
+		//name: 'Blood Pressure gauge',
 		disposable: false,
 		actions: {
 			measure: {
@@ -1521,7 +1520,7 @@ function init() {
 
 	registerAct({
 		id: 'sitDown',
-		name: 'Sit down',
+		//name: 'Sit down',
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -1547,7 +1546,7 @@ function init() {
 
 	registerAct({
 		id: 'proneDecubitus',
-		name: 'Prone decubitus',
+		//name: 'Prone decubitus',
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -1573,7 +1572,7 @@ function init() {
 
 	registerAct({
 		id: 'supineDecubitus',
-		name: 'Supine decubitus',
+		//name: 'Supine decubitus',
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -1599,7 +1598,7 @@ function init() {
 
 	registerAct({
 		id: 'getUp',
-		name: 'Get UP',
+		//name: 'Get UP',
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
