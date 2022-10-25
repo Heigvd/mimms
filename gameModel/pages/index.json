@@ -14,7 +14,7 @@
         "@class" : "Page",
         "id" : "11",
         "name" : "humanMap",
-        "scenaristPage" : null,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",

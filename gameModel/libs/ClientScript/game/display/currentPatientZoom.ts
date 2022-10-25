@@ -256,7 +256,7 @@ function getABCDEWheel(): Wheel {
 		},
 		Z: {
 			id: 'zMenu',
-			label: '  ',
+			label: ' ',
 			icon: 'comments',
 			items: getSubMenu(bag.Z),
 			type: 'SubWheel',
