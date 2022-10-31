@@ -256,7 +256,7 @@ function getABCDEWheel(): Wheel {
 		},
 		Z: {
 			id: 'zMenu',
-			label: ' ',
+			label: '',
 			icon: 'comments',
 			items: getSubMenu(bag.Z),
 			type: 'SubWheel',
@@ -266,12 +266,6 @@ function getABCDEWheel(): Wheel {
 	return {
 		mainMenu: Object.values(categories),
 		shortcuts: [
-			{
-				type: 'ExtraPanel',
-				label: 'Go to...',
-				icon: 'shoe-prints',
-				id: 'goto',
-			},
 			{
 				type: 'ExtraPanel',
 				label: 'Triage',
@@ -345,6 +339,14 @@ export function getSubWheelMenu(state: PatientZoomState): SubWheelItem[] {
 	const wheel = getWheel();
 	const menu = wheel.mainMenu.find(item => item.id === state.selectedMenu);
 	if (menu != null) {
+		//preselect first non empty thumb
+		//wlog(menu.items[0].items)
+		/*const toSelect = menu.items.find((it) => it.items.length > 0);
+		if(toSelect){
+			selectWheelItem(toSelect, Context.patientConsole.setState);
+
+		}*/
+
 		return menu.items;
 	}
 	return [];

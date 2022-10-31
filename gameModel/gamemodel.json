@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1666697753400,
+  "createdTime" : 1667201999684,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -846,7 +846,7 @@
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true,\"patient-4\":true,\"patient-5\":true,\"patient-6\":true,\"patient-7\":true,\"patient-8\":true,\"patient-9\":true}}",
         "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{\"patient-1\":true,\"patient-2\":true,\"patient-3\":true}}",
-        "3567938133" : "{\"name\":\"Short\",\"patients\":{\"Jujyn\":true}}"
+        "3567938133" : "{\"name\":\"Short\",\"patients\":{\"Jujyn\":true,\"patient-1\":true,\"patient-2\":true,\"patient-7\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
@@ -3063,7 +3063,7 @@
     "indexOrder" : 1,
     "lang" : "français",
     "refId" : "GameModelLanguage:63794:dY54fm",
-    "visibility" : "PRIVATE"
+    "visibility" : "PROTECTED"
   } ],
   "libraries" : [ {
     "@class" : "GameModelContent",
@@ -3543,7 +3543,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn (2)",
+  "name" : "HUMAn Audrey work version",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

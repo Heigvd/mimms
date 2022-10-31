@@ -6,7 +6,7 @@
 }
 .patientConsole .title_container .title {
 	font-weight: bold;
-	font-size: 16pt;
+	font-size: 12pt;
 }
 
 .patientConsole .title_container .subtitle {
@@ -133,6 +133,8 @@ border: none;
 	height: 55px;
 	width: 55px;
 	margin: 0;
+	justify-content: center;
+	align-items: center;
 }
 .ABCDwheelMenu .wheelButton {
 	padding: 0;
@@ -168,6 +170,15 @@ border: none;
 .ABCDwheelMenu .wheelButton:nth-child(6){
 	grid-column: 3;
 	grid-row: 3;
+}
+.ABCDwheelMenu .wheelButton > button.iconOnly {
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-primarycolor);
+	font-size: 1.4em;
+}
+.ABCDwheelMenu .wheelButton:nth-child(6) > button:hover {
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-activecolor);
 }
 
 /* SHORTCUTS */

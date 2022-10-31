@@ -12,7 +12,24 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nlet title = getTranslation(\"pretriage-interface\", 'title');\ntitle += ' ' + getTagSystemName();\n`<p></p><h1>${title}</h1><p></p>`",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nlet title = getTranslation(\"pretriage-interface\", 'title');\n`<h3 style=\"margin: 0\">${title}</h3>`",
+          "language" : "JavaScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "ifCondition" : {
+          "@class" : "",
+          "content" : "",
+          "language" : ""
+        },
+        "layoutStyle" : { },
+        "name" : "categorySystem",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'categorySystemName') + ': ';\nconst systemName = getTagSystemName();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
           "language" : "JavaScript"
         }
       },
@@ -68,6 +85,7 @@
           "language" : "JavaScript"
         },
         "layout" : { },
+        "layoutClassName" : "NOT_STARTED",
         "layoutStyle" : { },
         "name" : "not_started",
         "style" : { }
@@ -76,32 +94,6 @@
     }, {
       "props" : {
         "children" : [ {
-          "props" : {
-            "className" : "",
-            "id" : "",
-            "initialSelectedPageId" : "21",
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "drill-time-toolbar",
-            "style" : { }
-          },
-          "type" : "PageLoader"
-        }, {
-          "props" : {
-            "className" : "",
-            "id" : "",
-            "initialSelectedPageId" : {
-              "@class" : "Script",
-              "content" : "\"6\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "patientPageLoaderDrill",
-            "style" : { }
-          },
-          "type" : "PageLoader"
-        }, {
           "props" : {
             "children" : [ {
               "props" : {
@@ -190,7 +182,9 @@
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'validate');",
                       "language" : "JavaScript"
                     },
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "padding" : "0"
+                    },
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
@@ -247,12 +241,49 @@
               "content" : "import { isCurrentPatientCategorized } from './game/logic/drill';\n!Variable.find(gameModel, 'currentPatient').getValue(self)",
               "language" : "typescript"
             },
-            "layout" : { },
-            "layoutStyle" : { },
+            "layout" : {
+              "justifyContent" : "flex-end"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "0"
+            },
             "name" : "toolbar",
-            "style" : { }
+            "style" : {
+              "marginTop" : "-50px"
+            }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "",
+            "id" : "",
+            "initialSelectedPageId" : "21",
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "drill-time-toolbar",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
+            "className" : "",
+            "id" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"6\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "patientPageLoaderDrill",
+            "style" : { }
+          },
+          "type" : "PageLoader"
         } ],
         "hideIf" : {
           "@class" : "Script",

@@ -2,28 +2,15 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"Drill ?\"",
-          "language" : "JavaScript"
-        },
         "layoutStyle" : { },
-        "onVariableChange" : {
-          "server" : {
-            "@class" : "Script",
-            "content" : "var props = gameModel.getProperties();\nprops.setFreeForAll(!props.getFreeForAll())",
-            "language" : "JavaScript"
-          }
-        },
-        "script" : {
-          "@class" : "Script",
-          "content" : "gameModel.getProperties().getFreeForAll();",
-          "language" : "JavaScript"
-        },
         "style" : { },
-        "type" : "toggler"
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3>${getTranslation('pretriage-interface', 'gameSessionSetup')}</h3>`",
+          "language" : "TypeScript"
+        }
       },
-      "type" : "Boolean"
+      "type" : "Text"
     }, {
       "props" : {
         "children" : [ {
@@ -39,6 +26,7 @@
           "type" : "Text"
         }, {
           "props" : {
+            "alignSelf" : "flex-start",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
@@ -54,7 +42,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"\"",
+              "content" : "\"<p>Pause</p>\"",
               "language" : "JavaScript"
             },
             "layoutClassName" : "",
@@ -81,7 +69,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"\"",
+              "content" : "\"<p>Start</p>\"",
               "language" : "JavaScript"
             },
             "layout" : { },
@@ -91,9 +79,41 @@
             "style" : { }
           },
           "type" : "Button"
-        } ]
+        } ],
+        "layout" : {
+          "alignItems" : "flex-start",
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
       },
       "type" : "FlexList"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Drill ?\"",
+          "language" : "JavaScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : {
+          "server" : {
+            "@class" : "Script",
+            "content" : "var props = gameModel.getProperties();\nprops.setFreeForAll(!props.getFreeForAll())",
+            "language" : "JavaScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "gameModel.getProperties().getFreeForAll();",
+          "language" : "JavaScript"
+        },
+        "style" : {
+          "padding" : "5px"
+        },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
     }, {
       "props" : {
         "children" : [ {
@@ -111,43 +131,57 @@
               "type" : "Text"
             }, {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { getPresetsAsChoices } from \"./edition/patientPreset\";\ngetPresetsAsChoices();",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "name" : "patient set",
-                "onVariableChange" : { },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'patientSet')",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
+                "children" : [ {
+                  "props" : {
+                    "choices" : {
+                      "@class" : "Script",
+                      "content" : "import { getPresetsAsChoices } from \"./edition/patientPreset\";\ngetPresetsAsChoices();",
+                      "language" : "typescript"
+                    },
+                    "className" : "SELECT",
+                    "layoutStyle" : {
+                      "minWidth" : "200px"
+                    },
+                    "name" : "patient set",
+                    "onVariableChange" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'patientSet')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Select input"
+                }, {
+                  "props" : {
+                    "icon" : "eye",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show')",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "Context.patients.setState({show: true});",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "show",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ]
               },
-              "type" : "Select input"
-            }, {
-              "props" : {
-                "icon" : "eye",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show')",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "Context.patients.setState({show: true});",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "show",
-                "style" : { }
-              },
-              "type" : "Button"
-            } ]
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "alignItems" : "flex-start",
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -157,112 +191,192 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style=\"margin: 5px 0\">${getTranslation('pretriage-interface', 'patient-set-selection')}</h3>`",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "id" : "",
+                                "layoutStyle" : { },
+                                "name" : "",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patient.id;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
                             "id" : "",
-                            "layoutStyle" : { },
-                            "name" : "",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.patient.id;",
-                              "language" : "JavaScript"
-                            }
+                            "layout" : { },
+                            "layoutClassName" : "patients-list--patient-title",
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "name" : "Header",
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.patient.meta.sex;",
-                              "language" : "JavaScript"
-                            }
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0 5px"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patient.meta.sex + ',';",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "patients-list--patient-subtitle",
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "name" : "genre, age",
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
-                              "language" : "JavaScript"
-                            }
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0 5px"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm, ';",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "padding" : "0"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "patients-list--patient-subtitle",
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "name" : "height, bmi",
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
+                            "className" : "patient-list--meta-description",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm';",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
-                              "language" : "JavaScript"
+                              "content" : "Context.patient.meta.description || '';",
+                              "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         } ],
-                        "id" : "",
-                        "layout" : { },
-                        "layoutClassName" : "patients-list--patient-title",
-                        "layoutStyle" : { },
-                        "name" : "Header",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "border-bottom" : "1px solid gray"
+                        },
                         "style" : { }
                       },
                       "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "Context.patient.meta.description || '';",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
                     } ],
+                    "exposeAs" : "patient",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getPatientsParamsFromPreset } from './edition/patientPreset';\nconst presetId = Variable.find(gameModel, 'patientSet').getValue(self);\ngetPatientsParamsFromPreset(presetId);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
                     "layout" : {
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : {
-                      "border" : "1px solid"
+                      "border" : "1px solid gray",
+                      "overflow" : "auto"
+                    },
+                    "name" : "patients",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>OK</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "Context.patients.setState({show: false});",
+                        "language" : "TypeScript"
+                      }
                     },
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "Button"
                 } ],
-                "exposeAs" : "patient",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getPatientsParamsFromPreset } from './edition/patientPreset';\nconst presetId = Variable.find(gameModel, 'patientSet').getValue(self);\ngetPatientsParamsFromPreset(presetId);",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "id",
                 "layout" : {
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
-                "name" : "patients",
-                "style" : { }
+                "style" : {
+                  "overflow" : "auto"
+                }
               },
-              "type" : "For each"
+              "type" : "FlexList"
             } ],
+            "className" : "MODAL",
             "hideIf" : {
               "@class" : "Script",
               "content" : "!Context.patients.state.show",
@@ -278,7 +392,9 @@
               }
             },
             "onExitActions" : { },
-            "style" : { }
+            "style" : {
+              "overflow" : "auto"
+            }
           },
           "type" : "Modal"
         } ],
@@ -297,59 +413,128 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "layoutStyle" : {
-              "flexGrow" : "1"
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'drill-type')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : {
+                  "flexGrow" : "1"
+                },
+                "name" : "drill type",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'drillType')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
             },
+            "layoutClassName" : "drill-config--item-container",
+            "layoutStyle" : { },
             "name" : "drill type",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'drillType')",
-              "language" : "JavaScript"
-            },
             "style" : { }
           },
-          "type" : "Select input"
+          "type" : "FlexList"
         }, {
           "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getBagsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetBagsDefinitionsAsChoices();",
-              "language" : "typescript"
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Bag type<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getBagsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetBagsDefinitionsAsChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : {
+                  "flexGrow" : "1"
+                },
+                "name" : "bag type",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'bagType')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
             },
-            "layoutStyle" : {
-              "flexGrow" : "1"
-            },
+            "layoutClassName" : "drill-config--item-container",
+            "layoutStyle" : { },
             "name" : "bag type",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'bagType')",
-              "language" : "JavaScript"
-            },
             "style" : { }
           },
-          "type" : "Select input"
+          "type" : "FlexList"
         }, {
           "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getSkillsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSkillsDefinitionsAsChoices();",
-              "language" : "typescript"
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Skills</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getSkillsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSkillsDefinitionsAsChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : {
+                  "flexGrow" : "1"
+                },
+                "name" : "skill",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'skill')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
             },
-            "layoutStyle" : {
-              "flexGrow" : "1"
-            },
+            "layoutClassName" : "drill-config--item-container",
+            "layoutStyle" : { },
             "name" : "skill",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'skill')",
-              "language" : "JavaScript"
-            },
             "style" : { }
           },
-          "type" : "Select input"
+          "type" : "FlexList"
         }, {
           "props" : {
             "hideIf" : {

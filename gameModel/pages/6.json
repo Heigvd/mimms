@@ -193,16 +193,20 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "",
                     "layout" : { },
+                    "layoutClassName" : "",
                     "layoutStyle" : {
                       "alignItems" : "center",
-                      "background" : "#cffbcf",
+                      "background" : "#E2E2E2",
                       "flexGrow" : "1",
                       "justifyContent" : "center",
-                      "padding" : "20px"
+                      "padding" : "10px"
                     },
                     "name" : "visual overview",
-                    "style" : { },
+                    "style" : {
+                      "width" : "100%"
+                    },
                     "text" : {
                       "@class" : "Script",
                       "content" : "import { getVisualOverview } from './game/display/graphics';\ngetVisualOverview();",
@@ -409,7 +413,7 @@
                                 },
                                 "localScriptEval" : {
                                   "script" : {
-                                    "@class" : "Script",
+                                    "@class" : "ClientScript",
                                     "content" : "import { selectWheelItem } from './game/display/currentPatientZoom';\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
                                     "language" : "TypeScript"
                                   }
@@ -799,52 +803,6 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\n\nconst goto = getTranslation('pretriage-interface', 'goto');\nconst pma = getTranslation('pretriage-interface', 'pma');\ngoto + ' ' + pma;",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { sendTo } from \"./game/logic/triage\";\n\nsendTo({\n\tname: 'PMA',\n\tmapId: 'TODO',\n\tx: 0, y:0\n})",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "send to",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>\\\"GO TO\\\" Panel</p><p>TODO add a button go to PMA that triggers an action \\\"Go to PMA\\\"<br></p>\"",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ],
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "Context.patientConsole.state.selectedPanel !== 'goto';",
-                      "language" : "JavaScript"
-                    },
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "goto",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
                         "hideIf" : {
                           "@class" : "Script",
                           "content" : "!Editor.getFeatures().ADVANCED;",
@@ -944,7 +902,9 @@
                     "children" : [ {
                       "props" : {
                         "className" : "title",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
@@ -988,7 +948,9 @@
                     "children" : [ {
                       "props" : {
                         "className" : "title",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
@@ -1283,7 +1245,8 @@
         },
         "layout" : { },
         "layoutStyle" : {
-          "height" : "100%"
+          "height" : "100%",
+          "padding" : "0"
         },
         "localState" : true,
         "style" : { }
@@ -1297,6 +1260,7 @@
       "flexGrow" : "1",
       "height" : "100%",
       "overflow" : "visible",
+      "padding" : "0",
       "width" : "100%"
     },
     "style" : { }
