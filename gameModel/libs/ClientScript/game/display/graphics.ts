@@ -255,8 +255,6 @@ function getColorful(human: HumanBody) {
 
 export function getOverview(human: (HumanBody & { category: Categorization | undefined })): HumanOverview {
 
-
-
 	const looksDead = (human.state.vitals.cardiacArrest ?? 0) > 0;
 
 	const category = getCategory(human.category?.category);
@@ -297,7 +295,7 @@ export function getCategoryCard(): string {
 			output.push(`<div class='cat_card ${overview.category}' style='background-color:${overview.category?.bgColor}'></div>`);
 		}
 	} else {
-		output.push("<em>Error [patient not found]</em>");
+		//output.push("<em>Error [patient not found]</em>");
 	}
 	return output.join("");
 }
@@ -314,7 +312,8 @@ export function getVisualOverview(): string {
 			output.push(`<div>${getBodyPicto(overview, 0.005, false)}</div>`);
 		}
 	} else {
-		output.push("<em>Error [patient not found]</em>");
+		output.push('<em>Loading...</em>');
+		//output.push("<em>Error [patient not found]</em>");
 	}
 	return output.join("");
 }

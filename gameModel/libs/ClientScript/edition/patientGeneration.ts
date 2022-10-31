@@ -13,7 +13,7 @@ import { patientGenerationLogger } from '../tools/logger';
 /**
  * Add patients to the existing list
  */
-export function createPatients(n: number, namer: string | ((n: number) => string) | undefined) {
+export function createPatients(n: number, namer?: string | ((n: number) => string) | undefined) {
 
 	const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
 
@@ -24,11 +24,11 @@ export function createPatients(n: number, namer: string | ((n: number) => string
 		} else if (typeof namer === 'function') {
 			name = namer(i);
 		} else {
-			name = makeRandomName(5);
+			name = makeOfficialUid();
 		}
 		while(patients[name]) // collision
 		{
-			name = makeRandomName(5);
+			name = makeOfficialUid();
 		}
 		patients[name] = generateOnePatient(undefined, 1);
 	}
@@ -89,6 +89,28 @@ function makeUid(length: number): string {
 
 	for (let i = 0; i < length; i++){
 		id += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+
+	return id;
+}
+
+/**
+ * CH-XY-123 official patient format
+ */
+export function makeOfficialUid(): string {
+
+	let id = 'CH-';
+	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	for (let i = 0; i < 2; i++){
+		id += letters.charAt(Math.floor(Math.random() * letters.length));
+	}
+
+	id += '-';
+	const numbers = "0123456789";
+
+	for (let i = 0; i < 3; i++){
+		id += numbers.charAt(Math.floor(Math.random() * numbers.length));
 	}
 
 	return id;

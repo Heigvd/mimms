@@ -72,9 +72,9 @@
         "layoutStyle" : { },
         "localScriptEval" : {
           "script" : {
-            "@class" : "Script",
-            "content" : "import { createPatients } from './edition/patientGeneration';\nconst n = Math.floor(Variable.find(gameModel, 'patientNumber').getValue(self));\ncreatePatients( n ,'patient-');",
-            "language" : "typescript"
+            "@class" : "ClientScript",
+            "content" : "import { createPatients } from './edition/patientGeneration';\nconst n = Math.floor(Variable.find(gameModel, 'patientNumber').getValue(self));\ncreatePatients(n);",
+            "language" : "TypeScript"
           }
         },
         "name" : "generate",

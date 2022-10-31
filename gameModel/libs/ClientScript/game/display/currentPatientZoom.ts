@@ -937,16 +937,15 @@ function addBleedingDescription(output: string[], ho : HumanOverview): void {
 	}
 }
 
-
 export function getHumanVisualInfos(): string {
 	const human = getCurrentPatientBody();
 	const output: string[] = [''];
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
-			output.push(getTranslation('human-general', overview.position));
-			output.push(getAlertness(overview));
-			addBleedingDescription(output, overview);
+			//output.push(getTranslation('human-general', overview.position));
+			//output.push(getAlertness(overview));
+			//addBleedingDescription(output, overview);
 			output.push(getBreathingOverview(overview));
 		}
 	} else {
