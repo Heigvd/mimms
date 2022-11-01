@@ -496,7 +496,7 @@ function resolveAction<T extends HumanAction>(
 	}
 }
 
-export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
+export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) : Promise<IManagedResponse> | undefined{
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
 
 	if (action != null) {
@@ -510,7 +510,7 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
 					type: 'itemAction' as const,
 					...measure.itemActionId,
 				};
-		sendEvent({
+		return sendEvent({
 			...initEmitterIds(),
 			type: 'HumanMeasure',
 			targetType: 'Human',
@@ -545,9 +545,10 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 	}
 }
 
+
 function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
 	if(translationVar){
-		title = getTranslation(translationVar, title);
+		title = getTranslation(translationVar, title, true);
 	}
 	return `<div class='block-title'>${title}</div>`;
 }
@@ -573,11 +574,11 @@ function formatBlockEntry(title: string, translationVar?: keyof VariableClasses,
 function getBlockDetails(block: Block | undefined, bodyState: BodyState): string[] {
 	const output: string[] = [];
 	if (block) {
-		output.push(formatBlockTitle(block.name));
+		output.push(formatBlockTitle(block.name, 'human-blocks'));
 		logger.info('Block: ', block.params);
 
 		if (block.params.pain) {
-			output.push(formatBlockEntry('pain', 'human-pathology', '' + block.params.pain));
+			output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
 		}
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {

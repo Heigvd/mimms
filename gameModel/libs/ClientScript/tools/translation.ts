@@ -5,13 +5,13 @@ const cache : Record<string, SObjectDescriptor> = {};
 
 export function getTranslation(category: keyof VariableClasses, key : string, upperCaseFirstLetter = true) : string {
 
-	// TODO cache variable ??
 	// TODO cache translations ?
 
 	if(!cache[category]){
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
 	}
 	if(cache[category]){
+		//TODO cache parsed ?
 		const tr = cache[category].getProperties()[key];
 		if(tr){
 			const t = JSON.parse(tr);
@@ -26,6 +26,19 @@ export function getTranslation(category: keyof VariableClasses, key : string, up
 	return fallback;
 }
 
+export function translationExists(category: keyof VariableClasses, key : string): boolean {
+
+	if(!cache[category]){
+		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
+	}
+	if(cache[category]){
+		const tr = cache[category].getProperties()[key];
+		if(tr){
+			return true;
+		}
+	}
+	return false;
+}
 
 export function getBlockTranslation(blockName: string): string {
 	return getTranslation('human-blocks', blockName);
@@ -33,6 +46,19 @@ export function getBlockTranslation(blockName: string): string {
 
 export function getPathologyTranslation(pathologyName: string): string {
 	return getTranslation('human-pathology', pathologyName);
+}
+
+/**
+ * get translation for an item or an action 
+ */
+export function getItemActionTranslation(actionOrItemName : string, upperCaseFirstLetter? : boolean) : string {
+
+	if(translationExists('human-items', actionOrItemName)){
+		return getTranslation('human-items', actionOrItemName, upperCaseFirstLetter);
+	}else{
+		return getTranslation('human-actions', actionOrItemName, upperCaseFirstLetter);
+	}
+
 }
 
 export function upperCaseFirst(s: string): string {
@@ -109,6 +135,7 @@ export function updateFromAllTsv(dryrun: boolean):void {
 
 	const variables : (keyof VariableClasses)[] = [
 		'pretriage-interface',
+		'pretriage-explanations',
 		//'pretriage-algorithms',
 		'human-actions',
 		'human-items',
