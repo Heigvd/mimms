@@ -12,13 +12,13 @@ export function getSendEventServerScript(payload: EventPayload, time?: number) {
 	return `EventManager.postEvent(${JSON.stringify(payload)}${time != null ? `, ${time}` : ''});`;
 }
 
-export function sendEvent(payload: EventPayload) {
-	APIMethods.runScript(getSendEventServerScript(payload), {});
+export function sendEvent(payload: EventPayload) : Promise<IManagedResponse> {
+	return APIMethods.runScript(getSendEventServerScript(payload), {});
 }
 
-export function sendEvents(payloads: EventPayload[]) {
+export function sendEvents(payloads: EventPayload[]) : Promise<IManagedResponse>{
 	const script = payloads.map(payload => getSendEventServerScript(payload)).join("");
-	APIMethods.runScript(script, {});
+	return APIMethods.runScript(script, {});
 }
 
 export function getAllEvents(): FullEvent<EventPayload>[] {

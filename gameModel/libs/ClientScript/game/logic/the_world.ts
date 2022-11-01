@@ -1979,6 +1979,7 @@ export function clearState() {
 	healths = {};
 	delayedActions = [];
 	clearAllCommunicationState();
+	drillInventoryByPassDone = undefined;
 }
 
 Helpers.registerEffect(() => {

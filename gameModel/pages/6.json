@@ -578,15 +578,16 @@
                                 "icon" : "ruler",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<span style=\\\"font-size: 14pt;\\\"><strong>Do measure</strong></span>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'doMeasure');\n`<span style=\\\"font-size: 14pt;\\\"><strong>${text}</strong></span>`",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
-                                    "@class" : "Script",
+                                    "@class" : "ClientScript",
                                     "content" : "import { doWheelMeasure } from './game/display/currentPatientZoom';\n\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
-                                    "language" : "TypeScript"
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
                                   }
                                 },
                                 "style" : { }
@@ -670,7 +671,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "\"<span style=\\\"color: #000000;\\\"><strong>Please select a block in the right panel</strong></span>\"",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'pleaseSelectBlock');\n`<span style=\\\"color: #000000;\\\"><strong>${text}</strong></span>`",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -705,7 +706,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\n`<b>${treat}:</b> ${Context.patientConsole.state.selectedAction?.id}`;",
+                                  "content" : "import { getItemActionTranslation, getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst actId = Context.patientConsole.state.selectedAction?.id;\nconst action = getItemActionTranslation(actId);\n`<b>${treat}:</b> ${action}`;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -723,7 +724,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`<b>On:</b> ${Context.patientConsole.state.selectedBlock}`;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst label = getTranslation('pretriage-interface', 'bodyPart');\nconst block = getTranslation('human-blocks', Context.patientConsole.state.selectedBlock);\n`<b>${label}:</b> ${block}`;",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -909,7 +910,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Console\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'console');",
                           "language" : "JavaScript"
                         }
                       },

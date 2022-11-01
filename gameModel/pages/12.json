@@ -19,17 +19,24 @@
       "type" : "Text"
     }, {
       "props" : {
+        "exposeAs" : "state",
         "ifCondition" : {
           "@class" : "",
           "content" : "",
           "language" : ""
         },
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "({})",
+          "language" : "TypeScript"
+        },
         "layoutStyle" : { },
+        "localState" : false,
         "name" : "categorySystem",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'categorySystemName') + ': ';\nconst systemName = getTagSystemName();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'category-system') + ': ';\nconst systemName = getTagSystemName();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
           "language" : "JavaScript"
         }
       },
