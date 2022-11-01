@@ -513,6 +513,10 @@ export function getBagDefinition(bagId: string) {
  * Get character skills
  */
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
+	if(getDrillType() === 'PRE-TRIAGE') {
+		const skillId = Variable.find(gameModel, 'skill').getValue(self);
+		return getSkillDefinition(skillId);
+	}
 	const humanDef = getBodyParam(humanId);
 	const skillId = humanDef?.skillId;
 	return getSkillDefinition(skillId);
@@ -522,10 +526,6 @@ export function getHumanSkillDefinition(humanId: string): SkillDefinition {
  * Get current character skills, or drill skill level if in drill mode
  */
 export function getMySkillDefinition(): SkillDefinition {
-	if(getDrillType() === 'PRE-TRIAGE'){
-		const skillId = Variable.find(gameModel, 'skill').getValue(self);
-		return getSkillDefinition(skillId);
-	}
 	return getHumanSkillDefinition(whoAmI());
 }
 

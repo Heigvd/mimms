@@ -50,24 +50,22 @@ type WheelExtraPanel = BaseItem & {
 
 type WheelAction = WheelItemAction | WheelAct;
 
-type SubMenu = BaseItem & {
-	type: 'WheelSubMenu';
+type WheelMenuItem = BaseItem & {
+	type: 'WheelMenuItem';
 	id: string;
 	items: WheelAction[];
 };
 
-type SubWheelItem = SubMenu | WheelAction;
+type WheelItem = WheelMenuItem | WheelExtraPanel;
 
-type WheelItem = SubWheelItem | WheelExtraPanel;
-
-type SubWheel = BaseItem & {
-	type: 'SubWheel';
+type WheelMenu = BaseItem & {
+	type: 'WheelMenu';
 	id: string;
-	items: SubWheelItem[];
+	items: WheelMenuItem[];
 };
 
 interface Wheel {
-	mainMenu: SubWheel[];
+	mainMenu: WheelMenu[];
 	shortcuts: WheelItem[];
 }
 
@@ -79,9 +77,12 @@ export interface PatientZoomState {
 	//logs: string[];
 	currentPatient: string | undefined;
 	selectedPanel: string | undefined;
-	selectedAction: WheelAction | undefined;
+	/** Id of the selected mainmenu */
 	selectedMenu: string | undefined;
+	/** Id of the selected sub-menu */
 	selectedSubMenu: string | undefined;
+	/** selected action */
+	selectedAction: WheelAction | undefined;
 	selectedBlock: string | undefined;
 	observedBlock: string | undefined;
 	availableBlocks: string[];
@@ -177,17 +178,17 @@ interface ByType {
 	treatments: WheelAction[];
 }
 
-function getSubMenu(bag: ByType): SubMenu[] {
+function getWheelMenuItems(bag: ByType): WheelMenuItem[] {
 	return [
 		{
-			type: 'WheelSubMenu',
+			type: 'WheelMenuItem',
 			id: 'measureMenu',
 			label: getTranslation('pretriage-interface', 'measures'),
 			items: bag.measures,
 			icon: 'ruler',
 		},
 		{
-			type: 'WheelSubMenu',
+			type: 'WheelMenuItem',
 			id: 'treatmentMenu',
 			label: getTranslation('pretriage-interface', 'treatments'),
 			items: bag.treatments,
@@ -218,48 +219,48 @@ function getABCDEWheel(): Wheel {
 		}
 	});
 
-	const categories: Record<ABCDECategory, SubWheel> = {
+	const categories: Record<ABCDECategory, WheelMenu> = {
 		A: {
 			id: 'aMenu',
 			label: 'A',
 			icon: 'wind',
-			items: getSubMenu(bag.A),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.A),
+			type: 'WheelMenu',
 		},
 		B: {
 			id: 'bMenu',
 			label: 'B',
 			icon: 'lungs',
-			items: getSubMenu(bag.B),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.B),
+			type: 'WheelMenu',
 		},
 		C: {
 			id: 'cMenu',
 			label: 'C',
 			icon: 'heartbeat',
-			items: getSubMenu(bag.C),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.C),
+			type: 'WheelMenu',
 		},
 		D: {
 			id: 'dMenu',
 			label: 'D',
 			icon: 'dizzy',
-			items: getSubMenu(bag.D),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.D),
+			type: 'WheelMenu',
 		},
 		E: {
 			id: 'eMenu',
 			label: 'E',
 			icon: 'stethoscope',
-			items: getSubMenu(bag.E),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.E),
+			type: 'WheelMenu',
 		},
 		Z: {
 			id: 'zMenu',
 			label: '',
 			icon: 'comments',
-			items: getSubMenu(bag.Z),
-			type: 'SubWheel',
+			items: getWheelMenuItems(bag.Z),
+			type: 'WheelMenu',
 		},
 	};
 
@@ -306,7 +307,7 @@ export function getMyMedicalActs(): ActDefinition[] {
 // The Wheel Helpers
 /////////////////////////////////
 
-export function getButtonLabel(item: WheelItem | SubWheel): string {
+export function getButtonLabel(item: WheelItem | WheelMenu | WheelAction): string {
 	switch (item.type) {
 		case 'WheelItemAction':
 			if (item.disposable) {
@@ -315,13 +316,13 @@ export function getButtonLabel(item: WheelItem | SubWheel): string {
 				return item.label;
 			}
 
-		case 'WheelSubMenu':
-            // falls through
+		case 'WheelMenuItem':
+		// falls through
 		case 'WheelAct':
-            // falls through
+		// falls through
 		case 'ExtraPanel':
-            // falls through
-		case 'SubWheel':
+		// falls through
+		case 'WheelMenu':
 			return item.label;
 	}
 }
@@ -335,7 +336,7 @@ export function getSubWheelTitle(state: PatientZoomState): string {
 	return '';
 }
 
-export function getSubWheelMenu(state: PatientZoomState): SubWheelItem[] {
+export function getSubWheelMenu(state: PatientZoomState): WheelMenuItem[] {
 	const wheel = getWheel();
 	const menu = wheel.mainMenu.find(item => item.id === state.selectedMenu);
 	if (menu != null) {
@@ -357,18 +358,18 @@ export function getWheelSubmenuTitle(state: PatientZoomState): string {
 	const subWheel = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
 	if (subWheel != null) {
 		const menu = subWheel.items.find(
-			item => item.type === 'WheelSubMenu' && item.id === state.selectedSubMenu,
+			item => item.type === 'WheelMenuItem' && item.id === state.selectedSubMenu,
 		);
 
 		if (menu != null) {
-			return (menu as SubMenu).label;
+			return (menu as WheelMenuItem).label;
 		}
 	}
 
 	return '';
 }
 
-export function getWheelSubmenu(state: PatientZoomState): WheelAction[] {
+export function getSubWheelSubmenu(state: PatientZoomState): WheelAction[] {
 	const wheel = getWheel();
 	const subWheel = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
 
@@ -377,11 +378,11 @@ export function getWheelSubmenu(state: PatientZoomState): WheelAction[] {
 	}
 
 	const menu = subWheel.items.find(
-		item => item.type === 'WheelSubMenu' && item.id === state.selectedSubMenu,
+		item => item.type === 'WheelMenuItem' && item.id === state.selectedSubMenu,
 	);
 
 	if (menu != null) {
-		return (menu as SubMenu).items;
+		return (menu as WheelMenuItem).items;
 	}
 	return [];
 }
@@ -390,25 +391,50 @@ export function getWheelSubmenu(state: PatientZoomState): WheelAction[] {
 // The Wheel Selectors
 /////////////////////////////////
 
-export function selectSubWheel(subWheelId: string, setState: SetZoomState) {
+export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
+
+	const wheel = getWheel();
+	const selectedMenu = wheel.mainMenu.find(sub => sub.id === menuId);
+
+	// select first non-empty subMenu automatically
+	const subMenu = selectedMenu?.items.find(item => {
+		return item.items.length > 0;
+	});
+
+	// select first action if any
+	const action = subMenu?.items[0];
+
 	setState(state => {
 		return {
 			...state,
 			selectedPanel: undefined,
-			selectedMenu: subWheelId,
-			// selectedSubMenu: undefined,
-			selectedAction: undefined,
+			selectedMenu: menuId,
+			selectedSubMenu: subMenu?.id,
+			selectedAction: action,
 		};
 	});
 }
 
 export function selectSubMenu(subMenuId: string, setState: SetZoomState) {
+
 	setState(state => {
+
+		const wheel = getWheel();
+		const selectedMenu = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
+
+		// get items of subMenu to select
+		const subMenu = selectedMenu?.items.find(item => {
+			return item.id === subMenuId;
+		});
+
+		// select first action if any
+		const action = subMenu?.items[0];
+
 		return {
 			...state,
 			selectedPanel: undefined,
 			selectedSubMenu: subMenuId,
-			selectedAction: undefined,
+			selectedAction: action,
 		};
 	});
 }
@@ -452,7 +478,7 @@ export function selectWheelAction(action: WheelAction | undefined, setState: Set
 }
 
 export function selectWheelItem(item: WheelItem, setState: SetZoomState) {
-	if (item.type === 'WheelSubMenu') {
+	if (item.type === 'WheelMenuItem') {
 		selectSubMenu(item.id, setState);
 	} else if (item.type === 'ExtraPanel') {
 		selectPanel(item, setState);
@@ -546,21 +572,21 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 }
 
 function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
-	if(translationVar){
+	if (translationVar) {
 		title = getTranslation(translationVar, title);
 	}
 	return `<div class='block-title'>${title}</div>`;
 }
 
 function formatBlockSubTitle(title: string, translationVar?: keyof VariableClasses): string {
-	if(translationVar){
+	if (translationVar) {
 		title = getTranslation(translationVar, title);
 	}
 	return `<div class='block-subtitle'>${title}</div>`;
 }
 
 function formatBlockEntry(title: string, translationVar?: keyof VariableClasses, value?: string): string {
-	if(translationVar){
+	if (translationVar) {
 		title = getTranslation(translationVar, title);
 	}
 	return `<div class='block-entry'>
@@ -669,7 +695,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 
 				if (bodyState.variables.positivePressure === 'aborted') {
 					posP += ": " + getTranslation('human-general', 'aborted');
-				} 
+				}
 				output.push(formatBlockEntry(posP));
 
 			}
@@ -809,7 +835,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 		case 'vitals.respiration.SpO2':
 			return ['SpO2', percentFormatter(value)];
 		case 'vitals.respiration.rr':
-			return ['RR', intFormatter(value)  + "/min"];
+			return ['RR', intFormatter(value) + "/min"];
 		case 'vitals.capillaryRefillTime_s':
 			return ['CRT', twoDecimalFormatter(value)];
 		case 'vitals.respiration.PaO2':
@@ -842,7 +868,7 @@ function formatLog(log: ConsoleLog): string {
 			return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
 		});
 		return `<div class='log_container'>${time} <div class='msr_list'>${lines.join("")}</div></div>`;
-	} else if(log.type === 'TreatmentLog'){
+	} else if (log.type === 'TreatmentLog') {
 		return `<div class='log_container'>${time} <div class='msr_list'>${log.message}</div></div>`;
 	}
 	return `<div class='log_container'>${time}: UNKWOWN LOG TYPE: ${(log as any).type}</div>`;
@@ -930,9 +956,8 @@ function getBreathingOverview(overview: HumanOverview): string {
 	return getTranslation('human-general', breathing, false);
 }
 
-function addBleedingDescription(output: string[], ho : HumanOverview): void {
-	if(ho.totalExternalBloodLosses_ml > 0)
-	{
+function addBleedingDescription(output: string[], ho: HumanOverview): void {
+	if (ho.totalExternalBloodLosses_ml > 0) {
 		output.push(getTranslation('human-general', 'bleeds', false));
 	}
 }

@@ -276,9 +276,9 @@
                             },
                             "localScriptEval" : {
                               "script" : {
-                                "@class" : "Script",
-                                "content" : "import { selectSubWheel } from './game/display/currentPatientZoom';\n\nselectSubWheel(Context.wheelItem.id, Context.patientConsole.setState);",
-                                "language" : "typescript"
+                                "@class" : "ClientScript",
+                                "content" : "import { selectWheelMainMenu } from './game/display/currentPatientZoom';\n\nselectWheelMainMenu(Context.wheelItem.id, Context.patientConsole.setState);",
+                                "language" : "TypeScript"
                               }
                             },
                             "style" : {
@@ -300,7 +300,7 @@
                           "flexWrap" : "wrap"
                         },
                         "layoutStyle" : { },
-                        "name" : "main menu",
+                        "name" : "main menu items",
                         "style" : { }
                       },
                       "type" : "For each"
@@ -363,7 +363,7 @@
                     },
                     "layoutClassName" : "menu",
                     "layoutStyle" : { },
-                    "name" : "the Wheel",
+                    "name" : "the Wheel main menu",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -405,7 +405,7 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel, getWheelSubmenu } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
+                                  "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : {
@@ -441,6 +441,7 @@
                               "borderBottom" : "1px solid var(--colors-primarycolor)",
                               "padding" : "0"
                             },
+                            "name" : "selected main menu sub menu items",
                             "style" : { }
                           },
                           "type" : "For each"
@@ -455,7 +456,7 @@
                         },
                         "layoutClassName" : "tabs",
                         "layoutStyle" : { },
-                        "name" : "sub wheel",
+                        "name" : "selected main menu -> sub menu",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -500,7 +501,7 @@
                             "exposeAs" : "menuItem",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getWheelSubmenu } from './game/display/currentPatientZoom';\ngetWheelSubmenu(Context.patientConsole.state);",
+                              "content" : "import { getSubWheelSubmenu } from './game/display/currentPatientZoom';\ngetSubWheelSubmenu(Context.patientConsole.state);",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -520,7 +521,7 @@
                         "layoutStyle" : {
                           "padding" : "0"
                         },
-                        "name" : "sub menu",
+                        "name" : "selected sub menu -> items",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -780,7 +781,7 @@
                         "layoutStyle" : {
                           "borderTop" : "1px solid var(--colors-primarycolor)"
                         },
-                        "name" : "action treatment",
+                        "name" : "selected sub menu selected item -> details",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -795,7 +796,7 @@
                     },
                     "layoutClassName" : "subMenu",
                     "layoutStyle" : { },
-                    "name" : "sub wheel panel",
+                    "name" : "Wheel selected main menu",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -881,7 +882,7 @@
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : { },
-                    "name" : "triage",
+                    "name" : "triage panel",
                     "style" : { }
                   },
                   "type" : "FlexList"
