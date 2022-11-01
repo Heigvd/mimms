@@ -787,6 +787,21 @@ function init() {
 		},
 	});
 
+	registerAct({
+		id: 'openAirways',
+		action: {
+			type: 'ActionBodyEffect',
+			targetedObject: 'HumanBody',
+			name: 'open airways',
+			visible: false,
+			blocks: [],
+			category: 'A',
+			rules: [],
+			createActions: [],
+			duration: { low_skill: 0, high_skill: 0 },
+		},
+	});
+
 	registerItem({
 		id: 'guedel',
 		//name: 'Guedel',
