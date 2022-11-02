@@ -828,7 +828,6 @@
                       "type" : "Button"
                     }, {
                       "props" : {
-                        "alignSelf" : "center",
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : { },
@@ -839,10 +838,12 @@
                                 "language" : "typescript"
                               }
                             },
-                            "style" : { },
+                            "style" : {
+                              "width" : "100%"
+                            },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "`<div class='tagCategory clickable' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
+                              "content" : "//var isCurrent = category && category.id === Context.category.id;\n`<div class='tagCategory clickable ${Context.tagCategory.isSelected ? ' current' : ''}' style=\\\"color: ${Context.tagCategory.color}; background-color: ${Context.tagCategory.bgColor}\\\">${Context.tagCategory.name}</div>`;",
                               "language" : "JavaScript"
                             }
                           },
@@ -861,12 +862,13 @@
                         "exposeAs" : "tagCategory",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getTagSystemCategories } from './game/logic/triage';\n[...getTagSystemCategories().categories].reverse();",
+                          "content" : "import { getCurrentCategory, getTagSystemCategories } from './game/logic/triage';\nconst selectedId = getCurrentCategory();\n[...getTagSystemCategories().categories].reverse().map((cat)=>{\n\treturn {\n\t\t...cat,\n\t\tisSelected: selectedId === cat.id\n\t}\n});",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
                         "itemsOnly" : false,
                         "layout" : {
+                          "alignItems" : "stretch",
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : { },
@@ -880,6 +882,7 @@
                       "language" : "JavaScript"
                     },
                     "layout" : {
+                      "alignItems" : "stretch",
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : { },

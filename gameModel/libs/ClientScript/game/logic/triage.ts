@@ -6,12 +6,14 @@ import {
 	ConsoleLog,
 	getCurrentPatientBody,
 	getCurrentPatientHealth,
+	getHuman,
 	getHumanConsole,
 	HumanHealth,
 NamedLocation,
 } from './the_world';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
+import { getOverview } from '../display/graphics';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)
@@ -1292,6 +1294,18 @@ export function getCategory(category: string | undefined): { category: Category<
 			}
 		}
 	}
+}
+
+export function getCurrentCategory(): string | undefined {
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			return overview.category?.id;
+		}
+	} 
+	return undefined;
 }
 
 export function doAutomaticTriageAndLogToConsole() {
