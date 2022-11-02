@@ -129,19 +129,18 @@
                             },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"next patient\"",
+                              "content" : "\"<p>Ok</p>\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectNextPatient } from './game/logic/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown>"
+                                "content" : "Context.explanation.setState({showExplanation: false});",
+                                "language" : "TypeScript"
                               }
                             },
-                            "name" : "next",
+                            "name" : "close correction",
                             "style" : { }
                           },
                           "type" : "Button"
@@ -173,6 +172,7 @@
                   "type" : "Modal"
                 }, {
                   "props" : {
+                    "className" : "invertedButton",
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
@@ -183,10 +183,9 @@
                       "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
                       "language" : "typescript"
                     },
-                    "icon" : "check",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'validate');",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show-correction');",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : {
@@ -199,7 +198,7 @@
                         "language" : "typescript"
                       }
                     },
-                    "name" : "validation",
+                    "name" : "show-correction",
                     "style" : { }
                   },
                   "type" : "Button"
@@ -212,10 +211,45 @@
                 },
                 "layoutStyle" : { },
                 "localState" : true,
-                "name" : "",
+                "name" : "correction modal",
                 "style" : { }
               },
               "type" : "State"
+            }, {
+              "props" : {
+                "className" : "",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                  "language" : "typescript"
+                },
+                "icon" : "arrow-right",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
+                  "language" : "JavaScript"
+                },
+                "layoutStyle" : {
+                  "padding" : "0"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { selectNextPatient } from './game/logic/drill';\nselectNextPatient();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "next-patient",
+                "prefixedLabel" : true,
+                "style" : { }
+              },
+              "type" : "Button"
             }, {
               "props" : {
                 "hideIf" : {
