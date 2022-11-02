@@ -136,7 +136,21 @@
 .patientConsole .tagCategory.current:hover {	
 	border-color: black;
 }
-
+.patient-correction .tagCategory {
+	padding: 5px;
+	border-radius: 3px;
+}
+.patient-correction .subtitle {
+	text-transform: uppercase;
+	color: var(--colors-disabledcolor);
+	font-size: 14px;
+}
+.patient-correction .subtitle p {
+	margin: 0;
+}
+.patient-correction ul {
+	margin: 0;
+}
 
 
 

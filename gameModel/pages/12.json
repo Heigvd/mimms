@@ -109,56 +109,212 @@
                     "attachedToId" : "drillPretriPage",
                     "children" : [ {
                       "props" : {
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "title-patient ID",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getCurrentPatientTitle } from \"./game/display/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "borderBottom" : "1px solid var(--colors-disabledcolor)",
+                              "borderTop" : "1px solid var(--colors-disabledcolor)"
+                            },
+                            "name" : "suggested-answer",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\ngetCurrentPatientAutoTriage();",
-                              "language" : "JavaScript"
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'suggested-answer')}</h3>`;",
+                              "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "hideIf" : {
+                            "layoutStyle" : {
+                              "border" : "1px solid var(--colors-disabledcolor)",
+                              "borderRight" : "transparent"
+                            },
+                            "name" : "given answer",
+                            "style" : { },
+                            "text" : {
                               "@class" : "Script",
-                              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
-                              "language" : "typescript"
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'given-answer')}</h3>`;",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "subtitle",
+                                "layoutStyle" : { },
+                                "name" : "category title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Category</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "",
+                                "layoutStyle" : { },
+                                "name" : "category",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "subtitle",
+                                    "layoutStyle" : { },
+                                    "name" : "justification title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Justification<br></p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "name" : "justification",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "justification block",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
                             },
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Ok</p>\"",
-                              "language" : "JavaScript"
+                            "layoutStyle" : {
+                              "borderBottom" : "1px solid var(--colors-disabledcolor)"
                             },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "Context.explanation.setState({showExplanation: false});",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "close correction",
+                            "name" : "suggested-answer-block",
                             "style" : { }
                           },
-                          "type" : "Button"
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "subtitle",
+                                "layoutStyle" : { },
+                                "name" : "category title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Category</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : {
+                              "borderBottom" : "1px solid var(--colors-disabledcolor)",
+                              "borderLeft" : "1px solid var(--colors-disabledcolor)"
+                            },
+                            "name" : "given answer block",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
                         } ],
                         "layout" : {
-                          "flexDirection" : "column"
+                          "gridTemplateColumns" : "1fr 1fr"
                         },
+                        "layoutClassName" : "patient-correction",
                         "layoutStyle" : { },
                         "style" : { }
                       },
-                      "type" : "FlexList"
+                      "type" : "Grid"
+                    }, {
+                      "props" : {
+                        "alignSelf" : "flex-end",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                          "language" : "typescript"
+                        },
+                        "icon" : "arrow-right",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
+                          "language" : "JavaScript"
+                        },
+                        "layoutStyle" : {
+                          "marginTop" : "10px"
+                        },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { selectNextPatient } from './game/logic/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
+                            "language" : "TypeScript",
+                            "returnType" : "Promise<unknown> | undefined"
+                          }
+                        },
+                        "name" : "next-patient",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
                     } ],
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
                       "language" : "typescript"
                     },
-                    "layout" : { },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "onExitActions" : {
                       "client" : {
@@ -514,7 +670,7 @@
                     }, {
                       "props" : {
                         "layoutStyle" : { },
-                        "name" : "correction",
+                        "name" : "given-answer",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
@@ -527,7 +683,7 @@
                       "props" : {
                         "className" : "answer",
                         "layoutStyle" : { },
-                        "name" : "given-answer",
+                        "name" : "correction",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
