@@ -10,6 +10,7 @@ import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../l
 import { getOverview, HumanOverview } from "./graphics";
 import { getTranslation } from "../../tools/translation";
 import { getMySkillDefinition } from "../../tools/WegasHelper";
+import { toHourMinutesSeconds } from "../../tools/helper";
 
 /////////////////////////////////
 // The Wheel
@@ -860,7 +861,9 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 }
 
 function formatLog(log: ConsoleLog): string {
-	const time = `<span class='time'>${log.time}</span>`;
+
+	const formattedTime = toHourMinutesSeconds(log.time);
+	const time = `<span class='time'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
 		return `<div class='log_container'>${time} <span class='message'>${log.message}</span></div>`;
 	} else if (log.type === 'MeasureLog') {
@@ -879,7 +882,7 @@ export function getPatientConsole(): string {
 	const id = getCurrentPatientId();
 
 	const console = getHumanConsole(id);
-	return console.map(formatLog).join('');
+	return console.reverse().map(formatLog).join('');
 }
 
 export function categorize(category: string) {

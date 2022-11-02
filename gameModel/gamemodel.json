@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1667377608051,
+  "createdTime" : 1667408479583,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1445,7 +1445,22 @@
           "trValue" : {
             "@class" : "TranslatableContent",
             "refId" : "TranslatableContent:24057040:pq7EBd",
-            "translations" : { }
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:24057040:pq7EBd::EN",
+                "status" : "",
+                "translation" : "SMURDoctor"
+              },
+              "FR" : {
+                "@class" : "Translation",
+                "lang" : "FR",
+                "refId" : "TranslatableContent:24057040:pq7EBd::FR",
+                "status" : "",
+                "translation" : "SMURDoctor"
+              }
+            }
           }
         },
         "editorTag" : "skill",
@@ -3624,7 +3639,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn Audrey work version",
+  "name" : "HUMAn (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -161,3 +161,19 @@ export function compare(a?: string, b?: string){
 	return a.localeCompare(b);
 }
 
+export function toHourMinutesSeconds(seconds : number) : string {
+
+	const hours = Math.floor(seconds / 3600);
+	const minutes = Math.floor((seconds % 3600) / 60);
+	const sec = seconds % 60;
+
+	let output = '';
+
+	if(hours > 0){
+		output += hours + 'h';
+	}
+	output += minutes + "'";
+	output += sec + "''";
+	return output;
+}
+

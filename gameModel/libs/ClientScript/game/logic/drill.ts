@@ -2,7 +2,7 @@ import { initEmitterIds } from "./baseEvent";
 import { getSendEventServerScript } from "./EventManager";
 import { compare, pickRandom } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
-import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
+import { AgingEvent, getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
 import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
@@ -125,6 +125,7 @@ export function selectNextPatient(): Promise<unknown> {
 
 				const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
+				// TODO move out from if
 				const currentPatientId = getCurrentPatientId();
 				if (currentPatientId) {
 					// freeze currentPatient before switchin to new one
@@ -162,10 +163,19 @@ export function selectNextPatient(): Promise<unknown> {
 				toPost.push(`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`);
 
 				// move time forward
-				//toPost.push(`TimeManager.fastForward('${times.max - currentTime}s');`);
+				// toPost.push(`TimeManager.fastForward('${times.max - currentTime}s');`);
 				// TODO parametrized ??
-				// TODO test
-				toPost.push(`TimeManager.fastForward('1h');`);
+				//toPost.push(`TimeManager.fastForward('1h');`);
+
+				const timeJump : AgingEvent = {
+					...emitter,
+					type: 'Aging',
+					deltaSeconds: 3600,
+					targetType: 'Human',
+					targetId: patientId
+				}
+
+				toPost.push(getSendEventServerScript(timeJump, currentTime));
 
 				return APIMethods.runScript(toPost.join(""), {});
 			}
