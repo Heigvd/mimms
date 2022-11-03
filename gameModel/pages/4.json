@@ -186,7 +186,8 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+            "attachToClosest" : ".setup-page",
+            "attachedToId" : "",
             "children" : [ {
               "props" : {
                 "children" : [ {
@@ -653,11 +654,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "setup-page",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

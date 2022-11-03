@@ -6,7 +6,7 @@ import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, Base
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
-import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../logic/triage";
+import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getTranslation } from "../../tools/translation";
 import { getMySkillDefinition } from "../../tools/WegasHelper";
@@ -523,7 +523,7 @@ function resolveAction<T extends HumanAction>(
 	}
 }
 
-export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) : Promise<IManagedResponse> | undefined{
+export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Promise<IManagedResponse> | undefined {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
 
 	if (action != null) {
@@ -574,7 +574,7 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 
 
 function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
-	if(translationVar){
+	if (translationVar) {
 		title = getTranslation(translationVar, title, true);
 	}
 	return `<div class='block-title'>${title}</div>`;
@@ -1030,12 +1030,15 @@ export function getCurrentPatientAutoTriage() {
 	const human = getHuman(id);
 
 	if (human == null) {
-		return '<em>no patient</em>';
+		return null;
 	}
 
 	if (human.category == null) {
-		return `<em>${id} has not been categorized yet</em>`;
+		return null;
 	}
 
-	return resultToHtml(human.category.autoTriage);
+	return {
+		autoTriage: resultToHtmlObject(human.category.autoTriage),
+		givenAnswer: categoryToHtml(human.category.category)
+	};
 }

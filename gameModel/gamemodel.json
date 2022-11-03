@@ -4,7 +4,6 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1667408479583,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",

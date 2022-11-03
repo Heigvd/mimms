@@ -9,7 +9,7 @@ import {
 	getHuman,
 	getHumanConsole,
 	HumanHealth,
-NamedLocation,
+	NamedLocation,
 } from './the_world';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
@@ -525,11 +525,11 @@ export interface PreTriageResult<
 }
 
 /****** TRANSLATIONS *****/
-export function getExplanationTranslation(explanationKey : Explanation): string{
+export function getExplanationTranslation(explanationKey: Explanation): string {
 	return getTranslation('pretriage-algorithms', explanationKey);
 }
 
-export function getTagSystemName():string {
+export function getTagSystemName(): string {
 	const system = getTagSystem();
 	return getTranslation('pretriage-algorithms', system);
 }
@@ -1304,7 +1304,7 @@ export function getCurrentCategory(): string | undefined {
 		if (overview) {
 			return overview.category?.id;
 		}
-	} 
+	}
 	return undefined;
 }
 
@@ -1366,7 +1366,7 @@ export function resultToHtml(result: PreTriageResult<string>) {
 	];
 
 	output.push(categoryToHtml(result.categoryId));
-	
+
 	output.push('<div>');
 	if (result.explanations.length > 0) {
 		output.push('<strong>Because:</strong>');
@@ -1391,6 +1391,47 @@ export function resultToHtml(result: PreTriageResult<string>) {
 
 	return output.join('');
 }
+
+/**
+ * Html formatted suggested pre-triage
+ */
+export function resultToHtmlObject(result: PreTriageResult<string>) {
+	const tagSystem = getTagSystem();
+	const categoryOutput: string[] = [''];
+	const explanationsOutput: string[] = [''];
+	const actionsOutput: string[] = [''];
+
+	const output: string[] = [
+		`<h3>PreTriage ${tagSystem}</h3>`,
+		`<div><h4>Suggested answer</h4></div>`
+	];
+
+	categoryOutput.push(categoryToHtml(result.categoryId));
+
+	if (result.explanations.length > 0) {
+		explanationsOutput.push('<ul>');
+		explanationsOutput.push(...result.explanations.map(exp => `<li>${explanations[exp]}</li>`));
+		explanationsOutput.push('</ul>');
+	} else {
+		explanationsOutput.push('<strong>No Explanation ¯_(ツ)_/¯</strong>');
+	}
+
+	if (result.actions.length > 0) {
+		actionsOutput.push('<strong>Action(s) taken:</strong>');
+		actionsOutput.push('<ul>');
+		actionsOutput.push(...result.actions.map(action => `<li>${action}</li>`));
+		actionsOutput.push('</ul>');
+	} else {
+		output.push('<strong>No action taken</strong>');
+	}
+
+	return {
+		category: categoryOutput.join(''),
+		explanations: explanationsOutput.join(''),
+		actions: actionsOutput.join('')
+	};
+}
+
 
 /**
  * Send a patient somewhere
