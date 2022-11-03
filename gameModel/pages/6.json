@@ -575,6 +575,11 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "disableIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getDrillStatus } from \"./game/logic/drill\";\ngetDrillStatus() !== 'ongoing'",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "ruler",
                                 "label" : {
                                   "@class" : "Script",
@@ -733,8 +738,8 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock;",
-                                  "language" : "JavaScript"
+                                  "content" : "import { getDrillStatus } from \"./game/logic/drill\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| getDrillStatus() !== 'ongoing';",
+                                  "language" : "typescript"
                                 },
                                 "icon" : "check",
                                 "id" : "",
@@ -833,9 +838,9 @@
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
-                                "@class" : "Script",
-                                "content" : "import { categorize } from './game/display/currentPatientZoom';\n\ncategorize(Context.tagCategory.id);",
-                                "language" : "typescript"
+                                "@class" : "ClientScript",
+                                "content" : "import { categorize } from './game/display/currentPatientZoom';\nimport { getDrillStatus } from './game/logic/drill';\n\nif(getDrillStatus() == 'ongoing'){\n\tcategorize(Context.tagCategory.id);\n}",
+                                "language" : "TypeScript"
                               }
                             },
                             "style" : {

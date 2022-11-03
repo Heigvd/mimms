@@ -37,20 +37,7 @@ interface PictoConfig {
 }
 
 function getPicoClassNames(overview: HumanOverview): PictoConfig {
-	//const classes: string[] = ["mouth_neutral"];
 	const classes: string[] = [];
-	// Eyes
-	/* if (overview.looksDead) {
-		classes.push("eyes_dead")
-	} else if (overview.gcs.eye > 3) { */
-//		if (true) {
-			//classes.push("eyes_AlertMinus");
-//		} else {
-//			classes.push("eyes_AlertPlus");
-//		}
-	/* } else {
-		classes.push("eyes_N-A");
-	} */
 
 	const bloodRatio = normalize(overview.totalExternalBloodLosses_ml / 500, { max: 1 });
 	if (overview.totalExternalBloodLosses_ml > 0) {
@@ -176,21 +163,39 @@ stroke="#fff" stroke-miterlimit="10"/>
 
 
 function getPainIcon(pain: number, overview: HumanOverview): string {
-	if (overview.looksDead || overview.gcs.total < 13) {
-		return "/patient/pain/sleepy_face.png";
+	if (overview.looksDead || overview.gcs.total < 7) {
+		return "/patient/pain/unconscious.png";
 	}
 
+	let painLevel : string;
+
 	if (pain <= 2) {
-		return "/patient/pain/no_pain.png";
+		painLevel = 'no';
 	} else if (pain <= 4) {
-		return "/patient/pain/low_pain.png";
+		painLevel = 'low';
 	} else if (pain <= 6) {
-		return "/patient/pain/mild_pain.png";
+		painLevel = 'medium';
 	} else if (pain <= 8) {
-		return "/patient/pain/high_pain.png";
+		painLevel = 'high';
 	} else {
-		return "/patient/pain/horrible_pain.png";
+		painLevel = 'horrible';
 	}
+
+	let consciousness;
+
+	const glasgow = overview.gcs.total;
+
+	if (glasgow < 11) { 
+		consciousness = 'hs';
+	}else if(glasgow < 14){
+		consciousness = 'confused';
+	}else {
+		consciousness = 'alert';
+	}
+
+	const res = "/patient/pain/" + consciousness + '-' + painLevel + 'Pain.png';
+	wlog(res);
+	return "/patient/pain/" + consciousness + '-' + painLevel + 'Pain.png';
 }
 
 /**

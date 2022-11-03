@@ -336,7 +336,7 @@
                     },
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                      "content" : "import {getDrillStatus} from './game/logic/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
                       "language" : "typescript"
                     },
                     "label" : {
