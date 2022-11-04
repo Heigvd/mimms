@@ -529,11 +529,6 @@ export function getExplanationTranslation(explanationKey: Explanation): string {
 	return getTranslation('pretriage-algorithms', explanationKey);
 }
 
-export function getTagSystemName(): string {
-	const system = getTagSystem();
-	return getTranslation('pretriage-algorithms', system);
-}
-
 function isInjured(data: PreTriageData) {
 	return data.health.pathologies.length > 0;
 }

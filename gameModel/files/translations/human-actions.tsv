@@ -4,7 +4,7 @@ measureRR	Respiratory Rate	Fréquence respiratoire
 measureHR	Heart Rate	Fréquence cardiaque 
 measureCRT	CRT	TRC
 measureGCS	GCS	Glasgow 
-canYouWalk	Can you walk?	Pouvez-vous marcher
+canYouWalk	Can you walk?	Pouvez-vous marcher?
 sitDown	Sit Down	Asseyez-vous
 proneDecubitus	Prone decubitus	Decubitus dorsal 
 supineDecubitus	Supine decubitus	Decubitus ventral 

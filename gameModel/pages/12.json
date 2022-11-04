@@ -36,7 +36,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystemName } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'category-system') + ': ';\nconst systemName = getTagSystemName();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
+          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystem } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'category-system') + ': ';\nconst systemName = getTagSystem();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
           "language" : "JavaScript"
         }
       },
