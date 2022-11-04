@@ -71,7 +71,7 @@ export function getItems(): { id: string; item: ItemDefinition }[] {
 }
 
 function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
-	acts[def.id] = { ...def, type: 'act', translationGroup : 'human-actions' };
+	acts[def.id] = { ...def, type: 'act', translationGroup: 'human-actions' };
 }
 
 export function getAct(id?: string): ActDefinition | undefined {
@@ -89,7 +89,7 @@ export function getActs(): ActDefinition[] {
 }
 
 function registerChemical(def: Omit<ChemicalDefinition, 'type' | 'translationGroup'>): void {
-	chemicals[def.id] = {...def, type: 'chemical', translationGroup : 'human-chemicals'};
+	chemicals[def.id] = { ...def, type: 'chemical', translationGroup: 'human-chemicals' };
 }
 
 export function getChemical(id: string): ChemicalDefinition | undefined {
@@ -111,7 +111,7 @@ export function getOverdriveModel(): Compensation | undefined {
 }
 
 export function setOverdriveModel(c: Compensation) {
-	overdrive= c;
+	overdrive = c;
 }
 
 export function getSystemModel(): SympSystem {
@@ -130,6 +130,14 @@ function init() {
 
 	const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 
+	const extremities: ExternalBlock[] =
+		[
+			"LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
+			"RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
+			"LEFT_ANKLE", "LEFT_FOOT",
+			"RIGHT_ANKLE", "RIGHT_FOOT",
+		];
+
 	const venousBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 	////////////////////////////////////////
 	// Pathologies
@@ -137,23 +145,20 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'full_ah',
+				id: 'catastrophic_ah',
 				name: 'catastrophic arterial hemorrhage',
 				blockSelectionMode: 'any',
+				severity: 'dead'
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.75, max: 1 },
+					bleedingFactor: { min: 0.25, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
-						'LEFT_ARM',
-						'LEFT_FOREARM',
 						'LEFT_LEG',
 						'LEFT_THIGH',
-						'RIGHT_ARM',
-						'RIGHT_FOREARM',
 						'RIGHT_LEG',
 						'RIGHT_THIGH',
 					],
@@ -165,7 +170,8 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'semi_ah',
+				id: 'severe_ah',
+				severity: 'immediate',
 				name: 'severe arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -173,7 +179,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.4, max: 0.75 },
+					bleedingFactor: { min: 0.001, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: arterialBlocks,
 				},
@@ -181,10 +187,11 @@ function init() {
 		),
 	);
 
+/*
 	registerPathology(
 		buildPathology(
 			{
-				id: 'quarter_ah',
+				id: 'urgent_ah',
 				name: 'moderate arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -198,12 +205,14 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
+
 
 	registerPathology(
 		buildPathology(
 			{
-				id: '20p_ah',
+				id: 'minor_ah',
+				severity: 'non_urgent',
 				name: 'minor arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -211,20 +220,21 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.01, max: 0.15 },
+					bleedingFactor: { min: 0.0001, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: arterialBlocks,
+					blocks: extremities,
 				},
 			],
 		),
 	);
 
 	// Venous
-
+/*
 	registerPathology(
 		buildPathology(
 			{
-				id: 'full_vh',
+				id: 'catastrophic_vh',
+				severity: 'dead',
 				name: 'catastrophic venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -239,11 +249,14 @@ function init() {
 			],
 		),
 	);
+	*/
 
+/*
 	registerPathology(
 		buildPathology(
 			{
-				id: 'semi_vh',
+				id: 'severe_vh',
+				severity: 'immediate',
 				name: 'severe venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -258,11 +271,14 @@ function init() {
 			],
 		),
 	);
+*/
 
+/*
 	registerPathology(
 		buildPathology(
 			{
-				id: 'quarter_vh',
+				id: 'urgent_vh',
+				severity: 'urgent',
 				name: 'moderate venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -276,12 +292,13 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
 	registerPathology(
 		buildPathology(
 			{
-				id: '20p_vh',
+				id: 'minor_vh',
+				severity: 'non_urgent',
 				name: 'minor venous hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -302,6 +319,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'catastrophic_ih',
+				severity: 'dead',
 				name: 'catastrophic internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -309,7 +327,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.85, max: 1 },
+					bleedingFactor: { min: 0.075, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},
@@ -320,7 +338,8 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'moderate_ih',
+				id: 'severe_ih',
+				severity: 'immediate',
 				name: 'severe internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -328,7 +347,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.5, max: 0.85 },
+					bleedingFactor: { min: 0.0135, max: 0.075 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},
@@ -339,7 +358,8 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'moderate_ih',
+				id: 'urgent_ih',
+				severity: 'urgent',
 				name: 'moderate internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -347,7 +367,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.25, max: 0.5 },
+					bleedingFactor: { min: 0.0036, max: 0.135 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},
@@ -359,6 +379,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'minor_ih',
+				severity: 'non_urgent',
 				name: 'minor internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -366,7 +387,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.01, max: 0.25 },
+					bleedingFactor: { min: 0.0001, max: 0.0036 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},
@@ -377,7 +398,8 @@ function init() {
 	/**
 	 * Respiration
 	 */
-	registerPathology(
+
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'half_strangle',
@@ -393,9 +415,9 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
-	registerPathology(
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'strangle',
@@ -411,9 +433,9 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
-	registerPathology(
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'lung_r1_5pm',
@@ -429,12 +451,13 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
 	registerPathology(
 		buildPathology(
 			{
 				id: 'upper_airways_burn',
+				severity: 'urgent',
 				name: 'Upper airways burn',
 				blockSelectionMode: 'any',
 			},
@@ -460,6 +483,7 @@ function init() {
 			{
 				id: 'simple_pno_full',
 				name: 'Simple pneumothorax full',
+				severity: 'non_urgent',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -490,6 +514,7 @@ function init() {
 		),
 	);
 
+/*
 	registerPathology(
 		buildPathology(
 			{
@@ -523,12 +548,13 @@ function init() {
 				[['UNIT_BRONCHUS_2'], ['THORAX_RIGHT'], ['THORAX_RIGHT']],
 			],
 		),
-	);
+	);*/
 
 	registerPathology(
 		buildPathology(
 			{
 				id: 'cranialTrauma',
+				severity: 'immediate',
 				name: 'cranial trauma with hemorrhage',
 				blockSelectionMode: 'any',
 			},
@@ -554,6 +580,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'thorax_circ',
+				severity: 'immediate',
 				name: 'Circumferential Thorax Burn',
 				blockSelectionMode: 'any',
 			},
@@ -574,7 +601,7 @@ function init() {
 		),
 	);
 
-	registerPathology(
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'tamponade_slow',
@@ -590,9 +617,9 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
-	registerPathology(
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'tamponade_mild',
@@ -608,13 +635,14 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
 	registerPathology(
 		buildPathology(
 			{
 				id: 'tamponade_hard',
-				name: 'Tamponade Hot',
+				severity: 'immediate',
+				name: 'Tamponade',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -632,6 +660,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'disclocation_c1c2',
+				severity: 'dead',
 				name: 'Dislocation C1/C2',
 				blockSelectionMode: 'any',
 			},
@@ -648,6 +677,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'disclocation_c5c7',
+				severity: 'non_urgent',
 				name: 'Dislocation C5/C7',
 				blockSelectionMode: 'any',
 			},
@@ -664,6 +694,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'disclocation_t1l4',
+				severity: 'non_urgent',
 				name: 'Dislocation T1/T4',
 				blockSelectionMode: 'any',
 			},
@@ -678,6 +709,7 @@ function init() {
 
 	registerPathology(buildPathology({
 		id: 'fracture_simple',
+		severity: 'non_urgent',
 		name: 'fracture non-displaced',
 		blockSelectionMode: 'same',
 	}, [
@@ -700,6 +732,7 @@ function init() {
 	registerPathology(buildPathology({
 		id: 'fracture_displaced',
 		name: 'fracture displaced',
+		severity: 'non_urgent',
 		blockSelectionMode: 'same',
 	}, [
 		{
@@ -720,6 +753,7 @@ function init() {
 
 	registerPathology(buildPathology({
 		id: 'fracture_open',
+		severity: 'non_urgent',
 		name: 'fracture open & displaced',
 		blockSelectionMode: 'same',
 	}, [

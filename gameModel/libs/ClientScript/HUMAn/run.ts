@@ -1,6 +1,8 @@
 import {
 	Block,
+	BlockName,
 	BodyEffect,
+	BodyPosition,
 	BodyState,
 	BodyStateKeys,
 	computeState,
@@ -10,6 +12,8 @@ import {
 	enableCoagulation,
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
+	extBlocks,
+	ExternalBlock,
 	readKey,
 } from './human';
 import { logger, vitalsLogger, calcLogger, compLogger } from '../tools/logger';
@@ -17,7 +21,7 @@ import { RevivedPathology, revivePathology } from './pathology';
 
 import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
 import {
-getBodyParam,
+	getBodyParam,
 	getCurrentPatientId,
 	getEnv,
 	loadCompensationModel,
@@ -26,6 +30,7 @@ getBodyParam,
 	saveToObjectInstance,
 	TestScenario,
 } from '../tools/WegasHelper';
+import { substraction } from '../tools/helper';
 
 function saveMetrics(output: object, vdName: keyof VariableClasses) {
 	const oi = Variable.find(gameModel, vdName).getInstance(self) as SObjectInstance;
@@ -91,6 +96,21 @@ function pushBloodBlockMetrics(prefix: string, block: Block, time: number, outpu
 	);
 }
 
+function convertPositionToNumber(position: BodyPosition): number {
+	switch (position) {
+		case 'STANDING':
+			return 10;
+		case 'SITTING':
+			return 5;
+		case 'PRONE_DECUBITUS':
+			return 2;
+		case 'SUPINE_DECUBITUS':
+			return 2;
+		case 'RECOVERY':
+			return 1;
+	}
+}
+
 function extractMetric(
 	body: BodyState,
 	time: number,
@@ -120,7 +140,7 @@ function extractMetric(
 		'tidal': body.vitals.respiration.tidalVolume_L,
 		'alv.': body.vitals.respiration.alveolarVolume_L,
 	}, outputResp);
-	
+
 
 	const ip_left = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
 	const ip_right = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
@@ -206,28 +226,30 @@ function extractMetric(
 
 	pushMetric('pain', time, body.vitals.pain, outputOther);
 
+	pushMetric('position', time, convertPositionToNumber(body.variables.bodyPosition), outputOther);
+
 	vitalsLogger.info('Extract Chemicals', body.vitals.cardio.chemicals);
 	/*const at = body.vitals.cardio.chemicals['TranexamicAcid'];
-    vitalsLogger.info("at: ", at);
-    if (at != null) {
-        pushMetric("Acide Tranéxamique [HL]", time, at, output);
-    } else {
-        pushMetric("Acide Tranéxamique [HL]", time, 0, output);
-    }
+	vitalsLogger.info("at: ", at);
+	if (at != null) {
+		pushMetric("Acide Tranéxamique [HL]", time, at, output);
+	} else {
+		pushMetric("Acide Tranéxamique [HL]", time, 0, output);
+	}
 
-    const at2 = body.vitals.cardio.chemicals['TranexamicAcid_Clearance'];
-    vitalsLogger.info("at2: ", at2);
-    if (at != null) {
-        pushMetric("Acide Tranéxamique CL", time, at2, output);
-    } else {
-        pushMetric("Acide Tranéxamique CL", time, 0, output);
-    }*/
+	const at2 = body.vitals.cardio.chemicals['TranexamicAcid_Clearance'];
+	vitalsLogger.info("at2: ", at2);
+	if (at != null) {
+		pushMetric("Acide Tranéxamique CL", time, at2, output);
+	} else {
+		pushMetric("Acide Tranéxamique CL", time, 0, output);
+	}*/
 
 	const chemicals = Object.entries(body.vitals.cardio.chemicals).reduce<Record<string, number>>(
 		(acc, [chemId, value]) => {
 			const chem = getChemical(chemId);
 			if (chem) {
-				acc[chem.name] = value;
+				acc[chem.id] = value;
 			} else {
 				acc[chemId] = value;
 			}
@@ -273,7 +295,7 @@ function internal_run(
 	compLogger.info('Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
 
-	const overdrive= loadOverdriveModel();
+	const overdrive = loadOverdriveModel();
 	compLogger.info('Overdrive Profile: ', overdrive);
 	setOverdriveModel(overdrive);
 
@@ -339,7 +361,7 @@ function internal_run(
 	//doItemActionOnHumanBody(tracheostomyTube.actions[0]!, body, 'NECK', 25);
 
 	calcLogger.warn('Start');
-    // eslint-disable-next-line no-console
+	// eslint-disable-next-line no-console
 	console.time('Human.run');
 	//Helpers.cloneDeep(body.state);
 
@@ -358,7 +380,7 @@ function internal_run(
 
 	calcLogger.info('End with ', initialBody.state);
 	calcLogger.warn('Done');
-    // eslint-disable-next-line no-console
+	// eslint-disable-next-line no-console
 	console.timeEnd('Human.run');
 
 	return body;
@@ -524,5 +546,58 @@ export function run_lickert(patientId: string) {
 		});
 	});
 
-	return { data: clean, cardiacArrest: cardiacArrest};
+	return { data: clean, cardiacArrest: cardiacArrest };
+}
+
+
+export function batch() {
+	const patientId = "Zero";
+
+	const blocks: BlockName[] = [
+		"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
+		"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
+	];
+
+	const allData : string[][] = [];
+	const headers : string[] = ['block'];
+
+	for (let arg = 0; arg <= 1; arg += 0.1) {
+		headers.push("" + arg);
+	}
+	allData.push(headers);
+
+	blocks.forEach(block => {
+		const data : string[] = [block];
+
+		for (let arg = 0; arg <= 1; arg += 0.1) {
+
+			const scenario: TestScenario = {
+				description: '',
+				events: [{
+					type: 'HumanPathology',
+					time: 1,
+					pathologyId: 'severe_vh',
+					afflictedBlocks: [block],
+					modulesArguments: [{
+						type: "HemorrhageArgs",
+						bleedingFactor: arg,
+						instantaneousBloodLoss: undefined,
+					}
+					]
+				}]
+			};
+
+			const body = internal_run(
+				patientId,
+				fourHours,
+				() => {},
+				scenario,
+			);
+
+			data.push(`${body.state.vitals.cardiacArrest || 'alive'}`);
+		}
+		allData.push(data);
+	});
+
+	Helpers.downloadDataAsFile("run.csv", allData.map(line => line.join(", ")).join("\n"));
 }

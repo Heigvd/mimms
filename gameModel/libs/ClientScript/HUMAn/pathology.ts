@@ -7,6 +7,7 @@
  */
 
 import { SkillLevel } from "../edition/GameModelerHelper";
+import { STANDARD_CATEGORY } from "../game/logic/triage";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
 import { getTranslation } from "../tools/translation";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
@@ -196,7 +197,6 @@ export type ModuleDefinition = ModuleMeta['config'];
 
 export type ModuleArgs = ModuleMeta['args'];
 
-
 /**
  * Definition of a pathology
  */
@@ -209,6 +209,10 @@ export interface PathologyDefinition {
 	 * To be displayed
 	 */
 	name: string;
+	/**
+	 * Pathology severity
+	 */
+	severity: STANDARD_CATEGORY;
 	/**
 	 * pathology is made of modules
 	 */
@@ -333,7 +337,7 @@ export function prettyPrinterAfflictedPathology(ap: AfflictedPathology): string 
 }
 
 
-type PathologyMeta = Pick<PathologyDefinition, 'id' | 'name' | 'blockSelectionMode'>;
+type PathologyMeta = Pick<PathologyDefinition, 'id' | 'name' | 'blockSelectionMode' | 'severity'>;
 
 
 type BlockKey = keyof Block["params"];

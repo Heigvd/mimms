@@ -29,6 +29,7 @@ import {
 	findConnection,
 	isNervousSystemFine,
 	isNervousSystemConnection,
+	BodyPosition,
 } from "./human";
 import { logger, calcLogger, compLogger, respLogger } from "../tools/logger";
 // import { computePaO2 } from "./quarticSolver";
@@ -446,11 +447,11 @@ function getEffortLevel(bodyState: BodyState): number {
 		case 'STANDING':
 			return 0.1;
 		case 'SITTING':
-			return 0.05;
+			return 0.09;
 		case 'PRONE_DECUBITUS':
 		case 'SUPINE_DECUBITUS':
 		case 'RECOVERY':
-			return 0;
+			return 0.075;
 	}
 }
 
@@ -702,7 +703,7 @@ export function compute(
 	const upperAirways = getUpperAirwaysInput(body, env);
 	const units = getLowerAirways(body, upperAirways.resistance);
 
-	const positivePressure = !!body.variables.positivePressure;
+	const positivePressure = body.variables.positivePressure === true;
 
 	if (!body.vitals.spontaneousBreathing) {
 		respLogger.info("no spontaneous breathing");
@@ -799,10 +800,13 @@ export function compute(
 		} else {
 			// Ventilation: formula is fine
 			const Va_mlPerMin = Va_LperMin * 1000;
-			respLogger.log("VCO2 / VA = ", vco2InUnit_mlPerMin, Va_mlPerMin, unit.qPercent);
 
 			// https://www.medmastery.com/guide/blood-gas-analysis-clinical-guide/how-are-paco2-and-minute-ventilation-related
 			const ratio_vco2Va = vco2InUnit_mlPerMin / Va_mlPerMin;
+
+			respLogger.log("VCO2 / VA = ", vco2InUnit_mlPerMin, Va_mlPerMin, unit.qPercent, ratio_vco2Va);
+
+
 			// Compute partial alveolar CO2 saturation [mmHG]
 			PACO2 = 1000 * K * ratio_vco2Va;
 		}
@@ -1382,7 +1386,7 @@ export function doCompensate(
 	const overdriveLevel = interpolate(state.variables.ICP_mmHg, icp_model);
 
 	if (overdriveLevel > 0) {
-		compLogger.info("Overdrive: ", {ICP: state.variables.ICP_mmHg, overdriveLevel});
+		compLogger.info("Overdrive: ", { ICP: state.variables.ICP_mmHg, overdriveLevel });
 		const overdriveModel = getOverdriveModel();
 
 		const overdrivenValues = computeVitals(overdriveLevel,
@@ -1419,6 +1423,36 @@ export function compensate(
 	doCompensate(state, meta, duration_min);
 }
 
+/**
+ * Make sure human can hold its position 
+ */
+export function fixPosition(human: HumanBody, fallback?: BodyPosition) {
+	if (!human.state.vitals.canWalk) {
+		if (human.state.variables.bodyPosition === 'STANDING') {
+			if (fallback != null && fallback !== 'STANDING') {
+				human.state.variables.bodyPosition = fallback;
+			} else {
+				human.state.variables.bodyPosition = 'SITTING';
+			}
+		}
+	}
+
+	if (
+		human.state.vitals.glasgow.eye < 4
+		|| human.state.vitals.glasgow.motor < 6
+		|| human.state.blocks.get("C1-C4")!.params.nervousSystemBroken
+		|| human.state.blocks.get("C5-C7")!.params.nervousSystemBroken
+	) {
+		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING') {
+			if (fallback != null && fallback !== 'STANDING' && fallback !== 'SITTING') {
+				human.state.variables.bodyPosition = fallback;
+			} else {
+				human.state.variables.bodyPosition = 'SUPINE_DECUBITUS';
+			}
+		}
+	}
+}
+
 export function inferExtraOutputs(human: HumanBody) {
 	logger.log("Infer Extra Outputs");
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1430,20 +1464,5 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
 
-	if (!human.state.vitals.canWalk) {
-		if (human.state.variables.bodyPosition === 'STANDING') {
-			human.state.variables.bodyPosition = 'SITTING';
-		}
-	}
-
-	if (
-		human.state.vitals.glasgow.eye < 4
-		|| human.state.vitals.glasgow.motor < 6
-		|| human.state.blocks.get("C1-C4")!.params.nervousSystemBroken
-		|| human.state.blocks.get("C5-C7")!.params.nervousSystemBroken
-	) {
-		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING') {
-			human.state.variables.bodyPosition = 'SUPINE_DECUBITUS';
-		}
-	}
+	fixPosition(human);
 }

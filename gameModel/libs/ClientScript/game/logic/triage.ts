@@ -36,7 +36,7 @@ type SAP2020_CATEGORY =
 	| typeof INVOLVED
 	| typeof SECONDARY_TRIAGE;
 
-type STANDARD_CATEGORY = typeof DEAD | typeof IMMEDIATE | typeof URGENT | typeof NON_URGENT;
+export type STANDARD_CATEGORY = typeof DEAD | typeof IMMEDIATE | typeof URGENT | typeof NON_URGENT;
 
 type SACCO_CATEGORY =
 	| 'zero'
@@ -65,7 +65,7 @@ export interface Category<
 	priority: number;
 }
 
-export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE' | 'START';
+export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE_NARU' | 'START';
 
 interface TagSystem<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
@@ -444,7 +444,7 @@ const saccoLong: SACCO_CATEGORY[] = [
 export function getTagSystemCategories(): TagSystem<string> {
 	const tagSystem = getTagSystem();
 	switch (tagSystem) {
-		case 'SIEVE':
+		case 'SIEVE_NARU':
 			return sieveSystem;
 		case 'START':
 			return startSystem;
@@ -780,7 +780,7 @@ const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console)
 	}
 };
 
-const doSievePreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
+const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { actions } = data;
 
 	if (massiveHemorrhage(data)) {
@@ -1244,8 +1244,8 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 
 	let triageFunction: TriageFunction<string> = undefined;
 	switch (tagSystem) {
-		case 'SIEVE':
-			triageFunction = doSievePreTriage;
+		case 'SIEVE_NARU':
+			triageFunction = doSieveNaruPreTriage;
 			break;
 		case 'START':
 			triageFunction = doStartPreTriage;

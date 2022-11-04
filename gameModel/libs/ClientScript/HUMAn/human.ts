@@ -21,6 +21,7 @@ import {
 	compute,
 	detectCardiacArrest,
 	doCompensate,
+	fixPosition,
 	gambateMax,
 	inferExtraOutputs,
 } from "./physiologicalModel";
@@ -890,7 +891,6 @@ function calculateBlockInternalCapacity(volume: number, meta: HumanMeta): number
 	return meta.idealWeight_kg * volume / 70;
 }
 
-
 export function createHumanBody(
 	param: BodyFactoryParam,
 	env: Environnment
@@ -1426,9 +1426,9 @@ const plateletsModel: Point[] = [
 ];
 
 // ml/min
-const flowModel : Point[] = [
-	{x: 0, y: 1},
-	{x: 100, y: 0},
+const flowModel: Point[] = [
+	{ x: 0, y: 1 },
+	{ x: 100, y: 0 },
 ];
 
 /**
@@ -1454,7 +1454,7 @@ function hemostasis_thrombocytes(
 
 		const flowDelta = 0.015 * coagulationFactor * duration_min;
 
-		const newBlFactor = bleedingFactor * (bleeding_mlPerMin -  flowDelta) / bleeding_mlPerMin
+		const newBlFactor = bleedingFactor * (bleeding_mlPerMin - flowDelta) / bleeding_mlPerMin
 
 		// total number of platelets
 		// const absWbc = loss_ml * wbc_ratio;
@@ -1480,6 +1480,7 @@ const vasoconstrictionModel: Point[] = [
 
 /**
  * losses increase block resistance
+ * TODO: https://biologiedelapeau.fr/spip.php?article77
  */
 function hemostasis_vasoconstriction(
 	currentResistance: number,
@@ -2303,7 +2304,7 @@ export function computeState(
 
 		const newState = durationInMin > 0 ? updateVitals(acc, meta, env, checkpointTime) : acc;
 
-	
+
 		detectCardiacArrest(newState, durationInMin);
 
 		function addToBlockVariable(
@@ -2535,9 +2536,13 @@ export function computeState(
 						}
 					} else if (key === "bodyPosition") {
 						if (rule.rule.variablePatch.bodyPosition != null) {
-							// TODO: restrict to recovery only ?
-							newState.variables.bodyPosition =
-								rule.rule.variablePatch.bodyPosition;
+							const currentPosition = newState.variables.bodyPosition;
+
+							newState.variables.bodyPosition = rule.rule.variablePatch.bodyPosition;
+							fixPosition({
+								meta: meta,
+								state: newState,
+							}, currentPosition);
 						}
 					} else if (key === "pericardial_ml") {
 						if (rule.rule.variablePatch.pericardial_ml != null) {
@@ -2633,7 +2638,7 @@ export function canBreathe(bodyState: BodyState): boolean {
 export function canWalk(body: HumanBody): boolean {
 
 	const maxHr = 0.9 * body.meta.bounds.vitals.cardio.hr.max;
-	if (body.state.vitals.cardio.hr > maxHr){
+	if (body.state.vitals.cardio.hr > maxHr) {
 		visitorLogger.debug("Can not walk: Heart rate too high");
 		return false;
 	}
