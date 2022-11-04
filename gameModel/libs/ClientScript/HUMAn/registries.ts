@@ -146,7 +146,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'catastrophic_ah',
-				name: 'catastrophic arterial hemorrhage',
+				name: 'catastrophic arterial hemorrhage (thigh)',
 				blockSelectionMode: 'any',
 				severity: 'dead'
 			},
@@ -157,10 +157,32 @@ function init() {
 					bleedingFactor: { min: 0.25, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
-						'LEFT_LEG',
 						'LEFT_THIGH',
-						'RIGHT_LEG',
 						'RIGHT_THIGH',
+						'NECK'
+					],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'catastrophic_ah__2',
+				name: 'catastrophic arterial hemorrhage (leg)',
+				blockSelectionMode: 'any',
+				severity: 'dead'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'arterial',
+					bleedingFactor: { min: 0.85, max: 1 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_LEG',
+						'RIGHT_LEG',
 					],
 				},
 			],
@@ -171,41 +193,71 @@ function init() {
 		buildPathology(
 			{
 				id: 'severe_ah',
-				severity: 'immediate',
-				name: 'severe arterial hemorrhage',
+				name: 'severe arterial hemorrhage (thigh)',
 				blockSelectionMode: 'any',
+				severity: 'immediate'
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.001, max: 1 },
+					bleedingFactor: { min: 0.08, max: 0.25 },
 					instantaneousBloodLoss: undefined,
-					blocks: arterialBlocks,
+					blocks: [
+						'LEFT_THIGH',
+						'RIGHT_THIGH',
+						'NECK'
+					],
 				},
 			],
 		),
 	);
 
-/*
+	registerPathology(
+		buildPathology(
+			{
+				id: 'severe_ah__2',
+				name: 'severe arterial hemorrhage (leg)',
+				blockSelectionMode: 'any',
+				severity: 'immediate'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'arterial',
+					bleedingFactor: { min: 0.17, max: 0.85 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_LEG',
+						'RIGHT_LEG',
+					],
+				},
+			],
+		),
+	);
+
 	registerPathology(
 		buildPathology(
 			{
 				id: 'urgent_ah',
-				name: 'moderate arterial hemorrhage',
+				severity: 'urgent',
+				name: 'urgent arterial hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
 				{
 					type: 'Hemorrhage',
 					subtype: 'arterial',
-					bleedingFactor: { min: 0.15, max: 0.4 },
+					bleedingFactor: { min: 0.06, max: 0.3 },
 					instantaneousBloodLoss: undefined,
-					blocks: arterialBlocks,
+					blocks: [
+						'LEFT_ARM',
+						'RIGHT_ARM',
+					],
 				},
 			],
 		),
-	);*/
+	);
 
 
 	registerPathology(
@@ -228,15 +280,41 @@ function init() {
 		),
 	);
 
+
+
+
 	// Venous
-/*
 	registerPathology(
 		buildPathology(
 			{
 				id: 'catastrophic_vh',
-				severity: 'dead',
-				name: 'catastrophic venous hemorrhage',
+				name: 'catastrophic venous hemorrhage (thigh)',
 				blockSelectionMode: 'any',
+				severity: 'dead'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					bleedingFactor: { min: 0.25, max: 1 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_THIGH',
+						'RIGHT_THIGH',
+						'NECK'
+					],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'catastrophic_vh__2',
+				name: 'catastrophic venous hemorrhage (leg)',
+				blockSelectionMode: 'any',
+				severity: 'dead'
 			},
 			[
 				{
@@ -244,18 +322,66 @@ function init() {
 					subtype: 'venous',
 					bleedingFactor: { min: 0.85, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: venousBlocks,
+					blocks: [
+						'LEFT_LEG',
+						'RIGHT_LEG',
+					],
 				},
 			],
 		),
 	);
-	*/
 
-/*
 	registerPathology(
 		buildPathology(
 			{
 				id: 'severe_vh',
+				name: 'severe venous hemorrhage (thigh)',
+				blockSelectionMode: 'any',
+				severity: 'immediate'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					bleedingFactor: { min: 0.08, max: 0.25 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_THIGH',
+						'RIGHT_THIGH',
+						'NECK'
+					],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'severe_vh__2',
+				name: 'severe venous hemorrhage (leg)',
+				blockSelectionMode: 'any',
+				severity: 'immediate'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					bleedingFactor: { min: 0.17, max: 0.85 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_LEG',
+						'RIGHT_LEG',
+					],
+				},
+			],
+		),
+	);
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'test_vh',
 				severity: 'immediate',
 				name: 'severe venous hemorrhage',
 				blockSelectionMode: 'any',
@@ -263,17 +389,17 @@ function init() {
 			[
 				{
 					type: 'Hemorrhage',
-					subtype: 'venous',
-					bleedingFactor: { min: 0.4, max: 0.85 },
+					subtype: 'arterial',
+					bleedingFactor: { min: 0, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: venousBlocks,
 				},
 			],
 		),
 	);
-*/
 
-/*
+
+
 	registerPathology(
 		buildPathology(
 			{
@@ -286,13 +412,16 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.0001, max: 1 },
+					bleedingFactor: { min: 0.06, max: 0.3 },
 					instantaneousBloodLoss: undefined,
-					blocks: venousBlocks,
+					blocks: [
+						'LEFT_ARM',
+						'RIGHT_ARM',
+					],
 				},
 			],
 		),
-	);*/
+	);
 
 	registerPathology(
 		buildPathology(
@@ -306,9 +435,9 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.0001, max: 0.15 },
+					bleedingFactor: { min: 0.001, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: venousBlocks,
+					blocks: extremities,
 				},
 			],
 		),
@@ -360,7 +489,7 @@ function init() {
 			{
 				id: 'urgent_ih',
 				severity: 'urgent',
-				name: 'moderate internal hemorrhage',
+				name: 'urgent internal hemorrhage',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -767,7 +896,7 @@ function init() {
 			subtype: 'venous',
 			blocks: [...simpleFractureBonesBlocks],
 			bleedingFactor: {
-				min: 0.5, max: 1
+				min: 0, max: 1
 			},
 			instantaneousBloodLoss: undefined,
 		}
@@ -1507,6 +1636,24 @@ function init() {
 				'vitals.glasgow.eye',
 				'vitals.glasgow.verbal',
 				'vitals.glasgow.motor',
+			],
+			duration: { low_skill: 0, high_skill: 0 },
+		},
+	});
+
+	registerAct({
+		id: 'measureMotricity',
+		//name: 'GCS',
+		action: {
+			type: 'ActionBodyMeasure',
+			name: 'do',
+			category: 'D',
+			targetedObject: 'HumanBody',
+			metricName: [
+				'vitals.motricity.leftArm',
+				'vitals.motricity.rightArm',
+				'vitals.motricity.leftLeg',
+				'vitals.motricity.rightLeg',
 			],
 			duration: { low_skill: 0, high_skill: 0 },
 		},

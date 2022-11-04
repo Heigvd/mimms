@@ -846,10 +846,10 @@ function computeHumanState(state: HumanState, to: number, env: Environnment): Hu
 			time: to,
 
 		};
-		worldLogger.debug("Skip Human ", state.id);
+		worldLogger.log("Skip Human ", state.id);
 		return newState;
 	} else {
-		worldLogger.debug("Update Human ", state.id);
+		worldLogger.log("Update Human ", state.id);
 		const newState = Helpers.cloneDeep(state);
 
 		const from = state.bodyState.time;
@@ -1045,16 +1045,22 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
  * Artifically age a human target
  */
 function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
-
 	// Update HUMAn body states
 	const objId = { objectType: 'Human', objectId: agingEvent.payload.targetId };
 
 	const env = getEnv();
 
 	const time = agingEvent.time;
-	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time + agingEvent.payload.deltaSeconds);
+	//let { snapshot, futures } = getHumanSnapshotAtTime(objId, time + agingEvent.payload.deltaSeconds);
+	const newTime = time + agingEvent.payload.deltaSeconds;
+	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
 
-	snapshot.time = agingEvent.time;
+	const agedState = computeHumanState(snapshot.state, newTime, env);
+
+	snapshot.time = time;
+	snapshot.state = agedState;
+	snapshot.state.time = time;
+	snapshot.state.bodyState.time = time;
 
 	// Update futures
 	futures.forEach(sshot => {

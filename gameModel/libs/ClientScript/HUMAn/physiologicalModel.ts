@@ -30,6 +30,7 @@ import {
 	isNervousSystemFine,
 	isNervousSystemConnection,
 	BodyPosition,
+getMotricity,
 } from "./human";
 import { logger, calcLogger, compLogger, respLogger } from "../tools/logger";
 // import { computePaO2 } from "./quarticSolver";
@@ -1295,7 +1296,6 @@ function computeVitals(
 	t4Fine: boolean,
 	noT4Level: number): Record<CompesationKeys, number> {
 
-
 	compLogger.info("CompensationProfile: ", model);
 
 	const result: Partial<Record<CompesationKeys, number>> = {};
@@ -1461,6 +1461,7 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.capillaryRefillTime_s = computeRecap(human.state);
 	human.state.vitals.glasgow = computeGlasgow(human);
 	human.state.vitals.canWalk = canWalk(human);
+	human.state.vitals.motricity = getMotricity(human);
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
 

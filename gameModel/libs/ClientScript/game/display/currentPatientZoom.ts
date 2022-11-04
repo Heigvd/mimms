@@ -1,6 +1,6 @@
 import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, BaseDefinition, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
@@ -392,6 +392,34 @@ export function getSubWheelSubmenu(state: PatientZoomState): WheelAction[] {
 // The Wheel Selectors
 /////////////////////////////////
 
+
+/**
+ * compute state to reflect action selection
+ */
+function internalSelectAction(state: PatientZoomState, action?: WheelAction): PatientZoomState {
+	if (action?.actionType === 'ActionBodyEffect') {
+		const rAction = resolveAction<ActionBodyEffect>(action, 'ActionBodyEffect');
+
+		const blocks = rAction?.blocks || [];
+		const block = blocks.length === 1 ? blocks[0] : undefined;
+
+		return {
+			...state,
+			selectedAction: action,
+			selectedBlock: block,
+			availableBlocks: blocks,
+		};
+	} else {
+		return {
+			...state,
+			selectedAction: action,
+			selectedBlock: undefined,
+			availableBlocks: [],
+		};
+	}
+}
+
+
 export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
 
 	const wheel = getWheel();
@@ -406,13 +434,13 @@ export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
 	const action = subMenu?.items[0];
 
 	setState(state => {
-		return {
+		return internalSelectAction({
 			...state,
 			selectedPanel: undefined,
 			selectedMenu: menuId,
 			selectedSubMenu: subMenu?.id,
 			selectedAction: action,
-		};
+		}, action);
 	});
 }
 
@@ -431,12 +459,12 @@ export function selectSubMenu(subMenuId: string, setState: SetZoomState) {
 		// select first action if any
 		const action = subMenu?.items[0];
 
-		return {
+		return internalSelectAction({
 			...state,
 			selectedPanel: undefined,
 			selectedSubMenu: subMenuId,
 			selectedAction: action,
-		};
+		}, action);
 	});
 }
 
@@ -452,30 +480,7 @@ export function selectPanel(item: WheelExtraPanel, setState: SetZoomState) {
 }
 
 export function selectWheelAction(action: WheelAction | undefined, setState: SetZoomState) {
-	if (action?.actionType === 'ActionBodyEffect') {
-		const rAction = resolveAction<ActionBodyEffect>(action, 'ActionBodyEffect');
-
-		const blocks = rAction?.blocks || [];
-		const block = blocks.length === 1 ? blocks[0] : undefined;
-
-		setState(state => {
-			return {
-				...state,
-				selectedAction: action,
-				selectedBlock: block,
-				availableBlocks: blocks,
-			};
-		});
-	} else {
-		setState(state => {
-			return {
-				...state,
-				selectedAction: action,
-				selectedBlock: undefined,
-				availableBlocks: [],
-			};
-		});
-	}
+		setState(state => internalSelectAction(state, action));
 }
 
 export function selectWheelItem(item: WheelItem, setState: SetZoomState) {
@@ -814,8 +819,28 @@ function oneDecimalFormatter(value: unknown): string {
 	}
 }
 
+function motricityFormatter(value: unknown) : string {
+	switch(value){
+		case 'move':
+			return 'can move';
+		case 'do_not_move':
+			return "can't move";
+		case 'no_response':
+			return 'does not respond to orders'
+	}
+	return 'unknown';
+}
+
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
 	switch (metric) {
+		case 'vitals.motricity.leftArm':
+			return ['Left arm', motricityFormatter(value)];
+		case 'vitals.motricity.rightArm':
+			return ['Right arm', motricityFormatter(value)];
+		case 'vitals.motricity.leftLeg':
+			return ['Left leg', motricityFormatter(value)];
+		case 'vitals.motricity.rightLeg':
+			return ['Right leg', motricityFormatter(value)];
 		case 'vitals.glasgow.motor':
 			return [' - Motor', String(value)];
 		case 'vitals.glasgow.verbal':

@@ -196,6 +196,15 @@ export interface Glasgow {
 	motor: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
+export type MotricityValue = 'move' | 'do_not_move' | 'no_response';
+
+interface Motricity {
+	leftArm: MotricityValue;
+	rightArm: MotricityValue;
+	leftLeg: MotricityValue;
+	rightLeg: MotricityValue;
+};
+
 /**
  * Human being at a given point in time
  */
@@ -242,6 +251,7 @@ export interface BodyState {
 			 */
 			thoraxCompliance: number;
 		};
+		motricity: Motricity,
 		cardio: {
 			// Total Blood volume [mL] is made of:
 			totalVolumeOfPlasmaProteins_mL: number;
@@ -917,6 +927,12 @@ export function createHumanBody(
 					eye: 4,
 					verbal: 5,
 					motor: 6,
+				},
+				motricity: {
+					leftArm: 'move',
+					leftLeg: 'move',
+					rightArm: 'move',
+					rightLeg: 'move',
 				},
 				respiration: {
 					QR: 0.84,
@@ -2725,6 +2741,64 @@ export function canWalk(body: HumanBody): boolean {
 	}
 
 	return true;
+}
+
+
+export function getMotricity(body: HumanBody): HumanBody['state']['vitals']['motricity'] {
+
+	if (body.state.vitals.glasgow.motor < 6) {
+		return {
+			leftArm: 'no_response',
+			leftLeg: 'no_response',
+			rightArm: 'no_response',
+			rightLeg: 'no_response',
+		};
+	}
+
+	const motricity: Motricity = {
+		leftArm: 'move',
+		leftLeg: 'move',
+		rightArm: 'move',
+		rightLeg: 'move',
+	};
+
+	if (
+		findConnection(body.state, "BRAIN", "LEFT_HAND", {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.leftArm = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, "BRAIN", "RIGHT_HAND", {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.rightArm = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, "BRAIN", "LEFT_FOOT", {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.leftLeg = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, "BRAIN", "RIGHT_FOOT", {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.rightLeg = 'do_not_move';
+	}
+
+	return motricity;
 }
 
 export function getPain(body: HumanBody): number {
