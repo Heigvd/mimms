@@ -9,8 +9,8 @@ Burn	burn	brûlures
 Degree	degree	degré
 ICP	Intracranial pressure	pression intracrânienne
 NervousSystem	nervous system damage	lésions nerveuse
-Arterial	Arterial	Artériel 
-Venous	Venous	Veineux 
+Arterial	Arterial	Artérielle
+Venous	Venous	Veineuse
 Venous Catheter	Venous Catheter	Cathéter veineux (VVP)
 current flow	current flow	Flux instantané
 Hemostasis	Hemostasis	Hémostase 
@@ -27,3 +27,4 @@ aborted	aborted	arrêté
 displaced	displaced	Déplacé 
 nonDisplaced	nonDisplaced	Non déplacé 
 Total	Total	Total
+surface	surface	surface 

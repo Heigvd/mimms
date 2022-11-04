@@ -2,7 +2,7 @@ import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, BaseDefinition, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
@@ -665,7 +665,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 		if (block.params.burnedPercent! > 0) {
 			output.push(formatBlockSubTitle('Burn', 'human-pathology'));
 			output.push(formatBlockEntry('Degree', 'human-pathology', block.params.burnLevel || '1'));
-			output.push(formatBlockEntry('Surface: ', 'human-pathology', percentFormatter(block.params.burnedPercent)));
+			output.push(formatBlockEntry('Surface', 'human-pathology', percentFormatter(block.params.burnedPercent)));
 		}
 
 		if (block.params.internalPressure === 'DRAIN') {
@@ -982,7 +982,7 @@ function getBreathingOverview(overview: HumanOverview): string {
 		breathing = 'respiration looks normal';
 	}
 
-	return getTranslation('human-general', breathing, false);
+	return getTranslation('human-general', breathing);
 }
 
 function addBleedingDescription(output: string[], ho: HumanOverview): void {

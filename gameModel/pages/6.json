@@ -751,8 +751,8 @@
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
-                                    "@class" : "Script",
-                                    "content" : "import { doWheelTreatment } from './game/display/currentPatientZoom';\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);",
+                                    "@class" : "ClientScript",
+                                    "content" : "import { doWheelTreatment } from './game/display/currentPatientZoom';\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);\nContext.patientConsole.state.selectedBlock = undefined // unselect block",
                                     "language" : "TypeScript"
                                   }
                                 },

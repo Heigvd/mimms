@@ -3,16 +3,19 @@ import { translationLogger } from "./logger";
 
 const cache : Record<string, SObjectDescriptor> = {};
 
-export function getTranslation(category: keyof VariableClasses, key : string, upperCaseFirstLetter = true) : string {
+/** 
+ * category must be an object type
+ * key is case insensitive
+*/
+export function getTranslation(category: keyof VariableClasses, key: string, upperCaseFirstLetter = true) : string {
 
 	// TODO cache translations ?
-
 	if(!cache[category]){
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
 	}
 	if(cache[category]){
 		//TODO cache parsed ?
-		const tr = cache[category].getProperties()[key];
+		const tr = cache[category].getProperties()[key.toLowerCase()];
 		if(tr){
 			const t = JSON.parse(tr);
 			const translated = I18n.translate(t);
@@ -53,10 +56,11 @@ export function getPathologyTranslation(pathologyName: string): string {
  */
 export function getItemActionTranslation(actionOrItemName : string, upperCaseFirstLetter? : boolean) : string {
 
-	if(translationExists('human-items', actionOrItemName)){
-		return getTranslation('human-items', actionOrItemName, upperCaseFirstLetter);
+	const name = actionOrItemName.indexOf('::') > -1 ? actionOrItemName.split('::')[0] : actionOrItemName;
+	if(translationExists('human-items', name)){
+		return getTranslation('human-items', name, upperCaseFirstLetter);
 	}else{
-		return getTranslation('human-actions', actionOrItemName, upperCaseFirstLetter);
+		return getTranslation('human-actions', name, upperCaseFirstLetter);
 	}
 
 }
@@ -94,14 +98,16 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 			throw new Error(filename + ' bad format, expected header : key, EN, FR, <any>. received : ' + header)
 		}
 
-		const statements : string [] = [];
+		const statements : string [] = [`Variable.find(gameModel, "${category}").clearProperties()`];
 
 		lines.slice(1).forEach(line => {
 			const l = line.split('\t');
 			if(!l) {return;}
 			const tr = buildTranslation(l[1], l[2]);
-			const key = l[0].trim();
-			const s = `Variable.find(gameModel, "${category}").setProperty('${key}', ${JSON.stringify(JSON.stringify(tr))})`;
+			const key = l[0].trim().toLowerCase();
+			//const debug = `Variable.find(gameModel, "${category}").setProperty(${JSON.stringify(key)}, ${JSON.stringify(tr)})`;
+			//wlog(debug)
+			const s = `Variable.find(gameModel, "${category}").setProperty(${JSON.stringify(key)}, ${JSON.stringify(JSON.stringify(tr))})`;
 			statements.push(s);
 		})
 
@@ -109,6 +115,7 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 			wlog(statements)
 		}else{
 			const script = statements.join(';');
+			wlog('running script for ' + filename);
 			APIMethods.runScript(script, {}).then(response => {
 				wlog('script executed', response);
 			});
@@ -136,7 +143,6 @@ export function updateFromAllTsv(dryrun: boolean):void {
 	const variables : (keyof VariableClasses)[] = [
 		'pretriage-interface',
 		'pretriage-explanations',
-		//'pretriage-algorithms',
 		'human-actions',
 		'human-items',
 		'human-blocks',
