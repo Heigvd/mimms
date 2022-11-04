@@ -3,6 +3,21 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	margin : 0;
 }
 
+.invertedButton {
+	background-color: transparent;
+	color: var(--colors-primarycolor);
+	border: 1px solid var(--colors-primarycolor);
+}
+.invertedButton:hover {
+	color: var(--colors-backgroundcolor);
+	border-color: transparent;
+}
+.invertedButton.disabled {
+background-color: transparent;
+	color: var(--colors-disabledcolor);
+	border: 1px solid var(--colors-disabledcolor);
+}
+
 .fullSize {
 	height: 100%;
 	width: 100%;

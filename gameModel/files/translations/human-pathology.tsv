@@ -3,7 +3,7 @@ Hemorrhage	Hemorrhage	hémorragie
 Fracture	fracture	fracture
 Tamponade	tamponade	tamponnade
 Pneumothorax	pneumothorax	pneumothorax
-Blood		Saignement 
+Blood	bleeding	Saignement 
 AirwaysResistance	airways resistance	résistanc dans les voies aériennes
 Burn	burn	brûlures
 Degree	degree	degré
@@ -23,8 +23,7 @@ Positive Pressure	Positive Pressure	Pression positive
 Hemostasis	Hemostasis	Hémostase 
 Upper Airways	Upper Airways	Voie aérienne haute 
 Surface	Surface	Surface 
-freshAir	freshAir	Air ambiant ??? 
-aborted	aborted	Avorté 
+aborted	aborted	arrêté
 displaced	displaced	Déplacé 
 nonDisplaced	nonDisplaced	Non déplacé 
 Total	Total	Total

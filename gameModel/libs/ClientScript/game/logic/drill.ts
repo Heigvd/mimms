@@ -1,8 +1,8 @@
-import { initEmitterIds } from "./baseEvent";
+import { BaseEvent, initEmitterIds } from "./baseEvent";
 import { getSendEventServerScript } from "./EventManager";
 import { compare, pickRandom } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
-import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
+import { AgingEvent, EventPayload, getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
 import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
@@ -125,20 +125,8 @@ export function selectNextPatient(): Promise<unknown> {
 
 				const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
-				const currentPatientId = getCurrentPatientId();
-				if (currentPatientId) {
-					// freeze currentPatient before switchin to new one
-					toPost.push(getSendEventServerScript({
-						...emitter,
-						type: "Freeze",
-						targetType: 'Human',
-						targetId: currentPatientId,
-						mode: 'freeze'
-					}, currentTime));
-				}
+				toPost.push(getFreezePatientEventScript(emitter, currentTime));
 
-
-				// TODO needed ?
 				const teleport: TeleportEvent = {
 					...emitter,
 					type: 'Teleport',
@@ -161,11 +149,16 @@ export function selectNextPatient(): Promise<unknown> {
 
 				toPost.push(`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`);
 
-				// move time forward
-				//toPost.push(`TimeManager.fastForward('${times.max - currentTime}s');`);
-				// TODO parametrized ??
-				// TODO test
-				toPost.push(`TimeManager.fastForward('1h');`);
+				// have the patient evolve
+				const timeJump : AgingEvent = {
+					...emitter,
+					type: 'Aging',
+					deltaSeconds: 3600,
+					targetType: 'Human',
+					targetId: patientId
+				}
+
+				toPost.push(getSendEventServerScript(timeJump, currentTime));
 
 				return APIMethods.runScript(toPost.join(""), {});
 			}
@@ -184,19 +177,26 @@ export function toSummaryScreen(): Promise<IManagedResponse>{
 	const currentTime = getCurrentSimulationTime();
 	const emitter = initEmitterIds();
 
+	const freeze = getFreezePatientEventScript(emitter, currentTime);
+
+	return APIMethods.runScript(freeze + getSetDrillStatusScript('completed_summary')
+		+ `Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
+}
+
+/**
+ * Freeze the patient before switching to new one 
+ */
+function getFreezePatientEventScript(evt : BaseEvent, currentTime : number): string {
 
 	const currentPatientId = getCurrentPatientId();
-	// freeze the patient before switching to new one
-	const freeze =  currentPatientId ? getSendEventServerScript({
-		...emitter,
+	return currentPatientId ? getSendEventServerScript({
+		...evt,
 		type: "Freeze",
 		targetType: 'Human',
 		targetId: currentPatientId,
 		mode: 'freeze'
 	}, currentTime) : '';
 
-	return APIMethods.runScript(freeze + getSetDrillStatusScript('completed_summary')
-		+ `Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 }
 
 export function showPatient(patientId: string) {

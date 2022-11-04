@@ -107,14 +107,16 @@
 .patientConsole .tagSystemCategories.sacco .tagCategory{
 	width: 50px;
 }
-
+.patientConsole .tagSystemCategories {
+	margin-top: 15px;
+}
 .patientConsole .tagCategory {
-	padding: 10px;
-	width: 200px;
+	padding: 8px;
 	text-align: center;
 	font-weight: bolder;
-	border: 2px solid black;
-	transition-duration: 0.2s;
+	border: 2px solid gainsboro;
+	border-radius: 5px;
+	transition-duration: 0.1s;
 	transition-property: border-color;
 }
 
@@ -123,11 +125,31 @@
 }
 
 .patientConsole .tagCategory.clickable:hover {
-	border-color: gainsboro;
+	border-color: var(--colors-disabledcolor);
 }
 
-.patientConsole .tagCategory.current:hover {
-	border-color: hotpink;
+.patientConsole .tagCategory.current {
+	border-color: black;
+	box-shadow: inset 0 0 0 2px var(--colors-backgroundcolor);
+}
+
+.patientConsole .tagCategory.current:hover {	
+	border-color: black;
+}
+.patient-correction .tagCategory {
+	padding: 5px;
+	border-radius: 3px;
+}
+.patient-correction .subtitle {
+	text-transform: uppercase;
+	color: var(--colors-disabledcolor);
+	font-size: 14px;
+}
+.patient-correction .subtitle p {
+	margin: 0;
+}
+.patient-correction ul {
+	margin: 0;
 }
 
 

@@ -1,0 +1,51 @@
+.patient-overview {
+	font-weight: bold;
+	padding: 10px;
+	border: 1px solid var(--colors-disabledcolor);
+	border-radius: 5px;
+}
+.patient-summary--header {
+	text-transform: uppercase;
+	color: var(--colors-disabledcolor);
+	font-size: 14px;
+}
+.patient-summary--line {
+	border-bottom: 1px solid var(--colors-disabledcolor);
+}
+.patient-summary--line .tagCategory {
+	padding: 5px;
+	border-radius: 3px;
+}
+.patient-summary--line .wrong {
+	font-weight: bold;
+	color: red;
+	margin: 5px 0;
+}
+.patient-summary--line .correct {
+	font-weight: bold;
+	color: green;
+	margin: 5px 0;
+}
+.patient-summary--line .reviewBtn.iconOnly {
+	border-radius: 50%;
+	height: 45px;
+	width: 45px;
+	margin: 0;
+	justify-content: center;
+	align-items: center;
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-primarycolor);
+	font-size: 1.2em;
+}
+.patient-summary--line .reviewBtn:hover {
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-activecolor);
+}
+.review-label {
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-primarycolor);
+	padding: 10px;
+}
+.review-mode {
+	border: 5px solid var(--colors-primarycolor);
+}

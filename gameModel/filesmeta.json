@@ -113,37 +113,97 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/high_pain.png" : {
+  "/patient/pain/alert-highPain.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/horrible_pain.png" : {
+  "/patient/pain/alert-horriblePain.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/low_pain.png" : {
+  "/patient/pain/alert-lowPain.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/mild_pain.png" : {
+  "/patient/pain/alert-mediumPain.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/no_pain.png" : {
+  "/patient/pain/alert-noPain.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/sleepy_face.png" : {
+  "/patient/pain/confused-highPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/confused-horriblePain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/confused-lowPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/confused-mediumPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/confused-noPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/hs-highPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/hs-horriblePain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/hs-lowPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/hs-mediumPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/hs-noPain.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/patient/pain/unconscious.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",

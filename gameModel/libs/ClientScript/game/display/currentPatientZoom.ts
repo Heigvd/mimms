@@ -6,10 +6,11 @@ import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, Base
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
-import { doAutomaticTriage, getCategory, getTagSystem, resultToHtml } from "../logic/triage";
+import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getTranslation } from "../../tools/translation";
 import { getMySkillDefinition } from "../../tools/WegasHelper";
+import { toHourMinutesSeconds } from "../../tools/helper";
 
 /////////////////////////////////
 // The Wheel
@@ -522,7 +523,7 @@ function resolveAction<T extends HumanAction>(
 	}
 }
 
-export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
+export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Promise<IManagedResponse> | undefined {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
 
 	if (action != null) {
@@ -536,7 +537,7 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState) {
 					type: 'itemAction' as const,
 					...measure.itemActionId,
 				};
-		sendEvent({
+		return sendEvent({
 			...initEmitterIds(),
 			type: 'HumanMeasure',
 			targetType: 'Human',
@@ -571,9 +572,10 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 	}
 }
 
+
 function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
 	if (translationVar) {
-		title = getTranslation(translationVar, title);
+		title = getTranslation(translationVar, title, true);
 	}
 	return `<div class='block-title'>${title}</div>`;
 }
@@ -599,11 +601,11 @@ function formatBlockEntry(title: string, translationVar?: keyof VariableClasses,
 function getBlockDetails(block: Block | undefined, bodyState: BodyState): string[] {
 	const output: string[] = [];
 	if (block) {
-		output.push(formatBlockTitle(block.name));
+		output.push(formatBlockTitle(block.name, 'human-blocks'));
 		logger.info('Block: ', block.params);
 
 		if (block.params.pain) {
-			output.push(formatBlockEntry('pain', 'human-pathology', '' + block.params.pain));
+			output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
 		}
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
@@ -859,7 +861,9 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 }
 
 function formatLog(log: ConsoleLog): string {
-	const time = `<span class='time'>${log.time}</span>`;
+
+	const formattedTime = toHourMinutesSeconds(log.time);
+	const time = `<span class='time'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
 		return `<div class='log_container'>${time} <span class='message'>${log.message}</span></div>`;
 	} else if (log.type === 'MeasureLog') {
@@ -878,7 +882,7 @@ export function getPatientConsole(): string {
 	const id = getCurrentPatientId();
 
 	const console = getHumanConsole(id);
-	return console.map(formatLog).join('');
+	return console.reverse().map(formatLog).join('');
 }
 
 export function categorize(category: string) {
@@ -1026,12 +1030,15 @@ export function getCurrentPatientAutoTriage() {
 	const human = getHuman(id);
 
 	if (human == null) {
-		return '<em>no patient</em>';
+		return null;
 	}
 
 	if (human.category == null) {
-		return `<em>${id} has not been categorized yet</em>`;
+		return null;
 	}
 
-	return resultToHtml(human.category.autoTriage);
+	return {
+		autoTriage: resultToHtmlObject(human.category.autoTriage),
+		givenAnswer: categoryToHtml(human.category.category)
+	};
 }

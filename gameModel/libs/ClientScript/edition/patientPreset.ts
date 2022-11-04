@@ -75,8 +75,10 @@ export function removePatientFromPresets(patientId: string): void {
 
 export function getPresetsAsChoices(): {label: string, value: string}[]{
 
-	return Object.entries(getPatientPresets())
-		.map(([k,v]) => {return {label: v.name, value: k}});
+	const choices = Object.entries(getPatientPresets())
+		.map(([k,v]) => {return {label: v.name, value: k}})
+	choices.push({label: 'All', value: ''});
+	return choices;
 }
 
 export function getPatientPresetMatrix(): MatrixConfig<PatientPresetId, PatientId , PatientPresetMatrixCell> {

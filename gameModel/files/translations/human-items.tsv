@@ -9,7 +9,7 @@ cricotomie	Cricotomie	Cricotomie
 3side	3 sided dressing	Pansement 3 côtés 
 exsufflation	Exsufflation	Exsufflation 
 thoracic_drain	Thoracic Drainage	Drainage thoracique 
-cat	CAT	Cathéter artériel 
+cat	CAT	Tourniquet
 bandage	Bandage	Pansement 
 israeliBandage	Israeli Bandage	Pansement compressif
 TranexamicAcid_500	Tranexamic Acid 500mg	Acide tranexamique 500mg
@@ -18,8 +18,8 @@ SalineSolution_100ml	NaCl 0.9% 100mL	NaCl 0.9% 100mL
 Blood_1l	Blood 1L	Sang 1L
 oxymeter	Pulse Oxymeter	Saturomètre
 sphygmomanometer	Blood Pressure gauge	Sphygmomanomètre
-banane_pre		banane pré-tri
-blue_bag		sac bleu
-empty_bag		
-nox_bag		
-red_bag		sac rouge
+banane_pre	waist bag	banane pré-tri
+blue_bag	blue bag	sac bleu
+empty_bag	empty bag	sac vide
+nox_bag	nox bag	sac nox
+red_bag	red bag	sac rouge

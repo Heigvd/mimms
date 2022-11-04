@@ -256,6 +256,11 @@ export interface ScriptedEvent {
 	payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
 }
 
+export interface AgingEvent extends TargetedEvent {
+	type: 'Aging',
+	deltaSeconds : number
+}
+
 export type EventPayload =
 	| FollowPathEvent
 	| TeleportEvent
@@ -272,7 +277,8 @@ export type EventPayload =
 	| PhoneCreationEvent
 	| GiveBagEvent
 	| CancelActionEvent
-	| FreezeEvent;
+	| FreezeEvent
+	| AgingEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -991,11 +997,6 @@ function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
 function updateHumanSnapshots(humanId: string, time: number) {
 	// Update HUMAn body states
 	const objId = { objectType: 'Human', objectId: humanId };
-	//const oKey = getObjectKey(objId);
-
-	/*worldLogger.setLevel('INFO');
-	worldLogger.info('updating human snapshots', time );
-	worldLogger.setLevel('WARN')*/
 	const env = getEnv();
 
 	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
@@ -1038,6 +1039,32 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 			`Afflict Pathology Failed: Pathology "${event.payload.pathologyId}" does not exist`,
 		);
 	}
+}
+
+/**
+ * Artifically age a human target
+ */
+function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
+
+	// Update HUMAn body states
+	const objId = { objectType: 'Human', objectId: agingEvent.payload.targetId };
+
+	const env = getEnv();
+
+	const time = agingEvent.time;
+	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time + agingEvent.payload.deltaSeconds);
+
+	snapshot.time = agingEvent.time;
+
+	// Update futures
+	futures.forEach(sshot => {
+		worldLogger.log('Update future human snapshot at time ', sshot.time);
+		const state = Helpers.cloneDeep(snapshot.state);
+		sshot.state = computeHumanState(state, sshot.time, env);
+
+		snapshot = sshot;
+	});
+
 }
 
 function isActionBodyEffect(action: HumanAction | undefined): action is ActionBodyEffect {
@@ -1179,11 +1206,12 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	 */
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
+			const cancel = getTranslation('pretriage-interface', 'cancel');
 			addLogMessage(
 				dA.event.payload.emitterCharacterId,
 				dA.event.payload.targetId,
 				event.time,
-				`Cancel ${getResolvedActionDisplayName(dA.action)}`,
+				`${cancel} ${getResolvedActionDisplayName(dA.action)}`,
 			);
 			return false;
 		} else {
@@ -1232,11 +1260,12 @@ function delayAction(
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
 ) {
 	const dA: DelayedAction = { id: event.id, dueDate, action, event };
+	const start = getTranslation('pretriage-interface', 'start');
 	addLogMessage(
 		event.payload.emitterCharacterId,
 		event.payload.targetId,
 		event.time,
-		`Start ${getResolvedActionDisplayName(dA.action)}`,
+		`${start} ${getResolvedActionDisplayName(dA.action)}`,
 	);
 	delayedActions.push(dA);
 }
@@ -1515,11 +1544,12 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					doTreatment(event.time, resolvedAction, event);
 				}
 			} else {
+				const dontknow = getTranslation('pretriage-interface', 'skillMissing');
 				addLogMessage(
 					event.payload.emitterCharacterId,
 					event.payload.targetId,
 					event.time,
-					`You don't know how to do this (${getResolvedActionDisplayName(resolvedAction)})`,
+					`${dontknow} (${getResolvedActionDisplayName(resolvedAction)})`,
 				);
 			}
 		} else {
@@ -1727,6 +1757,9 @@ function processEvent(event: FullEvent<EventPayload>) {
 			break;
 		case 'Freeze':
 			processFreezeEvent(event as FullEvent<FreezeEvent>);
+			break;
+		case 'Aging':
+			processAgingEvent(event as FullEvent<AgingEvent>);
 			break;
 		default:
 			unreachable(eType);
@@ -1979,6 +2012,7 @@ export function clearState() {
 	healths = {};
 	delayedActions = [];
 	clearAllCommunicationState();
+	drillInventoryByPassDone = undefined;
 }
 
 Helpers.registerEffect(() => {
