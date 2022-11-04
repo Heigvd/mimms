@@ -193,8 +193,6 @@ function getPainIcon(pain: number, overview: HumanOverview): string {
 		consciousness = 'alert';
 	}
 
-	const res = "/patient/pain/" + consciousness + '-' + painLevel + 'Pain.png';
-	wlog(res);
 	return "/patient/pain/" + consciousness + '-' + painLevel + 'Pain.png';
 }
 

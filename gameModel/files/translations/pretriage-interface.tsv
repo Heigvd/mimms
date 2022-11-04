@@ -25,7 +25,7 @@ backToSummary	back to summary	retourner au récapitulatif
 startPauseSimulation	Start / Pause simulation	Reprendre / Mettre en pause	
 finish	finish	terminer	
 itemMissing	You don't have any	Vous n'avez pas de	
-skillMissing	You don't know how to measure	Vous ne savez pas effectuer	
+skillMissing	You don't know how to measure	Vous ne savez pas mesurer	
 title	drill pretri	Drill pré-tri	
 category-system	Category system	Système de catégorisation	
 setup-title	Game session set up	Configuration de la partie de jeu	
@@ -35,3 +35,16 @@ skills	skills	compétences
 doMeasure	Do measure	mesurer	
 pleaseSelectBlock	Please select a body part in the right panel	Sélectionnez une partie du corps dans l'interface à droite	
 bodyPart	body part	partie du corps	
+apply	apply	appliquer	
+correction	correction	correction	
+given-answer	given answer	réponse donnée	
+review-patient	review patient	revoir patient	
+patient-id	patient id	ID du patient	
+nb-patients-correct	patient(s) correctly categorized	patient(s) correctement catégorisés	
+review	review	review	
+all	all	tous	
+show-correction	show correction	voir correction	
+next-patient	next patient	patient suivant	
+You don't know how to do this	You don't know how to do this	Vous ne savez pas effectuer	
+cancel	cancel	annulation	
+start	start	démarrage	
