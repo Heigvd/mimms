@@ -19,3 +19,32 @@ SITTING	Sitting	Assis
 STANDING	Standing	Debout
 Positive Pressure	Positive Pressure	Pression positive 
 pain	pain	douleur
+vitals.motricity.leftArm	left arm motricity	motricité bras gauche
+vitals.motricity.rightArm	right arm motricity	motricité bras droit
+vitals.motricity.leftLeg	left leg motricity	Motricité jambe gauche
+vitals.motricity.rightLeg	right leg motricity	motricité jambe droite
+vitals.glasgow.motor	 - motor	 - moteur
+vitals.glasgow.verbal	 - verbal	 - verbal
+vitals.glasgow.eye	 - eye	 - occulare
+vitals.glasgow.total	GCS	Glasgow
+vitals.canWalk	Can you walk?	Pouvez-vous marcher ?
+vitals.cardiacArrest	Cardiac arrest?	Arrêt cardiaque ?
+vitals.cardio.MAP	MAP	PAM
+vitals.cardio.hr	HR	FC
+vitals.respiration.SaO2	SaO2	SaO2
+vitals.respiration.SpO2	SpO2	SpO2
+vitals.respiration.rr	RR	FR
+vitals.capillaryRefillTime_s	CRT	TRC
+vitals.respiration.PaO2	PaO2	PaO2
+vitals.respiration.PaCO2	PaCO2	PaCO2
+vitals.respiration.tidalVolume_L	Tidal volume	Volume courant
+vitals.respiration.alveolarVolume_L	Efficient volume	Volume efficace
+vitals.cardio.totalVolume_mL	Blood volume	Volémie
+vitals.cardio.endSystolicVolume_mL	ESD	VTS
+vitals.cardio.strokeVolume_mL	Stroke volume	Volume d'éjection
+variables.ICP_mmHg	ICP	PIC
+yes	yes	oui
+no	no	non
+move	Can move	Peut bouger
+do_not_move	Can't move	Ne peut pas bouger
+no_response	Does not respond to orders	Ne réponds pas aux ordres

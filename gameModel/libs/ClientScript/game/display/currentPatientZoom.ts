@@ -822,64 +822,64 @@ function oneDecimalFormatter(value: unknown): string {
 function motricityFormatter(value: unknown) : string {
 	switch(value){
 		case 'move':
-			return 'can move';
 		case 'do_not_move':
-			return "can't move";
 		case 'no_response':
-			return 'does not respond to orders'
+			return getTranslation("human-general", value, true)
 	}
 	return 'unknown';
 }
 
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
+	const metricName = getTranslation("human-general", metric, true);
 	switch (metric) {
 		case 'vitals.motricity.leftArm':
-			return ['Left arm', motricityFormatter(value)];
+			return [metricName, motricityFormatter(value)];
 		case 'vitals.motricity.rightArm':
-			return ['Right arm', motricityFormatter(value)];
+			return [metricName, motricityFormatter(value)];
 		case 'vitals.motricity.leftLeg':
-			return ['Left leg', motricityFormatter(value)];
+			return [metricName, motricityFormatter(value)];
 		case 'vitals.motricity.rightLeg':
-			return ['Right leg', motricityFormatter(value)];
+			return [metricName, motricityFormatter(value)];
 		case 'vitals.glasgow.motor':
-			return [' - Motor', String(value)];
+			return [metricName, String(value)];
 		case 'vitals.glasgow.verbal':
-			return [' - Verbal', String(value)];
+			return [metricName, String(value)];
 		case 'vitals.glasgow.eye':
-			return [' - Eye', String(value)];
+			return [metricName, String(value)];
 		case 'vitals.glasgow.total':
-			return ['GCS', String(value)];
+			return [metricName, String(value)];
 		case 'vitals.canWalk':
-			return ['Walks?', value === true || value === 'true' ? 'yes' : 'no'];
+			return [metricName, value === true || value === 'true' ? getTranslation("human-general", "yes", true) : getTranslation("human-general", "no", true)];
 		case 'vitals.cardiacArrest':
-			return ['Dead?', value || 0 > 0 ? 'yes' : 'no'];
+			return [metricName, value || 0 > 0 ? getTranslation("human-general", "yes", true) : getTranslation("human-general", "no", true)];
 		case 'vitals.cardio.MAP':
-			return ['MAP', intFormatter(value) + " mmHg"];
+			return [metricName, intFormatter(value) + " mmHg"];
 		case 'vitals.cardio.hr':
-			return ['Heart rate', intFormatter(value) + "/min"];
+			return [metricName, intFormatter(value) + "/min"];
 		case 'vitals.respiration.SaO2':
-			return ['SaO2', percentFormatter(value)];
+			return [metricName, percentFormatter(value)];
 		case 'vitals.respiration.SpO2':
-			return ['SpO2', percentFormatter(value)];
+			return [metricName, percentFormatter(value)];
 		case 'vitals.respiration.rr':
-			return ['RR', intFormatter(value) + "/min"];
+			return [metricName, intFormatter(value) + "/min"];
 		case 'vitals.capillaryRefillTime_s':
-			return ['CRT', twoDecimalFormatter(value)];
+			return [metricName, twoDecimalFormatter(value)];
 		case 'vitals.respiration.PaO2':
-			return ['PaO2', oneDecimalFormatter(value) + " mmHg"];
+			return [metricName, oneDecimalFormatter(value) + " mmHg"];
 		case 'vitals.respiration.PaCO2':
-			return ['PaCO2', oneDecimalFormatter(value) + " mmHg"];
+			return [metricName, oneDecimalFormatter(value) + " mmHg"];
 		case 'vitals.respiration.tidalVolume_L':
+			return [metricName, intFormatter((value as number) * 1000) + " mL"];
 		case 'vitals.respiration.alveolarVolume_L':
-			return ['Alv. volume', intFormatter((value as number) * 1000) + " mL"];
+			return [metricName, intFormatter((value as number) * 1000) + " mL"];
 		case 'vitals.cardio.totalVolume_mL':
-			return ['Blood volume', twoDecimalFormatter((value as number) / 1000) + " L"];
+			return [metricName, twoDecimalFormatter((value as number) / 1000) + " L"];
 		case 'vitals.cardio.endSystolicVolume_mL':
-			return ['ESV', intFormatter(value) + " mL"];
+			return [metricName, intFormatter(value) + " mL"];
 		case 'vitals.cardio.strokeVolume_mL':
-			return ['Stroke Vol.', intFormatter(value) + " mL"];
+			return [metricName, intFormatter(value) + " mL"];
 		case 'variables.ICP_mmHg':
-			return ['ICP', intFormatter(value) + " mmHg"];
+			return [metricName, intFormatter(value) + " mmHg"];
 	}
 
 	return [String(metric), String(value)];
