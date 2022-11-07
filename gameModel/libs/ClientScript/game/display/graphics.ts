@@ -23,7 +23,7 @@ export interface HumanOverview {
 
 function getCategoryCardSvgRect(category: Category<string> | undefined, x: number | string = 0, y: number|string = 0, size: number|string = 4): string {
 	if (category) {
-		return `<rect fill="${category.bgColor}" stroke="black" stroke-width="4" x="${x}" y="${y}" width="${size}" height="${size}" >
+		return `<rect fill="${category.bgColor}" stroke="${category.color}" stroke-width="3" x="${x}" y="${y}" width="${size}" height="${size}" >
 			<title>${category.name}</title>
 			</rect>`;
 	}

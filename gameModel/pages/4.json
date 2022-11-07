@@ -650,6 +650,26 @@
         "type" : "toggler"
       },
       "type" : "Boolean"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "Finish text",
+        "onCancel" : { },
+        "onVariableChange" : { },
+        "placeholder" : {
+          "@class" : "Script",
+          "content" : "\"<p>Enter a custom text for finish page here<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'finished_custom_text')",
+          "language" : "TypeScript"
+        },
+        "style" : { },
+        "validator" : false
+      },
+      "type" : "Text input"
     } ],
     "layout" : {
       "flexDirection" : "column"

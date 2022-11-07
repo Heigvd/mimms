@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1667574095940,
+  "createdTime" : 1667836760792,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -851,7 +851,7 @@
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{}}",
         "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{}}",
-        "3567938133" : "{\"name\":\"Short\",\"patients\":{}}"
+        "3567938133" : "{\"name\":\"Short\",\"patients\":{\"CH-AP-639\":true,\"CH-BU-241\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
@@ -1521,6 +1521,35 @@
       "name" : "drill",
       "refId" : "ListDescriptor:24056505:1AlWQD",
       "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "TextDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "TextInstance",
+        "refId" : "TextInstance:26620159:z4UTOi",
+        "trValue" : null
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:26620160:dMH22J",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:26620160:dMH22J::EN",
+            "status" : "",
+            "translation" : "finishedCustomText"
+          }
+        }
+      },
+      "name" : "finished_custom_text",
+      "refId" : "TextDescriptor:26620158:7cwtor",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -3682,7 +3711,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn",
+  "name" : "HUMAn Audrey work version",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

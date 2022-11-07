@@ -12,6 +12,9 @@
 .patient-summary--line {
 	border-bottom: 1px solid var(--colors-disabledcolor);
 }
+.patient-summary--line:nth-of-type(4n) > div, .patient-summary--line:nth-of-type(4n-1) > div {
+  background-color:blue;
+}
 .patient-summary--line .tagCategory {
 	padding: 5px;
 	border-radius: 3px;
