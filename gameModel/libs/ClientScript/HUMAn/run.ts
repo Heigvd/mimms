@@ -12,8 +12,6 @@ import {
 	enableCoagulation,
 	enableLungsVasoconstriction,
 	enableVasoconstriction,
-	extBlocks,
-	ExternalBlock,
 	readKey,
 } from './human';
 import { logger, vitalsLogger, calcLogger, compLogger } from '../tools/logger';
@@ -30,7 +28,6 @@ import {
 	saveToObjectInstance,
 	TestScenario,
 } from '../tools/WegasHelper';
-import { substraction } from '../tools/helper';
 
 function saveMetrics(output: object, vdName: keyof VariableClasses) {
 	const oi = Variable.find(gameModel, vdName).getInstance(self) as SObjectInstance;
@@ -217,7 +214,7 @@ function extractMetric(
 	pushMetric('3 - Ra', time, body.vitals.cardio.Ra_mmHgMinPerL, outputCardio);
 	//pushMetric("Rv", time, body.vitals.cardio.Rrv_mmHgMinPerL, output);
 
-	pushMetric('4 - CRT [s]', time, body.vitals.capillaryRefillTime_s, outputCardio);
+	pushMetric('4 - CRT [s]', time, body.vitals.capillaryRefillTime_s ?? 10, outputCardio);
 
 	pushMetric('9000 - Qc [L/min]', time, body.vitals.cardio.cardiacOutput_LPerMin, outputCardio);
 	//pushMetric("Qrv [mL/min]", time, body.vitals.cardio.cardiacOutputRv_LPerMin, output);

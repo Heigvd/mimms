@@ -95,6 +95,20 @@
 "notCompletedYet": SStaticTextDescriptor;
 "congrats": SStaticTextDescriptor;
 "lickertWelcome": SStaticTextDescriptor;
+"drill_Presets": SObjectDescriptor;
+"patientSet": SStringDescriptor;
+"localization": SListDescriptor;
+"pathologies_517FG4": SListDescriptor;
+"pretriage": SListDescriptor;
+"human-blocks": SObjectDescriptor;
+"human-pathology": SObjectDescriptor;
+"human-general": SObjectDescriptor;
+"human-actions": SObjectDescriptor;
+"human-items": SObjectDescriptor;
+"human-chemicals": SObjectDescriptor;
+"pretriage-interface": SObjectDescriptor;
+"pretriage-algorithms": SObjectDescriptor;
+"pretriage-explanations": SObjectDescriptor;
         }
 
         interface VariableIds {
@@ -172,6 +186,20 @@
 24074417: SStaticTextDescriptor;
 24074423: SStaticTextDescriptor;
 24075201: SStaticTextDescriptor;
+24089751: SObjectDescriptor;
+24089756: SStringDescriptor;
+24090151: SListDescriptor;
+24090156: SListDescriptor;
+24090161: SListDescriptor;
+24090166: SObjectDescriptor;
+24090171: SObjectDescriptor;
+24090176: SObjectDescriptor;
+24090181: SObjectDescriptor;
+24090186: SObjectDescriptor;
+24090191: SObjectDescriptor;
+24090200: SObjectDescriptor;
+24090205: SObjectDescriptor;
+24090401: SObjectDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
@@ -190,7 +218,7 @@
           ) => Readonly<T[]>;
         }
 
-        type CurrentLanguages = "EN";
+        type CurrentLanguages = "EN" | "FR";
         type View = 'Editor' | 'Instance' | 'Export' | 'Public';
         declare const API_VIEW : View;
         declare const CurrentGame : IGame;
@@ -198,7 +226,7 @@
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;
         }
         declare const Editor: EditorClass & {
-          setPageLoaders: (name: "gamePageLoader"|"timetoolbar_map", pageId: IScript) => void;
+          setPageLoaders: (name: unknown, pageId: IScript) => void;
         };
 
         interface ClientMethodList {
@@ -217,7 +245,7 @@
         declare const ClientMethods : ClientMethodClass;
 
         type GlobalSchemas =
-          dataSchema;
+          never;
 
         interface SchemaClass extends GlobalSchemaClass {
           removeSchema: (name: GlobalSchemas) => void;

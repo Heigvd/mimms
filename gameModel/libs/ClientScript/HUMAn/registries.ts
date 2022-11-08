@@ -128,7 +128,7 @@ function init() {
 	}
 	initialized = true;
 
-	const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
+	// const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 
 	const extremities: ExternalBlock[] =
 		[

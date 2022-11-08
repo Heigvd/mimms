@@ -1,6 +1,6 @@
 import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue } from "../../HUMAn/human";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
@@ -578,7 +578,8 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 }
 
 
-function formatBlockTitle(title: string, translationVar?: keyof VariableClasses): string {
+function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClasses): string {
+	let title = titleArg;
 	if (translationVar) {
 		title = getTranslation(translationVar, title, true);
 	}
@@ -589,7 +590,8 @@ function formatBlockSubTitle(title: string, translationVar: keyof VariableClasse
 	return `<div class='block-subtitle'>${getTranslation(translationVar, title)}</div>`;
 }
 
-function formatBlockEntry(title: string, translationVar?: keyof VariableClasses, value?: string): string {
+function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClasses, value?: string): string {
+	let title = titleArg;
 	if (translationVar) {
 		title = getTranslation(translationVar, title);
 	}

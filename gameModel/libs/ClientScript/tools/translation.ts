@@ -15,7 +15,7 @@ export function getTranslation(category: keyof VariableClasses, key: string, upp
 	}
 	if(cache[category]){
 		//TODO cache parsed ?
-		const tr = cache[category].getProperties()[key.toLowerCase()];
+		const tr = cache[category]!.getProperties()[key.toLowerCase()];
 		if(tr){
 			const t = JSON.parse(tr);
 			const translated = I18n.translate(t);
@@ -35,7 +35,7 @@ export function translationExists(category: keyof VariableClasses, key : string)
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
 	}
 	if(cache[category]){
-		const tr = cache[category].getProperties()[key.toLocaleLowerCase()];
+		const tr = cache[category]!.getProperties()[key.toLocaleLowerCase()];
 		if(tr){
 			return true;
 		}
@@ -79,8 +79,8 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 		}
 		const lines = tsv.split('\n');
 		const header = lines[0].split('\t');
+
 		if(header[1].trim() !== 'EN' || header[2].trim() !== 'FR'){
-			
 			throw new Error(filename + ' bad format, expected header : key, EN, FR, <any>. received : ' + header)
 		}
 

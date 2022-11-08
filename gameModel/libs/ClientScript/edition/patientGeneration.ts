@@ -127,7 +127,7 @@ function makeRandomName(length : number): string {
 	let name = "";
 
 	for (let i = 0; i < length; i++){
-		const letters = all[letterType];
+		const letters = all[letterType]!;
 		name += letters.charAt(Math.floor(Math.random() * letters.length));
 		letterType = (letterType + 1)%2;
 	}

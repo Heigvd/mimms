@@ -1348,7 +1348,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 
 function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 
-	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time)
+	const { snapshot, futures } = getHumanSnapshotAtTime(objId, time)
 	snapshot.state.console.push(logEntry);
 
 	futures.forEach(sshot => {

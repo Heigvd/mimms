@@ -391,7 +391,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
 };
 // 1h to clear:
 // 4 5 6 3 2 7 1 8 9 10 11 12 0
-const saccoFast: SACCO_CATEGORY[] = [
+export const saccoFast: SACCO_CATEGORY[] = [
 	'four',
 	'five',
 	'six',
@@ -409,7 +409,7 @@ const saccoFast: SACCO_CATEGORY[] = [
 
 // up to 3h
 // 5 6 7 8 4 9 3 2 1 10 11 12 0
-const saccoMedium: SACCO_CATEGORY[] = [
+export const saccoMedium: SACCO_CATEGORY[] = [
 	'five',
 	'six',
 	'seven',
@@ -427,7 +427,7 @@ const saccoMedium: SACCO_CATEGORY[] = [
 
 // more than 3h
 // 6 7 8 5 9 10 4 3 2 1 11 12 0
-const saccoLong: SACCO_CATEGORY[] = [
+export const saccoLong: SACCO_CATEGORY[] = [
 	'six',
 	'seven',
 	'eight',

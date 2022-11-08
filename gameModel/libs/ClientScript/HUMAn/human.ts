@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 import { add, checkUnreachable, interpolate, normalize } from "../tools/helper";
-import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger, respLogger } from "../tools/logger";
+import { logger, patchLogger, bloodLogger, vitalsLogger, compLogger, visitorLogger } from "../tools/logger";
 import { Point } from "../map/point2D";
 
 import {
@@ -200,12 +200,12 @@ export interface Glasgow {
 
 export type MotricityValue = 'move' | 'do_not_move' | 'no_response';
 
-interface Motricity {
+export interface Motricity {
 	leftArm: MotricityValue;
 	rightArm: MotricityValue;
 	leftLeg: MotricityValue;
 	rightLeg: MotricityValue;
-};
+}
 
 /**
  * Human being at a given point in time
@@ -595,7 +595,7 @@ interface Connection {
 }
 
 
-interface RevivedConnection {
+export interface RevivedConnection {
 	/**
 	 * Connection parameters
 	 */
@@ -2671,188 +2671,6 @@ export function isNervousSystemConnection(c: RevivedConnection) {
 	return !!c.params.nervousSystem;
 }
 
-function isNotBroken(block: Block): boolean {
-	return !block.params.broken;
-}
-
-function isBone(c: RevivedConnection) {
-	return !!c.params.bones;
-}
-
-export function canBreathe(bodyState: BodyState): boolean {
-	respLogger.log("Can Breathe?")
-	if (bodyState.vitals.cardio.hr < 10) {
-		respLogger.log("No HR")
-		return false;
-	}
-	const connection = findConnection(bodyState, "BRAIN", "LUNG", {
-		validBlock: isNervousSystemFine,
-		shouldWalk: isNervousSystemConnection,
-	});
-	respLogger.log("Connection", connection);
-	if (connection.length === 0) {
-		respLogger.log("No Connection");
-		//	respLogger.setLevel("WARN");
-		return false;
-	} else {
-		//	respLogger.setLevel("WARN");
-		return true;
-	}
-}
-
-export function canWalk(body: HumanBody): boolean | 'no_response' {
-
-	if (body.state.vitals.glasgow.verbal < 5) {
-		return 'no_response';
-	}
-
-	const maxHr = 0.9 * body.meta.bounds.vitals.cardio.hr.max;
-	if (body.state.vitals.cardio.hr > maxHr) {
-		visitorLogger.debug("Can not walk: Heart rate too high");
-		return false;
-	}
-
-	if (body.state.vitals.glasgow.eye < 4) {
-		visitorLogger.debug("Can not walk: GCS Eye < 4");
-		return false;
-	}
-
-	if (body.state.vitals.glasgow.motor < 6) {
-		visitorLogger.debug("Can not walk: GCS Motor < 6");
-		return false;
-	}
-
-	visitorLogger.debug("Walk: ", body);
-	if (body.state.vitals.cardio.hr < 10) {
-		visitorLogger.debug("Can not walk: HR < 10");
-		return false;
-	}
-
-	if (body.state.vitals.cardio.extLossesFlow_mlPerMin > 10) {
-		visitorLogger.debug("Can not walk: Massive Hemorrhage");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "BRAIN", "PELVIS", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		visitorLogger.info("Can not walk:NO NERVOUS PELVIS CONNECTION");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "HEAD", "PELVIS", {
-			validBlock: isNotBroken,
-			shouldWalk: isBone,
-		}).length == 0
-	) {
-		visitorLogger.info("Can not walk: BROKEN SPINE");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "PELVIS", "LEFT_FOOT", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		visitorLogger.info("Can not walk: NOT NERVOUS CONNECTION TO LL");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "PELVIS", "RIGHT_FOOT", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		visitorLogger.info("Can not walk: NOT NERVOUS CONNECTION TO RL");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "PELVIS", "LEFT_FOOT", {
-			validBlock: isNotBroken,
-			shouldWalk: isBone,
-		}).length === 0
-	) {
-		visitorLogger.info("Can not walk: LL broken");
-		return false;
-	}
-
-	if (
-		findConnection(body.state, "PELVIS", "RIGHT_FOOT", {
-			validBlock: isNotBroken,
-			shouldWalk: isBone,
-		}).length === 0
-	) {
-		visitorLogger.info("Can not walk: RL broken");
-		return false;
-	}
-
-	return true;
-}
-
-
-export function getMotricity(body: HumanBody): HumanBody['state']['vitals']['motricity'] {
-
-	if (body.state.vitals.glasgow.motor < 6) {
-		return {
-			leftArm: 'no_response',
-			leftLeg: 'no_response',
-			rightArm: 'no_response',
-			rightLeg: 'no_response',
-		};
-	}
-
-	const motricity: Motricity = {
-		leftArm: 'move',
-		leftLeg: 'move',
-		rightArm: 'move',
-		rightLeg: 'move',
-	};
-
-	if (
-		findConnection(body.state, "BRAIN", "LEFT_HAND", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		motricity.leftArm = 'do_not_move';
-	}
-
-	if (
-		findConnection(body.state, "BRAIN", "RIGHT_HAND", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		motricity.rightArm = 'do_not_move';
-	}
-
-	if (
-		findConnection(body.state, "BRAIN", "LEFT_FOOT", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		motricity.leftLeg = 'do_not_move';
-	}
-
-	if (
-		findConnection(body.state, "BRAIN", "RIGHT_FOOT", {
-			validBlock: isNervousSystemFine,
-			shouldWalk: isNervousSystemConnection,
-		}).length === 0
-	) {
-		motricity.rightLeg = 'do_not_move';
-	}
-
-	return motricity;
-}
 
 export function getPain(body: HumanBody): number {
 	let pain = 0;

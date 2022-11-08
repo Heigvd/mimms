@@ -5,8 +5,8 @@
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
-import { add, interpolate, normalize } from "../tools/helper";
-import { Point } from "../map/point2D";
+import { add, interpolate, normalize } from '../tools/helper';
+import { Point } from '../map/point2D';
 
 import {
 	BodyState,
@@ -23,18 +23,16 @@ import {
 	readKey,
 	Bound,
 	getPain,
-	canWalk,
-	canBreathe,
 	HumanMeta,
 	findConnection,
 	isNervousSystemFine,
 	isNervousSystemConnection,
 	BodyPosition,
-getMotricity,
-} from "./human";
-import { logger, calcLogger, compLogger, respLogger } from "../tools/logger";
+	RevivedConnection,
+} from './human';
+import {logger, calcLogger, compLogger, respLogger, visitorLogger } from '../tools/logger';
 // import { computePaO2 } from "./quarticSolver";
-import { getCompensationModel, getOverdriveModel, getSystemModel } from "./registries";
+import { getCompensationModel, getOverdriveModel, getSystemModel } from './registries';
 
 //import { cloneDeep } from "lodash";
 //const cloneDeep = Helpers.cloneDeep;
@@ -46,24 +44,24 @@ function computeGambateScore(bodyState: BodyState, durationInMin: number) {
 	//return durationInMin;
 	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin) {
 		score += (bodyState.vitals.cardio.vo2_mLperMin - bodyState.vitals.cardio.DO2Sys) / 100;
-		logger.info("critical DO2 => ", score);
+		logger.info('critical DO2 => ', score);
 	}
 
 	if (bodyState.vitals.cardio.MAP < 40) {
 		score += (40 - bodyState.vitals.cardio.MAP) / 100;
-		logger.info("Critical MAP => ", score);
+		logger.info('Critical MAP => ', score);
 	}
 
 	if (bodyState.vitals.respiration.SaO2 < 0.7) {
 		score += (0.7 - bodyState.vitals.respiration.SaO2) * 20;
-		logger.info("Critical MAP => ", score);
+		logger.info('Critical MAP => ', score);
 	}
 
 	return score * durationInMin;
 }
 
 export function detectCardiacArrest(bodyState: BodyState, durationInMin: number) {
-	logger.log("Detect cardiac arrest");
+	logger.log('Detect cardiac arrest');
 	if (
 		bodyState.vitals.cardiacArrest! > 0 ||
 		bodyState.vitals.cardio.hr < 30 ||
@@ -75,9 +73,8 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 		if (bodyState.vitals.gambateBar > 0) {
 			bodyState.vitals.gambateBar -= computeGambateScore(bodyState, durationInMin);
 		} else {
-			logger.log("Cardiac Arrest");
-			bodyState.vitals.cardiacArrest =
-				bodyState.vitals.cardiacArrest || bodyState.time;
+			logger.log('Cardiac Arrest');
+			bodyState.vitals.cardiacArrest = bodyState.vitals.cardiacArrest || bodyState.time;
 			bodyState.vitals.cardio.hr = 0;
 			bodyState.vitals.cardio.MAP = 0;
 			bodyState.vitals.cardio.strokeVolume_mL = 0;
@@ -98,9 +95,11 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 		}
 	} else {
 		if (bodyState.vitals.gambateBar < 15) {
-			bodyState.vitals.gambateBar = add(bodyState.vitals.gambateBar, durationInMin, { max: gambateMax })
+			bodyState.vitals.gambateBar = add(bodyState.vitals.gambateBar, durationInMin, {
+				max: gambateMax,
+			});
 		}
-		logger.log("Not dead yet");
+		logger.log('Not dead yet');
 	}
 }
 
@@ -111,17 +110,15 @@ function getBloodRatio(human: HumanBody) {
 	return human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
 }
 
-
 const spo2BlVolumneModel: Point[] = [
 	{ x: 0, y: 0.5 },
-	{ x: 0.6, y: 1 }
+	{ x: 0.6, y: 1 },
 ];
 
 function getSpO2Ratio(human: HumanBody) {
 	const bloodRatio = getBloodRatio(human);
 	return interpolate(bloodRatio, spo2BlVolumneModel);
 }
-
 
 // Some constant based on something...
 const K = 0.863;
@@ -150,29 +147,25 @@ interface LowerAirways {
 	thoraxBlock: Block;
 }
 
-
 /**
  * Compute fresh-air data
  * TODO: POISON / CO
  */
-function getUpperAirwaysInput(
-	bodyState: BodyState,
-	env: Environnment
-): UpperAirways {
+function getUpperAirwaysInput(bodyState: BodyState, env: Environnment): UpperAirways {
 	let fi02 = 0;
 	const resistance: number[] = [0];
 	let atmPressure = env.atmosphericPressure_mmHg;
 	visit(
 		bodyState,
-		"LUNG",
-		(block) => {
-			respLogger.debug("Visit ", block, " for fresh air");
+		'LUNG',
+		block => {
+			respLogger.debug('Visit ', block, ' for fresh air');
 			let currentResistance = resistance[0] || 0;
 			const blockResistance = block.params.airResistance || 0;
 			if (!block.params.intubated) {
 				// intubation bypass resistance
 				currentResistance = Math.max(currentResistance, blockResistance);
-				respLogger.debug("Resistance: ", resistance);
+				respLogger.debug('Resistance: ', resistance);
 			}
 			resistance.unshift(currentResistance);
 
@@ -181,26 +174,26 @@ function getUpperAirwaysInput(
 				if (block.params.atmosphericPressure != null) {
 					atmPressure = block.params.atmosphericPressure;
 				}
-				logger.log("FIO2: ", block.params.fiO2);
+				logger.log('FIO2: ', block.params.fiO2);
 
-				if (typeof block.params.fiO2 === "number") {
+				if (typeof block.params.fiO2 === 'number') {
 					fi02 = block.params.fiO2;
 				} else {
 					fi02 = env.FiO2;
 				}
-				return "RETURN";
+				return 'RETURN';
 			}
 
 			if (!block.params.intubated && blockResistance >= 1) {
-				return "BREAK";
+				return 'BREAK';
 			} else {
-				return "CONTINUE";
+				return 'CONTINUE';
 			}
 		},
 		{
-			shouldWalk: (c) => !!c.params.o2,
+			shouldWalk: c => !!c.params.o2,
 			leaveBlock: () => resistance.shift(),
-		}
+		},
 	);
 
 	return {
@@ -210,10 +203,7 @@ function getUpperAirwaysInput(
 	};
 }
 
-function getLowerAirways(
-	bodyState: BodyState,
-	upperResistance: number
-): LowerAirways[] {
+function getLowerAirways(bodyState: BodyState, upperResistance: number): LowerAirways[] {
 	const units: LowerAirways[] = [];
 	const resistance: number[] = [upperResistance];
 	const qPercent: number[] = [1];
@@ -222,8 +212,8 @@ function getLowerAirways(
 
 	// débit arteriel pulmonaire == Qa systemique ?
 
-	const thorax_left = findBlock(bodyState, "THORAX_LEFT");
-	const thorax_right = findBlock(bodyState, "THORAX_RIGHT");
+	const thorax_left = findBlock(bodyState, 'THORAX_LEFT');
+	const thorax_right = findBlock(bodyState, 'THORAX_RIGHT');
 
 	//const externalCompliance = thorax != null ? thorax.params.compliance ?? 1 : 1;
 
@@ -231,9 +221,9 @@ function getLowerAirways(
 
 	visit(
 		bodyState,
-		"LUNG",
-		(block) => {
-			respLogger.info("Visit ", block, " for units");
+		'LUNG',
+		block => {
+			respLogger.info('Visit ', block, ' for units');
 
 			const upperResistance = resistance[0] || 0;
 
@@ -244,13 +234,12 @@ function getLowerAirways(
 			}
 			resistance.unshift(selfResistance);
 
-			if (block.name.startsWith("UNIT_")) {
-				respLogger.info("Found Unit: ", qPercent[0]);
-				const thorax = block.name.startsWith("UNIT_BRONCHUS_1") ? thorax_left : thorax_right;
-
+			if (block.name.startsWith('UNIT_')) {
+				respLogger.info('Found Unit: ', qPercent[0]);
+				const thorax = block.name.startsWith('UNIT_BRONCHUS_1') ? thorax_left : thorax_right;
 
 				// Bad compliance increases resistance
-				const compliance = block.params.compliance ?? 1
+				const compliance = block.params.compliance ?? 1;
 				const resistance = add(selfResistance, 0.98 * (1 - compliance), { min: 0, max: 1 });
 
 				units.push({
@@ -260,18 +249,18 @@ function getLowerAirways(
 					block: block,
 					thoraxBlock: thorax!,
 				});
-				return "BREAK";
+				return 'BREAK';
 			}
 
-			return "CONTINUE";
+			return 'CONTINUE';
 		},
 		{
-			leaveBlock: (b) => {
+			leaveBlock: b => {
 				resistance.shift();
 				qPercent.shift();
 				respLogger.info(`Leave ${b.name}: `, qPercent);
 			},
-			shouldWalk: (c) => {
+			shouldWalk: c => {
 				if (c.params.o2) {
 					const qP = qPercent[0] ?? 1;
 					qPercent.unshift((c.params.blood ?? 0) * qP);
@@ -281,7 +270,7 @@ function getLowerAirways(
 					return false;
 				}
 			},
-		}
+		},
 	);
 
 	return units;
@@ -295,9 +284,7 @@ function computeSaO2(paO2_mmHg: number): number {
 		return 0;
 	} else {
 		// The Severingaus equation
-		return (
-			1 / (23400 / (paO2_mmHg * paO2_mmHg * paO2_mmHg + 150 * paO2_mmHg) + 1)
-		);
+		return 1 / (23400 / (paO2_mmHg * paO2_mmHg * paO2_mmHg + 150 * paO2_mmHg) + 1);
 	}
 }
 
@@ -333,21 +320,21 @@ const getBloodVolume_mL = (state: BodyState) =>
 function computeEffectiveVolumesPerUnit(
 	positivePressure: boolean,
 	body: BodyState,
-	meta: HumanBody["meta"],
+	meta: HumanBody['meta'],
 	upperAirways: UpperAirways,
-	units: LowerAirways[]
+	units: LowerAirways[],
 ) {
-	respLogger.log("Airways: ", { upper: upperAirways, lower: units });
+	respLogger.log('Airways: ', { upper: upperAirways, lower: units });
 	const nbUnits = units.length;
 
 	const alvVolume_L = body.vitals.respiration.tidalVolume_L * body.vitals.respiration.rr;
-	const effectiveAlvVolume_L = Math.min(alvVolume_L , meta.maximumVoluntaryVentilation_L);
-	const effectiveTidalVolume_L = effectiveAlvVolume_L / body.vitals.respiration.rr
+	const effectiveAlvVolume_L = Math.min(alvVolume_L, meta.maximumVoluntaryVentilation_L);
+	const effectiveTidalVolume_L = effectiveAlvVolume_L / body.vitals.respiration.rr;
 
 	const idealTotalVolume_L = normalize(
 		effectiveTidalVolume_L - meta.deadSpace_L,
 		// body.vitals.respiration.tidalVolume_L - meta.deadSpace_L,
-		{ min: 0 }
+		{ min: 0 },
 	);
 
 	const perUnitThMaxCapacity_L = meta.inspiratoryCapacity_mL / (nbUnits * 1000);
@@ -359,13 +346,13 @@ function computeEffectiveVolumesPerUnit(
 
 		// full tidalVolume is injected
 		let totalEffectiveMaximum_L = 0;
-		const unitsEffectiveMaximum_L = units.map((unit) => {
+		const unitsEffectiveMaximum_L = units.map(unit => {
 			const capacity = perUnitThMaxCapacity_L * (1 - unit.resistance);
 			totalEffectiveMaximum_L += capacity;
 			return capacity;
 		});
 
-		respLogger.info("Effective Volume #1", unitsEffectiveMaximum_L, {
+		respLogger.info('Effective Volume #1', unitsEffectiveMaximum_L, {
 			totalEffectiveMaximum_L,
 		});
 
@@ -399,7 +386,7 @@ function computeEffectiveVolumesPerUnit(
 		}
 
 		if (toDispatch > 0) {
-			respLogger.warn("PositivePressure: unable to dispatch all volume");
+			respLogger.warn('PositivePressure: unable to dispatch all volume');
 			// machine should stop
 		}
 
@@ -431,20 +418,17 @@ function computeEffectiveVolumesPerUnit(
 			leaks[i] = leak;
 		}
 
-		respLogger.info("PositivePressure RU: ", { idealTotalVolume_L, ru, leaks });
+		respLogger.info('PositivePressure RU: ', { idealTotalVolume_L, ru, leaks });
 
 		return ru;
 	} else {
 		const idealVolumePerUnit_L = idealTotalVolume_L / nbUnits;
-		const effectiveUnitMax = Math.min(
-			idealVolumePerUnit_L,
-			perUnitThMaxCapacity_L
-		);
-		const ru = units.map((unit) => {
+		const effectiveUnitMax = Math.min(idealVolumePerUnit_L, perUnitThMaxCapacity_L);
+		const ru = units.map(unit => {
 			const eCompliance = Math.min(unit.compliance, externalCompliance);
 			return effectiveUnitMax * eCompliance * (1 - unit.resistance);
 		});
-		respLogger.info("Normal RU: ", ru);
+		respLogger.info('Normal RU: ', ru);
 		return ru;
 	}
 }
@@ -464,20 +448,23 @@ function getEffortLevel(bodyState: BodyState): number {
 
 function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
 	const effort = getEffortLevel(bodyState);
-	const vo2 = interpolate(effort, [{ x: 0, y: meta.VO2min_mLperKgMin }, { x: 1, y: meta.VO2max_mLperKgMin }]);
-	logger.info("VO2: ", { vo2, effort });
+	const vo2 = interpolate(effort, [
+		{ x: 0, y: meta.VO2min_mLperKgMin },
+		{ x: 1, y: meta.VO2max_mLperKgMin },
+	]);
+	logger.info('VO2: ', { vo2, effort });
 	return vo2 * meta.effectiveWeight_kg;
 }
 
 export function compute(
 	body: BodyState,
-	meta: HumanBody["meta"],
+	meta: HumanBody['meta'],
 	env: Environnment,
 	duration_min: number,
-): BodyState["vitals"] {
+): BodyState['vitals'] {
 	//const newVitals = cloneDeep(body.vitals);
 	//const newVitals = body.vitals;
-	calcLogger.info("Compute Vitals based on ", body);
+	calcLogger.info('Compute Vitals based on ', body);
 
 	const indexChoc = body.vitals.cardio.hr / body.vitals.cardio.systolicPressure;
 
@@ -527,7 +514,6 @@ export function compute(
 		{ x: 1.3, y: edv_th_max },
 	];
 
-
 	const rBlood = bloodVolume_mL / meta.initialBloodVolume_mL;
 
 	const edv_preload = interpolate(rBlood, edvMax_model);
@@ -542,15 +528,14 @@ export function compute(
 	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
 	const edv_tamponade = interpolate(body.variables.pericardial_ml, tamponade_model);
 
-	const itp_l_raw = body.blocks.get("THORAX_LEFT")!.params.internalPressure;
+	const itp_l_raw = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
 
-	const itp_r_raw = body.blocks.get("THORAX_RIGHT")!.params.internalPressure;
-
+	const itp_r_raw = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
 
 	const itp_L = typeof itp_l_raw === 'number' ? itp_l_raw : 0;
 	const itp_R = typeof itp_r_raw === 'number' ? itp_r_raw : 0;
 
-	const itp = (itp_L + itp_R) / 2
+	const itp = (itp_L + itp_R) / 2;
 
 	const tensionPneumothoraxModel: Point[] = [
 		{ x: 0, y: edv_th_max },
@@ -563,11 +548,10 @@ export function compute(
 		//body.vitals.cardio.endDiastolicVolume_mL,
 		edv_preload,
 		edv_tamponade,
-		edv_pno
+		edv_pno,
 	);
 
-	calcLogger.info("Ratio Blood: ", rBlood, edvEffective, { edv_preload, edv_tamponade });
-
+	calcLogger.info('Ratio Blood: ', rBlood, edvEffective, { edv_preload, edv_tamponade });
 
 	// Quick fix to limit maximum MAP to 200
 	//const MAX_MAP = 200;
@@ -616,7 +600,6 @@ export function compute(
 	//const MAP = Qcm * (body.vitals.cardio.Ra_mmHgMinPerL);
 	let MAP = Qc_LPerMin * body.vitals.cardio.Ra_mmHgMinPerL;
 
-
 	// Afterload
 	/////////////////
 
@@ -641,13 +624,16 @@ export function compute(
 	// Computed map is bigger than ventricular pressure
 	// Afterload
 	if (MAP > ventricularPressure) {
-		calcLogger.info("MAP greater than ventricular pressure", { time: body.time, MAP, ventricularPressure });
+		calcLogger.info('MAP greater than ventricular pressure', {
+			time: body.time,
+			MAP,
+			ventricularPressure,
+		});
 		MAP = ventricularPressure;
 		Qc_LPerMin = MAP / body.vitals.cardio.Ra_mmHgMinPerL;
 	}
 
-
-	calcLogger.log("Cardio: ", {
+	calcLogger.log('Cardio: ', {
 		time: body.time,
 		MAP,
 		strokeVolume_mL,
@@ -661,7 +647,7 @@ export function compute(
 
 	body.vitals.cardio.strokeVolume_mL = strokeVolume_mL;
 	body.vitals.cardio.MAP = MAP;
-	body.vitals.cardio.systolicPressure = 1.5 * MAP // 3 * MAP / 2;
+	body.vitals.cardio.systolicPressure = 1.5 * MAP; // 3 * MAP / 2;
 
 	body.vitals.cardio.endDiastolicVolume_mL = edvEffective;
 	body.vitals.cardio.radialPulse = body.vitals.cardio.systolicPressure > 80;
@@ -670,7 +656,7 @@ export function compute(
 	body.vitals.cardio.cardiacOutput_LPerMin = Qc_LPerMin;
 	//body.vitals.cardio.cardiacOutputRv_LPerMin = Qrv_LPerMin;
 
-	calcLogger.info("Cardio: ", {
+	calcLogger.info('Cardio: ', {
 		input: { ...body.vitals.cardio },
 		strokeVolume_mL,
 		Qc_LPerMin,
@@ -697,15 +683,12 @@ export function compute(
 
 	const vco2_mLPerMin =
 		// vo2_mLperMin * body.vitals.respiration.QR;
-		vo2_mLperMin
+		vo2_mLperMin *
 		/*Math.min(
 			vo2_mLperMin,
 			body.vitals.cardio.DO2Sys,
 		)*/
-		* body.vitals.respiration.QR;
-
-
-
+		body.vitals.respiration.QR;
 
 	const upperAirways = getUpperAirwaysInput(body, env);
 	const units = getLowerAirways(body, upperAirways.resistance);
@@ -713,7 +696,7 @@ export function compute(
 	const positivePressure = body.variables.positivePressure === true;
 
 	if (!body.vitals.spontaneousBreathing) {
-		respLogger.info("no spontaneous breathing");
+		respLogger.info('no spontaneous breathing');
 		body.vitals.respiration.tidalVolume_L = 0;
 		body.vitals.respiration.rr = 0;
 	}
@@ -723,35 +706,36 @@ export function compute(
 		body.vitals.respiration.rr = 15;
 	}
 
-	respLogger.log("Positive Pressure", {
+	respLogger.log('Positive Pressure', {
 		positivePressure,
 		tidal: body.vitals.respiration.tidalVolume_L,
-		rr: body.vitals.respiration.rr
+		rr: body.vitals.respiration.rr,
 	});
-
 
 	const effectiveVolumesPerUnit_L = computeEffectiveVolumesPerUnit(
 		positivePressure,
 		body,
 		meta,
 		upperAirways,
-		units
+		units,
 	);
 
-	body.vitals.respiration.alveolarVolume_L = effectiveVolumesPerUnit_L.reduce<number>((acc, curr) => {
-		return acc + curr;
-	}, 0);
+	body.vitals.respiration.alveolarVolume_L = effectiveVolumesPerUnit_L.reduce<number>(
+		(acc, curr) => {
+			return acc + curr;
+		},
+		0,
+	);
 
 	//respLogger.info("Effective Volume dispatch", effectiveVolumesPerUnit_L);
 
 	/** Hemoglobin concentration, gram per litre */
 	const hb_gPerL =
 		bloodVolume_L > 0
-			? getGramOfHemoglobin(body.vitals.cardio.totalVolumeOfErythrocytes_mL) /
-			bloodVolume_L
+			? getGramOfHemoglobin(body.vitals.cardio.totalVolumeOfErythrocytes_mL) / bloodVolume_L
 			: 0;
 
-	respLogger.log("Respiration Step1: ", {
+	respLogger.log('Respiration Step1: ', {
 		vo2_mLkgperMin: vo2_mLperMin,
 		weight: meta.effectiveWeight_kg,
 		vo2_mLperMin,
@@ -759,7 +743,7 @@ export function compute(
 		effectiveVolumesPerUnit_L,
 		hb_gPerL,
 	});
-	respLogger.info("RespiratoryUnits: ", units);
+	respLogger.info('RespiratoryUnits: ', units);
 
 	/**
 	 * Constant value for vapour pressure of water
@@ -770,20 +754,18 @@ export function compute(
 
 	// Compute SaO2 and CaO2 for each respiratory unit
 	const unitOutputs = units.map((unit, i) => {
-		const Va_LperMin =
-			effectiveVolumesPerUnit_L[i]! * body.vitals.respiration.rr;
+		const Va_LperMin = effectiveVolumesPerUnit_L[i]! * body.vitals.respiration.rr;
 		const vco2InUnit_mlPerMin = vco2_mLPerMin * unit.qPercent;
 
 		if (unit.qPercent <= 0) {
-			respLogger.log("NO PERFUSION");
+			respLogger.log('NO PERFUSION');
 			return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 		}
 
 		if (unit.compliance <= 0.01) {
-			respLogger.log("Empty unit (compliance=0)");
+			respLogger.log('Empty unit (compliance=0)');
 			return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 		}
-
 
 		let PACO2 = unit.block.params.PACO2 ?? 0;
 
@@ -797,7 +779,7 @@ export function compute(
 
 			//return { SaO2: 0, CaO2: 0, PaO2_mmHg: 0, qPercent: unit.qPercent };
 
-			respLogger.log("NO AIR: PACO2=", PACO2, " + ", PACO2_delta, {
+			respLogger.log('NO AIR: PACO2=', PACO2, ' + ', PACO2_delta, {
 				vco2_mLPerMin,
 				vco2InUnit_mlPerMin,
 				inLungs_mL,
@@ -811,13 +793,12 @@ export function compute(
 			// https://www.medmastery.com/guide/blood-gas-analysis-clinical-guide/how-are-paco2-and-minute-ventilation-related
 			const ratio_vco2Va = vco2InUnit_mlPerMin / Va_mlPerMin;
 
-			respLogger.log("VCO2 / VA = ", vco2InUnit_mlPerMin, Va_mlPerMin, unit.qPercent, ratio_vco2Va);
-
+			respLogger.log('VCO2 / VA = ', vco2InUnit_mlPerMin, Va_mlPerMin, unit.qPercent, ratio_vco2Va);
 
 			// Compute partial alveolar CO2 saturation [mmHG]
 			PACO2 = 1000 * K * ratio_vco2Va;
 		}
-		respLogger.log("PACO2 => ", PACO2);
+		respLogger.log('PACO2 => ', PACO2);
 		unit.block.params.PACO2 = PACO2;
 
 		/**
@@ -828,7 +809,8 @@ export function compute(
 		//const pH2o_mmHg = (temp_celsius: number) => Math.pow(10, 8.07131 - (1730.63 / (233.426 + temp_celsius)));
 
 		// Compute partial alveolar oxygen saturation [mmHG]
-		const PAO2_raw = (upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
+		const PAO2_raw =
+			(upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 -
 			PACO2 / body.vitals.respiration.QR;
 
 		respLogger.log(` PAO2=`, PAO2_raw, {
@@ -837,12 +819,9 @@ export function compute(
 			Fio2: upperAirways.FIO2,
 			PACO2,
 			qr: body.vitals.respiration.QR,
-
 		});
 
-		const PAO2 = normalize(PAO2_raw,
-			{ min: 0 }
-		);
+		const PAO2 = normalize(PAO2_raw, { min: 0 });
 
 		let PaO2_mmHg = normalize(PAO2 - AaDO2, { min: 0 });
 		//const PaO2_kPa = convertTorrToKPa(PaO2_mmHg); // useless
@@ -871,19 +850,17 @@ export function compute(
 		return { SaO2, CaO2, PaO2_mmHg, qPercent: unit.qPercent };
 	});
 
-	respLogger.info("Respiration Step2: ", unitOutputs);
+	respLogger.info('Respiration Step2: ', unitOutputs);
 	// consolidate SaO2 and CaO2;
 	// -> blood in the pulmonary vein
 	const { SaO2, CaO2 } = unitOutputs.reduce(
 		(output, unit) => {
 			output.SaO2 += unit.SaO2 * unit.qPercent;
 			output.CaO2 += unit.CaO2 * unit.qPercent;
-			respLogger.debug(
-				`Unit : ${unit.qPercent}\t ${unit.SaO2}\t${unit.CaO2}\t${unit.PaO2_mmHg}`
-			);
+			respLogger.debug(`Unit : ${unit.qPercent}\t ${unit.SaO2}\t${unit.CaO2}\t${unit.PaO2_mmHg}`);
 			return output;
 		},
-		{ SaO2: 0, CaO2: 0 }
+		{ SaO2: 0, CaO2: 0 },
 	);
 
 	//const CaO2 = 1.34 * SaO2 * hb_gPerL + PaO2_mmHg * 0.03;
@@ -901,8 +878,8 @@ export function compute(
 	const PAO2 = AaDO2 + (indexChoc > 1 ? PaO2_mmHg * indexChoc : PaO2_mmHg);
 
 	const PaCO2_mmHg =
-		body.vitals.respiration.QR * (
-			(upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PAO2);
+		body.vitals.respiration.QR *
+		((upperAirways.atmosphericPressureInmmHg - pH2O_mmHg) * upperAirways.FIO2 - PAO2);
 
 	/* const PaCO2_mmHg = add(
 		body.vitals.respiration.QR * (
@@ -914,7 +891,7 @@ export function compute(
 	//const recomputedSaO2 = computeSaO2(computedPaO2_v2);
 
 	//respLogger.debug(`Glob : 1\t${SaO2}\t${recomputedSaO2}\t${CaO2}\t${computedPaO2}\t${computedPaO2_v2}`);
-	respLogger.log("log : ", { SaO2, CaO2, PaO2_mmHg, PaCO2_mmHg });
+	respLogger.log('log : ', { SaO2, CaO2, PaO2_mmHg, PaCO2_mmHg });
 
 	if (isLungsVasoconstrictionEnabled()) {
 		// update qFactors
@@ -927,11 +904,11 @@ export function compute(
 		const sao2Tree: number[] = [];
 
 		let i = nbConnection - 1;
-		unitOutputs.reverse().forEach((unitResult) => {
+		unitOutputs.reverse().forEach(unitResult => {
 			sao2Tree[i] = Math.pow(unitResult.PaO2_mmHg, 4);
 			i--;
 		});
-		respLogger.log("Update QFactors: ", { sao2Tree, nbConnection, i });
+		respLogger.log('Update QFactors: ', { sao2Tree, nbConnection, i });
 
 		for (; i >= 0; i--) {
 			const leftChildIndex = 2 * i + 1;
@@ -949,7 +926,7 @@ export function compute(
 				qTree[leftChildIndex] = 0.5;
 				qTree[rightChildIndex] = 0.5;
 			}
-			respLogger.log("Process Tree: ", {
+			respLogger.log('Process Tree: ', {
 				leftChildIndex,
 				rightChildIndex,
 				leftSaO2,
@@ -960,25 +937,23 @@ export function compute(
 		if (qTree.length > 1) {
 			qTree[0] = qTree[1]! + qTree[2]!;
 		}
-		respLogger.log("Updated QFactors: ", { qTree, sao2Tree });
+		respLogger.log('Updated QFactors: ', { qTree, sao2Tree });
 
 		const blockNames: string[] = [];
 		for (i = 0; i < nbConnection; i++) {
 			const parent = i % 2 === 0 ? i / 2 - 1 : (i - 1) / 2;
 			if (i === 0) {
-				blockNames.push("LUNG");
+				blockNames.push('LUNG');
 			} else {
 				if (i <= 2) {
-					blockNames.push("BRONCHUS_" + i);
+					blockNames.push('BRONCHUS_' + i);
 				} else {
-					const childNumber = i % 2 === 0 ? "2" : "1";
+					const childNumber = i % 2 === 0 ? '2' : '1';
 					blockNames.push(blockNames[parent] + childNumber);
 				}
 				const parentBlock = findBlock(body, blockNames[parent]!);
 				if (parentBlock) {
-					const connection = parentBlock.connections.find(
-						(c) => c.to === blockNames[i]
-					);
+					const connection = parentBlock.connections.find(c => c.to === blockNames[i]);
 					if (connection) {
 						const params = body.connections[connection.paramsId];
 						if (params) {
@@ -1048,16 +1023,15 @@ export function compute(
 	body.vitals.cardio.DO2Sys = do2Sys;
 	body.vitals.cardio.vo2_mLperMin = vo2_mLperMin;
 
-
 	//const PaO2_mmHg_fromSaO2 = computePaO2_mmHg(SaO2);
 	body.vitals.respiration.PaO2 = PaO2_mmHg;
 	body.vitals.respiration.PaCO2 = PaCO2_mmHg;
 
-	respLogger.log("Final SaO2,CaO2, PaO2:", { SaO2, CaO2, PaO2_mmHg });
+	respLogger.log('Final SaO2,CaO2, PaO2:', { SaO2, CaO2, PaO2_mmHg });
 
-	logger.info("VO2 VS DO2", vo2_mLperMin, do2Sys);
+	logger.info('VO2 VS DO2', vo2_mLperMin, do2Sys);
 	if (do2Sys < vo2_mLperMin * 0.8) {
-		logger.log("DO2 < VO2: Gambate !!!");
+		logger.log('DO2 < VO2: Gambate !!!');
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1068,12 +1042,12 @@ export function compute(
 	//const qbrTh = Pp / body.vitals.brain.Rbr;
 	//const Qbr = Pp > 50 ? theoreticalQbr : qbrTh;
 
-	const Qbr = (body.blocks.get("BRAIN")?.params.bloodFlow_mLper ?? 0) / 1000;
+	const Qbr = (body.blocks.get('BRAIN')?.params.bloodFlow_mLper ?? 0) / 1000;
 
 	// CaO2
 	const DO2 = Qbr * CaO2;
 
-	logger.log("Brain: ", {
+	logger.log('Brain: ', {
 		input: { ...body.vitals.brain },
 		Qbr,
 		DO2,
@@ -1100,12 +1074,17 @@ const computeRecap = (state: BodyState): number => {
 		return 10;
 	}
 
-	calcLogger.info("TRC: 2sec * (", state.vitals.cardio.hr, state.vitals.cardio.MAP, "), => ", indexChoc * 2);
+	calcLogger.info(
+		'TRC: 2sec * (',
+		state.vitals.cardio.hr,
+		state.vitals.cardio.MAP,
+		'), => ',
+		indexChoc * 2,
+	);
 
 	return 2 * indexChoc;
 	// return interpolate(state.vitals.cardio.MAP, TRC_MODEL);
 };
-
 
 // Seuils ischémiques
 // QBr ml/min/100g de cerveau | desc      | Qbr cerveau 1.4kg | Do2 avec CaO2 2000 | Do2/100g
@@ -1114,17 +1093,16 @@ const computeRecap = (state: BodyState): number => {
 //  <12 | ischémie        | 168 | 33.6 | 2.4
 //  <20 | seuil pénombre  | 280 | 56   | 4
 //  <40 | oligémie        | 560 | 112  | 8
-//  ... | normal          | 840 | 168  | 12 
+//  ... | normal          | 840 | 168  | 12
 
 const GCS_DO2_MODEL: Point[] = [
 	{ x: 1.6, y: 3 },
 	{ x: 2.4, y: 8 },
 	{ x: 4, y: 12 },
-	{ x: 8, y: 15 }
+	{ x: 8, y: 15 },
 ];
 
 // https://anesthesiologie.umontreal.ca/wp-content/uploads/sites/33/Isch_cer.pdf
-
 
 const GCS_BlVol_MODEL: Point[] = [
 	{ x: 0.4, y: 3 },
@@ -1133,29 +1111,29 @@ const GCS_BlVol_MODEL: Point[] = [
 	{ x: 1, y: 15 },
 ];
 
-const getGCSTotal = ({ state, meta }: HumanBody): Glasgow["total"] => {
+const getGCSTotal = ({ state, meta }: HumanBody): Glasgow['total'] => {
 	const DO2 = state.vitals.brain.DO2;
 	if (Number.isNaN(DO2)) {
 		return 3;
 	}
 
-	const DO2_100g = 100 * DO2 / meta.brainWeight_g;
+	const DO2_100g = (100 * DO2) / meta.brainWeight_g;
 
-	logger.info("DO2: ", { DO2_100g, DO2, weight: meta.brainWeight_g });
+	logger.info('DO2: ', { DO2_100g, DO2, weight: meta.brainWeight_g });
 
-	const gDO2 = Math.round(interpolate(DO2_100g, GCS_DO2_MODEL)) as Glasgow["total"];
+	const gDO2 = Math.round(interpolate(DO2_100g, GCS_DO2_MODEL)) as Glasgow['total'];
 
 	const bloodRatio = getBloodRatio({ meta: meta, state: state });
-	const gBloodVolume = Math.ceil(interpolate(bloodRatio, GCS_BlVol_MODEL)) as Glasgow["total"];
+	const gBloodVolume = Math.ceil(interpolate(bloodRatio, GCS_BlVol_MODEL)) as Glasgow['total'];
 
-	return Math.min(gDO2, gBloodVolume) as Glasgow["total"];
+	return Math.min(gDO2, gBloodVolume) as Glasgow['total'];
 };
 
 const computeGlasgow = (body: HumanBody): Glasgow => {
 	// total = f(ICP);
 	const total = getGCSTotal(body);
 	let gcs: Glasgow;
-	logger.log("Total: ", total, " based on ", body.state.vitals.brain.DO2);
+	logger.log('Total: ', total, ' based on ', body.state.vitals.brain.DO2);
 
 	switch (total) {
 		case 15:
@@ -1200,7 +1178,7 @@ const computeGlasgow = (body: HumanBody): Glasgow => {
 	}
 
 	if (gcs.total !== gcs.eye + gcs.motor + gcs.verbal) {
-		logger.error("GCS: total do not match", gcs);
+		logger.error('GCS: total do not match', gcs);
 	}
 
 	return gcs;
@@ -1219,17 +1197,14 @@ interface CompensationRule {
 	points: Point[];
 }
 
-
-
 export type CompesationKeys =
-	| "vitals.respiration.tidalVolume_L"
-	| "vitals.cardio.hr"
-	| "vitals.cardio.endSystolicVolume_mL"
-	| "vitals.cardio.Ra_mmHgMinPerL"
-	| "vitals.respiration.rr";
+	| 'vitals.respiration.tidalVolume_L'
+	| 'vitals.cardio.hr'
+	| 'vitals.cardio.endSystolicVolume_mL'
+	| 'vitals.cardio.Ra_mmHgMinPerL'
+	| 'vitals.respiration.rr';
 
 export type Compensation = Record<CompesationKeys, CompensationRule>;
-
 
 //'respiration.rr'?: CompensationRule;
 //'respiration.tidalVolume_L?': CompensationRule;
@@ -1242,11 +1217,7 @@ const icp_model: Point[] = [
 
 const average = false;
 
-
-export function computeOrthoLevel(
-	state: BodyState,
-	meta: HumanBody["meta"],
-	duration_min: number) {
+export function computeOrthoLevel(state: BodyState, meta: HumanBody['meta'], duration_min: number) {
 	if (state.vitals.cardiacArrest! > 0) {
 		state.variables.paraOrthoLevel = 0;
 		return;
@@ -1263,17 +1234,17 @@ export function computeOrthoLevel(
 		sympEntries.reduce<number>((total, [key, value]) => {
 			const currentValue = getVitals(state, key as BodyStateKeys);
 			const y = interpolate(currentValue!, value);
-			compLogger.log("SympLevel: ", key, currentValue, y);
+			compLogger.log('SympLevel: ', key, currentValue, y);
 			return total + y;
 		}, 0),
-		{ min: 0, max: 100 }
+		{ min: 0, max: 100 },
 	);
 
 	if (average) {
 		sympatheticDelta /= sympEntries.length;
 	}
 
-	compLogger.log("Delta: ", sympatheticDelta);
+	compLogger.log('Delta: ', sympatheticDelta);
 	let level = state.variables.paraOrthoLevel;
 	if (sympatheticDelta > 0) {
 		// compensation required
@@ -1287,22 +1258,21 @@ export function computeOrthoLevel(
 		min: 0,
 		max: 100,
 	});
-	compLogger.log("SympLevel: ", level);
+	compLogger.log('SympLevel: ', level);
 
 	state.variables.paraOrthoLevel = level;
 }
-
 
 function computeVitals(
 	level: number,
 	model: Compensation,
 	state: BodyState,
-	meta: HumanBody["meta"],
+	meta: HumanBody['meta'],
 	duration_min: number,
 	t4Fine: boolean,
-	noT4Level: number): Record<CompesationKeys, number> {
-
-	compLogger.info("CompensationProfile: ", model);
+	noT4Level: number,
+): Record<CompesationKeys, number> {
+	compLogger.info('CompensationProfile: ', model);
 
 	const result: Partial<Record<CompesationKeys, number>> = {};
 
@@ -1310,37 +1280,31 @@ function computeVitals(
 		const key = k as CompesationKeys;
 		const currentValue = getVitals(state, key);
 
-		if ((key === 'vitals.respiration.rr' || key === 'vitals.respiration.tidalVolume_L') &&
+		if (
+			(key === 'vitals.respiration.rr' || key === 'vitals.respiration.tidalVolume_L') &&
 			!state.vitals.spontaneousBreathing
 		) {
-			compLogger.info("No spontaneous breathing: skip", key);
+			compLogger.info('No spontaneous breathing: skip', key);
 			return;
 		}
 
 		compLogger.info(
-			"Compensate: ",
+			'Compensate: ',
 			key,
-			"=",
+			'=',
 			currentValue,
 			value.points,
-			"(",
+			'(',
 			duration_min,
-			"[s])"
+			'[s])',
 		);
 		let newValue = interpolate(value.t4Nerve && !t4Fine ? noT4Level : level, value.points);
 
 		const bounds = readKey<Bound>(meta.bounds, key);
 		if (bounds != null) {
-			compLogger.info("Within Bounds: ", { percent: newValue, bounds });
+			compLogger.info('Within Bounds: ', { percent: newValue, bounds });
 			newValue = bounds.min + newValue * (bounds.max - bounds.min);
-			compLogger.info(
-				"CompensateNewvalue: ",
-				key,
-				" => ",
-				newValue,
-				" within bounds ",
-				bounds
-			);
+			compLogger.info('CompensateNewvalue: ', key, ' => ', newValue, ' within bounds ', bounds);
 		}
 
 		//const normalized =
@@ -1348,7 +1312,7 @@ function computeVitals(
 		//	min: value.min,
 		//	max: value.max,
 		//});
-		compLogger.log("Compensated value: ", key, currentValue, " => ", newValue);
+		compLogger.log('Compensated value: ', key, currentValue, ' => ', newValue);
 		result[key] = newValue;
 	});
 
@@ -1358,56 +1322,53 @@ function computeVitals(
 /**
  * Update some vitals according to current orthosympathetic kevel
  */
-export function doCompensate(
-	state: BodyState,
-	meta: HumanBody["meta"],
-	duration_min: number) {
-
+export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration_min: number) {
 	if (state.vitals.cardiacArrest! > 0) {
 		return;
 	}
 
 	// is the connection to t4 fine?
-	const t4Fine = findConnection(state, "BRAIN", "T5-L4", {
-		validBlock: isNervousSystemFine,
-		shouldWalk: isNervousSystemConnection,
-	}).length > 0;
+	const t4Fine =
+		findConnection(state, 'BRAIN', 'T5-L4', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length > 0;
 
-	const level = state.variables.paraOrthoLevel;// + state.vitals.pain;
+	const level = state.variables.paraOrthoLevel; // + state.vitals.pain;
 
 	const compensation = getCompensationModel();
 	if (compensation == null) {
-		throw new Error("No compensation model");
+		throw new Error('No compensation model');
 	}
 
-	const sympValues = computeVitals(level,
-		compensation!,
-		state,
-		meta,
-		duration_min,
-		t4Fine,
-		20);
-
+	const sympValues = computeVitals(level, compensation!, state, meta, duration_min, t4Fine, 20);
 
 	const overdriveLevel = interpolate(state.variables.ICP_mmHg, icp_model);
 
 	if (overdriveLevel > 0) {
-		compLogger.info("Overdrive: ", { ICP: state.variables.ICP_mmHg, overdriveLevel });
+		compLogger.info('Overdrive: ', { ICP: state.variables.ICP_mmHg, overdriveLevel });
 		const overdriveModel = getOverdriveModel();
 
-		const overdrivenValues = computeVitals(overdriveLevel,
+		const overdrivenValues = computeVitals(
+			overdriveLevel,
 			overdriveModel!,
 			state,
 			meta,
 			duration_min,
 			t4Fine,
-			10);
-		compLogger.info("Values", sympValues, overdrivenValues);
+			10,
+		);
+		compLogger.info('Values', sympValues, overdrivenValues);
 		Object.entries(sympValues).forEach(([key, sympValue]) => {
 			const overdriven = overdrivenValues[key as CompesationKeys];
 
 			const value = overdriveLevel * overdriven + (1 - overdriveLevel) * sympValue;
-			compLogger.info("OverdriveSet ", key, " => ", value, { overdriveLevel, overdriven, sLevel: 1 - overdriveLevel, sympValue });
+			compLogger.info('OverdriveSet ', key, ' => ', value, {
+				overdriveLevel,
+				overdriven,
+				sLevel: 1 - overdriveLevel,
+				sympValue,
+			});
 			setVital(state, key as BodyStateKeys, value);
 		});
 	} else {
@@ -1416,21 +1377,16 @@ export function doCompensate(
 		});
 	}
 
-	compLogger.info("After (para)Sympatic: ", state.vitals);
+	compLogger.info('After (para)Sympatic: ', state.vitals);
 }
 
-
-export function compensate(
-	state: BodyState,
-	meta: HumanBody["meta"],
-	duration_min: number) {
-
+export function compensate(state: BodyState, meta: HumanBody['meta'], duration_min: number) {
 	computeOrthoLevel(state, meta, duration_min);
 	doCompensate(state, meta, duration_min);
 }
 
 /**
- * Make sure human can hold its position 
+ * Make sure human can hold its position
  */
 export function fixPosition(human: HumanBody, fallback?: BodyPosition) {
 	if (!human.state.vitals.canWalk) {
@@ -1444,12 +1400,15 @@ export function fixPosition(human: HumanBody, fallback?: BodyPosition) {
 	}
 
 	if (
-		human.state.vitals.glasgow.eye < 4
-		|| human.state.vitals.glasgow.motor < 6
-		|| human.state.blocks.get("C1-C4")!.params.nervousSystemBroken
-		|| human.state.blocks.get("C5-C7")!.params.nervousSystemBroken
+		human.state.vitals.glasgow.eye < 4 ||
+		human.state.vitals.glasgow.motor < 6 ||
+		human.state.blocks.get('C1-C4')!.params.nervousSystemBroken ||
+		human.state.blocks.get('C5-C7')!.params.nervousSystemBroken
 	) {
-		if (human.state.variables.bodyPosition === 'STANDING' || human.state.variables.bodyPosition === 'SITTING') {
+		if (
+			human.state.variables.bodyPosition === 'STANDING' ||
+			human.state.variables.bodyPosition === 'SITTING'
+		) {
 			if (fallback != null && fallback !== 'STANDING' && fallback !== 'SITTING') {
 				human.state.variables.bodyPosition = fallback;
 			} else {
@@ -1459,8 +1418,188 @@ export function fixPosition(human: HumanBody, fallback?: BodyPosition) {
 	}
 }
 
+function isNotBroken(block: Block): boolean {
+	return !block.params.broken;
+}
+
+function isBone(c: RevivedConnection) {
+	return !!c.params.bones;
+}
+
+function canBreathe(bodyState: BodyState): boolean {
+	respLogger.log('Can Breathe?');
+	if (bodyState.vitals.cardio.hr < 10) {
+		respLogger.log('No HR');
+		return false;
+	}
+	const connection = findConnection(bodyState, 'BRAIN', 'LUNG', {
+		validBlock: isNervousSystemFine,
+		shouldWalk: isNervousSystemConnection,
+	});
+	respLogger.log('Connection', connection);
+	if (connection.length === 0) {
+		respLogger.log('No Connection');
+		//	respLogger.setLevel("WARN");
+		return false;
+	} else {
+		//	respLogger.setLevel("WARN");
+		return true;
+	}
+}
+
+function canWalk(body: HumanBody): boolean | 'no_response' {
+	if (body.state.vitals.glasgow.verbal < 5) {
+		return 'no_response';
+	}
+
+	const maxHr = 0.9 * body.meta.bounds.vitals.cardio.hr.max;
+	if (body.state.vitals.cardio.hr > maxHr) {
+		visitorLogger.debug('Can not walk: Heart rate too high');
+		return false;
+	}
+
+	if (body.state.vitals.glasgow.eye < 4) {
+		visitorLogger.debug('Can not walk: GCS Eye < 4');
+		return false;
+	}
+
+	if (body.state.vitals.glasgow.motor < 6) {
+		visitorLogger.debug('Can not walk: GCS Motor < 6');
+		return false;
+	}
+
+	visitorLogger.debug('Walk: ', body);
+	if (body.state.vitals.cardio.hr < 10) {
+		visitorLogger.debug('Can not walk: HR < 10');
+		return false;
+	}
+
+	if (body.state.vitals.cardio.extLossesFlow_mlPerMin > 10) {
+		visitorLogger.debug('Can not walk: Massive Hemorrhage');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'BRAIN', 'PELVIS', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		visitorLogger.info('Can not walk:NO NERVOUS PELVIS CONNECTION');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'HEAD', 'PELVIS', {
+			validBlock: isNotBroken,
+			shouldWalk: isBone,
+		}).length == 0
+	) {
+		visitorLogger.info('Can not walk: BROKEN SPINE');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'PELVIS', 'LEFT_FOOT', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		visitorLogger.info('Can not walk: NOT NERVOUS CONNECTION TO LL');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'PELVIS', 'RIGHT_FOOT', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		visitorLogger.info('Can not walk: NOT NERVOUS CONNECTION TO RL');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'PELVIS', 'LEFT_FOOT', {
+			validBlock: isNotBroken,
+			shouldWalk: isBone,
+		}).length === 0
+	) {
+		visitorLogger.info('Can not walk: LL broken');
+		return false;
+	}
+
+	if (
+		findConnection(body.state, 'PELVIS', 'RIGHT_FOOT', {
+			validBlock: isNotBroken,
+			shouldWalk: isBone,
+		}).length === 0
+	) {
+		visitorLogger.info('Can not walk: RL broken');
+		return false;
+	}
+
+	return true;
+}
+
+function getMotricity(body: HumanBody): HumanBody['state']['vitals']['motricity'] {
+	if (body.state.vitals.glasgow.motor < 6) {
+		return {
+			leftArm: 'no_response',
+			leftLeg: 'no_response',
+			rightArm: 'no_response',
+			rightLeg: 'no_response',
+		};
+	}
+
+	const motricity: Motricity = {
+		leftArm: 'move',
+		leftLeg: 'move',
+		rightArm: 'move',
+		rightLeg: 'move',
+	};
+
+	if (
+		findConnection(body.state, 'BRAIN', 'LEFT_HAND', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.leftArm = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, 'BRAIN', 'RIGHT_HAND', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.rightArm = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, 'BRAIN', 'LEFT_FOOT', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.leftLeg = 'do_not_move';
+	}
+
+	if (
+		findConnection(body.state, 'BRAIN', 'RIGHT_FOOT', {
+			validBlock: isNervousSystemFine,
+			shouldWalk: isNervousSystemConnection,
+		}).length === 0
+	) {
+		motricity.rightLeg = 'do_not_move';
+	}
+
+	return motricity;
+}
+
 export function inferExtraOutputs(human: HumanBody) {
-	logger.log("Infer Extra Outputs");
+	logger.log('Infer Extra Outputs');
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// Compute/infer extra outputs
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1471,10 +1610,10 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
 
-	if (human.state.vitals.glasgow.verbal < 5){
+	if (human.state.vitals.glasgow.verbal < 5) {
 		human.state.vitals.visiblePain = undefined;
 	} else {
-		human.state.vitals.visiblePain = human.state.vitals.pain
+		human.state.vitals.visiblePain = human.state.vitals.pain;
 	}
 
 	fixPosition(human);
