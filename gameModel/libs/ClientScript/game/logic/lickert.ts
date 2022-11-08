@@ -74,6 +74,8 @@ export function getLickertPage(): string {
 			case 'not_started':
 				return '22';
 			case 'ongoing':
+			case 'completed_summary':
+			case 'completed_review':
 			case 'completed':
 				return '17';
 			case 'validated':
@@ -677,7 +679,7 @@ type RawData = Record<
 function formatCsvCell(data: unknown): string {
 	wlog("Format ", data);
 	const str = String(data);
-	if (str.indexOf(",") >= 0) {
+	if (str.indexOf(",") >= 0 || str.indexOf("\n") >= 0 || str.indexOf("\r") >= 0) {
 		return `"${str.replace(/"/g, '""')}"`;
 	} else {
 		return str;
