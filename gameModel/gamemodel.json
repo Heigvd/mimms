@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1667836760792,
+  "createdTime" : 1667912379398,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2792,7 +2792,7 @@
           "vitals.motricity.leftleg" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"left leg motricity\"},\"FR\":{\"status\":\"\",\"translation\":\"motricité jambe gauche\",\"lang\":\"FR\"}},\"version\":0}",
           "vitals.motricity.rightarm" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"right arm motricity\"},\"FR\":{\"status\":\"\",\"translation\":\"motricité bras droit\",\"lang\":\"FR\"}},\"version\":0}",
           "vitals.motricity.rightleg" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"right leg motricity\"},\"FR\":{\"status\":\"\",\"translation\":\"motricité jambe droite\",\"lang\":\"FR\"}},\"version\":0}",
-          "vitals.respiration.alveolarvolume_l" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"efficient volume\"},\"FR\":{\"status\":\"\",\"translation\":\"volume efficace\",\"lang\":\"FR\"}},\"version\":0}",
+          "vitals.respiration.alveolarvolume_l" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"alveolar volume\"},\"FR\":{\"status\":\"\",\"translation\":\"volume alvéolaire\",\"lang\":\"FR\"}},\"version\":0}",
           "vitals.respiration.paco2" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"paCO2\"},\"FR\":{\"status\":\"\",\"translation\":\"paCO2\",\"lang\":\"FR\"}},\"version\":0}",
           "vitals.respiration.pao2" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"paO2\"},\"FR\":{\"status\":\"\",\"translation\":\"paO2\",\"lang\":\"FR\"}},\"version\":0}",
           "vitals.respiration.rr" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rR\"},\"FR\":{\"status\":\"\",\"translation\":\"fR\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3236,6 +3236,15 @@
     "visibility" : "PROTECTED"
   } ],
   "libraries" : [ {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/exportation",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#54:64EhfL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
     "@class" : "GameModelContent",
     "content" : "",
     "contentKey" : "dashboard/patient",
@@ -3722,7 +3731,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn Audrey work version",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

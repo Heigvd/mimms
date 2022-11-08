@@ -839,7 +839,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { categorize } from './game/display/currentPatientZoom';\nimport { getDrillStatus } from './game/logic/drill';\n\nif(getDrillStatus() == 'ongoing'){\n\tcategorize(Context.tagCategory.id);\n}",
+                                "content" : "import { selectCategory } from './game/display/currentPatientZoom';\nimport { getDrillStatus } from './game/logic/drill';\n\nif(getDrillStatus() == 'ongoing'){\n\tselectCategory(Context.tagCategory.id, Context.patientConsole.setState);\n}",
                                 "language" : "TypeScript"
                               }
                             },
@@ -867,7 +867,7 @@
                         "exposeAs" : "tagCategory",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentCategory, getTagSystemCategories } from './game/logic/triage';\nconst selectedId = getCurrentCategory();\n[...getTagSystemCategories().categories].reverse().map((cat)=>{\n\treturn {\n\t\t...cat,\n\t\tisSelected: selectedId === cat.id\n\t}\n});",
+                          "content" : "import { getCurrentCategory, getTagSystemCategories } from './game/logic/triage';\nconst selectedId = Context.patientConsole.state.selectedCategory;\n[...getTagSystemCategories().categories].reverse().map((cat)=>{\n\treturn {\n\t\t...cat,\n\t\tisSelected: selectedId === cat.id\n\t}\n});",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -880,6 +880,30 @@
                         "style" : { }
                       },
                       "type" : "For each"
+                    }, {
+                      "props" : {
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getCurrentCategory } from \"./game/logic/triage\";\nconst currentId = getCurrentCategory();\nconst selected = Context.patientConsole.state.selectedCategory;\n!selected || currentId === selected;",
+                          "language" : "typescript"
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'validate')\nreturn`<strong><span style=\\\"font-size: 14pt;\\\">${apply}</span></strong>`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { validateCategory } from \"./game/display/currentPatientZoom\";\nvalidateCategory(Context.patientConsole.state);",
+                            "language" : "TypeScript",
+                            "returnType" : "Promise<unknown> | undefined"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
                     } ],
                     "hideIf" : {
                       "@class" : "Script",

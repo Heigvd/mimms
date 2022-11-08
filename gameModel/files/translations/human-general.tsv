@@ -41,7 +41,7 @@ vitals.capillaryRefillTime_s	CRT	TRC
 vitals.respiration.PaO2	PaO2	PaO2
 vitals.respiration.PaCO2	PaCO2	PaCO2
 vitals.respiration.tidalVolume_L	Tidal volume	Volume courant
-vitals.respiration.alveolarVolume_L	Efficient volume	Volume efficace
+vitals.respiration.alveolarVolume_L	Alveolar volume	Volume alvéolaire
 vitals.cardio.totalVolume_mL	Blood volume	Volémie
 vitals.cardio.endSystolicVolume_mL	ESD	VTS
 vitals.cardio.strokeVolume_mL	Stroke volume	Volume d'éjection

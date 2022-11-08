@@ -87,6 +87,7 @@ export interface PatientZoomState {
 	selectedBlock: string | undefined;
 	observedBlock: string | undefined;
 	availableBlocks: string[];
+	selectedCategory: string | undefined;
 }
 
 export function getInitialPatientZoomState(): PatientZoomState {
@@ -100,6 +101,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		//logs: [],
 		currentPatient: undefined,
 		observedBlock: undefined,
+		selectedCategory: undefined,
 	};
 }
 
@@ -934,22 +936,32 @@ export function getPatientConsole(): string {
 	return console.reverse().map(formatLog).join('');
 }
 
-export function categorize(category: string) {
+export function selectCategory(category: string, setState: SetZoomState) {
+	setState(s => ({
+			...s,
+			selectedCategory: category,
+	}));
+}
+
+export async function validateCategory(state: PatientZoomState) : Promise<unknown> {
 	const system = getTagSystem();
-	const resolved = getCategory(category);
+	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
-	if (resolved != null) {
-		sendEvent({
+	wlog(resolved);
+	wlog(state.currentPatient);
+	if (resolved != null && state.currentPatient) {
+		return sendEvent({
 			...initEmitterIds(),
 			type: 'Categorize',
 			targetType: 'Human',
-			targetId: Context.patientConsole.state.currentPatient,
+			targetId: state.currentPatient,
 			category: resolved.category.id,
 			system: system,
 			autoTriage: autoTriage,
 			severity: resolved.severity,
 		});
 	}
+	return undefined;
 }
 
 function getRoundedAge(human: HumanBody) {

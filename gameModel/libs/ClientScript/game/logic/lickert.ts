@@ -13,6 +13,7 @@ import {
 	getCurrentPatientId,
 	getSortedPatientIds,
 } from '../../tools/WegasHelper';
+import { getTranslation } from '../../tools/translation';
 
 function save() {
 	saveData();
@@ -30,7 +31,7 @@ export function selectPatient(patientId: string) {
 
 export function gotoValidatePage() {
 	APIMethods.runScript(
-		`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed');
+		`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed_summary');
 	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
 		{},
 	);
@@ -76,7 +77,6 @@ export function getLickertPage(): string {
 			case 'ongoing':
 			case 'completed_summary':
 			case 'completed_review':
-			case 'completed':
 				return '17';
 			case 'validated':
 				return '23';
@@ -155,12 +155,14 @@ export function prettyPrintCurrentPatientInfos() {
 	const param = getCurrentPatientBodyParam();
 	let title = '';
 
+
 	if (param) {
 		const { meta } = computeMetas(param);
-		title = `<h3>Infos</h3><ul><li><b>Gender:</b>  ${meta.sex} </li>
-		<li><b>Age:</b>  ${meta.age}</li>
-		<li><b>Height:</b>  ${meta.height_cm}cm</li>
-		<li><b>Weight:</b>   ${meta.effectiveWeight_kg.toFixed()}kg</li></ul>`;
+
+		const age = meta.age;
+		const sex = getTranslation('human-general', meta.sex, false);
+		const years = getTranslation('human-general', 'years', false);
+		title = `${sex}, ${age} ${years}, ${meta.height_cm}cm, ${meta.effectiveWeight_kg.toFixed()}kg`;
 	} else {
 		title = '';
 	}
