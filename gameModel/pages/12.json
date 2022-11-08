@@ -590,6 +590,19 @@
               "props" : {
                 "className" : "patient-summary--header",
                 "layoutStyle" : { },
+                "name" : "n",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>N°</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "patient-summary--header",
+                "layoutStyle" : { },
                 "name" : "patientID",
                 "style" : { },
                 "text" : {
@@ -633,7 +646,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'correction');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'result');",
                   "language" : "TypeScript"
                 }
               },
@@ -656,6 +669,18 @@
                 "children" : [ {
                   "props" : {
                     "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "n",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "'X'",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
                       "props" : {
                         "layoutStyle" : { },
                         "name" : "patientID",
@@ -760,12 +785,15 @@
             } ],
             "layout" : {
               "alignItems" : "center",
-              "gridTemplateColumns" : "1fr 1fr 1fr 1fr 1fr",
+              "gridAutoRows" : "50px",
+              "gridTemplateColumns" : "repeat(6, 1fr)",
               "justifyItems" : "center"
             },
             "layoutStyle" : { },
             "name" : "summary",
-            "style" : { }
+            "style" : {
+              "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
+            }
           },
           "type" : "Grid"
         }, {
@@ -788,6 +816,47 @@
         },
         "layoutStyle" : { },
         "name" : "summary",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "finish-text",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\n getTranslation(\"pretriage-interface\", 'thankyou-playing');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "custom-finish-text",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\n I18n.toString(Variable.find(gameModel,'finished_custom_text'))",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'validated'",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "End",
         "style" : { }
       },
       "type" : "FlexList"

@@ -15,3 +15,4 @@ export const drillLogger = Helpers.getLogger("human.drill");
 export const drillPresetLogger = Helpers.getLogger("human.drill.preset");
 export const patientGenerationLogger = Helpers.getLogger("human.patient.generation");
 export const translationLogger = Helpers.getLogger('translation');
+export const exportLogger = Helpers.getLogger('export');

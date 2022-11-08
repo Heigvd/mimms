@@ -56,7 +56,19 @@ var PatientDashboard = ((function () {
 		return patients;
 	}
 
+	function patientInfo() {
+
+		var events = getEvents(Variable.find(gameModel, "events").getInstance(self));
+		return events.filter(function (event) {
+			return event.payload.type == 'Categorize'
+			|| event.payload.type == 'HumanMeasure'
+			|| event.payload.type == 'HumanTreatment'
+		});
+		
+	}
+
 	return {
 		overview: overview,
+		patientInfo : patientInfo
 	}
 })());
