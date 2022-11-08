@@ -1253,10 +1253,16 @@ function processDelayedActions(time: number) {
 }
 
 export function getResolvedActionDisplayName(action: ResolvedAction): string {
-	if (action.source.type === 'act' || Object.keys(action.source.actions).length <= 1) {
-		return getTranslationFromDefinition(action.source);
+	if (action.source.type === 'act'){
+		return getTranslation("human-actions", action.source.id, true);
 	} else {
-		return `${getTranslationFromDefinition(action.source)}::${action.action.name}`;
+		const actions = Object.keys(action.source.actions);
+		wlog(action.source.id);
+		if (actions.length > 1){
+			return getTranslation("human-items", action.source.id + "::", true);
+		} else {
+			return getTranslation("human-items", action.source.id, true);
+		}
 	}
 }
 

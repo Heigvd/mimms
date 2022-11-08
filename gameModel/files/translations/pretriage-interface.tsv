@@ -53,3 +53,7 @@ thankyou-playing	Thank you for playing!	Merci d'avoir joué!
 gameSessionSetup	Setup	Configuration	
 paused-game	The game is paused. Please wait for the trainer to start the game.	Le jeu est en pause. Veuillez attendre que le formateur lance la partie. 	
 unmeasurable	unmeasurable	non-mesurable	
+pendingAction	pending action	Action en cours	
+still	still	encore	
+secToWait	seconds	secondes	
+tooLateToCancel	too late to cancel	trop tard pour annuler	

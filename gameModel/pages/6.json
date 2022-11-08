@@ -14,7 +14,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\n\n`<p>Pending Action : ${action.action.source.name}::${action.action.action.name} !</p><p> still ${counter} sec to go</p>`",
+                      "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
                       "language" : "JavaScript"
                     }
                   },
@@ -28,7 +28,7 @@
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? 'too late to cancel' : 'cancel';",
+                      "content" : "import { DelayedAction } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? getTranslation('pretriage-interface', 'toolatetocancel') : getTranslation('pretriage-interface', 'cancel', true);",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
