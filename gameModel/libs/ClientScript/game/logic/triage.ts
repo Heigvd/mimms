@@ -14,6 +14,7 @@ import {
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../display/graphics';
+import {massiveHemorrhage} from '../../HUMAn/physiologicalModel';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)
@@ -564,11 +565,8 @@ function placeInRecoveryPosition(data: PreTriageData) {
 	data.actions.push('RecoveryPosition');
 }
 
-function massiveHemorrhage({ human }: PreTriageData) {
-	return (
-		human.state.vitals.cardio.extArterialLossesFlow_mlPerMin > 0
-		|| human.state.vitals.cardio.extVenousLossesFlow_mlPerMin > 50
-	);
+function detectMassiveHemorrhage({ human }: PreTriageData) {
+	return massiveHemorrhage(human);
 }
 
 function getOrReadMetric<T>(
@@ -629,7 +627,7 @@ const doSapPreTriage: TriageFunction<SAP_CATEGORY> = (data, console) => {
 		};
 	}
 
-	if (massiveHemorrhage(data)) {
+	if (detectMassiveHemorrhage(data)) {
 		healHemorrhages(data);
 	}
 
@@ -682,7 +680,7 @@ const doSapPreTriage: TriageFunction<SAP_CATEGORY> = (data, console) => {
 		};
 	}
 
-	if (massiveHemorrhage(data)) {
+	if (detectMassiveHemorrhage(data)) {
 		return {
 			categoryId: URGENT,
 			explanations: ['MASSIVE_HEMORRHAGE'],
@@ -783,7 +781,7 @@ const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console)
 const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { actions } = data;
 
-	if (massiveHemorrhage(data)) {
+	if (detectMassiveHemorrhage(data)) {
 		healHemorrhages(data);
 		return {
 			categoryId: 'immediate',
@@ -1095,10 +1093,10 @@ const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 	}
 
 	let healedHemorrhage = false;
-	if (massiveHemorrhage(data)) {
+	if (detectMassiveHemorrhage(data)) {
 		healHemorrhages(data);
 		healedHemorrhage = true;
-		if (massiveHemorrhage(data)) {
+		if (detectMassiveHemorrhage(data)) {
 			return {
 				categoryId: IMMEDIATE,
 				explanations: ['MASSIVE_HEMORRHAGE'],
