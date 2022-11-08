@@ -930,7 +930,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'move',
 			visible: false,
 			blocks: [],
 			category: 'A',
@@ -955,7 +954,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'open airways',
 			visible: false,
 			blocks: [],
 			category: 'A',
@@ -972,7 +970,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: '',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
@@ -1001,7 +998,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'setup',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
@@ -1030,7 +1026,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'setup',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['NECK'],
@@ -1059,7 +1054,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'ventilate',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
@@ -1088,7 +1082,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: 'ventilate',
 				targetedObject: 'HumanBody',
 				category: 'A',
 				blocks: ['HEAD'],
@@ -1117,7 +1110,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: '',
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
@@ -1146,7 +1138,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: '',
 				category: 'A',
 				targetedObject: 'HumanBody',
 				blocks: ['NECK'],
@@ -1177,7 +1168,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: '',
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
@@ -1206,7 +1196,6 @@ function init() {
 		actions: {
 			do: {
 				type: 'ActionBodyEffect',
-				name: 'do',
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
@@ -1235,7 +1224,6 @@ function init() {
 		actions: {
 			drain: {
 				type: 'ActionBodyEffect',
-				name: 'drain',
 				category: 'B',
 				targetedObject: 'HumanBody',
 				blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
@@ -1263,10 +1251,9 @@ function init() {
 		action: {
 			category: 'B',
 			type: 'ActionBodyMeasure',
-			name: 'RR',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.respiration.rr'],
-			duration: { low_skill: 0, high_skill: 0 },
+			duration: { low_skill: 15, high_skill: 15 },
 		},
 	});
 
@@ -1279,7 +1266,6 @@ function init() {
 		actions: {
 			setup: {
 				type: 'ActionBodyEffect',
-				name: '',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1320,7 +1306,6 @@ function init() {
 		actions: {
 			pack: {
 				type: 'ActionBodyEffect',
-				name: 'Packing',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['ABDOMEN'],
@@ -1343,7 +1328,6 @@ function init() {
 			},
 			pressureBandage: {
 				type: 'ActionBodyEffect',
-				name: 'Pressure Bandage',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1399,7 +1383,6 @@ function init() {
 		actions: {
 			israeli: {
 				type: 'ActionBodyEffect',
-				name: '',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1454,7 +1437,6 @@ function init() {
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
-				name: 'inject',
 				targetedObject: 'HumanBody',
 				visible: false,
 				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK'],
@@ -1487,7 +1469,6 @@ function init() {
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
-				name: 'Inject oneshot',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				visible: true,
@@ -1525,7 +1506,6 @@ function init() {
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
-				name: 'Inject oneshot',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK'],
@@ -1563,7 +1543,6 @@ function init() {
 		actions: {
 			inject: {
 				type: 'ActionBodyEffect',
-				name: 'fill (oneshot)',
 				category: 'C',
 				targetedObject: 'HumanBody',
 				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK'],
@@ -1599,11 +1578,10 @@ function init() {
 		//name: 'Heart Rate',
 		action: {
 			type: 'ActionBodyMeasure',
-			name: 'HR',
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardio.hr'],
-			duration: { low_skill: 15, high_skill: 5 },
+			duration: { low_skill: 15, high_skill: 10 },
 		},
 	});
 
@@ -1612,7 +1590,6 @@ function init() {
 		//name: 'CRT',
 		action: {
 			type: 'ActionBodyMeasure',
-			name: 'CRT',
 			category: 'C',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.capillaryRefillTime_s'],
@@ -1628,7 +1605,6 @@ function init() {
 		//name: 'GCS',
 		action: {
 			type: 'ActionBodyMeasure',
-			name: 'GCS',
 			category: 'D',
 			targetedObject: 'HumanBody',
 			metricName: [
@@ -1646,7 +1622,6 @@ function init() {
 		//name: 'GCS',
 		action: {
 			type: 'ActionBodyMeasure',
-			name: 'do',
 			category: 'D',
 			targetedObject: 'HumanBody',
 			metricName: [
@@ -1655,7 +1630,7 @@ function init() {
 				'vitals.motricity.leftLeg',
 				'vitals.motricity.rightLeg',
 			],
-			duration: { low_skill: 0, high_skill: 0 },
+			duration: { low_skill: 4, high_skill: 4 },
 		},
 	});
 
@@ -1667,9 +1642,19 @@ function init() {
 		action: {
 			type: 'ActionBodyMeasure',
 			category: 'Z',
-			name: 'walk',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.canWalk'],
+			duration: { low_skill: 0, high_skill: 0 },
+		},
+	});
+
+	registerAct({
+		id: 'painLevel',
+		action: {
+			type: 'ActionBodyMeasure',
+			category: 'Z',
+			targetedObject: 'HumanBody',
+			metricName: ['vitals.visiblePain'],
 			duration: { low_skill: 0, high_skill: 0 },
 		},
 	});
@@ -1686,7 +1671,6 @@ function init() {
 		actions: {
 			measure: {
 				type: 'ActionBodyMeasure',
-				name: 'SpO2',
 				category: 'B',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.respiration.SpO2'],
@@ -1703,7 +1687,6 @@ function init() {
 			measure: {
 				category: 'C',
 				type: 'ActionBodyMeasure',
-				name: 'MAP (mmHg)',
 				targetedObject: 'HumanBody',
 				metricName: ['vitals.cardio.MAP'],
 				duration: { low_skill: 0, high_skill: 0 },
@@ -1720,7 +1703,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'move',
 			blocks: [],
 			category: 'Z',
 			visible: false,
@@ -1746,7 +1728,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'move',
 			blocks: [],
 			category: 'Z',
 			visible: false,
@@ -1772,7 +1753,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'move',
 			blocks: [],
 			category: 'Z',
 			visible: false,
@@ -1798,7 +1778,6 @@ function init() {
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
-			name: 'move',
 			blocks: [],
 			category: 'Z',
 			visible: false,

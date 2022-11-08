@@ -11,6 +11,8 @@ exsufflation	Exsufflation	Exsufflation
 thoracic_drain	Thoracic Drainage	Drainage thoracique 
 cat	CAT	Tourniquet
 bandage	Bandage	Pansement 
+bandage::pack	Packing	Packing
+bandage::pressureBandage	Pressure bandage	Pansement compressif (bandage)
 israeliBandage	Israeli Bandage	Pansement compressif
 TranexamicAcid_500	Tranexamic Acid 500mg	Acide tranexamique 500mg
 SalineSolution_1l	NaCl 0.9% 1L	NaCl 0.9% 1L

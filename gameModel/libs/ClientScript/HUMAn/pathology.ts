@@ -631,8 +631,6 @@ export type ABCDECategory = 'A' | 'B' | 'C' | 'D' | 'E' | 'Z';
 
 interface BaseAction {
 	type: string;
-	/** human readable name */
-	name: string;
 	category: ABCDECategory;
 	duration: Record<SkillLevel, number>;
 }
@@ -640,7 +638,6 @@ interface BaseAction {
 export interface ActionBodyEffect extends BaseAction {
 	targetedObject: "HumanBody";
 	type: 'ActionBodyEffect',
-	name: string;
 	visible: boolean;
 	/**
 	 * List of block the item may target

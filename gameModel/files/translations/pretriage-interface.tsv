@@ -6,8 +6,8 @@ console	console	console
 face	face	faciès	
 coloration	skin coloration	coloration cutanée	
 measures	measures	mesures	
-treatment	treatment	traitement	
-treatments	treatments	traitements	
+treatment	action	action	
+treatments	actions	actions	
 triage	triage	triage	
 assignTriage	assign triage category	assigner catégorie de triage	
 go to	go to	envoyer au	
@@ -48,3 +48,8 @@ next-patient	next patient	patient suivant
 You don't know how to do this	You don't know how to do this	Vous ne savez pas effectuer	
 cancel	cancel	annulation	
 start	start	démarrage	
+result	result	résultat	
+thankyou-playing	Thank you for playing!	Merci d'avoir joué!	
+gameSessionSetup	Setup	Configuration	
+paused-game	The game is paused. Please wait for the trainer to start the game.	Le jeu est en pause. Veuillez attendre que le formateur lance la partie. 	
+unmeasurable	unmeasurable	non-mesurable	

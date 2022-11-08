@@ -8,6 +8,8 @@ deep breathing	deep breathing	respiration ample
 rapid breathing	rapid breathing	respiration rapide
 respiration looks normal	respiration looks normal	la respiration semble normale
 bleeds	bleeds	saigne
+bleedsArterial	pulsatile hemorrhage	hémorragie pulsatile
+bleedsVenous	continuous severe bleeding	saignement important en continu
 looks dead	looks dead	semble mort
 lively	lively	alerte, vous regarde
 apathetic	apathetic	peu alerte, réagi à la voix
@@ -19,13 +21,14 @@ SITTING	Sitting	Assis
 STANDING	Standing	Debout
 Positive Pressure	Positive Pressure	Pression positive 
 pain	pain	douleur
+vitals.visiblePain	pain	douleur
 vitals.motricity.leftArm	left arm motricity	motricité bras gauche
 vitals.motricity.rightArm	right arm motricity	motricité bras droit
 vitals.motricity.leftLeg	left leg motricity	Motricité jambe gauche
 vitals.motricity.rightLeg	right leg motricity	motricité jambe droite
 vitals.glasgow.motor	 - motor	 - moteur
 vitals.glasgow.verbal	 - verbal	 - verbal
-vitals.glasgow.eye	 - eye	 - occulare
+vitals.glasgow.eye	 - eye	 - occulaire
 vitals.glasgow.total	GCS	Glasgow
 vitals.canWalk	Can you walk?	Pouvez-vous marcher ?
 vitals.cardiacArrest	Cardiac arrest?	Arrêt cardiaque ?

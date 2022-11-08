@@ -94,6 +94,7 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 			bodyState.vitals.glasgow.eye = 1;
 			bodyState.vitals.glasgow.motor = 1;
 			bodyState.vitals.glasgow.verbal = 1;
+			bodyState.vitals.capillaryRefillTime_s = undefined;
 		}
 	} else {
 		if (bodyState.vitals.gambateBar < 15) {
@@ -339,8 +340,13 @@ function computeEffectiveVolumesPerUnit(
 	respLogger.log("Airways: ", { upper: upperAirways, lower: units });
 	const nbUnits = units.length;
 
+	const alvVolume_L = body.vitals.respiration.tidalVolume_L * body.vitals.respiration.rr;
+	const effectiveAlvVolume_L = Math.min(alvVolume_L , meta.maximumVoluntaryVentilation_L);
+	const effectiveTidalVolume_L = effectiveAlvVolume_L / body.vitals.respiration.rr
+
 	const idealTotalVolume_L = normalize(
-		body.vitals.respiration.tidalVolume_L - meta.deadSpace_L,
+		effectiveTidalVolume_L - meta.deadSpace_L,
+		// body.vitals.respiration.tidalVolume_L - meta.deadSpace_L,
 		{ min: 0 }
 	);
 
@@ -1430,7 +1436,7 @@ export function fixPosition(human: HumanBody, fallback?: BodyPosition) {
 	if (!human.state.vitals.canWalk) {
 		if (human.state.variables.bodyPosition === 'STANDING') {
 			if (fallback != null && fallback !== 'STANDING') {
-				human.state.variables.bodyPosition = fallback;
+				// human.state.variables.bodyPosition = fallback;
 			} else {
 				human.state.variables.bodyPosition = 'SITTING';
 			}
@@ -1464,6 +1470,12 @@ export function inferExtraOutputs(human: HumanBody) {
 	human.state.vitals.motricity = getMotricity(human);
 	human.state.vitals.spontaneousBreathing = canBreathe(human.state);
 	human.state.vitals.pain = getPain(human);
+
+	if (human.state.vitals.glasgow.verbal < 5){
+		human.state.vitals.visiblePain = undefined;
+	} else {
+		human.state.vitals.visiblePain = human.state.vitals.pain
+	}
 
 	fixPosition(human);
 }

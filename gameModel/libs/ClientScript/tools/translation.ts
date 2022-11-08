@@ -35,7 +35,7 @@ export function translationExists(category: keyof VariableClasses, key : string)
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
 	}
 	if(cache[category]){
-		const tr = cache[category].getProperties()[key];
+		const tr = cache[category].getProperties()[key.toLocaleLowerCase()];
 		if(tr){
 			return true;
 		}
@@ -49,20 +49,6 @@ export function getBlockTranslation(blockName: string): string {
 
 export function getPathologyTranslation(pathologyName: string): string {
 	return getTranslation('human-pathology', pathologyName);
-}
-
-/**
- * get translation for an item or an action 
- */
-export function getItemActionTranslation(actionOrItemName : string, upperCaseFirstLetter? : boolean) : string {
-
-	const name = actionOrItemName.indexOf('::') > -1 ? actionOrItemName.split('::')[0] : actionOrItemName;
-	if(translationExists('human-items', name)){
-		return getTranslation('human-items', name, upperCaseFirstLetter);
-	}else{
-		return getTranslation('human-actions', name, upperCaseFirstLetter);
-	}
-
 }
 
 export function upperCaseFirst(s: string): string {

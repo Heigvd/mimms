@@ -565,7 +565,10 @@ function placeInRecoveryPosition(data: PreTriageData) {
 }
 
 function massiveHemorrhage({ human }: PreTriageData) {
-	return human.state.vitals.cardio.extLossesFlow_mlPerMin > 10;
+	return (
+		human.state.vitals.cardio.extArterialLossesFlow_mlPerMin > 0
+		|| human.state.vitals.cardio.extVenousLossesFlow_mlPerMin > 50
+	);
 }
 
 function getOrReadMetric<T>(

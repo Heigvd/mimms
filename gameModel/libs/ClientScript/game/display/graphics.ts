@@ -15,6 +15,8 @@ export interface HumanOverview {
 	cyanosis: boolean;
 	looksDead: boolean;
 	totalExternalBloodLosses_ml: number;
+	venousBloodLosses_mlPerMin: number;
+	arterialBloodLosses_mlPerMin: number;
 	category: Category<string> | undefined;
 	rr: number;
 	tidalVolume_L: number;
@@ -270,6 +272,8 @@ export function getOverview(human: (HumanBody & { category: Categorization | und
 		cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
 		looksDead: looksDead,
 		totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
+		arterialBloodLosses_mlPerMin: human.state.vitals.cardio.extArterialLossesFlow_mlPerMin,
+		venousBloodLosses_mlPerMin: human.state.vitals.cardio.extVenousLossesFlow_mlPerMin,
 		category: category?.category,
 		rr: human.state.vitals.respiration.rr,
 		tidalVolume_L: human.state.vitals.respiration.tidalVolume_L,

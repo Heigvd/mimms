@@ -711,7 +711,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getItemActionTranslation, getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst actId = Context.patientConsole.state.selectedAction?.id;\nconst action = getItemActionTranslation(actId);\n`<b>${treat}:</b> ${action}`;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst action = Context.patientConsole.state.selectedAction.label;\n`<b>${treat}:</b> ${action}`;",
                                   "language" : "JavaScript"
                                 }
                               },

@@ -136,12 +136,12 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 	return Object.entries(inventory).flatMap(([itemId, count]) => {
 		const item = getItem(itemId);
 		if (item != null) {
-			return Object.entries(item.actions).map(([key, action]) => {
-				const name = getTranslationFromDefinition(item);
+			return Object.entries(item.actions).map(([key, action], i, entries) => {
+				const iaKey = `${item.id}::${key}`;
+				const trKey = entries.length > 1 ? iaKey : item.id;
 				return {
-					id: `${item.id}::${key}`,
-					//TODO action.name needed ??
-					label: `${name} ${action.name}`,
+					id: iaKey,
+					label: getTranslation('human-items', trKey),
 					type: 'WheelItemAction',
 					actionType: action.type,
 					actionCategory: action.category,
@@ -585,11 +585,8 @@ function formatBlockTitle(title: string, translationVar?: keyof VariableClasses)
 	return `<div class='block-title'>${title}</div>`;
 }
 
-function formatBlockSubTitle(title: string, translationVar?: keyof VariableClasses): string {
-	if (translationVar) {
-		title = getTranslation(translationVar, title);
-	}
-	return `<div class='block-subtitle'>${title}</div>`;
+function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
+	return `<div class='block-subtitle'>${getTranslation(translationVar, title)}</div>`;
 }
 
 function formatBlockEntry(title: string, translationVar?: keyof VariableClasses, value?: string): string {
@@ -609,9 +606,9 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 		output.push(formatBlockTitle(block.name, 'human-blocks'));
 		logger.info('Block: ', block.params);
 
-		if (block.params.pain) {
-			output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
-		}
+		//if (block.params.pain) {
+		//	output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
+		//}
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
@@ -633,17 +630,17 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 					output.push(formatBlockEntry('Venous', 'human-pathology'));
 				}
 
-				output.push(
+				/*output.push(
 					formatBlockEntry(
 						'current flow',
 						'human-pathology',
 						`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
 					),
-				);
+				);*/
 			} else {
 				output.push(formatBlockEntry('Hemostasis', 'human-pathology'));
 			}
-			output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
+			//output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
 		}
 
 		if (block.params.salineSolutionInput_mLperMin || block.params.bloodInput_mLperMin) {
@@ -677,7 +674,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 			const printTitle = () => {
 				if (!title) {
 					title = true;
-					output.push(formatBlockSubTitle('Upper Airways'), 'human-pathology');
+					output.push(formatBlockSubTitle('Upper Airways', 'human-pathology'));
 				}
 			}
 			if ((block.params.airResistance ?? 0) > 0) {
@@ -762,15 +759,16 @@ export function getBlockDetail(observedBlock: string) {
 			output.push(...getBlockDetails(block, human.state));
 
 			if (data.effects.length > 0) {
-				output.push(formatBlockSubTitle("Treatments"));
+				output.push(formatBlockSubTitle("Treatments", 'pretriage-interface'));
 				output.push(
 					...data.effects.map(e => {
 						const name = getTranslationFromDefinition(e.source);
-						if (e.source.type === 'item') {
+						// TODO: action.id is required to fetch correct translation
+						/*if (e.source.type === 'item') {
 							if (Object.keys(e.source.actions).length > 1) {
-								return `${name}/${e.action.name}`;
+								return `${e.source.id}::${e.action.id}`;
 							}
-						}
+						}*/
 						return name;
 					}).map(e => formatBlockEntry(e))
 				);
@@ -787,8 +785,8 @@ function percentFormatter(value: unknown): string {
 	if (typeof value === 'number') {
 		return (value * 100).toFixed() + ' %';
 	} else {
-		wlog('Value is not a number (PERCENT formatter)');
-		return 'unknown';
+		//wlog('Value is not a number (PERCENT formatter)');
+		return getTranslation('pretriage-interface', "unmeasurable");
 	}
 }
 
@@ -796,8 +794,8 @@ function intFormatter(value: unknown): string {
 	if (typeof value === 'number') {
 		return value.toFixed();
 	} else {
-		wlog('Value is not a number (int formatter)');
-		return 'unknown';
+		//wlog('Value is not a number (int formatter)');
+		return getTranslation('pretriage-interface', "unmeasurable");
 	}
 }
 
@@ -805,8 +803,8 @@ function twoDecimalFormatter(value: unknown): string {
 	if (typeof value === 'number') {
 		return value.toFixed(2);
 	} else {
-		wlog('Value is not a number (.2 formatter)');
-		return 'unknown';
+		//wlog('Value is not a number (.2 formatter)');
+		return getTranslation('pretriage-interface', "unmeasurable");
 	}
 }
 
@@ -814,8 +812,8 @@ function oneDecimalFormatter(value: unknown): string {
 	if (typeof value === 'number') {
 		return value.toFixed(1);
 	} else {
-		wlog('Value is not a number (.1 formatter)');
-		return 'unknown';
+		//wlog('Value is not a number (.1 formatter)');
+		return getTranslation('pretriage-interface', "unmeasurable");
 	}
 }
 
@@ -826,7 +824,29 @@ function motricityFormatter(value: unknown) : string {
 		case 'no_response':
 			return getTranslation("human-general", value, true)
 	}
-	return 'unknown';
+	return getTranslation('pretriage-interface', "unmeasurable");
+}
+
+
+function canWalkFormatter(value: unknown) : string {
+	switch(value){
+		case 'no_response':
+			return getTranslation("human-general", 'no_response', true)
+		case true:
+			return getTranslation("human-general", "yes", true)
+		case false:
+			return getTranslation("human-general", "no", true)
+	}
+	return getTranslation('pretriage-interface', "unmeasurable");
+}
+
+
+function painFormatter(value: unknown) : string {
+	if (typeof value === 'number') {
+		return intFormatter(value) + " / 10";
+	} else {
+		return getTranslation("human-general", 'no_response', true);
+	}
 }
 
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
@@ -849,7 +869,9 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 		case 'vitals.glasgow.total':
 			return [metricName, String(value)];
 		case 'vitals.canWalk':
-			return [metricName, value === true || value === 'true' ? getTranslation("human-general", "yes", true) : getTranslation("human-general", "no", true)];
+			return [metricName, canWalkFormatter(value)];
+		case 'vitals.visiblePain':
+			return [metricName, painFormatter(value)];
 		case 'vitals.cardiacArrest':
 			return [metricName, value || 0 > 0 ? getTranslation("human-general", "yes", true) : getTranslation("human-general", "no", true)];
 		case 'vitals.cardio.MAP':
@@ -986,8 +1008,13 @@ function getBreathingOverview(overview: HumanOverview): string {
 }
 
 function addBleedingDescription(output: string[], ho: HumanOverview): void {
-	if (ho.totalExternalBloodLosses_ml > 0) {
-		output.push(getTranslation('human-general', 'bleeds', false));
+
+	if (ho.arterialBloodLosses_mlPerMin){
+		output.push(getTranslation('human-general', 'bleedsArterial', false));
+	}
+
+	if (ho.venousBloodLosses_mlPerMin > 50) {
+		output.push(getTranslation('human-general', 'bleedsVenous', false));
 	}
 }
 
@@ -999,8 +1026,8 @@ export function getHumanVisualInfos(): string {
 		if (overview) {
 			//output.push(getTranslation('human-general', overview.position));
 			//output.push(getAlertness(overview));
-			//addBleedingDescription(output, overview);
 			output.push(getBreathingOverview(overview));
+			addBleedingDescription(output, overview);
 		}
 	} else {
 		output.push('<em>Loading...</em>');
@@ -1008,7 +1035,7 @@ export function getHumanVisualInfos(): string {
 	}
 
 	// join non-empty cells
-	return output.filter(o => o).join(', ');
+	return output.filter(o => o).join('<br /> ');
 }
 
 export function getAfflictedBlocks(): string[] {

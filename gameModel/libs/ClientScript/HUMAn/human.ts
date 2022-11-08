@@ -112,6 +112,8 @@ export type HumanMeta = BodyFactoryParam & {
 	idealWeight_kg: number;
 	/** Total inspiratory capacity in mL */
 	inspiratoryCapacity_mL: number;
+	/**  */
+	maximumVoluntaryVentilation_L: number;
 	/** L/kg/min */
 	VO2min_mLperKgMin: number;
 	VO2max_mLperKgMin: number;
@@ -224,9 +226,10 @@ export interface BodyState {
 		/** Glasgow coma scale */
 		glasgow: Glasgow;
 		/** Capillary refill time (crt) in sec */
-		capillaryRefillTime_s: number;
+		capillaryRefillTime_s: number | undefined;
 		pain: number;
-		canWalk: boolean;
+		visiblePain: number | undefined;
+		canWalk: boolean | 'no_response';
 		spontaneousBreathing: boolean;
 		respiration: {
 			/** Quotient R */
@@ -261,6 +264,9 @@ export interface BodyState {
 
 			totalExtLosses_ml: number;
 			extLossesFlow_mlPerMin: number;
+
+			extVenousLossesFlow_mlPerMin: number;
+			extArterialLossesFlow_mlPerMin: number;
 
 			// keep track of current blodd volume
 			totalVolume_mL: number;
@@ -740,6 +746,22 @@ function inspiratoryCapacityBasedOnAgeAndSex(age: number, sex: Sex): number {
 	return sex === "male" ? p * 3600 : p * 2400;
 }
 
+
+function vitalCapacityBasedOnAgeAndSex(age: number, sex: Sex): number {
+	// TODO add height param then Randomize
+
+	// please review !
+
+	let p = 1;
+	if (age < 20) {
+		p = 0.2 + (age * 0.8) / 20;
+	} else if (age > 40) {
+		p = 1 - age * 0.004;
+	}
+
+	return sex === "male" ? p * 4800 : p * 3100;
+}
+
 const getBloodPart = (weight_kg: number, sex: Sex) => {
 	const total = 70 * weight_kg; // 70 mL /kg
 
@@ -849,6 +871,16 @@ export function computeMetas(param: BodyFactoryParam) {
 		param.sex
 	);
 
+	const vitalCapacity_mL = vitalCapacityBasedOnAgeAndSex(
+		param.age,
+		param.sex
+	);
+
+	// Tiffeneau
+	const forcedExpiratoryVolume_mLperSecond = vitalCapacity_mL * 0.75;
+
+	const maximumVoluntaryVentilation_L = forcedExpiratoryVolume_mLperSecond * 35 / 1000;
+
 	const brainWeight = interpolate(param.age, brainWeightModel);
 	const qbr = brainWeight * 0.0005;
 
@@ -859,6 +891,7 @@ export function computeMetas(param: BodyFactoryParam) {
 			idealWeight_kg: idealWeight_kg,
 			effectiveWeight_kg: effectiveWeight_kg,
 			inspiratoryCapacity_mL: inspiratoryCapacity_mL,
+			maximumVoluntaryVentilation_L: maximumVoluntaryVentilation_L,
 			// VO2: calm=>4.5; highEffort(sedentary)=>40; highEffort(elite)=>65
 			VO2min_mLperKgMin: 3.5,
 			VO2max_mLperKgMin: getVo2Max(param.age, param.sex),
@@ -920,6 +953,7 @@ export function createHumanBody(
 				gambateBar: gambateMax,
 				capillaryRefillTime_s: 3,
 				pain: 0,
+				visiblePain: 0,
 				canWalk: true,
 				spontaneousBreathing: true,
 				glasgow: {
@@ -955,6 +989,8 @@ export function createHumanBody(
 					totalVolumeOfErythrocytes_mL: blood_mL.red,
 					totalExtLosses_ml: 0,
 					extLossesFlow_mlPerMin: 0,
+					extArterialLossesFlow_mlPerMin: 0,
+					extVenousLossesFlow_mlPerMin: 0,
 					radialPulse: true,
 					chemicals: {},
 					endDiastolicVolume_mL: 120,
@@ -1423,6 +1459,8 @@ function updatePericardialPressure(bodyState: BodyState, durationInMinute: numbe
 interface BloodInputOutput {
 	bloodLosses_mL: number;
 	extLosses_mL: number;
+	arterialLosses_mL: number;
+	venousLosses_mL: number;
 	salineInput_mL: number;
 	bloodInput_mL: number;
 	//instantaneous_mL: number;
@@ -1688,6 +1726,8 @@ function sumBloodInOut(
 		//instantaneous_mL: 0,
 		bloodLosses_mL: 0,
 		extLosses_mL: 0,
+		arterialLosses_mL: 0,
+		venousLosses_mL: 0,
 		salineInput_mL: 0,
 		bloodInput_mL: 0,
 		renalBloodOutput_mLperMin: 0,
@@ -1752,15 +1792,16 @@ function sumBloodInOut(
 					(1 - reduction);
 				// should ??
 
-				const newBlFactor = hemostasis_thrombocytes(
-					block.params.arterialBleedingFactor,
-					loss,
-					wbc_ratio,
-					durationInMin
-				);
-				bloodLogger.debug("Arterial loss: ", { loss, newBlFactor });
-				block.params.arterialBleedingFactor = newBlFactor;
+				//const newBlFactor = hemostasis_thrombocytes(
+				//	block.params.arterialBleedingFactor,
+				//	loss,
+				//	wbc_ratio,
+				//	durationInMin
+				//);
+				//bloodLogger.debug("Arterial loss: ", { loss, newBlFactor });
+				//block.params.arterialBleedingFactor = newBlFactor;
 				sum.bloodLosses_mL += loss;
+				sum.arterialLosses_mL += loss;
 				sum.extLosses_mL += loss;
 				blockExtLosses_ml += loss;
 				delta_mL -= loss;
@@ -1783,6 +1824,7 @@ function sumBloodInOut(
 				bloodLogger.debug("Venous loss: ", { loss, newBlFactor });
 				block.params.venousBleedingFactor = newBlFactor;
 				sum.bloodLosses_mL += loss;
+				sum.venousLosses_mL += loss;
 				sum.extLosses_mL += loss;
 				blockExtLosses_ml += loss;
 				delta_mL -= loss;
@@ -2079,10 +2121,15 @@ function updateVitals(
 			chemicalsInput,
 			renalBloodOutput_mLperMin,
 			extLosses_mL,
+			arterialLosses_mL, 
+			venousLosses_mL,
 		} = sumBlood;
 
 		newState.vitals.cardio.totalExtLosses_ml += extLosses_mL;
 		newState.vitals.cardio.extLossesFlow_mlPerMin = extLosses_mL / durationInMin;
+
+		newState.vitals.cardio.extVenousLossesFlow_mlPerMin = venousLosses_mL / durationInMin;
+		newState.vitals.cardio.extArterialLossesFlow_mlPerMin = arterialLosses_mL / durationInMin;
 
 		const effectiveLosses = bloodLosses_mL;
 
@@ -2554,11 +2601,13 @@ export function computeState(
 						if (rule.rule.variablePatch.bodyPosition != null) {
 							const currentPosition = newState.variables.bodyPosition;
 
-							newState.variables.bodyPosition = rule.rule.variablePatch.bodyPosition;
-							fixPosition({
-								meta: meta,
-								state: newState,
-							}, currentPosition);
+							if (currentPosition === 'RECOVERY' || newState.vitals.glasgow.motor < 6) {
+								newState.variables.bodyPosition = rule.rule.variablePatch.bodyPosition;
+								fixPosition({
+									meta: meta,
+									state: newState,
+								}, currentPosition);
+							}
 						}
 					} else if (key === "pericardial_ml") {
 						if (rule.rule.variablePatch.pericardial_ml != null) {
@@ -2651,7 +2700,11 @@ export function canBreathe(bodyState: BodyState): boolean {
 	}
 }
 
-export function canWalk(body: HumanBody): boolean {
+export function canWalk(body: HumanBody): boolean | 'no_response' {
+
+	if (body.state.vitals.glasgow.verbal < 5) {
+		return 'no_response';
+	}
 
 	const maxHr = 0.9 * body.meta.bounds.vitals.cardio.hr.max;
 	if (body.state.vitals.cardio.hr > maxHr) {
