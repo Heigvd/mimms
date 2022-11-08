@@ -558,6 +558,33 @@
                 "language" : "typescript"
               }
             },
+            "name" : "lickert download",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'PRE-TRIAGE'",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Drill: Downalod&nbsp;CSV data<br></p>\"",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : {
+              "flexGrow" : "1"
+            },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { exportAllPlayersDrillResults } from './dashboard/exportation';\n\nexportAllPlayersDrillResults();",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "pre-tri download",
             "style" : { }
           },
           "type" : "Button"
