@@ -1083,6 +1083,7 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 
 export interface ResolvedAction {
 	source: ActDefinition | ItemDefinition;
+	label: string;
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 
@@ -1095,6 +1096,7 @@ export function resolveAction(
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
 			return {
 				source: { ...act!, type: 'act' },
+				label: getTranslation('human-actions', event.source.actId),
 				action: action,
 			};
 		}
@@ -1102,8 +1104,10 @@ export function resolveAction(
 		const item = getItem(event.source.itemId);
 		const action = item?.actions[event.source.actionId];
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
+			const trKey = (item?.actions.length || 0) > 1 ? `${event.source.itemId}::${event.source.actionId}` : event.source.itemId;
 			return {
 				source: { ...item!, type: 'item' },
+				label: getTranslation('human-actions', trKey),
 				action: action,
 			};
 		}
@@ -1253,17 +1257,7 @@ function processDelayedActions(time: number) {
 }
 
 export function getResolvedActionDisplayName(action: ResolvedAction): string {
-	if (action.source.type === 'act'){
-		return getTranslation("human-actions", action.source.id, true);
-	} else {
-		const actions = Object.keys(action.source.actions);
-		wlog(action.source.id);
-		if (actions.length > 1){
-			return getTranslation("human-items", action.source.id + "::", true);
-		} else {
-			return getTranslation("human-items", action.source.id, true);
-		}
-	}
+	return action.label;
 }
 
 function delayAction(
