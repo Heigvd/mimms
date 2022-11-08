@@ -447,12 +447,24 @@ function getEffortLevel(bodyState: BodyState): number {
 	}
 }
 
+const painModel: Point[] = [
+	{x: 1, y: 0},
+	{x: 3, y: 0.2},
+	{x: 10, y: 0.5},
+]
+
 function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
-	const effort = getEffortLevel(bodyState);
+	const positionEffort = getEffortLevel(bodyState);
+	const painEffort = interpolate(bodyState.vitals.pain, painModel);
+
+	const effort = normalize(positionEffort + painEffort, {min: 0, max: 1});
+	//const effort = positionEffort;
+
 	const vo2 = interpolate(effort, [
 		{ x: 0, y: meta.VO2min_mLperKgMin },
 		{ x: 1, y: meta.VO2max_mLperKgMin },
 	]);
+
 	logger.info('VO2: ', { vo2, effort });
 	return vo2 * meta.effectiveWeight_kg;
 }
@@ -1522,7 +1534,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 
 
 		// as visiting body cost time, avoid visiting bones if it's unnecessary
-		if (human.state.vitals.canWalk === true) {
+		if (human.state.vitals.canWalk !== false) {
 			let leftLeg = false;
 			let rightLeg = false;
 			/** starting from head, follow the bone connections */
