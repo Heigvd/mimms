@@ -1511,6 +1511,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		autoTriage: event.payload.autoTriage,
 		severity: event.payload.severity,
 	};
+
 	snapshot.state.category = category;
 
 	futures.forEach(sshot => {

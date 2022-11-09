@@ -18,13 +18,10 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		return
 	}
 
-	//exportLogger.warn(patientEvents);
-
-	//build a map per player and patient
-
-	const playersCategories : Record<PlayerId, Record<PatientId, string>> = {}
+	const playersCategories : Record<PlayerId, Record<PatientId, string>> = {};
 	const playersAutoCat : Record<PlayerId, Record<PatientId, string>> = {};
-
+	const playersCatVitals : Record<PlayerId, Record<PatientId, Record <string, string | number>>> = {};
+	
 	const playersMeasures : Record<PlayerId, Record<PatientId, MeasureData[]>> = {};
 	const playersTreatments : Record<PlayerId, Record<PatientId, TreatmentData[]>> = {};
 
@@ -50,12 +47,12 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 					playersAutoCat[plid] = {};
 					playersMeasures[plid] = {};
 					playersTreatments[plid] = {};
+					playersCatVitals[plid] = {};
 				}
 				break;
 			case 'HumanMeasureResult':
 				measureResultMap[evt.payload.sourceEventId] = evt as FullEvent<HumanMeasureResultEvent>;
 		}
-
 
 		if(ptid && plid){
 			patientsIds[ptid] = true;
@@ -64,6 +61,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 				case 'Categorize':
 					playersCategories[plid][ptid] = evt.payload.category;
 					playersAutoCat[plid][ptid] = evt.payload.autoTriage.categoryId!;
+					playersCatVitals[plid][ptid] = evt.payload.autoTriage.vitals;
 					break;
 				case 'HumanMeasure':
 					const dataM : MeasureData = {
@@ -78,7 +76,6 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 					}else {
 						dataM.name = evt.payload.source.itemId;
 					}
-					// TODO result
 
 					if(playersMeasures[plid][ptid]){
 						playersMeasures[plid][ptid].push(dataM);
@@ -90,7 +87,6 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 
 					break;
 				case 'HumanTreatment':
-					wlog('raw', evt.payload)
 					const data : TreatmentData = {
 						blocks : evt.payload.blocks,
 						time: evt.time,
@@ -136,22 +132,33 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 
 	const treatmentColumns = ['type', 'status', 'startTime', 'duration', 'blocks'];
 	const measureColumns = ['type', 'status', 'startTime', 'duration', 'result'];
+
+	let vitalsExists : Record<PatientId, number> = {};
+
 	sortedPatientIds.forEach(id => {
 
 		appendHeader(id, 'correct_answer');
 		appendHeader(id, 'given_answer');
 
-		//TODO constant parameters headers
+		// patient vitals header
+		// find player that has categorized this patient
+		const vitals = Object.values(playersCatVitals).find(entry => entry[id] !== undefined);
+		if(vitals){
+			const keys = Object.keys(vitals[id]);
+			vitalsExists[id] = keys.length;
+			for(let vitalName of keys){
+				appendHeader(id, vitalName);
+			}
+		}
 
-		//treatments header
-		wlog(id, maxTreatments[id]);
+		// treatments header
 		for(let t = 1; t <= maxTreatments[id]; t++){
 			for(const h of treatmentColumns){
 				appendHeader(id, 'T',t.toString(), h);
 			}
 		}
 
-		//measures headers
+		// measures headers
 		for(let m = 1; m <= maxMeasures[id]; m++){
 			for(const h of measureColumns){
 				appendHeader(id, 'M', m.toString(), h);
@@ -163,9 +170,6 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function appendHeader(patientId : PatientId, ...params: string []){
 		header.push([patientId, ...params].join('_'));
 	}
-	
-	//measures header
-
 	
 	Object.keys(playersAutoCat).forEach((pid) => {
 
@@ -181,12 +185,12 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function addPatientData(pid: PlayerId, patientId: PatientId){
 
 		const line = lines[pid];
-		//line.push(patientId);
-		line.push(playersAutoCat[pid][patientId]); // correct answer
-		line.push(playersCategories[pid][patientId]); // given answer
+		line.push(playersAutoCat[pid][patientId] || 'NOT CATEGORIZED'); // correct answer
+		line.push(playersCategories[pid][patientId] || 'NOT CATEGORIZED'); // given answer
 
-		// TODO patient vital parameters
-		addPatientVitalParameters(pid, patientId);
+		if(vitalsExists[patientId]){
+			addPatientVitalParameters(pid, patientId);
+		}
 		addTreatments(pid, patientId);
 		addMeasures(pid, patientId);
 	}
@@ -204,11 +208,16 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 				const t = tdata[i];
 				if(t){
 					line.push(t.type);
-					line.push(t.time.toString());
 					line.push(status);
+					line.push(t.time.toString());
 					line.push(duration);
 					//wrong typing from serialization blocks is an object
-					line.push(...Object.values(t.blocks))
+					const blocks = Object.values(t.blocks);
+					if(blocks.length){
+						line.push(...blocks);
+					}else {
+						line.push('N/A');
+					}
 				}else{
 					//empty fill
 					Array(treatmentColumns.length).forEach(() => line.push(''));
@@ -249,20 +258,22 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		}
 	}
 
-	function addPatientVitalParameters(pid: string, patientId: string) {
+	function addPatientVitalParameters(pid: PlayerId, patientId: PatientId) {
 		const line = lines[pid];
-		//TODO
+
+		const vitals = playersCatVitals[pid][patientId];
+		if(vitals){
+			Object.values(vitals).forEach(v => line.push(v.toString()));
+		}else{
+			const nEmpty = vitalsExists[patientId];
+			Array(nEmpty).forEach(() => line.push(''));
+		}
 	}
 
-
-	wlog('header', header); // TODO test
-	//TODO export csv
 	const result = header.join(separator) + '\n' + Object.values(lines).map(line => {
 		return line.join(separator);
 	}).join('\n');
 	
-	wlog(result);
-
 	Helpers.downloadDataAsFile('drill.tsv', result);
 }
 

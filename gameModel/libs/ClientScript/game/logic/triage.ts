@@ -17,7 +17,7 @@ import { getOverview } from '../display/graphics';
 import {massiveHemorrhage} from '../../HUMAn/physiologicalModel';
 
 type TriageFunction<T extends string> =
-	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity'>)
+	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
 	| undefined;
 
 const SECONDARY_TRIAGE = 'sec_triage';
@@ -523,11 +523,7 @@ export interface PreTriageResult<
 	severity: number;
 	actions: PreTriageAction[];
 	explanations: Explanation[];
-}
-
-/****** TRANSLATIONS *****/
-export function getExplanationTranslation(explanationKey: Explanation): string {
-	return getTranslation('pretriage-algorithms', explanationKey);
+	vitals: Record<string, string|number>;
 }
 
 function isInjured(data: PreTriageData) {
@@ -1270,13 +1266,38 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 		const severity = (getTagSystemCategories().categories).findIndex((c) => {
 			return c.id === result.categoryId
 		});
+		const vitals = gatherVitals(data, console);
 		return {
 			...result,
-			severity
+			severity,
+			vitals
 		};
 	} else {
 		// not yet implemented
 	}
+}
+
+function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string, string|number> {
+
+	const required : BodyStateKeys[] = [
+		'vitals.respiration.rr',
+		'vitals.cardio.radialPulse',
+		'vitals.cardio.hr',
+		'vitals.capillaryRefillTime_s',
+		'vitals.glasgow.motor',
+		'vitals.canWalk',
+		'vitals.respiration.stridor',
+		'vitals.pain',
+	]
+	const res : Record<string, string | number> = {}; 
+	required.reduce((map,k:BodyStateKeys) => {
+		map[k] = getOrReadMetric(k, data.human.state, console, 'MOST_RECENT');
+		return map;
+	}, res)
+
+	res['massiveHemorrhage'] = massiveHemorrhage(data.human).toString(); 
+	res['isInjured'] = isInjured(data).toString();
+	return res;
 }
 
 export function getCategory(category: string | undefined): { category: Category<string>, severity: number } | undefined {
