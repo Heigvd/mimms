@@ -58,13 +58,21 @@ var PatientDashboard = ((function () {
 
 	function patientInfo() {
 
-		var events = getEvents(Variable.find(gameModel, "events").getInstance(self));
-		return events.filter(function (event) {
-			return event.payload.type == 'Categorize'
-			|| event.payload.type == 'HumanMeasure'
-			|| event.payload.type == 'HumanTreatment'
-			|| event.payload.type == 'HumanMeasureResult'
-		});
+		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "events"));
+
+		var allEvents = [];
+		// process each team events
+		allEventsByTeamId.values().stream().forEach(function(evtSet) {
+			var events = getEvents(evtSet);
+			events.filter(function (event) {
+				return event.payload.type == 'Categorize'
+				|| event.payload.type == 'HumanMeasure'
+				|| event.payload.type == 'HumanTreatment'
+				|| event.payload.type == 'HumanMeasureResult'
+			}).forEach(function (e) {allEvents.push(e)});
+
+		})
+		return allEvents;
 		
 	}
 
