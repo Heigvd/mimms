@@ -25,6 +25,7 @@ interface BaseItem {
 interface WithActionType {
 	actionType: HumanAction['type'];
 	actionCategory: HumanAction['category'];
+	priority: number;
 }
 
 type WheelItemAction = BaseItem &
@@ -146,6 +147,7 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 					type: 'WheelItemAction',
 					actionType: action.type,
 					actionCategory: action.category,
+					priority: item.priority,
 					itemActionId: {
 						itemId: item.id,
 						actionId: key,
@@ -168,6 +170,7 @@ function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
 			type: 'WheelAct',
 			actionType: act.action.type,
 			actionCategory: act.action.category,
+			priority: act.priority,
 			id: act.id,
 			label: getActTranslation(act),
 			icon: getActionIcon(act.action),
@@ -180,20 +183,30 @@ interface ByType {
 	treatments: WheelAction[];
 }
 
+function sortItems(items: WheelAction[]) {
+	return items.sort((a, b) => {
+		if (a.priority === b.priority){
+			return a.label.localeCompare(b.label, self.getLang(), {numeric: true});
+		} else {
+			return a.priority - b.priority;
+		}
+	});
+}
+
 function getWheelMenuItems(bag: ByType): WheelMenuItem[] {
 	return [
 		{
 			type: 'WheelMenuItem',
 			id: 'measureMenu',
 			label: getTranslation('pretriage-interface', 'measures'),
-			items: bag.measures,
+			items: sortItems(bag.measures),
 			icon: 'ruler',
 		},
 		{
 			type: 'WheelMenuItem',
 			id: 'treatmentMenu',
 			label: getTranslation('pretriage-interface', 'treatments'),
-			items: bag.treatments,
+			items: sortItems(bag.treatments),
 			icon: 'syringe',
 		},
 	];

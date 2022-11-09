@@ -927,6 +927,7 @@ function init() {
 	////////////////////////////////////////
 	registerAct({
 		id: 'recoveryPosition',
+		priority: 0,
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -951,6 +952,7 @@ function init() {
 
 	registerAct({
 		id: 'openAirways',
+		priority: 100,
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -966,6 +968,7 @@ function init() {
 	registerItem({
 		id: 'guedel',
 		//name: 'Guedel',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			setup: {
@@ -994,6 +997,7 @@ function init() {
 	registerItem({
 		id: 'wendel',
 		//name: 'Wendel',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			setup: {
@@ -1022,6 +1026,7 @@ function init() {
 	registerItem({
 		id: 'igel',
 		//name: 'I-Gel',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			setup: {
@@ -1050,6 +1055,7 @@ function init() {
 	registerItem({
 		id: 'mask',
 		//name: 'Mask',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			setup: {
@@ -1078,6 +1084,7 @@ function init() {
 	registerItem({
 		id: 'balloon',
 		//name: 'Balloon',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			setup: {
@@ -1105,6 +1112,7 @@ function init() {
 
 	registerItem({
 		id: 'intubate',
+		priority: 1000,
 		//name: 'intubate',
 		disposable: true,
 		actions: {
@@ -1133,6 +1141,7 @@ function init() {
 
 	registerItem({
 		id: 'cricotomie',
+		priority: 1000,
 		//name: 'Cricotomie',
 		disposable: true,
 		actions: {
@@ -1163,6 +1172,7 @@ function init() {
 	////////////////////////////////////////
 	registerItem({
 		id: '3side',
+		priority: 1000,
 		//name: '3 sided dressing',
 		disposable: true,
 		actions: {
@@ -1191,6 +1201,7 @@ function init() {
 
 	registerItem({
 		id: 'exsufflation',
+		priority: 1000,
 		//name: 'Exsufflation',
 		disposable: true,
 		actions: {
@@ -1219,6 +1230,7 @@ function init() {
 
 	registerItem({
 		id: 'thoracic_drain',
+		priority: 1000,
 		//name: 'Thoracic Drainage',
 		disposable: true,
 		actions: {
@@ -1247,6 +1259,7 @@ function init() {
 
 	registerAct({
 		id: 'measureRR',
+		priority: 0,
 		//name: 'Respiratory Rate',
 		action: {
 			category: 'B',
@@ -1257,11 +1270,29 @@ function init() {
 		},
 	});
 
+registerItem({
+		id: 'oxymeter',
+		//name: 'Pulse Oxymeter',
+		priority: 100,
+		disposable: false,
+		actions: {
+			measure: {
+				type: 'ActionBodyMeasure',
+				category: 'B',
+				targetedObject: 'HumanBody',
+				metricName: ['vitals.respiration.SpO2'],
+				duration: { low_skill: 0, high_skill: 0 },
+			},
+		},
+	});
+
+
 	// Circulation
 	////////////////////////////////////////
 	registerItem({
 		id: 'cat',
 		//name: 'CAT',
+		priority: 0,
 		disposable: true,
 		actions: {
 			setup: {
@@ -1302,6 +1333,7 @@ function init() {
 	registerItem({
 		id: 'bandage',
 		//name: 'Bandage',
+		priority: 200,
 		disposable: true,
 		actions: {
 			pack: {
@@ -1378,6 +1410,7 @@ function init() {
 
 	registerItem({
 		id: 'israeliBandage',
+		priority: 100,
 		//name: 'Israeli Bandage',
 		disposable: true,
 		actions: {
@@ -1433,6 +1466,7 @@ function init() {
 	registerItem({
 		id: 'TranexamicAcid_500',
 		//name: 'Tranexamic Acid 500mg',
+		priority: 1000,
 		disposable: true,
 		actions: {
 			inject: {
@@ -1464,6 +1498,7 @@ function init() {
 
 	registerItem({
 		id: 'SalineSolution_1l',
+		priority: 500,
 		//name: 'NaCl 0.9% 1L',
 		disposable: true,
 		actions: {
@@ -1502,6 +1537,7 @@ function init() {
 	registerItem({
 		id: 'SalineSolution_100ml',
 		//name: 'NaCl 0.9% 100mL',
+		priority: 500,
 		disposable: true,
 		actions: {
 			inject: {
@@ -1539,6 +1575,7 @@ function init() {
 	registerItem({
 		id: 'Blood_1l',
 		//name: 'Blood 1L',
+		priority: 600,
 		disposable: true,
 		actions: {
 			inject: {
@@ -1575,6 +1612,7 @@ function init() {
 
 	registerAct({
 		id: 'measureHR',
+		priority: 0,
 		//name: 'Heart Rate',
 		action: {
 			type: 'ActionBodyMeasure',
@@ -1587,6 +1625,7 @@ function init() {
 
 	registerAct({
 		id: 'measureCRT',
+		priority: 10,
 		//name: 'CRT',
 		action: {
 			type: 'ActionBodyMeasure',
@@ -1597,12 +1636,29 @@ function init() {
 		},
 	});
 
+	registerItem({
+		id: 'sphygmomanometer',
+		//name: 'Blood Pressure gauge',
+		priority: 20,
+		disposable: false,
+		actions: {
+			measure: {
+				category: 'C',
+				type: 'ActionBodyMeasure',
+				targetedObject: 'HumanBody',
+				metricName: ['vitals.cardio.MAP'],
+				duration: { low_skill: 0, high_skill: 0 },
+			},
+		},
+	});
+
 	// Disabilities
 	////////////////////////////////////////
 
 	registerAct({
 		id: 'measureGCS',
 		//name: 'GCS',
+		priority: 0,
 		action: {
 			type: 'ActionBodyMeasure',
 			category: 'D',
@@ -1620,6 +1676,7 @@ function init() {
 	registerAct({
 		id: 'measureMotricity',
 		//name: 'GCS',
+		priority: 10,
 		action: {
 			type: 'ActionBodyMeasure',
 			category: 'D',
@@ -1638,6 +1695,7 @@ function init() {
 	////////////////////////////////////////
 	registerAct({
 		id: 'canYouWalk',
+		priority:0,
 		//name: 'Can you walk?',
 		action: {
 			type: 'ActionBodyMeasure',
@@ -1650,6 +1708,7 @@ function init() {
 
 	registerAct({
 		id: 'painLevel',
+		priority: 10,
 		action: {
 			type: 'ActionBodyMeasure',
 			category: 'Z',
@@ -1659,47 +1718,13 @@ function init() {
 		},
 	});
 
-	////////////////////////////////////////
-	// Old Items
-	////////////////////////////////////////
-
-	//
-	registerItem({
-		id: 'oxymeter',
-		//name: 'Pulse Oxymeter',
-		disposable: false,
-		actions: {
-			measure: {
-				type: 'ActionBodyMeasure',
-				category: 'B',
-				targetedObject: 'HumanBody',
-				metricName: ['vitals.respiration.SpO2'],
-				duration: { low_skill: 0, high_skill: 0 },
-			},
-		},
-	});
-
-	registerItem({
-		id: 'sphygmomanometer',
-		//name: 'Blood Pressure gauge',
-		disposable: false,
-		actions: {
-			measure: {
-				category: 'C',
-				type: 'ActionBodyMeasure',
-				targetedObject: 'HumanBody',
-				metricName: ['vitals.cardio.MAP'],
-				duration: { low_skill: 0, high_skill: 0 },
-			},
-		},
-	});
-
 	// Etc
 	////////////////////////////////////////
 
 	registerAct({
 		id: 'sitDown',
 		//name: 'Sit down',
+		priority: 0,
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -1724,6 +1749,7 @@ function init() {
 
 	registerAct({
 		id: 'proneDecubitus',
+		priority: 10,
 		//name: 'Prone decubitus',
 		action: {
 			type: 'ActionBodyEffect',
@@ -1750,6 +1776,7 @@ function init() {
 	registerAct({
 		id: 'supineDecubitus',
 		//name: 'Supine decubitus',
+		priority: 20,
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',
@@ -1775,6 +1802,7 @@ function init() {
 	registerAct({
 		id: 'getUp',
 		//name: 'Get UP',
+		priority: 30,
 		action: {
 			type: 'ActionBodyEffect',
 			targetedObject: 'HumanBody',

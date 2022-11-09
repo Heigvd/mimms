@@ -683,6 +683,10 @@ export interface ItemDefinition extends BaseDefinition {
 	 */
 	disposable: boolean;
 	/**
+	 * button with lower priority will be displayed first
+	 */
+	priority: number;
+	/**
 	 *
 	 */
 	actions: Record<string, HumanAction>;
@@ -691,7 +695,10 @@ export interface ItemDefinition extends BaseDefinition {
 
 export interface ActDefinition extends BaseDefinition {
 	type: 'act',
-
+	/**
+	 * button with lower priority will be displayed first
+	 */
+	priority: number;
 	/**
 	 * Actions
 	 */
