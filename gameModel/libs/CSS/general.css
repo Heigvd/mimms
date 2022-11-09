@@ -47,3 +47,13 @@ background-color: transparent;
 	stroke: black;
 	stroke-width: 5px;
 }
+
+input,
+textarea,
+button,
+select,
+div,
+span,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
