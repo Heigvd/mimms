@@ -1243,7 +1243,6 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 			const cancel = getTranslation('pretriage-interface', 'cancel');
 			if(dA.resultEvent){
 				dA.resultEvent.status = 'cancelled';
-				dA.resultEvent.duration = 
 				sendEvent(dA.resultEvent);
 			}
 			addLogMessage(
@@ -1506,6 +1505,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
 		autoTriage: event.payload.autoTriage,
 		severity: event.payload.severity,
 	};
+
 	snapshot.state.category = category;
 
 	futures.forEach(sshot => {
