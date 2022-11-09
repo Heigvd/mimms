@@ -1162,6 +1162,7 @@ export class PathFinder {
 		}
 	}*/
 
+    // @ts-ignore
 	private findClosestWalkablePoint(gridPoint: Point, maxDist: number): Point{
 
 		let d = 1;

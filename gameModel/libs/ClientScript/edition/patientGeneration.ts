@@ -2,18 +2,19 @@ import { Histogram, HistogramDistribution, IHistogram, NormalDistribution } from
 import { getSituationDefinition } from './GameModelerHelper';
 import { pickRandom } from '../tools/helper';
 import { BodyFactoryParam, Sex } from '../HUMAn/human';
-import { ActDefinition, ActionBodyEffect, afflictPathology, HumanAction, ItemDefinition } from '../HUMAn/pathology';
+import { ActDefinition, ActionBodyEffect, afflictPathology, ItemDefinition } from '../HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
 import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from '../game/logic/the_world';
 import { getCurrentPatientId, getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
 import { patientGenerationLogger } from '../tools/logger';
+import {getActTranslation, getItemActionTranslation, getTranslation} from '../tools/translation';
 
 
 /**
  * Add patients to the existing list
  */
-export function createPatients(n: number, namer?: string | ((n: number) => string) | undefined) {
+export function createPatients(n: number, namer?: string | ((n: number) => string) | undefined) {
 
 	const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
 
@@ -54,7 +55,6 @@ export function deleteAllPatients(): void {
 
 	// clean up drill presets
 	clearAllPatientsFromPresets();
-	
 }
 
 /**
@@ -83,6 +83,7 @@ function resetCurrentPatient(): void {
 	);
 }
 
+// @ts-ignore
 function makeUid(length: number): string {
 	let id = "";
 	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -116,6 +117,7 @@ export function makeOfficialUid(): string {
 	return id;
 }
 
+// @ts-ignore
 function makeRandomName(length : number): string {
 
 	const consonants = "bcdfghjklmnprstvwxz";
@@ -132,7 +134,7 @@ function makeRandomName(length : number): string {
 		letterType = (letterType + 1)%2;
 	}
 
-	return name.charAt(0).toUpperCase() + name.slice(1);;
+	return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 /**
@@ -165,7 +167,7 @@ interface Treatment {
 }
 
 function prettyPrintActDefinition(act: ActDefinition) : string {
-	return `Act ${act.name}`;
+	return `${getTranslation('pretriage-interface', 'treatment')} ${getActTranslation(act)}`;
 }
 
 function getActTreatment(act: ActDefinition): Treatment {
@@ -180,14 +182,14 @@ function getActTreatment(act: ActDefinition): Treatment {
 	};
 }
 
-function prettyPrintItemAction(item: ItemDefinition, action: HumanAction ) : string {
-	return  `Item ${item.name}` + (Object.keys(item.actions).length > 1 ? `/${action.name}` : '');
+function prettyPrintItemAction(item: ItemDefinition, actionId: string ) : string {
+	return `${getTranslation('pretriage-interface', 'treatment')} ${getItemActionTranslation(item, actionId)}`;
 }
 
 function getItemTreatment(item: ItemDefinition, actionId: string): Treatment {
 	const action = item.actions[actionId]!;
 	return {
-		label: prettyPrintItemAction(item, action),
+		label: prettyPrintItemAction(item, actionId),
 		value: `item::${item.id}::${actionId}`,
 		action: action as ActionBodyEffect,
 		source: {
@@ -253,9 +255,9 @@ export function getTreatmentName(event: HumanTreatmentEvent): string {
 	const resolved = resolveAction(event);
 
 	if (resolved?.source.type === 'act'){
-		return prettyPrintActDefinition(resolved.source);
+		return resolved.label;
 	} else if (resolved?.source.type === 'item') {
-		return prettyPrintItemAction(resolved.source, resolved.action)
+		return resolved.label;
 	} else {
 		return "Unhandled " + event.type;
 	}

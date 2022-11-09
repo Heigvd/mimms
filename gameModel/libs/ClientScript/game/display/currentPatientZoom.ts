@@ -2,13 +2,13 @@ import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, getTranslationFromDefinition, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
+import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
-import { getTranslation } from "../../tools/translation";
+import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
 import { getMySkillDefinition } from "../../tools/WegasHelper";
 import { toHourMinutesSeconds } from "../../tools/helper";
 
@@ -140,10 +140,9 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 		if (item != null) {
 			return Object.entries(item.actions).map(([key, action], i, entries) => {
 				const iaKey = `${item.id}::${key}`;
-				const trKey = entries.length > 1 ? iaKey : item.id;
 				return {
 					id: iaKey,
-					label: getTranslation('human-items', trKey),
+					label: getItemActionTranslation(item, key),
 					type: 'WheelItemAction',
 					actionType: action.type,
 					actionCategory: action.category,
@@ -170,7 +169,7 @@ function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
 			actionType: act.action.type,
 			actionCategory: act.action.category,
 			id: act.id,
-			label: getTranslationFromDefinition(act),
+			label: getActTranslation(act),
 			icon: getActionIcon(act.action),
 		};
 	});
@@ -766,14 +765,11 @@ export function getBlockDetail(observedBlock: string) {
 				output.push(formatBlockSubTitle("Treatments", 'pretriage-interface'));
 				output.push(
 					...data.effects.map(e => {
-						const name = getTranslationFromDefinition(e.source);
-						// TODO: action.id is required to fetch correct translation
-						/*if (e.source.type === 'item') {
-							if (Object.keys(e.source.actions).length > 1) {
-								return `${e.source.id}::${e.action.id}`;
-							}
-						}*/
-						return name;
+						if (e.source.type === 'act') {
+							return getActTranslation(e.source);
+						} else {
+							return getItemActionTranslation(e.source, e.actionId);
+						}
 					}).map(e => formatBlockEntry(e))
 				);
 			}
@@ -989,6 +985,7 @@ export function getCurrentPatientTitle(): string {
 	return '';
 }
 
+// @ts-ignore
 function getAlertness(overview: HumanOverview): string {
 	let alertness = 'closed eyes';
 	if (overview.looksDead) {

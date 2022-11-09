@@ -9,7 +9,6 @@
 import { SkillLevel } from "../edition/GameModelerHelper";
 import { STANDARD_CATEGORY } from "../game/logic/triage";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
-import { getTranslation } from "../tools/translation";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";
 
@@ -671,13 +670,6 @@ export interface BaseDefinition {
 	 * Translation object name
 	 */
 	translationGroup: keyof VariableClasses
-}
-
-export function getTranslationFromDefinition(def : BaseDefinition | undefined): string {
-	if(def){
-		return getTranslation(def.translationGroup, def.id);
-	}
-	return '**undefined';
 }
 
 /**

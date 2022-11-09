@@ -8,6 +8,7 @@ import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
 import { getDrillType } from "../game/logic/gameMaster";
+import { getActTranslation, getItemActionTranslation } from "./translation";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -241,6 +242,14 @@ export function getPatientsBodyFactoryParamsArray() {
 		});
 }
 
+/**
+ * Pretty print human. Expose internal secret data ! Do not show to players
+ * Includes:
+ *  - id
+ *  - sex, age, height, bmi
+ *  - skill
+ *  - scriptedEvents
+ */
 export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean = false): string {
 	const skill = param.skillId ? ` [${param.skillId}]` : '';
 
@@ -253,10 +262,18 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
 				const source = sp.payload.source;
 				if (source.type === 'act') {
 					const act = getAct(source.actId);
-					return act?.name || '';
+					if (act) {
+						return getActTranslation(act);
+					} else {
+						return `unknown ${source.actId} act`;
+					}
 				} else {
 					const item = getItem(source.itemId);
-					return item?.name || '';
+					if (item) {
+						return getItemActionTranslation(item, source.actionId);
+					} else {
+						return `unknown ${source.itemId}::${source.actionId} item`;
+					}
 				}
 			} else if (sp.payload.type === 'Teleport') {
 				return `Located at [${sp.payload.location.x};${sp.payload.location.y}] on ${sp.payload.location.mapId}`;

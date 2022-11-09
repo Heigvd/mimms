@@ -168,6 +168,7 @@ export interface BodyEffect {
 	afflictedBlocks: string[];
 	source: ActDefinition | ItemDefinition,
 	action: ActionBodyEffect;
+	actionId: string;
 }
 
 export interface Glasgow {
@@ -2639,6 +2640,7 @@ export function computeState(
 export function doActionOnHumanBody(
 	source: ItemDefinition | ActDefinition,
 	action: ActionBodyEffect,
+	actionId: string,
 	//_body: HumanBody,
 	blockNames: string[],
 	time: number,
@@ -2658,6 +2660,7 @@ export function doActionOnHumanBody(
 		time: time,
 		rules: action.rules,
 		afflictedBlocks: block ? [block] : [],
+		actionId: actionId,
 		source: source,
 		action: action,
 	};

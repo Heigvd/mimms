@@ -329,7 +329,7 @@ function internal_run(
 				if (act) {
 					if (act.action.type === 'ActionBodyEffect') {
 						logger.info('Do Act: ', { time: event.time, act });
-						effects.push(doActionOnHumanBody(act, act.action, event.blocks, event.time)!);
+						effects.push(doActionOnHumanBody(act, act.action, 'default', event.blocks, event.time)!);
 					} else {
 						logger.info('Ignore measure');
 					}
@@ -340,7 +340,7 @@ function internal_run(
 				if (action != null) {
 					if (action.type === 'ActionBodyEffect') {
 						logger.info('Apply Item: ', { time: event.time, item, action });
-						effects.push(doActionOnHumanBody(item!, action, event.blocks, event.time)!);
+						effects.push(doActionOnHumanBody(item!, action, event.source.actionId,event.blocks, event.time)!);
 					} else {
 						logger.info('Ignore measure');
 					}

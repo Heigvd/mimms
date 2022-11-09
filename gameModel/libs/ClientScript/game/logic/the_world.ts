@@ -1,4 +1,4 @@
-import { Point, add, sub, mul, proj, lengthSquared, length } from '../../map/point2D';
+import { Point, add, sub, mul, lengthSquared, length } from '../../map/point2D';
 
 import {
 	BlockName,
@@ -21,7 +21,6 @@ import {
 	ActionBodyEffect,
 	ActionBodyMeasure,
 	AfflictedPathology,
-	getTranslationFromDefinition,
 	HumanAction,
 	ItemDefinition,
 	RevivedPathology,
@@ -71,7 +70,7 @@ import { Category, PreTriageResult, SystemName } from './triage';
 import { getDefaultBag, getFogType, infiniteBags, shouldProvideDefaultBag } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
-import { getTranslation } from '../../tools/translation';
+import { getActTranslation, getItemActionTranslation, getItemTranslation, getTranslation } from '../../tools/translation';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -231,7 +230,7 @@ interface HumanMeasureEvent extends TargetedEvent {
 	source: ActionSource;
 }
 
-export type MeasureResultStatus = 'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
+export type MeasureResultStatus = 'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
 	type: 'HumanMeasureResult';
@@ -511,7 +510,7 @@ function extractNotYetProcessedEvents(events: FullEvent<EventPayload>[]) {
 	);
 }
 
-function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
+/*function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
 	return events.reduce<Record<string, FullEvent<TeleportEvent | FollowPathEvent>>>((acc, event) => {
 		if (event.payload.type === 'FollowPath' || event.payload.type === 'Teleport') {
 			const key = getObjectKey({
@@ -530,7 +529,7 @@ function mapLastLocationEventByObject(events: FullEvent<EventPayload>[]) {
 		}
 		return acc;
 	}, {});
-}
+}*/
 
 function findNextTargetedEvent(
 	events: FullEvent<EventPayload>[],
@@ -554,7 +553,7 @@ function findNextTargetedEvent(
 /**
  * Compute spatial index at given type
  */
-function computeSpatialIndex(objectList: ObjectId[], time: number): PositionState {
+/*function computeSpatialIndex(objectList: ObjectId[], time: number): PositionState {
 	const spatialIndex: PositionState = {};
 
 	const allEvents = getAllEvents();
@@ -592,7 +591,7 @@ function computeSpatialIndex(objectList: ObjectId[], time: number): PositionStat
 		}
 	});
 	return spatialIndex;
-}
+}*/
 
 function initHuman(humanId: string): HumanState {
 	const env = getEnv();
@@ -1016,10 +1015,11 @@ function updateHumanSnapshots(humanId: string, time: number) {
 	const objId = { objectType: 'Human', objectId: humanId };
 	const env = getEnv();
 
-	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
+	const snapshots = getHumanSnapshotAtTime(objId, time);
+	let snapshot = snapshots.snapshot;
 
 	// Update futures
-	futures.forEach(sshot => {
+	snapshots.futures.forEach(sshot => {
 		worldLogger.log('Update future human snapshot at time ', sshot.time);
 		const state = Helpers.cloneDeep(snapshot.state);
 		sshot.state = computeHumanState(state, sshot.time, env);
@@ -1070,7 +1070,8 @@ function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
 	const time = agingEvent.time;
 	//let { snapshot, futures } = getHumanSnapshotAtTime(objId, time + agingEvent.payload.deltaSeconds);
 	const newTime = time + agingEvent.payload.deltaSeconds;
-	let { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
+	const snapshots = getHumanSnapshotAtTime(objId, time);
+	let snapshot = snapshots.snapshot;
 
 	const agedState = computeHumanState(snapshot.state, newTime, env);
 
@@ -1080,7 +1081,7 @@ function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
 	snapshot.state.bodyState.time = time;
 
 	// Update futures
-	futures.forEach(sshot => {
+	snapshots.futures.forEach(sshot => {
 		worldLogger.log('Update future human snapshot at time ', sshot.time);
 		const state = Helpers.cloneDeep(snapshot.state);
 		sshot.state = computeHumanState(state, sshot.time, env);
@@ -1101,6 +1102,7 @@ function isMeasureAction(action: HumanAction | undefined): action is ActionBodyM
 export interface ResolvedAction {
 	source: ActDefinition | ItemDefinition;
 	label: string;
+	actionId: string;
 	action: ActionBodyEffect | ActionBodyMeasure;
 }
 
@@ -1111,9 +1113,11 @@ export function resolveAction(
 		const act = getAct(event.source.actId);
 		const action = act?.action;
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
+			const label = act ? getActTranslation(act) : `${event.source.actId}`;
 			return {
 				source: { ...act!, type: 'act' },
-				label: getTranslation('human-actions', event.source.actId),
+				label: label,
+				actionId: 'default',
 				action: action,
 			};
 		}
@@ -1121,10 +1125,11 @@ export function resolveAction(
 		const item = getItem(event.source.itemId);
 		const action = item?.actions[event.source.actionId];
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
-			const trKey = (item?.actions.length || 0) > 1 ? `${event.source.itemId}::${event.source.actionId}` : event.source.itemId;
+			const label = item ? getItemActionTranslation(item, event.source.actionId) : `${event.source.itemId}::${event.source.actionId}`
 			return {
 				source: { ...item!, type: 'item' },
-				label: getTranslation('human-actions', trKey),
+				actionId: event.source.actionId,
+				label: label,
 				action: action,
 			};
 		}
@@ -1192,7 +1197,7 @@ function checkItemAvailabilityAndConsume(
 		// character do not own such item;
 		inventoryLogger.info('Owner does not have any');
 		const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-		addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getTranslationFromDefinition(item)}`);
+		addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getItemTranslation(item)}`);
 		return false;
 	} else if (typeof count === 'number') {
 		if (count > 0) {
@@ -1207,7 +1212,7 @@ function checkItemAvailabilityAndConsume(
 			// no more item
 			inventoryLogger.info('Owner do not have any item any longer');
 			const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-			addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getTranslationFromDefinition(item)}`);
+			addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getItemTranslation(item)}`);
 			return false;
 		}
 	} else {
@@ -1243,14 +1248,14 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 			const cancel = getTranslation('pretriage-interface', 'cancel');
 			if(dA.resultEvent){
 				dA.resultEvent.status = 'cancelled';
-				dA.resultEvent.duration = 
+				// dA.resultEvent.duration = now - originalAction.time; //TODO or not TODO ?
 				sendEvent(dA.resultEvent);
 			}
 			addLogMessage(
 				dA.event.payload.emitterCharacterId,
 				dA.event.payload.targetId,
 				event.time,
-				`${cancel} ${getResolvedActionDisplayName(dA.action)}`,
+				`${cancel} ${dA.action.label}`,
 			);
 			return false;
 		} else {
@@ -1301,7 +1306,7 @@ function delayAction(
 		event.payload.emitterCharacterId,
 		event.payload.targetId,
 		event.time,
-		`${start} ${getResolvedActionDisplayName(dA.action)}`,
+		`${start} ${dA.action.label}`,
 	);
 	delayedActions.push(dA);
 }
@@ -1324,7 +1329,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 
 		const me = String(self.getId());
 
-		let resultEvent : HumanMeasureResultEvent | undefined = undefined;
+		let resultEvent : HumanMeasureResultEvent | undefined = undefined;
 		// initialize result event only if current player was the sender
 		if(me == event.payload.emitterPlayerId)
 		{
@@ -1518,13 +1523,14 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
  */
 function doTreatment(
 	time: number,
-	{ source, action }: ResolvedAction,
+	{source, actionId, action, label }: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent>,
 ) {
 	worldLogger.log('Do Treatment ', { time: time, source: source, action });
 	const effect = doActionOnHumanBody(
 		source,
 		action as ActionBodyEffect,
+		actionId,
 		event.payload.blocks,
 		time,
 	);
@@ -1543,18 +1549,7 @@ function doTreatment(
 
 	const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
-	// TODO translation
-	let message = getTranslation('pretriage-interface', 'treatment')+': ';
-	const src = event.payload.source;
-	if (src.type === 'act') {
-		const act = getAct(src.actId);
-		message += getTranslationFromDefinition(act);
-	} else if (event.payload.source.type === 'itemAction') {
-		const item = getItem(src.itemId);
-		const action = item?.actions[src.actionId];
-		message += action?.name + ' ' + getTranslationFromDefinition(item);
-
-	}
+	const message = getTranslation('pretriage-interface', 'treatment') + ': ' + label;
 
 	const entry: TreatmentLog = {
 		time: event.time,

@@ -1,3 +1,4 @@
+import {ActDefinition, ItemDefinition} from "../HUMAn/pathology";
 import { translationLogger } from "./logger";
 
 
@@ -49,6 +50,24 @@ export function getBlockTranslation(blockName: string): string {
 
 export function getPathologyTranslation(pathologyName: string): string {
 	return getTranslation('human-pathology', pathologyName);
+}
+
+
+export function getItemTranslation(item: ItemDefinition) {
+	return getTranslation('human-items', item.id);
+}
+
+export function getItemActionTranslation(item: ItemDefinition, actionId: string) {
+	const manyActions = Object.keys(item.actions).length > 1;
+	if (manyActions) {
+		return getTranslation('human-items', `${item.id}::${actionId}`);
+	} else {
+		return getTranslation('human-items', item.id)
+	}
+}
+
+export function getActTranslation(act: ActDefinition) {
+	return getTranslation('human-actions', act.id);
 }
 
 export function upperCaseFirst(s: string): string {

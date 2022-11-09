@@ -3,6 +3,7 @@
 import { getBlocksSelector, getSkillsDefinitionsAsChoices } from "../edition/GameModelerHelper";
 
 import { getItems, getPathologies } from "../HUMAn/registries";
+import {getItemActionTranslation} from "./translation";
 
 Helpers.registerEffect(() => {
 
@@ -331,8 +332,8 @@ Helpers.registerEffect(() => {
 				})),
 				...allItems.flatMap(({ id, item }) => {
 					return Object.entries(item.actions)
-						.map(([actionId, action]) => ({
-							label: `Item ${item.name}:${action.name}`,
+						.map(([actionId]) => ({
+							label: `Item ${getItemActionTranslation(item, actionId)}`,
 							value: {
 								type: 'ItemActionOnHuman',
 								itemId: id,
