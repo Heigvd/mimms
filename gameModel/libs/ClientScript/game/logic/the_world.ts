@@ -114,12 +114,17 @@ type MessageLog = BaseLog & {
 	message: string;
 };
 
+type MeasureMetric = {
+	metric: BodyStateKeys,
+	value: unknown
+}
+
 type MeasureLog = BaseLog & {
 	type: 'MeasureLog';
 	/**
 	 * Key: metric name; value: measures value
 	 */
-	metrics: { metric: BodyStateKeys; value: unknown }[];
+	metrics: MeasureMetric[];
 };
 
 type TreatmentLog = BaseLog & {
@@ -226,6 +231,16 @@ interface HumanMeasureEvent extends TargetedEvent {
 	source: ActionSource;
 }
 
+export type MeasureResultStatus = 'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
+
+export interface HumanMeasureResultEvent extends TargetedEvent {
+	type: 'HumanMeasureResult';
+	sourceEventId: number;
+	status: MeasureResultStatus;
+	result?: MeasureMetric[];
+	duration: number;
+}
+
 export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
 	source: ActionSource;
@@ -267,6 +282,7 @@ export type EventPayload =
 	| PathologyEvent
 	| HumanTreatmentEvent
 	| HumanMeasureEvent
+	| HumanMeasureResultEvent
 	| HumanLogMessageEvent
 	| CategorizeEvent
 	| DirectCommunicationEvent
@@ -294,6 +310,7 @@ export interface DelayedAction {
 	dueDate: number;
 	action: ResolvedAction;
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
+	resultEvent : HumanMeasureResultEvent | undefined;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -1121,6 +1138,7 @@ function doMeasure(
 	_source: ItemDefinition | ActDefinition,
 	action: ActionBodyMeasure,
 	fEvent: FullEvent<HumanMeasureEvent>,
+	rEvent: HumanMeasureResultEvent | undefined
 ) {
 	const metrics = action.metricName;
 
@@ -1147,6 +1165,12 @@ function doMeasure(
 		metrics: values,
 	};
 	snapshot.state.console.push(logEntry);
+
+	if(rEvent){
+		rEvent.result = values;
+		rEvent.status = 'success';
+		sendEvent(rEvent);
+	}
 
 	futures.forEach(snapshot => {
 		snapshot.state.console.push({ ...logEntry });
@@ -1217,6 +1241,11 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
 			const cancel = getTranslation('pretriage-interface', 'cancel');
+			if(dA.resultEvent){
+				dA.resultEvent.status = 'cancelled';
+				dA.resultEvent.duration = 
+				sendEvent(dA.resultEvent);
+			}
 			addLogMessage(
 				dA.event.payload.emitterCharacterId,
 				dA.event.payload.targetId,
@@ -1238,10 +1267,10 @@ function clearPastActions(time: number) {
 	delayedActions = delayedActions.filter(dA => dA.dueDate > time);
 }
 
-function processDelayedAction({ dueDate, action, event }: DelayedAction) {
-	delayedLogger.info('Process Delayed Action', { dueDate, action, event });
+function processDelayedAction({ dueDate, action, event, resultEvent }: DelayedAction) {
+	delayedLogger.info('Process Delayed Action', { dueDate, action, event, resultEvent });
 	if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
-		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>);
+		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>, resultEvent);
 	} else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
 		doTreatment(dueDate, action, event as FullEvent<HumanTreatmentEvent>);
 	} else {
@@ -1264,8 +1293,9 @@ function delayAction(
 	dueDate: number,
 	action: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
+	resultEvent : HumanMeasureResultEvent | undefined
 ) {
-	const dA: DelayedAction = { id: event.id, dueDate, action, event };
+	const dA: DelayedAction = { id: event.id, dueDate, action, event, resultEvent };
 	const start = getTranslation('pretriage-interface', 'start');
 	addLogMessage(
 		event.payload.emitterCharacterId,
@@ -1291,6 +1321,25 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
+
+		const me = String(self.getId());
+
+		let resultEvent : HumanMeasureResultEvent | undefined = undefined;
+		// initialize result event only if current player was the sender
+		if(me == event.payload.emitterPlayerId)
+		{
+			resultEvent = {
+				type : 'HumanMeasureResult',
+				targetType : 'Human',
+				sourceEventId : event.id,
+				targetId: event.payload.targetId,
+				emitterCharacterId: event.payload.emitterCharacterId,
+				emitterPlayerId : me,
+				status : 'unknown',
+				duration : 0
+			}
+		}
+
 		const { source, action } = resolvedAction;
 		if (resolvedAction.action.type === 'ActionBodyMeasure') {
 			if (source.type === 'item') {
@@ -1306,6 +1355,10 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 						event.payload.targetId,
 					) === false
 				) {
+					if(resultEvent)
+					{
+						sendEvent(resultEvent);
+					}
 					return;
 				}
 			}
@@ -1323,9 +1376,12 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
 				if (duration > 0) {
-					delayAction(event.time + duration, resolvedAction, event);
+					if(resultEvent){
+						resultEvent.duration = duration;
+					}
+					delayAction(event.time + duration, resolvedAction, event, resultEvent);
 				} else {
-					doMeasure(event.time, source, action as ActionBodyMeasure, event);
+					doMeasure(event.time, source, action as ActionBodyMeasure, event, resultEvent);
 				}
 			} else {
 				const dontknow = getTranslation('pretriage-interface', 'skillMissing');
@@ -1545,7 +1601,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				const duration = action.duration[skillLevel];
 				if (duration > 0) {
 					// delay event
-					delayAction(event.time + duration, resolvedAction, event);
+					delayAction(event.time + duration, resolvedAction, event, undefined);
 				} else {
 					doTreatment(event.time, resolvedAction, event);
 				}
@@ -1766,6 +1822,8 @@ function processEvent(event: FullEvent<EventPayload>) {
 			break;
 		case 'Aging':
 			processAgingEvent(event as FullEvent<AgingEvent>);
+			break;
+		case 'HumanMeasureResult':
 			break;
 		default:
 			unreachable(eType);

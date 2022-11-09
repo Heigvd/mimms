@@ -63,6 +63,7 @@ var PatientDashboard = ((function () {
 			return event.payload.type == 'Categorize'
 			|| event.payload.type == 'HumanMeasure'
 			|| event.payload.type == 'HumanTreatment'
+			|| event.payload.type == 'HumanMeasureResult'
 		});
 		
 	}
