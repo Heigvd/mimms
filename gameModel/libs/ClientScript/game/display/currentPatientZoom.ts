@@ -752,14 +752,16 @@ export function getBlockDetail(observedBlock: string) {
 		pathologies.forEach(p => {
 			const pathology = getPathology(p.pathologyId);
 			if (pathology != null) {
-				p.modules.forEach((mod, i) => {
-					if (mod.block === observedBlock) {
-						data.pathologies.push({
-							pDef: pathology,
-							pMod: pathology.modules[i]!,
-						});
-					}
-				});
+				if (p.modules.find(mod => mod.visible) != null) {
+					p.modules.forEach((mod, i) => {
+						if (mod.block === observedBlock) {
+							data.pathologies.push({
+								pDef: pathology,
+								pMod: pathology.modules[i]!,
+							});
+						}
+					});
+				}
 			}
 		});
 		effects.forEach(effect => {
@@ -1077,7 +1079,9 @@ export function getAfflictedBlocks(): string[] {
 		pathologies.forEach(p => {
 			//const pathology = getPathology(p.pathologyId);
 			p.modules.forEach(m => {
-				output[m.block] = true;
+				if (m.visible) {
+					output[m.block] = true;
+				}
 			});
 		});
 		effects.forEach(effect => {

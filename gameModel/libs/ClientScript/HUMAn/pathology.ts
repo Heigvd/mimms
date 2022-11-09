@@ -275,6 +275,7 @@ export interface AfflictedPathology {
 
 export interface InstantiatedModule {
 	block: BlockName;
+	visible: boolean;
 	rules: Rule[];
 }
 
@@ -465,6 +466,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 
 		return {
 			block: block,
+			visible: true,
 			rules: [{
 				time: 0,
 				id: 'hemorrhage',
@@ -481,6 +483,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		//const fArgs: FractureArgs = args;
 		return {
 			block: block,
+			visible: true,
 			rules: [{
 				id: 'fracture',
 				name: 'fracture',
@@ -494,6 +497,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 	} else if (mod.type === 'NervousSystem') {
 		return {
 			block: block,
+			visible: false,
 			rules: [{
 				id: 'nervousSystem',
 				name: 'nervousSystem',
@@ -508,6 +512,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		const aArgs = args as unknown as TamponadeMeta['args'];
 		return {
 			block: block,
+			visible: true,
 			rules: [{
 				id: 'tamponade',
 				name: 'tamponade',
@@ -526,6 +531,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 
 		return {
 			block: block,
+			visible: true,
 			rules: [{
 				time: 0,
 				id: 'airwaysRes',
@@ -542,6 +548,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		const aArgs = args as unknown as PneumothoraxMeta['args'];
 		return {
 			block: block,
+			visible: false,
 			rules: [{
 				id: 'pno',
 				name: 'pno',
@@ -559,6 +566,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		const aArgs = args as unknown as BurnMeta['args'];
 		return {
 			block: block,
+			visible: true,
 			rules: [{
 				id: 'burn',
 				name: 'burn',
@@ -575,6 +583,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		const aArgs = args as unknown as ICPMeta['args'];
 		return {
 			block: block,
+			visible: false,
 			rules: [{
 				id: 'burn',
 				name: 'burn',
