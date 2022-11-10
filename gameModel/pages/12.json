@@ -675,7 +675,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "'X'",
+                          "content" : "String(Context.patient.n);",
                           "language" : "TypeScript"
                         }
                       },
@@ -687,7 +687,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "Context.patient.id;",
+                          "content" : "wlog(Context.patient.data.id);;\nContext.patient.data.id;",
                           "language" : "TypeScript"
                         }
                       },
@@ -699,7 +699,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.categorization.category);",
+                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
                           "language" : "TypeScript"
                         }
                       },
@@ -712,7 +712,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.categorization.autoTriage.categoryId);",
+                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
                           "language" : "TypeScript"
                         }
                       },
@@ -724,7 +724,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "if(Context.patient.categorization.category == \n\tContext.patient.categorization.autoTriage.categoryId){\n\treturn '<p class=\"correct\">Correct</p>'\n}\n'<p class=\"wrong\">Wrong</p>'",
+                          "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p class=\"correct\">Correct</p>'\n}\n'<p class=\"wrong\">Wrong</p>'",
                           "language" : "TypeScript"
                         }
                       },
@@ -741,9 +741,9 @@
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
-                            "@class" : "Script",
-                            "content" : "import { showPatient } from \"./game/logic/drill\";\n\nshowPatient(Context.patient.id)",
-                            "language" : "typescript"
+                            "@class" : "ClientScript",
+                            "content" : "import { showPatient } from \"./game/logic/drill\";\n\nshowPatient(Context.patient.data.id)",
+                            "language" : "TypeScript"
                           }
                         },
                         "style" : { }
@@ -765,7 +765,7 @@
                 "exposeAs" : "patient",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr;",
+                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
