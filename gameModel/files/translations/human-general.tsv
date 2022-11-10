@@ -9,7 +9,8 @@ rapid breathing	rapid breathing	respiration rapide
 respiration looks normal	respiration looks normal	la respiration semble normale
 bleeds	bleeds	saigne
 bleedsArterial	pulsatile hemorrhage	hémorragie pulsatile
-bleedsVenous	continuous severe bleeding	saignement important en continu
+bleedsVenous	continuous severe hemorrhage	saignement important en continu
+bleedsMinor	minor hemorrhage	saignement mineur
 looks dead	looks dead	semble mort
 lively	lively	alerte, vous regarde
 apathetic	apathetic	peu alerte, réagi à la voix

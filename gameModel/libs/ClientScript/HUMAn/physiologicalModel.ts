@@ -93,6 +93,11 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 			bodyState.vitals.glasgow.motor = 1;
 			bodyState.vitals.glasgow.verbal = 1;
 			bodyState.vitals.capillaryRefillTime_s = undefined;
+
+			// Dead bodies don't bleed
+			bodyState.vitals.cardio.extLossesFlow_mlPerMin = 0;
+			bodyState.vitals.cardio.extVenousLossesFlow_mlPerMin = 0;
+			bodyState.vitals.cardio.extArterialLossesFlow_mlPerMin = 0;
 		}
 	} else {
 		if (bodyState.vitals.gambateBar < 15) {

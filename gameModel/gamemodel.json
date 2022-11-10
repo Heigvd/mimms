@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668003010671,
+  "createdTime" : 1668075395036,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2753,7 +2753,8 @@
           "apathetic" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"apathetic\"},\"FR\":{\"status\":\"\",\"translation\":\"peu alerte, réagi à la voix\",\"lang\":\"FR\"}},\"version\":0}",
           "bleeds" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"bleeds\"},\"FR\":{\"status\":\"\",\"translation\":\"saigne\",\"lang\":\"FR\"}},\"version\":0}",
           "bleedsarterial" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pulsatile hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"hémorragie pulsatile\",\"lang\":\"FR\"}},\"version\":0}",
-          "bleedsvenous" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continuous severe bleeding\"},\"FR\":{\"status\":\"\",\"translation\":\"saignement important en continu\",\"lang\":\"FR\"}},\"version\":0}",
+          "bleedsminor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minor hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"saignement mineur\",\"lang\":\"FR\"}},\"version\":0}",
+          "bleedsvenous" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continuous severe hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"saignement important en continu\",\"lang\":\"FR\"}},\"version\":0}",
           "closed eyes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"closed eyes\"},\"FR\":{\"status\":\"\",\"translation\":\"yeux fermés\",\"lang\":\"FR\"}},\"version\":0}",
           "deep and rapid breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deep and rapid breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"respiration ample et rapide\",\"lang\":\"FR\"}},\"version\":0}",
           "deep breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deep breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"respiration ample\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3007,6 +3008,7 @@
         },
         "name" : "pretriage-interface",
         "properties" : {
+          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
           "all" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all\"},\"FR\":{\"status\":\"\",\"translation\":\"tous\",\"lang\":\"FR\"}},\"version\":0}",
           "apply" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"apply\"},\"FR\":{\"status\":\"\",\"translation\":\"appliquer\",\"lang\":\"FR\"}},\"version\":0}",
           "assigntriage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign triage category\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner catégorie de triage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3735,7 +3737,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn (2)",
+  "name" : "HUMAn",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
