@@ -577,7 +577,7 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getDrillStatus } from \"./game/logic/drill\";\ngetDrillStatus() !== 'ongoing'",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled()",
                                   "language" : "typescript"
                                 },
                                 "icon" : "ruler",
@@ -738,7 +738,7 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getDrillStatus } from \"./game/logic/drill\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| getDrillStatus() !== 'ongoing';",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                   "language" : "typescript"
                                 },
                                 "icon" : "check",
@@ -839,7 +839,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectCategory } from './game/display/currentPatientZoom';\nimport { getDrillStatus } from './game/logic/drill';\n\nif(getDrillStatus() == 'ongoing'){\n\tselectCategory(Context.tagCategory.id, Context.patientConsole.setState);\n}",
+                                "content" : "import { selectCategory } from './game/display/currentPatientZoom';\nimport { isInterfaceDisabled } from './game/logic/gameMaster';\n\nif(isInterfaceDisabled() === false){\n\tselectCategory(Context.tagCategory.id, Context.patientConsole.setState);\n}",
                                 "language" : "TypeScript"
                               }
                             },
@@ -884,7 +884,7 @@
                       "props" : {
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentCategory } from \"./game/logic/triage\";\nconst currentId = getCurrentCategory();\nconst selected = Context.patientConsole.state.selectedCategory;\n!selected || currentId === selected;",
+                          "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nimport { getCurrentCategory } from \"./game/logic/triage\";\nconst currentId = getCurrentCategory();\nconst selected = Context.patientConsole.state.selectedCategory;\n!selected || currentId === selected || isInterfaceDisabled();",
                           "language" : "typescript"
                         },
                         "label" : {

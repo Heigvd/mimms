@@ -530,7 +530,11 @@
                                             },
                                             "style" : { },
                                             "viewOptions" : {
-                                              "center" : [ 2539119, 1181103 ],
+                                              "center" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getPlayerPosition } from \"./map/mapLayers\";\ngetPlayerPosition(Context.mapId.mapId);",
+                                                "language" : "typescript"
+                                              },
                                               "extent" : {
                                                 "@class" : "Script",
                                                 "content" : "//wlog(Context.mapExtentState.state);\nContext.mapExtentState.state.extent;",
@@ -540,7 +544,8 @@
                                                 "@class" : "Script",
                                                 "content" : "import { swissDefaultProjection } from './map/layersData';\nswissDefaultProjection;",
                                                 "language" : "typescript"
-                                              }
+                                              },
+                                              "resolution" : 0.015
                                             }
                                           },
                                           "type" : "WegasMap"

@@ -1,4 +1,6 @@
+import { getDrillStatus } from "./drill";
 import { FogType } from "./the_world";
+import { getRunningMode } from "./TimeManager";
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LICKERT';
 
@@ -7,8 +9,12 @@ export function getDrillType(): DrillType {
 }
 
 
+function drillMode() : boolean {
+	return gameModel.getProperties().getFreeForAll();
+}
+
 export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'LICKERT':
@@ -20,7 +26,7 @@ export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
 }
 
 export function getGamePageId() {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -43,7 +49,7 @@ export function getGamePageId() {
  * Does the current game mode gives an infinite number of objects?
  */
 export function infiniteBags(): boolean {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -60,7 +66,7 @@ export function infiniteBags(): boolean {
  * Does the current game mode provide a bag automatically?
  */
 export function shouldProvideDefaultBag(): boolean {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -76,7 +82,7 @@ export function shouldProvideDefaultBag(): boolean {
  * @returns name of the bag to give or undefined
  */
 export function getDefaultBag(): string | undefined {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -88,7 +94,7 @@ export function getDefaultBag(): string | undefined {
 }
 
 export function getFogType(): FogType {
-	if (gameModel.getProperties().getFreeForAll()) {
+	if (drillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -105,4 +111,26 @@ export function getFogType(): FogType {
 	}
 
 	return "SIGHT";
+}
+
+
+
+export function isInterfaceDisabled() : boolean {
+	const timeMode = getRunningMode();
+
+	if (timeMode === 'GLOBAL_PAUSE'){
+		return true;
+	}
+
+	if (drillMode()) {
+		const drillStatus = getDrillStatus();
+
+		switch (getDrillType()) {
+			case 'LICKERT':
+			case 'PRE-TRIAGE':
+				return drillStatus != 'ongoing';
+		}
+	}
+
+	return timeMode !== 'RUNNING';
 }

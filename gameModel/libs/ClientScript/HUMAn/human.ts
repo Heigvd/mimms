@@ -2602,7 +2602,7 @@ export function computeState(
 						if (rule.rule.variablePatch.bodyPosition != null) {
 							const currentPosition = newState.variables.bodyPosition;
 
-							if (currentPosition === 'RECOVERY' || newState.vitals.glasgow.motor < 6) {
+							if (rule.rule.variablePatch.bodyPosition === 'RECOVERY' || newState.vitals.glasgow.motor === 6) {
 								newState.variables.bodyPosition = rule.rule.variablePatch.bodyPosition;
 								fixPosition({
 									meta: meta,

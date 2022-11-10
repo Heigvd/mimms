@@ -22,6 +22,7 @@ interface BaseItem {
 	icon?: string;
 }
 
+
 interface WithActionType {
 	actionType: HumanAction['type'];
 	actionCategory: HumanAction['category'];
