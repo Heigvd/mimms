@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668085777074,
+  "createdTime" : 1668086809832,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3014,7 +3014,8 @@
           "backtosummary" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"back to summary\"},\"FR\":{\"status\":\"\",\"translation\":\"retourner au récapitulatif\",\"lang\":\"FR\"}},\"version\":0}",
           "bag-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"bag type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de sac\",\"lang\":\"FR\"}},\"version\":0}",
           "bodypart" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"body part\"},\"FR\":{\"status\":\"\",\"translation\":\"partie du corps\",\"lang\":\"FR\"}},\"version\":0}",
-          "cancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"annulation\",\"lang\":\"FR\"}},\"version\":0}",
+          "cancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"annuler\",\"lang\":\"FR\"}},\"version\":0}",
+          "cancellation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancellation\"},\"FR\":{\"status\":\"\",\"translation\":\"annulation\",\"lang\":\"FR\"}},\"version\":0}",
           "category-system" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"category system\"},\"FR\":{\"status\":\"\",\"translation\":\"système de catégorisation\",\"lang\":\"FR\"}},\"version\":0}",
           "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
           "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"console\"},\"FR\":{\"status\":\"\",\"translation\":\"console\",\"lang\":\"FR\"}},\"version\":0}",

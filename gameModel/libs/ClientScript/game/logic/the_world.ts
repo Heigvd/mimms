@@ -1245,7 +1245,7 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	 */
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
-			const cancel = getTranslation('pretriage-interface', 'cancel');
+			const cancel = getTranslation('pretriage-interface', 'cancellation');
 			if(dA.resultEvent){
 				dA.resultEvent.status = 'cancelled';
 				// dA.resultEvent.duration = now - originalAction.time; //TODO or not TODO ?
