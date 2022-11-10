@@ -458,7 +458,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Bag type<br></p>\"",
+                  "content" : "\"Bag type\"",
                   "language" : "TypeScript"
                 }
               },
@@ -501,7 +501,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Skills</p>\"",
+                  "content" : "\"Skills\"",
                   "language" : "TypeScript"
                 }
               },

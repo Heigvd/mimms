@@ -103,9 +103,9 @@ export function selectNextPatient(): Promise<unknown> {
 		const allIds = getCurrentPresetSortedPatientIds();
 		const processed = getInstantiatedHumanIds();
 
-		const ids = allIds.filter(id => !processed.includes(id));
+		const patientId = allIds.filter(id => !processed.includes(id)).sort((a,b) => a.localeCompare(b))[0];
 
-		const patientId = pickRandom(ids);
+		//const patientId = pickRandom(ids);
 
 		if (patientId) {
 			const param = getBodyParam(patientId);

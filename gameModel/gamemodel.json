@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668075395036,
+  "createdTime" : 1668075429710,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -851,7 +851,7 @@
       "properties" : {
         "1" : "{\"actions\":{},\"name\":\"Training Laurent\",\"patients\":{}}",
         "2" : "{\"actions\":{},\"name\":\"Training Simon\",\"patients\":{}}",
-        "3567938133" : "{\"name\":\"Short\",\"patients\":{\"CH-AP-639\":true,\"CH-BU-241\":true}}"
+        "3567938133" : "{\"name\":\"Short\",\"patients\":{\"CH-AP-639\":true,\"CH-BU-241\":true,\"CH-CA-455\":true,\"CH-CK-285\":true,\"CH-EX-553\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",

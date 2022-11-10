@@ -2,7 +2,7 @@ import {ActDefinition, ItemDefinition} from "../HUMAn/pathology";
 import { translationLogger } from "./logger";
 
 
-const cache : Record<string, SObjectDescriptor> = {};
+let cache : Record<string, SObjectDescriptor> = {};
 
 /** 
  * category must be an object type
@@ -10,7 +10,6 @@ const cache : Record<string, SObjectDescriptor> = {};
 */
 export function getTranslation(category: keyof VariableClasses, key: string, upperCaseFirstLetter = true) : string {
 
-	// TODO cache translations ?
 	if(!cache[category]){
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
 	}
@@ -144,6 +143,8 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 }
 
 export function updateFromAllTsv(dryrun: boolean):void {
+
+	cache = {};
 
 	const variables : (keyof VariableClasses)[] = [
 		'pretriage-interface',
