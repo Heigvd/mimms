@@ -205,6 +205,7 @@
                     },
                     "name" : "visual overview",
                     "style" : {
+                      "textAlign" : "center",
                       "width" : "100%"
                     },
                     "text" : {

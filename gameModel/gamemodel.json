@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668080953482,
+  "createdTime" : 1668085777074,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3008,7 +3008,6 @@
         },
         "name" : "pretriage-interface",
         "properties" : {
-          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
           "all" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all\"},\"FR\":{\"status\":\"\",\"translation\":\"tous\",\"lang\":\"FR\"}},\"version\":0}",
           "apply" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"apply\"},\"FR\":{\"status\":\"\",\"translation\":\"appliquer\",\"lang\":\"FR\"}},\"version\":0}",
           "assigntriage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign triage category\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner catégorie de triage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3051,7 +3050,7 @@
           "show-correction" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"show correction\"},\"FR\":{\"status\":\"\",\"translation\":\"voir correction\",\"lang\":\"FR\"}},\"version\":0}",
           "skillmissing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you don't know how to measure\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne savez pas mesurer\",\"lang\":\"FR\"}},\"version\":0}",
           "skills" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"skills\"},\"FR\":{\"status\":\"\",\"translation\":\"compétences\",\"lang\":\"FR\"}},\"version\":0}",
-          "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrage\",\"lang\":\"FR\"}},\"version\":0}",
+          "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "startpausesimulation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start / Pause simulation\"},\"FR\":{\"status\":\"\",\"translation\":\"reprendre / Mettre en pause\",\"lang\":\"FR\"}},\"version\":0}",
           "still" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"still\"},\"FR\":{\"status\":\"\",\"translation\":\"encore\",\"lang\":\"FR\"}},\"version\":0}",
           "suggested-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"suggested answer\"},\"FR\":{\"status\":\"\",\"translation\":\"réponse suggérée\",\"lang\":\"FR\"}},\"version\":0}",

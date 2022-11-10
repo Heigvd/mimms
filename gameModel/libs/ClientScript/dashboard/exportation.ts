@@ -219,7 +219,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 				}
 			}else{
 				//empty fill
-				Array(treatmentColumns.length).fill(undefined).forEach(() => line.push(''));
+				line.push(...Array(treatmentColumns.length).fill(''));
 			}
 		}
 	}
@@ -249,7 +249,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 				line.push(m.result);
 			}else{
 				//empty fill
-				Array(measureColumns.length).fill(undefined).forEach(() => line.push(''));
+				line.push(...Array(measureColumns.length).fill(''));
 			}
 		}
 	}
@@ -262,7 +262,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 			Object.values(vitals).forEach(v => line.push(v.toString()));
 		}else{
 			const nEmpty = vitalsExists[patientId];
-			Array(nEmpty).fill(undefined).forEach(() => line.push(''));
+			line.push(...Array(nEmpty).fill(''));
 		}
 	}
 
