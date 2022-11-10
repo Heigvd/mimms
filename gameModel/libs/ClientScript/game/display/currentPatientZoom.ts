@@ -186,8 +186,8 @@ interface ByType {
 
 function sortItems(items: WheelAction[]) {
 	return items.sort((a, b) => {
-		if (a.priority === b.priority){
-			return a.label.localeCompare(b.label, self.getLang(), {numeric: true});
+		if (a.priority === b.priority) {
+			return a.label.localeCompare(b.label, self.getLang(), { numeric: true });
 		} else {
 			return a.priority - b.priority;
 		}
@@ -495,7 +495,7 @@ export function selectPanel(item: WheelExtraPanel, setState: SetZoomState) {
 }
 
 export function selectWheelAction(action: WheelAction | undefined, setState: SetZoomState) {
-		setState(state => internalSelectAction(state, action));
+	setState(state => internalSelectAction(state, action));
 }
 
 export function selectWheelItem(item: WheelItem, setState: SetZoomState) {
@@ -629,22 +629,21 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
+
+
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
-				const arterialLoss =
-					(block.params.arterialBleedingFactor ?? 0) -
-					(block.params.arterialBleedingReductionFactor ?? 0) >
-					0;
-				const venousLoss =
-					(block.params.venousBleedingFactor ?? 0) -
-					(block.params.venousBleedingReductionFactor ?? 0) >
-					0;
 
-				if (arterialLoss) {
-					output.push(formatBlockEntry('Arterial', 'human-pathology'));
+				if (block.params.arterialLosses_mlPerMin ?? 0 > 0) {
+					output.push(formatBlockEntry('bleedsArterial', 'human-general'));
 				}
-
-				if (venousLoss) {
-					output.push(formatBlockEntry('Venous', 'human-pathology'));
+				const venousFlow = block.params.venousLosses_mlPerMin ?? 0;
+				
+				if (venousFlow > 0) {
+					if (venousFlow > 50) {
+						output.push(formatBlockEntry('bleedsVenous', 'human-general'));
+					} else {
+						output.push(formatBlockEntry('bleedsMinor', 'human-general'));
+					}
 				}
 
 				/*output.push(
@@ -655,7 +654,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 					),
 				);*/
 			} else {
-				output.push(formatBlockEntry('Hemostasis', 'human-pathology'));
+				output.push(formatBlockEntry('bleedsNoLonger', 'human-general'));
 			}
 			//output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
 		}
@@ -833,8 +832,8 @@ function oneDecimalFormatter(value: unknown): string {
 	}
 }
 
-function motricityFormatter(value: unknown) : string {
-	switch(value){
+function motricityFormatter(value: unknown): string {
+	switch (value) {
 		case 'move':
 		case 'do_not_move':
 		case 'no_response':
@@ -844,8 +843,8 @@ function motricityFormatter(value: unknown) : string {
 }
 
 
-function canWalkFormatter(value: unknown) : string {
-	switch(value){
+function canWalkFormatter(value: unknown): string {
+	switch (value) {
 		case 'no_response':
 			return getTranslation("human-general", 'no_response', true)
 		case true:
@@ -857,7 +856,7 @@ function canWalkFormatter(value: unknown) : string {
 }
 
 
-function painFormatter(value: unknown) : string {
+function painFormatter(value: unknown): string {
 	if (typeof value === 'number') {
 		return intFormatter(value) + " / 10";
 	} else {
@@ -950,12 +949,12 @@ export function getPatientConsole(): string {
 
 export function selectCategory(category: string, setState: SetZoomState) {
 	setState(s => ({
-			...s,
-			selectedCategory: category,
+		...s,
+		selectedCategory: category,
 	}));
 }
 
-export async function validateCategory(state: PatientZoomState) : Promise<unknown> {
+export async function validateCategory(state: PatientZoomState): Promise<unknown> {
 	const system = getTagSystem();
 	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
@@ -1038,7 +1037,7 @@ function addBleedingDescription(output: string[], ho: HumanOverview): void {
 
 	let minor = ho.arterialBloodLosses_mlPerMin > 0 || ho.venousBloodLosses_mlPerMin > 0;
 
-	if (ho.arterialBloodLosses_mlPerMin){
+	if (ho.arterialBloodLosses_mlPerMin) {
 		output.push(getTranslation('human-general', 'bleedsArterial', false));
 		minor = false;
 	}

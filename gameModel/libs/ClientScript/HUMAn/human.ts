@@ -412,6 +412,10 @@ export interface Block {
 		 */
 		arterialBleedingReductionFactor?: number;
 		/**
+		 * arterial losses flow
+		 */
+		arterialLosses_mlPerMin?: number;
+		/**
 		 * bleed factor [0-1], according to block venous return flow
 		 * 0: no blood losses
 		 * 1: all blood go away
@@ -423,6 +427,10 @@ export interface Block {
 		 * 1: 100% reduction
 		 */
 		venousBleedingReductionFactor?: number;
+		/**
+		 * venous losses flow
+		 */
+		venousLosses_mlPerMin?: number;
 		/**
 		 * bleed factor [0-1], according to block arterial return flow
 		 * 0: no blood losses
@@ -1801,6 +1809,7 @@ function sumBloodInOut(
 				//);
 				//bloodLogger.debug("Arterial loss: ", { loss, newBlFactor });
 				//block.params.arterialBleedingFactor = newBlFactor;
+				block.params.arterialLosses_mlPerMin = loss / durationInMin;
 				sum.bloodLosses_mL += loss;
 				sum.arterialLosses_mL += loss;
 				sum.extLosses_mL += loss;
@@ -1824,6 +1833,7 @@ function sumBloodInOut(
 				);
 				bloodLogger.debug("Venous loss: ", { loss, newBlFactor });
 				block.params.venousBleedingFactor = newBlFactor;
+				block.params.venousLosses_mlPerMin = loss / durationInMin;
 				sum.bloodLosses_mL += loss;
 				sum.venousLosses_mL += loss;
 				sum.extLosses_mL += loss;

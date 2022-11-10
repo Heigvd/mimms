@@ -11,6 +11,7 @@ bleeds	bleeds	saigne
 bleedsArterial	pulsatile hemorrhage	hémorragie pulsatile
 bleedsVenous	continuous severe hemorrhage	saignement important en continu
 bleedsMinor	minor hemorrhage	saignement mineur
+bleedsNoLonger	no visible active hemorrhage	pas d’hémorragie active visible
 looks dead	looks dead	semble mort
 lively	lively	alerte, vous regarde
 apathetic	apathetic	peu alerte, réagi à la voix

@@ -60,6 +60,22 @@ function computeGambateScore(bodyState: BodyState, durationInMin: number) {
 
 	return score * durationInMin;
 }
+/**
+ * Dead bodies don't bleed
+ */
+function deadBodiesDoNotBleed(bodyState: BodyState) {
+
+	bodyState.vitals.cardio.extLossesFlow_mlPerMin = 0;
+	bodyState.vitals.cardio.extVenousLossesFlow_mlPerMin = 0;
+	bodyState.vitals.cardio.extArterialLossesFlow_mlPerMin = 0;
+
+	bodyState.blocks.forEach(block => {
+		
+		block.params.arterialLosses_mlPerMin = 0;
+		block.params.venousLosses_mlPerMin = 0;
+		block.params.extLossesFlow_mlPerMin = 0;
+	});
+}
 
 export function detectCardiacArrest(bodyState: BodyState, durationInMin: number) {
 	logger.log('Detect cardiac arrest');
@@ -94,10 +110,7 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 			bodyState.vitals.glasgow.verbal = 1;
 			bodyState.vitals.capillaryRefillTime_s = undefined;
 
-			// Dead bodies don't bleed
-			bodyState.vitals.cardio.extLossesFlow_mlPerMin = 0;
-			bodyState.vitals.cardio.extVenousLossesFlow_mlPerMin = 0;
-			bodyState.vitals.cardio.extArterialLossesFlow_mlPerMin = 0;
+			deadBodiesDoNotBleed(bodyState);
 		}
 	} else {
 		if (bodyState.vitals.gambateBar < 15) {
