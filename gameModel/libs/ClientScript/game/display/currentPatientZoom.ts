@@ -22,6 +22,7 @@ interface BaseItem {
 	icon?: string;
 }
 
+
 interface WithActionType {
 	actionType: HumanAction['type'];
 	actionCategory: HumanAction['category'];
@@ -1035,13 +1036,23 @@ function getBreathingOverview(overview: HumanOverview): string {
 
 function addBleedingDescription(output: string[], ho: HumanOverview): void {
 
+	let minor = ho.arterialBloodLosses_mlPerMin > 0 || ho.venousBloodLosses_mlPerMin > 0;
+
 	if (ho.arterialBloodLosses_mlPerMin){
 		output.push(getTranslation('human-general', 'bleedsArterial', false));
+		minor = false;
 	}
 
 	if (ho.venousBloodLosses_mlPerMin > 50) {
 		output.push(getTranslation('human-general', 'bleedsVenous', false));
+		minor = false;
 	}
+
+	if (minor) {
+		output.push(getTranslation('human-general', 'bleedsMinor', false));
+	}
+
+
 }
 
 export function getHumanVisualInfos(): string {

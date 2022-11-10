@@ -466,7 +466,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 
 		return {
 			block: block,
-			visible: true,
+			visible: mod.subtype !== 'internal',
 			rules: [{
 				time: 0,
 				id: 'hemorrhage',
@@ -512,7 +512,7 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 		const aArgs = args as unknown as TamponadeMeta['args'];
 		return {
 			block: block,
-			visible: true,
+			visible: false,
 			rules: [{
 				id: 'tamponade',
 				name: 'tamponade',

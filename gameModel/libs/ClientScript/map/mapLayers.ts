@@ -1,5 +1,5 @@
 import { getDirectMessagesFrom } from "../game/logic/communication";
-import { mapRefs } from "./layersData";
+import { getInitialExtentState, mapRefs } from "./layersData";
 import { getBuildingInExtent } from "./lineOfSight";
 import { getHumans, lineOfSightRadius, paths } from "../game/logic/the_world";
 import { whoAmI } from "../tools/WegasHelper";
@@ -63,6 +63,29 @@ export function getCurrentMapId(): string | undefined {
 	return me?.location?.mapId || '';
 }
 
+export function getPlayerPosition(mapId: string) : PointLikeObject {
+		const hId = whoAmI();
+	const humans = getHumans();
+	const me = humans.find(h => h.id === hId);
+	
+	const initialMap = mapRefs.current[mapId];
+
+	if (me?.location) {
+		if (me.location.mapId === mapId) {
+			return [me.location.x, me.location.y];
+		}
+	}
+
+	const extentState = getInitialExtentState();
+	if (extentState?.extent){
+		return [
+			(extentState.extent[2] - extentState.extent[0])/ 2, 
+			(extentState.extent[3] - extentState.extent[1])/ 2
+		];
+	}
+
+	return [0, 0];
+}
 
 export function getFogOfWarLayer(mapId: string): FeatureCollection {
 	const hId = whoAmI();
@@ -210,7 +233,7 @@ export function getHumanOverlays(): OverlayItem[] {
 					className: 'human-overlay',
 					position: [human.location!.x, human.location!.y],
 					stopEvent: false,
-					positioning: 'bottom-left',
+					positioning: 'top-left',
 					offset: [0, 0],
 				}
 			} as OverlayItem;

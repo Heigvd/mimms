@@ -67,7 +67,7 @@ import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
-import { getDefaultBag, getFogType, infiniteBags, shouldProvideDefaultBag } from './gameMaster';
+import { getDefaultBag, getFogType, infiniteBags, isInterfaceDisabled, shouldProvideDefaultBag } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import { getActTranslation, getItemActionTranslation, getItemTranslation, getTranslation } from '../../tools/translation';
@@ -1898,6 +1898,11 @@ export function handleClickOnMap(
 	point: Point,
 	features: { features: Record<string, unknown>; layerId?: string }[],
 ): void {
+
+	if (isInterfaceDisabled()){
+		return;
+	}
+
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
