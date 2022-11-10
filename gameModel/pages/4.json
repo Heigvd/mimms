@@ -324,7 +324,7 @@
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : {
-                          "border-bottom" : "1px solid gray"
+                          "borderBottom" : "1px solid gray"
                         },
                         "style" : { }
                       },

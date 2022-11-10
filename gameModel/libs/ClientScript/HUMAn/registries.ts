@@ -496,7 +496,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'internal',
-					bleedingFactor: { min: 0.0036, max: 0.135 },
+					bleedingFactor: { min: 0.0036, max: 0.0135 },
 					instantaneousBloodLoss: undefined,
 					blocks: ['ABDOMEN'],
 				},

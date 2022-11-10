@@ -335,7 +335,8 @@ function computeEffectiveVolumesPerUnit(
 
 	const alvVolume_L = body.vitals.respiration.tidalVolume_L * body.vitals.respiration.rr;
 	const effectiveAlvVolume_L = Math.min(alvVolume_L, meta.maximumVoluntaryVentilation_L);
-	const effectiveTidalVolume_L = effectiveAlvVolume_L / body.vitals.respiration.rr;
+	const effectiveTidalVolume_L =body.vitals.respiration.rr > 0 ? 
+		effectiveAlvVolume_L / body.vitals.respiration.rr : 0;
 
 	const idealTotalVolume_L = normalize(
 		effectiveTidalVolume_L - meta.deadSpace_L,
