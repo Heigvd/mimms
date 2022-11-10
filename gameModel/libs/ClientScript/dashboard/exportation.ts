@@ -202,26 +202,24 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		const status : MeasureResultStatus = 'success';
 		const duration = (0).toString();
 
-		if(tdata && maxTreatments[patientId] > 0){
-			const max = maxTreatments[patientId];
-			for(let i = 0; i < max; i++){
-				const t = tdata[i];
-				if(t){
-					line.push(t.type);
-					line.push(status);
-					line.push(t.time.toString());
-					line.push(duration);
-					//wrong typing from serialization blocks is an object
-					const blocks = Object.values(t.blocks);
-					if(blocks.length){
-						line.push(...blocks);
-					}else {
-						line.push('N/A');
-					}
-				}else{
-					//empty fill
-					Array(treatmentColumns.length).forEach(() => line.push(''));
+		const max = maxTreatments[patientId] || 0;
+		for(let i = 0; i < max; i++){
+			const t = tdata ? tdata[i] : undefined;
+			if(t){
+				line.push(t.type);
+				line.push(status);
+				line.push(t.time.toString());
+				line.push(duration);
+				//wrong typing from serialization blocks is an object
+				const blocks = Object.values(t.blocks);
+				if(blocks.length){
+					line.push(blocks.join('|'));
+				}else {
+					line.push('N/A');
 				}
+			}else{
+				//empty fill
+				Array(treatmentColumns.length).fill(undefined).forEach(() => line.push(''));
 			}
 		}
 	}
@@ -230,30 +228,28 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 
 		const line = lines[pid];
 		const mdata = playersMeasures[pid][patientId];
-		if(mdata && maxMeasures[patientId] > 0){
-			const max = maxMeasures[patientId];
-			for(let i = 0; i < max; i++){
-				const m = mdata[i];
-				if(m){
-					// try to fetch the linked result event
-					const resEvent = measureResultMap[m.sourceEventId];
-					let duration = 0;
-					if(resEvent){
-						if(resEvent.payload.result){
-							m.result = Object.values(resEvent.payload.result).map( v => v.value).join('|')//JSON.stringify(resEvent.payload.result);
-						}
-						m.status = resEvent.payload.status;
-						duration = resEvent.payload.duration;
+		const max = maxMeasures[patientId] || 0;
+		for(let i = 0; i < max; i++){
+			const m = mdata ? mdata[i] : undefined;
+			if(m){
+				// try to fetch the linked result event
+				const resEvent = measureResultMap[m.sourceEventId];
+				let duration = 0;
+				if(resEvent){
+					if(resEvent.payload.result){
+						m.result = Object.values(resEvent.payload.result).map( v => v.value).join('|')//JSON.stringify(resEvent.payload.result);
 					}
-					line.push(m.name);
-					line.push(m.status);
-					line.push(m.time.toString());
-					line.push(duration.toString());
-					line.push(m.result);
-				}else{
-					//empty fill
-					Array(measureColumns.length).forEach(() => line.push(''));
+					m.status = resEvent.payload.status;
+					duration = resEvent.payload.duration;
 				}
+				line.push(m.name);
+				line.push(m.status);
+				line.push(m.time.toString());
+				line.push(duration.toString());
+				line.push(m.result);
+			}else{
+				//empty fill
+				Array(measureColumns.length).fill(undefined).forEach(() => line.push(''));
 			}
 		}
 	}
@@ -266,7 +262,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 			Object.values(vitals).forEach(v => line.push(v.toString()));
 		}else{
 			const nEmpty = vitalsExists[patientId];
-			Array(nEmpty).forEach(() => line.push(''));
+			Array(nEmpty).fill(undefined).forEach(() => line.push(''));
 		}
 	}
 

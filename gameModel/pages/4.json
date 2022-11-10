@@ -581,7 +581,8 @@
               "script" : {
                 "@class" : "ClientScript",
                 "content" : "import { exportAllPlayersDrillResults } from './dashboard/exportation';\n\nexportAllPlayersDrillResults();",
-                "language" : "TypeScript"
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
               }
             },
             "name" : "pre-tri download",
