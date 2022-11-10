@@ -1500,16 +1500,15 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 	// first, human may move if legs motricity is fine
 	human.state.vitals.canWalk = motricity.leftLeg === 'move' && motricity.rightLeg === 'move';
 
-	if (human.state.vitals.canWalk) {
+	if (human.state.vitals.glasgow.verbal < 5) {
+		visitorLogger.log('Can not walk: GSV < 5');
+		human.state.vitals.canWalk = 'no_response';
+	}
+
+	if (human.state.vitals.canWalk === true) {
 		wlog("Can Walk => check others");
 		// nervous system indicates human can move
 		// check other constraints
-
-		if (human.state.vitals.glasgow.verbal < 5) {
-			visitorLogger.log('Can not walk: HR < 10');
-			human.state.vitals.canWalk = 'no_response';
-		}
-		
 
 		const maxHr = 0.9 * human.meta.bounds.vitals.cardio.hr.max;
 		if (human.state.vitals.cardio.hr > maxHr) {

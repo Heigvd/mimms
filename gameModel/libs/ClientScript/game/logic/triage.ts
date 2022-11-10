@@ -565,6 +565,10 @@ function detectMassiveHemorrhage({ human }: PreTriageData) {
 	return massiveHemorrhage(human);
 }
 
+function canWalk(human:HumanBody, console: ConsoleLog[]) {
+	return getOrReadMetric<boolean>('vitals.canWalk', human.state, console, 'MOST_RECENT') === true;
+}
+
 function getOrReadMetric<T>(
 	metric: BodyStateKeys,
 	humanState: BodyState,
@@ -594,7 +598,7 @@ function getOrReadMetric<T>(
 const doSapPreTriage: TriageFunction<SAP_CATEGORY> = (data, console) => {
 	const { human, actions } = data;
 
-	if (human.state.vitals.canWalk) {
+	if (canWalk(human, console)) {
 		actions.push('Goto PMA');
 		return {
 			categoryId: NON_URGENT,
@@ -704,7 +708,7 @@ const doSapPreTriage: TriageFunction<SAP_CATEGORY> = (data, console) => {
 const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { actions } = data;
 
-	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (canWalk(data.human, console)) {
 		actions.push('Goto PMA');
 		return {
 			categoryId: 'non_urgent',
@@ -794,7 +798,7 @@ const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) 
 		};
 	}
 
-	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (canWalk(data.human, console)) {
 		return {
 			categoryId: 'non_urgent',
 			explanations: ['CAN_WALK'],
@@ -966,7 +970,7 @@ const doSaccoPreTriage: TriageFunction<SACCO_CATEGORY> = (data, console) => {
 const doStartPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 	const { actions } = data;
 
-	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (canWalk(data.human, console)) {
 		actions.push('Goto PMA');
 		return {
 			categoryId: NON_URGENT,
@@ -1051,7 +1055,7 @@ const doStartPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console) => {
 const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 	const { actions } = data;
 
-	if (getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (canWalk(data.human, console)) {
 		actions.push('Goto PMA');
 		return {
 			categoryId: 'sec_triage',
@@ -1179,7 +1183,7 @@ const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 		};
 	}
 
-	if (!getOrReadMetric<boolean>('vitals.canWalk', data.human.state, console, 'MOST_RECENT')) {
+	if (canWalk(data.human, console)) {
 		return {
 			categoryId: URGENT,
 			explanations: ['CANNOT_WALK'],
