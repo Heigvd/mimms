@@ -1,26 +1,26 @@
-import { getDirectMessagesFrom } from "../game/logic/communication";
-import { getInitialExtentState, mapRefs } from "./layersData";
-import { getBuildingInExtent } from "./lineOfSight";
-import { getHumans, lineOfSightRadius, paths } from "../game/logic/the_world";
-import { whoAmI } from "../tools/WegasHelper";
+import { getDirectMessagesFrom } from '../game/logic/communication';
+import { getInitialExtentState, mapRefs } from './layersData';
+import { getBuildingInExtent } from './lineOfSight';
+import { getLocatedHumans, lineOfSightRadius, paths } from '../game/logic/the_world';
+import { whoAmI } from '../tools/WegasHelper';
 
 interface PointFeature {
-	type: "Point";
+	type: 'Point';
 	coordinates: PointLikeObject;
 }
 
 interface LineStringFeature {
-	type: "LineString";
+	type: 'LineString';
 	coordinates: PointLikeObject[];
 }
 
 interface PolygonFeature {
-	type: "Polygon";
+	type: 'Polygon';
 	coordinates: PointLikeObject[][];
 }
 
 interface MultiPolygonFeature {
-	type: "MultiPolygon";
+	type: 'MultiPolygon';
 	coordinates: PointLikeObject[][][];
 }
 
@@ -29,46 +29,45 @@ type Geometry = PointFeature | LineStringFeature | PolygonFeature | MultiPolygon
 interface AdvancedFeature {
 	type: 'Feature';
 	properties?: { [key: string]: unknown };
-	geometry: Geometry
+	geometry: Geometry;
 }
 
 type Feature = Geometry | AdvancedFeature;
-
 
 interface CRS {
 	type: string;
 	properties: {
 		name: string;
-	}
+	};
 }
 
 export interface FeatureCollection {
-	type: "FeatureCollection";
+	type: 'FeatureCollection';
 	name: string;
 	crs?: CRS;
 	features: Feature[];
 }
 
 export const emptyFeatureCollection: FeatureCollection = {
-	type: "FeatureCollection",
-	name: "empty collection",
-	features: []
-}
+	type: 'FeatureCollection',
+	name: 'empty collection',
+	features: [],
+};
 
 export function getCurrentMapId(): string | undefined {
 	const hId = whoAmI();
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 	const me = humans.find(h => h.id === hId);
 	//TODO why is this called every second ?
 	return me?.location?.mapId || '';
 }
 
-export function getPlayerPosition(mapId: string) : PointLikeObject {
-		const hId = whoAmI();
-	const humans = getHumans();
+export function getPlayerPosition(mapId: string): PointLikeObject {
+	const hId = whoAmI();
+	const humans = getLocatedHumans();
 	const me = humans.find(h => h.id === hId);
-	
-	const initialMap = mapRefs.current[mapId];
+
+	// const initialMap = mapRefs.current[mapId];
 
 	if (me?.location) {
 		if (me.location.mapId === mapId) {
@@ -77,10 +76,10 @@ export function getPlayerPosition(mapId: string) : PointLikeObject {
 	}
 
 	const extentState = getInitialExtentState();
-	if (extentState?.extent){
+	if (extentState?.extent) {
 		return [
-			(extentState.extent[2] - extentState.extent[0])/ 2, 
-			(extentState.extent[3] - extentState.extent[1])/ 2
+			(extentState.extent[2] - extentState.extent[0]) / 2,
+			(extentState.extent[3] - extentState.extent[1]) / 2,
 		];
 	}
 
@@ -89,12 +88,11 @@ export function getPlayerPosition(mapId: string) : PointLikeObject {
 
 export function getFogOfWarLayer(mapId: string): FeatureCollection {
 	const hId = whoAmI();
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 	const me = humans.find(h => h.id === hId);
-	
+
 	const initialMap = mapRefs.current[mapId];
 	if (initialMap) {
-
 		/*
 		const extent = initialMap.getView().calculateExtent();
 		const width = extent[2] - extent[0];
@@ -111,38 +109,36 @@ export function getFogOfWarLayer(mapId: string): FeatureCollection {
 		const bottom = 0;
 
 		const layer: FeatureCollection = {
-			"type": "FeatureCollection",
-			"name": "fogOfWar",
+			type: 'FeatureCollection',
+			name: 'fogOfWar',
 			//"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4326" } },
-			"features": [
+			features: [
 				{
-					"type": "Polygon",
-					"coordinates": [
+					type: 'Polygon',
+					coordinates: [
 						[
 							[left, top],
 							[left, bottom],
 							[right, bottom],
 							[right, top],
-							[left, top]
+							[left, top],
 						],
-					]
-				}
-			]
+					],
+				},
+			],
 		};
 
 		const hole: PointLikeObject[] = [];
-		(layer.features[0] as PolygonFeature).coordinates.push(hole)
-
+		(layer.features[0] as PolygonFeature).coordinates.push(hole);
 
 		const visionPoints = me?.lineOfSight || [];
 
-		
 		visionPoints.forEach(point => {
-			hole.push([point.x, point.y])
-		})
+			hole.push([point.x, point.y]);
+		});
 
 		if (visionPoints[0] != null) {
-			hole.push(hole[0]!)
+			hole.push(hole[0]!);
 		}
 
 		return layer;
@@ -151,79 +147,76 @@ export function getFogOfWarLayer(mapId: string): FeatureCollection {
 	}
 }
 
-
 export function getBubbleLayer(): FeatureCollection {
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 
 	const bubbleCollection: FeatureCollection = {
-		"type": "FeatureCollection",
-		"name": "bubbles",
-		"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
-		"features":
-			humans.flatMap(human => {
-				const msgs = getDirectMessagesFrom(human.id);
-				if (human.location && msgs.length > 0) {
-					return {
-						type: 'Feature',
-						properties: {
-							humanId: human.id,
-							text: msgs.join(" | "),
-						},
-						geometry: {
-							type: 'Point',
-							coordinates: [human.location.x, human.location.y]
-						}
-					}
-				} else {
-					return [];
-				}
-			})
-
+		type: 'FeatureCollection',
+		name: 'bubbles',
+		crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::2056' } },
+		features: humans.flatMap(human => {
+			const msgs = getDirectMessagesFrom(human.id);
+			if (human.location && msgs.length > 0) {
+				return {
+					type: 'Feature',
+					properties: {
+						humanId: human.id,
+						text: msgs.join(' | '),
+					},
+					geometry: {
+						type: 'Point',
+						coordinates: [human.location.x, human.location.y],
+					},
+				};
+			} else {
+				return [];
+			}
+		}),
 	};
-	return bubbleCollection
+	return bubbleCollection;
 }
 
 export function getHumanLayer(): FeatureCollection {
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 
 	return {
-		"type": "FeatureCollection",
-		"name": "humans",
-		"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
-		"features":
-			humans.flatMap(human => {
-				if (human.location) {
-					return {
-						type: 'Feature',
-						properties: {
-							humanId: human.id,
-						},
-						geometry: {
-							type: 'Point',
-							coordinates: [human.location.x, human.location.y]
-						}
-					}
-				} else {
-					return [];
-				}
-			})
+		type: 'FeatureCollection',
+		name: 'humans',
+		crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::2056' } },
+		features: humans.flatMap(human => {
+			if (human.location) {
+				return {
+					type: 'Feature',
+					properties: {
+						humanId: human.id,
+					},
+					geometry: {
+						type: 'Point',
+						coordinates: [human.location.x, human.location.y],
+					},
+				};
+			} else {
+				return [];
+			}
+		}),
 	};
 }
 
 export function getHumanOverlays(): OverlayItem[] {
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 
 	return humans
 		.flatMap(human => {
 			if (human.location) {
-				return [human]
+				return [human];
 			} else {
 				return [];
 			}
 		})
 		.sort((h1, h2) => {
-			return h1.location!.y - h2.location!.y
-		}).map((human) => {
+			return h1.location!.y - h2.location!.y;
+		})
+		.map(human => {
 			return {
 				payload: {
 					id: human.id,
@@ -235,21 +228,21 @@ export function getHumanOverlays(): OverlayItem[] {
 					stopEvent: false,
 					positioning: 'top-left',
 					offset: [0, 0],
-				}
+				},
 			} as OverlayItem;
 		});
 }
 
 export function getDebugBuildingLayer(): FeatureCollection {
 	const hId = whoAmI();
-	const humans = getHumans();
+	const humans = getLocatedHumans();
 	const me = humans.find(h => h.id === hId);
 	const myLocation = me?.location;
 
 	const layer: FeatureCollection = {
-		"type": "FeatureCollection",
-		"name": "debugBuildings",
-		"features": []
+		type: 'FeatureCollection',
+		name: 'debugBuildings',
+		features: [],
 	};
 
 	if (myLocation != null) {
@@ -260,34 +253,33 @@ export function getDebugBuildingLayer(): FeatureCollection {
 			x - lineOfSightRadius,
 			y - lineOfSightRadius,
 			x + lineOfSightRadius,
-			y + lineOfSightRadius
-		]
-		const buildings = getBuildingInExtent(extentAroundPlayer)
-		buildings.forEach(building => layer.features.push({
-			type: 'Feature',
-			geometry: {
-				type: 'Polygon',
-				coordinates: [building.map(point => ([point.x, point.y]))]
-			}
-		} as never))
-
+			y + lineOfSightRadius,
+		];
+		const buildings = getBuildingInExtent(extentAroundPlayer);
+		buildings.forEach(building =>
+			layer.features.push({
+				type: 'Feature',
+				geometry: {
+					type: 'Polygon',
+					coordinates: [building.map(point => [point.x, point.y])],
+				},
+			} as never),
+		);
 	}
 	return layer;
-
 }
 
 export function getEmptyLayer(): FeatureCollection {
 	return emptyFeatureCollection;
 }
 
-
 let gridDebug: FeatureCollection = {
-	"type": "FeatureCollection",
-	"name": "obstacle layer",
-	"features": []
+	type: 'FeatureCollection',
+	name: 'obstacle layer',
+	features: [],
 };
 
-export function setDebugGrid(fc : FeatureCollection){
+export function setDebugGrid(fc: FeatureCollection) {
 	gridDebug = fc;
 }
 export function getGridDebug(): FeatureCollection {
@@ -295,8 +287,7 @@ export function getGridDebug(): FeatureCollection {
 }
 
 export function getCellStyle(feature: any): LayerStyleObject {
-
-	const style : LayerStyleObject = {
+	const style: LayerStyleObject = {
 		fill: {
 			type: 'FillStyle',
 			color: feature.getProperties().color,
@@ -304,15 +295,21 @@ export function getCellStyle(feature: any): LayerStyleObject {
 		stroke: {
 			type: 'StrokeStyle',
 			color: 'white',
-			width:0.5
+			width: 0.5,
 		},
-		zIndex: feature.getProperties().zindex
-	}
+		zIndex: feature.getProperties().zindex,
+	};
 	return style;
 }
 
-
-export function addSquareFeature(collection: FeatureCollection, minX: number, minY: number, maxX: number, maxY: number, properties : Record<string, string>) {
+export function addSquareFeature(
+	collection: FeatureCollection,
+	minX: number,
+	minY: number,
+	maxX: number,
+	maxY: number,
+	properties: Record<string, string>,
+) {
 	collection.features.push({
 		type: 'Feature',
 		properties: properties,
@@ -325,31 +322,30 @@ export function addSquareFeature(collection: FeatureCollection, minX: number, mi
 					[maxX, maxY],
 					[maxX, minY],
 					[minX, minY],
-				]
-			]
-		}
-	} as never)
+				],
+			],
+		},
+	} as never);
 }
 
 export function getPathLayer() {
-
 	const source: FeatureCollection = {
-		"type": "FeatureCollection",
-		"name": "path layer",
-		"features": []
+		type: 'FeatureCollection',
+		name: 'path layer',
+		features: [],
 	};
 
 	Object.entries(paths.current).forEach(([k, v], i) => {
 		const newFeature: AdvancedFeature = {
-			type: "Feature",
+			type: 'Feature',
 			geometry: {
-				type: "LineString",
-				coordinates: v.map(point => ([point.x, point.y]))
+				type: 'LineString',
+				coordinates: v.map(point => [point.x, point.y]),
 			},
 			properties: {
-				color: "red",
-			}
-		}
+				color: 'red',
+			},
+		};
 		source.features.push(newFeature);
 	});
 

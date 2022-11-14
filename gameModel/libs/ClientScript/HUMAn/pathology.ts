@@ -182,6 +182,40 @@ interface ICPMeta extends BaseModule<typeof icpArgKeys[number]> {
 	}
 }
 
+export const painArgKeys = ['pain'] as const;
+
+interface PainMeta extends BaseModule<typeof painArgKeys[number]> {
+	config: {
+		type: 'Pain',
+		blocks: BlockName[];
+		pain: Range;
+	};
+	args: {
+		type: 'PainArgs';
+		pain: number;
+	};
+}
+
+interface HematomaMeta extends BaseModule<never> {
+	config: {
+		type: 'Hematoma',
+		blocks: BlockName[];
+	};
+	args: {
+		type: 'NoArgs',
+	};
+}
+
+interface UnableToWalkMeta extends BaseModule<never> {
+	config: {
+		type: 'UnableToWalk',
+		blocks: BlockName[];
+	};
+	args: {
+		type: 'NoArgs',
+	};
+}
+
 export type ModuleMeta =
 	| HemorrhageMeta
 	| FractureMeta
@@ -190,7 +224,11 @@ export type ModuleMeta =
 	| AirwaysResistanceMeta
 	| PneumothoraxMeta
 	| BurnMeta
-	| ICPMeta;
+	| ICPMeta
+	| PainMeta
+	| HematomaMeta
+	| UnableToWalkMeta;
+
 
 export type ModuleDefinition = ModuleMeta['config'];
 
@@ -313,9 +351,15 @@ function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: Module
 		case 'Pneumothorax': {
 			const side = block.startsWith("UNIT_BRONCHUS_1") ? 'Left' : 'Right';
 			return `${side} lung: ${mod.pneumothoraxType.toLowerCase()} pneumothorax`;
-        }
+		}
 		case 'Tamponade':
 			return 'Tamponade';
+		case 'Pain':
+			return 'Pain';
+		case 'Hematoma':
+			return 'Hematoma';
+		case 'UnableToWalk':
+			return 'Unable to walk'
 	}
 }
 
@@ -402,6 +446,22 @@ export function createRandomArgs(mod: ModuleDefinition): ModuleArgs {
 			type: 'ICPArgs',
 			delta_perMin: getRandomValue(mod.delta_perMin),
 			icp_mmHg: getRandomValue(mod.icp_mmHg),
+		};
+		return args;
+	} else if (mod.type === 'Pain') {
+		const args: PainMeta['args'] = {
+			type: 'PainArgs',
+			pain: getRandomValue(mod.pain, true),
+		};
+		return args;
+	} else if (mod.type === 'Hematoma') {
+		const args: HematomaMeta['args'] = {
+			type: 'NoArgs'
+		};
+		return args;
+	} else if (mod.type === 'UnableToWalk') {
+		const args: UnableToWalkMeta['args'] = {
+			type: 'NoArgs'
 		};
 		return args;
 	} else {
@@ -597,6 +657,51 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 				}
 			}]
 		};
+	} else if (mod.type === 'Pain') {
+		const aArgs = args as unknown as PainMeta['args'];
+		return {
+			block: block,
+			visible: false,
+			rules: [{
+				id: 'pain',
+				name: 'pain',
+				blockPatch: {
+					pain: aArgs.pain
+				},
+				time: 0,
+				variablePatch: {
+				}
+			}]
+		};
+	} else if (mod.type === 'Hematoma') {
+		return {
+			block: block,
+			visible: true,
+			rules: [{
+				id: 'hematoma',
+				name: 'hematoma',
+				blockPatch: {
+					hematoma: true,
+				},
+				time: 0,
+				variablePatch: {}
+			}]
+		};
+	} else if (mod.type === 'UnableToWalk') {
+		// const aArgs = args as unknown as UnableToWalkMeta['args'];
+		return {
+			block: block,
+			visible: false,
+			rules: [{
+				id: 'unableToWalk',
+				name: 'unableToWalk',
+				time: 0,
+				blockPatch: {},
+				variablePatch: {
+					unableToWalk: true,
+				}
+			}]
+		};
 	} else {
 		checkUnreachable(mod);
 		throw "";
@@ -728,7 +833,7 @@ export interface Skill {
 
 
 export interface ChemicalDefinition extends BaseDefinition {
-	type : 'chemical';
+	type: 'chemical';
 	/**
 	 * maximum volume of plasma cleaned per minutes
 	 */

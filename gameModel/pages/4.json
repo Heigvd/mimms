@@ -380,7 +380,7 @@
             "className" : "MODAL",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "!Context.patients.state.show",
+              "content" : "!Context.patients?.state?.show",
               "language" : "typescript"
             },
             "layout" : { },
@@ -592,14 +592,66 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : " !gameModel.getProperties().getFreeForAll();",
-          "language" : "JavaScript"
+          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n !isDrillMode();",
+          "language" : "typescript"
         },
         "layout" : {
           "alignItems" : "stretch"
         },
         "layoutStyle" : { },
         "name" : "drill config",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', 'multiplayer-mode')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : {
+                  "flexGrow" : "1"
+                },
+                "name" : "drill type",
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'multiplayerMode')",
+                  "language" : "JavaScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "drill-config--item-container",
+            "layoutStyle" : { },
+            "name" : "drill type",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n isDrillMode();",
+          "language" : "typescript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "multiplayer config",
         "style" : { }
       },
       "type" : "FlexList"

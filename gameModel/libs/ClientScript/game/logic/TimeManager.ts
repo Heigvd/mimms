@@ -1,3 +1,4 @@
+import { isRealLifeGame } from "./gameMaster";
 import { syncWorld } from "./the_world";
 
 const timeLogger = Helpers.getLogger("TimeManager");
@@ -59,6 +60,14 @@ function getTimeStatus(): TimeStatus {
 
 	if (Variable.find(gameModel, 'running_global').getValue(self)) {
 		// Is globally running
+
+		const realLifeTime = isRealLifeGame();
+		if (realLifeTime) {
+			return {
+				mode: 'RUNNING',
+				currentTime: computeRawSimulationTime(),
+			};
+		}
 
 		if (Variable.find(gameModel, 'running').getValue(self)) {
 			// Is locally running
@@ -212,7 +221,7 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 
 				const ka = Variable.find(gameModel, 'keepalive').getValue(self);
 				if (currentTime_s > ka + KEEPALIVE_TICK_S) {
-					timeLogger.info("KeepAlive");
+					timeLogger.warn("KeepAlive", {currentTime_s, ka, KEEPALIVE_TICK_S});
 					APIMethods.runScript("TimeManager.keepalive()", {});
 				}
 

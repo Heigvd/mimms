@@ -22,9 +22,10 @@
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
-                    "@class" : "Script",
+                    "@class" : "ClientScript",
                     "content" : "import { runAgain } from './game/logic/lickert';\n\nrunAgain();",
-                    "language" : "typescript"
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
                   }
                 },
                 "style" : { }

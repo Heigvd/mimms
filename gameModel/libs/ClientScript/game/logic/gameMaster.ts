@@ -8,13 +8,31 @@ export function getDrillType(): DrillType {
 	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
 }
 
+export type MutliplayerMode = 'REAL_LIFE' | 'SOFTWARE';
 
-function drillMode() : boolean {
+export function getMultiplayerMode(): MutliplayerMode {
+	return Variable.find(gameModel, 'multiplayerMode').getValue(self) as MutliplayerMode;
+}
+
+export type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE';
+
+export function getRealLifeRole() : RealLifeRole {
+	return Variable.find(gameModel, 'realLifeRole').getValue(self) as RealLifeRole;
+}
+
+export function isDrillMode(): boolean {
 	return gameModel.getProperties().getFreeForAll();
 }
 
+export function isRealLifeGame() : boolean {
+	if (isDrillMode()){
+		return false;
+	}
+	return getMultiplayerMode() === 'REAL_LIFE';
+}
+
 export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
-	if (drillMode()) {
+	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'LICKERT':
@@ -26,7 +44,7 @@ export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
 }
 
 export function getGamePageId() {
-	if (drillMode()) {
+	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -34,12 +52,30 @@ export function getGamePageId() {
 			case 'PRE-TRIAGE_ON_MAP':
 				return "11";
 			case 'LICKERT':
-			return '26';
+				return '26';
 		}
 	} else {
 		// multiplayers game
-		// always on map
-		return "11";
+		const mode = getMultiplayerMode();
+		switch (mode) {
+			case 'SOFTWARE':
+				// always on map
+				return "11";
+			case 'REAL_LIFE': {
+				const role = getRealLifeRole();
+				switch (role) {
+					case 'PATIENT':
+						// state direction
+						return '31';
+					case 'HEALTH_SQUAD':
+						// squad page
+						return '32';
+					default:
+						// scan your QR code page
+						return '33';
+				}
+			}
+		}
 	}
 
 	return "404";
@@ -49,8 +85,8 @@ export function getGamePageId() {
  * Does the current game mode gives an infinite number of objects?
  */
 export function infiniteBags(): boolean {
-	if (drillMode()) {
-		// DRILL / individually
+	if (isDrillMode() || isRealLifeGame()) {
+		// DRILL / individually or real-life game
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
 				return true;
@@ -66,7 +102,7 @@ export function infiniteBags(): boolean {
  * Does the current game mode provide a bag automatically?
  */
 export function shouldProvideDefaultBag(): boolean {
-	if (drillMode()) {
+	if (isDrillMode() || isRealLifeGame()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -82,7 +118,7 @@ export function shouldProvideDefaultBag(): boolean {
  * @returns name of the bag to give or undefined
  */
 export function getDefaultBag(): string | undefined {
-	if (drillMode()) {
+	if (isDrillMode() || isRealLifeGame()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -94,7 +130,7 @@ export function getDefaultBag(): string | undefined {
 }
 
 export function getFogType(): FogType {
-	if (drillMode()) {
+	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
@@ -106,8 +142,26 @@ export function getFogType(): FogType {
 		}
 	} else {
 		// multiplayers game
-		// always on map
-		return "SIGHT";
+		const mode = getMultiplayerMode();
+		switch (mode) {
+			case 'SOFTWARE':
+				// on map -> line of sight
+				return "SIGHT";
+			case 'REAL_LIFE': {
+				const role = getRealLifeRole();
+				switch (role) {
+					case 'PATIENT':
+						// state direction
+						return 'FULL';
+					case 'HEALTH_SQUAD':
+						// squad page
+						return 'NONE';
+					default:
+						// scan your QR code page
+						return 'FULL';
+				}
+			}
+		}
 	}
 
 	return "SIGHT";
@@ -115,14 +169,14 @@ export function getFogType(): FogType {
 
 
 
-export function isInterfaceDisabled() : boolean {
+export function isInterfaceDisabled(): boolean {
 	const timeMode = getRunningMode();
 
-	if (timeMode === 'GLOBAL_PAUSE'){
+	if (timeMode === 'GLOBAL_PAUSE') {
 		return true;
 	}
 
-	if (drillMode()) {
+	if (isDrillMode()) {
 		const drillStatus = getDrillStatus();
 
 		switch (getDrillType()) {

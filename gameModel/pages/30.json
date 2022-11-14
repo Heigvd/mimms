@@ -1,0 +1,125 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.patient;\n`<h1>${param.id}, ${param.meta.age}y, ${param.meta.sex}</h1>${param.meta.description}`;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-join');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "size" : "256",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "const link = gameModel.getType() === 'PLAY' ?\n`${Helpers.getWegasUrl()}#/play/${CurrentGame.token}`\n: `${Helpers.getWegasUrl()}2/play.html?gameModelId=${gameModel.getId()}`\n\nlink;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "QRCode"
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Act as Player Code",
+                "size" : "256",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { actAsPatientPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "QRCode"
+            }, {
+              "props" : {
+                "layout" : { },
+                "layoutClassName" : "Examine patient",
+                "layoutStyle" : { },
+                "size" : "256",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { examinePatientPayload } from \"./game/logic/qr\";\nJSON.stringify(examinePatientPayload(Context.patient.id));",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "QRCode"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "patientJoinPage pageA4",
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patient",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getPatientsBodyFactoryParamsArray } from \"./tools/WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

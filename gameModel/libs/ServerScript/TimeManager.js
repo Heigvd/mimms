@@ -3,6 +3,7 @@
  */
 var TimeManager = ((function () {
 
+
 	function runForAllTeams(fn) {
 		self.getGame().getTeams().stream().map(function (team) {
 			return team.getAnyLivePlayer();
@@ -36,6 +37,11 @@ var TimeManager = ((function () {
 		var thePlayer = player || self;
 		if (Variable.find(gameModel, 'running_global').getValue(thePlayer)) {
 			// Is globally running
+
+			var realLifeTime = MimmsHelper.isRealLifeGame();
+			if (realLifeTime) {
+				return computeRawSimulationTime(thePlayer);
+			}
 
 			if (Variable.find(gameModel, 'running').getValue(thePlayer)) {
 				// Is locally running
@@ -97,8 +103,12 @@ var TimeManager = ((function () {
 		 * Trainer starts the simulation for all teams
 		 */
 		globalStart: function () {
+			var shouldRun = MimmsHelper.shouldRunScenarioOnFirstStart();
 			runForAllTeams(function (player) {
-				print ("Player ", player);
+				if (shouldRun) {
+					EventManager.runScenario(player);
+				}
+
 				var currentInSim = computeEffectiveSimulationTime(player);
 				var currentEpoch = new Date().getTime();
 				Variable.find(gameModel, 'epoch_ref').setValue(player, currentEpoch);
@@ -179,7 +189,7 @@ var TimeManager = ((function () {
 		fastForward: function (value, player) {
 			var thePlayer = player || self;
 			var isInReplay = Variable.find(gameModel, 'replay').getValue(thePlayer);
-			if(isInReplay){
+			if (isInReplay) {
 				print("Cannot fast forward while in replay mode");
 				return;
 			}

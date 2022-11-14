@@ -1,0 +1,6 @@
+.pageA4 {
+	width: 21cm;
+	height: 29.7cm;
+	page-break-after: always;
+	border: 1px solid lightgrey;
+}

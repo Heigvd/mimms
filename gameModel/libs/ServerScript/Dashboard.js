@@ -87,6 +87,8 @@ function getPretriage(events) {
 	});
 }
 
+// DO NOT USE Helper.getDrillType()
+// It may not have been initialized yet
 var drillType = Variable.find(gameModel, 'drillType').getValue(self);
 
 

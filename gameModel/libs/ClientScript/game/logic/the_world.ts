@@ -67,10 +67,21 @@ import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
 import { FullEvent, getAllEvents, sendEvent } from './EventManager';
 import { Category, PreTriageResult, SystemName } from './triage';
-import { getDefaultBag, getFogType, infiniteBags, isInterfaceDisabled, shouldProvideDefaultBag } from './gameMaster';
+import {
+	getDefaultBag,
+	getFogType,
+	infiniteBags,
+	isInterfaceDisabled,
+	shouldProvideDefaultBag,
+} from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
-import { getActTranslation, getItemActionTranslation, getItemTranslation, getTranslation } from '../../tools/translation';
+import {
+	getActTranslation,
+	getItemActionTranslation,
+	getItemTranslation,
+	getTranslation,
+} from '../../tools/translation';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings
@@ -81,8 +92,8 @@ export type Location = Point & {
 };
 
 export type NamedLocation = Location & {
-	name : string;
-}
+	name: string;
+};
 
 export interface Located {
 	location: Location | undefined;
@@ -114,9 +125,9 @@ type MessageLog = BaseLog & {
 };
 
 type MeasureMetric = {
-	metric: BodyStateKeys,
-	value: unknown
-}
+	metric: BodyStateKeys;
+	value: unknown;
+};
 
 type MeasureLog = BaseLog & {
 	type: 'MeasureLog';
@@ -128,8 +139,8 @@ type MeasureLog = BaseLog & {
 
 type TreatmentLog = BaseLog & {
 	type: 'TreatmentLog';
-	message: string,
-}
+	message: string;
+};
 
 export type ConsoleLog = MessageLog | MeasureLog | TreatmentLog;
 
@@ -159,7 +170,7 @@ export interface HumanState {
 
 export interface WorldState {
 	// id to human
-	humans: Record<string, HumanState & LocationState>;
+	humans: Record<string, { id: string; human?: HumanState; location?: LocationState }>;
 }
 
 export type WorldObject = HumanState;
@@ -215,22 +226,27 @@ interface HumanLogMessageEvent extends TargetedEvent {
 }
 
 export type ActionSource =
-	{
-		type: 'act';
-		actId: string;
-	}
 	| {
-		type: 'itemAction';
-		itemId: string;
-		actionId: string;
-	};
+			type: 'act';
+			actId: string;
+	  }
+	| {
+			type: 'itemAction';
+			itemId: string;
+			actionId: string;
+	  };
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
 	source: ActionSource;
 }
 
-export type MeasureResultStatus = 'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
+export type MeasureResultStatus =
+	| 'success'
+	| 'failed_missing_object'
+	| 'failed_missing_skill'
+	| 'cancelled'
+	| 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
 	type: 'HumanMeasureResult';
@@ -262,7 +278,7 @@ export interface GiveBagEvent extends TargetedEvent {
 
 export interface FreezeEvent extends TargetedEvent {
 	type: 'Freeze';
-	mode: "freeze" | 'unfreeze';
+	mode: 'freeze' | 'unfreeze';
 }
 
 export interface ScriptedEvent {
@@ -271,8 +287,8 @@ export interface ScriptedEvent {
 }
 
 export interface AgingEvent extends TargetedEvent {
-	type: 'Aging',
-	deltaSeconds : number
+	type: 'Aging';
+	deltaSeconds: number;
 }
 
 export type EventPayload =
@@ -309,7 +325,7 @@ export interface DelayedAction {
 	dueDate: number;
 	action: ResolvedAction;
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
-	resultEvent : HumanMeasureResultEvent | undefined;
+	resultEvent: HumanMeasureResultEvent | undefined;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -742,8 +758,8 @@ function rebuildState(time: number, env: Environnment) {
 	}
 
 	//worldLogger.setLevel('INFO')
-	worldLogger.info('Visible', visibles);
-	worldLogger.info('OutOfSight', outOfSight);
+	worldLogger.log('Visible', visibles);
+	worldLogger.log('OutOfSight', outOfSight);
 	//worldLogger.setLevel('WARN')
 
 	visibles.forEach(oId => {
@@ -753,12 +769,19 @@ function rebuildState(time: number, env: Environnment) {
 		worldLogger.debug('Visible@Location', key, location.mostRecent);
 		worldLogger.debug('Visible@Human', key, human.mostRecent);
 
+		worldState.humans[key] = {
+			id: oId.objectId,
+			human: human.mostRecent?.state,
+			location: location.mostRecent?.state,
+		};
+
+		/*
 		if (location.mostRecent != null && human.mostRecent != null) {
 			worldState.humans[key] = {
 				...human.mostRecent.state,
 				...location.mostRecent.state,
 			};
-		}
+		}*/
 	});
 
 	// make sure out-of-sight object or not visible
@@ -775,14 +798,14 @@ function rebuildState(time: number, env: Environnment) {
 current.location = undefined;
 current.direction = undefined;
 }*/
-				if (current.direction != null) {
+				if (current.location.direction != null) {
 					// last time I saw this object, it was moving
-					current.location = undefined;
-					current.direction = undefined;
-				} else if (isPointInPolygon(current.location, lineOfSight)) {
+					current.location.location = undefined;
+					current.location.direction = undefined;
+				} else if (isPointInPolygon(current.location.location, lineOfSight)) {
 					// Last known location was here but object is not here any longer
-					current.location = undefined;
-					current.direction = undefined;
+					current.location.location = undefined;
+					current.location.direction = undefined;
 				}
 			}
 		}
@@ -860,12 +883,11 @@ function computeHumanState(state: HumanState, to: number, env: Environnment): Hu
 		const newState: HumanState = {
 			...state,
 			time: to,
-
 		};
-		worldLogger.log("Skip Human ", state.id);
+		worldLogger.log('Skip Human ', state.id);
 		return newState;
 	} else {
-		worldLogger.log("Update Human ", state.id);
+		worldLogger.log('Update Human ', state.id);
 		const newState = Helpers.cloneDeep(state);
 
 		const from = state.bodyState.time;
@@ -949,7 +971,6 @@ function processTeleportEvent(event: FullEvent<TeleportEvent>) {
 		snapshot.state.direction = undefined;
 		snapshot.state.lineOfSight = undefined;
 	});
-
 }
 
 function processFollowPathEvent(event: FullEvent<FollowPathEvent>): boolean {
@@ -1061,7 +1082,7 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 /**
  * Artifically age a human target
  */
-function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
+function processAgingEvent(agingEvent: FullEvent<AgingEvent>) {
 	// Update HUMAn body states
 	const objId = { objectType: 'Human', objectId: agingEvent.payload.targetId };
 
@@ -1088,7 +1109,6 @@ function processAgingEvent(agingEvent : FullEvent<AgingEvent>) {
 
 		snapshot = sshot;
 	});
-
 }
 
 function isActionBodyEffect(action: HumanAction | undefined): action is ActionBodyEffect {
@@ -1125,7 +1145,9 @@ export function resolveAction(
 		const item = getItem(event.source.itemId);
 		const action = item?.actions[event.source.actionId];
 		if (isActionBodyEffect(action) || isMeasureAction(action)) {
-			const label = item ? getItemActionTranslation(item, event.source.actionId) : `${event.source.itemId}::${event.source.actionId}`
+			const label = item
+				? getItemActionTranslation(item, event.source.actionId)
+				: `${event.source.itemId}::${event.source.actionId}`;
 			return {
 				source: { ...item!, type: 'item' },
 				actionId: event.source.actionId,
@@ -1143,7 +1165,7 @@ function doMeasure(
 	_source: ItemDefinition | ActDefinition,
 	action: ActionBodyMeasure,
 	fEvent: FullEvent<HumanMeasureEvent>,
-	rEvent: HumanMeasureResultEvent | undefined
+	rEvent: HumanMeasureResultEvent | undefined,
 ) {
 	const metrics = action.metricName;
 
@@ -1171,7 +1193,7 @@ function doMeasure(
 	};
 	snapshot.state.console.push(logEntry);
 
-	if(rEvent){
+	if (rEvent) {
 		rEvent.result = values;
 		rEvent.status = 'success';
 		sendEvent(rEvent);
@@ -1197,7 +1219,12 @@ function checkItemAvailabilityAndConsume(
 		// character do not own such item;
 		inventoryLogger.info('Owner does not have any');
 		const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-		addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getItemTranslation(item)}`);
+		addLogMessage(
+			ownerId.objectId,
+			patientId,
+			time,
+			`${missingMessage} ${getItemTranslation(item)}`,
+		);
 		return false;
 	} else if (typeof count === 'number') {
 		if (count > 0) {
@@ -1212,7 +1239,12 @@ function checkItemAvailabilityAndConsume(
 			// no more item
 			inventoryLogger.info('Owner do not have any item any longer');
 			const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-			addLogMessage(ownerId.objectId, patientId, time, `${missingMessage} ${getItemTranslation(item)}`);
+			addLogMessage(
+				ownerId.objectId,
+				patientId,
+				time,
+				`${missingMessage} ${getItemTranslation(item)}`,
+			);
 			return false;
 		}
 	} else {
@@ -1246,7 +1278,7 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 	delayedActions = delayedActions.filter(dA => {
 		if (dA.event.id === eventId) {
 			const cancel = getTranslation('pretriage-interface', 'cancellation');
-			if(dA.resultEvent){
+			if (dA.resultEvent) {
 				dA.resultEvent.status = 'cancelled';
 				// dA.resultEvent.duration = now - originalAction.time; //TODO or not TODO ?
 				sendEvent(dA.resultEvent);
@@ -1275,7 +1307,13 @@ function clearPastActions(time: number) {
 function processDelayedAction({ dueDate, action, event, resultEvent }: DelayedAction) {
 	delayedLogger.info('Process Delayed Action', { dueDate, action, event, resultEvent });
 	if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
-		doMeasure(dueDate, action.source, action.action, event as FullEvent<HumanMeasureEvent>, resultEvent);
+		doMeasure(
+			dueDate,
+			action.source,
+			action.action,
+			event as FullEvent<HumanMeasureEvent>,
+			resultEvent,
+		);
 	} else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
 		doTreatment(dueDate, action, event as FullEvent<HumanTreatmentEvent>);
 	} else {
@@ -1298,7 +1336,7 @@ function delayAction(
 	dueDate: number,
 	action: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
-	resultEvent : HumanMeasureResultEvent | undefined
+	resultEvent: HumanMeasureResultEvent | undefined,
 ) {
 	const dA: DelayedAction = { id: event.id, dueDate, action, event, resultEvent };
 	const start = getTranslation('pretriage-interface', 'start');
@@ -1326,23 +1364,21 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
-
 		const me = String(self.getId());
 
-		let resultEvent : HumanMeasureResultEvent | undefined = undefined;
+		let resultEvent: HumanMeasureResultEvent | undefined = undefined;
 		// initialize result event only if current player was the sender
-		if(me == event.payload.emitterPlayerId)
-		{
+		if (me == event.payload.emitterPlayerId) {
 			resultEvent = {
-				type : 'HumanMeasureResult',
-				targetType : 'Human',
-				sourceEventId : event.id,
+				type: 'HumanMeasureResult',
+				targetType: 'Human',
+				sourceEventId: event.id,
 				targetId: event.payload.targetId,
 				emitterCharacterId: event.payload.emitterCharacterId,
-				emitterPlayerId : me,
-				status : 'unknown',
-				duration : 0
-			}
+				emitterPlayerId: me,
+				status: 'unknown',
+				duration: 0,
+			};
 		}
 
 		const { source, action } = resolvedAction;
@@ -1360,8 +1396,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 						event.payload.targetId,
 					) === false
 				) {
-					if(resultEvent)
-					{
+					if (resultEvent) {
 						sendEvent(resultEvent);
 					}
 					return;
@@ -1381,7 +1416,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
 				if (duration > 0) {
-					if(resultEvent){
+					if (resultEvent) {
 						resultEvent.duration = duration;
 					}
 					delayAction(event.time + duration, resolvedAction, event, resultEvent);
@@ -1408,8 +1443,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 }
 
 function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
-
-	const { snapshot, futures } = getHumanSnapshotAtTime(objId, time)
+	const { snapshot, futures } = getHumanSnapshotAtTime(objId, time);
 	snapshot.state.console.push(logEntry);
 
 	futures.forEach(sshot => {
@@ -1418,11 +1452,17 @@ function addLogEntry(objId: ObjectId, logEntry: ConsoleLog, time: number) {
 	});
 }
 
-function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?: FullEvent<EventPayload>): { snapshot: Snapshot<HumanState>, futures: Snapshot<HumanState>[] } {
+function getHumanSnapshotAtTime(
+	objId: ObjectId,
+	time: number,
+	lastEventBefore?: FullEvent<EventPayload>,
+): { snapshot: Snapshot<HumanState>; futures: Snapshot<HumanState>[] } {
 	const oKey = getObjectKey(objId);
 
 	// Fetch most recent human snapshot
-	const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time, { before: lastEventBefore });
+	const mostRecents = getMostRecentSnapshot(humanSnapshots, objId, time, {
+		before: lastEventBefore,
+	});
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
@@ -1448,7 +1488,6 @@ function getHumanSnapshotAtTime(objId: ObjectId, time: number, lastEventBefore?:
 		};
 		// register new snapshot
 		humanSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, snapshot);
-
 	} else {
 		// update mostRecent snapshot in place
 		snapshot = mostRecent;
@@ -1524,7 +1563,7 @@ function processCategorizeEvent(event: FullEvent<CategorizeEvent>) {
  */
 function doTreatment(
 	time: number,
-	{source, actionId, action, label }: ResolvedAction,
+	{ source, actionId, action, label }: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent>,
 ) {
 	worldLogger.log('Do Treatment ', { time: time, source: source, action });
@@ -1556,13 +1595,13 @@ function doTreatment(
 		time: event.time,
 		message: message,
 		emitterCharacterId: event.payload.emitterCharacterId,
-		type: 'TreatmentLog'
-	}
+		type: 'TreatmentLog',
+	};
 
 	snapshot.state.console.push(entry);
 	futures.forEach(f => {
 		f.state.console.push(entry);
-	})
+	});
 }
 
 function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
@@ -1684,11 +1723,7 @@ function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: In
 	const oKey = getObjectKey(owner);
 
 	// Fetch most recent snapshot
-	const mostRecents = getMostRecentSnapshot(
-		inventoriesSnapshots,
-		owner,
-		time,
-	);
+	const mostRecents = getMostRecentSnapshot(inventoriesSnapshots, owner, time);
 	let { mostRecent } = mostRecents;
 	const { mostRecentIndex, futures } = mostRecents;
 
@@ -1728,9 +1763,9 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	};
 
 	const bag = getBagDefinition(event.payload.bagId);
-	worldLogger.setLevel("INFO");
+	worldLogger.setLevel('INFO');
 	worldLogger.info('Process Give Bag Event', { owner, bag });
-	worldLogger.setLevel("WARN");
+	worldLogger.setLevel('WARN');
 
 	if (bag != null) {
 		updateInventoriesSnapshots(owner, event.time, bag.items);
@@ -1807,7 +1842,7 @@ function processEvent(event: FullEvent<EventPayload>) {
 			processPhoneCreation(event as FullEvent<PhoneCreationEvent>);
 			break;
 		case 'GiveBag':
-			wlog('GiveBag processing...')
+			wlog('GiveBag processing...');
 			processGiveBagEvent(event as FullEvent<GiveBagEvent>);
 			break;
 		case 'CancelAction':
@@ -1855,28 +1890,51 @@ export function getInstantiatedHumanIds() {
 	return Object.values(worldState.humans).map(h => h.id);
 }
 
-export function getHumans() {
-	return Object.values(worldState.humans).map(h => ({
-		id: h.id,
-		location: h.location,
-		direction: h.direction,
-		lineOfSight: h.lineOfSight,
-		categorization: h.category
-	}));
+export function getLocatedHumans() {
+	return Object.values(worldState.humans).flatMap(h => {
+		if (h.location) {
+			return [
+				{
+					id: h.id,
+					location: h.location.location,
+					direction: h.location.direction,
+					lineOfSight: h.location.lineOfSight,
+					categorization: h.human?.category,
+				},
+			];
+		} else {
+			return [];
+		}
+	});
+}
+
+export function getCategorizedHumans() {
+	return Object.values(worldState.humans).flatMap(h => {
+		if (h.human) {
+			return [
+				{
+					id: h.id,
+					categorization: h.human.category,
+				},
+			];
+		} else {
+			return [];
+		}
+	});
 }
 
 export function getHuman(id: string):
 	| (HumanBody & {
-		category: Categorization | undefined;
+			category: Categorization | undefined;
 	})
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];
-	if (human && meta) {
+	if (human?.human && meta) {
 		return {
 			meta,
-			state: human.bodyState,
-			category: human.category,
+			state: human.human.bodyState,
+			category: human.human.category,
 		};
 	}
 
@@ -1887,8 +1945,8 @@ export function getHumanConsole(id: string): ConsoleLog[] {
 	const myId = whoAmI();
 	const human = worldState.humans[`Human::${id}`];
 
-	if (human) {
-		return human.console.filter(log => log.emitterCharacterId === myId);
+	if (human?.human) {
+		return human.human.console.filter(log => log.emitterCharacterId === myId);
 	}
 
 	return [];
@@ -1898,17 +1956,17 @@ export function handleClickOnMap(
 	point: Point,
 	features: { features: Record<string, unknown>; layerId?: string }[],
 ): void {
-
-	if (isInterfaceDisabled()){
+	if (isInterfaceDisabled()) {
 		return;
 	}
 
 	const myId = whoAmI();
 	if (myId) {
 		const objectId: ObjectId = { objectType: 'Human', objectId: myId };
+
 		const key = getObjectKey(objectId);
 		const myState = worldState.humans[key];
-		const currentLocation = myState?.location;
+		const currentLocation = myState?.location?.location;
 		const mapId = currentLocation ? currentLocation.mapId : '';
 		const destination: Location = { ...point, mapId }; //, mapId: 'yverdon' };
 
@@ -2030,7 +2088,6 @@ function getInventory(time: number, objectId: ObjectId): Inventory {
 	}
 }
 
-
 let drillInventoryByPassDone: string | undefined = undefined;
 /**
  * Get current character inventory.
@@ -2040,10 +2097,9 @@ export function getMyInventory(): Inventory {
 	if (shouldProvideDefaultBag()) {
 		const defaultBag = getDefaultBag();
 		if (drillInventoryByPassDone != defaultBag) {
-
 			drillInventoryByPassDone = defaultBag;
 			if (defaultBag) {
-				worldLogger.warn("Got a bag", defaultBag);
+				worldLogger.warn('Got a bag', defaultBag);
 				processEvent({
 					id: -1008,
 					timestamp: Date.now(),
@@ -2055,7 +2111,7 @@ export function getMyInventory(): Inventory {
 						targetType: 'Human',
 						emitterCharacterId: myHumanId,
 						emitterPlayerId: String(self.getId()),
-					}
+					},
 				});
 			}
 		}

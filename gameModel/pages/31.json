@@ -1,0 +1,36 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentPatientTitle } from \"./game/display/currentPatientZoom\";\ngetCurrentPatientTitle();",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : { },
+        "name" : "header",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

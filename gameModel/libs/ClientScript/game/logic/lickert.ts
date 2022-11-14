@@ -770,7 +770,7 @@ export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 	};
 }
 
-export function runAgain() {
+export async function runAgain() {
 	getCurrentPatientData(true);
 	Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
 }

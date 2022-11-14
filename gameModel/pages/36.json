@@ -1,0 +1,41 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "icon" : "arrow-left",
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, {\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0});",
+            "language" : "javascript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "initialSelectedPageId" : "6",
+        "layoutStyle" : { },
+        "name" : "squadPatientLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

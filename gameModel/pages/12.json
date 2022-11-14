@@ -534,7 +534,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
               "language" : "TypeScript"
             }
           },
@@ -765,7 +765,7 @@
                 "exposeAs" : "patient",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",

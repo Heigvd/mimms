@@ -362,6 +362,11 @@ export interface BodyState {
 		 * aborted: ventilation stopped itself
 		 */
 		positivePressure?: true | false | 'aborted';
+		/**
+		 * unable to walk, due to some non-patholocical reason.
+		 * eg. incarcerated, psychological reason, etc
+		 */
+		unableToWalk: boolean;
 	};
 }
 
@@ -548,6 +553,11 @@ export interface Block {
 		pain?: number;
 
 		/**
+		 * pain level
+		 */
+		hematoma?: true;
+
+		/**
 		 * Partial Pressus CO2
 		 */
 		PACO2?: number;
@@ -674,6 +684,7 @@ export type BoneBlock = typeof bonesBlocks[number];
 export const simpleFractureBonesBlocks = [
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
+	'PELVIS',
 	"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
 	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT",
 ] as const;
@@ -1034,6 +1045,7 @@ export function createHumanBody(
 				bodyPosition: "STANDING",
 				pericardial_ml: 0,
 				pericardial_deltaMin: 0,
+				unableToWalk: false,
 			},
 		},
 		//effects: [],
@@ -2132,7 +2144,7 @@ function updateVitals(
 			chemicalsInput,
 			renalBloodOutput_mLperMin,
 			extLosses_mL,
-			arterialLosses_mL, 
+			arterialLosses_mL,
 			venousLosses_mL,
 		} = sumBlood;
 
@@ -2555,6 +2567,12 @@ export function computeState(
 											block.params.pneumothorax = 'OPEN';
 										}
 									}
+								} else if (key === "hematoma") {
+									if (patch.hematoma != null) {
+										block.params.hematoma =
+											patch.hematoma ||
+											block.params.hematoma;
+									}
 								} else if (key === "bloodFlow_mLper") {
 									// not impactable
 								} else if (key === "extLossesFlow_mlPerMin") {
@@ -2568,6 +2586,10 @@ export function computeState(
 								} else if (key === 'internalBleedingCapacity_mL') {
 									// not impactable
 								} else if (key === 'internalBleedingTotal_mL') {
+									// not impactable
+								} else if (key === 'arterialLosses_mlPerMin') {
+									// not impactable
+								} else if (key === 'venousLosses_mlPerMin') {
 									// not impactable
 								} else {
 									checkUnreachable(key);
@@ -2631,6 +2653,8 @@ export function computeState(
 						}
 					} else if (key === 'positivePressure') {
 						newState.variables.positivePressure = rule.rule.variablePatch.positivePressure;
+					} else if (key === 'unableToWalk') {
+						newState.variables.unableToWalk = newState.variables.unableToWalk === true || rule.rule.variablePatch.unableToWalk === true;
 					} else {
 						checkUnreachable(key);
 					}

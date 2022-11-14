@@ -468,8 +468,8 @@ function getEffortLevel(bodyState: BodyState): number {
 
 const painModel: Point[] = [
 	{x: 1, y: 0},
-	{x: 3, y: 0.2},
-	{x: 10, y: 0.5},
+	{x: 3, y: 0},
+	{x: 10, y: 0.35},
 ]
 
 function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
@@ -1514,15 +1514,20 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 	// first, human may move if legs motricity is fine
 	human.state.vitals.canWalk = motricity.leftLeg === 'move' && motricity.rightLeg === 'move';
 
+	if (human.state.variables.unableToWalk) {
+		human.state.vitals.canWalk = false;
+	}
+
 	if (human.state.vitals.glasgow.verbal < 5) {
 		visitorLogger.log('Can not walk: GSV < 5');
 		human.state.vitals.canWalk = 'no_response';
 	}
 
 	if (human.state.vitals.canWalk === true) {
-		wlog("Can Walk => check others");
+		visitorLogger.log("Can Walk => check others");
 		// nervous system indicates human can move
 		// check other constraints
+		human.state.blocks.get("C1-C4");
 
 		const maxHr = 0.9 * human.meta.bounds.vitals.cardio.hr.max;
 		if (human.state.vitals.cardio.hr > maxHr) {

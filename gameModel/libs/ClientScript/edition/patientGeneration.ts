@@ -10,7 +10,6 @@ import { clearAllPatientsFromPresets, removePatientFromPresets } from './patient
 import { patientGenerationLogger } from '../tools/logger';
 import {getActTranslation, getItemActionTranslation, getTranslation} from '../tools/translation';
 
-
 /**
  * Add patients to the existing list
  */

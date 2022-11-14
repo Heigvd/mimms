@@ -97,20 +97,20 @@ export function pickRandom<T>(list: T[]): T | undefined {
 	return list[Math.floor(Math.random() * list.length)];
 }
 
-export function getRandomValue(range: Range | undefined, integer: boolean = false): number | undefined {
+export function getRandomValue<T extends (Range | undefined)>(range: T, integer: boolean = false): T extends Range ? number: undefined {
 	if (range == null) {
-		return undefined;
+		return undefined as any;
 	}
 
     if (range.max == range.min) {
-		return range.min;
+		return range.min as any;
 	} else {
 		const r = range.max - range.min;
 		const rnd = range.min + Math.random() * r;
 		if (integer) {
-			return Math.floor(rnd);
+			return Math.floor(rnd) as any;
 		} else {
-			return rnd;
+			return rnd as any;
 		}
 	}
 }

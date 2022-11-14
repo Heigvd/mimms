@@ -1,0 +1,32 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "innerScan",
+        "layoutClassName" : "containerScan",
+        "layoutStyle" : {
+          "flexGrow" : "1",
+          "width" : "100%"
+        },
+        "onScan" : {
+          "@class" : "ScriptCallback",
+          "args" : [ "data" ],
+          "content" : "import { processQrCode } from \"./game/logic/qr\";\nprocessQrCode(data);\nreturn;"
+        },
+        "style" : {
+          "width" : "100%"
+        }
+      },
+      "type" : "qrScanner"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

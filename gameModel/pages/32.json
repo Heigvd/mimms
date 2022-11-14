@@ -1,0 +1,26 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"34\";",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "squadLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

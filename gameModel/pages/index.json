@@ -90,6 +90,40 @@
           "trainerPage" : null
         } ],
         "name" : "tools"
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "33",
+          "name" : "introPage",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "32",
+          "name" : "squadPage",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "31",
+          "name" : "stage directions",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "34",
+          "name" : "scanner",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "36",
+          "name" : "patientZoom",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "QR"
       } ],
       "name" : "playerPages"
     }, {
@@ -106,6 +140,22 @@
         "name" : "drillDashboard",
         "scenaristPage" : null,
         "trainerPage" : true
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "30",
+          "name" : "patientJoinPages",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "35",
+          "name" : "squadJoinPages",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "QR"
       } ],
       "name" : "TrainerPages"
     }, {

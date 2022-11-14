@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { extBlocks, ExternalBlock, simpleFractureBonesBlocks } from './human';
+import { allBlocks, extBlocks, ExternalBlock, NervousBlock, simpleFractureBonesBlocks } from './human';
 import {
 	ChemicalDefinition,
 	buildPathology,
@@ -138,6 +138,12 @@ function init() {
 			"RIGHT_ANKLE", "RIGHT_FOOT",
 		];
 
+	const limbs: NervousBlock[] =
+			["LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
+	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
+	"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
+	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT"]
+
 	const venousBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 	////////////////////////////////////////
 	// Pathologies
@@ -146,7 +152,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'catastrophic_ah',
-				name: 'catastrophic arterial hemorrhage (thigh)',
+				name: 'catastrophic arterial hemorrhage (thigh, neck)',
 				blockSelectionMode: 'any',
 				severity: 'dead'
 			},
@@ -288,7 +294,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'catastrophic_vh',
-				name: 'catastrophic venous hemorrhage (thigh)',
+				name: 'catastrophic venous hemorrhage (thigh, neck)',
 				blockSelectionMode: 'any',
 				severity: 'dead'
 			},
@@ -335,7 +341,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'severe_vh',
-				name: 'severe venous hemorrhage (thigh)',
+				name: 'severe venous hemorrhage (thigh, neck)',
 				blockSelectionMode: 'any',
 				severity: 'immediate'
 			},
@@ -438,6 +444,26 @@ function init() {
 					bleedingFactor: { min: 0.001, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: extremities,
+				},
+			],
+		),
+	);
+
+		registerPathology(
+		buildPathology(
+			{
+				id: 'minor_vh_face',
+				severity: 'non_urgent',
+				name: 'minor venous hemorrhage (face)',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					bleedingFactor: { min: 0.0001, max: 0.01 },
+					instantaneousBloodLoss: undefined,
+					blocks: ["HEAD"],
 				},
 			],
 		),
@@ -611,7 +637,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'simple_pno_full',
-				name: 'Simple pneumothorax full',
+				name: 'Simple pneumothorax',
 				severity: 'non_urgent',
 				blockSelectionMode: 'any',
 			},
@@ -620,7 +646,7 @@ function init() {
 					type: 'Pneumothorax',
 					blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
 					pneumothoraxType: 'SIMPLE',
-					compliance: { min: 0, max: 0 },
+					compliance: { min: 0, max: 1 },
 					complianceDelta: undefined,
 				},
 				{
@@ -705,6 +731,48 @@ function init() {
 		),
 	);
 
+	// Contusion
+		registerPathology(
+		buildPathology(
+			{
+				id: 'contusion',
+				severity: 'non_urgent',
+				name: 'contusion',
+				blockSelectionMode: 'same',
+			},
+			[
+				{
+					type: 'Hematoma',
+					blocks: [...extBlocks, "C1-C4", "C5-C7", "T1-T4", "T5-L4",],
+				},
+				{
+					type: 'Pain',
+					blocks: [...extBlocks, "C1-C4", "C5-C7", "T1-T4", "T5-L4",],
+					pain: {min: 1, max: 10},
+				},
+			],
+		),
+	);
+
+	// Contusion
+	registerPathology(
+		buildPathology(
+			{
+				id: 'unableToWalk',
+				severity: 'non_urgent',
+				name: 'unable to walk',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'UnableToWalk',
+					blocks: [...allBlocks],
+				},
+			],
+		),
+	);
+
+	// Burns
 	registerPathology(
 		buildPathology(
 			{
@@ -836,6 +904,23 @@ function init() {
 		),
 	);
 
+	registerPathology(
+		buildPathology(
+			{
+				id: 'disclocation_limb',
+				severity: 'non_urgent',
+				name: 'Dislocation limb',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'NervousSystem',
+					blocks: limbs,
+				},
+			],
+		),
+	);
+
 	registerPathology(buildPathology({
 		id: 'fracture_simple',
 		severity: 'non_urgent',
@@ -901,6 +986,24 @@ function init() {
 			instantaneousBloodLoss: undefined,
 		}
 	]));
+
+	registerPathology(
+		buildPathology(
+			{
+				id: 'pain',
+				severity: 'non_urgent',
+				name: 'Pain',
+				blockSelectionMode: 'any',
+			},
+			[
+				{
+					type: 'Pain',
+					blocks: [...allBlocks],
+					pain: {min: 1, max: 10}
+				},
+			],
+		),
+	);
 
 	////////////////////////////////////////
 	// Chemicals

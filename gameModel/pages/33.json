@@ -1,0 +1,24 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "initialSelectedPageId" : "34",
+        "layoutStyle" : { },
+        "name" : "scannerLoaderFromIntro",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : "",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

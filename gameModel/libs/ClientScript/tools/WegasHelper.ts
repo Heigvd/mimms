@@ -242,6 +242,20 @@ export function getPatientsBodyFactoryParamsArray() {
 		});
 }
 
+export function getCharactersBodyFactoryParams() {
+	return parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'characters'));
+}
+
+export function getCharactersBodyFactoryParamsArray() {
+	return Object.entries(getCharactersBodyFactoryParams())
+		.map(([id, meta]) => {
+			return { id: id, meta: meta };
+		})
+		.sort((a, b) => {
+			return alphaNumericSort(a.id, b.id)
+		});
+}
+
 /**
  * Pretty print human. Expose internal secret data ! Do not show to players
  * Includes:
