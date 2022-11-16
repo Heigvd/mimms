@@ -1053,8 +1053,10 @@ export function getHealth(humanId: string) {
 	return healths[humanId] || { effects: [], pathologies: [] };
 }
 
+
 function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 	const pathology = getPathology(event.payload.pathologyId);
+
 	if (pathology != null) {
 		worldLogger.log('Afflict Pathology: ', { pathology, time: event.time });
 		//const meta = humanMetas[event.targetId];

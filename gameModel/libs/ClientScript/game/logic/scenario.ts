@@ -49,13 +49,15 @@ export function premiereVague() {
 				y: y,
 			},
 		};
+		return [teleport];
+		/*
 		if (meta.scriptedEvents) {
 			return [teleport, ...meta.scriptedEvents.map(ap => {
 				return reviveScriptedEvent(emitter, id, ap);
 			})];
 		} else {
 			return [teleport];
-		}
+		}*/
 	});
 
 	sendEvents(events);

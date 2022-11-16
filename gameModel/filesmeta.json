@@ -29,75 +29,39 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/" : {
+  "/maps/GVA/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/bbox.data" : {
+  "/maps/GVA/bbox.data" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/buildings.geojson" : {
+  "/maps/GVA/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/geo+json",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/rails.geojson" : {
+  "/maps/GVA/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/geo+json",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/roads.geojson" : {
+  "/maps/GVA/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/geo+json",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/geneva/water.geojson" : {
+  "/maps/GVA/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/" : {
-    "description" : "",
-    "mimeType" : "application/wfs-directory",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/bbox.data" : {
-    "description" : "",
-    "mimeType" : "application/octet-stream",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/buildings.geojson" : {
-    "description" : "",
-    "mimeType" : "application/octet-stream",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/rails.geojson" : {
-    "description" : "",
-    "mimeType" : "application/octet-stream",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/roads.geojson" : {
-    "description" : "",
-    "mimeType" : "application/octet-stream",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/yverdon/water.geojson" : {
-    "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/geo+json",
     "note" : "",
     "visibility" : "PRIVATE"
   },

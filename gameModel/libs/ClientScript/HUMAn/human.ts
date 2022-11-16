@@ -684,7 +684,7 @@ export type BoneBlock = typeof bonesBlocks[number];
 export const simpleFractureBonesBlocks = [
 	"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
-	'PELVIS',
+	'PELVIS', "THORAX_LEFT", "THORAX_RIGHT",
 	"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
 	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT",
 ] as const;
@@ -800,8 +800,9 @@ const getBloodPart = (weight_kg: number, sex: Sex) => {
 		red: hematocrit * total,
 		hematocrit: hematocrit,
 	};
-	bloodLogger.info(
+	bloodLogger.warn(
 		"Initial BloodVolume: ",
+		weight_kg,
 		total,
 		blood,
 		blood.proteins + blood.water + blood.leuco + blood.red
@@ -835,11 +836,22 @@ function createRespiratoryUnits(
 	}
 }
 
+const childWeightModel : Point[] = [
+	{x: 0, y: 3},
+	{x: 65, y: 8},
+	{x: 120, y: 17.6},
+]
+
 /**
  * The Levin Formula.
  * Compute ideal weight based on height (cm) and sex.
  */
 function computeIdealWeight(sex: Sex, height_cm: number): number {
+	// pediatric hack
+	if (height_cm < 120){
+		return interpolate(height_cm, childWeightModel);
+	}
+
 	return (sex === "female" ? 45.5 : 50) + 0.9 * (height_cm - 152.4);
 }
 
@@ -2340,6 +2352,7 @@ export function computeState(
 
 	/* Get rules with effective times */
 	const rules: RuleToAppy[] = [];
+
 
 	pathologies.forEach((rp) => {
 		patchLogger.debug("Extract rules from ", rp.pathologyId);

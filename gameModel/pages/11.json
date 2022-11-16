@@ -530,11 +530,6 @@
                                             },
                                             "style" : { },
                                             "viewOptions" : {
-                                              "center" : {
-                                                "@class" : "Script",
-                                                "content" : "import { getPlayerPosition } from \"./map/mapLayers\";\ngetPlayerPosition(Context.mapId.mapId);",
-                                                "language" : "typescript"
-                                              },
                                               "extent" : {
                                                 "@class" : "Script",
                                                 "content" : "//wlog(Context.mapExtentState.state);\nContext.mapExtentState.state.extent;",
@@ -542,10 +537,9 @@
                                               },
                                               "projection" : {
                                                 "@class" : "Script",
-                                                "content" : "import { swissDefaultProjection } from './map/layersData';\nswissDefaultProjection;",
+                                                "content" : "import { swissDefaultProjection } from \"./map/layersData\";\nswissDefaultProjection;",
                                                 "language" : "typescript"
-                                              },
-                                              "resolution" : 0.015
+                                              }
                                             }
                                           },
                                           "type" : "WegasMap"
@@ -651,35 +645,15 @@
                             "icon" : "location-arrow",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"<p>Go to Yverdon<br></p>\"",
+                              "content" : "\"<p>Go to GVA<br></p>\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
-                                "@class" : "Script",
-                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('yverdon');",
-                                "language" : "typescript"
-                              }
-                            },
-                            "name" : "Yverdon",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "icon" : "location-arrow",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Go to Geneva<br></p>\"",
-                              "language" : "JavaScript"
-                            },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "Script",
-                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('geneva');",
-                                "language" : "typescript"
+                                "@class" : "ClientScript",
+                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('GVA');",
+                                "language" : "TypeScript"
                               }
                             },
                             "name" : "Geneva",

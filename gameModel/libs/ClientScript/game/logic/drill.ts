@@ -112,7 +112,6 @@ export function selectNextPatient(): Promise<unknown> {
 			if (param != null) {
 				const emitter = initEmitterIds();
 
-				const delay = 60;
 				const currentTime = getCurrentSimulationTime();
 
 				const script = param.scriptedEvents || [];
@@ -121,7 +120,7 @@ export function selectNextPatient(): Promise<unknown> {
 						min: Math.min(times.min, current.time),
 						max: Math.max(times.max, current.time),
 					};
-				}, { min: Infinity, max: currentTime + delay });
+				}, { min: Infinity, max: 0 });
 
 				const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
@@ -158,7 +157,7 @@ export function selectNextPatient(): Promise<unknown> {
 					targetId: patientId
 				}
 
-				toPost.push(getSendEventServerScript(timeJump, currentTime));
+				toPost.push(getSendEventServerScript(timeJump, currentTime + times.max - times.min));
 
 				return APIMethods.runScript(toPost.join(""), {});
 			}
