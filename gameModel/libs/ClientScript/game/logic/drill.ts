@@ -103,7 +103,7 @@ export function selectNextPatient(): Promise<unknown> {
 		const allIds = getCurrentPresetSortedPatientIds();
 		const processed = getInstantiatedHumanIds();
 
-		const patientId = allIds.filter(id => !processed.includes(id)).sort((a,b) => a.localeCompare(b))[0];
+		const patientId = allIds.filter(id => !processed.includes(id)).sort((a,b) => a.localeCompare(b, undefined, {numeric: true}))[0];
 
 		//const patientId = pickRandom(ids);
 

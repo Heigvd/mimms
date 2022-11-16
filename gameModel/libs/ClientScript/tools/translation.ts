@@ -147,13 +147,15 @@ export function updateFromAllTsv(dryrun: boolean):void {
 	cache = {};
 
 	const variables : (keyof VariableClasses)[] = [
-		'pretriage-interface',
-		'pretriage-explanations',
+		'general-interface',
 		'human-actions',
-		'human-items',
 		'human-blocks',
 		'human-general',
-		'human-pathology'
+		'human-items',
+		'human-pathology',
+		'pretriage-explanations',
+		'pretriage-interface',
+		'qr-interface',
 	]
 
 	variables.forEach(v => {

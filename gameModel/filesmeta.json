@@ -179,6 +179,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/general-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/human-actions.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
@@ -186,6 +192,12 @@
     "visibility" : "PRIVATE"
   },
   "/translations/human-blocks.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/human-chemicals.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
     "note" : "",
@@ -216,6 +228,12 @@
     "visibility" : "PRIVATE"
   },
   "/translations/pretriage-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/qr-interface.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
     "note" : "",

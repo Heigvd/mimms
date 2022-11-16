@@ -535,7 +535,7 @@ export interface Block {
 		/**
 		 * Broken bone
 		 */
-		broken?: false | 'nonDisplaced' | 'displaced';
+		broken?: false | 'nonDisplaced' | 'displaced' | 'open';
 
 		/**
 		 * burnDegree
@@ -2535,8 +2535,12 @@ export function computeState(
 									addToBlockVariable(block, key, 0, patch[key]);
 								} else if (key === "broken") {
 									if (patch.broken != null) {
-										if (patch.broken === 'displaced') {
-											block.params.broken = 'displaced';
+										if (patch.broken === 'open'){
+											block.params.broken = 'open';
+										} else if (patch.broken === 'displaced') {
+											if (block.params.broken !== 'open'){
+												block.params.broken = 'displaced';
+											}
 										} else if (patch.broken === 'nonDisplaced') {
 											if (!block.params.broken) {
 												block.params.broken = 'nonDisplaced';
