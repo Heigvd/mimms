@@ -454,6 +454,11 @@
         }, {
           "props" : {
             "className" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true",
+              "language" : "typescript"
+            },
             "id" : "",
             "initialSelectedPageId" : "21",
             "layoutClassName" : "",
