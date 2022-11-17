@@ -716,7 +716,12 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 
 		if (block.params.broken) {
 			output.push(formatBlockSubTitle('Fracture', 'human-pathology'));
-			output.push(formatBlockEntry(block.params.broken, 'human-pathology'));
+			output.push(formatBlockEntry("fracture-" + block.params.broken, 'human-pathology'));
+		}
+
+
+		if (block.params.hematoma) {
+			output.push(formatBlockSubTitle('hematoma', 'human-pathology'));
 		}
 
 		if (block.params.burnedPercent! > 0) {

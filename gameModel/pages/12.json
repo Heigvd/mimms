@@ -454,7 +454,6 @@
         }, {
           "props" : {
             "className" : "",
-            "exposePageSizeAs" : "",
             "hideIf" : {
               "@class" : "Script",
               "content" : "true",

@@ -974,7 +974,7 @@ function init() {
 		{
 			type: 'Fracture',
 			blocks: [...simpleFractureBonesBlocks],
-			fractureType: 'displaced',
+			fractureType: 'open',
 		},
 		{
 			type: 'Hemorrhage',
