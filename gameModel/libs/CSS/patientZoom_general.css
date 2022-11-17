@@ -23,6 +23,7 @@
 	flex-grow: 1;
 }
 
+.responsiveButtons .selected,
 .patientConsole .selected {
 	background-color: var(--colors-activecolor)
 }

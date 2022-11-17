@@ -84,6 +84,22 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\" &&\nContext.patientConsole?.state !== null;",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>No Patient<br></p>\"",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "layoutStyle" : {
@@ -217,6 +233,11 @@
                   "type" : "Text"
                 } ],
                 "className" : "",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'first');",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -922,6 +943,11 @@
                   "type" : "FlexList"
                 } ],
                 "className" : "patientWheel",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'second');",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -1229,6 +1255,11 @@
                   "type" : "FlexList"
                 } ],
                 "className" : "",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'third');",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -1237,6 +1268,15 @@
                 "style" : { }
               },
               "type" : "FlexList"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "responsiveColumns",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { shouldHideNavButtons } from \"./game/display/currentPatientZoom\";\n!shouldHideNavButtons()",
+                "language" : "typescript"
+              }
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -1256,20 +1296,112 @@
           "type" : "FlexList"
         }, {
           "props" : {
+            "children" : [ {
+              "props" : {
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'first')",
+                    "language" : "typescript"
+                  }
+                } ],
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Overview</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : {
+                  "flexBasis" : "1px",
+                  "flexGrow" : "1"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'first');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'second')",
+                    "language" : "typescript"
+                  }
+                } ],
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Actions</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : {
+                  "flexBasis" : "1px",
+                  "flexGrow" : "1"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'second');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'third')",
+                    "language" : "typescript"
+                  }
+                } ],
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Details</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : {
+                  "flexBasis" : "1px",
+                  "flexGrow" : "1"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'third');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) !== \"\" &&\nContext.patientConsole?.state !== null;",
-              "language" : "JavaScript"
+              "content" : "import { shouldHideNavButtons } from \"./game/display/currentPatientZoom\";\nshouldHideNavButtons();",
+              "language" : "typescript"
             },
+            "layout" : {
+              "flexDirection" : "row",
+              "justifyContent" : "space-between"
+            },
+            "layoutClassName" : "responsiveButtons",
             "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>No Patient<br></p>\"",
-              "language" : "JavaScript"
-            }
+            "name" : "responsive nav buttons",
+            "style" : { }
           },
-          "type" : "Text"
+          "type" : "FlexList"
         } ],
         "className" : "",
         "exposeAs" : "patientConsole",
@@ -1280,6 +1412,7 @@
         },
         "layout" : { },
         "layoutStyle" : {
+          "flexDirection" : "column",
           "height" : "100%",
           "padding" : "0"
         },

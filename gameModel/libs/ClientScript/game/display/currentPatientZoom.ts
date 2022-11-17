@@ -90,6 +90,8 @@ export interface PatientZoomState {
 	observedBlock: string | undefined;
 	availableBlocks: string[];
 	selectedCategory: string | undefined;
+	// responsive display
+	selectedColumn: "first" | 'second' | 'third';
 }
 
 export function getInitialPatientZoomState(): PatientZoomState {
@@ -104,6 +106,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		currentPatient: undefined,
 		observedBlock: undefined,
 		selectedCategory: undefined,
+		selectedColumn: 'first',
 	};
 }
 
@@ -115,6 +118,47 @@ interface FullState {
 	state: PatientZoomState;
 	setState: SetZoomState;
 }
+
+//////////////////////////////////////////////////////7
+// Responsive
+////////////////////
+
+const widthLimit = 1000;
+
+export function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
+	const pageWidth = Context.mainPageSize?.width;
+	if (!pageWidth){
+		return true;
+	}
+	return pageWidth > widthLimit || state.selectedColumn === colId;	
+}
+
+export function shouldHideNavButtons() {
+	const pageWidth = Context.mainPageSize?.width;
+	if (!pageWidth){
+		return true;
+	}
+	return pageWidth > widthLimit;
+}
+
+export function shouldHideColumn(fullState: FullState, colId: PatientZoomState['selectedColumn']) {
+	return !shouldDisplayColumn(fullState, colId);
+}
+
+export function showColumn({ setState }: FullState, colId: PatientZoomState['selectedColumn']) {
+	setState(state => ({
+		...state,
+		selectedColumn: colId,
+	}));
+}
+
+export function isColumnSelected({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
+	return state.selectedColumn === colId;
+}
+
+
+//////////////////////////////////////////////
+
 
 export function keepStateAlive({ state, setState }: FullState) {
 	const ePatient = getCurrentPatientId();

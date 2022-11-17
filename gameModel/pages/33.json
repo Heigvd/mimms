@@ -2,6 +2,18 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "exposePageSizeAs" : "",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "initialSelectedPageId" : "34",
         "layoutStyle" : { },
         "name" : "scannerLoaderFromIntro",
