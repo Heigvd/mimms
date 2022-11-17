@@ -21,8 +21,11 @@
       "type" : "Button"
     }, {
       "props" : {
+        "exposePageSizeAs" : "",
         "initialSelectedPageId" : "6",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flexGrow" : "1"
+        },
         "name" : "squadPatientLoader",
         "style" : { }
       },
@@ -31,11 +34,14 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "qr-patient-zoom",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
+      "padding" : "0",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

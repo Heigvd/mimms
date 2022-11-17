@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668685136593,
+  "createdTime" : 1668695155028,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3479,6 +3479,8 @@
         },
         "name" : "qr-interface",
         "properties" : {
+          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"}},\"version\":0}",
+          "scan-second" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan the second QR code\"}},\"version\":0}",
           "scan-to-impersonate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"then, scan this one to play your character\"},\"FR\":{\"status\":\"\",\"translation\":\"puis scannez celui-ci pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
           "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}"
         },

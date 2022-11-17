@@ -2,12 +2,33 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "exposePageSizeAs" : "",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : " !!Variable.find(gameModel, 'currentPatient').getValue(self);",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-patient');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
           "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"34\";",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "flexGrow" : "1"
+        },
         "name" : "squadLoader",
         "style" : { }
       },
@@ -16,11 +37,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "qr-squad-page",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

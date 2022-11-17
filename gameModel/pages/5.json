@@ -85,7 +85,9 @@
                           "props" : {
                             "className" : "",
                             "layout" : { },
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "display" : "none"
+                            },
                             "name" : "HACK: time throttle inside",
                             "style" : { },
                             "text" : {
@@ -152,6 +154,7 @@
                           "type" : "Button"
                         } ],
                         "layout" : { },
+                        "layoutClassName" : "mainpage-timebanner",
                         "layoutStyle" : { },
                         "name" : "Time banner",
                         "style" : { }

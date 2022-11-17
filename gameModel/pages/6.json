@@ -813,6 +813,21 @@
                         "style" : { }
                       },
                       "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "className" : "console",
+                        "layoutStyle" : { },
+                        "style" : {
+                          "borderTop" : "1px solid var(--colors-primarycolor)",
+                          "width" : "100%"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientMostRecentConsoleLog } from \"./game/display/currentPatientZoom\";\ngetPatientMostRecentConsoleLog();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
                     "hideIf" : {
                       "@class" : "Script",
@@ -1283,6 +1298,7 @@
               "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\" ||\nContext.patientConsole?.state == null;",
               "language" : "JavaScript"
             },
+            "id" : "",
             "layout" : { },
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
@@ -1312,6 +1328,7 @@
                   "content" : "\"<p>Overview</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "responsiveButton",
                 "layoutStyle" : {
                   "flexBasis" : "1px",
                   "flexGrow" : "1"
@@ -1342,6 +1359,7 @@
                   "content" : "\"<p>Actions</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "responsiveButton",
                 "layoutStyle" : {
                   "flexBasis" : "1px",
                   "flexGrow" : "1"
@@ -1372,6 +1390,7 @@
                   "content" : "\"<p>Details</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "responsiveButton",
                 "layoutStyle" : {
                   "flexBasis" : "1px",
                   "flexGrow" : "1"
@@ -1421,9 +1440,11 @@
       },
       "type" : "State"
     } ],
+    "id" : "",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "zoomMedicalCarePage",
     "layoutStyle" : {
       "flexGrow" : "1",
       "height" : "100%",

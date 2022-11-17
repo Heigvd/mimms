@@ -123,7 +123,7 @@ interface FullState {
 // Responsive
 ////////////////////
 
-const widthLimit = 1000;
+const widthLimit = 10; //1050;
 
 export function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
 	const pageWidth = Context.mainPageSize?.width;
@@ -994,6 +994,19 @@ export function getPatientConsole(): string {
 
 	const console = getHumanConsole(id);
 	return console.reverse().map(formatLog).join('');
+}
+
+
+export function getPatientMostRecentConsoleLog(): string {
+	const id = getCurrentPatientId();
+
+	const console = getHumanConsole(id);
+	const log = console.reverse()[0];
+	if (log){
+		return formatLog(log);
+	} else {
+		return '';
+	}
 }
 
 export function selectCategory(category: string, setState: SetZoomState) {

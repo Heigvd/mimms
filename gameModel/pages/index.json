@@ -146,14 +146,14 @@
           "@class" : "Page",
           "id" : "30",
           "name" : "patientJoinPages",
-          "scenaristPage" : null,
-          "trainerPage" : null
+          "scenaristPage" : true,
+          "trainerPage" : true
         }, {
           "@class" : "Page",
           "id" : "35",
           "name" : "squadJoinPages",
-          "scenaristPage" : null,
-          "trainerPage" : null
+          "scenaristPage" : true,
+          "trainerPage" : true
         } ],
         "name" : "QR"
       } ],

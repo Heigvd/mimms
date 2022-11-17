@@ -103,10 +103,12 @@
           "content" : "import { getPatientsBodyFactoryParamsArray } from \"./tools/WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
           "language" : "TypeScript"
         },
+        "id" : "PatientsJoinPagePrint",
         "itemKey" : "id",
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "printableArea",
         "layoutStyle" : { },
         "style" : { }
       },
@@ -115,11 +117,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    }
+    "layoutStyle" : { },
+    "style" : { }
   },
   "type" : "FlexList"
 }

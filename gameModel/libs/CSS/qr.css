@@ -1,6 +1,36 @@
 .pageA4 {
 	width: 21cm;
 	height: 29.7cm;
-	page-break-after: always;
-	border: 1px solid lightgrey;
+	break-after: page;
+	/*border: 1px solid lightgrey;*/
+	/*padding: 10mm;*/
+	
+	box-sizing: border-box;
+}
+
+@media print {
+	body {
+		margin: 0;
+	}
+	
+	.css-oncjkf {
+		padding: 0;
+	}
+	
+	.pageA4 {
+		padding: 10mm;
+		/*page-break-before: always;*/
+		/*page-break-after: always;*/
+	}
+}
+
+.responsiveButtons {
+	padding: 0;
+}
+
+.responsiveButtons button {
+	height: 100%;
+	width: 100%;
+	border-radius: 0;
+	margin: 0;
 }

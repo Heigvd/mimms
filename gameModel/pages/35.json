@@ -101,11 +101,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    }
+    "layoutStyle" : { },
+    "style" : { }
   },
   "type" : "FlexList"
 }
