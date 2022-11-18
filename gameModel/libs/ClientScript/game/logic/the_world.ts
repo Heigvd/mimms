@@ -30,7 +30,6 @@ import {
 	getAct,
 	getItem,
 	getPathology,
-	setSystemModel,
 } from '../../HUMAn/registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
@@ -39,10 +38,7 @@ import {
 	getEnv,
 	getHumanSkillLevelForAct,
 	getHumanSkillLevelForItemAction,
-	getCompensationModel,
-	getSystem,
 	whoAmI,
-	getOverdriveModel,
 } from '../../tools/WegasHelper';
 import { initEmitterIds, TargetedEvent } from './baseEvent';
 import {

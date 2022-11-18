@@ -1,7 +1,14 @@
 import { initEmitterIds } from './baseEvent';
 import { sendEvent } from './EventManager';
 import { checkUnreachable, normalize } from '../../tools/helper';
-import { BodyState, BodyStateKeys, computeState, Environnment, HumanBody, readKey } from '../../HUMAn/human';
+import {
+	BodyState,
+	BodyStateKeys,
+	computeState,
+	Environnment,
+	HumanBody,
+	readKey,
+} from '../../HUMAn/human';
 import {
 	ConsoleLog,
 	getCurrentPatientBody,
@@ -14,7 +21,7 @@ import {
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../display/graphics';
-import {massiveHemorrhage} from '../../HUMAn/physiologicalModel';
+import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
@@ -58,7 +65,7 @@ type SACCO_CATEGORY =
 
 export interface Category<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-	> {
+> {
 	id: T;
 	bgColor: string;
 	color: string;
@@ -72,7 +79,7 @@ export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIE
 
 interface TagSystem<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-	> {
+> {
 	/** Sorted by severity (less severe first) ! */
 	categories: Category<T>[];
 }
@@ -518,12 +525,12 @@ type Explanation = keyof typeof explanations;
 
 export interface PreTriageResult<
 	T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
-	> {
+> {
 	categoryId: T | undefined;
 	severity: number;
 	actions: PreTriageAction[];
 	explanations: Explanation[];
-	vitals: Record<string, string|number>;
+	vitals: Record<string, string | number>;
 }
 
 function isInjured(data: PreTriageData) {
@@ -565,7 +572,7 @@ function detectMassiveHemorrhage({ human }: PreTriageData) {
 	return massiveHemorrhage(human);
 }
 
-function canWalk(human:HumanBody, console: ConsoleLog[]) {
+function canWalk(human: HumanBody, console: ConsoleLog[]) {
 	return getOrReadMetric<boolean>('vitals.canWalk', human.state, console, 'MOST_RECENT') === true;
 }
 
@@ -1267,23 +1274,22 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	if (triageFunction != null) {
 		const result = triageFunction(data, console);
 		result.categoryId;
-		const severity = (getTagSystemCategories().categories).findIndex((c) => {
-			return c.id === result.categoryId
+		const severity = getTagSystemCategories().categories.findIndex(c => {
+			return c.id === result.categoryId;
 		});
 		const vitals = gatherVitals(data, console);
 		return {
 			...result,
 			severity,
-			vitals
+			vitals,
 		};
 	} else {
 		// not yet implemented
 	}
 }
 
-function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string, string|number> {
-
-	const required : BodyStateKeys[] = [
+function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string, string | number> {
+	const required: BodyStateKeys[] = [
 		'vitals.respiration.rr',
 		'vitals.cardio.radialPulse',
 		'vitals.cardio.hr',
@@ -1292,27 +1298,29 @@ function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string
 		'vitals.canWalk',
 		'vitals.respiration.stridor',
 		'vitals.pain',
-	]
-	const res : Record<string, string | number> = {}; 
-	required.reduce((map,k:BodyStateKeys) => {
+	];
+	const res: Record<string, string | number> = {};
+	required.reduce((map, k: BodyStateKeys) => {
 		map[k] = getOrReadMetric(k, data.human.state, console, 'MOST_RECENT');
 		return map;
-	}, res)
+	}, res);
 
-	res['massiveHemorrhage'] = massiveHemorrhage(data.human).toString(); 
+	res['massiveHemorrhage'] = massiveHemorrhage(data.human).toString();
 	res['isInjured'] = isInjured(data).toString();
 	return res;
 }
 
-export function getCategory(category: string | undefined): { category: Category<string>, severity: number } | undefined {
+export function getCategory(
+	category: string | undefined,
+): { category: Category<string>; severity: number } | undefined {
 	const categories = getTagSystemCategories();
 	if (categories != null) {
 		const index = categories.categories.findIndex(c => c.id === category);
 		if (index >= 0) {
 			return {
 				category: categories.categories[index]!,
-				severity: index
-			}
+				severity: index,
+			};
 		}
 	}
 }
@@ -1367,7 +1375,6 @@ export function doAutomaticTriageAndLogToConsole() {
  * Html formated pre-triage category
  */
 export function categoryToHtml(categoryId: string | undefined): string {
-
 	const cat = getCategory(categoryId)?.category;
 	if (cat) {
 		return `<div class='tagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}">${cat.name}</div>`;
@@ -1383,7 +1390,7 @@ export function resultToHtml(result: PreTriageResult<string>) {
 	const tagSystem = getTagSystem();
 	const output: string[] = [
 		`<h3>PreTriage ${tagSystem}</h3>`,
-		`<div><h4>Suggested answer</h4></div>`
+		`<div><h4>Suggested answer</h4></div>`,
 	];
 
 	output.push(categoryToHtml(result.categoryId));
@@ -1424,14 +1431,17 @@ export function resultToHtmlObject(result: PreTriageResult<string>) {
 
 	const output: string[] = [
 		`<h3>PreTriage ${tagSystem}</h3>`,
-		`<div><h4>Suggested answer</h4></div>`
+		`<div><h4>Suggested answer</h4></div>`,
 	];
 
 	categoryOutput.push(categoryToHtml(result.categoryId));
 
 	if (result.explanations.length > 0) {
 		explanationsOutput.push('<ul>');
-		explanationsOutput.push(...result.explanations.map(exp => `<li>${explanations[exp]}</li>`));
+		explanationsOutput.push(...result.explanations
+			.map(exp => `<li>${getTranslation('pretriage-explanations', exp)}</li>`)
+			//.map(exp => `<li>${explanations[exp]}</li>`)
+		);
 		explanationsOutput.push('</ul>');
 	} else {
 		explanationsOutput.push('<strong>No Explanation ¯_(ツ)_/¯</strong>');
@@ -1449,10 +1459,9 @@ export function resultToHtmlObject(result: PreTriageResult<string>) {
 	return {
 		category: categoryOutput.join(''),
 		explanations: explanationsOutput.join(''),
-		actions: actionsOutput.join('')
+		actions: actionsOutput.join(''),
 	};
 }
-
 
 /**
  * Send a patient somewhere

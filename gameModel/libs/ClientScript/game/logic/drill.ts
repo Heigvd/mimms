@@ -1,6 +1,6 @@
 import { BaseEvent, initEmitterIds } from "./baseEvent";
 import { getSendEventServerScript } from "./EventManager";
-import { compare, pickRandom } from "../../tools/helper";
+import { compare } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
 import { AgingEvent, getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
 import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
