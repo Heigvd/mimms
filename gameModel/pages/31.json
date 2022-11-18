@@ -18,6 +18,25 @@
             }
           },
           "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "title",
+            "layoutStyle" : {
+              "height" : "30px",
+              "width" : "30px"
+            },
+            "name" : "category",
+            "style" : {
+              "display" : "flex",
+              "flexGrow" : "1"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "layout" : { },
         "layoutClassName" : "stage-direction__section",
@@ -32,7 +51,7 @@
         "layoutStyle" : {
           "fontStyle" : "italic"
         },
-        "name" : "meta",
+        "name" : "description",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -62,19 +81,17 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutStyle" : {
-                  "minHeight" : "30px",
-                  "minWidth" : "30px",
-                  "width" : "13%"
-                },
-                "name" : "category",
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "visual infos",
                 "style" : {
                   "display" : "flex",
-                  "flexGrow" : "1"
+                  "flexGrow" : "1",
+                  "justifyContent" : "space-around"
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
+                  "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
                   "language" : "JavaScript"
                 }
               },
@@ -91,7 +108,7 @@
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
+                  "content" : "import { getPain } from \"./game/display/currentPatientZoom\";\ngetPain();",
                   "language" : "JavaScript"
                 }
               },
@@ -119,10 +136,13 @@
         "children" : [ {
           "props" : {
             "layoutStyle" : { },
-            "style" : { },
+            "style" : {
+              "fontSize" : "2em",
+              "fontWeight" : "bolder"
+            },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getMainIndication } from \"./game/display/currentPatientZoom\";\n`<h1>${getMainIndication()}</h1>`;",
+              "content" : "import { getMainIndication } from \"./game/display/currentPatientZoom\";\ngetMainIndication();",
               "language" : "TypeScript"
             }
           },
@@ -183,12 +203,71 @@
         },
         "itemKey" : "id",
         "layout" : {
-          "flexWrap" : "wrap"
+          "flexWrap" : "nowrap"
         },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
         "name" : "main vitals",
-        "style" : { }
+        "style" : {
+          "overflow" : "auto"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : {
+                  "fontWeight" : "bolder"
+                },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.vital.label;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.vital.value;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column",
+              "flexWrap" : "wrap"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "",
+        "exposeAs" : "vital",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexWrap" : "nowrap"
+        },
+        "layoutClassName" : "stage-direction__section",
+        "layoutStyle" : { },
+        "name" : "sec vitals",
+        "style" : {
+          "overflow" : "auto"
+        }
       },
       "type" : "For each"
     }, {
@@ -260,6 +339,11 @@
           },
           "type" : "For each"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "true",
+          "language" : "typescript"
+        },
         "layout" : { },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
@@ -303,9 +387,7 @@
               "language" : "TypeScript"
             },
             "itemKey" : "id",
-            "layout" : {
-              "flexWrap" : "wrap"
-            },
+            "layout" : { },
             "layoutClassName" : "",
             "layoutStyle" : { },
             "name" : "",
@@ -316,7 +398,7 @@
         "layout" : { },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
-        "name" : "painful blocks",
+        "name" : "block details",
         "style" : { }
       },
       "type" : "FlexList"
@@ -324,12 +406,15 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "stage-direction_main-list",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
+      "padding" : "0",
       "width" : "100%"
     },
-    "style" : { },
+    "style" : {
+      "width" : "100%"
+    },
     "themeMode" : "light"
   },
   "type" : "FlexList"

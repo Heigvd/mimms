@@ -1,6 +1,6 @@
 import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, readKey } from "../../HUMAn/human";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue, readKey } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
@@ -662,15 +662,15 @@ function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClass
 }
 
 //TODO translations
-function getBlockDetails(block: Block | undefined, bodyState: BodyState): string[] {
+function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDetails: boolean = false): string[] {
 	const output: string[] = [];
 	if (block) {
 		output.push(formatBlockTitle(block.name, 'human-blocks'));
 		logger.info('Block: ', block.params);
 
-		//if (block.params.pain) {
-		//	output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
-		//}
+		if (fullDetails && block.params.pain) {
+			output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
+		}
 
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
@@ -690,18 +690,21 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 						output.push(formatBlockEntry('bleedsMinor', 'human-general'));
 					}
 				}
-
-				/*output.push(
-					formatBlockEntry(
-						'current flow',
-						'human-pathology',
-						`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
-					),
-				);*/
+				if (fullDetails) {
+					output.push(
+						formatBlockEntry(
+							'current flow',
+							'human-pathology',
+							`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
+						),
+					);
+				}
 			} else {
 				output.push(formatBlockEntry('bleedsNoLonger', 'human-general'));
 			}
-			//output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
+			if (fullDetails) {
+				output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
+			}
 		}
 
 		if (block.params.salineSolutionInput_mLperMin || block.params.bloodInput_mLperMin) {
@@ -720,6 +723,9 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 			output.push(formatBlockEntry("fracture-" + block.params.broken, 'human-pathology'));
 		}
 
+		if (fullDetails && block.params.nervousSystemBroken) {
+			output.push(formatBlockSubTitle('nervousSystem', 'human-pathology'));
+		}
 
 		if (block.params.hematoma) {
 			output.push(formatBlockSubTitle('hematoma', 'human-pathology'));
@@ -775,7 +781,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 	return output;
 }
 
-export function getBlockDetail(observedBlock: string) {
+export function getBlockDetail(observedBlock: string, fullDetails: boolean = false) {
 	const id = getCurrentPatientId();
 
 	const human = getHuman(id);
@@ -802,7 +808,7 @@ export function getBlockDetail(observedBlock: string) {
 		pathologies.forEach(p => {
 			const pathology = getPathology(p.pathologyId);
 			if (pathology != null) {
-				if (p.modules.find(mod => mod.visible) != null) {
+				if (fullDetails || p.modules.find(mod => mod.visible) != null) {
 					p.modules.forEach((mod, i) => {
 						if (mod.block === observedBlock) {
 							data.pathologies.push({
@@ -815,7 +821,7 @@ export function getBlockDetail(observedBlock: string) {
 			}
 		});
 		effects.forEach(effect => {
-			if (effect.action.visible) {
+			if (fullDetails || effect.action.visible) {
 				if (effect.afflictedBlocks.includes(observedBlock)) {
 					data.effects.push(effect);
 				}
@@ -824,7 +830,7 @@ export function getBlockDetail(observedBlock: string) {
 		if (data.pathologies.length > 0 || data.effects.length > 0) {
 			const block = human.state.blocks.get(observedBlock);
 
-			output.push(...getBlockDetails(block, human.state));
+			output.push(...getBlockDetails(block, human.state, fullDetails));
 
 			if (data.effects.length > 0) {
 				output.push(formatBlockSubTitle("Treatments", 'pretriage-interface'));
@@ -981,11 +987,52 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 
 		const keys: BodyStateKeys[] = [
 			'vitals.cardio.hr',
-			'vitals.cardio.MAP',
 			'vitals.respiration.rr',
 			'vitals.respiration.tidalVolume_L',
-			'vitals.respiration.SpO2',
 			'vitals.canWalk',
+		];
+
+		const vitals = keys.map(vital => {
+			const value = readKey(bodyState, vital);
+			const data = formatMetric(vital, value);
+			return {
+				id: vital as string,
+				label: data[0],
+				value: data[1],
+			}
+		});
+
+		vitals.push({
+			id: 'gcs',
+			label: getTranslation('human-general', 'vitals.glasgow.total'),
+			value: `${human.state.vitals.glasgow.total}<br />
+			${human.state.vitals.glasgow.motor}M-${human.state.vitals.glasgow.verbal}V-${human.state.vitals.glasgow.eye}E`,
+		});
+
+		return vitals;
+	}
+	return [];
+}
+
+export function shortMotricityFormatter(value: MotricityValue) : string {
+	switch (value){
+		case 'move':
+			return getTranslation("human-general", 'yes');
+		case'do_not_move':
+		default:
+			return getTranslation("human-general", 'no');
+	}
+}
+
+export function getSecondaryVitals(): { label: string, value: string, id: string }[] {
+
+	const human = getCurrentPatientBody();
+	if (human) {
+		const bodyState: BodyState = human.state;
+
+		const keys: BodyStateKeys[] = [
+			'vitals.cardio.MAP',
+			'vitals.respiration.SpO2',
 		];
 
 		const vitals = keys.map(vital => {
@@ -1005,9 +1052,11 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 		});
 
 		vitals.push({
-			id: 'gcs',
-			label: getTranslation('human-general', 'vitals.glasgow.total'),
-			value: `${human.state.vitals.glasgow.total} (${human.state.vitals.glasgow.motor} M - ${human.state.vitals.glasgow.verbal} V - ${human.state.vitals.glasgow.eye} Y)`,
+			id: 'motricity',
+			label: getTranslation('human-general', 'motricity'),
+			value: `
+			${getTranslation('human-general', 'motricity.arms')}: ${shortMotricityFormatter(human.state.vitals.motricity.leftArm)}/${shortMotricityFormatter(human.state.vitals.motricity.rightArm)}<br />
+			${getTranslation('human-general', 'motricity.legs')}: ${shortMotricityFormatter(human.state.vitals.motricity.leftLeg)}/${shortMotricityFormatter(human.state.vitals.motricity.rightLeg)}`,
 		});
 
 		return vitals;
@@ -1021,17 +1070,17 @@ export function getPains(): { label: string, value: string }[] {
 	if (human) {
 		const bodyState: BodyState = human.state;
 
-		const output : { label: string, value: number }[] = [];
+		const output: { label: string, value: number }[] = [];
 
 		bodyState.blocks.forEach(block => {
-			if ((block.params.pain ?? 0) > 0){
+			if ((block.params.pain ?? 0) > 0) {
 				output.push({
 					label: getTranslation('human-blocks', block.name),
 					value: block.params.pain!,
 				})
 			}
 		});
-		return output.sort((a,b ) => {
+		return output.sort((a, b) => {
 			return b.value - a.value;
 		}).map(entry => ({
 			id: entry.label,
@@ -1040,6 +1089,18 @@ export function getPains(): { label: string, value: string }[] {
 		}))
 	}
 	return [];
+}
+
+export function getPain(): string {
+
+	const human = getCurrentPatientBody();
+
+	if (human) {
+		const [label, value] = formatMetric('vitals.visiblePain', human.state.vitals.pain);
+		return `${label}: ${value}`;
+	}
+
+	return '';
 }
 
 
@@ -1239,7 +1300,7 @@ export function getHumanVisualInfos(): string {
 	return output.filter(o => o).join('<br /> ');
 }
 
-export function getAfflictedBlocks(): string[] {
+export function getAfflictedBlocks(fullDetails: boolean = false): string[] {
 	const id = getCurrentPatientId();
 
 	const human = getHuman(id);
@@ -1254,13 +1315,13 @@ export function getAfflictedBlocks(): string[] {
 		pathologies.forEach(p => {
 			//const pathology = getPathology(p.pathologyId);
 			p.modules.forEach(m => {
-				if (m.visible) {
+				if (fullDetails || m.visible) {
 					output[m.block] = true;
 				}
 			});
 		});
 		effects.forEach(effect => {
-			if (effect.action.visible) {
+			if (effect.action.visible || fullDetails) {
 				effect.afflictedBlocks.forEach(blockName => {
 					if (effect != null) {
 						output[blockName] = true;
@@ -1274,9 +1335,9 @@ export function getAfflictedBlocks(): string[] {
 }
 
 export function getAfflictedBlocksDetails() {
-	const blocks = getAfflictedBlocks();
+	const blocks = getAfflictedBlocks(true);
 
-	const result = blocks.map(block => getBlockDetail(block));
+	const result = blocks.map(block => getBlockDetail(block, true));
 	return result;
 }
 

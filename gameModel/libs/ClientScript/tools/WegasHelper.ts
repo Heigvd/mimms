@@ -7,7 +7,7 @@ import { Compensation, SympSystem } from "../HUMAn/physiologicalModel";
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
-import { getDrillType } from "../game/logic/gameMaster";
+import { getDrillType, isDrillMode } from "../game/logic/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
 
 export function parse<T>(meta: string): T | null {
@@ -81,7 +81,7 @@ export function getOtherVitalsSeries() {
 
 function getRawHumanBodyParams() {
 	const patients = Variable.find(gameModel, 'patients').getProperties();
-	const characters = Variable.find(gameModel, 'characters').getProperties();
+	const characters = Variable.find(gameModel, 'characters').getInstance(self).getProperties();
 
 	const all = { ...patients, ...characters };
 
@@ -119,9 +119,67 @@ export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
 	}
 }
 
+/**
+ * Should whoAmI being instantated automatically?
+ * Based on game settings,
+ */
+function shouldInstantiateWhoAmI() : boolean {
+	if (isDrillMode()){
+		const drillType = getDrillType();
+		switch (drillType){
+			case 'PRE-TRIAGE':
+			case 'PRE-TRIAGE_ON_MAP':
+			return true;
+			case 'LICKERT':
+				return false;
+		}
+	} else {
+		// in multiplayer modes, whoAmI instantiation is triggered by users
+		// RealLife with QR Code: player scan the profile code
+		// software simulation: exact behaviour to be defined
+		// either the player will choose its profile itself
+        // either the trainer will choose for it
+		return false;
+	}
+}
+
 export function whoAmI(): string {
+	const id = Variable.find(gameModel, 'whoAmI').getValue(self);
+	if (!id && shouldInstantiateWhoAmI()) {
+		instantiateWhoAmI();
+	}
+	return id;
+}
+
+
+let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = whoAmI() ? 'DONE' : 'UNDONE';
+
+Helpers.registerEffect(() => {
+	instantiationStatus = whoAmI() ? 'DONE' : 'UNDONE';
+	return () => {
+		instantiationStatus = 'UNDONE';
+	}
+})
+
+export async function instantiateWhoAmI(force: boolean = false) : Promise<string> {
+	if (instantiationStatus === 'UNDONE' || force){
+		instantiationStatus = 'ONGOING';
+		const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
+		const response = await APIMethods.runScript(`EventManager.instantiateCharacter(${JSON.stringify(profileId)})`, {});
+		const entity = response.updatedEntities[0];
+
+		if (typeof entity === 'string') {
+			instantiationStatus = 'DONE';
+			return entity;
+		} else {
+			return '';
+		}
+	}
+	// to avoid infinite recusion, avoid calling whoAmI()!
 	return Variable.find(gameModel, 'whoAmI').getValue(self);
 }
+
+
 
 export function getCurrentPatientId(): string {
 	return Variable.find(gameModel, 'currentPatient').getValue(self);
@@ -242,17 +300,32 @@ export function getPatientsBodyFactoryParamsArray() {
 		});
 }
 
-export function getCharactersBodyFactoryParams() {
-	return parseObjectDescriptor<BodyFactoryParam>(Variable.find(gameModel, 'characters'));
+export interface CharacterProfile {
+	skillId: string;
+	description:'',
 }
 
-export function getCharactersBodyFactoryParamsArray() {
-	return Object.entries(getCharactersBodyFactoryParams())
-		.map(([id, meta]) => {
-			return { id: id, meta: meta };
+export function getCharacterProfiles() {
+	return parseObjectDescriptor<CharacterProfile>(Variable.find(gameModel, 'characters'));
+}
+
+export function getCharacterProfilesArray() {
+	return Object.entries(getCharacterProfiles())
+		.map(([id, profile]) => {
+			return { id: id, profile: profile };
 		})
 		.sort((a, b) => {
 			return alphaNumericSort(a.id, b.id)
+		});
+}
+
+export function getCharacterProfilesAsChoices() {
+	return Object.entries(getCharacterProfiles())
+		.map(([id, profile]) => {
+			return { label: profile.description || id, value: id };
+		})
+		.sort((a, b) => {
+			return alphaNumericSort(a.label, b.label)
 		});
 }
 
@@ -323,14 +396,6 @@ function getHumansAsChoices(od: SObjectDescriptor, short: boolean = false) {
 
 export function getPatientsAsChoices(short: boolean = false) {
 	return sortChoicesByLabel(getHumansAsChoices(Variable.find(gameModel, 'patients'), short));
-}
-
-export function getCharactersAsChoices(short: boolean = false) {
-	return sortChoicesByLabel(getHumansAsChoices(Variable.find(gameModel, 'characters'), short));
-}
-
-export function getAllHumansAsChoices(short: boolean = false) {
-	return sortChoicesByLabel([...getCharactersAsChoices(short), ...getPatientsAsChoices(short)]);
 }
 
 export function getAutonomicNervousSystemModelsAsChoices() {
@@ -540,14 +605,16 @@ export function getBagDefinition(bagId: string) {
 	return parse<BagDefinition>(sdef || '');
 }
 
+
 /**
  * Get character skills
  */
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
-	if(getDrillType() === 'PRE-TRIAGE') {
+	// todo: once character instanction is alive, remove this code !
+	/*if(getDrillType() === 'PRE-TRIAGE') {
 		const skillId = Variable.find(gameModel, 'skill').getValue(self);
 		return getSkillDefinition(skillId);
-	}
+	}*/
 	const humanDef = getBodyParam(humanId);
 	const skillId = humanDef?.skillId;
 	return getSkillDefinition(skillId);

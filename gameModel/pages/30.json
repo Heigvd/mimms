@@ -62,18 +62,39 @@
               "type" : "FlexList"
             }, {
               "props" : {
-                "layout" : { },
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "Act as Player Code",
+                    "size" : "256",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { actAsPatientPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "QRCode"
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
                 "layoutStyle" : { },
-                "name" : "Act as Player Code",
-                "size" : "256",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { actAsPatientPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
-                  "language" : "TypeScript"
-                }
+                "style" : { }
               },
-              "type" : "QRCode"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "layout" : { },

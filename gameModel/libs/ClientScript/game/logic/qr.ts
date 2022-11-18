@@ -7,7 +7,7 @@ interface ActAsPatient {
 
 interface ActAsCharacter {
 	type: 'ActAsCharacter';
-	skillId: string;
+	profileId: string;
 }
 
 interface ExaminePatient {
@@ -15,10 +15,10 @@ interface ExaminePatient {
 	patientId: string;
 }
 
-export function actAsCharacterPayload(skillId: string): ActAsCharacter {
+export function actAsCharacterPayload(profileId: string): ActAsCharacter {
 	return {
 		type: 'ActAsCharacter',
-		skillId: btoa(skillId),
+		profileId: btoa(profileId),
 	}
 }
 
@@ -27,8 +27,8 @@ function isActAsCharacter(data: unknown): data is ActAsCharacter {
 		if ('type' in data) {
 			if ((data as { type: string }).type === 'ActAsCharacter') {
 				// type is fine
-				if ('skillId' in data) {
-					if ((data as { skillId: string }).skillId) {
+				if ('profileId' in data) {
+					if ((data as { profileId: string }).profileId) {
 						return true;
 					}
 				}
@@ -95,9 +95,10 @@ export function processQrCode(rawDta: string) {
 		const data = JSON.parse(rawDta);
 		if (isActAsCharacter(data)) {
 			if (role === 'NONE' || !role) {
-				const skillId = atob(data.skillId);
+				const profileId = atob(data.profileId);
 				APIMethods.runScript(
-					`Variable.find(gameModel, 'realLifeRole').setValue(self, 'HEALTH_SQUAD');`, {});
+					`EventManager.instantiateCharacter(${JSON.stringify(profileId)});
+					Variable.find(gameModel, 'realLifeRole').setValue(self, 'HEALTH_SQUAD');`, {});
 			}
 		} else if (isActAsPatient(data)) {
 			if (role === 'NONE' || !role) {

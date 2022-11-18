@@ -501,7 +501,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"Skills\"",
+                  "content" : "\"<p>Player Profile<br></p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -510,17 +510,17 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getSkillsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetSkillsDefinitionsAsChoices();",
+                  "content" : "import { getCharacterProfilesAsChoices } from './tools/WegasHelper';\ngetCharacterProfilesAsChoices();",
                   "language" : "typescript"
                 },
                 "layoutStyle" : {
                   "flexGrow" : "1"
                 },
-                "name" : "skill",
+                "name" : "default profile",
                 "onVariableChange" : { },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'skill')",
+                  "content" : "Variable.find(gameModel,'defaultProfile')",
                   "language" : "JavaScript"
                 },
                 "style" : { }
@@ -532,7 +532,7 @@
             },
             "layoutClassName" : "drill-config--item-container",
             "layoutStyle" : { },
-            "name" : "skill",
+            "name" : "default profile",
             "style" : { }
           },
           "type" : "FlexList"

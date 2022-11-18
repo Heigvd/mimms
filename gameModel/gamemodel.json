@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668762788804,
+  "createdTime" : 1668865667160,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -455,7 +455,7 @@
         "refId" : "ObjectInstance:22373361:YAp0AO"
       },
       "description" : "<p>&nbsp;</p>",
-      "editorTag" : "humans",
+      "editorTag" : "patients",
       "isolation" : "OPEN",
       "label" : {
         "@class" : "TranslatableContent",
@@ -466,7 +466,7 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:22373362:o2vxxo::EN",
             "status" : "",
-            "translation" : "patients"
+            "translation" : ""
           }
         }
       },
@@ -495,7 +495,7 @@
         "A-5" : "{\"sex\":\"male\",\"age\":64,\"height_cm\":168,\"bmi\":22.77,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_open\",\"afflictedBlocks\":[\"LEFT_THIGH\",\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.03}]}}],\"description\":\"<p>Plaie traversante au niveau cuisse G.</p><p>La partie inférieure de la victime est complétement écrasée. </p><p>La jambe G est empallée et impose un soulevement de la charge de minimum 60 cm pour pouvoir accéder à l'empallement. </p>\"}",
         "A-6" : "{\"sex\":\"female\",\"age\":30,\"height_cm\":169,\"bmi\":18.01,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"contusion\",\"afflictedBlocks\":[\"LEFT_THIGH\",\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"PainArgs\",\"pain\":9}]}},{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_1\",\"THORAX_LEFT\",\"THORAX_LEFT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0.1843889408902083},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":53.38689548016437},{\"type\":\"NoArgs\"}]}},{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0.53},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":0.9742970252260608},{\"type\":\"NoArgs\"}]}},{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"description\":\"<p>Assis dans le cockpit à la place du pilote. N'arrive pas à bouger. Douleur importante fémur G thorax. Essoufflement important. A la demande évaluation de la douleur 9/10. La douleur diminue après TTT ++. Ne comprend pas ce qu'il s'est passé et demande régulièrement ce qu'il s'est passé. Est inquiet pour les passagers.<br></p><p><br></p><p>UN PNEU qu'il faut exuffler/drainer ?<br></p>\"}",
         "A-7" : "{\"sex\":\"male\",\"age\":31,\"height_cm\":180,\"bmi\":20.65,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_simple\",\"afflictedBlocks\":[\"RIGHT_THIGH\",\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.025}]}},{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_simple\",\"afflictedBlocks\":[\"PELVIS\",\"PELVIS\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.005}]}}],\"description\":\"<p>Assis côté fenêtre 1ère rangée à droite (à côté du DCD). N'arrive pas à se mobiliser. Se plaint de douleur importante bassin et fémur droit. Douleur évaluée à 10/10. Dit qu'il n'était pas attaché et \\\"a volé\\\" contre la paroi.</p>\"}",
-        "A-8" : "{\"sex\":\"female\",\"age\":2,\"height_cm\":85,\"bmi\":23.07,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":0.1},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0014005945015951903}]}}],\"description\":\"<p>Mannequin</p>\"}",
+        "A-8" : "{\"sex\":\"female\",\"age\":2,\"height_cm\":85,\"bmi\":23.07,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICPArgs\",\"delta_perMin\":0.05},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.001255}]}}],\"description\":\"<p>Mannequin</p>\"}",
         "A-9" : "{\"sex\":\"male\",\"age\":82,\"height_cm\":170,\"bmi\":25.4,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"contusion\",\"afflictedBlocks\":[\"LEFT_WRIST\",\"LEFT_WRIST\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"PainArgs\",\"pain\":5}]}}],\"description\":\"<p>Vous avez évacué le 737 et vous êtes dans  la zone d'évacuation spontanée. Vous restez dans la zone jusqu’à l'arrêt des véhicules incendie. Vous vous déplacez ensuite dans la zone d'exercice (rayon 80 m autour de l'avion) à la recherche d'aide en vous tenant le poignet. Vous avez tapé le poignet en descendant le toboggan. Depuis douleur poignet gauche évaluée à 5/10. </p>\"}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
@@ -512,7 +512,7 @@
         "refId" : "ObjectInstance:24054704:C4XK9T"
       },
       "description" : "",
-      "editorTag" : "humans",
+      "editorTag" : "characters",
       "isolation" : "OPEN",
       "label" : {
         "@class" : "TranslatableContent",
@@ -523,16 +523,15 @@
             "lang" : "EN",
             "refId" : "TranslatableContent:24054705:E3YlX1::EN",
             "status" : "",
-            "translation" : "characters"
+            "translation" : ""
           }
         }
       },
       "name" : "characters",
       "properties" : {
-        "Marie" : "{\"age\":75,\"sex\":\"female\",\"height_cm\":161,\"lungDepth\":1,\"bmi\":22.5}",
-        "Mr. Good" : "{\"age\":39,\"sex\":\"male\",\"height_cm\":193,\"bmi\":20.7,\"lungDepth\":1,\"skillId\":\"AmbulanceStudent1\"}",
-        "georges" : "{\"age\":55,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":180,\"bmi\":22.5,\"skillId\":\"mcs\"}",
-        "oscar" : "{\"age\":21,\"sex\":\"male\",\"lungDepth\":1,\"height_cm\":170,\"bmi\":21,\"skillId\":\"mcs\"}"
+        "amb" : "{\"skillId\":\"ias3\",\"description\":\"Samaritains Niveau 3\"}",
+        "mcs" : "{\"skillId\":\"mcs\",\"description\":\"Medecin Chef des Secours\"}",
+        "smur" : "{\"skillId\":\"SMURDoctor\",\"description\":\"Medecin SMUR\"}"
       },
       "refId" : "ObjectDescriptor:24054703:rgeAG3",
       "scopeType" : "GameModelScope",
@@ -900,7 +899,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:22373419:1yVbcO::EN",
               "status" : "",
-              "translation" : "oscar"
+              "translation" : ""
             }
           }
         }
@@ -1581,7 +1580,7 @@
                 "lang" : "EN",
                 "refId" : "TranslatableContent:24057040:pq7EBd::EN",
                 "status" : "",
-                "translation" : "SMURDoctor"
+                "translation" : "smur"
               },
               "FR" : {
                 "@class" : "Translation",
@@ -1593,7 +1592,7 @@
             }
           }
         },
-        "editorTag" : "skill",
+        "editorTag" : "default profile",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
@@ -1601,7 +1600,7 @@
           "translations" : { }
         },
         "maxSelectable" : 1,
-        "name" : "skill",
+        "name" : "defaultProfile",
         "refId" : "StringDescriptor:24057038:wKfY0F",
         "scopeType" : "GameModelScope",
         "sortable" : false,
@@ -3001,6 +3000,9 @@
           "lively" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lively\"},\"FR\":{\"status\":\"\",\"translation\":\"alerte, vous regarde\",\"lang\":\"FR\"}},\"version\":0}",
           "looks dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"looks dead\"},\"FR\":{\"status\":\"\",\"translation\":\"semble mort\",\"lang\":\"FR\"}},\"version\":0}",
           "male" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"male\"},\"FR\":{\"status\":\"\",\"translation\":\"homme\",\"lang\":\"FR\"}},\"version\":0}",
+          "motricity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"motricity\"}},\"version\":0}",
+          "motricity.arms" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Arms L/R\"}},\"version\":0}",
+          "motricity.legs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Legs L/R\"}},\"version\":0}",
           "move" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"can move\"},\"FR\":{\"status\":\"\",\"translation\":\"peut bouger\",\"lang\":\"FR\"}},\"version\":0}",
           "no" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no\"},\"FR\":{\"status\":\"\",\"translation\":\"non\",\"lang\":\"FR\"}},\"version\":0}",
           "no apparent breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no apparent breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"pas de respiration apparente\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3043,7 +3045,7 @@
           "yes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yes\"},\"FR\":{\"status\":\"\",\"translation\":\"oui\",\"lang\":\"FR\"}},\"version\":0}",
           "you-are-conscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're conscious\"}},\"version\":0}",
           "you-are-dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dead...\"}},\"version\":0}",
-          "you-are-dizzy" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're \"}},\"version\":0}",
+          "you-are-dizzy" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dizzy\"}},\"version\":0}",
           "you-are-unconscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are unconscious\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:63780:6Wkeqn",
@@ -4121,13 +4123,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Collidere",
+  "name" : "Collidere  refactor characters",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : false,
+    "freeForAll" : true,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_plane_fa",
     "logID" : null,

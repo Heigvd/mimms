@@ -221,14 +221,14 @@ interface HumanLogMessageEvent extends TargetedEvent {
 
 export type ActionSource =
 	| {
-			type: 'act';
-			actId: string;
-	  }
+		type: 'act';
+		actId: string;
+	}
 	| {
-			type: 'itemAction';
-			itemId: string;
-			actionId: string;
-	  };
+		type: 'itemAction';
+		itemId: string;
+		actionId: string;
+	};
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
@@ -607,7 +607,7 @@ function initHuman(humanId: string): HumanState {
 	const env = getEnv();
 	const bodyParam = getBodyParam(humanId);
 	if (!bodyParam) {
-		throw `InitHuman: No body param for humanId ${humanId}`;
+		throw `InitHuman: No body param for humanId "${humanId}"`;
 	}
 	const humanBody = createHumanBody(bodyParam, env);
 	humanMetas[humanId] = humanBody.meta;
@@ -711,45 +711,48 @@ function rebuildState(time: number, env: Environnment) {
 	});
 
 	// update visible world
-	const myHumanId = whoAmI();
-	const myId = { objectId: myHumanId, objectType: 'Human' };
-	const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
-
-	//if (myPosition.mostRecent != null) {
 	const visibles: ObjectId[] = [];
 	let outOfSight: ObjectId[] = [];
+	let lineOfSight : Point[] | undefined;
 
-	if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
-		myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
-	}
+	const myHumanId = whoAmI();
+	if (myHumanId) {
+		const myId = { objectId: myHumanId, objectType: 'Human' };
+		const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
 
-	const lineOfSight = myPosition.mostRecent?.state.lineOfSight;
+		//if (myPosition.mostRecent != null) {
 
-	if (fogType === 'NONE') {
-		// no fog: update all objects
-		visibles.push(...objectList);
-	} else if (fogType === 'FULL' || myPosition.mostRecent == null) {
-		// Full fog: update current human only
-		visibles.push({
-			objectType: 'Human',
-			objectId: myHumanId,
-		});
-		outOfSight = objectList.filter(o => {
-			o.objectType != 'Human';
-		});
-	} else if (fogType === 'SIGHT') {
-		// Detect visible object
-		worldLogger.info('My Position', myPosition);
-		Object.keys(locationsSnapshots).forEach(key => {
-			const [type, id] = key.split('::');
-			const oId = { objectType: type!, objectId: id! };
-			const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
-			if (mostRecent != null && isPointInPolygon(mostRecent.state.location, lineOfSight)) {
-				visibles.push(oId);
-			} else {
-				outOfSight.push(oId);
-			}
-		});
+		if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
+			myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
+		}
+ 		lineOfSight = myPosition.mostRecent?.state.lineOfSight;
+
+		if (fogType === 'NONE') {
+			// no fog: update all objects
+			visibles.push(...objectList);
+		} else if (fogType === 'FULL' || myPosition.mostRecent == null) {
+			// Full fog: update current human only
+			visibles.push({
+				objectType: 'Human',
+				objectId: myHumanId,
+			});
+			outOfSight = objectList.filter(o => {
+				o.objectType != 'Human';
+			});
+		} else if (fogType === 'SIGHT') {
+			// Detect visible object
+			worldLogger.info('My Position', myPosition);
+			Object.keys(locationsSnapshots).forEach(key => {
+				const [type, id] = key.split('::');
+				const oId = { objectType: type!, objectId: id! };
+				const { mostRecent } = getMostRecentSnapshot(locationsSnapshots, oId, time);
+				if (mostRecent != null && isPointInPolygon(mostRecent.state.location, lineOfSight)) {
+					visibles.push(oId);
+				} else {
+					outOfSight.push(oId);
+				}
+			});
+		}
 	}
 
 	//worldLogger.setLevel('INFO')
@@ -1922,7 +1925,7 @@ export function getCategorizedHumans() {
 
 export function getHuman(id: string):
 	| (HumanBody & {
-			category: Categorization | undefined;
+		category: Categorization | undefined;
 	})
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
@@ -2091,7 +2094,7 @@ let drillInventoryByPassDone: string | undefined = undefined;
  */
 export function getMyInventory(): Inventory {
 	const myHumanId = whoAmI();
-	if (shouldProvideDefaultBag()) {
+	if (myHumanId && shouldProvideDefaultBag()) {
 		const defaultBag = getDefaultBag();
 		if (drillInventoryByPassDone != defaultBag) {
 			drillInventoryByPassDone = defaultBag;

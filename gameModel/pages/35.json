@@ -14,7 +14,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.character;\n`<h1>${param.id}, ${param.meta.skillId}</h1>${param.meta.description}`;",
+                          "content" : "`<h1>${Context.profile.profile.skillId}</h1>${Context.profile.profile.skillId}`;",
                           "language" : "TypeScript"
                         }
                       },
@@ -68,7 +68,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { actAsCharacterPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsCharacterPayload(Context.character.id));",
+                  "content" : "import { actAsCharacterPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsCharacterPayload(Context.profile.id));",
                   "language" : "TypeScript"
                 }
               },
@@ -83,10 +83,10 @@
           },
           "type" : "FlexList"
         } ],
-        "exposeAs" : "character",
+        "exposeAs" : "profile",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCharactersBodyFactoryParamsArray } from \"./tools/WegasHelper\";\ngetCharactersBodyFactoryParamsArray();",
+          "content" : "import { getCharacterProfilesArray } from \"./tools/WegasHelper\";\ngetCharacterProfilesArray();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

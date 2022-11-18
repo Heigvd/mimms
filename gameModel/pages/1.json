@@ -24,36 +24,6 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getAutonomicNervousSystemModelsAsChoices } from './tools/WegasHelper';\nconst choices = getAutonomicNervousSystemModelsAsChoices();\t\nchoices;",
-              "language" : "typescript"
-            },
-            "flexGrow" : 1,
-            "layoutStyle" : { },
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'ansModel')",
-              "language" : "JavaScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
-        } ],
-        "layout" : {
-          "flexDirection" : "row"
-        },
-        "layoutStyle" : { },
-        "name" : "env setup",
-        "onVariableChange" : { },
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
             "children" : [ {
               "props" : {
                 "className" : "",

@@ -65,7 +65,7 @@ Helpers.registerEffect(() => {
 
 	Schemas.addSchema("dataSchema", (entity, schema) => {
 		const od: IObjectDescriptor = entity as unknown as IObjectDescriptorWithId;
-		if (od.editorTag === 'humans') {
+		if (od.editorTag === 'patients') {
 			const newSchema = Helpers.cloneDeep(schema);
 			hideProperty(newSchema, "description");
 			hideProperty(newSchema, "defaultInstance");
@@ -109,6 +109,40 @@ Helpers.registerEffect(() => {
 								height_cm: { type: 'number', view: { label: 'Height [cm]', layout: "shortInline" } },
 								lungDepth: { type: 'number', view: { label: 'Lungs [2^x]', layout: "shortInline" } },
 								skillId: {type: 'string', view: {label: 'Skill', layout: "shortInline", type: 'select', choices: skillChoices } },
+							}
+						}
+					}
+				}
+			};
+			return newSchema;
+		} else if (od.editorTag === 'characters') {
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+
+			//hideProperty(newSchema, "label");
+			turnPropertyReadOnly(newSchema, "editorTag");
+			newSchema.properties.properties.view = {
+				label: 'Profile',
+				type: 'dictionary',
+				value: {},
+				keySchema: {
+					type: 'string',
+					view: {
+						label: 'Profile Id',
+						layout: 'shortInline'
+					}
+				},
+				valueSchema: {
+					type: 'string',
+					value: "{}",
+					view: {
+						type: "serializer",
+						schema: {
+							type: 'object',
+							properties: {
+								skillId: {type: 'string', view: {label: 'Skill', layout: "shortInline", type: 'select', choices: skillChoices } },
+								description: { type: 'string', view: { label: 'Description', } },
 							}
 						}
 					}

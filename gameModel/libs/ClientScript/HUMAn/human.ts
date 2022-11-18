@@ -2732,8 +2732,8 @@ export function isNervousSystemConnection(c: RevivedConnection) {
 export function getPain(body: HumanBody): number {
 	let pain = 0;
 	body.state.blocks.forEach(block => {
-		if (block.params.pain || 0 > pain) {
-			pain = block.params.pain!;
+		if ((block.params.pain || 0) > pain) {
+			pain = Math.max(block.params.pain!, pain);
 		}
 	});
 	return pain;

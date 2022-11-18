@@ -64,7 +64,7 @@
 "drillType": SStringDescriptor;
 "drill": SListDescriptor;
 "bagType": SStringDescriptor;
-"skill": SStringDescriptor;
+"defaultProfile": SStringDescriptor;
 "patientSet": SStringDescriptor;
 "finished_custom_text": STextDescriptor;
 "time_management": SListDescriptor;

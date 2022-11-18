@@ -10,9 +10,9 @@ let cache : Record<string, SObjectDescriptor> = {};
 */
 export function getTranslation(category: keyof VariableClasses, key: string, upperCaseFirstLetter = true) : string {
 
-	if(!cache[category]){
+	//if(!cache[category]){
 		cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
-	}
+	//}
 	if(cache[category]){
 		//TODO cache parsed ?
 		const tr = cache[category]!.getProperties()[key.toLowerCase()];

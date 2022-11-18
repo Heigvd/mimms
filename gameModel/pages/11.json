@@ -735,7 +735,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "const selected = I18n.toString(Variable.find(gameModel, 'whoAmI'));\n\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
+                      "content" : "import { whoAmI } from './tools/WegasHelper';\nconst selected = whoAmI();\n`<strong>Direct Communication (speaking as ${selected})</strong>`;",
                       "language" : "JavaScript"
                     }
                   },

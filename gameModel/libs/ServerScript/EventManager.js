@@ -90,7 +90,7 @@ var EventManager = ((function () {
 				emitterPlayerId: thePlayer.getId(),
 			};
 			var patients = getParsedPatients();
-			for (var i in patients){
+			for (var i in patients) {
 				var patient = patients[i];
 				var events = patient.data.scriptedEvents;
 				if (events) {
@@ -107,7 +107,65 @@ var EventManager = ((function () {
 		}
 	}
 
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	function generateRandomId(length) {
+		var id = "";
+
+		for (var i = 0; i < length; i++) {
+			id += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+
+		return id;
+	}
+
+	function generateUniqueId() {
+		var existing = Variable.find(gameModel, "characters").getInstance(self).getProperties();
+		var name = generateRandomId(3);
+		var counter = 0;
+		var id = 'char-' + name
+
+        // make sure to avoid collisions by appending numeric suffix
+		while (existing.containsKey(id)) {
+			counter++;
+			id = 'char-' + name + "-" + counter;
+		}
+		return id;
+	}
+
+
+	function instantiateCharacter(profileId) {
+		lock();
+		var charactersDesc = Variable.find(gameModel, 'characters');
+		var strProfile = charactersDesc.getProperty(profileId);
+
+		if (strProfile) {
+			var profile = JSON.parse(strProfile);
+			var skillId = profile.skillId
+
+			var bodyFactoryParam = {
+				age: 30,
+				sex: Math.random() < 0.5 ? 'male' : 'female',
+				bmi: 22.5,
+				height_cm: 175,
+				lungDepth: 1,
+				scriptedEvents: [],
+				description: '',
+				skillId: skillId
+			};
+			var id = generateUniqueId();
+			var jsonParam = JSON.stringify(bodyFactoryParam);
+
+			// persist data and set whoiAmI
+			Variable.find(gameModel, "whoAmI").setValue(self, id);
+			charactersDesc.getInstance().setProperty(id, jsonParam);
+			return id;
+		}
+		return '';
+	}
+
 	return {
+		instantiateCharacter: instantiateCharacter,
 		runScenario: runScenario,
 		postEvent: function (payload, time) {
 			sendEvent(payload, time);
