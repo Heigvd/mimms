@@ -30,8 +30,6 @@ import {
 	getAct,
 	getItem,
 	getPathology,
-	setCompensationModel,
-	setOverdriveModel,
 	setSystemModel,
 } from '../../HUMAn/registries';
 import { getCurrentSimulationTime } from './TimeManager';
@@ -41,10 +39,10 @@ import {
 	getEnv,
 	getHumanSkillLevelForAct,
 	getHumanSkillLevelForItemAction,
-	loadCompensationModel,
-	loadSystem,
+	getCompensationModel,
+	getSystem,
 	whoAmI,
-	loadOverdriveModel,
+	getOverdriveModel,
 } from '../../tools/WegasHelper';
 import { initEmitterIds, TargetedEvent } from './baseEvent';
 import {
@@ -74,7 +72,7 @@ import {
 	isInterfaceDisabled,
 	shouldProvideDefaultBag,
 } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger } from '../../tools/logger';
+import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
 	getActTranslation,
@@ -704,6 +702,7 @@ function rebuildState(time: number, env: Environnment) {
 
 		if (humanS.mostRecent != null && humanS.mostRecent.time < time) {
 			//const humanState = Helpers.cloneDeep(humanS.mostRecent.state);
+			extraLogger.log("Human ", oKey);
 			const newState = computeHumanState(humanS.mostRecent.state, time, env);
 
 			humanSnapshots[oKey]!.splice(humanS.mostRecentIndex + 1, 0, {
@@ -2144,7 +2143,8 @@ Helpers.registerEffect(() => {
 	enableCoagulation(Variable.find(gameModel, 'coagulation').getValue(self));
 	enableLungsVasoconstriction(Variable.find(gameModel, 'vasoconstrictionLungs').getValue(self));
 
-	const system = loadSystem();
+	/*
+	const system = getSystem();
 	worldLogger.log('(Init Sympathetic System: ', system);
 	setSystemModel(system);
 
@@ -2152,9 +2152,9 @@ Helpers.registerEffect(() => {
 	worldLogger.log('Load Compensation Profile: ', compensation);
 	setCompensationModel(compensation);
 
-	const overdrive = loadOverdriveModel();
+	const overdrive = getOverdriveModel();
 	worldLogger.info('Overdrive Profile: ', overdrive);
-	setOverdriveModel(overdrive);
+	setOverdriveModel(overdrive);*/
 
 	clearState();
 

@@ -1,6 +1,6 @@
 import { initEmitterIds } from "../logic/baseEvent";
 import { sendEvent } from "../logic/EventManager";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody } from "../../HUMAn/human";
+import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, readKey } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
@@ -11,6 +11,7 @@ import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
 import { getMySkillDefinition } from "../../tools/WegasHelper";
 import { toHourMinutesSeconds } from "../../tools/helper";
+import { getBloodRatio } from "../../HUMAn/physiologicalModel";
 
 /////////////////////////////////
 // The Wheel
@@ -127,15 +128,15 @@ const widthLimit = 10; //1050;
 
 export function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
 	const pageWidth = Context.mainPageSize?.width;
-	if (!pageWidth){
+	if (!pageWidth) {
 		return true;
 	}
-	return pageWidth > widthLimit || state.selectedColumn === colId;	
+	return pageWidth > widthLimit || state.selectedColumn === colId;
 }
 
 export function shouldHideNavButtons() {
 	const pageWidth = Context.mainPageSize?.width;
-	if (!pageWidth){
+	if (!pageWidth) {
 		return true;
 	}
 	return pageWidth > widthLimit;
@@ -681,7 +682,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState): string
 					output.push(formatBlockEntry('bleedsArterial', 'human-general'));
 				}
 				const venousFlow = block.params.venousLosses_mlPerMin ?? 0;
-				
+
 				if (venousFlow > 0) {
 					if (venousFlow > 50) {
 						output.push(formatBlockEntry('bleedsVenous', 'human-general'));
@@ -971,6 +972,99 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 	return [String(metric), String(value)];
 }
 
+
+export function getMainVitals(): { label: string, value: string, id: string }[] {
+
+	const human = getCurrentPatientBody();
+	if (human) {
+		const bodyState: BodyState = human.state;
+
+		const keys: BodyStateKeys[] = [
+			'vitals.cardio.hr',
+			'vitals.cardio.MAP',
+			'vitals.respiration.rr',
+			'vitals.respiration.tidalVolume_L',
+			'vitals.respiration.SpO2',
+			'vitals.canWalk',
+		];
+
+		const vitals = keys.map(vital => {
+			const value = readKey(bodyState, vital);
+			const data = formatMetric(vital, value);
+			return {
+				id: vital as string,
+				label: data[0],
+				value: data[1],
+			}
+		});
+
+		vitals.push({
+			id: 'bloodVolume',
+			label: getTranslation('human-general', 'bloodVolumeRatio'),
+			value: percentFormatter(getBloodRatio(human)),
+		});
+
+		vitals.push({
+			id: 'gcs',
+			label: getTranslation('human-general', 'vitals.glasgow.total'),
+			value: `${human.state.vitals.glasgow.total} (${human.state.vitals.glasgow.motor} M - ${human.state.vitals.glasgow.verbal} V - ${human.state.vitals.glasgow.eye} Y)`,
+		});
+
+		return vitals;
+	}
+	return [];
+}
+
+export function getPains(): { label: string, value: string }[] {
+
+	const human = getCurrentPatientBody();
+	if (human) {
+		const bodyState: BodyState = human.state;
+
+		const output : { label: string, value: number }[] = [];
+
+		bodyState.blocks.forEach(block => {
+			if ((block.params.pain ?? 0) > 0){
+				output.push({
+					label: getTranslation('human-blocks', block.name),
+					value: block.params.pain!,
+				})
+			}
+		});
+		return output.sort((a,b ) => {
+			return b.value - a.value;
+		}).map(entry => ({
+			id: entry.label,
+			label: entry.label,
+			value: `${entry.value}/10`,
+		}))
+	}
+	return [];
+}
+
+
+export function getMainIndication(): string {
+
+	const human = getCurrentPatientBody();
+	if (human) {
+		if (human.state.vitals.cardiacArrest) {
+			return getTranslation("human-general", 'you-are-dead');
+		}
+		const gcs = human.state.vitals.glasgow.total;
+		if (gcs < 11) {
+			return getTranslation("human-general", 'you-are-unconscious');
+		} else if (gcs < 14) {
+			return getTranslation("human-general", 'you-are-dizzy');
+		} else {
+			return getTranslation("human-general", 'you-are-conscious');
+		}
+	}
+	return 'N/A';
+}
+
+
+
+
 function formatLog(log: ConsoleLog): string {
 
 	const formattedTime = toHourMinutesSeconds(log.time);
@@ -1002,7 +1096,7 @@ export function getPatientMostRecentConsoleLog(): string {
 
 	const console = getHumanConsole(id);
 	const log = console.reverse()[0];
-	if (log){
+	if (log) {
 		return formatLog(log);
 	} else {
 		return '';
@@ -1048,16 +1142,25 @@ function getRoundedAge(human: HumanBody) {
 	}
 }
 
-export function getCurrentPatientTitle(): string {
+export function getCurrentPatientTitle(exact: boolean = false): string {
 	const id = getCurrentPatientId();
 	const human = getHuman(id);
 	if (human != null) {
-		const age = getRoundedAge(human!);
+		const age = exact ? human.meta.age : `~${getRoundedAge(human)}`;
 		const sex = getTranslation('human-general', human!.meta.sex, false);
 		const years = getTranslation('human-general', 'years', false);
 		return `<span class='human-id'>${id}</span>,
 		 <span class='human-sex'>${sex}</span>,
-		  <span class='human-age'>~${age} ${years}</span>`;
+		  <span class='human-age'>${age} ${years}</span>`;
+	}
+	return '';
+}
+
+export function getCurrentPatientDescription(): string {
+	const id = getCurrentPatientId();
+	const human = getHuman(id);
+	if (human != null) {
+		return human.meta.description || '';
 	}
 	return '';
 }
@@ -1168,6 +1271,13 @@ export function getAfflictedBlocks(): string[] {
 	}
 
 	return Object.keys(output);
+}
+
+export function getAfflictedBlocksDetails() {
+	const blocks = getAfflictedBlocks();
+
+	const result = blocks.map(block => getBlockDetail(block));
+	return result;
 }
 
 export function observeBlock(block: string | undefined, setState: SetZoomState) {

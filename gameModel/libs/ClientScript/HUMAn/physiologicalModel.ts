@@ -31,9 +31,9 @@ import {
 	RevivedConnection,
 	Motricity,
 } from './human';
-import { logger, calcLogger, compLogger, respLogger, visitorLogger } from '../tools/logger';
+import { logger, calcLogger, compLogger, respLogger, extraLogger } from '../tools/logger';
 // import { computePaO2 } from "./quarticSolver";
-import { getCompensationModel, getOverdriveModel, getSystemModel } from './registries';
+import { getCompensationModel, getOverdriveModel, getSystemModel } from '../tools/WegasHelper';
 
 //import { cloneDeep } from "lodash";
 //const cloneDeep = Helpers.cloneDeep;
@@ -125,7 +125,7 @@ export function detectCardiacArrest(bodyState: BodyState, durationInMin: number)
 /**
  * Get currentBloodVolume / initialBloodVolume
  */
-function getBloodRatio(human: HumanBody) {
+export function getBloodRatio(human: HumanBody) {
 	return human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
 }
 
@@ -1511,53 +1511,61 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 		},
 	);
 
+	let canWalk: 'obviously_not' | 'no' | 'maybe' = 'maybe';
+	let obeyOrders: boolean = true;
+
 	// first, human may move if legs motricity is fine
-	human.state.vitals.canWalk = motricity.leftLeg === 'move' && motricity.rightLeg === 'move';
+	if (motricity.leftLeg === 'move' && motricity.rightLeg === 'move'){
+		canWalk = 'maybe'
+	} else {
+		canWalk = 'no';
+	}
 
 	if (human.state.variables.unableToWalk) {
-		human.state.vitals.canWalk = false;
+		canWalk = 'obviously_not';
 	}
 
-	if (human.state.vitals.glasgow.verbal < 5) {
-		visitorLogger.log('Can not walk: GSV < 5');
-		human.state.vitals.canWalk = 'no_response';
+	if (human.state.vitals.glasgow.verbal < 5 || human.state.vitals.glasgow.motor < 6) {
+		extraLogger.log('Can not walk: GSV < 5');
+		obeyOrders = false;
 	}
 
-	if (human.state.vitals.canWalk === true) {
-		visitorLogger.log("Can Walk => check others");
+	if (canWalk !== 'obviously_not') {
+		extraLogger.log("Can Walk => check others");
 		// nervous system indicates human can move
 		// check other constraints
-		human.state.blocks.get("C1-C4");
+		// human.state.blocks.get("C1-C4");
 
 		const maxHr = 0.9 * human.meta.bounds.vitals.cardio.hr.max;
 		if (human.state.vitals.cardio.hr > maxHr) {
-			visitorLogger.log('Can not walk: Heart rate too high');
-			human.state.vitals.canWalk = false;
+			extraLogger.log('Can not walk: Heart rate too high');
+			canWalk = 'no';
 		}
 
 		if (human.state.vitals.cardio.hr < 10) {
-			visitorLogger.log('No HR => do not walk');
-			human.state.vitals.canWalk = false;
+			extraLogger.log('No HR => do not walk');
+			canWalk = 'no';
 		}
 
 		if (human.state.vitals.glasgow.eye < 4) {
-			visitorLogger.log('Can not walk! Eyes are closed');
-			human.state.vitals.canWalk = false;
-		}
-
-		if (human.state.vitals.glasgow.motor < 6) {
-			visitorLogger.log('Can not walk! Bad GCS Motor');
-			human.state.vitals.canWalk = false;
+			extraLogger.log('Can not walk! Eyes are closed');
+			canWalk = 'no';
 		}
 
 		if (massiveHemorrhage(human)) {
-			visitorLogger.log('Can not walk! Massive Hemorrhage');
-			human.state.vitals.canWalk = false;
+			extraLogger.log('Can not walk! Massive Hemorrhage');
+			canWalk = 'obviously_not';
+		}
+
+		if (human.state.vitals.pain > 9) {
+			extraLogger.log('Can not walk! horrible pain');
+			canWalk = 'obviously_not';
 		}
 
 
+
 		// as visiting body cost time, avoid visiting bones if it's unnecessary
-		if (human.state.vitals.canWalk !== false) {
+		if (canWalk !== 'obviously_not') {
 			let leftLeg = false;
 			let rightLeg = false;
 			/** starting from head, follow the bone connections */
@@ -1585,10 +1593,22 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 				},
 			);
 			if (!leftLeg || !rightLeg){
-				visitorLogger.log("Can not walk! Fracture")
-				human.state.vitals.canWalk = false;
+				extraLogger.log("Can not walk! Fracture");
+				canWalk = 'obviously_not';
 			}
 		}
+	}
+
+	extraLogger.log("Walk: ", {canWalk, obeyOrders});
+	if (canWalk === 'obviously_not'){
+		human.state.vitals.canWalk = false;
+		human.state.vitals.canWalk_internal = false;
+	} else if (obeyOrders){
+		human.state.vitals.canWalk_internal = canWalk === 'maybe';
+		human.state.vitals.canWalk = human.state.vitals.canWalk_internal;
+	} else {
+		human.state.vitals.canWalk_internal = canWalk === 'maybe';
+		human.state.vitals.canWalk = 'no_response';
 	}
 
 	// finally check glasgow

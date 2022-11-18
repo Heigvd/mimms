@@ -350,7 +350,7 @@ export function getEnv(): Environnment {
 	};
 }
 
-export function loadSystem(): SympSystem {
+export function getSystemModel(): SympSystem {
 	const sympathetic: SympSystem = {
 		"vitals.cardio.MAP": [{ "x": 0, "y": 100 }, { "x": 40, "y": 35 }, { "x": 70, "y": 0 }, { "x": 90, "y": 0 }, { "x": 180, "y": 0 }, { "x": 200, "y": 0 }],
 		"vitals.cardio.DO2Sys": [{ "x": 0, "y": 100 }, { "y": 0, "x": 850 }, { "x": 1100, "y": 0 }, { "x": 2000, "y": 0 }],
@@ -361,7 +361,7 @@ export function loadSystem(): SympSystem {
 }
 
 export function getSystemSeries(): Graph[] {
-	const system = loadSystem();
+	const system = getSystemModel();
 
 	const graphs = Object.entries(system).map(([key, value]) => {
 		return {
@@ -377,7 +377,7 @@ export function getSystemSeries(): Graph[] {
 
 	return graphs;
 }
-export function loadCompensationModel(): Compensation {
+export function getCompensationModel(): Compensation {
 	const model: Compensation = {
 		"vitals.respiration.tidalVolume_L": {
 			"points": [{
@@ -441,7 +441,7 @@ export function loadCompensationModel(): Compensation {
 }
 
 export function getCompensationSeries(): Graph[] {
-	const system = loadCompensationModel();
+	const system = getCompensationModel();
 
 	const graphs = Object.entries(system).map(([key, value]) => {
 		return {
@@ -459,7 +459,7 @@ export function getCompensationSeries(): Graph[] {
 }
 
 
-export function loadOverdriveModel(): Compensation {
+export function getOverdriveModel(): Compensation {
 	const max = 1;
 	const overdrive : Compensation = {
 		"vitals.respiration.tidalVolume_L": {
@@ -518,7 +518,7 @@ export function loadOverdriveModel(): Compensation {
 }
 
 export function getOverdriveSeries(): Graph[] {
-	const system = loadOverdriveModel();
+	const system = getOverdriveModel();
 
 	const graphs = Object.entries(system).map(([key, value]) => {
 		return {

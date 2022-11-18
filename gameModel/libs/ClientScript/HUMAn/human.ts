@@ -218,6 +218,7 @@ export interface BodyState {
 	/**
 	 * computed vitals
 	 */
+	
 	vitals: {
 		/**
 		 * Time cariac arrest occured; undefined means alive
@@ -231,6 +232,7 @@ export interface BodyState {
 		pain: number;
 		visiblePain: number | undefined;
 		canWalk: boolean | 'no_response';
+		canWalk_internal: boolean ;
 		spontaneousBreathing: boolean;
 		respiration: {
 			/** Quotient R */
@@ -800,7 +802,7 @@ const getBloodPart = (weight_kg: number, sex: Sex) => {
 		red: hematocrit * total,
 		hematocrit: hematocrit,
 	};
-	bloodLogger.warn(
+	bloodLogger.log(
 		"Initial BloodVolume: ",
 		weight_kg,
 		total,
@@ -987,6 +989,7 @@ export function createHumanBody(
 				pain: 0,
 				visiblePain: 0,
 				canWalk: true,
+				canWalk_internal: true,
 				spontaneousBreathing: true,
 				glasgow: {
 					total: 15,

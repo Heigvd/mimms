@@ -34,3 +34,12 @@
 	border-radius: 0;
 	margin: 0;
 }
+
+.stage-direction__section {
+	border-bottom: 1px solid;
+}
+
+.stage-direction__body-picto svg {
+	width: 200px;
+	height: 200px;
+}

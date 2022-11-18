@@ -14,17 +14,14 @@ import {
 	enableVasoconstriction,
 	readKey,
 } from './human';
-import { logger, vitalsLogger, calcLogger, compLogger } from '../tools/logger';
+import { logger, vitalsLogger, calcLogger } from '../tools/logger';
 import { RevivedPathology, revivePathology } from './pathology';
 
-import { getAct, getChemical, getItem, setCompensationModel, setOverdriveModel, setSystemModel } from './registries';
+import { getAct, getChemical, getItem } from './registries';
 import {
 	getBodyParam,
 	getCurrentPatientId,
 	getEnv,
-	loadCompensationModel,
-	loadOverdriveModel,
-	loadSystem,
 	saveToObjectInstance,
 	TestScenario,
 } from '../tools/WegasHelper';
@@ -284,17 +281,17 @@ function internal_run(
 	enableCoagulation(Variable.find(gameModel, 'coagulation').getValue(self));
 	enableLungsVasoconstriction(Variable.find(gameModel, 'vasoconstrictionLungs').getValue(self));
 
-	const system = loadSystem();
+	/*const system = loadSystem();
 	compLogger.info('(para)Sympathetic System: ', system);
-	setSystemModel(system);
+	setSystemModel(system);*/
 
-	const compensation = loadCompensationModel();
+	/*const compensation = getCompensationModel();
 	compLogger.info('Compensation Profile: ', compensation);
-	setCompensationModel(compensation);
+	setCompensationModel(compensation);*/
 
-	const overdrive = loadOverdriveModel();
+	/*const overdrive = getOverdriveModel();
 	compLogger.info('Overdrive Profile: ', overdrive);
-	setOverdriveModel(overdrive);
+	setOverdriveModel(overdrive);*/
 
 	// Body Setup
 	const meta = getBodyParam(patientId) || defaultMeta;

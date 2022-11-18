@@ -106,6 +106,7 @@ export function processQrCode(rawDta: string) {
 				if (patientExists) {
 					APIMethods.runScript(
 						`Variable.find(gameModel, "currentPatient").setValue(self, "${patientId}");
+						 Variable.find(gameModel, "whoAmI").setValue(self, "${patientId}");
 				 		 Variable.find(gameModel, 'realLifeRole').setValue(self, 'PATIENT');`
 						, {});
 				}
