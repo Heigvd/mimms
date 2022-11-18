@@ -42,6 +42,7 @@
                   "props" : {
                     "layout" : { },
                     "layoutStyle" : { },
+                    "name" : "join game",
                     "size" : "256",
                     "style" : { },
                     "text" : {
