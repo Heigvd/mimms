@@ -623,7 +623,7 @@
                 "layoutStyle" : {
                   "flexGrow" : "1"
                 },
-                "name" : "drill type",
+                "name" : "multiplayer mode",
                 "onVariableChange" : { },
                 "script" : {
                   "@class" : "Script",
@@ -640,6 +640,61 @@
             "layoutClassName" : "drill-config--item-container",
             "layoutStyle" : { },
             "name" : "drill type",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "print",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Patients QRs<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "patients QRs",
+                "openUrl" : {
+                  "url" : {
+                    "@class" : "Script",
+                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=30`;",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "icon" : "print",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Characters QRs<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "characters QRs",
+                "openUrl" : {
+                  "url" : {
+                    "@class" : "Script",
+                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=35`;",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "xx",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const v = Variable.find(gameModel, 'multiplayerMode');\nv.getValue(self) !== \"REAL_LIFE\";",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "QR Settings",
+            "layoutStyle" : { },
             "style" : { }
           },
           "type" : "FlexList"
