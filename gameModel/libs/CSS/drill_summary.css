@@ -12,13 +12,34 @@
 .patient-summary--line {
 	border-bottom: 1px solid var(--colors-disabledcolor);
 }
-.patient-summary--line:nth-of-type(4n) > div, .patient-summary--line:nth-of-type(4n-1) > div {
+.patient-summary--line:nth-of-type(4n) > div,
+.patient-summary--line:nth-of-type(4n-1) > div {
   background-color:blue;
 }
+
+
+
+.patient-summary--line:nth-of-type(2n) > div > div {
+	background-color: var(--colors-hovercolor);
+}
+
+.patient-summary--header,
+.patient-summary--line > div > div > div{
+	margin: auto;
+}
+
+
 .patient-summary--line .tagCategory {
 	padding: 5px;
 	border-radius: 3px;
+	min-width: 50px;
+	min-height: 30px;
 }
+.patient-summary--line .tagCategory.notCategorized {
+	border-style: dashed;
+	border-width: 1px;
+}
+
 .patient-summary--line .wrong {
 	font-weight: bold;
 	color: red;

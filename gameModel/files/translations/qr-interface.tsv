@@ -1,3 +1,8 @@
 Key	EN	FR
 scan-to-join	First, scan the following QR code to join the game	Scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation
 scan-to-impersonate	Then, scan this one to play your character	Puis scannez celui-ci pour incarner votre personnage
+scan-second	scan the second QR code	Scannez le QR code pour incarner votre personnage
+scan-patient	scan patient QR code	Scannez le QR code d'un patient
+join-as-observer	join as observer	Rejoindre en tant qu'observateur
+join-as-squad-member	join as participant	Rejoindre en tant qu'intervenant
+join-as-patient	join as patient	Rejoindre en tant que patient

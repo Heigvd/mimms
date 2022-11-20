@@ -198,7 +198,7 @@
         "exposeAs" : "vital",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getMainVitals } from \"./game/display/currentPatientZoom\";\ngetMainVitals();",
+          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -207,7 +207,7 @@
         },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
-        "name" : "main vitals",
+        "name" : "sec vitals",
         "style" : {
           "overflow" : "auto"
         }
@@ -255,7 +255,7 @@
         "exposeAs" : "vital",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
+          "content" : "import { getMainVitals } from \"./game/display/currentPatientZoom\";\ngetMainVitals();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -264,10 +264,47 @@
         },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
-        "name" : "sec vitals",
+        "name" : "main vitals",
         "style" : {
           "overflow" : "auto"
         }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('human-actions', Context.act.id);",
+              "language" : "TypeScript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { sendEvent } from \"./game/logic/EventManager\";\n\nimport { getCurrentPatientId } from \"./tools/WegasHelper\";\nconst patientId = getCurrentPatientId();\n\nsendEvent({\n\ttype: 'HumanTreatment',\n\ttargetType: 'Human',\n\ttargetId: patientId,\n\temitterCharacterId: patientId,\n\temitterPlayerId: String(self.getId()),\n\tblocks: [],\n\tsource: {type: 'act', actId: Context.act.id}\n});",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "exposeAs" : "act",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "[{id: 'getUp'}, {id: 'sitDown'}, {id: 'proneDecubitus'}, {id: 'supineDecubitus'}, {id: 'recoveryPosition'},]",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : { },
+        "layoutClassName" : "stage-direction__section",
+        "layoutStyle" : { },
+        "name" : "moves",
+        "style" : { }
       },
       "type" : "For each"
     }, {
@@ -374,7 +411,9 @@
                   "flexDirection" : "column"
                 },
                 "layoutClassName" : "patientConsole",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "border" : "1px solid grey"
+                },
                 "style" : { }
               },
               "type" : "FlexList"
@@ -396,7 +435,7 @@
           "type" : "For each"
         } ],
         "layout" : { },
-        "layoutClassName" : "stage-direction__section",
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "name" : "block details",
         "style" : { }

@@ -27,6 +27,8 @@ finish	finish	terminer
 itemMissing	You don't have any	Vous n'avez pas de	
 skillMissing	You don't know how to measure	Vous ne savez pas mesurer	
 title	drill pretri	Drill pré-tri	
+category-live	live category	categorie actuelle	
+category	category	categorie	
 category-system	Category system	Système de catégorisation	
 setup-title	Game session set up	Configuration de la partie de jeu	
 drill-type	drill type	type de drill	

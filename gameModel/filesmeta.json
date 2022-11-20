@@ -5,18 +5,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/bat.geojson" : {
-    "description" : "",
-    "mimeType" : "application/geo+json",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/bat_2056_few.geojson" : {
-    "description" : "",
-    "mimeType" : "application/geo+json",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/dead_man.png" : {
     "description" : "",
     "mimeType" : "image/png",

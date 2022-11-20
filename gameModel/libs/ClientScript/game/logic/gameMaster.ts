@@ -14,7 +14,7 @@ export function getMultiplayerMode(): MutliplayerMode {
 	return Variable.find(gameModel, 'multiplayerMode').getValue(self) as MutliplayerMode;
 }
 
-export type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE';
+export type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE' | 'OBSERVER';
 
 export function getRealLifeRole() : RealLifeRole {
 	return Variable.find(gameModel, 'realLifeRole').getValue(self) as RealLifeRole;
@@ -65,11 +65,13 @@ export function getGamePageId() {
 				const role = getRealLifeRole();
 				switch (role) {
 					case 'PATIENT':
-						// state direction
+						// stage direction
 						return '31';
 					case 'HEALTH_SQUAD':
 						// squad page
 						return '32';
+					case 'OBSERVER':
+						return '39'
 					default:
 						// scan your QR code page
 						return '33';
@@ -151,13 +153,14 @@ export function getFogType(): FogType {
 				const role = getRealLifeRole();
 				switch (role) {
 					case 'PATIENT':
-						// state direction
+						// patients see nothing
 						return 'FULL';
 					case 'HEALTH_SQUAD':
-						// squad page
+					case 'OBSERVER':
+						// health squad and observer see everything
 						return 'NONE';
 					default:
-						// scan your QR code page
+						// default see nothing
 						return 'FULL';
 				}
 			}

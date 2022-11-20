@@ -8,6 +8,11 @@
 	box-sizing: border-box;
 }
 
+.joinPage__title {
+	font-size: 2em;
+	font-weight: bolder;
+}
+
 @media print {
 	body {
 		margin: 0;

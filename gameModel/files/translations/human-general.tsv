@@ -12,6 +12,7 @@ bleedsArterial	pulsatile hemorrhage	hémorragie pulsatile
 bleedsVenous	continuous severe hemorrhage	saignement important en continu
 bleedsMinor	minor hemorrhage	saignement mineur
 bleedsNoLonger	no visible active hemorrhage	pas d’hémorragie active visible
+dead	dead	mort
 looks dead	looks dead	semble mort
 lively	lively	alerte, vous regarde
 apathetic	apathetic	peu alerte, réagi à la voix
@@ -24,6 +25,9 @@ STANDING	Standing	Debout
 Positive Pressure	Positive Pressure	Pression positive 
 pain	pain	douleur
 vitals.visiblePain	pain	douleur
+motricity	motricity	motricité
+motricity.arms	Arms L/R	Bras G/D
+motricity.legs	Legs L/R	Jambes G/D
 vitals.motricity.leftArm	left arm motricity	motricité bras gauche
 vitals.motricity.rightArm	right arm motricity	motricité bras droit
 vitals.motricity.leftLeg	left leg motricity	Motricité jambe gauche
@@ -53,3 +57,8 @@ no	no	non
 move	Can move	Peut bouger
 do_not_move	Can't move	Ne peut pas bouger
 no_response	Does not respond to orders	Ne réponds pas aux ordres
+bloodVolumeRatio	Blood volume	volémie
+you-are-dead	you're dead...	vous êtes mort...
+you-are-unconscious	you're unconscious	vous êtes inconscient
+you-are-dizzy	you're dizzy	vous êtes non-alerte
+you-are-conscious	you're conscious	vous êtes alerte

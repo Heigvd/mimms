@@ -692,7 +692,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "wlog(Context.patient.data.id);;\nContext.patient.data.id;",
+                          "content" : "Context.patient.data.id;",
                           "language" : "TypeScript"
                         }
                       },

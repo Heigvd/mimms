@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1668865667160,
+  "createdTime" : 1668980439839,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -20,7 +20,7 @@
     "isolation" : "OPEN",
     "items" : [ {
       "@class" : "StaticTextDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StaticTextInstance",
@@ -43,7 +43,7 @@
       },
       "name" : "maintitle",
       "refId" : "StaticTextDescriptor:22373371:oHukmX",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "text" : {
         "@class" : "TranslatableContent",
         "refId" : "TranslatableContent:22373374:vXQtgD",
@@ -61,7 +61,7 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "StaticTextDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StaticTextInstance",
@@ -84,7 +84,7 @@
       },
       "name" : "staticTextDescriptor",
       "refId" : "StaticTextDescriptor:22373377:scI9p7",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "text" : {
         "@class" : "TranslatableContent",
         "refId" : "TranslatableContent:22373380:f4iibq",
@@ -114,7 +114,7 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "StaticTextDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "StaticTextInstance",
@@ -129,7 +129,7 @@
         },
         "name" : "lickertWelcome",
         "refId" : "StaticTextDescriptor:24075201:maI3mx",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "text" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24075204:WvycAG",
@@ -147,7 +147,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "StaticTextInstance",
@@ -162,7 +162,7 @@
         },
         "name" : "lickertLegend",
         "refId" : "StaticTextDescriptor:24074351:H0NH8z",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "text" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24074354:GlnxpN",
@@ -180,7 +180,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "StaticTextInstance",
@@ -195,7 +195,7 @@
         },
         "name" : "notCompletedYet",
         "refId" : "StaticTextDescriptor:24074417:GZmHix",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "text" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24074420:OPUoYi",
@@ -213,7 +213,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "StaticTextInstance",
@@ -228,7 +228,7 @@
         },
         "name" : "congrats",
         "refId" : "StaticTextDescriptor:24074423:dkUyrX",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "text" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24074426:8MD0r7",
@@ -447,7 +447,7 @@
     "isolation" : "OPEN",
     "items" : [ {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "GameModelScope",
+      "broadcastScope" : "TeamScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -499,12 +499,12 @@
         "A-9" : "{\"sex\":\"male\",\"age\":82,\"height_cm\":170,\"bmi\":25.4,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":1,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"contusion\",\"afflictedBlocks\":[\"LEFT_WRIST\",\"LEFT_WRIST\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"PainArgs\",\"pain\":5}]}}],\"description\":\"<p>Vous avez évacué le 737 et vous êtes dans  la zone d'évacuation spontanée. Vous restez dans la zone jusqu’à l'arrêt des véhicules incendie. Vous vous déplacez ensuite dans la zone d'exercice (rayon 80 m autour de l'avion) à la recherche d'aide en vous tenant le poignet. Vous avez tapé le poignet en descendant le toboggan. Depuis douleur poignet gauche évaluée à 5/10. </p>\"}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
-      "scopeType" : "GameModelScope",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "GameModelScope",
+      "broadcastScope" : "TeamScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -534,7 +534,7 @@
         "smur" : "{\"skillId\":\"SMURDoctor\",\"description\":\"Medecin SMUR\"}"
       },
       "refId" : "ObjectDescriptor:24054703:rgeAG3",
-      "scopeType" : "GameModelScope",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -607,7 +607,7 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "DEPRECATED",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -635,7 +635,7 @@
         "DEPRECATED" : "{\"description\":\"DELETE THIS VARIABLE\",\"events\":[]}"
       },
       "refId" : "ObjectDescriptor:24033401:zOWEQ7",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -775,7 +775,7 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -804,12 +804,12 @@
         "validation_model" : "{\"pathologies\":{\"20p_ah\":true,\"major_ih\":true,\"upper_airways_burn\":true,\"simple_pno_full\":true,\"disclocation_c1c2\":true,\"disclocation_c5c7\":true,\"cityHunter\":true,\"thorax_circ\":true,\"20p_vh\":true,\"catastrophic_ih\":true,\"moderate_ih\":true,\"full_vh\":true,\"quarter_vh\":true,\"semi_vh\":true,\"tamponade_hard\":true,\"tamponade_mild\":true,\"tamponade_slow\":true,\"minor_vh\":true,\"cranialTrauma\":true},\"name\":\"Pour validation\"}"
       },
       "refId" : "ObjectDescriptor:24056851:CslpmW",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -831,7 +831,7 @@
         "mcs" : "{\"actions\":{\"act::areYouDead?\":\"high_skill\",\"act::canYouWalk\":\"high_skill\",\"act::measureCRT\":\"high_skill\",\"item::wendel::setup\":\"high_skill\",\"item::thoracic_drain::drain\":\"high_skill\",\"item::TranexamicAcid_500::inject\":\"high_skill\",\"item::SalineSolution_1l::inject\":\"high_skill\",\"item::oxymeter::measure\":\"high_skill\",\"item::SalineSolution_100ml::inject\":\"high_skill\",\"act::measureGCS\":\"high_skill\",\"act::getUp\":\"high_skill\",\"act::measureHR\":\"high_skill\",\"act::proneDecubitus\":\"high_skill\",\"act::recoveryPosition\":\"high_skill\",\"act::measureRR\":\"high_skill\",\"act::sitDown\":\"high_skill\",\"act::supineDecubitus\":\"high_skill\",\"item::3side::setup\":\"high_skill\",\"item::balloon::setup\":\"high_skill\",\"item::bandage::pack\":\"high_skill\",\"item::bandage::pressureBandage\":\"high_skill\",\"item::Blood_1l::inject\":\"high_skill\",\"item::sphygmomanometer::measure\":\"high_skill\",\"item::cat::setup\":\"high_skill\",\"item::cricotomie::setup\":\"high_skill\",\"item::exsufflation::do\":\"high_skill\",\"item::guedel::setup\":\"high_skill\",\"item::igel::setup\":\"high_skill\",\"item::intubate::setup\":\"high_skill\",\"item::israeliBandage::israeli\":\"high_skill\",\"item::mask::setup\":\"high_skill\",\"act::openAirways\":\"high_skill\",\"act::measureMotricity\":\"high_skill\",\"act::painLevel\":\"high_skill\"},\"name\":\"MCS\"}"
       },
       "refId" : "ObjectDescriptor:24057033:xY2WkZ",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1084,8 +1084,32 @@
         },
         "name" : "NONE",
         "refId" : "EnumItem:#2:0aBRsh"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:24107252:8udMMl",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:24107252:8udMMl::EN",
+              "status" : "",
+              "translation" : "Observer"
+            },
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:24107252:8udMMl::FR",
+              "status" : "",
+              "translation" : "Observateur"
+            }
+          }
+        },
+        "name" : "OBSERVER",
+        "refId" : "EnumItem:#3:PAjxEf"
       } ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "PlayerScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StringInstance",
@@ -1106,7 +1130,7 @@
       "maxSelectable" : 1,
       "name" : "realLifeRole",
       "refId" : "StringDescriptor:24098818:EdlIrE",
-      "scopeType" : "TeamScope",
+      "scopeType" : "PlayerScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -1518,7 +1542,7 @@
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -1587,7 +1611,7 @@
                 "lang" : "FR",
                 "refId" : "TranslatableContent:24057040:pq7EBd::FR",
                 "status" : "",
-                "translation" : "SMURDoctor"
+                "translation" : ""
               }
             }
           }
@@ -1644,7 +1668,7 @@
       },
       "name" : "drill",
       "refId" : "ListDescriptor:24056505:1AlWQD",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1673,29 +1697,6 @@
       },
       "name" : "finished_custom_text",
       "refId" : "TextDescriptor:26620158:7cwtor",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ListInstance",
-        "refId" : "ListInstance:24098789:QsN47m"
-      },
-      "editorTag" : "lifeSizeWithQR",
-      "isolation" : "OPEN",
-      "items" : [ ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098790:iYSliW",
-        "translations" : { }
-      },
-      "name" : "lifeSizeWithQR",
-      "refId" : "ListDescriptor:24098788:H4FStP",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -1750,7 +1751,7 @@
         "name" : "SOFTWARE",
         "refId" : "EnumItem:#1:1Pyyxm"
       } ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StringInstance",
@@ -1764,7 +1765,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24098797:fh1vcJ::EN",
               "status" : "",
-              "translation" : "SOFTWARE"
+              "translation" : "REAL_LIFE"
             }
           }
         }
@@ -1779,7 +1780,7 @@
       "maxSelectable" : 1,
       "name" : "multiplayerMode",
       "refId" : "StringDescriptor:24098795:J9bZEX",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
@@ -2189,7 +2190,7 @@
     "@class" : "ListDescriptor",
     "addShortcut" : "",
     "allowedTypes" : [ ],
-    "broadcastScope" : "PlayerScope",
+    "broadcastScope" : "GameModelScope",
     "comments" : "",
     "defaultInstance" : {
       "@class" : "ListInstance",
@@ -2578,7 +2579,7 @@
     },
     "name" : "communication",
     "refId" : "ListDescriptor:47983:j2O5Ru",
-    "scopeType" : "PlayerScope",
+    "scopeType" : "GameModelScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2614,7 +2615,7 @@
     "@class" : "ListDescriptor",
     "addShortcut" : "",
     "allowedTypes" : [ ],
-    "broadcastScope" : "TeamScope",
+    "broadcastScope" : "GameModelScope",
     "comments" : "",
     "defaultInstance" : {
       "@class" : "ListInstance",
@@ -2624,7 +2625,7 @@
     "isolation" : "OPEN",
     "items" : [ {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "https://ourworldindata.org",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -2644,7 +2645,7 @@
         "generationSettings" : "{\"heightMeanMen\":178.4,\"heightStdDevMen\":7.59,\"heightMeanWomen\":164.7,\"heightStdDevWomen\":7.07,\"BMImean\":23,\"ageHistogram\":[{\"cardinality\":9.72,\"min\":15,\"max\":24},{\"cardinality\":55.55,\"min\":24,\"max\":65},{\"cardinality\":18.84,\"min\":65,\"max\":95}],\"WomanManRatio\":0.5,\"BMIstdDev\":3}"
       },
       "refId" : "ObjectDescriptor:56324:HzyhRi",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -2710,14 +2711,14 @@
     },
     "name" : "patient_generation",
     "refId" : "ListDescriptor:56281:c5m2Pm",
-    "scopeType" : "TeamScope",
+    "scopeType" : "GameModelScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
     "allowedTypes" : [ ],
-    "broadcastScope" : "TeamScope",
+    "broadcastScope" : "GameModelScope",
     "comments" : "",
     "defaultInstance" : {
       "@class" : "ListInstance",
@@ -2798,7 +2799,7 @@
     },
     "name" : "events_vd1H1F",
     "refId" : "ListDescriptor:24070155:NXpQIu",
-    "scopeType" : "TeamScope",
+    "scopeType" : "GameModelScope",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -2990,9 +2991,9 @@
           "bleedsminor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minor hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"saignement mineur\",\"lang\":\"FR\"}},\"version\":0}",
           "bleedsnolonger" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no visible active hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"pas d’hémorragie active visible\",\"lang\":\"FR\"}},\"version\":0}",
           "bleedsvenous" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continuous severe hemorrhage\"},\"FR\":{\"status\":\"\",\"translation\":\"saignement important en continu\",\"lang\":\"FR\"}},\"version\":0}",
-          "bloodVolumeRatio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Blood vol,\"}},\"version\":0}",
-          "bloodvolumeratio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"blood volume\"}},\"version\":0}",
+          "bloodvolumeratio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"blood volume\"},\"FR\":{\"status\":\"\",\"translation\":\"volémie\",\"lang\":\"FR\"}},\"version\":0}",
           "closed eyes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"closed eyes\"},\"FR\":{\"status\":\"\",\"translation\":\"yeux fermés\",\"lang\":\"FR\"}},\"version\":0}",
+          "dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"dead\"},\"FR\":{\"status\":\"\",\"translation\":\"mort\",\"lang\":\"FR\"}},\"version\":0}",
           "deep and rapid breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deep and rapid breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"respiration ample et rapide\",\"lang\":\"FR\"}},\"version\":0}",
           "deep breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deep breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"respiration ample\",\"lang\":\"FR\"}},\"version\":0}",
           "do_not_move" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"can't move\"},\"FR\":{\"status\":\"\",\"translation\":\"ne peut pas bouger\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3000,9 +3001,9 @@
           "lively" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lively\"},\"FR\":{\"status\":\"\",\"translation\":\"alerte, vous regarde\",\"lang\":\"FR\"}},\"version\":0}",
           "looks dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"looks dead\"},\"FR\":{\"status\":\"\",\"translation\":\"semble mort\",\"lang\":\"FR\"}},\"version\":0}",
           "male" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"male\"},\"FR\":{\"status\":\"\",\"translation\":\"homme\",\"lang\":\"FR\"}},\"version\":0}",
-          "motricity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"motricity\"}},\"version\":0}",
-          "motricity.arms" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Arms L/R\"}},\"version\":0}",
-          "motricity.legs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Legs L/R\"}},\"version\":0}",
+          "motricity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"motricity\"},\"FR\":{\"status\":\"\",\"translation\":\"motricité\",\"lang\":\"FR\"}},\"version\":0}",
+          "motricity.arms" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"arms L/R\"},\"FR\":{\"status\":\"\",\"translation\":\"bras G/D\",\"lang\":\"FR\"}},\"version\":0}",
+          "motricity.legs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"legs L/R\"},\"FR\":{\"status\":\"\",\"translation\":\"jambes G/D\",\"lang\":\"FR\"}},\"version\":0}",
           "move" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"can move\"},\"FR\":{\"status\":\"\",\"translation\":\"peut bouger\",\"lang\":\"FR\"}},\"version\":0}",
           "no" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no\"},\"FR\":{\"status\":\"\",\"translation\":\"non\",\"lang\":\"FR\"}},\"version\":0}",
           "no apparent breathing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no apparent breathing\"},\"FR\":{\"status\":\"\",\"translation\":\"pas de respiration apparente\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3043,10 +3044,10 @@
           "vitals.visiblepain" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pain\"},\"FR\":{\"status\":\"\",\"translation\":\"douleur\",\"lang\":\"FR\"}},\"version\":0}",
           "years" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"y/o\"},\"FR\":{\"status\":\"\",\"translation\":\"ans\",\"lang\":\"FR\"}},\"version\":0}",
           "yes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yes\"},\"FR\":{\"status\":\"\",\"translation\":\"oui\",\"lang\":\"FR\"}},\"version\":0}",
-          "you-are-conscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're conscious\"}},\"version\":0}",
-          "you-are-dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dead...\"}},\"version\":0}",
-          "you-are-dizzy" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dizzy\"}},\"version\":0}",
-          "you-are-unconscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are unconscious\"}},\"version\":0}"
+          "you-are-conscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're conscious\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes alerte\",\"lang\":\"FR\"}},\"version\":0}",
+          "you-are-dead" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dead...\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes mort...\",\"lang\":\"FR\"}},\"version\":0}",
+          "you-are-dizzy" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're dizzy\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes non-alerte\",\"lang\":\"FR\"}},\"version\":0}",
+          "you-are-unconscious" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you're unconscious\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes inconscient\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:63780:6Wkeqn",
         "scopeType" : "GameModelScope",
@@ -3260,6 +3261,8 @@
           "bodypart" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"body part\"},\"FR\":{\"status\":\"\",\"translation\":\"partie du corps\",\"lang\":\"FR\"}},\"version\":0}",
           "cancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"annuler\",\"lang\":\"FR\"}},\"version\":0}",
           "cancellation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancellation\"},\"FR\":{\"status\":\"\",\"translation\":\"annulation\",\"lang\":\"FR\"}},\"version\":0}",
+          "category" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"category\"},\"FR\":{\"status\":\"\",\"translation\":\"categorie\",\"lang\":\"FR\"}},\"version\":0}",
+          "category-live" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"live category\"},\"FR\":{\"status\":\"\",\"translation\":\"categorie actuelle\",\"lang\":\"FR\"}},\"version\":0}",
           "category-system" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"category system\"},\"FR\":{\"status\":\"\",\"translation\":\"système de catégorisation\",\"lang\":\"FR\"}},\"version\":0}",
           "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
           "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"console\"},\"FR\":{\"status\":\"\",\"translation\":\"console\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3452,7 +3455,7 @@
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -3487,8 +3490,11 @@
         },
         "name" : "qr-interface",
         "properties" : {
-          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"}},\"version\":0}",
-          "scan-second" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan the second QR code\"}},\"version\":0}",
+          "join-as-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as observer\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'observateur\",\"lang\":\"FR\"}},\"version\":0}",
+          "join-as-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as patient\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant que patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "join-as-squad-member" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as participant\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'intervenant\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-second" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan the second QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
           "scan-to-impersonate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"then, scan this one to play your character\"},\"FR\":{\"status\":\"\",\"translation\":\"puis scannez celui-ci pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
           "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}"
         },
@@ -3512,14 +3518,14 @@
       },
       "name" : "variable_6HaInb",
       "refId" : "ListDescriptor:24098776:LeCiBl",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -3560,7 +3566,7 @@
       },
       "name" : "general",
       "refId" : "ListDescriptor:24098806:wm2jhy",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -3688,6 +3694,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034415:otYUNi",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/display/liveOverview",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:24107179:dd3C6J",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -4123,13 +4138,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Collidere  refactor characters",
+  "name" : "Collidere  LIVE",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_white-greenblue_plane_fa",
     "logID" : null,

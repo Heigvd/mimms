@@ -1,0 +1,110 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "joinPage__title",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('qr-interface', 'join-as-observer');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "`<h1>${Context.profile.profile.skillId}</h1>${Context.profile.profile.skillId}`;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-join');",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "layout" : { },
+            "layoutStyle" : { },
+            "size" : "256",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "const link = gameModel.getType() === 'PLAY' ?\n`${Helpers.getWegasUrl()}#/play/${CurrentGame.token}`\n: `${Helpers.getWegasUrl()}2/play.html?gameModelId=${gameModel.getId()}`\n\nlink;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "QRCode"
+        } ],
+        "layout" : {
+          "justifyContent" : "space-between"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "Act as Character Code",
+            "size" : "256",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { actAsObserverPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsObserverPayload());",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "QRCode"
+        } ]
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "patientJoinPage pageA4",
+    "layoutStyle" : { },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

@@ -1,4 +1,5 @@
-import { getMultiplayerMode, getRealLifeRole } from "./gameMaster";
+import { getSendEventServerScript } from "./EventManager";
+import { getDefaultBag, getMultiplayerMode, getRealLifeRole } from "./gameMaster";
 
 interface ActAsPatient {
 	type: 'ActAsPatient';
@@ -8,6 +9,10 @@ interface ActAsPatient {
 interface ActAsCharacter {
 	type: 'ActAsCharacter';
 	profileId: string;
+}
+
+interface ActAsObserver {
+	type: 'ActAsObserver';
 }
 
 interface ExaminePatient {
@@ -32,6 +37,25 @@ function isActAsCharacter(data: unknown): data is ActAsCharacter {
 						return true;
 					}
 				}
+			}
+		}
+	}
+	return false;
+}
+
+
+export function actAsObserverPayload(): ActAsObserver {
+	return {
+		type: 'ActAsObserver',
+	}
+}
+
+function isActAsObserver(data: unknown): data is ActAsObserver {
+	if (typeof data === 'object' && data != null) {
+		if ('type' in data) {
+			if ((data as { type: string }).type === 'ActAsObserver') {
+				// type is fine
+				return true;
 			}
 		}
 	}
@@ -84,33 +108,44 @@ function isExaminePatient(data: unknown): data is ExaminePatient {
 	return false;
 }
 
-export function processQrCode(rawDta: string) {
+export function processQrCode(rawData: string) {
 	const mode = getMultiplayerMode();
 	if (mode != 'REAL_LIFE') {
 		return;
 	}
+	
+	const bagId = getDefaultBag();
+	const bagScript = bagId ? `, ${JSON.stringify(bagId)}` : '';
 
 	const role = getRealLifeRole();
 	try {
-		const data = JSON.parse(rawDta);
+		const data = JSON.parse(rawData);
 		if (isActAsCharacter(data)) {
 			if (role === 'NONE' || !role) {
 				const profileId = atob(data.profileId);
 				APIMethods.runScript(
-					`EventManager.instantiateCharacter(${JSON.stringify(profileId)});
+					`EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
 					Variable.find(gameModel, 'realLifeRole').setValue(self, 'HEALTH_SQUAD');`, {});
 			}
 		} else if (isActAsPatient(data)) {
 			if (role === 'NONE' || !role) {
 				const patientId = atob(data.patientId);
-				const patientExists = Variable.find(gameModel, 'patients');
+				const patientExists = !!Variable.find(gameModel, 'patients').getProperties()['A-5'];
 				if (patientExists) {
 					APIMethods.runScript(
 						`Variable.find(gameModel, "currentPatient").setValue(self, "${patientId}");
 						 Variable.find(gameModel, "whoAmI").setValue(self, "${patientId}");
-				 		 Variable.find(gameModel, 'realLifeRole').setValue(self, 'PATIENT');`
+				 		 Variable.find(gameModel, 'realLifeRole').setValue(self, 'PATIENT');
+						`
 						, {});
 				}
+			}
+		} else if (isActAsObserver(data)) {
+			if (role === 'NONE' || !role) {
+				const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
+				APIMethods.runScript(
+					`EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
+					Variable.find(gameModel, 'realLifeRole').setValue(self, 'OBSERVER');`, {});
 			}
 		} else if (isExaminePatient(data)) {
 			if (role === 'HEALTH_SQUAD') {

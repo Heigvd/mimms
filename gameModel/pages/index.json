@@ -100,18 +100,6 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "32",
-          "name" : "squadPage",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "31",
-          "name" : "stage directions",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "34",
           "name" : "scanner",
           "scenaristPage" : null,
@@ -122,8 +110,32 @@
           "name" : "patientZoom",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "31",
+          "name" : "patient state direction",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "32",
+          "name" : "squadPage",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "39",
+          "name" : "observer page",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "QR"
+      }, {
+        "@class" : "Page",
+        "id" : "37",
+        "name" : "liveOverview",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "playerPages"
     }, {
@@ -147,13 +159,19 @@
           "id" : "30",
           "name" : "patientJoinPages",
           "scenaristPage" : true,
-          "trainerPage" : true
+          "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "35",
           "name" : "squadJoinPages",
           "scenaristPage" : true,
-          "trainerPage" : true
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "38",
+          "name" : "observerJoinPage",
+          "scenaristPage" : true,
+          "trainerPage" : false
         } ],
         "name" : "QR"
       } ],

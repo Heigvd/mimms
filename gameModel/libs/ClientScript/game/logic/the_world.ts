@@ -654,6 +654,8 @@ function rebuildState(time: number, env: Environnment) {
 		};
 	});
 
+	// TODO if fogType is full, ignore events related to other human than `whoAmI`
+
 	// generate missing snapshot for time
 	objectList.forEach(obj => {
 		const oKey = getObjectKey(obj);
@@ -753,9 +755,13 @@ function rebuildState(time: number, env: Environnment) {
 				}
 			});
 		}
+	} else if (fogType === 'NONE') {
+		// no fog: update all objects
+		visibles.push(...objectList);
 	}
 
 	//worldLogger.setLevel('INFO')
+	worldLogger.log('Fog', fogType);
 	worldLogger.log('Visible', visibles);
 	worldLogger.log('OutOfSight', outOfSight);
 	//worldLogger.setLevel('WARN')
@@ -809,6 +815,26 @@ current.direction = undefined;
 		}
 	});
 	//}
+}
+
+
+/**
+ * Get all humanState, bybpassing the line of sight !
+ */
+export function getAllHuman_omniscient() {
+	const time = getCurrentSimulationTime();
+	const entries = Object.entries(humanSnapshots);
+	return entries.reduce<Record<string, HumanState>>((acc, [key, snapshots]) => {
+		const [_, humanId] = key.split("::");
+		const {mostRecent} = getMostRecentSnapshot(humanSnapshots, {
+			objectType: 'Human',
+			objectId: humanId,
+		}, time);
+		if (mostRecent) {
+			acc[humanId] = mostRecent.state;
+		}
+		return acc;
+	}, {});
 }
 
 function getMostRecentSnapshot<T>(
@@ -1632,7 +1658,10 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				event.payload.emitterCharacterId,
 				event.payload.source,
 			);
-			if (skillLevel) {
+			const patientOnItselfAct = event.payload.emitterCharacterId === event.payload.targetId && !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
+			if (patientOnItselfAct){
+				doTreatment(event.time, resolvedAction, event);
+			} else if (skillLevel) {
 				const duration = action.duration[skillLevel];
 				if (duration > 0) {
 					// delay event
@@ -1941,6 +1970,10 @@ export function getHuman(id: string):
 	return undefined;
 }
 
+export function getHumanMeta(humanId: string) : HumanMeta | undefined {
+	return humanMetas[humanId];
+}
+
 export function getHumanConsole(id: string): ConsoleLog[] {
 	const myId = whoAmI();
 	const human = worldState.humans[`Human::${id}`];
@@ -2088,34 +2121,11 @@ function getInventory(time: number, objectId: ObjectId): Inventory {
 	}
 }
 
-let drillInventoryByPassDone: string | undefined = undefined;
 /**
  * Get current character inventory.
  */
 export function getMyInventory(): Inventory {
 	const myHumanId = whoAmI();
-	if (myHumanId && shouldProvideDefaultBag()) {
-		const defaultBag = getDefaultBag();
-		if (drillInventoryByPassDone != defaultBag) {
-			drillInventoryByPassDone = defaultBag;
-			if (defaultBag) {
-				worldLogger.warn('Got a bag', defaultBag);
-				processEvent({
-					id: -1008,
-					timestamp: Date.now(),
-					time: 1,
-					payload: {
-						type: 'GiveBag',
-						bagId: defaultBag,
-						targetId: myHumanId,
-						targetType: 'Human',
-						emitterCharacterId: myHumanId,
-						emitterPlayerId: String(self.getId()),
-					},
-				});
-			}
-		}
-	}
 
 	const time = getCurrentSimulationTime();
 
@@ -2133,7 +2143,6 @@ export function clearState() {
 	healths = {};
 	delayedActions = [];
 	clearAllCommunicationState();
-	drillInventoryByPassDone = undefined;
 }
 
 Helpers.registerEffect(() => {

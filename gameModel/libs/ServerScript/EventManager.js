@@ -134,7 +134,7 @@ var EventManager = ((function () {
 	}
 
 
-	function instantiateCharacter(profileId) {
+	function instantiateCharacter(profileId, bagId) {
 		lock();
 		var charactersDesc = Variable.find(gameModel, 'characters');
 		var strProfile = charactersDesc.getProperty(profileId);
@@ -159,6 +159,19 @@ var EventManager = ((function () {
 			// persist data and set whoiAmI
 			Variable.find(gameModel, "whoAmI").setValue(self, id);
 			charactersDesc.getInstance().setProperty(id, jsonParam);
+
+			if (bagId) {
+				var givBagPayload = {
+					emitterPlayerId: self.getId(),
+					emitterCharacterId: id,
+					type: 'GiveBag',
+					targetType: 'Human',
+					targetId: id,
+					bagId: bagId,
+				}
+				sendEvent(givBagPayload)
+			}
+
 			return id;
 		}
 		return '';

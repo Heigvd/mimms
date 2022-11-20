@@ -7,7 +7,7 @@ import { Compensation, SympSystem } from "../HUMAn/physiologicalModel";
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
-import { getDrillType, isDrillMode } from "../game/logic/gameMaster";
+import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/logic/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
 
 export function parse<T>(meta: string): T | null {
@@ -159,13 +159,17 @@ Helpers.registerEffect(() => {
 	return () => {
 		instantiationStatus = 'UNDONE';
 	}
-})
+});
 
 export async function instantiateWhoAmI(force: boolean = false) : Promise<string> {
 	if (instantiationStatus === 'UNDONE' || force){
+		const defaultBag = shouldProvideDefaultBag() ? getDefaultBag() : '';
+
 		instantiationStatus = 'ONGOING';
 		const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
-		const response = await APIMethods.runScript(`EventManager.instantiateCharacter(${JSON.stringify(profileId)})`, {});
+		const response = await APIMethods.runScript(
+			`EventManager.instantiateCharacter(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
+			{});
 		const entity = response.updatedEntities[0];
 
 		if (typeof entity === 'string') {

@@ -647,6 +647,49 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Observer Profile<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "choices" : {
+                      "@class" : "Script",
+                      "content" : "import { getCharacterProfilesAsChoices } from './tools/WegasHelper';\ngetCharacterProfilesAsChoices();",
+                      "language" : "typescript"
+                    },
+                    "layoutStyle" : {
+                      "flexGrow" : "1"
+                    },
+                    "name" : "default profile",
+                    "onVariableChange" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'defaultProfile')",
+                      "language" : "JavaScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Select input"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "drill-config--item-container",
+                "layoutStyle" : { },
+                "name" : "default profile",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
                 "icon" : "print",
                 "label" : {
                   "@class" : "Script",
@@ -685,6 +728,26 @@
                 "style" : { }
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "icon" : "print",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Observer QR<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "characters QRs",
+                "openUrl" : {
+                  "url" : {
+                    "@class" : "Script",
+                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=38`;",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
             } ],
             "className" : "xx",
             "hideIf" : {
@@ -693,8 +756,9 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "QR Settings",
+            "layoutClassName" : "",
             "layoutStyle" : { },
+            "name" : "QR Settings",
             "style" : { }
           },
           "type" : "FlexList"

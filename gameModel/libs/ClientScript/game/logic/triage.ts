@@ -22,6 +22,7 @@ import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../display/graphics';
 import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
+import { logger } from '../../tools/logger';
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
@@ -472,11 +473,12 @@ export function getTagSystemCategories(): TagSystem<string> {
 
 type PreTriageAction = string;
 
-interface PreTriageData {
+export interface PreTriageData {
 	human: HumanBody;
 	env: Environnment;
 	health: HumanHealth;
 	actions: PreTriageAction[];
+	console: ConsoleLog[];
 }
 
 const explanations = {
@@ -598,7 +600,7 @@ function getOrReadMetric<T>(
 
 	// fallback
 	const value = readKey(humanState, metric) as T;
-	wlog(`Metric not found in console: read ${metric} from body: ${value}`);
+	logger.log(`Metric not found in console: read ${metric} from body: ${value}`);
 	return value;
 }
 
@@ -1222,7 +1224,6 @@ const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 };
 
 export function doAutomaticTriage(): PreTriageResult<string> | undefined {
-	const tagSystem = getTagSystem();
 
 	const human = getCurrentPatientBody();
 	const health = getCurrentPatientHealth();
@@ -1245,7 +1246,14 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 		env: env,
 		health: health,
 		actions: [],
+		console: console,
 	};
+
+	return doAutomaticTriage_internal(data);
+}
+
+export function doAutomaticTriage_internal(data: PreTriageData): PreTriageResult<string> | undefined {
+	const tagSystem = getTagSystem();
 
 	let triageFunction: TriageFunction<string> = undefined;
 	switch (tagSystem) {
@@ -1272,12 +1280,12 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	}
 
 	if (triageFunction != null) {
-		const result = triageFunction(data, console);
+		const result = triageFunction(data, data.console);
 		result.categoryId;
 		const severity = getTagSystemCategories().categories.findIndex(c => {
 			return c.id === result.categoryId;
 		});
-		const vitals = gatherVitals(data, console);
+		const vitals = gatherVitals(data);
 		return {
 			...result,
 			severity,
@@ -1288,7 +1296,7 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	}
 }
 
-function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string, string | number> {
+function gatherVitals(data: PreTriageData): Record<string, string | number> {
 	const required: BodyStateKeys[] = [
 		'vitals.respiration.rr',
 		'vitals.cardio.radialPulse',
@@ -1301,7 +1309,7 @@ function gatherVitals(data: PreTriageData, console: ConsoleLog[]): Record<string
 	];
 	const res: Record<string, string | number> = {};
 	required.reduce((map, k: BodyStateKeys) => {
-		map[k] = getOrReadMetric(k, data.human.state, console, 'MOST_RECENT');
+		map[k] = getOrReadMetric(k, data.human.state, data.console, 'MOST_RECENT');
 		return map;
 	}, res);
 
@@ -1375,6 +1383,11 @@ export function doAutomaticTriageAndLogToConsole() {
  * Html formated pre-triage category
  */
 export function categoryToHtml(categoryId: string | undefined): string {
+
+	if (!categoryId) {
+		return `<div class='tagCategory notCategorized'></div>`;
+	}
+
 	const cat = getCategory(categoryId)?.category;
 	if (cat) {
 		return `<div class='tagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}">${cat.name}</div>`;

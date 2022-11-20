@@ -2,6 +2,19 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "joinPage__title",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('qr-interface', 'join-as-squad-member');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -61,18 +74,34 @@
               "type" : "FlexList"
             }, {
               "props" : {
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "Act as Character Code",
-                "size" : "256",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { actAsCharacterPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsCharacterPayload(Context.profile.id));",
-                  "language" : "TypeScript"
-                }
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "Act as Character Code",
+                    "size" : "256",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { actAsCharacterPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsCharacterPayload(Context.profile.id));",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "QRCode"
+                } ]
               },
-              "type" : "QRCode"
+              "type" : "FlexList"
             } ],
             "layout" : {
               "flexDirection" : "column"

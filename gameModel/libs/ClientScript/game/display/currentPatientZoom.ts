@@ -1175,8 +1175,8 @@ export async function validateCategory(state: PatientZoomState): Promise<unknown
 	const system = getTagSystem();
 	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
-	wlog(resolved);
-	wlog(state.currentPatient);
+	logger.log("Resolved category: ", resolved);
+	logger.log("CurrentPatient: ", state.currentPatient);
 	if (resolved != null && state.currentPatient) {
 		return sendEvent({
 			...initEmitterIds(),

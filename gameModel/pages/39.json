@@ -1,0 +1,32 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"37\";",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "flexGrow" : "1"
+        },
+        "name" : "observerLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "qr-squad-page",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
