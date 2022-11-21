@@ -176,64 +176,9 @@
             }, {
               "props" : {
                 "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "Context.vital.value;",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "layout" : {
-              "flexDirection" : "column",
-              "flexWrap" : "wrap"
-            },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "className" : "",
-        "exposeAs" : "vital",
-        "getItemsFn" : {
-          "@class" : "Script",
-          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
-          "language" : "TypeScript"
-        },
-        "itemKey" : "id",
-        "layout" : {
-          "flexWrap" : "nowrap"
-        },
-        "layoutClassName" : "stage-direction__section",
-        "layoutStyle" : { },
-        "name" : "sec vitals",
-        "style" : {
-          "overflow" : "auto"
-        }
-      },
-      "type" : "For each"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : {
-                  "fontWeight" : "bolder"
+                "style" : {
+                  "fontFamily" : "fixed"
                 },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "Context.vital.label;",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
                 "text" : {
                   "@class" : "Script",
                   "content" : "Context.vital.value;",
@@ -265,6 +210,65 @@
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
         "name" : "main vitals",
+        "style" : {
+          "overflow" : "auto"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : {
+                  "fontWeight" : "bolder"
+                },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.vital.label;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : {
+                  "font-family" : "fixed"
+                },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.vital.value;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column",
+              "flexWrap" : "wrap"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "",
+        "exposeAs" : "vital",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexWrap" : "nowrap"
+        },
+        "layoutClassName" : "stage-direction__section",
+        "layoutStyle" : { },
+        "name" : "sec vitals",
         "style" : {
           "overflow" : "auto"
         }

@@ -124,7 +124,8 @@ interface FullState {
 // Responsive
 ////////////////////
 
-const widthLimit = 10; //1050;
+const widthLimit = 10;
+//const widthLimit = 1050;
 
 export function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
 	const pageWidth = Context.mainPageSize?.width;

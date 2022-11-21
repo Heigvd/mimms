@@ -40,7 +40,7 @@
     "layoutClassName" : "qr-squad-page",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
+      "padding" : "0",
       "width" : "100%"
     },
     "style" : { }
