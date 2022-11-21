@@ -11,6 +11,7 @@ import { STANDARD_CATEGORY } from "../game/logic/triage";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";
+import { logger } from '../tools/logger';
 
 export type VariablePatch = Partial<BodyState["variables"]>;
 export type BlockPatch = Partial<Block["params"]>;
@@ -731,7 +732,7 @@ export function revivePathology(afflictedPathology: AfflictedPathology, time: nu
 		})
 	};
 
-	wlog("result: ", result);
+	logger.log("result: ", result);
 	return result;
 }
 

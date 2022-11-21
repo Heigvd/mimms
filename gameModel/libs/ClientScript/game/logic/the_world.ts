@@ -77,6 +77,7 @@ import {
 	getTranslation,
 } from '../../tools/translation';
 
+
 ///////////////////////////////////////////////////////////////////////////
 // Typings
 ///////////////////////////////////////////////////////////////////////////
@@ -88,6 +89,8 @@ export type Location = Point & {
 export type NamedLocation = Location & {
 	name: string;
 };
+
+
 
 export interface Located {
 	location: Location | undefined;
@@ -320,6 +323,9 @@ export interface DelayedAction {
 	action: ResolvedAction;
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
 	resultEvent: HumanMeasureResultEvent | undefined;
+	display: {
+		pulse_perMin?: number;
+	} | undefined;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -635,6 +641,8 @@ function getHumanSpeed() {
 	return convertMeterToMapUnit(1.4); // 5 kph
 }
 
+
+
 /**
  * build state of the world at given time
  */
@@ -715,7 +723,7 @@ function rebuildState(time: number, env: Environnment) {
 	// update visible world
 	const visibles: ObjectId[] = [];
 	let outOfSight: ObjectId[] = [];
-	let lineOfSight : Point[] | undefined;
+	let lineOfSight: Point[] | undefined;
 
 	const myHumanId = whoAmI();
 	if (myHumanId) {
@@ -727,7 +735,7 @@ function rebuildState(time: number, env: Environnment) {
 		if (myPosition.mostRecent != null && myPosition.mostRecent?.state.lineOfSight == null) {
 			myPosition.mostRecent.state.lineOfSight = calculateLOS(myPosition.mostRecent.state.location!);
 		}
- 		lineOfSight = myPosition.mostRecent?.state.lineOfSight;
+		lineOfSight = myPosition.mostRecent?.state.lineOfSight;
 
 		if (fogType === 'NONE') {
 			// no fog: update all objects
@@ -826,7 +834,7 @@ export function getAllHuman_omniscient() {
 	const entries = Object.entries(humanSnapshots);
 	return entries.reduce<Record<string, HumanState>>((acc, [key, snapshots]) => {
 		const [_, humanId] = key.split("::");
-		const {mostRecent} = getMostRecentSnapshot(humanSnapshots, {
+		const { mostRecent } = getMostRecentSnapshot(humanSnapshots, {
 			objectType: 'Human',
 			objectId: humanId,
 		}, time);
@@ -1186,6 +1194,16 @@ export function resolveAction(
 	return undefined;
 }
 
+function readMetrics(metrics: BodyStateKeys[], body: BodyState): MeasureMetric[] {
+	return metrics.map(metric => {
+		return {
+			metric,
+			value: readKey(body, metric),
+		};
+	});
+}
+
+
 function doMeasure(
 	time: number,
 	_source: ItemDefinition | ActDefinition,
@@ -1204,12 +1222,7 @@ function doMeasure(
 	const { snapshot, futures } = getHumanSnapshotAtTime(objId, fEvent.time);
 	const body = snapshot.state.bodyState;
 
-	const values: MeasureLog['metrics'] = metrics.map(metric => {
-		return {
-			metric,
-			value: readKey(body, metric),
-		};
-	});
+	const values = readMetrics(metrics, body);
 
 	const logEntry: MeasureLog = {
 		type: 'MeasureLog',
@@ -1358,13 +1371,45 @@ export function getResolvedActionDisplayName(action: ResolvedAction): string {
 	return action.label;
 }
 
+function getActionDisplay(action: ResolvedAction, objectId: ObjectId, time: number): DelayedAction['display'] {
+	if (action.action.type === 'ActionBodyMeasure') {
+		const metrics = action.action.metricName;
+		const metric = metrics[0];
+		if (metrics.length === 1 && metric) {
+			switch (metric) {
+				case 'vitals.cardio.hr':
+				case 'vitals.respiration.rr': {
+					const { snapshot } = getHumanSnapshotAtTime(objectId, time);
+					const body = snapshot.state.bodyState;
+					const result = readMetrics([metric], body);
+					wlog("Metric Result: ", result[0]);
+					if (result[0] != null && typeof result[0].value === 'number') {
+						return {
+							pulse_perMin: result[0].value,
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return undefined;
+}
+
 function delayAction(
 	dueDate: number,
 	action: ResolvedAction,
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
 	resultEvent: HumanMeasureResultEvent | undefined,
 ) {
-	const dA: DelayedAction = { id: event.id, dueDate, action, event, resultEvent };
+	const dA: DelayedAction = {
+		id: event.id,
+		dueDate,
+		action,
+		event,
+		display: getActionDisplay(action, {objectType: 'Human', objectId: event.payload.targetId}, event.time),
+		resultEvent
+	};
 	const start = getTranslation('pretriage-interface', 'start');
 	addLogMessage(
 		event.payload.emitterCharacterId,
@@ -1659,7 +1704,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				event.payload.source,
 			);
 			const patientOnItselfAct = event.payload.emitterCharacterId === event.payload.targetId && !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
-			if (patientOnItselfAct){
+			if (patientOnItselfAct) {
 				doTreatment(event.time, resolvedAction, event);
 			} else if (skillLevel) {
 				const duration = action.duration[skillLevel];
@@ -1792,9 +1837,9 @@ function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
 	};
 
 	const bag = getBagDefinition(event.payload.bagId);
-	worldLogger.setLevel('INFO');
+	//worldLogger.setLevel('INFO');
 	worldLogger.info('Process Give Bag Event', { owner, bag });
-	worldLogger.setLevel('WARN');
+	//worldLogger.setLevel('WARN');
 
 	if (bag != null) {
 		updateInventoriesSnapshots(owner, event.time, bag.items);
@@ -1970,7 +2015,7 @@ export function getHuman(id: string):
 	return undefined;
 }
 
-export function getHumanMeta(humanId: string) : HumanMeta | undefined {
+export function getHumanMeta(humanId: string): HumanMeta | undefined {
 	return humanMetas[humanId];
 }
 

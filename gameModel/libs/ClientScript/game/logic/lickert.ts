@@ -29,6 +29,7 @@ export function selectPatient(patientId: string) {
 	);
 }
 
+
 export function gotoValidatePage() {
 	APIMethods.runScript(
 		`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed_summary');

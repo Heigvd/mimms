@@ -220,3 +220,35 @@
 	 cursor: pointer;
 	 transition: 0.2s;
  }
+
+
+
+@keyframes pulseKF {
+	0% {
+		transform: scale(0.95);
+		opacity: 0.4;
+		/*box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);*/
+	}
+
+	70% {
+		transform: scale(1);
+		opacity: 1;
+		/*box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);*/
+	}
+
+	100% {
+		transform: scale(0.95);
+		opacity: 0.4;
+		/*box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);*/
+	}
+}
+
+.pulseMe {
+	animation: pulseKF 1s infinite;
+	width: 30px;
+	height: 30px;
+	background: var(--colors-darktextcolor);
+	animation-duration: 4s;
+	border-radius: 50%;
+}
+

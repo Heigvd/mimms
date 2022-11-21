@@ -10,15 +10,38 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
-                      "language" : "JavaScript"
-                    }
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction = Context.pendingAction;\nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.pendingAction?.display?.pulse_perMin == null",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "pulse",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "const perMin = Context.pendingAction?.display?.pulse_perMin;\nconst duration = 60 / perMin;\n`<div class='pulseMe' style=\"animation-duration: ${duration}s\"></div>`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "disableIf" : {
