@@ -1322,7 +1322,7 @@ function getHumanSkillLevelForAction(
 	}
 }
 
-function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
+function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProcessedEvents?: FullEvent<EventPayload>[]) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
@@ -1333,15 +1333,23 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>) {
 		// initialize result event only if current player was the sender
 		if(me == event.payload.emitterPlayerId)
 		{
-			resultEvent = {
-				type : 'HumanMeasureResult',
-				targetType : 'Human',
-				sourceEventId : event.id,
-				targetId: event.payload.targetId,
-				emitterCharacterId: event.payload.emitterCharacterId,
-				emitterPlayerId : me,
-				status : 'unknown',
-				duration : 0
+			// check that the event has not been emitted already
+			const emitted = toBeProcessedEvents && 
+				toBeProcessedEvents.findIndex(e => 
+				e.payload.type === 'HumanMeasureResult' 
+				&& e.payload.sourceEventId === event.id) > -1;
+			
+			if(!emitted){
+				resultEvent = {
+					type : 'HumanMeasureResult',
+					targetType : 'Human',
+					sourceEventId : event.id,
+					targetId: event.payload.targetId,
+					emitterCharacterId: event.payload.emitterCharacterId,
+					emitterPlayerId : me,
+					status : 'unknown',
+					duration : 0
+				}
 			}
 		}
 
@@ -1761,7 +1769,7 @@ function processFreezeEvent(event: FullEvent<FreezeEvent>) {
 	});
 }
 
-function processEvent(event: FullEvent<EventPayload>) {
+function processEvent(event: FullEvent<EventPayload>, toBeProcessedEvents?: FullEvent<EventPayload>[]) {
 	worldLogger.debug('ProcessEvent: ', event);
 
 	const eType = event.payload.type;
@@ -1780,7 +1788,7 @@ function processEvent(event: FullEvent<EventPayload>) {
 			processHumanTreatmentEvent(event as FullEvent<HumanTreatmentEvent>);
 			break;
 		case 'HumanMeasure':
-			processHumanMeasureEvent(event as FullEvent<HumanMeasureEvent>);
+			processHumanMeasureEvent(event as FullEvent<HumanMeasureEvent>, toBeProcessedEvents);
 			break;
 		case 'Categorize':
 			processCategorizeEvent(event as FullEvent<CategorizeEvent>);
@@ -1844,7 +1852,7 @@ export function syncWorld() {
 
 	const sortedEvents = eventsToProcess.sort(compareEvent);
 
-	sortedEvents.forEach(e => processEvent(e));
+	sortedEvents.forEach(e => processEvent(e, eventsToProcess));
 
 	processDelayedActions(time);
 
