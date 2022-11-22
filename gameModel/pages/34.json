@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "innerScan",
+        "className" : "containerScanIn",
         "layoutClassName" : "containerScan",
         "layoutStyle" : {
           "flexGrow" : "1",
@@ -19,14 +19,17 @@
       },
       "type" : "qrScanner"
     } ],
+    "className" : "qr-scanner-in",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "qr-scanner",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

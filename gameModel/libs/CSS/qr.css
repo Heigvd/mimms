@@ -22,6 +22,10 @@
 		padding: 0;
 	}
 	
+	.do-no-print {
+		display: none;
+	}
+
 	.pageA4 {
 		padding: 10mm;
 		/*page-break-before: always;*/
@@ -51,4 +55,24 @@
 
 .mainpage-timebanner {
 	padding: 0;
+}
+
+.containerScanIn > div {
+	height: 100%;
+	justify-content: flex-end;
+	gap: 50px;
+}
+
+.qrCodeScanne__scanner {
+	position: absolute;
+	top: 0;
+	right: 0;
+	lefT: 0;
+	bottom: 0;	
+}
+
+.qr-screen-title {
+	font-size: 2em;
+	font-weight: bolder;
+	line-height: 1em;
 }

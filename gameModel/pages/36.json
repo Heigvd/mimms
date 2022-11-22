@@ -2,6 +2,17 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : "6",
+        "layoutStyle" : {
+          "overflow" : "auto"
+        },
+        "name" : "squadPatientLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "icon" : "arrow-left",
         "impactVariable" : {
           "impact" : {
@@ -12,34 +23,20 @@
         },
         "label" : {
           "@class" : "Script",
-          "content" : "\"\"",
+          "content" : "\"<p>retour</p>\"",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "Button"
-    }, {
-      "props" : {
-        "exposePageSizeAs" : "",
-        "initialSelectedPageId" : "6",
-        "layoutStyle" : {
-          "flexGrow" : "1"
-        },
-        "name" : "squadPatientLoader",
-        "style" : { }
-      },
-      "type" : "PageLoader"
     } ],
+    "className" : "fullSize",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "qr-patient-zoom",
-    "layoutStyle" : {
-      "height" : "100%",
-      "padding" : "0",
-      "width" : "100%"
-    },
+    "layoutClassName" : "qr-patient-zoom fullSize",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

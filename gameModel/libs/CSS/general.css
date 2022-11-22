@@ -13,7 +13,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	border-color: transparent;
 }
 .invertedButton.disabled {
-background-color: transparent;
+	background-color: transparent;
 	color: var(--colors-disabledcolor);
 	border: 1px solid var(--colors-disabledcolor);
 }
@@ -27,8 +27,9 @@ background-color: transparent;
 .global-pause-overlay {
 	height: 100%;
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	background-color: #fffa;
+	/* display: none; */
 }
 
 .global-pause-overlay > svg {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1669030994937,
+  "createdTime" : 1669100093766,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3090,10 +3090,10 @@
           "measurerr" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"respiratory Rate\"},\"FR\":{\"status\":\"\",\"translation\":\"fréquence respiratoire\",\"lang\":\"FR\"}},\"version\":0}",
           "openairways" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"open airways\"},\"FR\":{\"status\":\"\",\"translation\":\"lVAS\",\"lang\":\"FR\"}},\"version\":0}",
           "painlevel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pain level?\"},\"FR\":{\"status\":\"\",\"translation\":\"niveau de douleur ?\",\"lang\":\"FR\"}},\"version\":0}",
-          "pronedecubitus" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"prone decubitus\"},\"FR\":{\"status\":\"\",\"translation\":\"decubitus dorsal\",\"lang\":\"FR\"}},\"version\":0}",
+          "pronedecubitus" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"prone decubitus\"},\"FR\":{\"status\":\"\",\"translation\":\"decubitus ventral\",\"lang\":\"FR\"}},\"version\":0}",
           "recoveryposition" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"recovery position\"},\"FR\":{\"status\":\"\",\"translation\":\"position de sécurité\",\"lang\":\"FR\"}},\"version\":0}",
           "sitdown" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sit Down\"},\"FR\":{\"status\":\"\",\"translation\":\"asseyez-vous\",\"lang\":\"FR\"}},\"version\":0}",
-          "supinedecubitus" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"supine decubitus\"},\"FR\":{\"status\":\"\",\"translation\":\"decubitus ventral\",\"lang\":\"FR\"}},\"version\":0}"
+          "supinedecubitus" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"supine decubitus\"},\"FR\":{\"status\":\"\",\"translation\":\"decubitus dorsal\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:65494:QS8Lvu",
         "scopeType" : "GameModelScope",
@@ -3493,10 +3493,11 @@
           "join-as-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as observer\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'observateur\",\"lang\":\"FR\"}},\"version\":0}",
           "join-as-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as patient\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant que patient\",\"lang\":\"FR\"}},\"version\":0}",
           "join-as-squad-member" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as participant\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'intervenant\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient. \",\"lang\":\"FR\"}},\"version\":0}",
           "scan-second" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan the second QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
           "scan-to-impersonate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"then, scan this one to play your character\"},\"FR\":{\"status\":\"\",\"translation\":\"puis scannez celui-ci pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}"
+          "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}",
+          "touch-camera-icon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Touchez l'icône d'appareil photo ci-dessous\"},\"EN\":{\"status\":\"\",\"translation\":\"touch the camera icon below\",\"lang\":\"EN\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:24098781:HZZRDx",
         "scopeType" : "GameModelScope",

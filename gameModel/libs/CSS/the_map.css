@@ -70,7 +70,7 @@
 .humanOverlay svg {
 	/*stroke: white;*/
 	/*stroke-width: 1px;*/
-	border: 1px solid grey;
+	/*border: 1px solid grey;*/
 	position: absolute !important;
 	/*opacity: 0.3;*/
 }

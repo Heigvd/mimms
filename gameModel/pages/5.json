@@ -91,6 +91,7 @@
                       "type" : "FlexList"
                     }, {
                       "props" : {
+                        "exposePageSizeAs" : "",
                         "id" : "",
                         "initialSelectedPageId" : {
                           "@class" : "Script",
@@ -98,7 +99,7 @@
                           "language" : "TypeScript"
                         },
                         "layoutStyle" : {
-                          "flexGrow" : "1"
+                          "height" : "100%"
                         },
                         "name" : "gamePageLoader",
                         "style" : { }

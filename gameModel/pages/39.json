@@ -8,25 +8,19 @@
           "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"37\";",
           "language" : "typescript"
         },
-        "layoutClassName" : "",
-        "layoutStyle" : {
-          "flexGrow" : "1",
-          "padding" : "0"
-        },
+        "layoutClassName" : "fullSize",
+        "layoutStyle" : { },
         "name" : "observerLoader",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
+    "className" : "fullSize",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "qr-squad-page fullSize",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "qr-observer-page fullSize",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

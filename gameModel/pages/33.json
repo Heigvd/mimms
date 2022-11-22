@@ -2,27 +2,46 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "qr-screen-title",
         "exposePageSizeAs" : "",
         "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-second');",
           "language" : "TypeScript"
         }
       },
       "type" : "Text"
     }, {
       "props" : {
-        "initialSelectedPageId" : "34",
+        "exposePageSizeAs" : "",
         "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'touch-camera-icon');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : "34",
+        "layoutStyle" : {
+          "height" : "75%",
+          "width" : "100%"
+        },
         "name" : "scannerLoaderFromIntro",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
     "layout" : {
-      "flexDirection" : "column"
+      "alignItems" : "center",
+      "flexDirection" : "column",
+      "justifyContent" : "space-between"
     },
     "layoutStyle" : {
       "height" : "100%",

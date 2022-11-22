@@ -304,7 +304,9 @@
           "language" : "TypeScript"
         },
         "itemKey" : "id",
-        "layout" : { },
+        "layout" : {
+          "flexWrap" : "wrap"
+        },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
         "name" : "moves",

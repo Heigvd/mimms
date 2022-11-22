@@ -2,37 +2,37 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "joinPage__title",
-        "layout" : { },
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('qr-interface', 'join-as-squad-member');",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "joinPage__title",
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('qr-interface', 'join-as-squad-member');",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "`<h2>${Context.profile.profile.skillId}</h2>`;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "`<h1>${Context.profile.profile.skillId}</h1>${Context.profile.profile.skillId}`;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
                       "props" : {
                         "layoutStyle" : { },
                         "style" : { },
@@ -66,6 +66,7 @@
                   "type" : "QRCode"
                 } ],
                 "layout" : {
+                  "alignItems" : "center",
                   "justifyContent" : "space-between"
                 },
                 "layoutStyle" : { },
@@ -76,15 +77,46 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "icon" : "qrcode",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "`scan`;",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "do-no-print",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { actAsCharacterPayload, processQrCode } from \"./game/logic/qr\";\nconst data = JSON.stringify(actAsCharacterPayload(Context.profile.id));\nprocessQrCode(data);",
+                            "language" : "TypeScript",
+                            "returnType" : "Promise<unknown> | undefined"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate');",
-                      "language" : "TypeScript"
-                    }
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "layout" : { },
@@ -99,7 +131,15 @@
                     }
                   },
                   "type" : "QRCode"
-                } ]
+                } ],
+                "layout" : {
+                  "alignItems" : "center",
+                  "justifyContent" : "space-between"
+                },
+                "layoutStyle" : {
+                  "marginTop" : "1in"
+                },
+                "style" : { }
               },
               "type" : "FlexList"
             } ],

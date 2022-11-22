@@ -2,6 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "qr-screen-title",
         "exposePageSizeAs" : "",
         "hideIf" : {
           "@class" : "Script",
@@ -20,6 +21,23 @@
     }, {
       "props" : {
         "exposePageSizeAs" : "",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : " !!Variable.find(gameModel, 'currentPatient').getValue(self);",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'touch-camera-icon');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
           "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"34\";",
@@ -27,22 +45,22 @@
         },
         "layoutClassName" : "",
         "layoutStyle" : {
-          "flexGrow" : "1"
+          "height" : "75%",
+          "width" : "100%"
         },
         "name" : "squadLoader",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
+    "className" : "fullSize",
     "layout" : {
-      "flexDirection" : "column"
+      "alignItems" : "center",
+      "flexDirection" : "column",
+      "justifyContent" : "space-between"
     },
-    "layoutClassName" : "qr-squad-page",
-    "layoutStyle" : {
-      "height" : "100%",
-      "padding" : "0",
-      "width" : "100%"
-    },
+    "layoutClassName" : "qr-squad-page fullSize",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

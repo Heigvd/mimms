@@ -108,7 +108,7 @@ function isExaminePatient(data: unknown): data is ExaminePatient {
 	return false;
 }
 
-export function processQrCode(rawData: string) {
+export async function processQrCode(rawData: string) {
 	const mode = getMultiplayerMode();
 	if (mode != 'REAL_LIFE') {
 		return;
@@ -123,7 +123,7 @@ export function processQrCode(rawData: string) {
 		if (isActAsCharacter(data)) {
 			if (role === 'NONE' || !role) {
 				const profileId = atob(data.profileId);
-				APIMethods.runScript(
+				return APIMethods.runScript(
 					`EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
 					Variable.find(gameModel, 'realLifeRole').setValue(self, 'HEALTH_SQUAD');`, {});
 			}
@@ -132,7 +132,7 @@ export function processQrCode(rawData: string) {
 				const patientId = atob(data.patientId);
 				const patientExists = !!Variable.find(gameModel, 'patients').getProperties()['A-5'];
 				if (patientExists) {
-					APIMethods.runScript(
+					return APIMethods.runScript(
 						`Variable.find(gameModel, "currentPatient").setValue(self, "${patientId}");
 						 Variable.find(gameModel, "whoAmI").setValue(self, "${patientId}");
 				 		 Variable.find(gameModel, 'realLifeRole').setValue(self, 'PATIENT');
@@ -143,7 +143,7 @@ export function processQrCode(rawData: string) {
 		} else if (isActAsObserver(data)) {
 			if (role === 'NONE' || !role) {
 				const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
-				APIMethods.runScript(
+				return APIMethods.runScript(
 					`EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
 					Variable.find(gameModel, 'realLifeRole').setValue(self, 'OBSERVER');`, {});
 			}
@@ -152,14 +152,13 @@ export function processQrCode(rawData: string) {
 				const patientId = atob(data.patientId);
 				const patientExists = Variable.find(gameModel, 'patients');
 				if (patientExists) {
-					APIMethods.runScript(
+					return APIMethods.runScript(
 						`Variable.find(gameModel, "currentPatient").setValue(self, "${patientId}");`
 						, {});
 				}
 			}
 		}
 	} catch {
-
 	}
 }
 
