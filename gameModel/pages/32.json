@@ -43,11 +43,8 @@
           "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"34\";",
           "language" : "typescript"
         },
-        "layoutClassName" : "",
-        "layoutStyle" : {
-          "height" : "75%",
-          "width" : "100%"
-        },
+        "layoutClassName" : "fullSize",
+        "layoutStyle" : { },
         "name" : "squadLoader",
         "style" : { }
       },
