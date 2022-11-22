@@ -5,6 +5,7 @@
         "className" : "qr-screen-title",
         "exposePageSizeAs" : "",
         "layoutStyle" : { },
+        "name" : "Scan-second",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -17,6 +18,7 @@
       "props" : {
         "exposePageSizeAs" : "",
         "layoutStyle" : { },
+        "name" : "touch-camera",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -29,6 +31,7 @@
       "props" : {
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : "34",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "height" : "75%",
           "width" : "100%"
@@ -43,6 +46,7 @@
       "flexDirection" : "column",
       "justifyContent" : "space-between"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

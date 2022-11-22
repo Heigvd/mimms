@@ -18,6 +18,10 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	border: 1px solid var(--colors-disabledcolor);
 }
 
+.noPadding {
+	padding: 0;
+}
+
 .fullSize {
 	height: 100%;
 	width: 100%;
@@ -29,7 +33,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	width: 100%;
 	position: fixed;
 	background-color: #fffa;
-	/* display: none; */
+	display: none;
 }
 
 .global-pause-overlay > svg {
