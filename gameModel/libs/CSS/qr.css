@@ -49,8 +49,14 @@
 }
 
 .stage-direction__body-picto svg {
-	width: 200px;
-	height: 200px;
+	width: 47vw;
+	height: 47vw;
+}
+
+.collapsible-button {
+	font-weight: bold;
+	flex-direction: column;
+	align-items: stretch;
 }
 
 .mainpage-timebanner {

@@ -3493,11 +3493,13 @@
           "join-as-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as observer\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'observateur\",\"lang\":\"FR\"}},\"version\":0}",
           "join-as-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as patient\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant que patient\",\"lang\":\"FR\"}},\"version\":0}",
           "join-as-squad-member" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as participant\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'intervenant\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan patient QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient. \",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-second" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan the second QR code\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"then, scan this one to play your character\"},\"FR\":{\"status\":\"\",\"translation\":\"puis scannez celui-ci pour incarner votre personnage\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a patient QR code to examine him/her\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient pour l'ausculter\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-to-impersonate-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to be an observer\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour être observateur\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-to-impersonate-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play as this patient\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner ce patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "scan-to-impersonate-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play a character with this level of skills\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner votre personnage avec ce niveau de compétences\",\"lang\":\"FR\"}},\"version\":0}",
           "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}",
-          "touch-camera-icon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Touchez l'icône d'appareil photo ci-dessous\"},\"EN\":{\"status\":\"\",\"translation\":\"touch the camera icon below\",\"lang\":\"EN\"}},\"version\":0}"
+          "scan-to-take-role" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a QR code to pick a role in the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez un QR code pour définir votre rôle dans la partie\",\"lang\":\"FR\"}},\"version\":0}",
+          "touch-camera-icon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"touch the camera icon below\"},\"FR\":{\"status\":\"\",\"translation\":\"touchez l'icône d'appareil photo ci-dessous\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:24098781:HZZRDx",
         "scopeType" : "GameModelScope",
@@ -4139,7 +4141,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Collidere  LIVE",
+  "name" : "Collidere",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

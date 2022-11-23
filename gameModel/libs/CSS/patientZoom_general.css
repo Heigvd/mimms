@@ -187,3 +187,48 @@ border: none;
 	justify-content: center;
 }
 
+.patientConsole {
+	border: 1px solid var(--disabledGray);
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 720px) {
+  .mobile-slider {
+    overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  width: calc(100vw - 10px);
+  }
+  .mobile-slider > .mobile-slide {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: calc(100vw - 10px);
+}
+.patientConsole {
+	border: none;
+	flex-grow: 1;
+	font-size: 14px;
+}
+.patientConsole .mobile-zoom--details{
+	height: 80px;
+	margin: 5px;
+}
+.patientConsole .shadowMan > div {
+	transform: scale(.75);
+	transform-origin: 0 0;
+	position: absolute;
+}
+.patientConsole .shadowMan {
+	height: 300px;
+	padding: 0;
+}
+.patientConsole .patient-console {
+	 height: 80px;
+	 max-height: 80px;
+	 padding: 5px;
+	 margin: 5px;
+ }
+ .patientConsole .wegas-btn {
+	 font-size: 14px;
+ }
+}

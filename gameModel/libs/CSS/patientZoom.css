@@ -152,6 +152,11 @@
 	margin: 0;
 }
 
+/** Console & details */
+.mobile-zoom--details {
+	height: 120px;
+	margin: 10px;
+}
 
 
 /**
@@ -221,6 +226,15 @@
 	 transition: 0.2s;
  }
 
+ .patient-console {
+	 max-height: 130px;
+	 padding: 10px;
+	 margin: 10px;
+ }
+
+.shadowMan {
+	height: 450px;
+}
 
 
 @keyframes pulseKF {

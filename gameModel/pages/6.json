@@ -261,10 +261,11 @@
                   "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'first');",
                   "language" : "typescript"
                 },
+                "id" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "column",
+                "layoutClassName" : "column mobile-slide",
                 "layoutStyle" : {
                   "height" : "100%"
                 },
@@ -989,7 +990,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "column toolbox",
+                "layoutClassName" : "column toolbox mobile-slide",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -1024,14 +1025,12 @@
                     "className" : "console",
                     "flexGrow" : 1,
                     "layout" : { },
+                    "layoutClassName" : "patient-console",
                     "layoutStyle" : {
                       "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
                       "borderRadius" : "5px",
-                      "margin" : "10px",
-                      "maxHeight" : "130px",
-                      "overflow" : "auto",
-                      "padding" : "10px"
+                      "overflow" : "auto"
                     },
                     "name" : "console",
                     "style" : { },
@@ -1071,12 +1070,11 @@
                 }, {
                   "props" : {
                     "className" : "block-details",
+                    "layoutClassName" : "mobile-zoom--details",
                     "layoutStyle" : {
                       "backgroundColor" : "var(--colors-backgroundcolor)",
                       "border" : "1px solid var(--colors-disabledcolor)",
                       "borderRadius" : "5px",
-                      "height" : "120px",
-                      "margin" : "10px",
                       "overflow" : "auto"
                     },
                     "name" : "Details",
@@ -1095,6 +1093,7 @@
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : {
+                              "backgroundColor" : "rgb(251, 251, 251)",
                               "margin" : "10px"
                             },
                             "name" : "human",
@@ -1185,7 +1184,6 @@
                         } ],
                         "layoutClassName" : "shadowMan",
                         "layoutStyle" : {
-                          "height" : "450px",
                           "width" : "200px"
                         },
                         "onAbsoluteClick" : { },
@@ -1301,12 +1299,13 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "column",
+                "layoutClassName" : "column mobile-slide",
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "FlexList"
             } ],
+            "className" : "mobile-slider",
             "conditionnalClassNames" : [ {
               "applyOn" : "Outside",
               "className" : "responsiveColumns",
@@ -1325,7 +1324,6 @@
             "layout" : { },
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
-              "border" : "1px solid var(--colors-disabledcolor)",
               "flexGrow" : "1",
               "height" : "fit-content",
               "padding" : "0"

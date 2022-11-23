@@ -2,9 +2,12 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "noPadding",
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : "6",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
+          "flexGrow" : "1",
           "overflow" : "auto"
         },
         "name" : "squadPatientLoader",
@@ -13,20 +16,33 @@
       "type" : "PageLoader"
     }, {
       "props" : {
-        "icon" : "arrow-left",
-        "impactVariable" : {
-          "impact" : {
-            "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, {\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0});",
-            "language" : "javascript"
-          }
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>retour</p>\"",
-          "language" : "TypeScript"
+        "children" : [ {
+          "props" : {
+            "icon" : "arrow-left",
+            "impactVariable" : {
+              "impact" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'currentPatient').setValue(self, {\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0});",
+                "language" : "javascript"
+              }
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"retour\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "Back",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "flexDirection" : "column"
         },
         "layoutStyle" : { },
+        "name" : "Button",
         "style" : { }
       },
       "type" : "Button"
@@ -89,6 +105,7 @@
     } ],
     "className" : "fullSize",
     "layout" : {
+      "alignItems" : "stretch",
       "flexDirection" : "column"
     },
     "layoutClassName" : "qr-patient-zoom fullSize",

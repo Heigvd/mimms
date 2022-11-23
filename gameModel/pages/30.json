@@ -52,53 +52,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-join');",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "join game",
-                        "size" : "256",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "const link = gameModel.getType() === 'PLAY' ?\n`${Helpers.getWegasUrl()}#/play/${CurrentGame.token}`\n: `${Helpers.getWegasUrl()}2/play.html?gameModelId=${gameModel.getId()}`\n\nlink;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "QRCode"
-                    } ],
-                    "layout" : {
-                      "alignItems" : "center",
-                      "justifyContent" : "space-between"
-                    },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-join');",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate-patient');",
                               "language" : "TypeScript"
                             }
                           },
