@@ -46,27 +46,95 @@
       "type" : "FlexList"
     }, {
       "props" : {
-        "className" : "title",
-        "layout" : { },
-        "layoutStyle" : {
-          "fontStyle" : "italic"
-        },
-        "name" : "description",
-        "style" : { },
-        "text" : {
+        "children" : [ {
+          "props" : {
+            "className" : "",
+            "icon" : {
+              "@class" : "Script",
+              "content" : "Context.openCollapsible.state.open ? \"chevron-down\" : \"chevron-up\"",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<div>Description</div>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "collapsible-button noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "Context.openCollapsible.setState((s) => ({open: !s.open}))",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "collapse - description",
+            "prefixedLabel" : true,
+            "style" : {
+              "margin" : "0"
+            }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "title",
+                "layout" : { },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "fontStyle" : "italic"
+                },
+                "name" : "description",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getCurrentPatientDescription } from './game/display/currentPatientZoom';\ngetCurrentPatientDescription();",
+                  "language" : "JavaScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "!Context.openCollapsible.state.open",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "0 10px"
+            },
+            "name" : "description - body",
+            "style" : {
+              "border" : "1px solid var(--colors-activecolor)",
+              "marginTop" : "-1px",
+              "padding" : "0px 10px"
+            }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "openCollapsible",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getCurrentPatientDescription } from './game/display/currentPatientZoom';\ngetCurrentPatientDescription();",
-          "language" : "JavaScript"
-        }
+          "content" : "({open: true})",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "flexDirection" : "column"
+        },
+        "localState" : true,
+        "style" : { }
       },
-      "type" : "Text"
+      "type" : "State"
     }, {
       "props" : {
         "children" : [ {
           "props" : {
             "className" : "",
             "layout" : { },
-            "layoutClassName" : "stage-direction__body-picto",
+            "layoutClassName" : "stage-direction__body-picto noPadding",
             "layoutStyle" : { },
             "name" : "visual overview",
             "style" : { },
@@ -82,11 +150,14 @@
             "children" : [ {
               "props" : {
                 "layout" : { },
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "name" : "visual infos",
                 "style" : {
+                  "alignItems" : "flex-end",
                   "display" : "flex",
                   "flexGrow" : "1",
+                  "gap" : "25px",
                   "justifyContent" : "space-around"
                 },
                 "text" : {
@@ -114,14 +185,20 @@
               },
               "type" : "Text"
             } ],
+            "className" : "noPadding",
             "layout" : {
+              "alignItems" : "flex-start",
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "style" : { }
+            "style" : {
+              "gap" : "10px"
+            }
           },
           "type" : "FlexList"
         } ],
+        "className" : "noPadding",
         "layout" : {
           "flexDirection" : "row"
         },
@@ -278,13 +355,18 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "",
             "label" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('human-actions', Context.act.id);",
               "language" : "TypeScript"
             },
             "layout" : { },
-            "layoutStyle" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "alignItems" : "stretch",
+              "padding" : "2px"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -293,7 +375,12 @@
                 "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { }
+            "style" : {
+              "fontSize" : "12px",
+              "justifyContent" : "center",
+              "margin" : "0",
+              "width" : "16.8vw"
+            }
           },
           "type" : "Button"
         } ],
@@ -310,7 +397,9 @@
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
         "name" : "moves",
-        "style" : { }
+        "style" : {
+          "alignItems" : "stretch"
+        }
       },
       "type" : "For each"
     }, {

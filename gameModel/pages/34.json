@@ -3,7 +3,7 @@
     "children" : [ {
       "props" : {
         "className" : "containerScanIn",
-        "layoutClassName" : "containerScan",
+        "layoutClassName" : "containerScan noPadding",
         "layoutStyle" : {
           "flexGrow" : "1",
           "width" : "100%"
@@ -23,7 +23,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "qr-scanner",
+    "layoutClassName" : "qr-scanner noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

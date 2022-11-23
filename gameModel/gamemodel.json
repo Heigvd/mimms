@@ -4141,7 +4141,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Collidere - beta (2)",
+  "name" : "Collidere",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
