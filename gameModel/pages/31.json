@@ -278,6 +278,11 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled()",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('human-actions', Context.act.id);",

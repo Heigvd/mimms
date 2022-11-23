@@ -147,7 +147,7 @@
                         "className" : "paused-overlay",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+                          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n!isDrillMode() ||  Variable.find(gameModel, 'running_global').getValue(self);",
                           "language" : "typescript"
                         },
                         "layout" : {
