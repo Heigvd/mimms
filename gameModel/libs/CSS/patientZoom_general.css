@@ -177,7 +177,7 @@ border: none;
 	background-color: var(--colors-primarycolor);
 	font-size: 1.4em;
 }
-.ABCDwheelMenu .wheelButton:nth-child(6) > button:hover {
+.ABCDwheelMenu .wheelButton:nth-child(6) > button:hover, .ABCDwheelMenu .wheelButton:nth-child(6) > button.selected {
 	color: var(--colors-backgroundcolor);
 	background-color: var(--colors-activecolor);
 }
