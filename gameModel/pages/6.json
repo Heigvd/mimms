@@ -269,7 +269,9 @@
                 "layoutStyle" : {
                   "height" : "100%"
                 },
-                "style" : { }
+                "style" : {
+                  "width" : "100%"
+                }
               },
               "type" : "FlexList"
             }, {

@@ -2,6 +2,44 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "fa-3x",
+            "icon" : "briefcase-medical",
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Icon"
+        }, {
+          "props" : {
+            "layoutClassName" : "success-box",
+            "layoutStyle" : { },
+            "name" : "participant",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'you-are-participant');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : " !!Variable.find(gameModel, 'currentPatient').getValue(self);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutClassName" : "success-box",
+        "layoutStyle" : { },
+        "name" : "you-are-participant",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
         "className" : "qr-screen-title",
         "exposePageSizeAs" : "",
         "hideIf" : {

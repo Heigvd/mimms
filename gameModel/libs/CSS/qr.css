@@ -82,3 +82,11 @@
 	font-weight: bolder;
 	line-height: 1em;
 }
+
+.success-box {
+	background-color: var(--colors-primarycolor);
+	color: var(--colors-backgroundcolor);
+	padding: 10px;
+	width: 100%;
+	font-weight: bold;
+}
