@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "`<h2>${Context.profile.profile.skillId}</h2>`;",
+                  "content" : "`<h2>${Context.profile.profile.description}</h2>`;",
                   "language" : "TypeScript"
                 }
               },

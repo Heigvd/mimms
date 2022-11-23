@@ -1566,8 +1566,9 @@ registerItem({
 		},
 	});
 
+
 	registerItem({
-		id: 'TranexamicAcid_500',
+		id: 'TranexamicAcid_1000',
 		//name: 'Tranexamic Acid 500mg',
 		priority: 1000,
 		disposable: true,
@@ -1587,7 +1588,7 @@ registerItem({
 						blockPatch: {
 							chemicals: {
 								TranexamicAcid: {
-									once: 500,
+									once: 1000,
 								},
 							},
 						},
@@ -1600,9 +1601,8 @@ registerItem({
 	});
 
 	registerItem({
-		id: 'SalineSolution_1l',
+		id: 'SalineSolution_100ml',
 		priority: 500,
-		//name: 'NaCl 0.9% 1L',
 		disposable: true,
 		actions: {
 			inject: {
@@ -1616,44 +1616,6 @@ registerItem({
 						id: 'inject',
 						time: 0,
 						name: 'inject saline',
-						variablePatch: {},
-						blockPatch: {
-							salineSolutionInput_mLperMin: 100,
-						},
-					},
-					{
-						id: 'empty',
-						time: 600,
-						name: '',
-						variablePatch: {},
-						blockPatch: {
-							salineSolutionInput_mLperMin: -100,
-						},
-					},
-				],
-				createActions: [],
-				duration: { low_skill: 0, high_skill: 0 },
-			},
-		},
-	});
-
-	registerItem({
-		id: 'SalineSolution_100ml',
-		//name: 'NaCl 0.9% 100mL',
-		priority: 500,
-		disposable: true,
-		actions: {
-			inject: {
-				type: 'ActionBodyEffect',
-				category: 'C',
-				targetedObject: 'HumanBody',
-				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK'],
-				visible: true,
-				rules: [
-					{
-						id: 'inject',
-						time: 0,
-						name: 'inject',
 						variablePatch: {},
 						blockPatch: {
 							salineSolutionInput_mLperMin: 100,
@@ -1676,7 +1638,45 @@ registerItem({
 	});
 
 	registerItem({
-		id: 'Blood_1l',
+		id: 'SalineSolution_500ml',
+		//name: 'NaCl 0.9% 100mL',
+		priority: 500,
+		disposable: true,
+		actions: {
+			inject: {
+				type: 'ActionBodyEffect',
+				category: 'C',
+				targetedObject: 'HumanBody',
+				blocks: ['LEFT_ARM', 'RIGHT_ARM', 'LEFT_FOREARM', 'RIGHT_FOREARM', 'NECK'],
+				visible: true,
+				rules: [
+					{
+						id: 'inject',
+						time: 0,
+						name: 'inject',
+						variablePatch: {},
+						blockPatch: {
+							salineSolutionInput_mLperMin: 100,
+						},
+					},
+					{
+						id: 'empty',
+						time: 300,
+						name: '',
+						variablePatch: {},
+						blockPatch: {
+							salineSolutionInput_mLperMin: -100,
+						},
+					},
+				],
+				createActions: [],
+				duration: { low_skill: 0, high_skill: 0 },
+			},
+		},
+	});
+
+	registerItem({
+		id: 'Blood_500ml',
 		//name: 'Blood 1L',
 		priority: 600,
 		disposable: true,
@@ -1699,7 +1699,7 @@ registerItem({
 					},
 					{
 						id: 'empty',
-						time: 600,
+						time: 300,
 						name: '',
 						variablePatch: {},
 						blockPatch: {

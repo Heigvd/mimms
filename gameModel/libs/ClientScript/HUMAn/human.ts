@@ -218,7 +218,7 @@ export interface BodyState {
 	/**
 	 * computed vitals
 	 */
-	
+
 	vitals: {
 		/**
 		 * Time cariac arrest occured; undefined means alive
@@ -232,7 +232,7 @@ export interface BodyState {
 		pain: number;
 		visiblePain: number | undefined;
 		canWalk: boolean | 'no_response';
-		canWalk_internal: boolean ;
+		canWalk_internal: boolean;
 		spontaneousBreathing: boolean;
 		respiration: {
 			/** Quotient R */
@@ -838,10 +838,10 @@ function createRespiratoryUnits(
 	}
 }
 
-const childWeightModel : Point[] = [
-	{x: 0, y: 3},
-	{x: 65, y: 8},
-	{x: 120, y: 17.6},
+const childWeightModel: Point[] = [
+	{ x: 0, y: 3 },
+	{ x: 65, y: 8 },
+	{ x: 120, y: 17.6 },
 ]
 
 /**
@@ -850,7 +850,7 @@ const childWeightModel : Point[] = [
  */
 function computeIdealWeight(sex: Sex, height_cm: number): number {
 	// pediatric hack
-	if (height_cm < 120){
+	if (height_cm < 120) {
 		return interpolate(height_cm, childWeightModel);
 	}
 
@@ -1797,6 +1797,9 @@ function sumBloodInOut(
 		chemicalsInput: {},
 	};
 
+	const txAcid = (bodyState.vitals.cardio.chemicals["TranexamicAcid_Clearance"] ?? 0) + (bodyState.vitals.cardio.chemicals["TranexamicAcid"] ?? 0);
+	const globalReduction = ((txAcid ?? 0) > 100) ? 0.5 : 1;
+	wlog("Chemicals: ", bodyState.vitals.cardio.chemicals);
 	const cardiacOutput_mLPerMin: number[] = [
 		bodyState.vitals.cardio.cardiacOutput_LPerMin * 1000,
 	];
@@ -1805,6 +1808,8 @@ function sumBloodInOut(
 		bodyState.vitals.cardio.totalVolume_mL;
 
 	const bleedFactor = bodyState.variables.bleedFactor;
+
+	bodyState
 
 	visit<number>(
 		bodyState,
@@ -1851,7 +1856,8 @@ function sumBloodInOut(
 					flow_mLPerMin *
 					durationInMin *
 					bleedFactor *
-					(1 - reduction);
+					(1 - reduction) *
+					globalReduction;
 				// should ??
 
 				//const newBlFactor = hemostasis_thrombocytes(
@@ -1877,7 +1883,8 @@ function sumBloodInOut(
 					flow_mLPerMin *
 					durationInMin *
 					bleedFactor *
-					(1 - reduction);
+					(1 - reduction) *
+					globalReduction;
 				const newBlFactor = hemostasis_thrombocytes(
 					block.params.venousBleedingFactor,
 					loss,
@@ -1908,7 +1915,8 @@ function sumBloodInOut(
 					flow_mLPerMin *
 					durationInMin *
 					bleedFactor *
-					(1 - reduction);
+					(1 - reduction) *
+					globalReduction;
 
 				const capacity = block.params.internalBleedingCapacity_mL;
 				const current = block.params.internalBleedingTotal_mL ?? 0;
@@ -2021,7 +2029,7 @@ function sumBloodInOut(
 
 			if (block.params.chemicals != null) {
 				Object.entries(block.params.chemicals).forEach(([chemId, input]) => {
-					bloodLogger.debug("Process Chemical", chemId, input);
+					bloodLogger.info("Process Chemical", chemId, input);
 					sum.chemicalsInput[chemId] = sum.chemicalsInput[chemId] || 0;
 					if (input.once) {
 						sum.chemicalsInput[chemId] += input.once;
@@ -2398,20 +2406,20 @@ export function computeState(
 				}
 			}
 		}
+	});
 
-		for (const effect of effects) {
-			for (const rule of effect.rules) {
-				const t = rule.time + effect.time;
-				if (t >= previousTime && t < time) {
-					rules.push({
-						time: t,
-						afflictedBlocks: effect.afflictedBlocks,
-						rule: rule,
-					});
-				}
+	for (const effect of effects) {
+		for (const rule of effect.rules) {
+			const t = rule.time + effect.time;
+			if (t >= previousTime && t < time) {
+				rules.push({
+					time: t,
+					afflictedBlocks: effect.afflictedBlocks,
+					rule: rule,
+				});
 			}
 		}
-	});
+	}
 
 	patchLogger.info("Extracted rules ", rules);
 
@@ -2465,6 +2473,7 @@ export function computeState(
 			}
 		}
 
+
 		rules
 			.filter((rule) => rule.time === checkpointTime)
 			.forEach((rule) => {
@@ -2473,7 +2482,7 @@ export function computeState(
 					.map((blockName) => findBlock(newState, blockName))
 					.forEach((block) => {
 						if (block != null) {
-							patchLogger.info("Patch block ", block);
+							patchLogger.info("Patch block ", block, time, rule);
 							const patch = rule.rule.blockPatch;
 
 							const keys = Object.keys(patch) as (keyof Block["params"])[];
@@ -2504,7 +2513,7 @@ export function computeState(
 									patchLogger.info("Patch chemicals", patch.chemicals);
 									Object.entries(patch.chemicals || {}).forEach(
 										([chemId, value]) => {
-											patchLogger.debug("Patch chemicals", chemId, value);
+											patchLogger.info("Patch chemicals", chemId, value);
 											block.params.chemicals = block.params.chemicals || {};
 											const chem = block.params.chemicals[chemId] || {
 												once: 0,
@@ -2564,10 +2573,10 @@ export function computeState(
 									addToBlockVariable(block, key, 0, patch[key]);
 								} else if (key === "broken") {
 									if (patch.broken != null) {
-										if (patch.broken === 'open'){
+										if (patch.broken === 'open') {
 											block.params.broken = 'open';
 										} else if (patch.broken === 'displaced') {
-											if (block.params.broken !== 'open'){
+											if (block.params.broken !== 'open') {
 												block.params.broken = 'displaced';
 											}
 										} else if (patch.broken === 'nonDisplaced') {
