@@ -2,18 +2,33 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "exposePageSizeAs" : "",
-        "initialSelectedPageId" : {
+        "children" : [ {
+          "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "const patient = Variable.find(gameModel, 'currentPatient').getValue(self);\n\nif(patient){\n\tswitch(Context.observer.state.view){\n\t\tcase 'patient':\n\t\t\treturn '31';\n\t\tcase 'player':\n\t\tdefault:\n\t\t\treturn '36';\n\t}\n}else {\n\treturn '37';\n}\nVariable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"37\";",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "fullSize",
+            "layoutStyle" : { },
+            "name" : "observerLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "observer",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) ? '36' : \"37\";",
-          "language" : "typescript"
+          "content" : "({view: 'overview'})",
+          "language" : "TypeScript"
         },
-        "layoutClassName" : "fullSize",
+        "layout" : { },
         "layoutStyle" : { },
-        "name" : "observerLoader",
+        "localState" : true,
         "style" : { }
       },
-      "type" : "PageLoader"
+      "type" : "State"
     } ],
     "className" : "fullSize",
     "layout" : {

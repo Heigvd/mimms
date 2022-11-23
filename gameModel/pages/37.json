@@ -46,6 +46,16 @@
             "className" : "patient-summary--header",
             "icon" : "stethoscope",
             "layoutStyle" : { },
+            "name" : "stetho",
+            "style" : { }
+          },
+          "type" : "Icon"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "icon" : "eye",
+            "layoutStyle" : { },
+            "name" : "eye",
             "style" : { }
           },
           "type" : "Icon"
@@ -101,7 +111,27 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${Context.patient.id}');`,{});",
+                        "content" : "Context.observer.setState({view: 'player'})\nAPIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${Context.patient.id}');`,{});",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown> | undefined"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "icon" : "eye",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "Context.observer.setState({view: 'patient'})\nAPIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '${Context.patient.id}');`,{});",
                         "language" : "TypeScript",
                         "returnType" : "Promise<unknown> | undefined"
                       }
@@ -140,7 +170,7 @@
           "type" : "For each"
         } ],
         "layout" : {
-          "gridTemplateColumns" : "repeat(4, 1fr)",
+          "gridTemplateColumns" : "repeat(5, 1fr)",
           "justifyContent" : "center"
         },
         "layoutStyle" : { },
