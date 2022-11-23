@@ -895,6 +895,32 @@ function getVo2Max(age: number, sex: Sex) {
 	return interpolate(age, vo2MaxModels[sex]);
 }
 
+const vo2MinModel: Point[] = [{
+	x: 0,
+	y: 25,
+}, {
+	x: 12,
+	y: 3.5
+}
+];
+
+function getVo2Min(age: number) {
+	return interpolate(age, vo2MinModel);
+}
+
+
+const deadSpaceModel: Point[] = [{
+	x: 0,
+	y: 0.004 // https://journals.physiology.org/doi/abs/10.1152/jappl.1996.80.5.1485?journalCode=jappl
+}, {
+	x: 12,
+	y: 0.0022 // Marieb p954
+}];
+
+function getDeadSpace(age: number, idealWeight_kg: number): number {
+	return interpolate(age, deadSpaceModel) * idealWeight_kg;
+}
+
 export function computeMetas(param: BodyFactoryParam) {
 	const idealWeight_kg = computeIdealWeight(param.sex, param.height_cm);
 	const effectiveWeight_kg = computeEffectiveWeight(param.bmi, param.height_cm);
@@ -926,12 +952,12 @@ export function computeMetas(param: BodyFactoryParam) {
 			effectiveWeight_kg: effectiveWeight_kg,
 			inspiratoryCapacity_mL: inspiratoryCapacity_mL,
 			maximumVoluntaryVentilation_L: maximumVoluntaryVentilation_L,
+			VO2min_mLperKgMin: getVo2Min(param.age),
 			// VO2: calm=>4.5; highEffort(sedentary)=>40; highEffort(elite)=>65
-			VO2min_mLperKgMin: 3.5,
 			VO2max_mLperKgMin: getVo2Max(param.age, param.sex),
 			// ajouter valeur RF HR cible ?
 			hematocrit: blood_mL.hematocrit, // valeur cible pour équilibre eau ?
-			deadSpace_L: 0.0022 * idealWeight_kg, // Marieb p954
+			deadSpace_L: getDeadSpace(param.age, idealWeight_kg),
 			initialBloodVolume_mL: blood_mL.total,
 			brainWeight_g: brainWeight,
 			cerebralCardiacOutput_LPerMin: qbr,

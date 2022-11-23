@@ -62,3 +62,8 @@ span,
 a {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+/* prevent page-reload on swipe-up */
+body {
+    overscroll-behavior: contain;
+}
