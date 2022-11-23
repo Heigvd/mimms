@@ -6,8 +6,8 @@ measureCRT	CRT	TRC
 measureGCS	GCS	Glasgow 
 canYouWalk	Can you walk?	Pouvez-vous marcher?
 sitDown	Sit Down	Asseyez-vous
-proneDecubitus	Prone decubitus	Decubitus dorsal 
-supineDecubitus	Supine decubitus	Decubitus ventral 
+proneDecubitus	Prone decubitus	Decubitus ventral 
+supineDecubitus	Supine decubitus	Decubitus dorsal
 getUp	Get Up	Levez-vous 
 areYouDead?	Are you dead?	Êtes-vous mort?
 openAirways	Open airways	LVAS

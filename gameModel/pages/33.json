@@ -8,7 +8,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-second');",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-take-role');",
           "language" : "TypeScript"
         }
       },
