@@ -113,7 +113,7 @@
         }, {
           "@class" : "Page",
           "id" : "31",
-          "name" : "patient state direction",
+          "name" : "patient stage direction",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {

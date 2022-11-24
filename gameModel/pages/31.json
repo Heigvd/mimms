@@ -395,6 +395,9 @@
             "layoutClassName" : "",
             "layoutStyle" : {
               "alignItems" : "stretch",
+              "flexBasis" : "1px",
+              "flexGrow" : "1",
+              "flexShrink" : "0",
               "padding" : "2px"
             },
             "localScriptEval" : {
@@ -409,7 +412,7 @@
               "fontSize" : "12px",
               "justifyContent" : "center",
               "margin" : "0",
-              "width" : "16.8vw"
+              "width" : "100%"
             }
           },
           "type" : "Button"
@@ -421,14 +424,13 @@
           "language" : "TypeScript"
         },
         "itemKey" : "id",
-        "layout" : {
-          "flexWrap" : "wrap"
-        },
+        "layout" : { },
         "layoutClassName" : "stage-direction__section",
         "layoutStyle" : { },
         "name" : "moves",
         "style" : {
-          "alignItems" : "stretch"
+          "alignItems" : "stretch",
+          "overflow" : "auto"
         }
       },
       "type" : "For each"
@@ -563,7 +565,9 @@
         "layoutClassName" : "",
         "layoutStyle" : { },
         "name" : "block details",
-        "style" : { }
+        "style" : {
+          "overflow" : "auto"
+        }
       },
       "type" : "FlexList"
     } ],

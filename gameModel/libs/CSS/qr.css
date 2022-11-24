@@ -49,8 +49,8 @@
 }
 
 .stage-direction__body-picto svg {
-	width: 47vw;
-	height: 47vw;
+	width: 94%;
+	/*height: 50%;*/
 }
 
 .collapsible-button {

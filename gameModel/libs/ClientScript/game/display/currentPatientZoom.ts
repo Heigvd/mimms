@@ -941,7 +941,8 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 		case 'vitals.glasgow.total':
 			return [metricName, String(value)];
 		case 'vitals.canWalk':
-			return [metricName, canWalkFormatter(value)];
+		case 'vitals.canWalk_internal':
+			return [getTranslation("human-general", "vitals.canWalk", true), canWalkFormatter(value)];
 		case 'vitals.visiblePain':
 			return [metricName, painFormatter(value)];
 		case 'vitals.cardiacArrest':
@@ -990,7 +991,7 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 			'vitals.cardio.hr',
 			'vitals.respiration.rr',
 			'vitals.respiration.tidalVolume_L',
-			'vitals.canWalk',
+			'vitals.canWalk_internal',
 		];
 
 		const vitals = keys.map(vital => {

@@ -18,7 +18,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "icon" : "arrow-left",
+            "icon" : "camera",
             "impactVariable" : {
               "impact" : {
                 "@class" : "Script",
@@ -28,7 +28,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"retour\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"pretriage-interface\", 'next-patient');",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -38,10 +38,12 @@
           "type" : "Button"
         } ],
         "layout" : {
-          "alignItems" : "center",
+          "alignItems" : "flex-end",
           "flexDirection" : "column"
         },
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "borderTop" : "3px solid var(--colors-primarycolor)"
+        },
         "name" : "Button",
         "style" : { }
       },
