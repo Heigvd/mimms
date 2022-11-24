@@ -4,6 +4,23 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getWorldTime } from './game/logic/TimeManager';\nimport { toHourMinutesSeconds } from './tools/helper';\n\"Time: t+\" + toHourMinutesSeconds(getWorldTime().time);",
+              "language" : "JavaScript"
+            }
+          },
+          "type" : "Text"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
             "exposePageSizeAs" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",

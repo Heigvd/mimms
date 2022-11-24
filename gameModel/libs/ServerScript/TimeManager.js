@@ -224,6 +224,11 @@ var TimeManager = ((function () {
 			} else {
 				throw "Unparseable value" + value;
 			}
-		}
+		},
+		globalFastForward: function (value) {
+			runForAllTeams(function (player) {
+				TimeManager.fastForward(value, player);
+			});
+		},
 	};
 })());

@@ -15,74 +15,123 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'startPauseSimulation')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+                  "language" : "JavaScript"
+                },
+                "icon" : "play",
+                "impactVariable" : {
+                  "impact" : {
+                    "@class" : "Script",
+                    "content" : "TimeManager.globalStart();",
+                    "language" : "JavaScript"
+                  }
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Start</p>\"",
+                  "language" : "JavaScript"
+                },
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "start",
+                "onVariableChange" : { },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "alignSelf" : "flex-start",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
+                  "language" : "JavaScript"
+                },
+                "icon" : "pause",
+                "impactVariable" : {
+                  "impact" : {
+                    "@class" : "Script",
+                    "content" : "TimeManager.globalPause();",
+                    "language" : "JavaScript"
+                  }
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Pause</p>\"",
+                  "language" : "JavaScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "name" : "pause",
+                "onVariableChange" : { },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'startPauseSimulation')",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "alignSelf" : "flex-start",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
-              "language" : "JavaScript"
-            },
-            "icon" : "pause",
-            "impactVariable" : {
-              "impact" : {
-                "@class" : "Script",
-                "content" : "TimeManager.globalPause();",
-                "language" : "JavaScript"
-              }
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>Pause</p>\"",
-              "language" : "JavaScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "pause",
-            "onVariableChange" : { },
             "style" : { }
           },
-          "type" : "Button"
+          "type" : "FlexList"
         }, {
           "props" : {
-            "hideIf" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "fast-forward",
+                "impactVariable" : {
+                  "impact" : {
+                    "@class" : "Script",
+                    "content" : "TimeManager.globalFastForward(Context.duration.value);",
+                    "language" : "javascript"
+                  }
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "`+  ${Context.duration.value}`",
+                  "language" : "JavaScript"
+                },
+                "layout" : { },
+                "layoutStyle" : {
+                  "paddingTop" : "48px"
+                },
+                "name" : "",
+                "onVariableChange" : { },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "exposeAs" : "duration",
+            "getItemsFn" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
-              "language" : "JavaScript"
+              "content" : "[\n\t{id: 0, value: '1m'},\n\t{id: 0, value: '5m'},\n\t{id: 0, value: '10m'},\n\t{id: 0, value: '15m'},\n\t{id: 0, value: '30m'},\n\t{id: 0, value: '1h'},\n]",
+              "language" : "TypeScript"
             },
-            "icon" : "play",
-            "impactVariable" : {
-              "impact" : {
-                "@class" : "Script",
-                "content" : "TimeManager.globalStart();",
-                "language" : "JavaScript"
-              }
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>Start</p>\"",
-              "language" : "JavaScript"
-            },
+            "itemKey" : "id",
             "layout" : { },
             "layoutStyle" : { },
-            "name" : "start",
-            "onVariableChange" : { },
             "style" : { }
           },
-          "type" : "Button"
+          "type" : "For each"
         } ],
         "layout" : {
           "alignItems" : "flex-start",
-          "flexDirection" : "column"
+          "flexDirection" : "row"
         },
         "layoutStyle" : { },
         "style" : { }
