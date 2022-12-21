@@ -470,13 +470,13 @@ export function getCompensationModel(): Compensation {
 			}],
 			"t4Nerve": true
 		},
-		"vitals.cardio.endSystolicVolume_mL": {
+		"vitals.cardio.contractilityBoost": {
 			"points": [{
 				"x": 0,
-				"y": 1
+				"y": 0
 			}, {
 				"x": 100,
-				"y": 0
+				"y": 1
 			}],
 			"t4Nerve": true
 		},
@@ -553,7 +553,7 @@ export function getOverdriveModel(): Compensation {
 			}],
 			"t4Nerve": true
 		},
-		"vitals.cardio.endSystolicVolume_mL": {
+		"vitals.cardio.contractilityBoost": {
 			"points": [{
 				"x": 0,
 				"y": 0

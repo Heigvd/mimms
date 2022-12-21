@@ -51,7 +51,7 @@ vitals.respiration.alveolarVolume_L	Alveolar volume	Volume alvéolaire
 vitals.cardio.totalVolume_mL	Blood volume	Volémie
 vitals.cardio.endSystolicVolume_mL	ESD	VTS
 vitals.cardio.strokeVolume_mL	Stroke volume	Volume d'éjection
-variables.ICP_mmHg	ICP	PIC
+vitals.brain.ICP_mmHg	ICP	PIC
 yes	yes	oui
 no	no	non
 move	Can move	Peut bouger

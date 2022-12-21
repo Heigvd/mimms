@@ -288,6 +288,8 @@ export interface BodyState {
 			// on peut baser sur la taille et utiliser des constante
 			/** end systolic volume [mL] (Vts)*/
 			endSystolicVolume_mL: number; // idem // idem
+
+			contractilityBoost: number;
 			/**
 			 * Stroke volume
 			 */
@@ -338,15 +340,16 @@ export interface BodyState {
 			GSC: number; // ?
 			/** Debit O2 */
 			DO2: number;
+			/** intercranial pressure */
+			ICP_mmHg: number; //embarrure, hemoragie cerebrale
 		};
 	};
 	/**
 	 * Internal variables pathologies and items may affect
 	 */
 	variables: {
-		/** intercranial pressure */
-		ICP_mmHg: number; //embarrure, hemoragie cerebrale
-		ICP_deltaPerMin?: number;
+		intercranialMass: number;
+		intercranialMass_deltaPerMin?: number;
 		/**
 		 * Affect inOut value
 		 */
@@ -1056,6 +1059,7 @@ export function createHumanBody(
 					chemicals: {},
 					endDiastolicVolume_mL: 120,
 					endSystolicVolume_mL: 50,
+					contractilityBoost: 0.3,
 					strokeVolume_mL: 70,
 					Ra_mmHgMinPerL: 13, // idem
 					// Rrv_mmHgMinPerL: 2.5, // idem
@@ -1077,10 +1081,11 @@ export function createHumanBody(
 					Rbr: 60,
 					GSC: 15,
 					DO2: 138.25,
+					ICP_mmHg: 5,
 				},
 			},
 			variables: {
-				ICP_mmHg: 5,
+				intercranialMass: 0,
 				paraOrthoLevel: orthoLevelFromAge(param.age),
 				bleedFactor: 1,
 				bodyPosition: "STANDING",
@@ -1472,11 +1477,34 @@ function updateCompliances(bodyState: BodyState, durationInMinute: number) {
 	});
 }
 
-function updateICP(bodyState: BodyState, durationInMinute: number) {
-	if (bodyState.variables.ICP_deltaPerMin) {
-		bodyState.variables.ICP_mmHg +=
-			bodyState.variables.ICP_deltaPerMin * durationInMinute;
+function updateIntercranialMass(bodyState: BodyState, durationInMinute: number) {
+	if (bodyState.variables.intercranialMass_deltaPerMin) {
+		bodyState.variables.intercranialMass +=
+			bodyState.variables.intercranialMass_deltaPerMin * durationInMinute;
 	}
+}
+
+
+const intercranialMass_model : Point[] = [
+	{
+		x: 0, // 0 ml mass
+		y: 5, // normal "low" ICP (mmHg)
+	},
+	{
+		x: 120, // quite big mass
+		y: 10, // normal ICP (CSF + venous volume diminution)
+	},
+	{
+		x: 150, // big mass 
+		y: 100, // high ICP (no more CDF/venous volume to purge)
+	},
+]
+
+/**
+ * compute intercranial pressure
+ */
+function updateICP(bodyState: BodyState) {
+	bodyState.vitals.brain.ICP_mmHg = interpolate(bodyState.variables.intercranialMass, intercranialMass_model);
 }
 
 const THORAX_COMPLIANCE_DELTA = -0.01;
@@ -1799,7 +1827,7 @@ function sumBloodInOut(
 
 	const txAcid = (bodyState.vitals.cardio.chemicals["TranexamicAcid_Clearance"] ?? 0) + (bodyState.vitals.cardio.chemicals["TranexamicAcid"] ?? 0);
 	const globalReduction = ((txAcid ?? 0) > 100) ? 0.5 : 1;
-	wlog("Chemicals: ", bodyState.vitals.cardio.chemicals);
+	bloodLogger.info("Chemicals: ", bodyState.vitals.cardio.chemicals);
 	const cardiacOutput_mLPerMin: number[] = [
 		bodyState.vitals.cardio.cardiacOutput_LPerMin * 1000,
 	];
@@ -2086,7 +2114,7 @@ function sumBloodInOut(
 					// Based on the Fick principal (ie q = (map - icp) / res), extract the extra resistance induced by ICP
 					// ie (map - icp) / res = map / (res + delta)
 					const map = bodyState.vitals.cardio.MAP;
-					const icp = bodyState.variables.ICP_mmHg;
+					const icp = bodyState.vitals.brain.ICP_mmHg;
 
 					const pp = map - icp;
 
@@ -2181,9 +2209,12 @@ function updateVitals(
 
 		updateAirResistance(newState, durationInMin);
 		updateCompliances(newState, durationInMin);
-		updateICP(newState, durationInMin);
+		updateIntercranialMass(newState, durationInMin);
 		updatePericardialPressure(newState, durationInMin);
 		updateThoraxCompliance(newState, durationInMin);
+
+		updateICP(newState);
+
 
 		const sumBlood = sumBloodInOut(newState, meta, durationInMin);
 		const {
@@ -2440,8 +2471,7 @@ export function computeState(
 
 		const newState = durationInMin > 0 ? updateVitals(acc, meta, env, checkpointTime) : acc;
 
-
-		detectCardiacArrest(newState, durationInMin);
+		detectCardiacArrest(newState, meta, durationInMin);
 
 		function addToBlockVariable(
 			block: Block,
@@ -2669,16 +2699,16 @@ export function computeState(
 						//            if (rule.rule.variablePatch.paCO2Delta != null) {
 						//              newState.variables.paCO2Delta = add(newState.variables.paCO2Delta, rule.rule.variablePatch.paCO2Delta, {min: 0});
 						//            }
-					} else if (key === "ICP_mmHg") {
-						if (rule.rule.variablePatch.ICP_mmHg != null) {
-							newState.variables.ICP_mmHg += rule.rule.variablePatch.ICP_mmHg;
+					} else if (key === "intercranialMass") {
+						if (rule.rule.variablePatch.intercranialMass != null) {
+							newState.variables.intercranialMass += rule.rule.variablePatch.intercranialMass;
 						}
-					} else if (key === "ICP_deltaPerMin") {
-						if (rule.rule.variablePatch.ICP_deltaPerMin != null) {
-							newState.variables.ICP_deltaPerMin =
-								newState.variables.ICP_deltaPerMin ?? 0;
-							newState.variables.ICP_deltaPerMin +=
-								rule.rule.variablePatch.ICP_deltaPerMin;
+					} else if (key === "intercranialMass_deltaPerMin") {
+						if (rule.rule.variablePatch.intercranialMass_deltaPerMin != null) {
+							newState.variables.intercranialMass_deltaPerMin =
+								newState.variables.intercranialMass_deltaPerMin ?? 0;
+							newState.variables.intercranialMass_deltaPerMin +=
+								rule.rule.variablePatch.intercranialMass_deltaPerMin;
 						}
 					} else if (key === "paraOrthoLevel") {
 						if (rule.rule.variablePatch.paraOrthoLevel != null) {

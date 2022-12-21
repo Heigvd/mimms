@@ -5,7 +5,7 @@
 
 import { checkUnreachable, Range } from "../tools/helper";
 import { BlockName, BodyFactoryParam } from "../HUMAn/human";
-import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, icpArgKeys, ModuleMeta, painArgKeys, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "../HUMAn/pathology";
+import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, intercraniaArgKeys, ModuleMeta, painArgKeys, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "../HUMAn/pathology";
 import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
 import { getPathology } from "../HUMAn/registries";
 import { ScriptedEvent } from "../game/logic/the_world";
@@ -240,8 +240,8 @@ export function getArgumentKeys(mod: ModuleMeta): Readonly<string[]> {
 			return airwaysResistanceArgKeys;
 		case 'BurnArgs':
 			return burnArgKeys;
-		case 'ICPArgs':
-			return icpArgKeys;
+		case 'ICMArgs':
+			return intercraniaArgKeys;
 		case 'NoArgs':
 			return [];
 		case 'PneumothoraxArgs':

@@ -973,7 +973,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 			return [metricName, intFormatter(value) + " mL"];
 		case 'vitals.cardio.strokeVolume_mL':
 			return [metricName, intFormatter(value) + " mL"];
-		case 'variables.ICP_mmHg':
+		case 'vitals.brain.ICP_mmHg':
 			return [metricName, intFormatter(value) + " mmHg"];
 	}
 

@@ -6,6 +6,7 @@ import {
 	DataDef,
 	EnhancedCellData,
 	MatrixConfig,
+	setMatrixState,
 } from '../../edition/MatrixEditor';
 import { ClKeys, LickertData, PhKeys, run_lickert } from '../../HUMAn/run';
 import {
@@ -15,12 +16,21 @@ import {
 } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 
-function save() {
-	saveData();
+export function isThereAnythingToSave() {
+	return Context.lickertSaveState.state.somethingToSave;
 }
 
-export function selectPatient(patientId: string) {
-	APIMethods.runScript(
+function syncUI() {
+	Context.lickertSaveState.setState({ somethingToSave: true });
+	setMatrixState(state => {
+		return { ...state, toggle: !state.toggle }
+	});
+	//saveData();
+}
+
+export async function selectPatient(patientId: string) {
+	await saveData();
+	return APIMethods.runScript(
 		`
 	Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'ongoing');
 	Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');
@@ -30,8 +40,9 @@ export function selectPatient(patientId: string) {
 }
 
 
-export function gotoValidatePage() {
-	APIMethods.runScript(
+export async function gotoValidatePage() {
+	await saveData();
+	return APIMethods.runScript(
 		`Variable.find(gameModel, 'drillStatus').setProperty(self, 'status', 'completed_summary');
 	 		 Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
 		{},
@@ -92,7 +103,7 @@ export function getLickertPage(): string {
 
 
 
-export function nextUndonePatient() {
+export async function nextUndonePatient() {
 	const allIds = getSortedPatientIds();
 
 	let currentIndex = allIds.indexOf(getCurrentPatientId());
@@ -106,35 +117,11 @@ export function nextUndonePatient() {
 
 	if (counter >= allIds.length) {
 		// no undone patient
-		gotoValidatePage();
+		return gotoValidatePage();
 	} else {
 		const newPatientId = allIds[currentIndex]!;
-		selectPatient(newPatientId);
+		return selectPatient(newPatientId);
 	}
-}
-
-export function nextPatient() {
-	const allIds = getSortedPatientIds();
-	const p = getCurrentPatientId();
-	let np = '';
-	if (p) {
-		np = allIds[(allIds.indexOf(p) + 1) % allIds.length]!;
-	} else {
-		np = allIds[0]!;
-	}
-	selectPatient(np);
-}
-
-export function previousPatient() {
-	const allIds = getSortedPatientIds();
-	const p = getCurrentPatientId();
-	let np = '';
-	if (p) {
-		np = allIds[(allIds.indexOf(p) - 1) % allIds.length]!;
-	} else {
-		np = allIds[0]!;
-	}
-	selectPatient(np);
 }
 
 export function prettyPrintCurrentPatientMeta() {
@@ -575,7 +562,7 @@ onClinicalChangeRef.current = (x, y, newData) => {
 		clinicalMatrix[patientId]![timeId]![keyId] = newData;
 	}
 
-	save();
+	syncUI();
 };
 
 export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
@@ -616,7 +603,7 @@ onPhysioChangeRef.current = (x, y, newData) => {
 		physiologicalMatrix[patientId]![timeId]![keyId] = newData;
 	}
 
-	save();
+	syncUI();
 };
 
 export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
@@ -648,21 +635,29 @@ export function getCurrentPatientComments(): string {
 export function saveCurrentPatientComments(newComments: string) {
 	const id = getCurrentPatientId();
 	comments[id] = newComments;
-	save();
+	syncUI();
 }
 
 
 /*************** Persistance **************/
 
-export function saveData() {
-	const data = getCurrentPatientData();
-	const pData = convertData(data);
-	const patientId = getCurrentPatientId();
+export async function saveMatrix() {
+	return saveData();
+}
 
-	const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(
-		JSON.stringify(pData),
-	)})`;
-	APIMethods.runScript(script, {});
+export async function saveData() {
+	if (Context.lickertSaveState.state.somethingToSave) {
+		const data = getCurrentPatientData();
+		const pData = convertData(data);
+		const patientId = getCurrentPatientId();
+
+		const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(
+			JSON.stringify(pData),
+		)})`;
+		const result = await APIMethods.runScript(script, {});
+		Context.lickertSaveState.setState({ somethingToSave: false });
+		return result;
+	}
 }
 
 //

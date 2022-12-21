@@ -167,19 +167,19 @@ interface BurnMeta extends BaseModule<typeof burnArgKeys[number]> {
 	}
 }
 
-export const icpArgKeys = ["delta_perMin", "icp_mmHg"] as const;
+export const intercraniaArgKeys = ["delta_perMin", "mass"] as const;
 
-interface ICPMeta extends BaseModule<typeof icpArgKeys[number]> {
+interface IntercranialMassMeta extends BaseModule<typeof intercraniaArgKeys[number]> {
 	config: {
-		type: 'ICP';
+		type: 'ICM';
 		blocks: 'HEAD'[]
 		delta_perMin: Range | undefined;
-		icp_mmHg: Range | undefined;
+		mass: Range | undefined;
 	};
 	args: {
-		type: 'ICPArgs';
+		type: 'ICMArgs';
 		delta_perMin: number | undefined;
-		icp_mmHg: number | undefined;
+		mass: number | undefined;
 	}
 }
 
@@ -225,7 +225,7 @@ export type ModuleMeta =
 	| AirwaysResistanceMeta
 	| PneumothoraxMeta
 	| BurnMeta
-	| ICPMeta
+	| IntercranialMassMeta
 	| PainMeta
 	| HematomaMeta
 	| UnableToWalkMeta;
@@ -345,8 +345,8 @@ function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: Module
 			return `${block}: ${mod.fractureType} fracture`;
 		case 'Hemorrhage':
 			return `${block}: ${mod.subtype} hemorrhage`;
-		case 'ICP':
-			return `Intracranial pressure`
+		case 'ICM':
+			return `Intracranial Mass`
 		case 'NervousSystem':
 			return `${block}: nervous system damage`
 		case 'Pneumothorax': {
@@ -442,11 +442,11 @@ export function createRandomArgs(mod: ModuleDefinition): ModuleArgs {
 			percent: getRandomValue(mod.percent)!,
 		};
 		return args;
-	} else if (mod.type === 'ICP') {
-		const args: ICPMeta['args'] = {
-			type: 'ICPArgs',
+	} else if (mod.type === 'ICM') {
+		const args: IntercranialMassMeta['args'] = {
+			type: 'ICMArgs',
 			delta_perMin: getRandomValue(mod.delta_perMin),
-			icp_mmHg: getRandomValue(mod.icp_mmHg),
+			mass: getRandomValue(mod.mass),
 		};
 		return args;
 	} else if (mod.type === 'Pain') {
@@ -640,21 +640,21 @@ export function instantiateModule(mod: ModuleDefinition, block: BlockName, args:
 				variablePatch: {}
 			}]
 		};
-	} else if (mod.type === 'ICP') {
-		const aArgs = args as unknown as ICPMeta['args'];
+	} else if (mod.type === 'ICM') {
+		const aArgs = args as unknown as IntercranialMassMeta['args'];
 		return {
 			block: block,
 			visible: false,
 			rules: [{
-				id: 'burn',
-				name: 'burn',
+				id: 'intercranialMass',
+				name: 'intercranial mass',
 				blockPatch: {
-					pain: 5
+					pain: 1,
 				},
 				time: 0,
 				variablePatch: {
-					ICP_deltaPerMin: aArgs.delta_perMin,
-					ICP_mmHg: aArgs.icp_mmHg,
+					intercranialMass_deltaPerMin: aArgs.delta_perMin,
+					intercranialMass: aArgs.mass,
 				}
 			}]
 		};

@@ -715,10 +715,10 @@ function init() {
 			},
 			[
 				{
-					type: 'ICP',
+					type: 'ICM',
 					blocks: ['HEAD'],
 					delta_perMin: { min: 0.05, max: 2 },
-					icp_mmHg: undefined,
+					mass: undefined,
 				},
 				{
 					type: 'Hemorrhage',

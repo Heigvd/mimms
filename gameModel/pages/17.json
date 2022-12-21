@@ -2,15 +2,15 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "initialSelectedPageId" : "24",
-        "layoutStyle" : { },
-        "name" : "lickertMenuPageLoader",
-        "style" : { }
-      },
-      "type" : "PageLoader"
-    }, {
-      "props" : {
         "children" : [ {
+          "props" : {
+            "initialSelectedPageId" : "24",
+            "layoutStyle" : { },
+            "name" : "lickertMenuPageLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
           "props" : {
             "children" : [ {
               "props" : {
@@ -20,302 +20,305 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "patientInfos",
+                                "layoutStyle" : { },
+                                "name" : "patient infos",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { prettyPrintCurrentPatientScript } from './game/logic/lickert';\nprettyPrintCurrentPatientScript();",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "final state",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import {getCurrentPatientFinalState} from './game/logic/lickert';\ngetCurrentPatientFinalState();",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
                             "layoutStyle" : { },
-                            "name" : "Title",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
-                              "language" : "JavaScript"
-                            }
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "layoutClassName" : "patientInfos",
+                            "layout" : { },
                             "layoutStyle" : { },
-                            "name" : "patient infos",
-                            "style" : { },
+                            "style" : {
+                              "alignSelf" : "flex-start",
+                              "border" : "3px solid var(--colors-primarycolor)",
+                              "padding" : "0 15px"
+                            },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { prettyPrintCurrentPatientScript } from './game/logic/lickert';\nprettyPrintCurrentPatientScript();",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "name" : "final state",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import {getCurrentPatientFinalState} from './game/logic/lickert';\ngetCurrentPatientFinalState();",
+                              "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
                               "language" : "JavaScript"
                             }
                           },
                           "type" : "Text"
                         } ],
                         "layout" : {
-                          "flexDirection" : "column"
+                          "flexDirection" : "row"
                         },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "width" : "100%"
+                        },
+                        "name" : "header",
                         "style" : {
-                          "alignSelf" : "flex-start",
-                          "border" : "3px solid var(--colors-primarycolor)",
-                          "padding" : "0 15px"
-                        },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
-                          "language" : "JavaScript"
+                          "gap" : "40px"
                         }
                       },
-                      "type" : "Text"
-                    } ],
-                    "layout" : {
-                      "flexDirection" : "row"
-                    },
-                    "layoutStyle" : {
-                      "width" : "100%"
-                    },
-                    "name" : "header",
-                    "style" : {
-                      "gap" : "40px"
-                    }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
+                      "type" : "FlexList"
+                    }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<h2>\" + Context.matrixConfig.title + \"</h2>\"",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"10\"",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "clinicalMatrixPageLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "exposeAs" : "matrixConfig",
+                            "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "\"<h2>Clinical Parameters<br></h2>\"",
-                              "language" : "JavaScript"
-                            }
+                              "content" : "import { getClinicalMatrix, getPhysioMatrix } from './game/logic/lickert';\n[\n\t{\n\t\tid: 0,\n\t\ttitle: 'Clinical Parameters',\n\t\t...getClinicalMatrix()\n\t},\n\t{\n\t\tid: 1, \n\t\ttitle: \"Physiological Parameters\",\n\t\t...getPhysioMatrix()\n\t}\n];",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "itemsOnly" : false,
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
                           },
-                          "type" : "Text"
-                        } ]
+                          "type" : "For each"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<h2>Comments<br></h2>\"",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ]
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onCancel" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { saveCurrentPatientComments } from './game/logic/lickert';\n\nsaveCurrentPatientComments(Context.comments);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"comments\"",
+                                "language" : "JavaScript"
+                              }
+                            },
+                            "rows" : 5,
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { getCurrentPatientComments } from './game/logic/lickert';\ngetCurrentPatientComments() || '';",
+                              "language" : "JavaScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "flexShrink" : "1",
+                          "overflow" : "auto"
+                        },
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "initialSelectedPageId" : {
+                            "disableIf" : {
                               "@class" : "Script",
-                              "content" : "\"10\"",
+                              "content" : "!Context.lickertSaveState.state.somethingToSave;",
+                              "language" : "typescript"
+                            },
+                            "icon" : "save",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>save</p>\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
-                            "name" : "clinicalMatrixPageLoader",
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { saveMatrix} from './game/logic/lickert';\n\nsaveMatrix();",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
                             "style" : { }
                           },
-                          "type" : "PageLoader"
-                        } ],
-                        "exposeAs" : "matrixConfig",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getClinicalMatrix } from './game/logic/lickert';\n[{id: 0, ...getClinicalMatrix()}];",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
-                        "itemsOnly" : true,
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "For each"
-                    }, {
-                      "props" : {
-                        "children" : [ {
+                          "type" : "Button"
+                        }, {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
+                            "disableIf" : {
                               "@class" : "Script",
-                              "content" : "\"<h2>Physiological Parameters<br></h2>\"",
+                              "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\n!isCurrentPatientDone();",
                               "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "initialSelectedPageId" : {
+                            },
+                            "icon" : "save",
+                            "label" : {
                               "@class" : "Script",
-                              "content" : "\"10\"",
+                              "content" : "\"<p>save and go to next patient<br></p>\"",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
-                            "name" : "physioMatrixPageLoader",
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "Script",
+                                "content" : "import { nextUndonePatient} from './game/logic/lickert';\n\nnextUndonePatient();",
+                                "language" : "typescript"
+                              }
+                            },
                             "style" : { }
                           },
-                          "type" : "PageLoader"
+                          "type" : "Button"
                         } ],
-                        "exposeAs" : "matrixConfig",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getPhysioMatrix } from './game/logic/lickert';\n[{id: 0, ...getPhysioMatrix()}];",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
-                        "itemsOnly" : true,
-                        "layout" : { },
                         "layoutStyle" : { },
                         "style" : { }
-                      },
-                      "type" : "For each"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<h2>Comments<br></h2>\"",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ]
                       },
                       "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "onCancel" : { },
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "import { saveCurrentPatientComments } from './game/logic/lickert';\n\nsaveCurrentPatientComments(Context.comments);",
-                            "language" : "TypeScript"
-                          },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"comments\"",
-                            "language" : "JavaScript"
-                          }
-                        },
-                        "rows" : 5,
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "import { getCurrentPatientComments } from './game/logic/lickert';\ngetCurrentPatientComments() || '';",
-                          "language" : "JavaScript"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "String input"
                     } ],
                     "layout" : {
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : {
-                      "flexShrink" : "1",
-                      "overflow" : "auto"
+                      "width" : "100%"
                     },
                     "style" : { }
                   },
                   "type" : "FlexList"
-                }, {
+                } ]
+              },
+              "type" : "PlayerIf"
+            }, {
+              "props" : {
+                "children" : [ {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\n!isCurrentPatientDone();",
-                          "language" : "JavaScript"
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>next patient<br></p>\"",
-                          "language" : "JavaScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "Script",
-                            "content" : "import { nextUndonePatient} from './game/logic/lickert';\n\nnextUndonePatient();",
-                            "language" : "typescript"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
+                    "initialSelectedPageId" : "25",
                     "layoutStyle" : { },
+                    "name" : "lickertConfirmPageLoader",
                     "style" : { }
                   },
-                  "type" : "FlexList"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "style" : { }
+                  "type" : "PageLoader"
+                } ]
               },
-              "type" : "FlexList"
-            } ]
+              "type" : "PlayerElse"
+            } ],
+            "className" : "",
+            "ifCondition" : {
+              "@class" : "Script",
+              "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed_review' || getDrillStatus() !== 'completed_summary';",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "flexGrow" : "1",
+              "overflow" : "auto"
+            },
+            "style" : { }
           },
-          "type" : "PlayerIf"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "initialSelectedPageId" : "25",
-                "layoutStyle" : { },
-                "name" : "lickertConfirmPageLoader",
-                "style" : { }
-              },
-              "type" : "PageLoader"
-            } ]
-          },
-          "type" : "PlayerElse"
+          "type" : "If Else"
         } ],
-        "className" : "",
-        "ifCondition" : {
+        "exposeAs" : "lickertSaveState",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed';",
-          "language" : "JavaScript"
+          "content" : "({\n\tsomethingToSave: false,\n})",
+          "language" : "TypeScript"
         },
-        "layoutClassName" : "",
-        "layoutStyle" : {
-          "flexGrow" : "1",
-          "overflow" : "auto"
-        },
+        "layoutStyle" : { },
+        "localState" : true,
         "style" : { }
       },
-      "type" : "If Else"
+      "type" : "State"
     } ],
     "className" : "fullSize",
     "layout" : {

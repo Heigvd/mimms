@@ -179,7 +179,10 @@ function extractMetric(
 	pushBloodBlockMetrics("9132 - ", body.blocks.get('RIGHT_LEG')!, time, outputCardio);
 	pushBloodBlockMetrics("9133 - ", body.blocks.get('RIGHT_FOOT')!, time, outputCardio);
 
-	pushMetric('ICP [mmHg]', time, body.variables.ICP_mmHg, outputOther);
+	pushComposedMetric('Intercranial', time, {
+		ICP: body.vitals.brain.ICP_mmHg,
+		mass: body.variables.intercranialMass
+	}, outputOther);
 
 	//pushMetric("Blood", time, body.vitals.cardio.totalVolume_mL, output);
 	//pushMetric("Water", time, body.vitals.cardio.totalVolumeOfWater_mL, output);
@@ -219,6 +222,8 @@ function extractMetric(
 	pushMetric('para|ortho', time, body.variables.paraOrthoLevel, outputOther);
 
 	pushMetric('pain', time, body.vitals.pain, outputOther);
+
+	pushMetric('contractilityBoost', time, body.vitals.cardio.contractilityBoost, outputOther);
 
 	pushMetric('position', time, convertPositionToNumber(body.variables.bodyPosition), outputOther);
 
@@ -433,7 +438,7 @@ type Time = number;
 export type Serie = Record<Time, unknown>;
 
 const clKeys = [
-	'vitals.canWalk',
+	'vitals.canWalk_internal',
 	'vitals.cardio.hr',
 	'vitals.cardio.MAP',
 	'vitals.respiration.SpO2',
@@ -449,7 +454,7 @@ const phKeys = [
 	'vitals.respiration.alveolarVolume_L',
 	'vitals.cardio.totalVolume_mL',
 	'vitals.cardio.strokeVolume_mL',
-	'variables.ICP_mmHg',
+	'vitals.brain.ICP_mmHg',
 ] as const;
 
 export type PhKeys = typeof phKeys[number];
@@ -464,7 +469,7 @@ const fourHours = 60 * 60 * 4;
 export function run_lickert(patientId: string) {
 	const data: LickertData = {
 		clinical: {
-			'vitals.canWalk': {},
+			'vitals.canWalk_internal': {},
 			'vitals.cardio.hr': {},
 			'vitals.cardio.MAP': {},
 			'vitals.respiration.SpO2': {},
@@ -477,7 +482,7 @@ export function run_lickert(patientId: string) {
 			'vitals.respiration.alveolarVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},
 			'vitals.cardio.strokeVolume_mL': {},
-			'variables.ICP_mmHg': {},
+			'vitals.brain.ICP_mmHg': {},
 		},
 	};
 
@@ -513,7 +518,7 @@ export function run_lickert(patientId: string) {
 
 	const clean: LickertData = {
 		clinical: {
-			'vitals.canWalk': {},
+			'vitals.canWalk_internal': {},
 			'vitals.cardio.hr': {},
 			'vitals.cardio.MAP': {},
 			'vitals.respiration.SpO2': {},
@@ -526,7 +531,7 @@ export function run_lickert(patientId: string) {
 			'vitals.respiration.alveolarVolume_L': {},
 			'vitals.cardio.totalVolume_mL': {},
 			'vitals.cardio.strokeVolume_mL': {},
-			'variables.ICP_mmHg': {},
+			'vitals.brain.ICP_mmHg': {},
 		},
 	};
 
