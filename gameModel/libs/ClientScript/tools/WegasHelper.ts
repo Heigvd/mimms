@@ -496,8 +496,8 @@ export function getCompensationModel(): Compensation {
 				"x": 0,
 				"y": 0.2
 			}, {
-				"x": 15,
-				"y": 0.6
+				"x": 30,
+				"y": 0.3
 			}, {
 				"x": 40,
 				"y": 0.7

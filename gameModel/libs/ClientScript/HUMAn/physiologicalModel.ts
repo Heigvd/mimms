@@ -1406,8 +1406,8 @@ function computeVitals(
 			'(',
 			duration_min,
 			'[s])',
-		);
-		// TODO
+        );
+
 		let newValue = interpolate(value.t4Nerve != null && !t4Fine ?  value.t4Nerve : level, value.points);
 
 		const bounds = readKey<Bound>(meta.bounds, key);
