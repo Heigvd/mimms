@@ -578,6 +578,10 @@ export function compute(
 	const deltaMin = esv - edv_th;
 	const deltaMax = edv_th_max - edv_th;
 
+    /////////////////////////
+	// Δedv = f(blood_volume)
+	/////////////////////////
+
 	// x: %volemie
 	const edvVolDelta_model: Point[] = [
 		{ x: 0, y: deltaMin },
@@ -588,22 +592,45 @@ export function compute(
 		{ x: 1.2, y: deltaMax - 5 },
 		{ x: 1.3, y: deltaMax },
 	];
-
+    
 	const bloodVolumeRatio = bloodVolume_mL / meta.initialBloodVolume_mL;
 
 	const edvDelta_bloodVolume = interpolate(bloodVolumeRatio, edvVolDelta_model);
 
-	const tamponadeDelta_model: Point[] = [
+    ////////////////////////////////
+	// Δedv = f(pericardial_volume)
+	////////////////////////////////
+	const pericardialDelta_model: Point[] = [
+		{ x: 0, y: 0 },
+		{ x: 200, y: deltaMin },
+	];
+
+	/*const tamponadeDelta_model: Point[] = [
 		{ x: 0, y: 0 },
 		{ x: 20, y: -5 },
 		{ x: 50, y: -20 },
 		{ x: 200, y: deltaMin },
-	];
+	];*/
 
 	// tamponade := pericardial_pressure [0;1]
 	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
-	const edv_tamponade_delta = interpolate(body.variables.pericardial_ml, tamponadeDelta_model);
+	const edv_tamponade_delta = interpolate(body.variables.pericardial_ml, pericardialDelta_model);
 
+
+    ////////////////////////////////
+	// Δedv = f(venous resistance)
+	////////////////////////////////
+	const venousResistance_model: Point[] = [
+		{ x: 30, y: 0 },
+		{ x: 100, y: 15 },
+	];
+	
+	const edv_vrr = interpolate(body.variables.paraOrthoLevel,venousResistance_model);
+
+
+	//////////////////////////////////////
+	// Δedv = f(thorax internal pressure)
+	//////////////////////////////////////
 	const itp_l_raw = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
 
 	const itp_r_raw = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
@@ -622,7 +649,7 @@ export function compute(
 
 	const edvEffective = Math.max(
 		esv,
-		edv_th + edvDelta_bloodVolume + edv_tamponade_delta + edv_pno_delta,
+		edv_th + edvDelta_bloodVolume + edv_tamponade_delta + edv_pno_delta + edv_vrr,
 	);
 
 	calcLogger.log('EDV= ', edvEffective, {
@@ -640,6 +667,9 @@ export function compute(
 		{
 			itp,
 			edv_pno_delta
+		},
+		venousReturn: {
+			edv_vrr
 		}
 	});
 
@@ -1278,7 +1308,7 @@ export type SympSystem = Partial<Record<BodyStateKeys, Point[]>>;
  *
  */
 interface CompensationRule {
-	t4Nerve?: boolean | undefined;
+	t4Nerve?: number | undefined;
 	points: Point[];
 }
 
@@ -1350,7 +1380,6 @@ function computeVitals(
 	meta: HumanBody['meta'],
 	duration_min: number,
 	t4Fine: boolean,
-	noT4Level: number,
 ): Record<CompesationKeys, number> {
 	compLogger.info('CompensationProfile: ', model);
 
@@ -1378,7 +1407,8 @@ function computeVitals(
 			duration_min,
 			'[s])',
 		);
-		let newValue = interpolate(value.t4Nerve && !t4Fine ? noT4Level : level, value.points);
+		// TODO
+		let newValue = interpolate(value.t4Nerve != null && !t4Fine ?  value.t4Nerve : level, value.points);
 
 		const bounds = readKey<Bound>(meta.bounds, key);
 		if (bounds != null) {
@@ -1426,7 +1456,7 @@ export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration
 		throw new Error('No compensation model');
 	}
 
-	const sympValues = computeVitals(level, compensation!, state, meta, duration_min, t4Fine, 20);
+	const sympValues = computeVitals(level, compensation!, state, meta, duration_min, t4Fine);
 
 	const overdriveLevel = interpolate(state.vitals.brain.ICP_mmHg, icp_model);
 
@@ -1441,7 +1471,6 @@ export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration
 			meta,
 			duration_min,
 			t4Fine,
-			10,
 		);
 		compLogger.info('Values', sympValues, overdrivenValues);
 		Object.entries(sympValues).forEach(([key, sympValue]) => {

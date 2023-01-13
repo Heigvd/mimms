@@ -458,7 +458,8 @@ export function getCompensationModel(): Compensation {
 			}, {
 				"x": 100,
 				"y": 1
-			}]
+			}],
+			t4Nerve: 40,
 		},
 		"vitals.cardio.hr": {
 			"points": [{
@@ -468,7 +469,7 @@ export function getCompensationModel(): Compensation {
 				"x": 100,
 				"y": 1
 			}],
-			"t4Nerve": true
+			"t4Nerve": 20
 		},
 		"vitals.cardio.contractilityBoost": {
 			"points": [{
@@ -478,7 +479,7 @@ export function getCompensationModel(): Compensation {
 				"x": 100,
 				"y": 1
 			}],
-			"t4Nerve": true
+			"t4Nerve": 20
 		},
 		"vitals.cardio.Ra_mmHgMinPerL": {
 			"points": [{
@@ -488,7 +489,7 @@ export function getCompensationModel(): Compensation {
 				"x": 100,
 				"y": 20
 			}],
-			"t4Nerve": true
+			"t4Nerve": 20
 		},
 		"vitals.respiration.rr": {
 			"points": [{
@@ -503,7 +504,8 @@ export function getCompensationModel(): Compensation {
 			}, {
 				"x": 100,
 				"y": 1
-			}]
+			}],
+			t4Nerve: 40,
 		},
 	};
 	return model;
@@ -551,7 +553,7 @@ export function getOverdriveModel(): Compensation {
 				"x": max,
 				"y": 0.0
 			}],
-			"t4Nerve": true
+			"t4Nerve": 0
 		},
 		"vitals.cardio.contractilityBoost": {
 			"points": [{
@@ -561,7 +563,7 @@ export function getOverdriveModel(): Compensation {
 				"x": max,
 				"y": 1
 			}],
-			"t4Nerve": true
+			"t4Nerve": 0
 		},
 		"vitals.cardio.Ra_mmHgMinPerL": {
 			"points": [{
@@ -571,7 +573,7 @@ export function getOverdriveModel(): Compensation {
 				"x": 0.5,
 				"y": 30
 			}],
-			"t4Nerve": true
+			"t4Nerve": 0
 		},
 		"vitals.respiration.rr": {
 			"points": [{

@@ -130,14 +130,6 @@ function init() {
 
 	// const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 
-	const extremities: ExternalBlock[] =
-		[
-			"LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
-			"RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
-			"LEFT_ANKLE", "LEFT_FOOT",
-			"RIGHT_ANKLE", "RIGHT_FOOT",
-		];
-
 	const limbs: NervousBlock[] =
 			["LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
@@ -266,7 +258,7 @@ function init() {
 	);
 
 
-	registerPathology(
+	/*registerPathology(
 		buildPathology(
 			{
 				id: 'minor_ah',
@@ -284,17 +276,14 @@ function init() {
 				},
 			],
 		),
-	);
+	);*/
 
 
-
-
-	// Venous
 	registerPathology(
 		buildPathology(
 			{
-				id: 'catastrophic_vh',
-				name: 'catastrophic venous hemorrhage (thigh, neck)',
+				id: 'catastrophic_vh_neck',
+				name: 'catastrophic venous hemorrhage (neck)',
 				blockSelectionMode: 'any',
 				severity: 'dead'
 			},
@@ -302,17 +291,42 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.25, max: 1 },
+					bleedingFactor: { min: 0.2, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
-						'LEFT_THIGH',
-						'RIGHT_THIGH',
-						'NECK'
+						'NECK',
 					],
 				},
 			],
 		),
 	);
+
+
+	// Venous
+	registerPathology(
+		buildPathology(
+			{
+				id: 'catastrophic_vh',
+				name: 'catastrophic venous hemorrhage (thigh)',
+				blockSelectionMode: 'any',
+				severity: 'dead'
+			},
+			[
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					bleedingFactor: { min: 0.4, max: 1 },
+					instantaneousBloodLoss: undefined,
+					blocks: [
+						'LEFT_THIGH',
+						'RIGHT_THIGH',
+					],
+				},
+			],
+		),
+	);
+
+
 
 	registerPathology(
 		buildPathology(
@@ -326,7 +340,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.85, max: 1 },
+					bleedingFactor: { min: 0.7, max: 1 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
 						'LEFT_LEG',
@@ -341,7 +355,7 @@ function init() {
 		buildPathology(
 			{
 				id: 'severe_vh',
-				name: 'severe venous hemorrhage (thigh, neck)',
+				name: 'severe venous hemorrhage (thigh)',
 				blockSelectionMode: 'any',
 				severity: 'immediate'
 			},
@@ -349,12 +363,11 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.08, max: 0.25 },
+					bleedingFactor: { min: 0.08, max: 0.24 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
 						'LEFT_THIGH',
 						'RIGHT_THIGH',
-						'NECK'
 					],
 				},
 			],
@@ -373,7 +386,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.17, max: 0.85 },
+					bleedingFactor: { min: 0.2, max: 0.7 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
 						'LEFT_LEG',
@@ -387,26 +400,27 @@ function init() {
 	registerPathology(
 		buildPathology(
 			{
-				id: 'test_vh',
-				severity: 'immediate',
+				id: 'severe_vh_arm',
 				name: 'severe venous hemorrhage',
 				blockSelectionMode: 'any',
+				severity: 'immediate',
 			},
 			[
 				{
 					type: 'Hemorrhage',
-					subtype: 'arterial',
-					bleedingFactor: { min: 0, max: 1 },
+					subtype: 'venous',
+					bleedingFactor: { min: 0.2, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: venousBlocks,
+					blocks: [
+						'LEFT_ARM',
+						'RIGHT_ARM',
+					],
 				},
 			],
 		),
 	);
 
-
-
-	registerPathology(
+		registerPathology(
 		buildPathology(
 			{
 				id: 'urgent_vh',
@@ -418,7 +432,7 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.06, max: 0.3 },
+					bleedingFactor: { min: 0.06, max: 0.2 },
 					instantaneousBloodLoss: undefined,
 					blocks: [
 						'LEFT_ARM',
@@ -441,9 +455,9 @@ function init() {
 				{
 					type: 'Hemorrhage',
 					subtype: 'venous',
-					bleedingFactor: { min: 0.001, max: 1 },
+					bleedingFactor: { min: 0.001, max: 0.1 },
 					instantaneousBloodLoss: undefined,
-					blocks: extremities,
+					blocks: ['LEFT_FOREARM', 'RIGHT_FOREARM'],
 				},
 			],
 		),

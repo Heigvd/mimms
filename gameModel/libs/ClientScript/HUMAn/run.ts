@@ -342,7 +342,7 @@ function internal_run(
 				if (action != null) {
 					if (action.type === 'ActionBodyEffect') {
 						logger.info('Apply Item: ', { time: event.time, item, action });
-						effects.push(doActionOnHumanBody(item!, action, event.source.actionId,event.blocks, event.time)!);
+						effects.push(doActionOnHumanBody(item!, action, event.source.actionId, event.blocks, event.time)!);
 					} else {
 						logger.info('Ignore measure');
 					}
@@ -550,32 +550,35 @@ export function run_lickert(patientId: string) {
 
 
 export function batch() {
-	const patientId = "Zero";
+	const patientId = "patient-1";
 
 	const blocks: BlockName[] = [
+		"HEAD",
+		"NECK",
+		"THORAX_LEFT",
 		"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
 		"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
 	];
 
-	const allData : string[][] = [];
-	const headers : string[] = ['block'];
+	const allData: string[][] = [];
+	const headers: string[] = ['block'];
 
-	for (let arg = 0; arg <= 1; arg += 0.1) {
+	for (let arg = 0; arg <= 0.1; arg += 0.01) {
 		headers.push("" + arg);
 	}
 	allData.push(headers);
 
 	blocks.forEach(block => {
-		const data : string[] = [block];
+		const data: string[] = [block];
 
-		for (let arg = 0; arg <= 1; arg += 0.1) {
+		for (let arg = 0; arg <= 0.1; arg += 0.01) {
 
 			const scenario: TestScenario = {
 				description: '',
 				events: [{
 					type: 'HumanPathology',
 					time: 1,
-					pathologyId: 'severe_vh',
+					pathologyId: 'catastrophic_vh',
 					afflictedBlocks: [block],
 					modulesArguments: [{
 						type: "HemorrhageArgs",
@@ -589,7 +592,7 @@ export function batch() {
 			const body = internal_run(
 				patientId,
 				fourHours,
-				() => {},
+				() => { },
 				scenario,
 			);
 

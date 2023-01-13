@@ -298,7 +298,7 @@ export interface BodyState {
 			/** Arterial Resistance */
 			Ra_mmHgMinPerL: number; //idem
 			/**  Resistance Retour Veineux */
-			// UNUSED Rrv_mmHgMinPerL: number; // IDEM
+			// Rrv_mmHgMinPerL: number;
 
 			/** Volume capacitance veineuse */
 			// totalCapacitance_L: number; // f(volume total)
@@ -1067,7 +1067,7 @@ export function createHumanBody(
 					contractilityBoost: 0.3,
 					strokeVolume_mL: 70,
 					Ra_mmHgMinPerL: 13, // idem
-					// Rrv_mmHgMinPerL: 2.5, // idem
+					// Rrv_mmHgMinPerL: 2.5, // ??
 					// const totalCapacitance = bloodVolume * .65; // Marieb p808; 65%
 					//totalCapacitance_L: (blood_mL.total / 1000) * 0.65, // idem TODO: f(xyz) ~80% total ?
 
@@ -1490,7 +1490,7 @@ function updateIntercranialMass(bodyState: BodyState, durationInMinute: number) 
 }
 
 
-const intercranialMass_model : Point[] = [
+const intercranialMass_model: Point[] = [
 	{
 		x: 0, // 0 ml mass
 		y: 5, // normal "low" ICP (mmHg)
@@ -1617,42 +1617,40 @@ function hemostasis_thrombocytes(
 	}
 }
 
-// x: loss / cardiaOutput
-// y: resistance delta [-1;1] perMin
 const vasoconstrictionModel: Point[] = [
-	{ x: -1, y: 0.05 },
-	{ x: -0.1, y: 0 }, //
-	{ x: 0.1, y: 0 }, //
-	{ x: 0.1, y: -0.01 }, //
-	{ x: 1, y: -0.01 },// no losses leads to vasodilatation
+	{ x: 0, y: 0 },
+	{ x: 1, y: 1 },
 ];
 
 /**
- * losses increase block resistance
+ * injuries increase block resistance
  * TODO: https://biologiedelapeau.fr/spip.php?article77
  */
 function hemostasis_vasoconstriction(
-	currentResistance: number,
-	delta_mlPerMin: number,
-	cardiacOutput_mLPerMin: number,
-	duration_min: number
-): number {
-	if (vasoconstrictionEnabled) {
-		const ratio = delta_mlPerMin / cardiacOutput_mLPerMin;
-		const constriction_perMin = interpolate(ratio, vasoconstrictionModel);
-		const constriction_lap = constriction_perMin * duration_min;
-		bloodLogger.debug("vasoconstriction", {
-			delta_mlPerMin,
-			cardiacOutput_mLPerMin,
-			ratio,
-			constriction_perMin,
-			constriction_lap,
+	block: Block,
+	injuryFactor: number | undefined,
+) {
+	if (vasoconstrictionEnabled && injuryFactor) {
+		const currentResistance = block.params.bloodResistance || 0;
+		const resDelta = interpolate(injuryFactor, vasoconstrictionModel);
+		const newResistance = add(currentResistance, resDelta, {min: 0, max: 0});
+		bloodLogger.debug("vasoconstriction ", block.name, {
+			currentResistance,
+			injuryFactor,
+			resDelta,
+			newResistance,
 		});
-
-		return add(currentResistance, constriction_lap, { min: 0, max: 1 });
-	} else {
-		return currentResistance;
+		block.params.bloodResistance = newResistance;
 	}
+}
+
+const dilationPerMinute = 0.01;
+
+function hemostasis_vasodilatation(
+	currentResistance: number,
+	duration_min: number
+) {
+	return add(currentResistance, dilationPerMinute * duration_min, { min: 0, max: 1 });
 }
 
 //function dispatch(bodyState: BodyState, connections: RevivedConnection[], co: number) {
@@ -2041,20 +2039,18 @@ function sumBloodInOut(
 				bloodLogger.info("Remove losses from cardiacOutput: ",
 					cardiacOutput_mLPerMin[0], "= ", flow_mLPerMin, " + ", delta_mlPerMin)
 
-				// update vasoconstriction
-				const currentResistance = block.params.bloodResistance || 0;
-				const newResistance = hemostasis_vasoconstriction(
+			}
+			// update vasoconstriction
+			const currentResistance = block.params.bloodResistance || 0;
+			if (currentResistance > 0) {
+				const newResistance = hemostasis_vasodilatation(
 					currentResistance,
-					delta_mlPerMin,
-					flow_mLPerMin,
 					durationInMin
 				);
-				bloodLogger.info("Vasoconstriction: ", {
+				bloodLogger.info("Vasodilatation: ", {
 					block: block.name,
 					currentResistance,
 					newResistance,
-					delta_mlPerMin,
-					flow_mLPerMin,
 					durationInMin,
 				});
 				block.params.bloodResistance = newResistance;
@@ -2530,6 +2526,8 @@ export function computeState(
 									setBlockVariableIfGreater(block, key, patch[key]);
 								} else if (key === "venousBleedingFactor") {
 									addToBlockVariable(block, key, 0, patch[key]);
+									const injury = patch[key];
+									hemostasis_vasoconstriction(block, injury);
 								} else if (key === "venousBleedingReductionFactor") {
 									setBlockVariableIfGreater(block, key, patch[key]);
 								} else if (key === "internalBleedingFactor") {
