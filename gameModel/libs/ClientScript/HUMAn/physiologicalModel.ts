@@ -40,29 +40,33 @@ import { getCompensationModel, getOverdriveModel, getSystemModel } from '../tool
 
 export const gambateMax = 15;
 
+const DEATHLY_MAP = 35;
+const DEATHLY_HR = 30;
+
+
 function computeGambateScore(bodyState: BodyState, meta: HumanMeta, durationInMin: number) {
 	let score = 0;
-	
+
 	const do2_100g = getDo2Brain_100g(bodyState, meta);
 
 	if (do2_100g < 1.6) {
 		score += 1;
-		logger.info('critical Brain DO2 => ', score);
+		logger.log('critical Brain DO2 => ', score);
 	}
 
 	if (bodyState.vitals.cardio.DO2Sys < bodyState.vitals.cardio.vo2_mLperMin) {
 		score += (bodyState.vitals.cardio.vo2_mLperMin - bodyState.vitals.cardio.DO2Sys) / 100;
-		logger.info('critical DO2 => ', score);
+		logger.log('critical DO2 => ', score);
 	}
 
-	if (bodyState.vitals.cardio.MAP < 40) {
-		score += (40 - bodyState.vitals.cardio.MAP) / 100;
-		logger.info('Critical MAP => ', score);
+	if (bodyState.vitals.cardio.MAP < DEATHLY_MAP) {
+		score += (DEATHLY_MAP - bodyState.vitals.cardio.MAP) / 100;
+		logger.log('Critical MAP ', bodyState.vitals.cardio.MAP , ' => ', score);
 	}
 
 	if (bodyState.vitals.respiration.SaO2 < 0.7) {
 		score += (0.7 - bodyState.vitals.respiration.SaO2) * 20;
-		logger.info('Critical MAP => ', score);
+		logger.log('Critical MAP ', bodyState.vitals.respiration.SaO2, ' => ', score);
 	}
 
 	return score * durationInMin;
@@ -86,7 +90,7 @@ function deadBodiesDoNotBleed(bodyState: BodyState) {
 }
 
 
-function getDo2Brain_100g( state : BodyState, meta: HumanMeta) {
+function getDo2Brain_100g(state: BodyState, meta: HumanMeta) {
 	const DO2 = state.vitals.brain.DO2;
 	if (Number.isNaN(DO2)) {
 		return 0;
@@ -104,8 +108,8 @@ export function detectCardiacArrest(bodyState: BodyState, meta: HumanMeta, durat
 
 	if (
 		bodyState.vitals.cardiacArrest! > 0 ||
-		bodyState.vitals.cardio.hr < 30 ||
-		bodyState.vitals.cardio.MAP < 40 ||
+		bodyState.vitals.cardio.hr < DEATHLY_HR ||
+		bodyState.vitals.cardio.MAP < DEATHLY_MAP ||
 		//bodyState.vitals.respiration.rr < 4 ||
 		bodyState.vitals.respiration.SaO2 < 0.7 ||
 		do2_100g < 1.6 // 
@@ -560,9 +564,9 @@ export function compute(
 	/** 
 	 * Contractility boost
 	 */
-	const esvModel : Point[] = [
-		{x: 0, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.max,},
-		{x: 1, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.min,}
+	const esvModel: Point[] = [
+		{ x: 0, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.max, },
+		{ x: 1, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.min, }
 	];
 
 	body.vitals.cardio.endSystolicVolume_mL = interpolate(
@@ -591,8 +595,9 @@ export function compute(
 
 	const tamponadeDelta_model: Point[] = [
 		{ x: 0, y: 0 },
-		{ x: 10, y: -10 },
-		{ x: 150, y: deltaMin },
+		{ x: 20, y: -5 },
+		{ x: 50, y: -20 },
+		{ x: 200, y: deltaMin },
 	];
 
 	// tamponade := pericardial_pressure [0;1]
@@ -621,6 +626,7 @@ export function compute(
 	);
 
 	calcLogger.log('EDV= ', edvEffective, {
+		edv_th,
 		bloodVolume: {
 			bloodVolumeRatio,
 			edvDelta_bloodVolume,
@@ -698,18 +704,21 @@ export function compute(
 
 	const ventricularPressureModel: Point[] = [
 		{ x: 0, y: 0 },
+		{ x: 40, y: 35 },
+		{ x: 60, y: 55 },
 		{ x: 70, y: 120 },
 		{ x: 100, y: 145 },
 		{ x: 140, y: 160 },
 	];
 	const ventricularPressure = interpolate(strokeVolume_mL, ventricularPressureModel);
 
-	// Computed map is bigger than ventricular pressure
+	// Is computed map bigger than ventricular pressure
 	// Afterload
 	if (MAP > ventricularPressure) {
-		calcLogger.info('MAP greater than ventricular pressure', {
+		calcLogger.log('MAP greater than ventricular pressure', {
 			time: body.time,
 			MAP,
+			strokeVolume_mL,
 			ventricularPressure,
 		});
 		MAP = ventricularPressure;
@@ -1601,7 +1610,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 			canWalk = 'obviously_not';
 		}
 
-		if (human.state.vitals.pain > 9) {
+		if (human.state.vitals.pain >= 9) {
 			extraLogger.log('Can not walk! horrible pain');
 			canWalk = 'obviously_not';
 		}

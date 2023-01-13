@@ -493,16 +493,16 @@ export function getCompensationModel(): Compensation {
 		"vitals.respiration.rr": {
 			"points": [{
 				"x": 0,
-				"y": 10
+				"y": 0.2
 			}, {
-				"y": 15,
-				"x": 30
+				"x": 15,
+				"y": 0.6
 			}, {
 				"x": 40,
-				"y": 35
+				"y": 0.7
 			}, {
 				"x": 100,
-				"y": 50
+				"y": 1
 			}]
 		},
 	};
@@ -576,10 +576,10 @@ export function getOverdriveModel(): Compensation {
 		"vitals.respiration.rr": {
 			"points": [{
 				"x": 0,
-				"y": 15
+				"y": 0.3
 			}, {
 				"x": max,
-				"y": 15
+				"y": 0.3
 			}]
 		},
 	};

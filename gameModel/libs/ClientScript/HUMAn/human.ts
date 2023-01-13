@@ -144,6 +144,7 @@ export type HumanMeta = BodyFactoryParam & {
 		vitals: {
 			respiration: {
 				tidalVolume_L: Bound;
+				rr: Bound;
 			};
 			cardio: {
 				hr: Bound;
@@ -973,6 +974,10 @@ export function computeMetas(param: BodyFactoryParam) {
 							min: 0,
 							max: inspiratoryCapacity_mL / 1000,
 						},
+						rr: {
+							min: 0,
+							max: 50,
+						}
 					},
 					cardio: {
 						hr: {
@@ -980,7 +985,7 @@ export function computeMetas(param: BodyFactoryParam) {
 							max: 220 - param.age
 						},
 						endSystolicVolume_mL: {
-							min: 20,
+							min: 35,
 							max: 50,
 						}
 					}
