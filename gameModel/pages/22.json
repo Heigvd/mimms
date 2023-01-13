@@ -21,9 +21,10 @@
         "layoutStyle" : { },
         "localScriptEval" : {
           "script" : {
-            "@class" : "Script",
+            "@class" : "ClientScript",
             "content" : "import { nextUndonePatient } from './game/logic/lickert';\n\nnextUndonePatient();",
-            "language" : "typescript"
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
           }
         },
         "style" : { }

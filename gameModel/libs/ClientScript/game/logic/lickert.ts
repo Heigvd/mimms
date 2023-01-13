@@ -646,7 +646,7 @@ export async function saveMatrix() {
 }
 
 export async function saveData() {
-	if (Context.lickertSaveState.state.somethingToSave) {
+	if (Context.lickertSaveState?.state?.somethingToSave) {
 		const data = getCurrentPatientData();
 		const pData = convertData(data);
 		const patientId = getCurrentPatientId();
