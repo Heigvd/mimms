@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "I18n.toString(Variable.find(gameModel,'lickertWelcome'))",
+          "content" : "I18n.toString(Variable.find(gameModel,'likertWelcome'))",
           "language" : "JavaScript"
         }
       },
@@ -22,7 +22,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { nextUndonePatient } from './game/logic/lickert';\n\nnextUndonePatient();",
+            "content" : "import { nextUndonePatient } from './game/logic/likert';\n\nnextUndonePatient();",
             "language" : "TypeScript",
             "returnType" : "Promise<unknown> | undefined"
           }

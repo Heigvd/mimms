@@ -130,7 +130,7 @@ function shouldInstantiateWhoAmI() : boolean {
 			case 'PRE-TRIAGE':
 			case 'PRE-TRIAGE_ON_MAP':
 			return true;
-			case 'LICKERT':
+			case 'LIKERT':
 				return false;
 		}
 	} else {

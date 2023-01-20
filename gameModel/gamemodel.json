@@ -110,7 +110,7 @@
         "@class" : "ListInstance",
         "refId" : "ListInstance:24074413:I4OU5i"
       },
-      "editorTag" : "lickertPages",
+      "editorTag" : "likertPages",
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "StaticTextDescriptor",
@@ -120,14 +120,14 @@
           "@class" : "StaticTextInstance",
           "refId" : "StaticTextInstance:24075202:I3UACH"
         },
-        "editorTag" : "lickertWelcome",
+        "editorTag" : "likertWelcome",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24075203:UmSTwB",
           "translations" : { }
         },
-        "name" : "lickertWelcome",
+        "name" : "likertWelcome",
         "refId" : "StaticTextDescriptor:24075201:maI3mx",
         "scopeType" : "GameModelScope",
         "text" : {
@@ -160,14 +160,14 @@
           "@class" : "StaticTextInstance",
           "refId" : "StaticTextInstance:24074352:Bz04lM"
         },
-        "editorTag" : "lickertLegend",
+        "editorTag" : "likertLegend",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24074353:z1hPWE",
           "translations" : { }
         },
-        "name" : "lickertLegend",
+        "name" : "likertLegend",
         "refId" : "StaticTextDescriptor:24074351:H0NH8z",
         "scopeType" : "GameModelScope",
         "text" : {
@@ -318,7 +318,7 @@
         "refId" : "TranslatableContent:24074414:77MdAH",
         "translations" : { }
       },
-      "name" : "lickertPages",
+      "name" : "likertPages",
       "refId" : "ListDescriptor:24074412:NvUeJF",
       "scopeType" : "TeamScope",
       "version" : null,
@@ -1613,11 +1613,11 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:24070154:KkHDNB::EN",
               "status" : "",
-              "translation" : "LICKERT"
+              "translation" : "LIKERT"
             }
           }
         },
-        "name" : "LICKERT",
+        "name" : "LIKERT",
         "refId" : "EnumItem:#2:IKUa9c"
       } ],
       "broadcastScope" : "GameModelScope",
@@ -2752,14 +2752,14 @@
         "refId" : "ObjectInstance:24070161:gHxUFj"
       },
       "description" : "",
-      "editorTag" : "lickert",
+      "editorTag" : "likert",
       "isolation" : "OPEN",
       "label" : {
         "@class" : "TranslatableContent",
         "refId" : "TranslatableContent:24070162:yYtd3M",
         "translations" : { }
       },
-      "name" : "lickert",
+      "name" : "likert",
       "properties" : { },
       "refId" : "ObjectDescriptor:24070160:cUEpc6",
       "scopeType" : "TeamScope",
@@ -4268,11 +4268,11 @@
               "lang" : "FR",
               "refId" : "TranslatableContent:24113756:gRtxf9::FR",
               "status" : "",
-              "translation" : "lickert"
+              "translation" : "likert"
             }
           }
         },
-        "name" : "general-lickert",
+        "name" : "general-likert",
         "properties" : {
           "acceptable" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"acceptable\"},\"FR\":{\"status\":\"\",\"translation\":\"acceptable\",\"lang\":\"FR\"}},\"version\":0}",
           "clinical-params" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"clinical Parameters\"},\"FR\":{\"status\":\"\",\"translation\":\"paramètres Cliniques\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4486,7 +4486,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/lickert",
+    "contentKey" : "game/logic/likert",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24059683:1NMuL8",
@@ -4738,7 +4738,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "lickert",
+    "contentKey" : "likert",
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:24060901:IMT4Wb",
@@ -4837,7 +4837,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "Lickert",
+    "contentKey" : "Likert",
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24070212:CWLosV",
@@ -4880,7 +4880,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn - collickert",
+  "name" : "HUMAn - collikert",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

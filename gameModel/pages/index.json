@@ -39,7 +39,7 @@
         "items" : [ {
           "@class" : "Page",
           "id" : "26",
-          "name" : "mainLickertPage",
+          "name" : "mainLikertPage",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
@@ -63,7 +63,7 @@
         }, {
           "@class" : "Page",
           "id" : "17",
-          "name" : "lickert",
+          "name" : "likert",
           "scenaristPage" : true,
           "trainerPage" : null
         }, {
@@ -79,7 +79,7 @@
           "scenaristPage" : null,
           "trainerPage" : null
         } ],
-        "name" : "Lickert"
+        "name" : "Likert"
       }, {
         "@class" : "Folder",
         "items" : [ {

@@ -1,13 +1,13 @@
-.lickertPage .matrix-cell {
+.likertPage .matrix-cell {
 	width: 200px;
 }
 
 
-.lickertPage .matrix-line-header {
+.likertPage .matrix-line-header {
 	width: 200px;
 }
 
-.lickertPage .matrix-cell .cell-label {
+.likertPage .matrix-cell .cell-label {
 	font-weight: bolder;
 	text-align: center;
 	font-size: 1.3em;
@@ -15,12 +15,12 @@
 
 
 /** all cells are red */
-.lickertPage .matrix-cell {
+.likertPage .matrix-cell {
 	background-color: #ff000033;
 }
 
 /** bul cells with value are green */
-.lickertPage .matrix-cell[data-cell-value] {
+.likertPage .matrix-cell[data-cell-value] {
 	background-color: #00ff0033;
 }
 
@@ -28,42 +28,42 @@
 
 
 /** MENU */
-.lickertMenu > div > div {
+.likertMenu > div > div {
 	padding: 0;
 }
 
-.lickertMenu .lickertMenuItem p {
+.likertMenu .likertMenuItem p {
 	margin: 0;
 }
 
-.lickertMenu .lickertMenuItem.selectedItem {
+.likertMenu .likertMenuItem.selectedItem {
 	background-color: var(--colors-headercolor);
 }
 
-.lickertMenu .completed:after {
+.likertMenu .completed:after {
 	content : ' \2714';
 	color: var(--colors-successcolor);
 	font-size: 1.2em;
 }
 
 
-.lickertMenu .lickertMenuItem {
+.likertMenu .likertMenuItem {
 	padding: 5px;
 	cursor: pointer;
 	white-space: nowrap;
 	flex-grow: 1;
 }
 
-.lickertMenu .lickertMenuItem:hover {
+.likertMenu .likertMenuItem:hover {
 	box-shadow: inset 0 0 0 1px var(--colors-hovercolor);
 }
 
 /** HEADER **/
 
-.lickertPage .patientInfos h3{
+.likertPage .patientInfos h3{
 margin: 0;
 }
-.lickertPage .patientInfos ul{
+.likertPage .patientInfos ul{
 margin: 0;
 padding-inline-start: 20px;
 padding-top: 5px;

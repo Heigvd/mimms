@@ -4,7 +4,7 @@
       "props" : {
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "import { getLickertPage } from './game/logic/lickert';\ngetLickertPage();",
+          "content" : "import { getLikertPage } from './game/logic/likert';\ngetLikertPage();",
           "language" : "typescript"
         },
         "layoutClassName" : "fullSize",
@@ -15,10 +15,10 @@
       "type" : "PageLoader"
     } ],
     "className" : "",
-    "exposeAs" : "lickertState",
+    "exposeAs" : "likertState",
     "initialState" : {
       "@class" : "Script",
-      "content" : "import { getInitialLickertState } from './game/logic/lickert';\ngetInitialLickertState();",
+      "content" : "import { getInitialLikertState } from './game/logic/likert';\ngetInitialLikertState();",
       "language" : "TypeScript"
     },
     "layout" : {

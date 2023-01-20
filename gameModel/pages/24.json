@@ -4,7 +4,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "lickertMenuItem",
+            "className" : "likertMenuItem",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
               "className" : "selectedItem",
@@ -26,7 +26,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { selectPatient } from './game/logic/lickert';\n\nselectPatient(Context.patientMenuItem.id);",
+                "content" : "import { selectPatient } from './game/logic/likert';\n\nselectPatient(Context.patientMenuItem.id);",
                 "language" : "typescript"
               }
             },
@@ -44,7 +44,7 @@
         "exposeAs" : "patientMenuItem",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getPatientMenu } from './game/logic/lickert';\ngetPatientMenu();",
+          "content" : "import { getPatientMenu } from './game/logic/likert';\ngetPatientMenu();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -60,7 +60,7 @@
       "type" : "For each"
     }, {
       "props" : {
-        "className" : "validateButton lickertMenuItem",
+        "className" : "validateButton likertMenuItem",
         "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
           "className" : "selectedItem",
@@ -79,7 +79,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { gotoValidatePage } from './game/logic/lickert';\n\ngotoValidatePage();",
+            "content" : "import { gotoValidatePage } from './game/logic/likert';\n\ngotoValidatePage();",
             "language" : "typescript"
           }
         },
@@ -96,7 +96,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "lickertMenu",
+    "layoutClassName" : "likertMenu",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

@@ -2,7 +2,7 @@ import { getDrillStatus } from "./drill";
 import { FogType } from "./the_world";
 import { getRunningMode } from "./TimeManager";
 
-type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LICKERT';
+type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LIKERT';
 
 export function getDrillType(): DrillType {
 	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
@@ -35,7 +35,7 @@ export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
 	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
-			case 'LICKERT':
+			case 'LIKERT':
 				return "STATIC";
 		}
 	}
@@ -51,7 +51,7 @@ export function getGamePageId() {
 				return "12";
 			case 'PRE-TRIAGE_ON_MAP':
 				return "11";
-			case 'LICKERT':
+			case 'LIKERT':
 				return '26';
 		}
 	} else {
@@ -183,7 +183,7 @@ export function isInterfaceDisabled(): boolean {
 		const drillStatus = getDrillStatus();
 
 		switch (getDrillType()) {
-			case 'LICKERT':
+			case 'LIKERT':
 			case 'PRE-TRIAGE':
 				return drillStatus != 'ongoing';
 		}

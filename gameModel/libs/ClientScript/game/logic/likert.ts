@@ -8,7 +8,7 @@ import {
 	MatrixConfig,
 	setMatrixState,
 } from '../../edition/MatrixEditor';
-import { ClKeys, LickertData, PhKeys, run_lickert } from '../../HUMAn/run';
+import { ClKeys, LikertData, PhKeys, run_likert } from '../../HUMAn/run';
 import {
 	getCurrentPatientBodyParam,
 	getCurrentPatientId,
@@ -17,11 +17,11 @@ import {
 import { getTranslation } from '../../tools/translation';
 
 export function isThereAnythingToSave() {
-	return Context.lickertSaveState.state.somethingToSave;
+	return Context.likertSaveState.state.somethingToSave;
 }
 
 function syncUI() {
-	Context.lickertSaveState.setState({ somethingToSave: true });
+	Context.likertSaveState.setState({ somethingToSave: true });
 	setMatrixState(state => {
 		return { ...state, toggle: !state.toggle }
 	});
@@ -54,22 +54,22 @@ export async function gotoValidatePage() {
 /** PAGE STATE */
 
 
-interface LickertState {
+interface LikertState {
 	data: 'NOT_INITIALIZED' | 'INITIALIZING' | 'INITIALIZED';
 }
 
-export function getInitialLickertState(): LickertState {
+export function getInitialLikertState(): LikertState {
 	return {
 		data: 'NOT_INITIALIZED',
 	};
 }
 
-export function getLickertState(): LickertState {
-	return Context.lickertState.state;
+export function getLikertState(): LikertState {
+	return Context.likertState.state;
 }
 
-export function setLickertState(state: LickertState | ((state: LickertState) => LickertState)) {
-	Context.lickertState.setState(state);
+export function setLikertState(state: LikertState | ((state: LikertState) => LikertState)) {
+	Context.likertState.setState(state);
 }
 
 function shouldShowDemographicPage(): boolean {
@@ -86,16 +86,16 @@ function shouldShowDemographicPage(): boolean {
 	return true;
 }
 
-export function getLickertPage(): string {
+export function getLikertPage(): string {
 	const status = getDrillStatus();
 	if (status === 'not_started') {
 		return "22";
 	}
 	const shouldShowDemographic = shouldShowDemographicPage();
 
-	const state = getLickertState();
+	const state = getLikertState();
 	if (state.data === 'NOT_INITIALIZED') {
-		setLickertState({ data: 'INITIALIZING' });
+		setLikertState({ data: 'INITIALIZING' });
 		initAllPatients();
 		// display demographic page while loading data
 		return shouldShowDemographic ? "40" : "27";
@@ -191,7 +191,7 @@ export function prettyPrintCurrentPatientScript(): string {
 type TimeId = string;
 type KeyId = string;
 
-export type LickertLevel = 1 | 2 | 3 | 4 | 5;
+export type LikertLevel = 1 | 2 | 3 | 4 | 5;
 
 //const lickerCellDef_select: CellDef[] = [
 //	{
@@ -240,10 +240,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '1',
-		tooltip: getTranslation('general-lickert', 'impossible'),
+		tooltip: getTranslation('general-likert', 'impossible'),
 		values: [
 			{
-				label: getTranslation('general-lickert', 'impossible'),
+				label: getTranslation('general-likert', 'impossible'),
 				value: 1,
 			},
 		],
@@ -251,10 +251,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '2',
-		tooltip: getTranslation('general-lickert', 'unlikely'),
+		tooltip: getTranslation('general-likert', 'unlikely'),
 		values: [
 			{
-				label: getTranslation('general-lickert', 'unlikely'),
+				label: getTranslation('general-likert', 'unlikely'),
 				value: 2,
 			},
 		],
@@ -262,10 +262,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '3',
-		tooltip: getTranslation('general-lickert', 'acceptable'),
+		tooltip: getTranslation('general-likert', 'acceptable'),
 		values: [
 			{
-				label: getTranslation('general-lickert', 'acceptable'),
+				label: getTranslation('general-likert', 'acceptable'),
 				value: 3,
 			},
 		],
@@ -273,10 +273,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '4',
-		tooltip: getTranslation('general-lickert', 'quite-realistic'),
+		tooltip: getTranslation('general-likert', 'quite-realistic'),
 		values: [
 			{
-				label: getTranslation('general-lickert', 'quite-realistic'),
+				label: getTranslation('general-likert', 'quite-realistic'),
 				value: 4,
 			},
 		],
@@ -284,21 +284,21 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '5',
-		tooltip: getTranslation('general-lickert', 'fully-realistic'),
+		tooltip: getTranslation('general-likert', 'fully-realistic'),
 		values: [
 			{
-				label: getTranslation('general-lickert', 'fully-realistic'),
+				label: getTranslation('general-likert', 'fully-realistic'),
 				value: 5,
 			},
 		],
 	},
 ];
 
-type LickertMatrixCell = undefined | LickertLevel;
+type LikertMatrixCell = undefined | LikertLevel;
 
-const currentData: Record<string, { data: LickertData, cardiacArrest: number | undefined }> = {};
+const currentData: Record<string, { data: LikertData, cardiacArrest: number | undefined }> = {};
 
-type Matrix = Record<TimeId, Record<KeyId, EnhancedCellData<LickertMatrixCell>>>;
+type Matrix = Record<TimeId, Record<KeyId, EnhancedCellData<LikertMatrixCell>>>;
 
 const clinicalMatrix: Record<string, Matrix> = {};
 
@@ -306,7 +306,7 @@ const physiologicalMatrix: Record<string, Matrix> = {};
 
 const comments: Record<string, string> = {};
 
-type PMatrix = Record<TimeId, Record<KeyId, LickertMatrixCell>>;
+type PMatrix = Record<TimeId, Record<KeyId, LikertMatrixCell>>;
 
 interface PersistedMatrix {
 	clinical: PMatrix;
@@ -314,7 +314,7 @@ interface PersistedMatrix {
 	comments: string;
 }
 
-type LickertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LickertMatrixCell) => void;
+type LikertOnChangeFn = (x: DataDef<TimeId>, y: DataDef<KeyId>, value: LikertMatrixCell) => void;
 
 function prettyPrintValue(metric: string, value: unknown): string {
 	return formatMetric(metric as BodyStateKeys, value)[1];
@@ -325,7 +325,7 @@ function prettyPrintKey(metric: string): string {
 }
 
 function getPersistedData(patientId: string): PersistedMatrix {
-	const oi = Variable.find(gameModel, 'lickert').getInstance(self);
+	const oi = Variable.find(gameModel, 'likert').getInstance(self);
 	const data = oi.getProperties()[patientId];
 	if (data) {
 		return JSON.parse(data);
@@ -371,7 +371,7 @@ function convertData(data: Data): PersistedMatrix {
 }
 
 interface Data {
-	data: LickertData;
+	data: LikertData;
 	cardiacArrest: number | undefined;
 	clMatrix: Matrix;
 	phMatrix: Matrix;
@@ -467,7 +467,7 @@ function getPatientData(patientId: string, force: boolean = false): Data {
 
 	if (currentData[patientId] == null || force) {
 		wlog("RUN MODEL FOR PATIENT ", patientId);
-		currentData[patientId] = run_lickert(patientId);
+		currentData[patientId] = run_likert(patientId);
 	}
 	const patientData = currentData[patientId]!;
 	const data = getPersistedData(patientId);
@@ -525,14 +525,14 @@ function getCurrentPatientData(force: boolean = false): Data {
 export function getCurrentPatientFinalState(): string {
 	const cardiacArrest = getCurrentPatientData().cardiacArrest;
 	if (cardiacArrest /* > 0*/) {
-		return `${getTranslation('general-lickert', 'died-after')} ${formatSecond(cardiacArrest)}</strong>`;
+		return `${getTranslation('general-likert', 'died-after')} ${formatSecond(cardiacArrest)}</strong>`;
 	} else {
-		return getTranslation('general-lickert', 'still-alive')
+		return getTranslation('general-likert', 'still-alive')
 	}
 }
 
 export function initAllPatients() {
-	const state = Context.lickertState;
+	const state = Context.likertState;
 	setTimeout(() => {
 		const allIds = getSortedPatientIds();
 		allIds.forEach(pId => getPatientData(pId));
@@ -565,10 +565,10 @@ function formatSecond(time: number) {
 
 /************************************* Clinical Matrix Config ********************************************/
 
-const ClinicalLickertOnChangeRefName = 'clinicalOnChange';
+const ClinicalLikertOnChangeRefName = 'clinicalOnChange';
 
-const onClinicalChangeRef = Helpers.useRef<LickertOnChangeFn>(
-	ClinicalLickertOnChangeRefName,
+const onClinicalChangeRef = Helpers.useRef<LikertOnChangeFn>(
+	ClinicalLikertOnChangeRefName,
 	() => { },
 );
 
@@ -588,7 +588,7 @@ onClinicalChangeRef.current = (x, y, newData) => {
 	syncUI();
 };
 
-export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LikertMatrixCell> {
 	const data = getCurrentPatientData();
 
 	return {
@@ -603,15 +603,15 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCe
 		data: data.clMatrix,
 		cellDef: lickerCellDef,
 		hideFilter: true,
-		onChangeRefName: ClinicalLickertOnChangeRefName,
+		onChangeRefName: ClinicalLikertOnChangeRefName,
 	};
 }
 
 /************************************* Physiological Matrix Config ********************************************/
 
-const PhysioLickertOnChangeRefName = 'physioOnChange';
+const PhysioLikertOnChangeRefName = 'physioOnChange';
 
-const onPhysioChangeRef = Helpers.useRef<LickertOnChangeFn>(PhysioLickertOnChangeRefName, () => { });
+const onPhysioChangeRef = Helpers.useRef<LikertOnChangeFn>(PhysioLikertOnChangeRefName, () => { });
 
 onPhysioChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
@@ -629,7 +629,7 @@ onPhysioChangeRef.current = (x, y, newData) => {
 	syncUI();
 };
 
-export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LikertMatrixCell> {
 	const data = getCurrentPatientData();
 
 	return {
@@ -644,7 +644,7 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LickertMatrixCell
 		data: data.phMatrix,
 		cellDef: lickerCellDef,
 		hideFilter: true,
-		onChangeRefName: PhysioLickertOnChangeRefName,
+		onChangeRefName: PhysioLikertOnChangeRefName,
 	};
 }
 
@@ -669,16 +669,16 @@ export async function saveMatrix() {
 }
 
 export async function saveData() {
-	if (Context.lickertSaveState?.state?.somethingToSave) {
+	if (Context.likertSaveState?.state?.somethingToSave) {
 		const data = getCurrentPatientData();
 		const pData = convertData(data);
 		const patientId = getCurrentPatientId();
 
-		const script = `Variable.find(gameModel, 'lickert').setProperty(self, '${patientId}', ${JSON.stringify(
+		const script = `Variable.find(gameModel, 'likert').setProperty(self, '${patientId}', ${JSON.stringify(
 			JSON.stringify(pData),
 		)})`;
 		const result = await APIMethods.runScript(script, {});
-		Context.lickertSaveState.setState({ somethingToSave: false });
+		Context.likertSaveState.setState({ somethingToSave: false });
 		return result;
 	}
 }
@@ -751,7 +751,7 @@ function pushValue(allData: Record<string, Record<number, string>>,
 	allData[colName]![expertId] = value;
 }
 
-export async function getAllLickertData() {
+export async function getAllLikertData() {
 
 	const result = await APIMethods.runScript('getLickerData();', {});
 	const fullData = result.updatedEntities[0] as RawFullData;
@@ -797,7 +797,7 @@ export async function getAllLickertData() {
 	}
 
 	const txt = csv.join('\n');
-	Helpers.downloadDataAsFile('lickert.csv', txt);
+	Helpers.downloadDataAsFile('likert.csv', txt);
 }
 
 
@@ -809,14 +809,14 @@ export async function getAllLickertData() {
  * Read-only data
  * Pathology Editor
  */
-export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getClinicalMatrixRO(): MatrixConfig<TimeId, KeyId, LikertMatrixCell> {
 	return {
 		...getClinicalMatrix(),
 		cellDef: [],
 	};
 }
 
-export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LickertMatrixCell> {
+export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LikertMatrixCell> {
 	return {
 		...getPhysioMatrix(),
 		cellDef: [],

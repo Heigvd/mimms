@@ -92,9 +92,9 @@ function getPretriage(events) {
 var drillType = Variable.find(gameModel, 'drillType').getValue(self);
 
 
-if (drillType === 'LICKERT') {
+if (drillType === 'LIKERT') {
 	var max = 60 * Variable.find(gameModel, 'patients').getProperties().size();
-	WegasDashboard.registerVariable('lickert', {
+	WegasDashboard.registerVariable('likert', {
 		kind: 'number',
 		mapFn: function (teamId, data) {
 			var counter = 0;

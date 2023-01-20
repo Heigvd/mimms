@@ -459,15 +459,15 @@ const phKeys = [
 
 export type PhKeys = typeof phKeys[number];
 
-export interface LickertData {
+export interface LikertData {
 	clinical: Record<ClKeys, Serie>;
 	physiological: Record<PhKeys, Serie>;
 }
 
 const fourHours = 60 * 60 * 4;
 
-export function run_lickert(patientId: string) {
-	const data: LickertData = {
+export function run_likert(patientId: string) {
+	const data: LikertData = {
 		clinical: {
 			'vitals.canWalk_internal': {},
 			'vitals.cardio.hr': {},
@@ -516,7 +516,7 @@ export function run_lickert(patientId: string) {
 
 	const times = [t0, t1, t2, t3, t4];
 
-	const clean: LickertData = {
+	const clean: LikertData = {
 		clinical: {
 			'vitals.canWalk_internal': {},
 			'vitals.cardio.hr': {},

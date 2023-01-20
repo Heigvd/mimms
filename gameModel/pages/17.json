@@ -6,7 +6,7 @@
           "props" : {
             "initialSelectedPageId" : "24",
             "layoutStyle" : { },
-            "name" : "lickertMenuPageLoader",
+            "name" : "likertMenuPageLoader",
             "style" : { }
           },
           "type" : "PageLoader"
@@ -29,7 +29,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
+                                      "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/likert';\nprettyPrintCurrentPatientMeta();",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -42,7 +42,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
+                                      "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/likert';\nprettyPrintCurrentPatientInfos();",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -61,7 +61,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { prettyPrintCurrentPatientScript } from './game/logic/lickert';\nprettyPrintCurrentPatientScript();",
+                                  "content" : "import { prettyPrintCurrentPatientScript } from './game/logic/likert';\nprettyPrintCurrentPatientScript();",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -73,7 +73,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import {getCurrentPatientFinalState} from './game/logic/lickert';\ngetCurrentPatientFinalState();",
+                                  "content" : "import {getCurrentPatientFinalState} from './game/logic/likert';\ngetCurrentPatientFinalState();",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -97,7 +97,7 @@
                             },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "I18n.toString(Variable.find(gameModel,'lickertLegend'))",
+                              "content" : "I18n.toString(Variable.find(gameModel,'likertLegend'))",
                               "language" : "JavaScript"
                             }
                           },
@@ -156,7 +156,7 @@
                             "exposeAs" : "matrixConfig",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getClinicalMatrix, getPhysioMatrix } from './game/logic/lickert';\nimport { getTranslation } from './tools/translation';\n[\n\t{\n\t\tid: 0,\n\t\ttitle: getTranslation('general-lickert', 'clinical-params'),\n\t\t...getClinicalMatrix()\n\t},\n\t{\n\t\tid: 1, \n\t\ttitle: getTranslation('general-lickert', 'physio-params'),\n\t\t...getPhysioMatrix()\n\t}\n];",
+                              "content" : "import { getClinicalMatrix, getPhysioMatrix } from './game/logic/likert';\nimport { getTranslation } from './tools/translation';\n[\n\t{\n\t\tid: 0,\n\t\ttitle: getTranslation('general-likert', 'clinical-params'),\n\t\t...getClinicalMatrix()\n\t},\n\t{\n\t\tid: 1, \n\t\ttitle: getTranslation('general-likert', 'physio-params'),\n\t\t...getPhysioMatrix()\n\t}\n];",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -176,7 +176,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<h2>${getTranslation('general-lickert', \"comments\", true)}</h2>`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<h2>${getTranslation('general-likert', \"comments\", true)}</h2>`",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -191,7 +191,7 @@
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "import { saveCurrentPatientComments } from './game/logic/lickert';\n\nsaveCurrentPatientComments(Context.comments);",
+                                "content" : "import { saveCurrentPatientComments } from './game/logic/likert';\n\nsaveCurrentPatientComments(Context.comments);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
@@ -203,7 +203,7 @@
                             "rows" : 5,
                             "script" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPatientComments } from './game/logic/lickert';\ngetCurrentPatientComments() || '';",
+                              "content" : "import { getCurrentPatientComments } from './game/logic/likert';\ngetCurrentPatientComments() || '';",
                               "language" : "JavaScript"
                             },
                             "style" : { }
@@ -226,25 +226,25 @@
                           "props" : {
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "!Context.lickertSaveState.state.somethingToSave;",
+                              "content" : "!Context.likertSaveState.state.somethingToSave;",
                               "language" : "typescript"
                             },
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\nisCurrentPatientDone();",
+                              "content" : "import { isCurrentPatientDone } from './game/logic/likert';\nisCurrentPatientDone();",
                               "language" : "typescript"
                             },
                             "icon" : "save",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-lickert', 'save');",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-likert', 'save');",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { saveMatrix} from './game/logic/lickert';\n\nsaveMatrix();",
+                                "content" : "import { saveMatrix} from './game/logic/likert';\n\nsaveMatrix();",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -256,20 +256,20 @@
                           "props" : {
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isCurrentPatientDone } from \"./game/logic/lickert\";\n!isCurrentPatientDone();",
+                              "content" : "import { isCurrentPatientDone } from \"./game/logic/likert\";\n!isCurrentPatientDone();",
                               "language" : "typescript"
                             },
                             "icon" : "save",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-lickert', 'save-next');",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-likert', 'save-next');",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { nextUndonePatient} from './game/logic/lickert';\n\nnextUndonePatient();",
+                                "content" : "import { nextUndonePatient} from './game/logic/likert';\n\nnextUndonePatient();",
                                 "language" : "typescript"
                               }
                             },
@@ -300,7 +300,7 @@
                   "props" : {
                     "initialSelectedPageId" : "25",
                     "layoutStyle" : { },
-                    "name" : "lickertConfirmPageLoader",
+                    "name" : "likertConfirmPageLoader",
                     "style" : { }
                   },
                   "type" : "PageLoader"
@@ -323,7 +323,7 @@
           },
           "type" : "If Else"
         } ],
-        "exposeAs" : "lickertSaveState",
+        "exposeAs" : "likertSaveState",
         "initialState" : {
           "@class" : "Script",
           "content" : "({\n\tsomethingToSave: false,\n})",
@@ -339,7 +339,7 @@
     "layout" : {
       "flexDirection" : "row"
     },
-    "layoutClassName" : "lickertPage fullSize",
+    "layoutClassName" : "likertPage fullSize",
     "layoutStyle" : { },
     "style" : { }
   },

@@ -607,12 +607,12 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'LICKERT'",
+              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'LIKERT'",
               "language" : "JavaScript"
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Lickert: Downalod&nbsp;CSV data<br></p>\"",
+              "content" : "\"<p>Likert: Downalod&nbsp;CSV data<br></p>\"",
               "language" : "JavaScript"
             },
             "layoutStyle" : {
@@ -621,11 +621,11 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { getAllLickertData } from './game/logic/lickert';\n\ngetAllLickertData();",
+                "content" : "import { getAllLikertData } from './game/logic/likert';\n\ngetAllLikertData();",
                 "language" : "typescript"
               }
             },
-            "name" : "lickert download",
+            "name" : "likert download",
             "style" : { }
           },
           "type" : "Button"

@@ -23,7 +23,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { runAgain } from './game/logic/lickert';\n\nrunAgain();",
+                    "content" : "import { runAgain } from './game/logic/likert';\n\nrunAgain();",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
@@ -37,7 +37,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import {getCurrentPatientFinalState} from './game/logic/lickert';\ngetCurrentPatientFinalState();",
+                  "content" : "import {getCurrentPatientFinalState} from './game/logic/likert';\ngetCurrentPatientFinalState();",
                   "language" : "JavaScript"
                 }
               },
@@ -81,7 +81,7 @@
                 "exposeAs" : "matrixConfig",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getClinicalMatrixRO, getPhysioMatrixRO } from './game/logic/lickert';\n[\n\t{id: 0, title: 'Clinical Parameters', ...getClinicalMatrixRO()},\n\t{id: 1, title: 'Physiological Parameters', ...getPhysioMatrixRO()}\n];",
+                  "content" : "import { getClinicalMatrixRO, getPhysioMatrixRO } from './game/logic/likert';\n[\n\t{id: 0, title: 'Clinical Parameters', ...getClinicalMatrixRO()},\n\t{id: 1, title: 'Physiological Parameters', ...getPhysioMatrixRO()}\n];",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",

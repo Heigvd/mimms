@@ -33,7 +33,7 @@ function shouldExtract(owner) {
 
 function getLickerData() {
 	var result = {};
-	var instancesMap = Variable.getInstances(Variable.find(gameModel, "lickert"));
+	var instancesMap = Variable.getInstances(Variable.find(gameModel, "likert"));
 
 
 	instancesMap.entrySet().forEach(function (entry) {
