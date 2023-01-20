@@ -173,6 +173,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/general-lickert.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/human-actions.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",

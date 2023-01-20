@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>loading...</p>\"",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', 'loading');",
           "language" : "JavaScript"
         }
       },

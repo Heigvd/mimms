@@ -72,20 +72,42 @@ export function setLickertState(state: LickertState | ((state: LickertState) => 
 	Context.lickertState.setState(state);
 }
 
+function shouldShowDemographicPage(): boolean {
+	if (!Variable.find(gameModel, 'collectDemographicData').getValue(self)) {
+		// do not show demographic page ever
+		return false
+	}
 
+	if (Variable.find(gameModel, 'demographicsValidated').getValue(self)) {
+		// demographic validated
+		return false;
+	}
+
+	return true;
+}
 
 export function getLickertPage(): string {
+	const status = getDrillStatus();
+	if (status === 'not_started') {
+		return "22";
+	}
+	const shouldShowDemographic = shouldShowDemographicPage();
+
 	const state = getLickertState();
 	if (state.data === 'NOT_INITIALIZED') {
 		setLickertState({ data: 'INITIALIZING' });
 		initAllPatients();
-		return "27";
+		// display demographic page while loading data
+		return shouldShowDemographic ? "40" : "27";
 	} else if (state.data === 'INITIALIZING') {
-		return "27";
+		// display demographic page while loading data
+		return shouldShowDemographic ? "40" : "27";
 	} else {
-		switch (getDrillStatus()) {
-			case 'not_started':
-				return '22';
+		if (shouldShowDemographic) {
+			return "40";
+		}
+
+		switch (status) {
 			case 'ongoing':
 			case 'completed_summary':
 			case 'completed_review':
@@ -133,7 +155,7 @@ export function prettyPrintCurrentPatientMeta() {
 		//const { meta } = computeMetas(param);
 		title = `${id}`;
 	} else {
-		title = 'No patient';
+		title = 'P?';
 	}
 
 	return `<h1>${title}</h1>`;
@@ -218,10 +240,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '1',
-		tooltip: 'impossible',
+		tooltip: getTranslation('general-lickert', 'impossible'),
 		values: [
 			{
-				label: 'impossible',
+				label: getTranslation('general-lickert', 'impossible'),
 				value: 1,
 			},
 		],
@@ -229,10 +251,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '2',
-		tooltip: 'unlikely',
+		tooltip: getTranslation('general-lickert', 'unlikely'),
 		values: [
 			{
-				label: 'unlikely',
+				label: getTranslation('general-lickert', 'unlikely'),
 				value: 2,
 			},
 		],
@@ -240,10 +262,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '3',
-		tooltip: 'acceptable',
+		tooltip: getTranslation('general-lickert', 'acceptable'),
 		values: [
 			{
-				label: 'acceptable',
+				label: getTranslation('general-lickert', 'acceptable'),
 				value: 3,
 			},
 		],
@@ -251,10 +273,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '4',
-		tooltip: 'quite realistic',
+		tooltip: getTranslation('general-lickert', 'quite-realistic'),
 		values: [
 			{
-				label: 'quite realistic',
+				label: getTranslation('general-lickert', 'quite-realistic'),
 				value: 4,
 			},
 		],
@@ -262,10 +284,10 @@ const lickerCellDef: CellDef[] = [
 	{
 		type: 'enum',
 		label: '5',
-		tooltip: 'fully realistic',
+		tooltip: getTranslation('general-lickert', 'fully-realistic'),
 		values: [
 			{
-				label: 'fully realistic',
+				label: getTranslation('general-lickert', 'fully-realistic'),
 				value: 5,
 			},
 		],
@@ -394,7 +416,7 @@ export function isPatientDone(patientId: string): boolean {
 function countCell(matrix: PMatrix) {
 	let counter = 0;
 	Object.values(matrix).forEach(timeSerie => {
-		counter += Object.values(timeSerie).length;
+		counter += Object.values(timeSerie).filter(x => x).length;
 	});
 	return counter;
 }
@@ -402,7 +424,8 @@ function countCell(matrix: PMatrix) {
 export function isPatientDone(patientId: string): boolean {
 	//const data = currentData[patientId];
 
-	const persistedData = getPersistedData(patientId);
+	const liveData = getPatientData(patientId);
+	const persistedData = convertData(liveData);
 
 	if (countCell(persistedData.clinical) < 30
 		|| countCell(persistedData.physio) < 30
@@ -502,9 +525,9 @@ function getCurrentPatientData(force: boolean = false): Data {
 export function getCurrentPatientFinalState(): string {
 	const cardiacArrest = getCurrentPatientData().cardiacArrest;
 	if (cardiacArrest /* > 0*/) {
-		return `Patient <strong>died</strong> after <strong>${formatSecond(cardiacArrest)}</strong>`;
+		return `${getTranslation('general-lickert', 'died-after')} ${formatSecond(cardiacArrest)}</strong>`;
 	} else {
-		return "Patient <strong>still alive</strong> after 4h";
+		return getTranslation('general-lickert', 'still-alive')
 	}
 }
 
@@ -660,22 +683,48 @@ export async function saveData() {
 	}
 }
 
+
+type TeamId = string;
+type PatientId = string;
+type TimeRef = string;
+type MetricName = string;
+type Value = number;
 //
 type RawData = Record<
-	string,// teamId
-	//     patientId
-	Record<string, {
-		//               time           metric  value
-		clinical: Record<string, Record<string, number>>;
-		//               time           metric  value
-		physio: Record<string, Record<string, number>>;
+	TeamId,
+	Record<PatientId, {
+		clinical: Record<TimeRef, Record<MetricName, Value>>;
+		physio: Record<TimeRef, Record<MetricName, Value>>;
 		comments: string;
 	}>
 >;
 
+const demographicVariables = [
+	"gender",
+	"age",
+	"fmh",
+	"fmhInternalMedicine",
+	"fmhAnesthesiology",
+	"fmhIntensiveMedicine",
+	"fmhOther",
+	"fmhOtherDetails",
+	"afc",
+	"afcIntraHosp",
+	"afcExtraHosp",
+	"ySinceDiploma",
+	"yPreHospXp"] as const;
+
+type DemoKey = typeof demographicVariables[number];
+
+type RawDemographics = Record<DemoKey, string | number | boolean>
+
+interface RawFullData {
+	data: RawData;
+	demographics: Record<TeamId, RawDemographics>;
+}
 
 function formatCsvCell(data: unknown): string {
-	wlog("Format ", data);
+	// wlog("Format ", data);
 	const str = String(data);
 	if (str.indexOf(",") >= 0 || str.indexOf("\n") >= 0 || str.indexOf("\r") >= 0) {
 		return `"${str.replace(/"/g, '""')}"`;
@@ -684,7 +733,7 @@ function formatCsvCell(data: unknown): string {
 	}
 }
 function formatCsvLine(...cells: unknown[]) {
-	wlog("format data", cells);
+	//wlog("format data", cells);
 	return cells.map(cell => formatCsvCell(cell)).join(', ');
 }
 
@@ -702,45 +751,53 @@ function pushValue(allData: Record<string, Record<number, string>>,
 	allData[colName]![expertId] = value;
 }
 
-export function getAllLickertData() {
-	APIMethods.runScript('getLickerData();', {}).then(result => {
-		const data = result.updatedEntities[0] as RawData;
-		const csv: string[] = [];
+export async function getAllLickertData() {
 
-		let counter = 1;
+	const result = await APIMethods.runScript('getLickerData();', {});
+	const fullData = result.updatedEntities[0] as RawFullData;
+	wlog("FullData: ", fullData);
+	const data = fullData.data;
+	const csv: string[] = [];
 
-		// Collect all data
-		const experts: number[] = [];
-		//                     metric name    expert  value
-		const allData: Record<string, Record<number, string>> = {}
+	let counter = 1;
 
-		Object.entries(data).forEach(([teamId, teamData]) => {
-			const expertId = counter++;
-			experts.push(expertId);
+	// Collect all data
+	const experts: number[] = [];
+	//                     metric name    expert  value
+	const allData: Record<string, Record<number, string>> = {}
 
-			Object.entries(teamData).forEach(([patientId, patientData]) => {
-				pushValue(allData, expertId, patientId, undefined, 'comments', patientData.comments);
-				mTypes.forEach(mType => {
-					const mData = patientData[mType];
-					Object.entries(mData).forEach(([time, timeData]) => {
-						Object.entries(timeData).forEach(([metric, value]) => {
-							pushValue(allData, expertId, patientId, time, prettyPrintKey(metric), String(value));
-						});
+	const expertToTeamIdMap: Record<number, string> = {};
+
+	Object.entries(data).forEach(([teamId, teamData]) => {
+		const expertId = counter++;
+		expertToTeamIdMap[expertId] = teamId;
+		experts.push(expertId);
+
+		Object.entries(teamData).forEach(([patientId, patientData]) => {
+			pushValue(allData, expertId, patientId, undefined, 'comments', patientData.comments);
+			mTypes.forEach(mType => {
+				const mData = patientData[mType];
+				Object.entries(mData).forEach(([time, timeData]) => {
+					Object.entries(timeData).forEach(([metric, value]) => {
+						pushValue(allData, expertId, patientId, time, prettyPrintKey(metric), String(value));
 					});
 				});
 			});
 		});
-
-		const keys = Object.keys(allData).sort();
-		// print header
-		csv.push(formatCsvLine("expert", ...keys));
-		for (const expertId of experts) {
-			csv.push(formatCsvLine(expertId, ...keys.map(key => allData[key]![expertId] || '')));
-		}
-
-		const txt = csv.join('\n');
-		Helpers.downloadDataAsFile('lickert.csv', txt);
 	});
+
+	const keys = Object.keys(allData).sort();
+	// print header
+	csv.push(formatCsvLine("expert", ...demographicVariables, ...keys));
+	for (const expertId of experts) {
+		csv.push(formatCsvLine(
+			expertId,
+			...demographicVariables.map(dKey => fullData.demographics[expertToTeamIdMap[expertId]][dKey]),
+			...keys.map(key => allData[key]![expertId] || '')));
+	}
+
+	const txt = csv.join('\n');
+	Helpers.downloadDataAsFile('lickert.csv', txt);
 }
 
 

@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Congrats<br></p>\"",
+          "content" : "I18n.toString(Variable.find(gameModel,'byebye'))",
           "language" : "JavaScript"
         }
       },

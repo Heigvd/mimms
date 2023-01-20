@@ -156,6 +156,7 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'pretriage-explanations',
 		'pretriage-interface',
 		'qr-interface',
+		'general-lickert',
 	]
 
 	variables.forEach(v => {

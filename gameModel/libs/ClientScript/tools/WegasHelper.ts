@@ -422,7 +422,13 @@ export function getEnv(): Environnment {
 export function getSystemModel(): SympSystem {
 	const sympathetic: SympSystem = {
 		"vitals.cardio.MAP": [{ "x": 0, "y": 100 }, { "x": 40, "y": 35 }, { "x": 70, "y": 0 }, { "x": 90, "y": 0 }, { "x": 180, "y": 0 }, { "x": 200, "y": 0 }],
-		"vitals.cardio.DO2Sys": [{ "x": 0, "y": 100 }, { "y": 0, "x": 850 }, { "x": 1100, "y": 0 }, { "x": 2000, "y": 0 }],
+		"vitals.cardio.DO2Sys": [{ "x": 0, "y": 100 }, { "x": 850, "y": 0 }, { "x": 1100, "y": 0 }, { "x": 2000, "y": 0 }],
+		"vitals.brain.ICP_mmHg": [
+			{ "x": 5, "y": 0 },
+			{ "x": 10, "y": 0 },
+			{ "x": 15, "y": 30 },
+			{ "x": 20, "y": 100 },
+		],
 		"vitals.respiration.PaO2": [{ "x": 0, "y": 100 }, { "y": 100, "x": 0 }, { "x": 50, "y": 50 }, { "x": 70, "y": 20 }, { "y": 5, "x": 80 }, { "x": 90, "y": 0 }]
 	};
 

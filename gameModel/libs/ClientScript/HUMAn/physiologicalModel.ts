@@ -1233,15 +1233,36 @@ const GCS_BlVol_MODEL: Point[] = [
 	{ x: 1, y: 15 },
 ];
 
+const GCS_ICP_MODEL: Point[] = [
+	{ x: 0, y: 15 },
+	{ x: 8, y: 14 },
+	{ x: 13, y: 10 },
+	{ x: 25, y: 3 },
+];
+
+function convertToGCS(avg: number): Glasgow['total'] {
+	if (avg >= 14.9) {
+		return 15;
+	}
+
+	if (avg < 4){
+		return 3;
+	}
+
+	return Math.floor(avg) as Glasgow['total'];
+}
+
 const getGCSTotal = ({ state, meta }: HumanBody): Glasgow['total'] => {
 	const DO2_100g = getDo2Brain_100g(state, meta);
 
-	const gDO2 = Math.round(interpolate(DO2_100g, GCS_DO2_MODEL)) as Glasgow['total'];
+	const gDO2 = Math.round(interpolate(DO2_100g, GCS_DO2_MODEL));
 
 	const bloodRatio = getBloodRatio({ meta: meta, state: state });
-	const gBloodVolume = Math.ceil(interpolate(bloodRatio, GCS_BlVol_MODEL)) as Glasgow['total'];
+	const gBloodVolume = Math.ceil(interpolate(bloodRatio, GCS_BlVol_MODEL));
+	const gPic = Math.ceil(interpolate(state.vitals.brain.ICP_mmHg, GCS_ICP_MODEL));
 
-	return Math.min(gDO2, gBloodVolume) as Glasgow['total'];
+	const avg = Math.min(gDO2, gBloodVolume, gPic);
+	return convertToGCS(avg);
 };
 
 const computeGlasgow = (body: HumanBody): Glasgow => {
@@ -1431,6 +1452,7 @@ function computeVitals(
 
 const icp_model: Point[] = [
 	{ x: 10, y: 0 },
+	//{ x: 5000, y: 0 },
 	{ x: 50, y: 1 },
 ];
 
@@ -1459,7 +1481,7 @@ export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration
 	const sympValues = computeVitals(level, compensation!, state, meta, duration_min, t4Fine);
 
 	const overdriveLevel = interpolate(state.vitals.brain.ICP_mmHg, icp_model);
-
+// logger.warn("Overdrive: ", overdriveLevel);
 	if (overdriveLevel > 0) {
 		compLogger.info('Overdrive: ', { ICP: state.vitals.brain.ICP_mmHg, overdriveLevel });
 		const overdriveModel = getOverdriveModel();

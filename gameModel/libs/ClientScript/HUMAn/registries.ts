@@ -731,7 +731,7 @@ function init() {
 				{
 					type: 'ICM',
 					blocks: ['HEAD'],
-					delta_perMin: { min: 0.05, max: 2 },
+					delta_perMin: { min: 0.05, max: 10 },
 					mass: undefined,
 				},
 				{

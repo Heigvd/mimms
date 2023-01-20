@@ -12,6 +12,12 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
+        "id" : "40",
+        "name" : "demographics",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "11",
         "name" : "humanMap",
         "scenaristPage" : false,

@@ -15,7 +15,7 @@
       "props" : {
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Start</p>\";",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', 'continue', true)",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },

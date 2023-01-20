@@ -1,0 +1,536 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "title",
+        "layoutStyle" : { },
+        "name" : "title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "I18n.toString(Variable.find(gameModel,'donneesDemographiques'))",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'gender').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'gender')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "gender",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'age').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "displayValues" : "NumberInput",
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'age')",
+              "language" : "TypeScript"
+            },
+            "steps" : 98,
+            "style" : { }
+          },
+          "type" : "NumberSlider"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "age",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'fmh').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'fmh')",
+              "language" : "TypeScript"
+            },
+            "style" : { },
+            "type" : "checkbox"
+          },
+          "type" : "Boolean"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "fmh",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'fmhInternalMedicine').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'fmhInternalMedicine')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'fmhAnesthesiology').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'fmhAnesthesiology')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'fmhIntensiveMedicine').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'fmhIntensiveMedicine')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'fmhOther').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'fmhOther')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            }, {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'fmhOther').isFalse(self);",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'fmhOtherDetails')",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'fmh').isFalse(self);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "fmhSpec",
+        "layoutStyle" : {
+          "borderLeft" : "2px solid grey",
+          "marginLeft" : "3em"
+        },
+        "name" : "fmhSpec",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'aFC').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'afc')",
+              "language" : "TypeScript"
+            },
+            "style" : { },
+            "type" : "checkbox"
+          },
+          "type" : "Boolean"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "afc",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'afcIntraHosp').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'afcIntraHosp')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "label",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "I18n.translate(Variable.find(gameModel,'afcExtraHosp').getLabel())",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'afcExtraHosp')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "checkbox"
+              },
+              "type" : "Boolean"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel, 'afc').isFalse(self);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "afcSpec",
+        "layoutStyle" : {
+          "borderLeft" : "2px solid grey",
+          "marginLeft" : "3em"
+        },
+        "name" : "afcSpec",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'ySinceDiploma').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "displayValues" : "NumberInput",
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'ySinceDiploma')",
+              "language" : "TypeScript"
+            },
+            "steps" : 99,
+            "style" : { }
+          },
+          "type" : "NumberSlider"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "dipl",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "label",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "I18n.translate(Variable.find(gameModel,'yPreHospXp').getLabel())",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "displayValues" : "NumberInput",
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'yPreHospXp')",
+              "language" : "TypeScript"
+            },
+            "steps" : 99,
+            "style" : { }
+          },
+          "type" : "NumberSlider"
+        } ],
+        "layout" : {
+          "alignItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "XP",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'demographicsValidated').setValue(self, true);",
+            "language" : "javascript"
+          }
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', 'validate')",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : {
+          "alignSelf" : "start"
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "demographic-page",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

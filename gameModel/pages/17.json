@@ -22,29 +22,39 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "name" : "Title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutClassName" : "patientInfos",
+                                    "layoutStyle" : { },
+                                    "name" : "patient infos",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
                                 "layoutStyle" : { },
-                                "name" : "Title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { prettyPrintCurrentPatientMeta } from './game/logic/lickert';\nprettyPrintCurrentPatientMeta();",
-                                  "language" : "JavaScript"
-                                }
+                                "style" : { }
                               },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "patientInfos",
-                                "layoutStyle" : { },
-                                "name" : "patient infos",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { prettyPrintCurrentPatientInfos } from './game/logic/lickert';\nprettyPrintCurrentPatientInfos();",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
                                 "layoutStyle" : { },
@@ -146,7 +156,7 @@
                             "exposeAs" : "matrixConfig",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getClinicalMatrix, getPhysioMatrix } from './game/logic/lickert';\n[\n\t{\n\t\tid: 0,\n\t\ttitle: 'Clinical Parameters',\n\t\t...getClinicalMatrix()\n\t},\n\t{\n\t\tid: 1, \n\t\ttitle: \"Physiological Parameters\",\n\t\t...getPhysioMatrix()\n\t}\n];",
+                              "content" : "import { getClinicalMatrix, getPhysioMatrix } from './game/logic/lickert';\nimport { getTranslation } from './tools/translation';\n[\n\t{\n\t\tid: 0,\n\t\ttitle: getTranslation('general-lickert', 'clinical-params'),\n\t\t...getClinicalMatrix()\n\t},\n\t{\n\t\tid: 1, \n\t\ttitle: getTranslation('general-lickert', 'physio-params'),\n\t\t...getPhysioMatrix()\n\t}\n];",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -166,7 +176,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<h2>Comments<br></h2>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<h2>${getTranslation('general-lickert', \"comments\", true)}</h2>`",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -219,10 +229,15 @@
                               "content" : "!Context.lickertSaveState.state.somethingToSave;",
                               "language" : "typescript"
                             },
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\nisCurrentPatientDone();",
+                              "language" : "typescript"
+                            },
                             "icon" : "save",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"<p>save</p>\"",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-lickert', 'save');",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },
@@ -239,15 +254,15 @@
                           "type" : "Button"
                         }, {
                           "props" : {
-                            "disableIf" : {
+                            "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isCurrentPatientDone } from './game/logic/lickert';\n!isCurrentPatientDone();",
-                              "language" : "JavaScript"
+                              "content" : "import { isCurrentPatientDone } from \"./game/logic/lickert\";\n!isCurrentPatientDone();",
+                              "language" : "typescript"
                             },
                             "icon" : "save",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"<p>save and go to next patient<br></p>\"",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-lickert', 'save-next');",
                               "language" : "JavaScript"
                             },
                             "layoutStyle" : { },

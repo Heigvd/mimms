@@ -50,7 +50,7 @@
         },
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Validate</p>\"",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', \"validate\");",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
