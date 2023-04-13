@@ -2675,7 +2675,7 @@
                 "lang" : "FR",
                 "refId" : "TranslatableContent:24113671:YAHx4s::FR",
                 "status" : "",
-                "translation" : "nombre d'année depuis le diplôme"
+                "translation" : "Nombre d'années depuis le diplôme"
               }
             }
           },
@@ -2709,7 +2709,7 @@
                 "lang" : "FR",
                 "refId" : "TranslatableContent:24113676:3ypLVR::FR",
                 "status" : "",
-                "translation" : "Nombe d'années d'éxperience en préhospitalier"
+                "translation" : "Nombre d'années d'éxperience en préhospitalier"
               }
             }
           },
@@ -4880,7 +4880,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "HUMAn - collikert",
+  "name" : "MIMMS - poc2",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

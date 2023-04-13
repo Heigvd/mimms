@@ -16,6 +16,7 @@ var TimeManager = ((function () {
 
 	var KEEPALIVE_DELAY_S = 30; // 30 seconds
 
+	// TODO called only once : simplify
 	function computeEpochSimulationTime(player, epoch) {
 		var thePlayer = player || self;
 		var inSim_ref = Variable.find(gameModel, 'inSim_ref').getValue(thePlayer);
@@ -29,6 +30,7 @@ var TimeManager = ((function () {
 		return inSim_ref + delta_s;
 	}
 
+	// TODO simplify
 	function computeRawSimulationTime(player) {
 		return computeEpochSimulationTime(player, new Date().getTime());
 	}

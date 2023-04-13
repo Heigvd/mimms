@@ -268,9 +268,10 @@
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
-                                "@class" : "Script",
+                                "@class" : "ClientScript",
                                 "content" : "import { nextUndonePatient} from './game/logic/likert';\n\nnextUndonePatient();",
-                                "language" : "typescript"
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
                               }
                             },
                             "style" : { }
@@ -311,7 +312,7 @@
             "className" : "",
             "ifCondition" : {
               "@class" : "Script",
-              "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed_review' || getDrillStatus() !== 'completed_summary';",
+              "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() === 'completed_review' || getDrillStatus() === 'ongoing';",
               "language" : "typescript"
             },
             "layoutClassName" : "",
