@@ -183,7 +183,7 @@ export function toSummaryScreen(): Promise<IManagedResponse>{
 }
 
 /**
- * Freeze the patient before switching to new one 
+ * Freeze the current patient before switching to new one 
  */
 function getFreezePatientEventScript(evt : BaseEvent, currentTime : number): string {
 

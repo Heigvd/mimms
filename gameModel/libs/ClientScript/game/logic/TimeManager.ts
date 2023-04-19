@@ -124,27 +124,9 @@ function getTimeStatus(): TimeStatus {
 	}
 }
 
-
-
-
-
 export function getRunningMode(): RunningMode {
 	return getTimeStatus().mode;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export function getCurrentSimulationTime() {
 	return currentTime_s;
@@ -154,14 +136,6 @@ export function updateInSimCurrentTime() {
 	currentTime_s = getTimeStatus().currentTime;
 	return currentTime_s;
 }
-
-
-
-
-
-
-
-
 
 interface TimeState {
 	time: number;

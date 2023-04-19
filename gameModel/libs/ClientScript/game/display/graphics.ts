@@ -22,7 +22,9 @@ export interface HumanOverview {
 	tidalVolume_L: number;
 }
 
-
+/**
+ * Label on patient avatar
+ */
 function getCategoryCardSvgRect(category: Category<string> | undefined, x: number | string = 0, y: number|string = 0, size: number|string = 4): string {
 	if (category) {
 		return `<rect fill="${category.bgColor}" stroke="${category.color}" stroke-width="3" x="${x}" y="${y}" width="${size}" height="${size}" >
@@ -198,9 +200,6 @@ function getPainIcon(pain: number, overview: HumanOverview): string {
 	return "/patient/pain/" + consciousness + '-' + painLevel + 'Pain.png';
 }
 
-/**
- *	
- */
 function convertMeterToPixel(m: number, resolution: number) {
 	return convertMeterToMapUnit(m) / resolution;
 }
