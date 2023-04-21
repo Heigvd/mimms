@@ -17,3 +17,4 @@ export const patientGenerationLogger = Helpers.getLogger("human.patient.generati
 export const translationLogger = Helpers.getLogger('translation');
 export const exportLogger = Helpers.getLogger('export');
 export const extraLogger = Helpers.getLogger("human.extra");
+export const preTriageLogger = Helpers.getLogger("pretriage");

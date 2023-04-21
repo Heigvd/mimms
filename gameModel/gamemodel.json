@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1681909457159,
+  "createdTime" : 1682064903379,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1000,7 +1000,7 @@
       },
       "name" : "drill_Presets",
       "properties" : {
-        "1357709491" : "{\"name\":\"12 Mai CERN\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true}}",
+        "1357709491" : "{\"name\":\"12 Mai CERN\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-AW-390\":true,\"CH-BF-997\":true}}",
         "4893474813" : "{\"name\":\"25 Mai Contest\",\"patients\":{\"CH-AW-390\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
@@ -1931,6 +1931,35 @@
       "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:28498812:myKLUu",
+        "value" : false
+      },
+      "editorTag" : "Exam mode",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:28498813:QA2h5X",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:28498813:QA2h5X::EN",
+            "status" : "",
+            "translation" : ""
+          }
+        }
+      },
+      "name" : "examMode",
+      "refId" : "BooleanDescriptor:28498811:yVdbXZ",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -4912,7 +4941,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2 XGO",
+  "name" : "MIMMS Pré-tri V2 XGO (Mikk)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

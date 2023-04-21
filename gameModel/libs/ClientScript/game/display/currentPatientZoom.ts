@@ -1171,6 +1171,7 @@ export function selectCategory(category: string, setState: SetZoomState) {
 		...s,
 		selectedCategory: category,
 	}));
+
 }
 
 export async function validateCategory(state: PatientZoomState): Promise<unknown> {
@@ -1192,6 +1193,38 @@ export async function validateCategory(state: PatientZoomState): Promise<unknown
 		});
 	}
 	return undefined;
+}
+
+export async function selectAndValidateCategory(
+  category: string,
+  setState: SetZoomState,
+  state: PatientZoomState
+): Promise<unknown> {
+  const newState: PatientZoomState = {
+    ...state,
+    selectedCategory: category,
+  };
+
+  setState(newState);
+
+  const system = getTagSystem();
+  const resolved = getCategory(newState.selectedCategory);
+  const autoTriage = doAutomaticTriage()!;
+  logger.log("Resolved category: ", resolved);
+  logger.log("CurrentPatient: ", newState.currentPatient);
+  if (resolved != null && newState.currentPatient) {
+    return sendEvent({
+      ...initEmitterIds(),
+      type: 'Categorize',
+      targetType: 'Human',
+      targetId: newState.currentPatient,
+      category: resolved.category.id,
+      system: system,
+      autoTriage: autoTriage,
+      severity: resolved.severity,
+    });
+  }
+  return undefined;
 }
 
 function getRoundedAge(human: HumanBody) {

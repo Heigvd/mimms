@@ -360,6 +360,11 @@
                   "type" : "Button"
                 } ],
                 "exposeAs" : "explanation",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+                  "language" : "typescript"
+                },
                 "initialState" : {
                   "@class" : "Script",
                   "content" : "({showExplanation: false});",
@@ -659,6 +664,11 @@
             }, {
               "props" : {
                 "className" : "patient-summary--header",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+                  "language" : "typescript"
+                },
                 "layoutStyle" : { },
                 "name" : "review patient",
                 "style" : { },
@@ -737,6 +747,11 @@
                     }, {
                       "props" : {
                         "className" : "reviewBtn",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+                          "language" : "typescript"
+                        },
                         "icon" : "eye",
                         "label" : {
                           "@class" : "Script",
@@ -788,10 +803,19 @@
               },
               "type" : "For each"
             } ],
+            "className" : "patient-summary--grid",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "exam-mode",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+                "language" : "typescript"
+              }
+            } ],
             "layout" : {
               "alignItems" : "center",
               "gridAutoRows" : "50px",
-              "gridTemplateColumns" : "repeat(6, 1fr)",
               "justifyItems" : "center"
             },
             "layoutStyle" : { },
