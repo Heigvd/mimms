@@ -31,7 +31,7 @@ import {
 	getItem,
 	getPathology,
 } from '../../HUMAn/registries';
-import { getCurrentSimulationTime } from './TimeManager';
+import { fastForward, getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
 	getBodyParam,
@@ -235,6 +235,7 @@ export type ActionSource =
 
 interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
+	timeJump: boolean;
 	source: ActionSource;
 }
 
@@ -255,6 +256,7 @@ export interface HumanMeasureResultEvent extends TargetedEvent {
 
 export interface HumanTreatmentEvent extends TargetedEvent {
 	type: 'HumanTreatment';
+	timeJump: boolean;
 	source: ActionSource;
 	blocks: BlockName[];
 }
@@ -1495,12 +1497,15 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
-				if (duration > 0) {
+				if (duration > 0 && !event.payload.timeJump) {
 					if (resultEvent) {
 						resultEvent.duration = duration;
 					}
 					delayAction(event.time + duration, resolvedAction, event, resultEvent);
 				} else {
+					if(duration > 0){
+						fastForward(duration);
+					}
 					doMeasure(event.time, source, action as ActionBodyMeasure, event, resultEvent);
 				}
 			} else {
@@ -1717,10 +1722,13 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				doTreatment(event.time, resolvedAction, event);
 			} else if (skillLevel) {
 				const duration = action.duration[skillLevel];
-				if (duration > 0) {
+				if (duration > 0 && !event.payload.timeJump) {
 					// delay event
 					delayAction(event.time + duration, resolvedAction, event, undefined);
 				} else {
+					if(duration > 0){
+						fastForward(duration);
+					}
 					doTreatment(event.time, resolvedAction, event);
 				}
 			} else {

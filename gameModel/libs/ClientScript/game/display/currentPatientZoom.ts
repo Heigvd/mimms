@@ -609,6 +609,7 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Pr
 			targetType: 'Human',
 			targetId: Context.patientConsole.state.currentPatient,
 			source: source,
+			timeJump: true
 		});
 	}
 }
@@ -634,6 +635,7 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 			targetId: Context.patientConsole.state.currentPatient,
 			source: source,
 			blocks: block ? [block] : [],
+			timeJump: true
 		});
 	}
 }

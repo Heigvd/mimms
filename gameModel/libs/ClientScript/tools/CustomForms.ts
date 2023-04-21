@@ -574,6 +574,40 @@ Helpers.registerEffect(() => {
 			};
 
 			return newSchema;
+		} else if (od.editorTag === 'actionsDurations') {
+			const newSchema = Helpers.cloneDeep(schema);
+			hideProperty(newSchema, "description");
+			hideProperty(newSchema, "defaultInstance");
+
+			//hideProperty(newSchema, "label");
+			turnPropertyReadOnly(newSchema, "editorTag");
+			newSchema.properties.properties.view = {
+				label: 'Actions',
+				type: 'dictionary',
+				value: {},
+				keySchema: {
+					type: 'string',
+					view: {
+						label: 'Action key',
+						layout: 'shortInline'
+					}
+				},
+				valueSchema: {
+					type: 'string',
+					value: "{}",
+					view: {
+						type: "serializer",
+						schema: {
+							type: 'object',
+							properties: {
+								low_skill: { type: 'number', view: { label: 'Low Skill Duration', layout: "shortInline" } },
+								high_skill: { type: 'number', view: { label: 'High Skill Duration', layout: "shortInline" } },
+							}
+						}
+					}
+				}
+			};
+			return newSchema;
 		}
 	}, 'ObjectDescriptor');
 

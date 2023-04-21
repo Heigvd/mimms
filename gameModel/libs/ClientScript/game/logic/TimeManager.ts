@@ -221,6 +221,13 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	return currentTime_s;
 }
 
+/**
+ * Fast forward current player
+ */
+export function fastForward(durationSeconds: number) {
+	APIMethods.runScript(`TimeManager.fastForward(${durationSeconds})`, {});
+}
+
 
 
 
