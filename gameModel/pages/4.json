@@ -183,6 +183,24 @@
       "type" : "Boolean"
     }, {
       "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Exam mode\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'examMode')",
+          "language" : "TypeScript"
+        },
+        "style" : { },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
