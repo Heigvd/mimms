@@ -1166,15 +1166,24 @@ export function getPatientMostRecentConsoleLog(): string {
 	}
 }
 
-export function selectCategory(category: string, setState: SetZoomState) {
-	setState(s => ({
-		...s,
-		selectedCategory: category,
-	}));
+/**
+ * local UI state change
+ */
+function selectCategory(category: string, state: PatientZoomState, setState: SetZoomState): PatientZoomState {
 
+  const newState: PatientZoomState = {
+    ...state,
+    selectedCategory: category,
+  };
+
+  setState(newState);
+  return newState;
 }
 
-export async function validateCategory(state: PatientZoomState): Promise<unknown> {
+/**
+ * Emit categorize event
+ */
+async function validateCategory(state: PatientZoomState): Promise<unknown> {
 	const system = getTagSystem();
 	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
@@ -1200,31 +1209,8 @@ export async function selectAndValidateCategory(
   setState: SetZoomState,
   state: PatientZoomState
 ): Promise<unknown> {
-  const newState: PatientZoomState = {
-    ...state,
-    selectedCategory: category,
-  };
-
-  setState(newState);
-
-  const system = getTagSystem();
-  const resolved = getCategory(newState.selectedCategory);
-  const autoTriage = doAutomaticTriage()!;
-  logger.log("Resolved category: ", resolved);
-  logger.log("CurrentPatient: ", newState.currentPatient);
-  if (resolved != null && newState.currentPatient) {
-    return sendEvent({
-      ...initEmitterIds(),
-      type: 'Categorize',
-      targetType: 'Human',
-      targetId: newState.currentPatient,
-      category: resolved.category.id,
-      system: system,
-      autoTriage: autoTriage,
-      severity: resolved.severity,
-    });
-  }
-  return undefined;
+	const newState = selectCategory(category, state, setState);
+	return validateCategory(newState);
 }
 
 function getRoundedAge(human: HumanBody) {
