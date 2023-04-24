@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1682063898121,
+  "createdTime" : 1682075767698,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1986,6 +1986,35 @@
       "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:28498812:myKLUu",
+        "value" : false
+      },
+      "editorTag" : "Exam mode",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:28498813:QA2h5X",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:28498813:QA2h5X::EN",
+            "status" : "",
+            "translation" : ""
+          }
+        }
+      },
+      "name" : "examMode",
+      "refId" : "BooleanDescriptor:28498811:yVdbXZ",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -4967,7 +4996,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2 XGO",
+  "name" : "MIMMS Pré-tri V2 XGO (Mikk)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

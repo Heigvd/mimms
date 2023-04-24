@@ -445,6 +445,14 @@
                                     "content" : "Context.menuItem.id === Context.patientConsole.state.selectedSubMenu;",
                                     "language" : "JavaScript"
                                   }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "no-selection",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.menuItem.items.length === 0;",
+                                    "language" : "typescript"
+                                  }
                                 } ],
                                 "icon" : {
                                   "@class" : "Script",
@@ -625,7 +633,7 @@
                               "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled()",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled();",
                                   "language" : "typescript"
                                 },
                                 "icon" : "ruler",
@@ -902,8 +910,9 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectCategory } from './game/display/currentPatientZoom';\nimport { isInterfaceDisabled } from './game/logic/gameMaster';\n\nif(isInterfaceDisabled() === false){\n\tselectCategory(Context.tagCategory.id, Context.patientConsole.setState);\n}",
-                                "language" : "TypeScript"
+                                "content" : "import { selectAndValidateCategory } from \"./game/display/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/logic/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
                               }
                             },
                             "style" : {
@@ -924,7 +933,7 @@
                           "condition" : {
                             "@class" : "Script",
                             "content" : "Variable.find(gameModel, 'tagSystem').areSelectedValues(self, [\"SACCO\"], false);",
-                            "language" : "JavaScript"
+                            "language" : "typescript"
                           }
                         } ],
                         "exposeAs" : "tagCategory",
@@ -943,30 +952,6 @@
                         "style" : { }
                       },
                       "type" : "For each"
-                    }, {
-                      "props" : {
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nimport { getCurrentCategory } from \"./game/logic/triage\";\nconst currentId = getCurrentCategory();\nconst selected = Context.patientConsole.state.selectedCategory;\n!selected || currentId === selected || isInterfaceDisabled();",
-                          "language" : "typescript"
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'validate')\nreturn`<strong><span style=\\\"font-size: 14pt;\\\">${apply}</span></strong>`",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { validateCategory } from \"./game/display/currentPatientZoom\";\nvalidateCategory(Context.patientConsole.state);",
-                            "language" : "TypeScript",
-                            "returnType" : "Promise<unknown> | undefined"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
                     } ],
                     "hideIf" : {
                       "@class" : "Script",

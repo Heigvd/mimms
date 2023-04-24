@@ -25,7 +25,13 @@
 
 .responsiveButtons .selected,
 .patientConsole .selected {
-	background-color: var(--colors-activecolor)
+	background-color: var(--colors-activecolor);
+}
+
+.responsiveButtons .no-selection,
+.patientConsole .no-selection {
+	background-color: var(--colors-disabledcolor);
+	pointer-events: none;
 }
 
 /* CONSOLE */

@@ -1168,14 +1168,24 @@ export function getPatientMostRecentConsoleLog(): string {
 	}
 }
 
-export function selectCategory(category: string, setState: SetZoomState) {
-	setState(s => ({
-		...s,
-		selectedCategory: category,
-	}));
+/**
+ * local UI state change
+ */
+function selectCategory(category: string, state: PatientZoomState, setState: SetZoomState): PatientZoomState {
+
+  const newState: PatientZoomState = {
+    ...state,
+    selectedCategory: category,
+  };
+
+  setState(newState);
+  return newState;
 }
 
-export async function validateCategory(state: PatientZoomState): Promise<unknown> {
+/**
+ * Emit categorize event
+ */
+async function validateCategory(state: PatientZoomState): Promise<unknown> {
 	const system = getTagSystem();
 	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
@@ -1194,6 +1204,15 @@ export async function validateCategory(state: PatientZoomState): Promise<unknown
 		});
 	}
 	return undefined;
+}
+
+export async function selectAndValidateCategory(
+  category: string,
+  setState: SetZoomState,
+  state: PatientZoomState
+): Promise<unknown> {
+	const newState = selectCategory(category, state, setState);
+	return validateCategory(newState);
 }
 
 function getRoundedAge(human: HumanBody) {
