@@ -1148,7 +1148,6 @@
       "props" : {
         "children" : [ {
           "props" : {
->>>>>>> main
             "layoutStyle" : { },
             "name" : "finish-text",
             "style" : { },
