@@ -66,6 +66,12 @@
 	color: var(--colors-backgroundcolor);
 	background-color: var(--colors-activecolor);
 }
+.patient-summary--grid {
+	grid-template-columns: repeat(6, 1fr);
+}
+.patient-summary--grid.exam-mode {
+	grid-template-columns: repeat(5, 1fr);
+}
 .review-label {
 	color: var(--colors-backgroundcolor);
 	background-color: var(--colors-primarycolor);
