@@ -1,16 +1,18 @@
 /** drop default margin if a wegas-brn only contains one p */
 button.wegas-btn > div > div > p:first-child:last-child {
 	margin : 0;
+	
 }
 
 .invertedButton {
 	background-color: transparent;
 	color: var(--colors-primarycolor);
-	border: 1px solid var(--colors-primarycolor);
+	border: 3px solid var(--colors-primarycolor);
+	font-weight: bold;;
 }
 .invertedButton:hover {
-	color: var(--colors-backgroundcolor);
-	border-color: transparent;
+	color: #fff;
+	border-color: var(--colors-primarycolorshade);
 }
 .invertedButton.disabled {
 	background-color: transparent;
@@ -21,6 +23,16 @@ button.wegas-btn > div > div > p:first-child:last-child {
 .noPadding {
 	padding: 0;
 }
+
+.noPadMargingParagraph>p{
+	padding: 0px;
+	margin: 0px;
+}
+.noPaddingMarging{
+	padding: 0px;
+	margin: 0px;
+}
+
 
 .fullSize {
 	height: 100%;

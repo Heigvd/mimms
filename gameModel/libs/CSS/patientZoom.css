@@ -49,7 +49,7 @@
 .cat_card {
 	height: 100%;
 	width: 100%;
-	border: 1px solid black;
+	border: 1px solid var(--colors-primarycolor);
 	border-radius: 3px;
 	flex-grow: 1;
 }

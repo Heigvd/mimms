@@ -29,6 +29,7 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 		}
 	});
 }
+/**Hello */
 
 /**
  * Used to extract all vitals keys as string.

@@ -4,14 +4,15 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, Motr
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
-import { getMySkillDefinition } from "../../tools/WegasHelper";
+import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
 import { toHourMinutesSeconds } from "../../tools/helper";
 import { getBloodRatio } from "../../HUMAn/physiologicalModel";
+import { SkillLevel } from "../../edition/GameModelerHelper";
 
 /////////////////////////////////
 // The Wheel
@@ -591,7 +592,6 @@ function resolveAction<T extends HumanAction>(
 
 export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Promise<IManagedResponse> | undefined {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
-
 	if (action != null) {
 		const source =
 			measure.type === 'WheelAct'
@@ -1366,4 +1366,23 @@ export function getCurrentPatientAutoTriage() {
 		autoTriage: resultToHtmlObject(human.category.autoTriage),
 		givenAnswer: categoryToHtml(human.category.category)
 	};
+}
+
+export function getSelectedActionDuration(selectedAction: WheelAction,
+ actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): string {
+	const action = resolveAction<HumanAction>(selectedAction, actionType);
+	let skillLevel : SkillLevel | undefined; 
+	if(action){
+		if(selectedAction.type === 'WheelAct'){
+			skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
+		}else {
+			skillLevel = getHumanSkillLevelForItemAction(whoAmI(), selectedAction.itemActionId.itemId, selectedAction.itemActionId.actionId);
+		}
+		
+		if(skillLevel){
+			return '' + action.duration[skillLevel];
+		}
+ 	}
+
+	return 'duration not found';
 }

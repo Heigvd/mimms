@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1681909457159,
+  "createdTime" : 1682600645054,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1001,6 +1001,7 @@
       "name" : "drill_Presets",
       "properties" : {
         "1357709491" : "{\"name\":\"12 Mai CERN\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true}}",
+        "4329947599" : "{\"name\":\"my preset\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true}}",
         "4893474813" : "{\"name\":\"25 Mai Contest\",\"patients\":{\"CH-AW-390\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
@@ -3984,6 +3985,7 @@
           "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"details\"},\"FR\":{\"status\":\"\",\"translation\":\"détails\",\"lang\":\"FR\"}},\"version\":0}",
           "domeasure" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"do measure\"},\"FR\":{\"status\":\"\",\"translation\":\"mesurer\",\"lang\":\"FR\"}},\"version\":0}",
           "drill-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"drill type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de drill\",\"lang\":\"FR\"}},\"version\":0}",
+          "duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée\",\"lang\":\"FR\"}},\"version\":0}",
           "explanation-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have to perform pretriage on simulated patients. Use the central interface to evaluate their condition\"},\"FR\":{\"status\":\"\",\"translation\":\"vous devez prétrier les patients suivants. Utilisez l'interface centrale pour les évaluer\",\"lang\":\"FR\"}},\"version\":0}",
           "face" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"face\"},\"FR\":{\"status\":\"\",\"translation\":\"faciès\",\"lang\":\"FR\"}},\"version\":0}",
           "finish" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"finish\"},\"FR\":{\"status\":\"\",\"translation\":\"terminer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4905,6 +4907,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "jhfxxcgh",
+    "contentType" : "json",
+    "libraryType" : "Theme",
+    "refId" : "GameModelContent:28478100:x40TuC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "MIMMS",
     "contentType" : "json",
     "libraryType" : "Theme",
@@ -4912,7 +4923,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2 XGO",
+  "name" : "MIMMS Pré-tri V2_jess",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

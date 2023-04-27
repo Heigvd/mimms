@@ -1,22 +1,33 @@
 /* GENERAL */
 .patientConsole .title_container {
-	border-bottom: 1px solid var(--colors-disabledcolor);
+	/*border-bottom: 1px solid var(--colors-disabledcolor);*/
 	padding: 5px 10px;
 	background: var(--colors-backgroundcolor);
 }
-.patientConsole .title_container .title {
-	font-weight: bold;
-	font-size: 12pt;
-}
 
+
+.zoomMedicalCarePage .title {
+	font-weight: bold;
+	color: var(--colors-darktextcolor);
+	font-size: 20px;
+}
+/*
 .patientConsole .title_container .subtitle {
-	color: gray;
+	color: var(--colors-lighttextcolor);
+}
+*/
+.titlesConsoles{
+	font-weight: bold;
+	color: var(--colors-darktextcolor);
+	font-size: 20px;
+	margin-bottom: 10px;
+	margin-Top: 10px;
 }
 
 .patientConsole .column {
 	padding: 0;
-	border: 1px solid var(--colors-disabledcolor);
-	background: #fbfbfb;
+	border: 2px solid var(--colors-primarycolor);
+	background:var(--colors-backgroundcolor);
 	height: 100%;
 	width: 33.3%;
 	min-width: 300px;
@@ -32,17 +43,19 @@
 .patientConsole .console .log_container{
 	margin: 3px;
 	display: flex;
-	border-bottom: 1px solid #eee;
 }
 .patientConsole .console .log_container .time{
-	color: var(--colors-disabledcolor);
-	margin: 1px 10px 0 0;
+	color: var(--colors-primarycolor);
+	margin: 5px 10px 5px 0;
 }
+
+
 .patientConsole .console .log_container .msr_list{
 	margin: 3px;
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+	
 }
 .patientConsole .console .log_container .msr_label{
 	margin-right: 5px;
@@ -51,7 +64,6 @@
 	font-weight: bold;
 }
 .patientConsole .console .log_container .message{
-	background: #fee;
 	padding: 10px;
 }
 .patientConsole .console .log_container .message h3{
@@ -66,16 +78,20 @@
 
 /* Block details */
 .patientConsole .block-details .block-title {
-	border-bottom: 1px solid;
+	border-bottom: 1px solid var(--colors-primarycolor);
 	font-weight: bolder;
+	padding: 3px 0px 5px 10px;
+
 }
 
 .patientConsole .block-details .block-subtitle {
 	font-weight: bolder;
+	padding: 5px 0px 5px 10px;
 }
 
 .patientConsole .block-details .block-entry {
 	padding-left:10px;
+	padding-bottom: 5px;
 }
 
 .patientConsole .block-details .block-entry-title {
@@ -84,6 +100,14 @@
 
 .patientConsole .block-details .block-entry-value {
 	font-weight: 400;
+}
+
+.generalConsole{
+	background-color: var(--colors-hovercolor);
+	border-radius: 15px;
+	overflow: auto;
+	min-height: 100px;
+	max-height: 180px;
 }
 
 
@@ -101,14 +125,17 @@
 /* Toolbox */
 
 .ABCDwheelMenu .selected, .shortcuts .selected, .toolbox .selected {
-background: var(--colors-activecolor);
+background: var(--colors-primarycolor);
 border: none;
+
 }
 
+/* triangle under ABCDWheelMenu */
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
 	position: relative;
 	}
+
 .toolbox .menu:after {
 	content: '';
 	height: 0;
@@ -120,6 +147,7 @@ border: none;
 	bottom: -20px;
 	left: 50%;
 	transform: translateX(-50%);
+	
 }
 
 /* WHEEL menu */
@@ -127,19 +155,38 @@ border: none;
 .ABCDwheelMenu {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
+	
 }
 
 .ABCDwheelMenu .wheelButton > button {
-	border-radius: 50%;
-	height: 55px;
-	width: 55px;
+	border-radius: 50px;
+	height: 45px;
+	width: 60px;
 	margin: 0;
 	justify-content: center;
 	align-items: center;
+	background-color: transparent;
+	border: solid 3px var(--colors-primarycolor);
+	color: var(--colors-primarycolor);
+	 
 }
+
+
+.ABCDwheelMenu .wheelButton > button.selected{
+	color: var(--colors-backgroundcolor);
+	background-color: var(--colors-primarycolor);
+}
+
 .ABCDwheelMenu .wheelButton {
 	padding: 0;
 	margin: 0;
+	color: var(--colors-primarycolor);
+	
+}
+
+ .wheelButton> button:hover{
+background-color: var(--colors-primarycolor);
+color: #fff;
 }
 .ABCDwheelMenu .wheelButton:nth-child(1){
 	grid-column: 1;
@@ -147,6 +194,7 @@ border: none;
 	margin-right:  -15px;
 	padding: 0;
 }
+
 .ABCDwheelMenu .wheelButton:nth-child(2){
 	grid-column: 2;
 	grid-row: 2;
@@ -171,25 +219,96 @@ border: none;
 .ABCDwheelMenu .wheelButton:nth-child(6){
 	grid-column: 3;
 	grid-row: 3;
+	
 }
-.ABCDwheelMenu .wheelButton > button.iconOnly {
-	color: var(--colors-backgroundcolor);
-	background-color: var(--colors-primarycolor);
+
+/* BUTTON "TALK TO PATIENT" */
+.ABCDwheelMenu .wheelButton > button.iconOnly { 
+	color: var(--colors-primarycolor);
+	background-color: transparent;
 	font-size: 1.4em;
 }
 .ABCDwheelMenu .wheelButton:nth-child(6) > button:hover, .ABCDwheelMenu .wheelButton:nth-child(6) > button.selected {
 	color: var(--colors-backgroundcolor);
-	background-color: var(--colors-activecolor);
+	background-color: var(--colors-primarycolor);
 }
 
-/* SHORTCUTS */
+/*BUTTON DRILL PATIENT*/
+.btnTriage > button{
+	border: solid 3px var(--colors-primarycolor);
+	border-radius: 50px;
+	background-color: transparent;
+	color: var(--colors-primarycolor);
+	font-weight: bold;
+}
+
+.btnTriage > button:hover{
+	background-color: var(--colors-primarycolor);
+	color: #fff;
+} 
+
+.btnTriage > button.selected{
+	color: #fff;
+}
+
+/* SHORTCUTS (DRILL BTN DIV)*/
 .shortcuts {
 	justify-content: center;
+	
 }
-
+/* THIS BORDER IS NOT NEEDED IN THE V2 REDESIGN -- KEEP UNTIL CONFIRMED
 .patientConsole {
 	border: 1px solid var(--disabledGray);
 }
+*/
+
+/*SEE IF THERE'S AN OTHER WAY THAN USING !IMPORTANT*/
+/* actions and mesures buttons */
+.mesActBtn{
+	color:var(--colors-primarycolor)!important;
+	background-color: #fff;
+	border: solid 3px var(--colors-primarycolor);
+	border-radius: 15px 15px 0px 0px;
+	border-bottom:none;
+	padding: 5px 15px 5px  15px ;
+}
+
+.mesActBtn.selected{
+	color:#fff !important;
+	background-color:var(--colors-primarycolor);
+	border: solid 3px var(--colors-primarycolor);
+	font-weight: bold;
+	border-bottom:none;
+}
+
+.mesActBtn:hover{
+	color: #fff !important;
+	background-color:var(--colors-primarycolorshade);
+	border: solid 3px var(--colors-primarycolorshade);
+	border-bottom:none;
+}
+
+
+.selectedSubMenuItem  {
+	color:var(--colors-primarycolor);
+	background-color: #fff;
+	border: solid 3px var(--colors-primarycolor);
+	border-radius: 50px;
+	padding: 5px 15px 5px  15px ;
+}
+
+.selectedSubMenuItem.selected{
+	color: #fff;
+	background-color: var(--colors-primarycolor);
+	border: solid 3px var(--colors-primarycolor);
+}
+
+.selectedSubMenuItem:hover{
+	color: #fff;
+	border-color: var(--colors-activecolor);
+	background-color: var(--colors-activecolor);
+}
+
 
 /* RESPONSIVE */
 @media screen and (max-width: 720px) {
@@ -223,12 +342,14 @@ border: none;
 	padding: 0;
 }
 .patientConsole .patient-console {
-	 height: 80px;
-	 max-height: 80px;
+	 /*height: 80px; 
+	max-height: 80px;*/
 	 padding: 5px;
 	 margin: 5px;
  }
  .patientConsole .wegas-btn {
 	 font-size: 14px;
+	
  }
 }
+
