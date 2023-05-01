@@ -70,7 +70,9 @@
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
-                "style" : { }
+                "style" : {
+                  "border" : "3px solid pink"
+                }
               },
               "type" : "FlexList"
             } ],
@@ -142,6 +144,22 @@
                 "children" : [ {
                   "props" : {
                     "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getCurrentPatientId } from \"./tools/WegasHelper\";\ngetCurrentPatientId()",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
@@ -714,7 +732,9 @@
                                     "className" : "noPadMargingParagraph",
                                     "layoutStyle" : { },
                                     "name" : "measuresDetails",
-                                    "style" : { },
+                                    "style" : {
+                                      "display" : "none"
+                                    },
                                     "text" : {
                                       "@class" : "Script",
                                       "content" : "\"<p>Measure details<br></p>\"",
@@ -836,8 +856,25 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "className" : "title ",
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "actionName",
+                                "style" : {
+                                  "alignItem" : "flex-start"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst action = Context.patientConsole.state.selectedAction.label;\n`${action}`;",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
                                 "children" : [ {
                                   "props" : {
+                                    "className" : "noPaddingMarging",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
                                       "className" : "selected",
@@ -852,6 +889,7 @@
                                       "content" : "Context.block.id",
                                       "language" : "JavaScript"
                                     },
+                                    "layoutClassName" : "noPaddingMarging",
                                     "layoutStyle" : { },
                                     "localScriptEval" : {
                                       "script" : {
@@ -864,6 +902,7 @@
                                   },
                                   "type" : "Button"
                                 } ],
+                                "className" : "",
                                 "exposeAs" : "block",
                                 "getItemsFn" : {
                                   "@class" : "Script",
@@ -879,6 +918,7 @@
                                 "layout" : {
                                   "flexWrap" : "wrap"
                                 },
+                                "layoutClassName" : "",
                                 "layoutStyle" : { },
                                 "style" : { }
                               },
@@ -925,18 +965,6 @@
                               "type" : "FlexList"
                             }, {
                               "props" : {
-                                "layoutStyle" : { },
-                                "name" : "actionName",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst action = Context.patientConsole.state.selectedAction.label;\n`<b>${treat}:</b> ${action}`;",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "!Context.patientConsole.state.selectedBlock;",
@@ -957,7 +985,9 @@
                                 "className" : "noPadMargingParagraph",
                                 "layoutStyle" : { },
                                 "name" : "actionDetail",
-                                "style" : { },
+                                "style" : {
+                                  "display" : "none"
+                                },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>details action</p>\"",
@@ -1052,12 +1082,13 @@
                             },
                             "layout" : {
                               "flexDirection" : "column",
-                              "justifyContent" : "space-evenly"
+                              "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "treatment selected",
                             "style" : {
-                              "height" : "250px"
+                              "minHeight" : "150px"
                             }
                           },
                           "type" : "FlexList"
@@ -1290,7 +1321,6 @@
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : {
-                              "backgroundColor" : "rgb(251, 251, 251)",
                               "margin" : "10px"
                             },
                             "name" : "human",
@@ -1381,6 +1411,7 @@
                         } ],
                         "layoutClassName" : "shadowMan",
                         "layoutStyle" : {
+                          "justifiyContent" : "center",
                           "width" : "200px"
                         },
                         "onAbsoluteClick" : { },
@@ -1483,7 +1514,10 @@
                     "layoutClassName" : "body",
                     "layoutStyle" : { },
                     "name" : "body",
-                    "style" : { }
+                    "style" : {
+                      "justifyContent" : "center",
+                      "marginTop" : "3rem"
+                    }
                   },
                   "type" : "FlexList"
                 } ],
@@ -1526,6 +1560,7 @@
               "height" : "fit-content",
               "padding" : "0"
             },
+            "name" : "",
             "style" : { }
           },
           "type" : "FlexList"
@@ -1637,7 +1672,9 @@
             "layoutClassName" : "responsiveButtons",
             "layoutStyle" : { },
             "name" : "responsive nav buttons",
-            "style" : { }
+            "style" : {
+              "color" : "orange"
+            }
           },
           "type" : "FlexList"
         } ],

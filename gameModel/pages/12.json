@@ -2,107 +2,38 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "ifCondition" : {
-          "@class" : "Script",
-          "content" : "true",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "name" : "(do not delete: genuine hack inside)",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst title = getTranslation(\"pretriage-interface\", 'title');\n`<h3 style=\"margin: 0\">${title}</h3>`",
-          "language" : "JavaScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "exposeAs" : "state",
-        "ifCondition" : {
-          "@class" : "",
-          "content" : "",
-          "language" : ""
-        },
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "({})",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localState" : false,
-        "name" : "categorySystem",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTagSystem } from \"./game/logic/triage\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst label = getTranslation(\"pretriage-interface\", 'category-system') + ': ';\nconst systemName = getTagSystem();\n`<p style=\"margin: 0\">${label}<b>${systemName}</b></p>`",
-          "language" : "JavaScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
+                "ifCondition" : {
+                  "@class" : "Script",
+                  "content" : "true",
+                  "language" : "TypeScript"
+                },
                 "layoutStyle" : { },
-                "name" : "introduction",
+                "name" : "(do not delete: genuine hack inside)",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'explanation-text');",
-                  "language" : "TypeScript"
+                  "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst title = getTranslation(\"pretriage-interface\", 'title');\n`<h3 style=\"margin: 0\">${title}</h3>`",
+                  "language" : "JavaScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
-                  "language" : "JavaScript"
-                },
                 "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
-                    "language" : "typescript"
-                  }
-                },
-                "name" : "start",
-                "style" : { }
+                "name" : "currentTime",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\n/*const currentTime = */\ngetCurrentSimulationTime().toString();",
+                  "language" : "TypeScript"
+                }
               },
-              "type" : "Button"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'not_started'",
-          "language" : "JavaScript"
-        },
-        "layout" : { },
-        "layoutClassName" : "NOT_STARTED",
-        "layoutStyle" : { },
-        "name" : "not_started",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
+              "type" : "Text"
+            }, {
               "props" : {
                 "children" : [ {
                   "props" : {
@@ -445,16 +376,14 @@
               "language" : "typescript"
             },
             "layout" : {
-              "justifyContent" : "flex-end"
+              "justifyContent" : "space-evenly"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "0"
             },
             "name" : "toolbar",
-            "style" : {
-              "marginTop" : "-50px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -827,6 +756,109 @@
         },
         "layoutStyle" : { },
         "name" : "ongoing",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : {
+              "justifyContent" : "center"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<h1 style=\\\"text-align: center;\\\">Bienvenue dans drill pretri</h1>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<h1>Explications </h1><div> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<h2>Système de catégorisation</h2>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<h2>Temporalité dans le jeu</h2> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "colLeft",
+                "style" : {
+                  "width" : "50%"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "introduction",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<!-- /*&nbsp;import&nbsp;{&nbsp;getTranslation&nbsp;}&nbsp;from&nbsp;\\\"./tools/translation\\\";&nbsp;*/ /*&nbsp;Please&nbsp;always&nbsp;respect&nbsp;the&nbsp;return&nbsp;type&nbsp;:&nbsp;string&nbsp;|&nbsp;undefined&nbsp;*/ //()&nbsp;:&nbsp;string&nbsp;|&nbsp;undefined&nbsp;=&gt;&nbsp;{ //&nbsp;&nbsp;return&nbsp;getTranslation('pretriage-interface',&nbsp;'explanation-text'); //};&nbsp; --><h1>Gameplay</h1><h2>Coloration cutanée</h2><p>lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat./p&gt;</p><h2>Echelle de douleur</h2><p>lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "colRight",
+                "style" : {
+                  "width" : "50%"
+                }
+              },
+              "type" : "FlexList"
+            } ]
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
+              "language" : "JavaScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
+                "language" : "typescript"
+              }
+            },
+            "name" : "start",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'not_started'",
+          "language" : "JavaScript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "NOT_STARTED",
+        "layoutStyle" : { },
+        "name" : "not_started",
         "style" : { }
       },
       "type" : "FlexList"

@@ -174,11 +174,12 @@ export function keepStateAlive({ state, setState }: FullState) {
 	}
 }
 
+
 function getActionIcon(action: HumanAction): string {
 	if (action.type === 'ActionBodyEffect') {
-		return 'syringe';
+		/*return 'syringe';*/
 	} else if (action.type === 'ActionBodyMeasure') {
-		return 'ruler';
+		/*return 'ruler';*/
 	}
 	return '';
 }
@@ -276,9 +277,9 @@ function getABCDEWheel(): Wheel {
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === 'ActionBodyEffect') {
-			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
+			bag[action.actionCategory].treatments.push({ ...action, /*icon: 'syringe'*/ });
 		} else if (action.actionType === 'ActionBodyMeasure') {
-			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
+			bag[action.actionCategory].measures.push({ ...action, /*icon: 'ruler'*/ });
 		}
 	});
 
@@ -373,8 +374,8 @@ export function getMyMedicalActs(): ActDefinition[] {
 export function getButtonLabel(item: WheelItem | WheelMenu | WheelAction): string {
 	switch (item.type) {
 		case 'WheelItemAction':
-			if (item.disposable) {
-				return `${item.label} (${item.counter === 'infinity' ? '∞' : item.counter})`;
+			if (item.disposable && item.counter != 'infinity') {
+				return `${item.label} (${item.counter})`;
 			} else {
 				return item.label;
 			}
@@ -1233,8 +1234,7 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
 		const age = exact ? human.meta.age : `~${getRoundedAge(human)}`;
 		const sex = getTranslation('human-general', human!.meta.sex, false);
 		const years = getTranslation('human-general', 'years', false);
-		return `<span class='human-id'>${id}</span>,
-		 <span class='human-sex'>${sex}</span>,
+		return `<span class='human-sex'>${sex}</span>,
 		  <span class='human-age'>${age} ${years}</span>`;
 	}
 	return '';
