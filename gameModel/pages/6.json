@@ -147,22 +147,6 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getCurrentPatientId } from \"./tools/WegasHelper\";\ngetCurrentPatientId()",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
                             "className" : "title",
                             "layoutStyle" : { },
                             "name" : "Nom",
@@ -191,65 +175,105 @@
                           "type" : "Text"
                         } ],
                         "layout" : {
+                          "alignContent" : "flex-end",
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : {
                           "flexGrow" : "1"
                         },
+                        "name" : "nameAndState",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "layoutStyle" : {
-                          "minWidth" : "30px",
-                          "width" : "13%"
+                        "children" : [ {
+                          "props" : {
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "backgroundColor" : "var(--colors-backgroundcolor)",
+                              "flexWrap" : "wrap",
+                              "padding" : "15px"
+                            },
+                            "name" : "visual infos",
+                            "style" : {
+                              "display" : "flex",
+                              "flexGrow" : "1",
+                              "justifyContent" : "space-around"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : {
+                                  "minWidth" : "30px",
+                                  "width" : "50%"
+                                },
+                                "name" : "category",
+                                "style" : {
+                                  "display" : "flex",
+                                  "flexGrow" : "1"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
+                                  "language" : "JavaScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "patientID",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getCurrentPatientId } from \"./tools/WegasHelper\";\ngetCurrentPatientId()",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "categoryAndID",
+                            "style" : {
+                              "flexGrow" : "1"
+                            }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
                         },
-                        "name" : "category",
-                        "style" : {
-                          "display" : "flex",
-                          "flexGrow" : "1"
-                        },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
-                          "language" : "JavaScript"
-                        }
+                        "layoutStyle" : { },
+                        "name" : "faceAndID",
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "FlexList"
                     } ],
                     "className" : "",
                     "layout" : {
-                      "flexDirection" : "row"
+                      "flexDirection" : "column"
                     },
                     "layoutClassName" : "title_container",
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "borderBottom" : "3px solid var(--colors-primarycolor)"
+                    },
                     "name" : "patientTitle",
                     "style" : { }
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "layout" : { },
-                    "layoutStyle" : {
-                      "backgroundColor" : "var(--colors-backgroundcolor)",
-                      "borderBottom" : "3px solid var(--colors-primarycolor)",
-                      "flexWrap" : "wrap",
-                      "padding" : "15px"
-                    },
-                    "name" : "visual infos",
-                    "style" : {
-                      "display" : "flex",
-                      "flexGrow" : "1",
-                      "justifyContent" : "space-around"
-                    },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
-                      "language" : "JavaScript"
-                    }
-                  },
-                  "type" : "Text"
                 }, {
                   "props" : {
                     "className" : "",
@@ -288,7 +312,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'console');",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'history');",
                           "language" : "JavaScript"
                         }
                       },
@@ -404,6 +428,7 @@
                               }
                             },
                             "style" : {
+                              "background-color" : "tomato",
                               "margin" : "0"
                             }
                           },
@@ -496,20 +521,6 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "name" : "selected wheel item",
-                            "style" : {
-                              "backgroundColor" : "var(--color-hovercolor)"
-                            },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getSubWheelTitle } from './game/display/currentPatientZoom';\ngetSubWheelTitle(Context.patientConsole.state);",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "mesActBtn",
@@ -556,6 +567,7 @@
                               },
                               "type" : "Button"
                             } ],
+                            "className" : "",
                             "exposeAs" : "menuItem",
                             "getItemsFn" : {
                               "@class" : "Script",
@@ -567,12 +579,15 @@
                             "layout" : {
                               "flexWrap" : "wrap"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : {
                               "borderBottom" : "3px solid var(--colors-primarycolor)",
                               "padding" : "0"
                             },
                             "name" : "selected main menu sub menu items",
-                            "style" : { }
+                            "style" : {
+                              "marginTop" : "20px"
+                            }
                           },
                           "type" : "For each"
                         } ],
@@ -807,6 +822,7 @@
                               "type" : "FlexList"
                             }, {
                               "props" : {
+                                "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
                                   "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled();",
@@ -829,9 +845,7 @@
                                   }
                                 },
                                 "name" : "doMeasure",
-                                "style" : {
-                                  "color" : "#fff"
-                                }
+                                "style" : { }
                               },
                               "type" : "Button"
                             } ],
@@ -1004,7 +1018,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "\"<p>Measure duration (to impl): <br></p>\"",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'duration');",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -1046,30 +1060,29 @@
                               "type" : "FlexList"
                             }, {
                               "props" : {
+                                "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled()",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                   "language" : "typescript"
                                 },
                                 "flexShrink" : 1,
-                                "icon" : "ruler",
+                                "icon" : "check",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'doMeasure');\n`<span style=\\\"font-size: 14pt;\\\"><strong>${text}</strong></span>`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'apply')\nreturn`<strong><span style=\\\"font-size: 14pt;\\\">${apply}</span></strong>`",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { doWheelMeasure } from './game/display/currentPatientZoom';\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
-                                    "language" : "TypeScript",
-                                    "returnType" : "Promise<unknown> | undefined"
+                                    "content" : "import { doWheelTreatment } from './game/display/currentPatientZoom';\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);\nContext.patientConsole.state.selectedBlock = undefined // unselect block",
+                                    "language" : "TypeScript"
                                   }
                                 },
                                 "name" : "doMeasure",
                                 "style" : {
-                                  "color" : "#fff",
                                   "marginTop" : "15px"
                                 }
                               },
@@ -1103,7 +1116,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'result');",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'last-result');",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -1129,10 +1142,12 @@
                             "layout" : {
                               "flexDirection" : "column"
                             },
+                            "layoutClassName" : "console",
                             "layoutStyle" : { },
                             "name" : "resultConsole",
                             "style" : {
-                              "borderTop" : "3px solid var(--colors-primarycolor)"
+                              "borderTop" : "3px solid var(--colors-primarycolor)",
+                              "width" : "100%"
                             }
                           },
                           "type" : "FlexList"
@@ -1708,9 +1723,7 @@
       "padding" : "0",
       "width" : "100%"
     },
-    "style" : {
-      "border" : "3px solid var(--colors-primarycolor)"
-    }
+    "style" : { }
   },
   "type" : "FlexList"
 }

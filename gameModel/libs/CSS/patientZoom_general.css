@@ -1,6 +1,5 @@
 /* GENERAL */
 .patientConsole .title_container {
-	/*border-bottom: 1px solid var(--colors-disabledcolor);*/
 	padding: 5px 10px;
 	background: var(--colors-backgroundcolor);
 }
@@ -120,12 +119,13 @@
 /* VISUAL DETAILS */
 
 .patientConsole .visualDetail_elem p {
-	margin: 0 0 5px 0;
+	margin-top: 15px;
+	margin-bottom: 0px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 16px;
 }
 .patientConsole .visualDetail_elem img {
-	width: 50px;
+	width: 60px;
 }
 
 /* Toolbox */
@@ -262,16 +262,11 @@ color: #fff;
 	justify-content: center;
 	
 }
-/* THIS BORDER IS NOT NEEDED IN THE V2 REDESIGN -- KEEP UNTIL CONFIRMED
-.patientConsole {
-	border: 1px solid var(--disabledGray);
-}
-*/
 
-/*SEE IF THERE'S AN OTHER WAY THAN USING !IMPORTANT*/
+
 /* actions and mesures buttons */
 .mesActBtn{
-	color:var(--colors-primarycolor)!important;
+	color:var(--colors-primarycolor);
 	background-color: #fff;
 	border: solid 3px var(--colors-primarycolor);
 	border-radius: 15px 15px 0px 0px;
@@ -280,7 +275,7 @@ color: #fff;
 }
 
 .mesActBtn.selected{
-	color:#fff !important;
+	color:#fff;
 	background-color:var(--colors-primarycolor);
 	border: solid 3px var(--colors-primarycolor);
 	font-weight: bold;
@@ -294,6 +289,14 @@ color: #fff;
 	border-bottom:none;
 }
 
+.mesActBtn.no-selection{
+	background-color:transparent;
+	border-color: var(--colors-disabledcolor);
+}
+
+.mesActBtn.no-selection>div{
+color: var(--colors-disabledcolor);
+}
 
 .selectedSubMenuItem  {
 	color:var(--colors-primarycolor);
@@ -315,6 +318,11 @@ color: #fff;
 	background-color: var(--colors-activecolor);
 }
 
+
+.applyMeasureBtn{
+padding: 10px 25px 10px 25px;
+border-radius: 50px;
+}
 
 /* RESPONSIVE */
 @media screen and (max-width: 720px) {

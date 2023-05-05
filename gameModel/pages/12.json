@@ -23,62 +23,35 @@
               "type" : "Text"
             }, {
               "props" : {
-                "layoutStyle" : { },
-                "name" : "currentTime",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\n/*const currentTime = */\ngetCurrentSimulationTime().toString();",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
-                    "attachedToId" : "drillPretriPage",
+                    "layoutStyle" : {
+                      "marginLeft" : "4rem",
+                      "textAlign" : "center"
+                    },
+                    "name" : "currentTime",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst currentTime = getCurrentSimulationTime ();\nconst h = Math.floor(currentTime / 3600);\nconst m = Math.floor(currentTime % 3600 / 60);\nconst s = Math.floor(currentTime % 3600 % 60);\n\nconst HH = getTranslation('pretriage-interface', 'hours', false);\nconst MM = getTranslation('pretriage-interface', 'minutes', false);\nconst SS = getTranslation('pretriage-interface', 'seconds', false);\n\nlet hDisplay = h >= 0 ? h + (h == 1 ? ` ${ HH } ` : ` ${ HH  } `) : \"\";\nlet mDisplay = m >= 0 ? m + (m == 1 ? ` ${ MM } ` : ` ${ MM  } `) : \"\";\nlet sDisplay = s >= 0 ? s + (s == 1 ? ` ${ SS } ` : ` ${ SS  } `) : \"\";\nreturn hDisplay + mDisplay + sDisplay; \n\n\ngetCurrentSimulationTime().toString();",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "title-patient ID",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getCurrentPatientTitle } from \"./game/display/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
+                        "attachedToId" : "drillPretriPage",
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : {
-                              "borderBottom" : "1px solid var(--colors-disabledcolor)",
-                              "borderTop" : "1px solid var(--colors-disabledcolor)"
-                            },
-                            "name" : "suggested-answer",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "title-patient ID",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'suggested-answer')}</h3>`;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : {
-                              "border" : "1px solid var(--colors-disabledcolor)",
-                              "borderRight" : "transparent"
-                            },
-                            "name" : "given answer",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'given-answer')}</h3>`;",
+                              "content" : "import { getCurrentPatientTitle } from \"./game/display/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
                               "language" : "TypeScript"
                             }
                           },
@@ -87,27 +60,31 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "subtitle",
-                                "layoutStyle" : { },
-                                "name" : "category title",
+                                "layoutStyle" : {
+                                  "borderBottom" : "1px solid var(--colors-disabledcolor)",
+                                  "borderTop" : "1px solid var(--colors-disabledcolor)"
+                                },
+                                "name" : "suggested-answer",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Category</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'suggested-answer')}</h3>`;",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "",
-                                "layoutStyle" : { },
-                                "name" : "category",
+                                "layoutStyle" : {
+                                  "border" : "1px solid var(--colors-disabledcolor)",
+                                  "borderRight" : "transparent"
+                                },
+                                "name" : "given answer",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
-                                  "language" : "JavaScript"
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'given-answer')}</h3>`;",
+                                  "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
@@ -117,23 +94,98 @@
                                   "props" : {
                                     "className" : "subtitle",
                                     "layoutStyle" : { },
-                                    "name" : "justification title",
+                                    "name" : "category title",
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "\"<p>Justification<br></p>\"",
+                                      "content" : "\"<p>Category</p>\"",
                                       "language" : "TypeScript"
                                     }
                                   },
                                   "type" : "Text"
                                 }, {
                                   "props" : {
+                                    "className" : "",
                                     "layoutStyle" : { },
-                                    "name" : "justification",
+                                    "name" : "category",
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
+                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "subtitle",
+                                        "layoutStyle" : { },
+                                        "name" : "justification title",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>Justification<br></p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "name" : "justification",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
+                                          "language" : "JavaScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "justification block",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : {
+                                  "borderBottom" : "1px solid var(--colors-disabledcolor)"
+                                },
+                                "name" : "suggested-answer-block",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "subtitle",
+                                    "layoutStyle" : { },
+                                    "name" : "category title",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Category</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -142,121 +194,150 @@
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
-                                "layoutStyle" : { },
-                                "name" : "justification block",
+                                "layoutStyle" : {
+                                  "borderBottom" : "1px solid var(--colors-disabledcolor)",
+                                  "borderLeft" : "1px solid var(--colors-disabledcolor)"
+                                },
+                                "name" : "given answer block",
                                 "style" : { }
                               },
                               "type" : "FlexList"
                             } ],
                             "layout" : {
-                              "flexDirection" : "column"
+                              "gridTemplateColumns" : "1fr 1fr"
                             },
-                            "layoutStyle" : {
-                              "borderBottom" : "1px solid var(--colors-disabledcolor)"
-                            },
-                            "name" : "suggested-answer-block",
+                            "layoutClassName" : "patient-correction",
+                            "layoutStyle" : { },
                             "style" : { }
                           },
-                          "type" : "FlexList"
+                          "type" : "Grid"
                         }, {
                           "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "subtitle",
-                                "layoutStyle" : { },
-                                "name" : "category title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Category</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "",
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "column"
+                            "alignSelf" : "flex-end",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                              "language" : "typescript"
+                            },
+                            "icon" : "arrow-right",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
+                              "language" : "JavaScript"
                             },
                             "layoutStyle" : {
-                              "borderBottom" : "1px solid var(--colors-disabledcolor)",
-                              "borderLeft" : "1px solid var(--colors-disabledcolor)"
+                              "marginTop" : "10px"
                             },
-                            "name" : "given answer block",
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { selectNextPatient } from './game/logic/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "next-patient",
+                            "prefixedLabel" : true,
                             "style" : { }
                           },
-                          "type" : "FlexList"
+                          "type" : "Button"
                         } ],
-                        "layout" : {
-                          "gridTemplateColumns" : "1fr 1fr"
-                        },
-                        "layoutClassName" : "patient-correction",
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Grid"
-                    }, {
-                      "props" : {
-                        "alignSelf" : "flex-end",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                          "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
                           "language" : "typescript"
                         },
-                        "icon" : "arrow-right",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "onExitActions" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "Context.explanation.setState({showExplanation: false});",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Modal"
+                    }, {
+                      "props" : {
+                        "className" : "invertedButton",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
+                          "language" : "typescript"
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import {getDrillStatus} from './game/logic/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
+                          "language" : "typescript"
+                        },
                         "label" : {
                           "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show-correction');",
                           "language" : "JavaScript"
                         },
                         "layoutStyle" : {
-                          "marginTop" : "10px"
+                          "padding" : "0"
                         },
                         "localScriptEval" : {
                           "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { selectNextPatient } from './game/logic/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
-                            "language" : "TypeScript",
-                            "returnType" : "Promise<unknown> | undefined"
+                            "@class" : "Script",
+                            "content" : "Context.explanation.setState({showExplanation: true});",
+                            "language" : "typescript"
                           }
                         },
-                        "name" : "next-patient",
-                        "prefixedLabel" : true,
+                        "name" : "show-correction",
                         "style" : { }
                       },
                       "type" : "Button"
                     } ],
+                    "exposeAs" : "explanation",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
+                      "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
                       "language" : "typescript"
                     },
-                    "layout" : {
-                      "flexDirection" : "column"
+                    "initialState" : {
+                      "@class" : "Script",
+                      "content" : "({showExplanation: false});",
+                      "language" : "TypeScript"
                     },
-                    "layoutClassName" : "",
                     "layoutStyle" : { },
-                    "onExitActions" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "Context.explanation.setState({showExplanation: false});",
-                        "language" : "TypeScript"
-                      }
-                    },
+                    "localState" : true,
+                    "name" : "correction modal",
                     "style" : { }
                   },
-                  "type" : "Modal"
+                  "type" : "State"
+                }, {
+                  "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
+                      "language" : "typescript"
+                    },
+                    "icon" : "envelope-open-text",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'backToSummary');",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toSummaryScreen } from \"./game/logic/drill\";\n\ntoSummaryScreen()",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown>"
+                      }
+                    },
+                    "name" : "to summary",
+                    "style" : { }
+                  },
+                  "type" : "Button"
                 }, {
                   "props" : {
                     "className" : "invertedButton",
@@ -267,108 +348,42 @@
                     },
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import {getDrillStatus} from './game/logic/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
+                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
                       "language" : "typescript"
                     },
+                    "icon" : "arrow-right",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show-correction');",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
                       "language" : "JavaScript"
                     },
+                    "layoutClassName" : "",
                     "layoutStyle" : {
                       "padding" : "0"
                     },
                     "localScriptEval" : {
                       "script" : {
-                        "@class" : "Script",
-                        "content" : "Context.explanation.setState({showExplanation: true});",
-                        "language" : "typescript"
+                        "@class" : "ClientScript",
+                        "content" : "import { selectNextPatient } from './game/logic/drill';\nselectNextPatient();",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown> | undefined"
                       }
                     },
-                    "name" : "show-correction",
+                    "name" : "next-patient",
+                    "prefixedLabel" : true,
                     "style" : { }
                   },
                   "type" : "Button"
                 } ],
-                "exposeAs" : "explanation",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
-                  "language" : "typescript"
-                },
-                "initialState" : {
-                  "@class" : "Script",
-                  "content" : "({showExplanation: false});",
-                  "language" : "TypeScript"
+                "layout" : {
+                  "alignItems" : "center",
+                  "justifyContent" : "flex-end"
                 },
                 "layoutStyle" : { },
-                "localState" : true,
-                "name" : "correction modal",
+                "name" : "navBtn",
                 "style" : { }
               },
-              "type" : "State"
-            }, {
-              "props" : {
-                "className" : "invertedButton",
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
-                  "language" : "typescript"
-                },
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
-                  "language" : "typescript"
-                },
-                "icon" : "arrow-right",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'next-patient');",
-                  "language" : "JavaScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : {
-                  "padding" : "0"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { selectNextPatient } from './game/logic/drill';\nselectNextPatient();",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown> | undefined"
-                  }
-                },
-                "name" : "next-patient",
-                "prefixedLabel" : true,
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
-                  "language" : "typescript"
-                },
-                "icon" : "envelope-open-text",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'backToSummary');",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { toSummaryScreen } from \"./game/logic/drill\";\n\ntoSummaryScreen()",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown>"
-                  }
-                },
-                "name" : "to summary",
-                "style" : { }
-              },
-              "type" : "Button"
+              "type" : "FlexList"
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -376,10 +391,12 @@
               "language" : "typescript"
             },
             "layout" : {
-              "justifyContent" : "space-evenly"
+              "alignItems" : "center",
+              "justifyContent" : "space-between"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
+              "marginTop" : "15px",
               "padding" : "0"
             },
             "name" : "toolbar",
@@ -763,9 +780,10 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "alignSelf" : "center",
             "layoutStyle" : { },
             "style" : {
-              "justifyContent" : "center"
+              "marginBottom" : "20px"
             },
             "text" : {
               "@class" : "Script",
@@ -780,73 +798,201 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "h1title",
                     "layoutStyle" : { },
+                    "name" : "expl H1",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<h1>Explications </h1><div> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<h2>Système de catégorisation</h2>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<h2>Temporalité dans le jeu</h2> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\"",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst explain = getTranslation('pretriage-interface', 'explanation-title');\n\n\n\t \n\t\n/*return explain + explainTXT + catSyst + catSystTXT + tempo +tempoTXT;*/\nexplain",
                       "language" : "TypeScript"
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "explTXT",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "const explainTXT = \"explications à venir, Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\";\nexplainTXT",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "h2title",
+                    "layoutStyle" : { },
+                    "name" : "tempoH2",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst tempo = getTranslation('pretriage-interface', 'temporality');\ntempo",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "tempoTXT",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "const tempoTXT = \"Le temps, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \"\ntempoTXT",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "h2title",
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "catSyst H2",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst catSyst = getTranslation('pretriage-interface', 'category-system');\ncatSyst",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "catSystTXT",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "const catSystTXT = \"c'est le système, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\";\ncatSystTXT",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "startButton",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
+                        "language" : "typescript"
+                      }
+                    },
+                    "name" : "start",
+                    "style" : {
+                      "marginTop" : "30px"
+                    }
+                  },
+                  "type" : "Button"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "welcomeColumn",
                 "layoutStyle" : { },
                 "name" : "colLeft",
-                "style" : {
-                  "width" : "50%"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             }, {
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "h1title",
                     "layoutStyle" : { },
-                    "name" : "introduction",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<!-- /*&nbsp;import&nbsp;{&nbsp;getTranslation&nbsp;}&nbsp;from&nbsp;\\\"./tools/translation\\\";&nbsp;*/ /*&nbsp;Please&nbsp;always&nbsp;respect&nbsp;the&nbsp;return&nbsp;type&nbsp;:&nbsp;string&nbsp;|&nbsp;undefined&nbsp;*/ //()&nbsp;:&nbsp;string&nbsp;|&nbsp;undefined&nbsp;=&gt;&nbsp;{ //&nbsp;&nbsp;return&nbsp;getTranslation('pretriage-interface',&nbsp;'explanation-text'); //};&nbsp; --><h1>Gameplay</h1><h2>Coloration cutanée</h2><p>lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat./p&gt;</p><h2>Echelle de douleur</h2><p>lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>\"",
+                      "content" : "const gameplay = \"Gameplay\"\ngameplay",
                       "language" : "TypeScript"
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "h2title",
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n\tgetTranslation('pretriage-interface', 'coloration');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "id" : "",
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "const lang = I18n.currentLanguageCode;\nif (lang === \"FR\") {\n    return \"/patient/scales/colorScale_FR.png\";\n}\n\"/patient/scales/colorScale_EN.png\";",
+                      "language" : "TypeScript"
+                    },
+                    "style" : {
+                      "max-width" : "50%"
+                    }
+                  },
+                  "type" : "Image"
+                }, {
+                  "props" : {
+                    "className" : "h2title",
+                    "layoutStyle" : { },
+                    "name" : "echelleDouleur",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Echelle de douleur\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "const lang = I18n.currentLanguageCode;\nif (lang === \"FR\") {\n    return \"/patient/scales/painsScale_FR.png\";\n}\n\"/patient/scales/painsScale_EN.png\";",
+                      "language" : "TypeScript"
+                    },
+                    "style" : {
+                      "max-width" : "100%"
+                    }
+                  },
+                  "type" : "Image"
                 } ],
+                "className" : "",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "welcomeColumn",
                 "layoutStyle" : { },
                 "name" : "colRight",
-                "style" : {
-                  "width" : "50%"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
-            } ]
+            } ],
+            "className" : "",
+            "layout" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "style" : {
+              "gap" : "50px"
+            }
           },
           "type" : "FlexList"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
-              "language" : "JavaScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
-                "language" : "typescript"
-              }
-            },
-            "name" : "start",
-            "style" : { }
-          },
-          "type" : "Button"
         } ],
         "hideIf" : {
           "@class" : "Script",
@@ -859,7 +1005,9 @@
         "layoutClassName" : "NOT_STARTED",
         "layoutStyle" : { },
         "name" : "not_started",
-        "style" : { }
+        "style" : {
+          "width" : "100%"
+        }
       },
       "type" : "FlexList"
     }, {
@@ -1223,8 +1371,10 @@
       "flexDirection" : "column"
     },
     "layoutStyle" : {
+      "  grid-auto-columns" : "1fr",
+      " display" : "grid",
+      "grid-auto-flow" : "column",
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
     "style" : { }

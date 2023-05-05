@@ -8,7 +8,8 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	background-color: transparent;
 	color: var(--colors-primarycolor);
 	border: 3px solid var(--colors-primarycolor);
-	font-weight: bold;;
+	border-radius: 50px;
+	font-weight: bold;
 }
 .invertedButton:hover {
 	color: #fff;
@@ -17,7 +18,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 .invertedButton.disabled {
 	background-color: transparent;
 	color: var(--colors-disabledcolor);
-	border: 1px solid var(--colors-disabledcolor);
+	border: 3px solid var(--colors-disabledcolor);
 }
 
 .noPadding {
@@ -33,6 +34,33 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	margin: 0px;
 }
 
+.h2title{
+	font-size: 24px;
+	margin: 10px 0px 10px 0px;
+}
+
+.h1title{
+	font-size: 30px;
+	margin-bottom: 15px;
+	font-weight: 600;
+}
+
+
+
+.welcomeColumn{
+	padding: 0px;
+	min-width:1fr;
+}
+
+
+.startButton>div{
+	margin:10px 20px;
+
+	
+	font-weight: bold;
+	color: #fff;
+
+}
 
 .fullSize {
 	height: 100%;
@@ -43,9 +71,8 @@ button.wegas-btn > div > div > p:first-child:last-child {
 .global-pause-overlay {
 	height: 100%;
 	width: 100%;
-	position: fixed;
+	position: absolute;
 	background-color: #fffa;
-	display: none;
 }
 
 .global-pause-overlay > svg {

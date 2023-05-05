@@ -49,13 +49,15 @@
 .cat_card {
 	height: 100%;
 	width: 100%;
-	border: 1px solid var(--colors-primarycolor);
-	border-radius: 3px;
 	flex-grow: 1;
 }
 .cat_card.undefined {
 	background: transparent;
-	border: 1px dashed var(--colors-disabledcolor);
+}
+
+.coloration_pain {
+	border-radius: 50%;
+	border: 1px solid black;
 }
 
 .coloration_triangle {
@@ -112,12 +114,14 @@
 }
 .patientConsole .tagCategory {
 	padding: 8px;
+	margin-top: 15px;
 	text-align: center;
 	font-weight: bolder;
-	border: 2px solid gainsboro;
-	border-radius: 5px;
+	border: 3px solid transparent ;
+	border-radius: 50px;
 	transition-duration: 0.1s;
 	transition-property: border-color;
+	background-color: white ;
 }
 
 .patientConsole .tagCategory.clickable {
@@ -125,17 +129,20 @@
 }
 
 .patientConsole .tagCategory.clickable:hover {
-	border-color: var(--colors-disabledcolor);
+	//box-shadow: 2px 2px 5px #302C54;
+	
+	
 }
 
 .patientConsole .tagCategory.current {
-	border-color: black;
-	box-shadow: inset 0 0 0 2px var(--colors-backgroundcolor);
+	border: 3px solid  #302C54;	
 }
 
+/*
 .patientConsole .tagCategory.current:hover {	
 	border-color: black;
-}
+}*/
+
 .patient-correction .tagCategory {
 	padding: 5px;
 	border-radius: 3px;

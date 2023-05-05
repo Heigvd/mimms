@@ -193,7 +193,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: greenTag,/** TEST JESS, temporaire */
+			bgColor: greenTag,
 			color: 'white',
 			name: 'P3',
 			shouldBeHandledBy: 'ES',
