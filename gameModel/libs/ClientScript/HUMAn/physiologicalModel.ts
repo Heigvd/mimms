@@ -1666,8 +1666,6 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 			canWalk = 'obviously_not';
 		}
 
-
-
 		// as visiting body cost time, avoid visiting bones if it's unnecessary
 		if (canWalk !== 'obviously_not') {
 			let leftLeg = false;
@@ -1704,15 +1702,22 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 	}
 
 	extraLogger.log("Walk: ", { canWalk, obeyOrders });
-	if (canWalk === 'obviously_not') {
+	if (canWalk === 'obviously_not') { 
+		// physically impossible
 		human.state.vitals.canWalk = false;
 		human.state.vitals.canWalk_internal = false;
-	} else if (obeyOrders) {
+	} else if (obeyOrders) { 
+		// we can ask the person
 		human.state.vitals.canWalk_internal = canWalk === 'maybe';
 		human.state.vitals.canWalk = human.state.vitals.canWalk_internal;
 	} else {
 		human.state.vitals.canWalk_internal = canWalk === 'maybe';
-		human.state.vitals.canWalk = 'no_response';
+		if(human.state.variables.bodyPosition === 'STANDING'){
+			// if standing => suppose yes, even if not responding (5.5.2023)
+			human.state.vitals.canWalk = true;
+		}else{
+			human.state.vitals.canWalk = 'no_response';
+		}
 	}
 
 	// finally check glasgow

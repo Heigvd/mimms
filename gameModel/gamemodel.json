@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1682509419382,
+  "createdTime" : 1683296988244,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1022,7 +1022,8 @@
       "properties" : {
         "1357709491" : "{\"name\":\"CERN 12 Mai\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-AW-390\":true,\"CH-BH-667\":true,\"CH-BT-386\":true,\"CH-CO-830\":true,\"CH-CP-118\":true,\"CH-EP-756\":true,\"CH-HI-213\":true,\"CH-JO-524\":true,\"CH-LN-306\":true,\"CH-LZ-894\":true,\"CH-NL-626\":true,\"CH-NM-913\":true,\"CH-NQ-190\":true,\"CH-SZ-242\":true,\"CH-XF-275\":true,\"CH-ZD-139\":true,\"CH-IG-848\":true,\"CH-JJ-687\":true}}",
         "280784825" : "{\"name\":\"extra 20\",\"patients\":{\"CH-AW-367\":true,\"CH-BH-667\":true,\"CH-BT-386\":true,\"CH-CQ-255\":true,\"CH-CR-967\":true,\"CH-CZ-365\":true,\"CH-EU-587\":true,\"CH-GH-835\":true,\"CH-HR-242\":true,\"CH-IG-848\":true,\"CH-JJ-687\":true,\"CH-JK-152\":true,\"CH-KK-734\":true,\"CH-MU-720\":true,\"CH-OT-795\":true,\"CH-RZ-027\":true,\"CH-VQ-746\":true,\"CH-XV-296\":true,\"CH-YC-623\":true,\"CH-ZS-114\":true}}",
-        "4893474813" : "{\"name\":\"40 first\",\"patients\":{\"CH-AW-390\":true,\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-BF-997\":true,\"CH-CD-008\":true,\"CH-CO-830\":true,\"CH-CP-118\":true,\"CH-DY-421\":true,\"CH-EP-756\":true,\"CH-HI-213\":true,\"CH-IV-875\":true,\"CH-JC-708\":true,\"CH-JO-524\":true,\"CH-JY-926\":true,\"CH-LN-306\":true,\"CH-LZ-894\":true,\"CH-ML-831\":true,\"CH-MQ-543\":true,\"CH-NL-626\":true,\"CH-NM-913\":true,\"CH-NQ-190\":true,\"CH-OE-839\":true,\"CH-QO-327\":true,\"CH-OD-626\":true,\"CH-QC-215\":true,\"CH-RO-873\":true,\"CH-SQ-148\":true,\"CH-SY-369\":true,\"CH-SZ-242\":true,\"CH-SZ-982\":true,\"CH-TG-141\":true,\"CH-TG-154\":true,\"CH-TV-415\":true,\"CH-UH-691\":true,\"CH-VF-506\":true,\"CH-VR-124\":true,\"CH-XF-275\":true,\"CH-ZA-978\":true,\"CH-ZD-139\":true,\"CH-ZI-826\":true}}"
+        "4893474813" : "{\"name\":\"40 first\",\"patients\":{\"CH-AW-390\":true,\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-BF-997\":true,\"CH-CD-008\":true,\"CH-CO-830\":true,\"CH-CP-118\":true,\"CH-DY-421\":true,\"CH-EP-756\":true,\"CH-HI-213\":true,\"CH-IV-875\":true,\"CH-JC-708\":true,\"CH-JO-524\":true,\"CH-JY-926\":true,\"CH-LN-306\":true,\"CH-LZ-894\":true,\"CH-ML-831\":true,\"CH-MQ-543\":true,\"CH-NL-626\":true,\"CH-NM-913\":true,\"CH-NQ-190\":true,\"CH-OE-839\":true,\"CH-QO-327\":true,\"CH-OD-626\":true,\"CH-QC-215\":true,\"CH-RO-873\":true,\"CH-SQ-148\":true,\"CH-SY-369\":true,\"CH-SZ-242\":true,\"CH-SZ-982\":true,\"CH-TG-141\":true,\"CH-TG-154\":true,\"CH-TV-415\":true,\"CH-UH-691\":true,\"CH-VF-506\":true,\"CH-VR-124\":true,\"CH-XF-275\":true,\"CH-ZA-978\":true,\"CH-ZD-139\":true,\"CH-ZI-826\":true}}",
+        "7983226789" : "{\"name\":\"_debug\",\"patients\":{\"CH-NL-626\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
       "scopeType" : "GameModelScope",
