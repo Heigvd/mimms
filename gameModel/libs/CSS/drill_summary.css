@@ -3,6 +3,7 @@
 	padding: 10px;
 	border: 1px solid var(--colors-disabledcolor);
 	border-radius: 5px;
+	
 }
 .patient-summary--header {
 	text-transform: uppercase;
@@ -14,7 +15,7 @@
 }
 .patient-summary--line:nth-of-type(4n) > div,
 .patient-summary--line:nth-of-type(4n-1) > div {
-  background-color:blue;
+  background-color:rgb(0, 255, 76);
 }
 
 

@@ -89,11 +89,21 @@ export function getTagSystem(): SystemName {
 	return Variable.find(gameModel, 'tagSystem').getValue(self) as SystemName;
 }
 
+/**COLORS DECLARATION FOR TAGS */
+
+const deadTag = '#797979';
+const yellowTag = '#F9F871';
+const greenTag = '#00C39F';
+const redTag = '#FD6E6E';
+const orangeTag = '#FFBD60';
+const blueTag = '#4CA9FF';
+
+
 const sapSystem: TagSystem<SAP_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: 'orange',
+			bgColor: orangeTag, 
 			name: 'SAP',
 			color: 'white',
 			shouldBeHandledBy: 'ES',
@@ -101,7 +111,7 @@ const sapSystem: TagSystem<SAP_CATEGORY> = {
 		},
 		{
 			id: URGENT,
-			bgColor: 'yellow',
+			bgColor: yellowTag,
 			color: 'black',
 			name: 'URGENT',
 			shouldBeHandledBy: 'ES',
@@ -109,7 +119,7 @@ const sapSystem: TagSystem<SAP_CATEGORY> = {
 		},
 		{
 			id: DEAD,
-			bgColor: 'black',
+			bgColor: deadTag,
 			color: 'white',
 			name: 'DEAD',
 			shouldBeHandledBy: 'ES',
@@ -122,7 +132,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 	categories: [
 		{
 			id: SECONDARY_TRIAGE,
-			bgColor: 'grey',
+			bgColor: deadTag,
 			name: 'DELAYED',
 			color: 'white',
 			shouldBeHandledBy: 'ES',
@@ -138,7 +148,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 		},
 		{
 			id: NON_URGENT,
-			bgColor: '#3DB957',
+			bgColor: greenTag,
 			color: 'white',
 			name: 'NON URGENT',
 			shouldBeHandledBy: 'ES',
@@ -146,7 +156,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 		},
 		{
 			id: URGENT,
-			bgColor: 'yellow',
+			bgColor: yellowTag,
 			color: 'black',
 			name: 'URGENT',
 			shouldBeHandledBy: 'ES',
@@ -154,7 +164,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 		},
 		{
 			id: IMMEDIATE,
-			bgColor: 'red',
+			bgColor: redTag,
 			color: 'white',
 			name: 'IMMEDIATE',
 			shouldBeHandledBy: 'ES',
@@ -162,7 +172,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 		},
 		{
 			id: ALMOST_DEAD,
-			bgColor: 'blue',
+			bgColor: blueTag,
 			color: 'white',
 			name: 'ALMOST DEAD',
 			shouldBeHandledBy: 'POLICE',
@@ -170,7 +180,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
 		},
 		{
 			id: DEAD,
-			bgColor: 'black',
+			bgColor: deadTag,
 			color: 'white',
 			name: 'DEAD',
 			shouldBeHandledBy: 'POLICE',
@@ -183,7 +193,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: 'green',
+			bgColor: greenTag,
 			color: 'white',
 			name: 'P3',
 			shouldBeHandledBy: 'ES',
@@ -191,7 +201,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: URGENT,
-			bgColor: 'yellow',
+			bgColor: yellowTag,
 			color: 'black',
 			name: 'P2',
 			shouldBeHandledBy: 'ES',
@@ -199,7 +209,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: IMMEDIATE,
-			bgColor: 'red',
+			bgColor: redTag,
 			color: 'white',
 			name: 'P1',
 			shouldBeHandledBy: 'ES',
@@ -207,7 +217,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: DEAD,
-			bgColor: 'black',
+			bgColor: deadTag,
 			color: 'white',
 			name: 'DEAD',
 			shouldBeHandledBy: 'POLICE',
@@ -220,7 +230,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: 'green',
+			bgColor: greenTag,
 			color: 'white',
 			name: 'MINOR',
 			shouldBeHandledBy: 'ES',
@@ -228,7 +238,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: URGENT,
-			bgColor: 'yellow',
+			bgColor: yellowTag,
 			color: 'black',
 			name: 'DELAYED',
 			shouldBeHandledBy: 'ES',
@@ -236,7 +246,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: IMMEDIATE,
-			bgColor: 'red',
+			bgColor: redTag,
 			color: 'white',
 			name: 'IMMEDIATE',
 			shouldBeHandledBy: 'ES',
@@ -244,7 +254,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: DEAD,
-			bgColor: 'black',
+			bgColor: deadTag,
 			color: 'white',
 			name: 'EXPECTANT',
 			shouldBeHandledBy: 'POLICE',
@@ -257,7 +267,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: 'green',
+			bgColor: greenTag,
 			color: 'white',
 			name: 'DELAYED',
 			shouldBeHandledBy: 'ES',
@@ -265,7 +275,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: URGENT,
-			bgColor: 'yellow',
+			bgColor: yellowTag,
 			color: 'black',
 			name: 'URGENT',
 			shouldBeHandledBy: 'ES',
@@ -273,7 +283,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: IMMEDIATE,
-			bgColor: 'red',
+			bgColor: redTag,
 			color: 'white',
 			name: 'IMMEDIATE',
 			shouldBeHandledBy: 'ES',
@@ -281,7 +291,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
 		},
 		{
 			id: DEAD,
-			bgColor: 'black',
+			bgColor: deadTag,
 			color: 'white',
 			name: 'UNSALVAGEABLE',
 			shouldBeHandledBy: 'POLICE',

@@ -1422,7 +1422,7 @@ function delayAction(
 	delayedActions.push(dA);
 }
 
-function getHumanSkillLevelForAction(
+export function getHumanSkillLevelForAction(
 	humanId: string,
 	action: ActionSource,
 ): SkillLevel | undefined {

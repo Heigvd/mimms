@@ -4,14 +4,15 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, Motr
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
+import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
-import { getMySkillDefinition } from "../../tools/WegasHelper";
+import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
 import { toHourMinutesSeconds } from "../../tools/helper";
 import { getBloodRatio } from "../../HUMAn/physiologicalModel";
+import { SkillLevel } from "../../edition/GameModelerHelper";
 
 /////////////////////////////////
 // The Wheel
@@ -173,11 +174,12 @@ export function keepStateAlive({ state, setState }: FullState) {
 	}
 }
 
+
 function getActionIcon(action: HumanAction): string {
 	if (action.type === 'ActionBodyEffect') {
-		return 'syringe';
+		/*return 'syringe';*/
 	} else if (action.type === 'ActionBodyMeasure') {
-		return 'ruler';
+		/*return 'ruler';*/
 	}
 	return '';
 }
@@ -275,9 +277,9 @@ function getABCDEWheel(): Wheel {
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === 'ActionBodyEffect') {
-			bag[action.actionCategory].treatments.push({ ...action, icon: 'syringe' });
+			bag[action.actionCategory].treatments.push({ ...action, /*icon: 'syringe'*/ });
 		} else if (action.actionType === 'ActionBodyMeasure') {
-			bag[action.actionCategory].measures.push({ ...action, icon: 'ruler' });
+			bag[action.actionCategory].measures.push({ ...action, /*icon: 'ruler'*/ });
 		}
 	});
 
@@ -372,8 +374,8 @@ export function getMyMedicalActs(): ActDefinition[] {
 export function getButtonLabel(item: WheelItem | WheelMenu | WheelAction): string {
 	switch (item.type) {
 		case 'WheelItemAction':
-			if (item.disposable) {
-				return `${item.label} (${item.counter === 'infinity' ? '∞' : item.counter})`;
+			if (item.disposable && item.counter != 'infinity') {
+				return `${item.label} (${item.counter})`;
 			} else {
 				return item.label;
 			}
@@ -591,7 +593,6 @@ function resolveAction<T extends HumanAction>(
 
 export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Promise<IManagedResponse> | undefined {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
-
 	if (action != null) {
 		const source =
 			measure.type === 'WheelAct'
@@ -1233,8 +1234,7 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
 		const age = exact ? human.meta.age : `~${getRoundedAge(human)}`;
 		const sex = getTranslation('human-general', human!.meta.sex, false);
 		const years = getTranslation('human-general', 'years', false);
-		return `<span class='human-id'>${id}</span>,
-		 <span class='human-sex'>${sex}</span>,
+		return `<span class='human-sex'>${sex}</span>,
 		  <span class='human-age'>${age} ${years}</span>`;
 	}
 	return '';
@@ -1387,4 +1387,23 @@ export function getCurrentPatientAutoTriage() {
 		autoTriage: resultToHtmlObject(human.category.autoTriage),
 		givenAnswer: categoryToHtml(human.category.category)
 	};
+}
+
+export function getSelectedActionDuration(selectedAction: WheelAction,
+ actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): string {
+	const action = resolveAction<HumanAction>(selectedAction, actionType);
+	let skillLevel : SkillLevel | undefined; 
+	if(action){
+		if(selectedAction.type === 'WheelAct'){
+			skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
+		}else {
+			skillLevel = getHumanSkillLevelForItemAction(whoAmI(), selectedAction.itemActionId.itemId, selectedAction.itemActionId.actionId);
+		}
+		
+		if(skillLevel){
+			return '' + action.duration[skillLevel];
+		}
+ 	}
+
+	return 'duration not found';
 }
