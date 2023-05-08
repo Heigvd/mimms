@@ -197,9 +197,8 @@
                             },
                             "name" : "visual infos",
                             "style" : {
-                              "display" : "flex",
                               "flexGrow" : "1",
-                              "justifyContent" : "space-around"
+                              "margin" : "auto"
                             },
                             "text" : {
                               "@class" : "Script",
@@ -254,11 +253,14 @@
                         } ],
                         "layout" : {
                           "alignItems" : "center",
-                          "justifyContent" : "space-between"
+                          "justifyContent" : "center"
                         },
                         "layoutStyle" : { },
                         "name" : "faceAndID",
-                        "style" : { }
+                        "style" : {
+                          "gap" : "5rem",
+                          "margin" : "auto"
+                        }
                       },
                       "type" : "FlexList"
                     } ],
@@ -404,6 +406,14 @@
                                 "@class" : "Script",
                                 "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
                                 "language" : "JavaScript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "no-selection",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.wheelItem.items.some(item => item.items.length > 0 );",
+                                "language" : "typescript"
                               }
                             } ],
                             "icon" : {

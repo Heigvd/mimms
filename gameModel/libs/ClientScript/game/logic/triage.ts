@@ -92,9 +92,9 @@ export function getTagSystem(): SystemName {
 /**COLORS DECLARATION FOR TAGS */
 
 const deadTag = '#797979';
-const yellowTag = '#F9F871';
-const greenTag = '#00C39F';
-const redTag = '#FD6E6E';
+const yellowTag = '#E9B406';
+const greenTag = '#4F7200';
+const redTag = '#B73D3C';
 const orangeTag = '#FFBD60';
 const blueTag = '#4CA9FF';
 

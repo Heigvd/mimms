@@ -79,8 +79,10 @@ wlog('sss', actionDurations);
 
 function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
 	if(actionDurations[def.id]){
-		wlog(actionDurations[def.id]);
+		wlog(def.id, actionDurations[def.id]);
 		def.action.duration = JSON.parse(actionDurations[def.id]);
+	}else{
+		wlog('missing',def.id);
 	}
 	acts[def.id] = { ...def, type: 'act', translationGroup: 'human-actions' };
 }

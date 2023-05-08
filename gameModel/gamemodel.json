@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1683297536581,
+  "createdTime" : 1683556938909,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1022,8 +1022,6 @@
       "properties" : {
         "1357709491" : "{\"name\":\"CERN 12 Mai\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-AW-390\":true,\"CH-BH-667\":true,\"CH-BT-386\":true,\"CH-CO-830\":true,\"CH-CP-118\":true,\"CH-EP-756\":true,\"CH-HI-213\":true,\"CH-JO-524\":true,\"CH-LN-306\":true,\"CH-LZ-894\":true,\"CH-NL-626\":true,\"CH-NM-913\":true,\"CH-NQ-190\":true,\"CH-SZ-242\":true,\"CH-XF-275\":true,\"CH-ZD-139\":true,\"CH-IG-848\":true,\"CH-JJ-687\":true}}",
         "280784825" : "{\"name\":\"extra 20\",\"patients\":{\"CH-AW-367\":true,\"CH-BH-667\":true,\"CH-BT-386\":true,\"CH-CQ-255\":true,\"CH-CR-967\":true,\"CH-CZ-365\":true,\"CH-EU-587\":true,\"CH-GH-835\":true,\"CH-HR-242\":true,\"CH-IG-848\":true,\"CH-JJ-687\":true,\"CH-JK-152\":true,\"CH-KK-734\":true,\"CH-MU-720\":true,\"CH-OT-795\":true,\"CH-RZ-027\":true,\"CH-VQ-746\":true,\"CH-XV-296\":true,\"CH-YC-623\":true,\"CH-ZS-114\":true}}",
-        "7983226789" : "{\"name\":\"_debug\",\"patients\":{\"CH-NL-626\":true}}",
-        "4329947599" : "{\"name\":\"my preset\",\"patients\":{\"CH-AJ-159\":true,\"CH-AJ-238\":true}}",
         "4893474813" : "{\"name\":\"40 first\",\"patients\":{\"CH-AW-390\":true,\"CH-AJ-159\":true,\"CH-AJ-238\":true,\"CH-BF-997\":true,\"CH-CD-008\":true,\"CH-CO-830\":true,\"CH-CP-118\":true,\"CH-DY-421\":true,\"CH-EP-756\":true,\"CH-HI-213\":true,\"CH-IV-875\":true,\"CH-JC-708\":true,\"CH-JO-524\":true,\"CH-JY-926\":true,\"CH-LN-306\":true,\"CH-LZ-894\":true,\"CH-ML-831\":true,\"CH-MQ-543\":true,\"CH-NL-626\":true,\"CH-NM-913\":true,\"CH-NQ-190\":true,\"CH-OE-839\":true,\"CH-QO-327\":true,\"CH-OD-626\":true,\"CH-QC-215\":true,\"CH-RO-873\":true,\"CH-SQ-148\":true,\"CH-SY-369\":true,\"CH-SZ-242\":true,\"CH-SZ-982\":true,\"CH-TG-141\":true,\"CH-TG-154\":true,\"CH-TV-415\":true,\"CH-UH-691\":true,\"CH-VF-506\":true,\"CH-VR-124\":true,\"CH-XF-275\":true,\"CH-ZA-978\":true,\"CH-ZD-139\":true,\"CH-ZI-826\":true}}"
       },
       "refId" : "ObjectDescriptor:62152:1EvqsB",
@@ -4066,6 +4064,7 @@
           "category-system" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"category system\"},\"FR\":{\"status\":\"\",\"translation\":\"système de catégorisation\",\"lang\":\"FR\"}},\"version\":0}",
           "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
           "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"console\"},\"FR\":{\"status\":\"\",\"translation\":\"console\",\"lang\":\"FR\"}},\"version\":0}",
+          "context" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"This module is meant to train on pretriage algorithms. Your goal is to perform pretriage on a serie of patients with a specific algorithm. The patients evolve in real time. You can measure their vital parameters and apply treatments.\"},\"FR\":{\"status\":\"\",\"translation\":\"Ce module de drill va vous permettre de vous entraîner aux algorithmes de pré-triage. Votre objectif est de prétrier une série de patients en utilisant un algorithme spécifique. L’état des patients évolue en temps réel. Vous pouvez mesurer leurs constantes vitales et appliquer les traitements que vous jugez appropriés.\",\"lang\":\"FR\"}},\"version\":0}",
           "correction" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"correction\"},\"FR\":{\"status\":\"\",\"translation\":\"correction\",\"lang\":\"FR\"}},\"version\":0}",
           "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"details\"},\"FR\":{\"status\":\"\",\"translation\":\"détails\",\"lang\":\"FR\"}},\"version\":0}",
           "domeasure" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"do measure\"},\"FR\":{\"status\":\"\",\"translation\":\"mesurer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4073,7 +4072,7 @@
           "duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée\",\"lang\":\"FR\"}},\"version\":0}",
           "explanation-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have to perform pretriage on simulated patients. Use the central interface to evaluate their condition\"},\"FR\":{\"status\":\"\",\"translation\":\"vous devez prétrier les patients suivants. Utilisez l'interface centrale pour les évaluer\",\"lang\":\"FR\"}},\"version\":0}",
           "explanation-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"explanations\"},\"FR\":{\"status\":\"\",\"translation\":\"explications\",\"lang\":\"FR\"}},\"version\":0}",
-          "face" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"face\"},\"FR\":{\"status\":\"\",\"translation\":\"faciès\",\"lang\":\"FR\"}},\"version\":0}",
+          "face" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"face & skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"faciès et coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
           "finish" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"finish\"},\"FR\":{\"status\":\"\",\"translation\":\"terminer\",\"lang\":\"FR\"}},\"version\":0}",
           "gamesessionsetup" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"setup\"},\"FR\":{\"status\":\"\",\"translation\":\"configuration\",\"lang\":\"FR\"}},\"version\":0}",
           "given-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"given answer\"},\"FR\":{\"status\":\"\",\"translation\":\"réponse donnée\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4111,6 +4110,7 @@
           "still" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"still\"},\"FR\":{\"status\":\"\",\"translation\":\"encore\",\"lang\":\"FR\"}},\"version\":0}",
           "suggested-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"suggested answer\"},\"FR\":{\"status\":\"\",\"translation\":\"réponse suggérée\",\"lang\":\"FR\"}},\"version\":0}",
           "temporality" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"game temporality\"},\"FR\":{\"status\":\"\",\"translation\":\"temporalité dans le jeu\",\"lang\":\"FR\"}},\"version\":0}",
+          "temporality-explanation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Time flows normally second by second. Each measure or treatment has a time cost, when you decide to apply one, time jumps forward by the amount of time of the selected action.\"},\"FR\":{\"status\":\"\",\"translation\":\"Le temps s’écoule normalement seconde par seconde. Chaque mesure ou traitement a une durée, lorsque vous l’effectuez, le temps “saute” en avant d’une durée équivalente.\",\"lang\":\"FR\"}},\"version\":0}",
           "thankyou-playing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"thank you for playing!\"},\"FR\":{\"status\":\"\",\"translation\":\"merci d'avoir joué!\",\"lang\":\"FR\"}},\"version\":0}",
           "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"drill pretri\"},\"FR\":{\"status\":\"\",\"translation\":\"drill pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "toolatetocancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"too late to cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"trop tard pour annuler\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4120,6 +4120,7 @@
           "unmeasurable" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"unmeasurable\"},\"FR\":{\"status\":\"\",\"translation\":\"non-mesurable\",\"lang\":\"FR\"}},\"version\":0}",
           "validate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"validate\"},\"FR\":{\"status\":\"\",\"translation\":\"valider\",\"lang\":\"FR\"}},\"version\":0}",
           "view" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"view\"},\"FR\":{\"status\":\"\",\"translation\":\"voir\",\"lang\":\"FR\"}},\"version\":0}",
+          "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Welcome in Drill pretri\"},\"FR\":{\"status\":\"\",\"translation\":\"Bienvenue dans drill pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "you don't know how to do this" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you don't know how to do this\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne savez pas effectuer\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:63785:8sYyho",
@@ -5007,7 +5008,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2_jess_currentWIP",
+  "name" : "MIMMS Pré-tri V2 ALPHA",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

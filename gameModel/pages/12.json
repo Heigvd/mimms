@@ -780,14 +780,14 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "alignSelf" : "center",
+            "className" : "h1title",
             "layoutStyle" : { },
             "style" : {
               "marginBottom" : "20px"
             },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<h1 style=\\\"text-align: center;\\\">Bienvenue dans drill pretri</h1>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nconst welcome = getTranslation('pretriage-interface', 'welcome');\nreturn welcome",
               "language" : "TypeScript"
             }
           },
@@ -811,12 +811,13 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "GeneralText",
                     "layoutStyle" : { },
                     "name" : "explTXT",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "const explainTXT = \"explications à venir, Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\";\nexplainTXT",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst explainTXT = getTranslation('pretriage-interface', 'context');\nexplainTXT",
                       "language" : "TypeScript"
                     }
                   },
@@ -836,12 +837,13 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "GeneralText",
                     "layoutStyle" : { },
                     "name" : "tempoTXT",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "const tempoTXT = \"Le temps, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \"\ntempoTXT",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst tempoTXT = getTranslation('pretriage-interface', 'temporality-explanation');\ntempoTXT",
                       "language" : "TypeScript"
                     }
                   },
@@ -862,12 +864,13 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "GeneralText",
                     "layoutStyle" : { },
                     "name" : "catSystTXT",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "const catSystTXT = \"c'est le système, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\";\ncatSystTXT",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst catSyst = I18n.toString(Variable.find(gameModel,'tagSystem'));\nconst txtCatSyst = getTranslation('pretriage-interface', 'category-system');\ntxtCatSyst + \": \" + catSyst",
                       "language" : "TypeScript"
                     }
                   },
@@ -1006,6 +1009,8 @@
         "layoutStyle" : { },
         "name" : "not_started",
         "style" : {
+          "margin" : "auto",
+          "maxWidth" : "1500px",
           "width" : "100%"
         }
       },

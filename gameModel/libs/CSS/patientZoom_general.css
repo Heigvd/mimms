@@ -177,6 +177,11 @@ border: none;
 	 
 }
 
+.ABCDwheelMenu .wheelButton > button.no-selection{
+	border: solid 3px var(--colors-disabledcolor) !important;
+	color: var(--colors-disabledcolor);
+}
+
 
 .ABCDwheelMenu .wheelButton > button.selected{
 	color: var(--colors-backgroundcolor);

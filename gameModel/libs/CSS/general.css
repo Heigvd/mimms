@@ -36,13 +36,18 @@ button.wegas-btn > div > div > p:first-child:last-child {
 
 .h2title{
 	font-size: 24px;
-	margin: 10px 0px 10px 0px;
+	margin: 20px 0px 10px 0px;
+	font-weight: 600;
 }
 
 .h1title{
 	font-size: 30px;
 	margin-bottom: 15px;
 	font-weight: 600;
+}
+
+.GeneralText{
+font-size: 18px;
 }
 
 
@@ -66,6 +71,8 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	height: 100%;
 	width: 100%;
 	padding: 0;
+	max-width: 2000px;
+	margin: auto;
 }
 
 .global-pause-overlay {
