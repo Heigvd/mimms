@@ -10,7 +10,7 @@ import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToH
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
 import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
-import { toHourMinutesSeconds } from "../../tools/helper";
+import { toHourMinutesSeconds, toHoursMinutesSecondsIso } from "../../tools/helper";
 import { getBloodRatio } from "../../HUMAn/physiologicalModel";
 import { SkillLevel } from "../../edition/GameModelerHelper";
 
@@ -1133,7 +1133,7 @@ export function getMainIndication(): string {
 
 function formatLog(log: ConsoleLog): string {
 
-	const formattedTime = toHourMinutesSeconds(log.time);
+	const formattedTime = toHoursMinutesSecondsIso(log.time);
 	const time = `<span class='time'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
 		return `<div class='log_container'>${time} <span class='message'>${log.message}</span></div>`;
@@ -1388,8 +1388,11 @@ export function getCurrentPatientAutoTriage() {
 	};
 }
 
+/**
+ * Returns the time needed to perform the action in seconds
+ */
 export function getSelectedActionDuration(selectedAction: WheelAction,
- actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): string {
+ actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): number {
 	const action = resolveAction<HumanAction>(selectedAction, actionType);
 	let skillLevel : SkillLevel | undefined; 
 	if(action){
@@ -1400,9 +1403,10 @@ export function getSelectedActionDuration(selectedAction: WheelAction,
 		}
 		
 		if(skillLevel){
-			return '' + action.duration[skillLevel];
+			return action.duration[skillLevel];
 		}
  	}
 
-	return 'duration not found';
+	logger.warn('duration not found for ' + selectedAction.id);
+	return 0;
 }

@@ -161,19 +161,42 @@ export function compare(a?: string, b?: string){
 	return a.localeCompare(b);
 }
 
-export function toHourMinutesSeconds(seconds : number, minuteSeparator="'", secondsSeparator="''") : string {
-
+function toHourMinSec(seconds: number): [number, number, number]{
 	const hours = Math.floor(seconds / 3600);
 	const minutes = Math.floor((seconds % 3600) / 60);
 	const sec = seconds % 60;
 
+	return [hours, minutes, sec];
+}
+
+export function toHourMinutesSeconds(seconds : number, hoursSuffix='h', minuteSuffix="'", secondsSuffix="''", ignoreIfZero=false) : string {
+
+	const [hours, minutes, sec] = toHourMinSec(seconds);
 	let output = '';
 
 	if(hours > 0){
-		output += hours + 'h';
+		output += hours + hoursSuffix;
 	}
-	output += minutes + minuteSeparator;
-	output += sec + secondsSeparator;
+	if(hours == 0 && (minutes > 0 || !ignoreIfZero)){
+		output += minutes + minuteSuffix;
+	}
+	if(hours == 0 && minutes == 0 && (sec > 0 || !ignoreIfZero)){
+		output += sec + secondsSuffix;
+	}
+	return output;
+}
+
+/**
+ * HH:MM:SS ISO 8601
+ */
+export function toHoursMinutesSecondsIso(seconds: number):string {
+
+	const [hours, minutes, sec] = toHourMinSec(seconds);
+	let output = '';
+	output += (hours<10 ? '0':'') + hours;
+	output += ':' + (minutes<10 ? '0':'') + minutes;
+	output += ':' + (sec<10 ? '0':'') + sec;
+
 	return output;
 }
 

@@ -25,15 +25,25 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "icon" : "clock",
                     "layoutStyle" : {
-                      "marginLeft" : "4rem",
-                      "textAlign" : "center"
+                      "color" : "var(--colors-primarycolor)"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "color" : "var(--colors-primarycolor)",
+                      "fontWeight" : "bold",
+                      "marginRight" : "1.5rem"
                     },
                     "name" : "currentTime",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst currentTime = getCurrentSimulationTime ();\nconst h = Math.floor(currentTime / 3600);\nconst m = Math.floor(currentTime % 3600 / 60);\nconst s = Math.floor(currentTime % 3600 % 60);\n\nconst HH = getTranslation('pretriage-interface', 'hours', false);\nconst MM = getTranslation('pretriage-interface', 'minutes', false);\nconst SS = getTranslation('pretriage-interface', 'seconds', false);\n\nlet hDisplay = h >= 0 ? h + (h == 1 ? ` ${ HH } ` : ` ${ HH  } `) : \"\";\nlet mDisplay = m >= 0 ? m + (m == 1 ? ` ${ MM } ` : ` ${ MM  } `) : \"\";\nlet sDisplay = s >= 0 ? s + (s == 1 ? ` ${ SS } ` : ` ${ SS  } `) : \"\";\nreturn hDisplay + mDisplay + sDisplay; \n\n\ngetCurrentSimulationTime().toString();",
+                      "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\ntoHoursMinutesSecondsIso(getCurrentSimulationTime());",
                       "language" : "TypeScript"
                     }
                   },

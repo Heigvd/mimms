@@ -211,10 +211,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "layoutStyle" : {
-                                  "minWidth" : "30px",
-                                  "width" : "50%"
-                                },
+                                "layoutStyle" : { },
                                 "name" : "category",
                                 "style" : {
                                   "display" : "flex",
@@ -246,6 +243,7 @@
                             "layoutStyle" : { },
                             "name" : "categoryAndID",
                             "style" : {
+                              "alignItems" : "center",
                               "flexGrow" : "1"
                             }
                           },
@@ -789,20 +787,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\ngetSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "className" : "noPadMargingParagraph",
-                                        "layoutStyle" : { },
-                                        "name" : "seconds",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "\"<p>sec.</p>\"",
+                                          "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -1041,20 +1026,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\ngetSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "noPadMargingParagraph",
-                                    "layoutStyle" : { },
-                                    "name" : "seconds",
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "\"<p>sec.</p>\"",
+                                      "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -1557,7 +1529,9 @@
                 "layoutClassName" : "column mobile-slide",
                 "layoutStyle" : { },
                 "name" : "ColRight",
-                "style" : { }
+                "style" : {
+                  "justifyContent" : "space-between"
+                }
               },
               "type" : "FlexList"
             } ],

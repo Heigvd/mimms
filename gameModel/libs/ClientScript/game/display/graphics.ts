@@ -26,7 +26,7 @@ export interface HumanOverview {
  * Category Card SVG
  */
 function getCategoryCardSvg(category: Category<string> | undefined, x: number | string = 0, y: number|string = 0, size: number|string = 4): string {
-		return `<svg width="${size}" height="${size}" viewBox="0 0 130 130" fill="none" x=${x} y=${y} xmlns="http://www.w3.org/2000/svg">
+		return `<svg width="${size}" height="${size}" stroke-width="3.5%" viewBox="-10 -10 150 150" fill="none" x=${x} y=${y} xmlns="http://www.w3.org/2000/svg">
 <path d="M0.5 64.0144V12.1875C0.5 5.73259 5.73259 0.5 12.1875 0.5H64.0144C67.1141 0.500016 70.0868 1.73139 72.2786 3.92322L126.077 57.7214C130.641 62.2856 130.641 69.6858 126.077 74.25L74.25 126.077C69.6858 130.641 62.2856 130.641 57.7214 126.077L3.92322 72.2786C1.73139 70.0868 0.500016 67.1141 0.5 64.0144ZM28.4375 15.75C21.4303 15.75 15.75 21.4303 15.75 28.4375C15.75 35.4447 21.4303 41.125 28.4375 41.125C35.4447 41.125 41.125 35.4447 41.125 28.4375C41.125 21.4303 35.4447 15.75 28.4375 15.75Z" stroke="black" fill="${category?.bgColor}"/>
 </svg>`
 }
@@ -309,7 +309,7 @@ export function getCategoryCard(): string {
 	if (human != null) {
 		const overview = getOverview(human);
 		if (overview) {
-			output.push(`<div class='cat_card ${overview.category}'>${getCategoryCardSvg(overview.category, 0, 0, 48)}</div>`);
+			output.push(`<div class='cat_card ${overview.category}'>${getCategoryCardSvg(overview.category, 0, 0, 64)}</div>`);
 		}
 	} else {
 		//output.push("<em>Error [patient not found]</em>");
