@@ -16,6 +16,7 @@ import {
 } from './pathology';
 import { SympSystem } from './physiologicalModel';
 import { substraction } from '../tools/helper';
+import { registryLogger } from '../tools/logger';
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};
@@ -57,6 +58,17 @@ export function getPathologiesMap(): Record<string, string> {
 }
 
 function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): void {
+	if(actionDurations[def.id]){
+		// there can be multiple actions related to an item
+		// for the following lines assume a single action and sets its duration
+		Object.values(def.actions).forEach(elmt => {
+			if(elmt && elmt.duration){
+				elmt.duration = JSON.parse(actionDurations[def.id]);
+			}
+		})
+	}else{
+		registryLogger.info('using default duration for',def.id);
+	}
 	items[def.id] = { ...def, type: 'item', translationGroup: 'human-items' };
 }
 
@@ -74,15 +86,12 @@ export function getItems(): { id: string; item: ItemDefinition }[] {
 }
 
 const actionDurations = Variable.find(gameModel, 'actionsDurations').getProperties();
-wlog('sss', actionDurations);
-
 
 function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
 	if(actionDurations[def.id]){
-		wlog(def.id, actionDurations[def.id]);
 		def.action.duration = JSON.parse(actionDurations[def.id]);
 	}else{
-		wlog('missing',def.id);
+		registryLogger.info('using default duration for',def.id);
 	}
 	acts[def.id] = { ...def, type: 'act', translationGroup: 'human-actions' };
 }
@@ -1902,6 +1911,7 @@ registerItem({
 			duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
 		},
 	});
+
 
 	registerAct({
 		id: 'supineDecubitus',

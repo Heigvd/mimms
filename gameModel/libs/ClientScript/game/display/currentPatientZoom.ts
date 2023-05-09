@@ -1231,8 +1231,8 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
 	const id = getCurrentPatientId();
 	const human = getHuman(id);
 	if (human != null) {
-		const age = exact ? human.meta.age : `~${getRoundedAge(human)}`;
-		const sex = getTranslation('human-general', human!.meta.sex, false);
+		const age = exact ? human.meta.age : `${getRoundedAge(human)}`;
+		const sex = getTranslation('human-general', human!.meta.sex);
 		const years = getTranslation('human-general', 'years', false);
 		return `<span class='human-sex'>${sex}</span>,
 		  <span class='human-age'>${age} ${years}</span>`;
@@ -1287,19 +1287,18 @@ function addBleedingDescription(output: string[], ho: HumanOverview): void {
 	let minor = ho.arterialBloodLosses_mlPerMin > 0 || ho.venousBloodLosses_mlPerMin > 0;
 
 	if (ho.arterialBloodLosses_mlPerMin) {
-		output.push(getTranslation('human-general', 'bleedsArterial', false));
+		output.push(getTranslation('human-general', 'bleedsArterial'));
 		minor = false;
 	}
 
 	if (ho.venousBloodLosses_mlPerMin > 50) {
-		output.push(getTranslation('human-general', 'bleedsVenous', false));
+		output.push(getTranslation('human-general', 'bleedsVenous'));
 		minor = false;
 	}
 
 	if (minor) {
-		output.push(getTranslation('human-general', 'bleedsMinor', false));
+		output.push(getTranslation('human-general', 'bleedsMinor'));
 	}
-
 
 }
 
