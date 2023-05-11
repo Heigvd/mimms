@@ -133,11 +133,6 @@
 	border: 3px solid  #302C54;	
 }
 
-/*
-.patientConsole .tagCategory.current:hover {	
-	border-color: black;
-}*/
-
 .patient-correction .tagCategory {
 	padding: 5px;
 	border-radius: 3px;

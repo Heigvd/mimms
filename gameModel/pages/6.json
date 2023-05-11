@@ -70,12 +70,11 @@
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
-                "style" : {
-                  "border" : "3px solid pink"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             } ],
+            "className" : "",
             "exposeAs" : "pendingAction",
             "getItemsFn" : {
               "@class" : "Script",
@@ -127,6 +126,7 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "layoutClassName" : "",
                 "layoutStyle" : {
                   "padding" : "0"
                 },
@@ -198,7 +198,7 @@
                             "name" : "visual infos",
                             "style" : {
                               "flexGrow" : "1",
-                              "margin" : "auto"
+                              "textAlign" : "center"
                             },
                             "text" : {
                               "@class" : "Script",
@@ -213,10 +213,7 @@
                               "props" : {
                                 "layoutStyle" : { },
                                 "name" : "category",
-                                "style" : {
-                                  "display" : "flex",
-                                  "flexGrow" : "1"
-                                },
+                                "style" : { },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
@@ -228,7 +225,11 @@
                               "props" : {
                                 "layoutStyle" : { },
                                 "name" : "patientID",
-                                "style" : { },
+                                "style" : {
+                                  "flexGrow" : "2",
+                                  "minWidth" : "100px",
+                                  "textAlign" : "center"
+                                },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getCurrentPatientId } from \"./tools/WegasHelper\";\ngetCurrentPatientId()",
@@ -238,12 +239,12 @@
                               "type" : "Text"
                             } ],
                             "layout" : {
+                              "alignItems" : "center",
                               "flexDirection" : "column"
                             },
                             "layoutStyle" : { },
                             "name" : "categoryAndID",
                             "style" : {
-                              "alignItems" : "center",
                               "flexGrow" : "1"
                             }
                           },
@@ -256,7 +257,7 @@
                         "layoutStyle" : { },
                         "name" : "faceAndID",
                         "style" : {
-                          "gap" : "5rem",
+                          "gap" : "2rem",
                           "margin" : "auto"
                         }
                       },
@@ -268,7 +269,7 @@
                     },
                     "layoutClassName" : "title_container",
                     "layoutStyle" : {
-                      "borderBottom" : "3px solid var(--colors-primarycolor)"
+                      "borderBottom" : "2px solid var(--colors-primarycolor)"
                     },
                     "name" : "patientTitle",
                     "style" : { }
@@ -282,7 +283,7 @@
                     "layoutStyle" : {
                       "alignItems" : "center",
                       "background" : "#ECEBF4",
-                      "borderBottom" : "3px solid var(--colors-primarycolor)",
+                      "borderBottom" : "2px solid var(--colors-primarycolor)",
                       "flexGrow" : "1",
                       "justifyContent" : "center",
                       "padding" : "10px"
@@ -1552,7 +1553,7 @@
             },
             "id" : "",
             "layout" : { },
-            "layoutClassName" : "patientConsole",
+            "layoutClassName" : "patientConsole ",
             "layoutStyle" : {
               "flexGrow" : "1",
               "height" : "fit-content",
@@ -1658,6 +1659,7 @@
               },
               "type" : "Button"
             } ],
+            "className" : "jean",
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { shouldHideNavButtons } from \"./game/display/currentPatientZoom\";\nshouldHideNavButtons();",
@@ -1684,6 +1686,7 @@
           "language" : "TypeScript"
         },
         "layout" : { },
+        "layoutClassName" : "",
         "layoutStyle" : {
           "flexDirection" : "column",
           "height" : "100%",

@@ -50,11 +50,22 @@ button.wegas-btn > div > div > p:first-child:last-child {
 font-size: 18px;
 }
 
+#drillPretriPage{
+}
+.jean{
+		border: 5px solid pink;
 
+}
 
 .welcomeColumn{
 	padding: 0px;
 	min-width:1fr;
+}
+
+.colBG{
+	background-color: var(--colors-secondarybackgroundcolor);
+	padding:40px;
+	border-radius: 50px;
 }
 
 

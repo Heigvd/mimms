@@ -25,7 +25,7 @@
 
 .patientConsole .column {
 	padding: 0;
-	border: 2px solid var(--colors-primarycolor);
+	border: 1px solid var(--colors-primarycolor);
 	background:var(--colors-backgroundcolor);
 	height: 100%;
 	width: 33.3%;

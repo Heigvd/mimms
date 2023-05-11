@@ -108,7 +108,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "\"<p>Category</p>\"",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'category')",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -183,7 +183,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "\"<p>Category</p>\"",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'category')",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -416,6 +416,7 @@
         }, {
           "props" : {
             "className" : "",
+            "exposePageSizeAs" : "",
             "hideIf" : {
               "@class" : "Script",
               "content" : "true",
@@ -463,6 +464,7 @@
                 "language" : "typescript"
               }
             } ],
+            "exposePageSizeAs" : "",
             "id" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
@@ -773,6 +775,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { getDrillStatus } from './game/logic/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
@@ -793,7 +796,8 @@
             "className" : "h1title",
             "layoutStyle" : { },
             "style" : {
-              "marginBottom" : "20px"
+              "marginBottom" : "30px",
+              "marginTop" : "50px"
             },
             "text" : {
               "@class" : "Script",
@@ -880,7 +884,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst catSyst = I18n.toString(Variable.find(gameModel,'tagSystem'));\nconst txtCatSyst = getTranslation('pretriage-interface', 'category-system');\ntxtCatSyst + \": \" + catSyst",
+                      "content" : "I18n.toString(Variable.find(gameModel,'tagSystem'))",
                       "language" : "TypeScript"
                     }
                   },
@@ -903,12 +907,12 @@
                     },
                     "name" : "start",
                     "style" : {
-                      "marginTop" : "30px"
+                      "marginTop" : "50px"
                     }
                   },
                   "type" : "Button"
                 } ],
-                "className" : "",
+                "className" : "colBG",
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -967,7 +971,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Echelle de douleur\"",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst pain = getTranslation('pretriage-interface', 'pain-scale');\npain",
                       "language" : "TypeScript"
                     }
                   },
@@ -986,7 +990,7 @@
                   },
                   "type" : "Image"
                 } ],
-                "className" : "",
+                "className" : "colBG",
                 "layout" : {
                   "flexDirection" : "column"
                 },

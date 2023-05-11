@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1683643398775,
+  "createdTime" : 1683813895054,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5033,7 +5033,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2 ALPHA",
+  "name" : "MIMMS Pré-tri V2_jess_currentWIP",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
