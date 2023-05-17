@@ -35,10 +35,6 @@ export type BodyPosition =
 	| "SITTING"
 	| "STANDING";
 
-//import { uniq } from "lodash";
-
-// const cloneDeep = Helpers.cloneDeep;
-
 const uniq = Helpers.uniq;
 
 const LN_2 = 0.693;

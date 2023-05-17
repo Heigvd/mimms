@@ -78,7 +78,7 @@ interface Wheel {
 // The State
 /////////////////////////////////
 
-export interface PatientZoomState {
+interface PatientZoomState {
 	//logs: string[];
 	currentPatient: string | undefined;
 	selectedPanel: string | undefined;
@@ -112,7 +112,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 	};
 }
 
-export type SetZoomState = (
+type SetZoomState = (
 	state: PatientZoomState | ((currentState: PatientZoomState) => PatientZoomState),
 ) => void;
 
@@ -121,14 +121,13 @@ interface FullState {
 	setState: SetZoomState;
 }
 
-//////////////////////////////////////////////////////7
+////////////////////
 // Responsive
 ////////////////////
 
 const widthLimit = 10;
-//const widthLimit = 1050;
 
-export function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
+function shouldDisplayColumn({ state }: FullState, colId: PatientZoomState['selectedColumn']) {
 	const pageWidth = Context.mainPageSize?.width;
 	if (!pageWidth) {
 		return true;
@@ -665,7 +664,6 @@ function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClass
 	</div>`;
 }
 
-//TODO translations
 function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDetails: boolean = false): string[] {
 	const output: string[] = [];
 	if (block) {
@@ -1368,7 +1366,6 @@ export function observeBlock(block: string | undefined, setState: SetZoomState) 
 		return { ...state, observedBlock: block };
 	});
 }
-// const acts = getMyMedicalActs();
 
 export function getCurrentPatientAutoTriage() {
 	const id = getCurrentPatientId();

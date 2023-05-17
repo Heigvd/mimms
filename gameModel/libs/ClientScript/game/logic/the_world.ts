@@ -170,8 +170,6 @@ export interface WorldState {
 	humans: Record<string, { id: string; human?: HumanState; location?: LocationState }>;
 }
 
-export type WorldObject = HumanState;
-
 interface ObjectId {
 	objectType: string;
 	objectId: string;
@@ -187,7 +185,7 @@ interface PositionAtTime {
 // key is ObjectType::ObjectId
 // last exact position is "location" at "time" (teleportation)
 // current move is define by "direction"
-export type PositionState = Record<string, undefined | (ObjectId & PositionAtTime)>;
+//type PositionState = Record<string, undefined | (ObjectId & PositionAtTime)>;
 
 /**
  * NONE: update everything, all the time

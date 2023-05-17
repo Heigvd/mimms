@@ -20,6 +20,7 @@ function getFirstCoordinate() : [number, number] {
     return mapRefs.current[Context.mapId.mapId].getView().getCenter();
 }
 
+// QUICK AND DIRTY test function to spread patients on a map
 export function premiereVague() {
 
 	const patients = getPatientsBodyFactoryParamsArray();

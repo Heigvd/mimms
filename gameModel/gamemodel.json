@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1683813895054,
+  "createdTime" : 1684337690407,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4594,6 +4594,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/display/patientZoom/test",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:28898831:M2yyYX",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/logic/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4724,6 +4733,24 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033056:aPYlLD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "HUMAn/registry/acts",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:28907358:jcVtXZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "HUMAn/registry/pathologies",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:28907259:IG8uJm",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5033,7 +5060,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2_jess_currentWIP",
+  "name" : "MIMMS Pré-tri XGO code clean up",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

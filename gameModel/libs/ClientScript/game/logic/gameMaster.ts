@@ -8,13 +8,13 @@ export function getDrillType(): DrillType {
 	return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
 }
 
-export type MutliplayerMode = 'REAL_LIFE' | 'SOFTWARE';
+type MutliplayerMode = 'REAL_LIFE' | 'SOFTWARE';
 
 export function getMultiplayerMode(): MutliplayerMode {
 	return Variable.find(gameModel, 'multiplayerMode').getValue(self) as MutliplayerMode;
 }
 
-export type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE' | 'OBSERVER';
+type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE' | 'OBSERVER';
 
 export function getRealLifeRole() : RealLifeRole {
 	return Variable.find(gameModel, 'realLifeRole').getValue(self) as RealLifeRole;

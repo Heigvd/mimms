@@ -57,8 +57,14 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
   return normalize(x + delta, bounds);
 }
 
+/**
+ * TODO move to math.ts
+ * @param x the value on the x axis
+ * @param points a list of 2D points sorted in ascending order by their x values.
+ * Connecting these points with lines implicitely describes a 2D graph 
+ * @return the y value corresponding to the intersection of the 2D graph and a vertical line going through x
+ */
 export function interpolate(x: number, points: Point[], defaultValue: number = 0) : number  {
-	//const points = pointsArg.sort((a, b) => a.x - b.x);
 
 	logger.info("Interpolate: ", {x, points});
 
@@ -84,7 +90,11 @@ export function interpolate(x: number, points: Point[], defaultValue: number = 0
 			const deltaX = b.x - a.x;
 			const deltaY = b.y - a.y;
 			const dx = x - a.x;
-			const y = a.y + ( dx * deltaY) / deltaX
+			if(deltaX === 0){
+				logger.warn("!! 2 points have identical x values : ", {a, b, result: a.y});
+				return a.y;
+			}
+			const y = a.y + (dx * deltaY) / deltaX
 			logger.info("interpolate : ", {a, b, result: y})
 			return y;
 		}
@@ -93,6 +103,9 @@ export function interpolate(x: number, points: Point[], defaultValue: number = 0
 	}
 }
 
+/**
+ * TODO move to math.ts
+ */
 export function pickRandom<T>(list: T[]): T | undefined {
 	return list[Math.floor(Math.random() * list.length)];
 }
@@ -115,6 +128,9 @@ export function getRandomValue<T extends (Range | undefined)>(range: T, integer:
 	}
 }
 
+/**
+ * Extract the elements that are present in all provided sets
+ */
 export function intersection<T>(...lists: T[][]) {
 	const [firstList, ...others] = lists;
 	if (firstList == null) {
@@ -148,6 +164,9 @@ export function substraction<T>(...lists: Readonly<T[]>[]): T[] {
 	return result;
 }
 
+/**
+ * Robust to undefined string comparison
+ */
 export function compare(a?: string, b?: string){
 	if (a == null && b == null){
 		return 0;

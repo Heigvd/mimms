@@ -12,7 +12,7 @@ let delta_epoch: number | undefined = undefined;
 let currentTime_s = 0;
 
 
-export type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'REPLAY' | 'IDLE' | 'REPLAY_DONE';
+type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'REPLAY' | 'IDLE' | 'REPLAY_DONE';
 
 export interface TimeStatus {
 	mode: RunningMode;
@@ -175,8 +175,6 @@ export function isRunning(): boolean {
 	return status.mode === 'REPLAY' || status.mode === 'RUNNING';
 }
 
-
-// timeLogger.setLevel('INFO');
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	setWorldTimeState = setTime;
 	if (isRunning()) {

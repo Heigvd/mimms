@@ -1456,6 +1456,131 @@ const icp_model: Point[] = [
 	{ x: 50, y: 1 },
 ];
 
+
+export function getOverdriveModel(): Compensation {
+	const max = 1;
+	const overdrive : Compensation = {
+		"vitals.respiration.tidalVolume_L": {
+			"points": [{
+				"x": 0,
+				"y": 0.2
+			}, {
+				"x": 0.1,
+				"y": 0.2
+			}, {
+				"x": max,
+				"y": 0.2
+			}]
+		},
+		"vitals.cardio.hr": {
+			"points": [{
+				"x": 0,
+				"y": 0.5
+			}, {
+				"x": max,
+				"y": 0.0
+			}],
+			"t4Nerve": 0
+		},
+		"vitals.cardio.contractilityBoost": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": max,
+				"y": 1
+			}],
+			"t4Nerve": 0
+		},
+		"vitals.cardio.Ra_mmHgMinPerL": {
+			"points": [{
+				"x": 0,
+				"y": 13
+			}, {
+				"x": 0.5,
+				"y": 30
+			}],
+			"t4Nerve": 0
+		},
+		"vitals.respiration.rr": {
+			"points": [{
+				"x": 0,
+				"y": 0.3
+			}, {
+				"x": max,
+				"y": 0.3
+			}]
+		},
+	};
+	return overdrive;
+}
+
+
+export function getCompensationModel(): Compensation {
+	const model: Compensation = {
+		"vitals.respiration.tidalVolume_L": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": 20,
+				"y": 0.1
+			}, {
+				"x": 100,
+				"y": 1
+			}],
+			t4Nerve: 40,
+		},
+		"vitals.cardio.hr": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": 100,
+				"y": 1
+			}],
+			"t4Nerve": 20
+		},
+		"vitals.cardio.contractilityBoost": {
+			"points": [{
+				"x": 0,
+				"y": 0
+			}, {
+				"x": 100,
+				"y": 1
+			}],
+			"t4Nerve": 20
+		},
+		"vitals.cardio.Ra_mmHgMinPerL": {
+			"points": [{
+				"x": 0,
+				"y": 11
+			}, {
+				"x": 100,
+				"y": 20
+			}],
+			"t4Nerve": 20
+		},
+		"vitals.respiration.rr": {
+			"points": [{
+				"x": 0,
+				"y": 0.2
+			}, {
+				"x": 30,
+				"y": 0.3
+			}, {
+				"x": 40,
+				"y": 0.7
+			}, {
+				"x": 100,
+				"y": 1
+			}],
+			t4Nerve: 40,
+		},
+	};
+	return model;
+}
+
 /**
  * Update some vitals according to current orthosympathetic kevel
  */

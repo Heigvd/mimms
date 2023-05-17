@@ -31,21 +31,6 @@ function getCategoryCardSvg(category: Category<string> | undefined, x: number | 
 </svg>`
 }
 
-
-/** DEPRECATED
- * Label on patient avatar
- */
-// function getCategoryCardSvgRect(category: Category<string> | undefined, x: number | string = 0, y: number|string = 0, size: number|string = 4): string {
-// 	if (category) {
-// 		return `<rect fill="${category.bgColor}" stroke="${category.color}" stroke-width="3" x="${x}" y="${y}" width="${size}" height="${size}" >
-// 			<title>${category.name}</title>
-// 			</rect>`;
-// 	}
-// 	return '';
-// }
-
-
-
 interface PictoConfig {
 	className: string;
 	bloodRatio: number

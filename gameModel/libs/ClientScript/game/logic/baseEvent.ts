@@ -1,5 +1,7 @@
 import { whoAmI } from "../../tools/WegasHelper";
 
+// TODO move in event manager
+
 export interface BaseEvent {
 	type: string;
 	emitterPlayerId: string;

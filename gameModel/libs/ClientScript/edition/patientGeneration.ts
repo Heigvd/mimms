@@ -245,6 +245,7 @@ export function buildScriptedTreatmentPayload(treatment: Treatment, time: number
 			emitterCharacterId: '',
 			source: treatment.source,
 			blocks: block ? [block] : [],
+			timeJump : false
 		}
 	};
 	return p;
