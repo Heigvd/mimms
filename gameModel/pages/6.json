@@ -211,7 +211,9 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "stroke" : "black"
+                                },
                                 "name" : "category",
                                 "style" : { },
                                 "text" : {
@@ -226,7 +228,6 @@
                                 "layoutStyle" : { },
                                 "name" : "patientID",
                                 "style" : {
-                                  "flexGrow" : "2",
                                   "minWidth" : "100px",
                                   "textAlign" : "center"
                                 },
@@ -284,7 +285,6 @@
                       "alignItems" : "center",
                       "background" : "#ECEBF4",
                       "borderBottom" : "2px solid var(--colors-primarycolor)",
-                      "flexGrow" : "1",
                       "justifyContent" : "center",
                       "padding" : "10px"
                     },
@@ -610,7 +610,9 @@
                         "layoutClassName" : "tabs",
                         "layoutStyle" : { },
                         "name" : "(tabs)  selected main menu -> sub menu",
-                        "style" : { }
+                        "style" : {
+                          "padding" : "0px"
+                        }
                       },
                       "type" : "FlexList"
                     }, {
@@ -676,9 +678,7 @@
                         "layoutClassName" : "items",
                         "layoutStyle" : { },
                         "name" : "selected sub menu -> items",
-                        "style" : {
-                          "borderBottom" : "3px solid var(--colors-primarycolor)"
-                        }
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
@@ -736,37 +736,6 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "title",
-                                    "layoutClassName" : "",
-                                    "layoutStyle" : { },
-                                    "name" : "ActionName",
-                                    "style" : {
-                                      "marginLeft" : "0px"
-                                    },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "   return `${Context.patientConsole.state.selectedAction?.label}`;",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "noPadMargingParagraph",
-                                    "layoutStyle" : { },
-                                    "name" : "measuresDetails",
-                                    "style" : {
-                                      "display" : "none"
-                                    },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "\"<p>Measure details<br></p>\"",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
                                     "children" : [ {
                                       "props" : {
                                         "className" : "noPadMargingParagraph",
@@ -808,7 +777,6 @@
                                 },
                                 "layoutStyle" : {
                                   "margin" : "0px",
-                                  "minHeight" : "150px",
                                   "padding" : "0px"
                                 },
                                 "name" : "detailsAction",
@@ -827,7 +795,7 @@
                                 "icon" : "ruler",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'doMeasure');\n`<span style=\\\"font-size: 14pt;\\\"><strong>${text}</strong></span>`",
+                                  "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'doMeasure');\nlet duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\nconst timeTransform = toHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);\n`<span>${text} (${timeTransform})</span>`",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
@@ -864,22 +832,6 @@
                         }, {
                           "props" : {
                             "children" : [ {
-                              "props" : {
-                                "className" : "title ",
-                                "layoutClassName" : "",
-                                "layoutStyle" : { },
-                                "name" : "actionName",
-                                "style" : {
-                                  "alignItem" : "flex-start"
-                                },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst treat = getTranslation('pretriage-interface', 'treatment');\nconst action = Context.patientConsole.state.selectedAction.label;\n`${action}`;",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
                               "props" : {
                                 "children" : [ {
                                   "props" : {
@@ -1006,42 +958,6 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "noPadMargingParagraph",
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'duration');",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "",
-                                    "id" : "",
-                                    "layoutStyle" : { },
-                                    "name" : "treatmentDuration",
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                } ],
-                                "layout" : { },
-                                "layoutClassName" : "noPaddingMarging",
-                                "layoutStyle" : { },
-                                "name" : "Duration",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
                                 "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
@@ -1052,7 +968,7 @@
                                 "icon" : "check",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'apply')\nreturn`<strong><span style=\\\"font-size: 14pt;\\\">${apply}</span></strong>`",
+                                  "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst apply = getTranslation('pretriage-interface', 'apply')\nlet duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');\nconst timeTransform = toHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);\nreturn`<span>${apply}  (${timeTransform})</span>`",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
@@ -1063,7 +979,7 @@
                                     "language" : "TypeScript"
                                   }
                                 },
-                                "name" : "doMeasure",
+                                "name" : "doAction",
                                 "style" : {
                                   "marginTop" : "15px"
                                 }
@@ -1082,9 +998,7 @@
                             "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "treatment selected",
-                            "style" : {
-                              "minHeight" : "150px"
-                            }
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         }, {
@@ -1128,7 +1042,6 @@
                             "layoutStyle" : { },
                             "name" : "resultConsole",
                             "style" : {
-                              "borderTop" : "3px solid var(--colors-primarycolor)",
                               "width" : "100%"
                             }
                           },
@@ -1161,7 +1074,9 @@
                     "layoutClassName" : "subMenu",
                     "layoutStyle" : { },
                     "name" : "Wheel selected main menu",
-                    "style" : { }
+                    "style" : {
+                      "padding" : "0px"
+                    }
                   },
                   "type" : "FlexList"
                 }, {

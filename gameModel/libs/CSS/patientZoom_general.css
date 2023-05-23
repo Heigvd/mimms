@@ -136,12 +136,17 @@ border: none;
 
 }
 
+.tabs{
+	padding: 0px;
+	margin: 0px;
+}
 /* triangle under ABCDWheelMenu */
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
 	position: relative;
 	}
 
+/*
 .toolbox .menu:after {
 	content: '';
 	height: 0;
@@ -155,6 +160,7 @@ border: none;
 	transform: translateX(-50%);
 	
 }
+*/
 
 /* WHEEL menu */
 

@@ -795,10 +795,7 @@
           "props" : {
             "className" : "h1title",
             "layoutStyle" : { },
-            "style" : {
-              "marginBottom" : "30px",
-              "marginTop" : "50px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\nconst welcome = getTranslation('pretriage-interface', 'welcome');\nreturn welcome",
@@ -1020,13 +1017,12 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "NOT_STARTED",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "border" : "3px solid pink",
+          "maxWidth" : "2000px"
+        },
         "name" : "not_started",
-        "style" : {
-          "margin" : "auto",
-          "maxWidth" : "1500px",
-          "width" : "100%"
-        }
+        "style" : { }
       },
       "type" : "FlexList"
     }, {
@@ -1394,6 +1390,8 @@
       " display" : "grid",
       "grid-auto-flow" : "column",
       "height" : "100%",
+      "margin" : "auto",
+      "maxWidth" : "1500px",
       "width" : "100%"
     },
     "style" : { }

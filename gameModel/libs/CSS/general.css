@@ -32,30 +32,25 @@ button.wegas-btn > div > div > p:first-child:last-child {
 .noPaddingMarging{
 	padding: 0px;
 	margin: 0px;
+	max-height: 50px;
 }
 
 .h2title{
-	font-size: 24px;
-	margin: 20px 0px 10px 0px;
+	font-size: 1.4rem;
+	margin: 10px 0px 10px 0px;
 	font-weight: 600;
 }
 
 .h1title{
-	font-size: 30px;
-	margin-bottom: 15px;
+	font-size: 1.8rem;
+	margin-bottom: 05px;
 	font-weight: 600;
 }
 
 .GeneralText{
-font-size: 18px;
+font-size: 1rem;
 }
 
-#drillPretriPage{
-}
-.jean{
-		border: 5px solid pink;
-
-}
 
 .welcomeColumn{
 	padding: 0px;
