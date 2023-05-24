@@ -1388,13 +1388,14 @@ export function getCurrentPatientAutoTriage() {
 	};
 }
 
+
 /**
  * Returns the time needed to perform the action in seconds
  */
 export function getSelectedActionDuration(selectedAction: WheelAction,
  actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): number {
 	const action = resolveAction<HumanAction>(selectedAction, actionType);
-	let skillLevel : SkillLevel | undefined; 
+	let skillLevel : SkillLevel | undefined;
 	if(action){
 		if(selectedAction.type === 'WheelAct'){
 			skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);

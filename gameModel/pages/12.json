@@ -1041,6 +1041,19 @@
           "type" : "Text"
         }, {
           "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "layoutStyle" : { },
@@ -1341,6 +1354,32 @@
     }, {
       "props" : {
         "children" : [ {
+          "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "patient-overview",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
           "props" : {
             "layoutStyle" : { },
             "name" : "finish-text",
