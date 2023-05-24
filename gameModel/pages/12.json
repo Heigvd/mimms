@@ -274,7 +274,7 @@
                       "type" : "Modal"
                     }, {
                       "props" : {
-                        "className" : "invertedButton",
+                        "className" : "navButton",
                         "disableIf" : {
                           "@class" : "Script",
                           "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
@@ -350,7 +350,7 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "className" : "invertedButton",
+                    "className" : "navButton",
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
@@ -1018,7 +1018,6 @@
         },
         "layoutClassName" : "NOT_STARTED",
         "layoutStyle" : {
-          "border" : "3px solid pink",
           "maxWidth" : "2000px"
         },
         "name" : "not_started",

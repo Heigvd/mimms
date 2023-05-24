@@ -549,18 +549,14 @@
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "icon" : {
-                                  "@class" : "Script",
-                                  "content" : "Context.menuItem.icon;",
-                                  "language" : "typescript"
-                                },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
+                                  "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem) ;",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : {
-                                  "padding" : "0 2px 0 0"
+                                  "flex-grow" : "1",
+                                  "padding" : "0 0 0 0"
                                 },
                                 "localScriptEval" : {
                                   "script" : {
@@ -571,7 +567,10 @@
                                 },
                                 "name" : "thumbnails",
                                 "prefixedLabel" : false,
-                                "style" : { }
+                                "style" : {
+                                  "justify-content" : "center",
+                                  "width" : "100%"
+                                }
                               },
                               "type" : "Button"
                             } ],
@@ -585,16 +584,18 @@
                             "itemKey" : "id",
                             "itemsOnly" : false,
                             "layout" : {
-                              "flexWrap" : "wrap"
+                              "flexWrap" : "nowrap"
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : {
                               "borderBottom" : "3px solid var(--colors-primarycolor)",
-                              "padding" : "0"
+                              "justify-content" : "end",
+                              "padding" : "0",
+                              "width" : "100%"
                             },
                             "name" : "selected main menu sub menu items",
                             "style" : {
-                              "marginTop" : "20px"
+                              "marginTop" : "10px"
                             }
                           },
                           "type" : "For each"
@@ -605,7 +606,7 @@
                           "language" : "JavaScript"
                         },
                         "layout" : {
-                          "flexDirection" : "column"
+                          "flexDirection" : "row"
                         },
                         "layoutClassName" : "tabs",
                         "layoutStyle" : { },
@@ -734,57 +735,6 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "noPadMargingParagraph",
-                                        "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'duration');",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "className" : "",
-                                        "id" : "",
-                                        "layoutStyle" : { },
-                                        "name" : "measureDuration",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    } ],
-                                    "layout" : { },
-                                    "layoutClassName" : "noPaddingMarging",
-                                    "layoutStyle" : { },
-                                    "name" : "Duration",
-                                    "style" : { }
-                                  },
-                                  "type" : "FlexList"
-                                } ],
-                                "flexGrow" : 2,
-                                "layout" : {
-                                  "flexDirection" : "column"
-                                },
-                                "layoutStyle" : {
-                                  "margin" : "0px",
-                                  "padding" : "0px"
-                                },
-                                "name" : "detailsAction",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
                                 "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
@@ -792,7 +742,6 @@
                                   "language" : "typescript"
                                 },
                                 "flexShrink" : 1,
-                                "icon" : "ruler",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'doMeasure');\nlet duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\nconst timeTransform = toHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);\n`<span>${text} (${timeTransform})</span>`",
@@ -943,21 +892,6 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "noPadMargingParagraph",
-                                "layoutStyle" : { },
-                                "name" : "actionDetail",
-                                "style" : {
-                                  "display" : "none"
-                                },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>details action</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
                                 "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
@@ -1021,7 +955,7 @@
                               "props" : {
                                 "className" : "",
                                 "id" : "",
-                                "layoutClassName" : "generalConsole ",
+                                "layoutClassName" : "generalConsole lastResult",
                                 "layoutStyle" : { },
                                 "name" : "resultConsole",
                                 "style" : {
@@ -1427,8 +1361,7 @@
                     "layoutStyle" : { },
                     "name" : "body",
                     "style" : {
-                      "justifyContent" : "center",
-                      "marginTop" : "3rem"
+                      "justifyContent" : "center"
                     }
                   },
                   "type" : "FlexList"

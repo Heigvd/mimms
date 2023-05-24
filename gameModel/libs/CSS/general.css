@@ -4,21 +4,19 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	
 }
 
-.invertedButton {
+.navButton {
 	background-color: transparent;
 	color: var(--colors-primarycolor);
-	border: 3px solid var(--colors-primarycolor);
 	border-radius: 50px;
 	font-weight: bold;
 }
-.invertedButton:hover {
-	color: #fff;
-	border-color: var(--colors-primarycolorshade);
+.navButton:hover {
+	text-decoration: underline;
+	background-color: #fff;
 }
-.invertedButton.disabled {
+.navButton.disabled {
 	background-color: transparent;
 	color: var(--colors-disabledcolor);
-	border: 3px solid var(--colors-disabledcolor);
 }
 
 .noPadding {
