@@ -192,6 +192,29 @@ if (drillType === 'LIKERT') {
 		sortable: true,
 	});
 
+//inSim_ref
+//getCurrentTime
+
+	WegasDashboard.registerVariable('inSim_ref', {
+		//section: 'time',
+		label: 'End time',
+		id: 'time at end',
+		formatter: function(seconds) {
+			//quick and dirty to hour min sec
+			var hours = Math.floor(seconds / 3600);
+			var minutes = Math.floor((seconds % 3600) / 60);
+			var sec = seconds % 60;
+
+			var output = '';
+			output += (hours<10 ? '0':'') + hours;
+			output += ':' + (minutes<10 ? '0':'') + minutes;
+			output += ':' + (sec<10 ? '0':'') + sec;
+			return output;
+		},
+
+		sortable: true
+	});
+	
 	/*
 	WegasDashboard.registerVariable('epoch_ref', {
 		section: 'truc'
@@ -201,9 +224,10 @@ if (drillType === 'LIKERT') {
 		id: "trutrucucuc",
 		section: 'truc'
 	});
+	*/
 
 	WegasDashboard.setSectionLabel("Chose", "truc")
-	*/
+	
 	WegasDashboard.registerVariable('running');
 
 	WegasDashboard.registerVariable('keepalive');
