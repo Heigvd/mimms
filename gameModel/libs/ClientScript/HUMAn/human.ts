@@ -1633,7 +1633,7 @@ function hemostasis_vasoconstriction(
 	if (vasoconstrictionEnabled && injuryFactor) {
 		const currentResistance = block.params.bloodResistance || 0;
 		const resDelta = interpolate(injuryFactor, vasoconstrictionModel);
-		const newResistance = add(currentResistance, resDelta, {min: 0, max: 0});
+		const newResistance = add(currentResistance, resDelta, {min: 0, max: 1});
 		bloodLogger.debug("vasoconstriction ", block.name, {
 			currentResistance,
 			injuryFactor,
@@ -1650,7 +1650,7 @@ function hemostasis_vasodilatation(
 	currentResistance: number,
 	duration_min: number
 ) {
-	return add(currentResistance, dilationPerMinute * duration_min, { min: 0, max: 1 });
+	return add(currentResistance, -dilationPerMinute * duration_min, { min: 0, max: 1 });
 }
 
 //function dispatch(bodyState: BodyState, connections: RevivedConnection[], co: number) {
