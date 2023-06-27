@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1684337690407,
+  "createdTime" : 1687854125636,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4594,15 +4594,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/display/patientZoom/test",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:28898831:M2yyYX",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/logic/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5068,7 +5059,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_white-greenblue_cat_fa",
+    "iconUri" : "ICON_dark-purple_cat_fa",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",

@@ -601,7 +601,7 @@ function getOrReadMetric<T>(
 		if (log.type === 'MeasureLog') {
 			for (const m of log.metrics) {
 				if (m.metric === metric) {
-					wlog(`Fetch measure ${metric} from console: ${m.value}`);
+					logger.debug(`Fetch measure ${metric} from console: ${m.value}`);
 					return m.value as T;
 				}
 			}

@@ -69,12 +69,12 @@ export function getActTranslation(act: ActDefinition) {
 	return getTranslation('human-actions', act.id);
 }
 
-export function upperCaseFirst(s: string): string {
+function upperCaseFirst(s: string): string {
 	if(s && s.length > 0) return s.charAt(0).toUpperCase() + s.slice(1);
 	return s;
 }
 
-export function lowerCaseFirst(s: string): string {
+function lowerCaseFirst(s: string): string {
 	if(s && s.length > 0) return s.charAt(0).toLowerCase() + s.slice(1);
 	return s;
 }

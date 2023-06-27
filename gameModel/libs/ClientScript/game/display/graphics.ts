@@ -344,6 +344,7 @@ function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 	}
 	return pos * .8;
 }
+
 export function getVisualDetails(): string {
 
 	const output: string[] = [];

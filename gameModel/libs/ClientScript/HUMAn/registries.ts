@@ -22,8 +22,6 @@ const acts: Record<string, ActDefinition> = {};
 const chemicals: Record<string, ChemicalDefinition> = {};
 
 let model: SympSystem = {};
-// let compensation: Compensation | undefined = undefined;
-// let overdrive: Compensation | undefined = undefined;
 
 let initialized = false;
 
@@ -86,23 +84,6 @@ export function getChemical(id: string): ChemicalDefinition | undefined {
 	init();
 	return chemicals[id];
 }
-
-/*export function getCompensationModel(): Compensation | undefined {
-	return compensation;
-}*/
-
-/* export function setCompensationModel(c: Compensation) {
-	compensation = c;
-}*/
-
-
-/*export function getOverdriveModel(): Compensation | undefined {
-	return overdrive;
-}
-
-export function setOverdriveModel(c: Compensation) {
-	overdrive = c;
-}*/
 
 export function getSystemModel(): SympSystem {
 	return model;
