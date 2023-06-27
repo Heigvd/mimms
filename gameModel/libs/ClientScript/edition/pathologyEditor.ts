@@ -8,8 +8,8 @@ import { BlockName, BodyFactoryParam } from "../HUMAn/human";
 import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, intercraniaArgKeys, ModuleMeta, painArgKeys, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "../HUMAn/pathology";
 import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
 import { getPathology } from "../HUMAn/registries";
-import { ScriptedEvent } from "../game/logic/the_world";
 import { getBodyParam, getCurrentPatientId } from "../tools/WegasHelper";
+import { ScriptedEvent } from "../game/logic/eventTypes";
 
 
 interface PathologyEditorContext {

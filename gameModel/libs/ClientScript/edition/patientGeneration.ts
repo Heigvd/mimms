@@ -4,11 +4,12 @@ import { pickRandom } from '../tools/helper';
 import { BodyFactoryParam, Sex } from '../HUMAn/human';
 import { ActDefinition, ActionBodyEffect, afflictPathology, ItemDefinition } from '../HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
-import { ActionSource, HumanTreatmentEvent, resolveAction, ScriptedEvent } from '../game/logic/the_world';
+import { ActionSource, resolveAction} from '../game/logic/the_world';
 import { getCurrentPatientId, getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
 import { patientGenerationLogger } from '../tools/logger';
 import {getActTranslation, getItemActionTranslation, getTranslation} from '../tools/translation';
+import { HumanTreatmentEvent, ScriptedEvent } from '../game/logic/eventTypes';
 
 /**
  * Add patients to the existing list

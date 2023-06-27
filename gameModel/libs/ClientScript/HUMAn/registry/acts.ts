@@ -1,5 +1,6 @@
 import { ActDefinition, ItemDefinition } from "../../HUMAn/pathology";
 import { registryLogger } from "../../tools/logger";
+import { BodyStateKeys } from "../human";
 
 let initialized = false;
 
@@ -33,6 +34,11 @@ function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): voi
 }
 
 const actionDurations = Variable.find(gameModel, 'actionsDurations').getProperties();
+
+export type MeasureMetric = {
+	metric: BodyStateKeys;
+	value: unknown;
+};
 
 export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSet: Record<string, ActDefinition>){
 	

@@ -1,7 +1,7 @@
 /**
  * Heap data structure. 
  * insertion in log(N)
- * extract "first" element with regard to a provided comparison function in log(N)
+ * extract "first" element with regard to a provided comparison function. log(N) complexity
  */
 export class Heap<T> {
 

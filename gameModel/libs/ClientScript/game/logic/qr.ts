@@ -1,4 +1,4 @@
-import { getSendEventServerScript } from "./EventManager";
+import { logger } from "../../tools/logger";
 import { getDefaultBag, getMultiplayerMode, getRealLifeRole } from "./gameMaster";
 
 interface ActAsPatient {
@@ -158,7 +158,8 @@ export async function processQrCode(rawData: string) {
 				}
 			}
 		}
-	} catch {
+	} catch(e) {
+		logger.info(e);
 	}
 }
 

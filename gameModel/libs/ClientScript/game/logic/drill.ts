@@ -2,11 +2,12 @@ import { BaseEvent, initEmitterIds } from "./baseEvent";
 import { getSendEventServerScript } from "./EventManager";
 import { compare } from "../../tools/helper";
 import { reviveScriptedEvent } from "./scenario";
-import { AgingEvent, getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds, TeleportEvent } from "./the_world";
+import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "./the_world";
 import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
 import { drillLogger } from "../../tools/logger";
+import { AgingEvent, TeleportEvent } from "./eventTypes";
 
 
 interface DrillStatus {

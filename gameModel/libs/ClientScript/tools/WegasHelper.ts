@@ -5,10 +5,11 @@ import { BodyFactoryParam, Environnment } from "../HUMAn/human";
 import { logger } from "./logger";
 import { getCompensationModel, getOverdriveModel, getSystemModel } from "../HUMAn/physiologicalModel";
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
-import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logic/the_world";
+import { BagDefinition } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
 import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/logic/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
+import { HumanTreatmentEvent, PathologyEvent } from "../game/logic/eventTypes";
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -101,12 +102,12 @@ export function alphaNumericSort(a: string, b: string): number {
 	return a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true });
 }
 
-export function getPatientIds() {
+function getPatientIds() {
 	return Object.keys(Variable.find(gameModel, 'patients').getProperties());
 }
 
 export function getSortedPatientIds() {
-	return Object.keys(Variable.find(gameModel, 'patients').getProperties()).sort(alphaNumericSort);
+	return getPatientIds().sort(alphaNumericSort);
 }
 
 export function getBodyParam(humanId: string): BodyFactoryParam | undefined {

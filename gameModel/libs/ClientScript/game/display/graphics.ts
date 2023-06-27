@@ -2,8 +2,8 @@ import { getAfflictedBlocks } from "./currentPatientZoom";
 import { interpolate, normalize } from "../../tools/helper";
 import { Point } from "../../map/point2D";
 import { BlockName, BodyPosition, Glasgow, HumanBody } from "../../HUMAn/human";
-import { Categorization, getCurrentPatientBody, getHuman } from "../logic/the_world";
-import { Category, getCategory } from "../logic/triage";
+import { getCurrentPatientBody, getHuman } from "../logic/the_world";
+import { Categorization, Category, getCategory } from "../logic/triage";
 import { convertMeterToMapUnit } from "../../map/layersData";
 import { getTranslation } from "../../tools/translation";
 
@@ -334,6 +334,7 @@ export function getVisualOverviewForHumanId(id: string, resolution: number = 0.0
 	return output.join("");
 }
 
+/*
 function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 	let pos = 50;
 	if (cyanosis) {
@@ -344,6 +345,7 @@ function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 	}
 	return pos * .8;
 }
+*/
 
 export function getVisualDetails(): string {
 

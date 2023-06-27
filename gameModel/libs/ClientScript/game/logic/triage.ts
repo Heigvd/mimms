@@ -10,19 +10,25 @@ import {
 	readKey,
 } from '../../HUMAn/human';
 import {
-	ConsoleLog,
 	getCurrentPatientBody,
 	getCurrentPatientHealth,
 	getHuman,
 	getHumanConsole,
 	HumanHealth,
-	NamedLocation,
 } from './the_world';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../display/graphics';
 import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
 import { logger } from '../../tools/logger';
+import { ConsoleLog } from '../display/consoleLog';
+
+export interface Categorization {
+	system: SystemName;
+	category: Category<string>['id'];
+	severity: number;
+	autoTriage: PreTriageResult<string>;
+}
 
 type TriageFunction<T extends string> =
 	| ((data: PreTriageData, console: ConsoleLog[]) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
@@ -1484,12 +1490,4 @@ export function resultToHtmlObject(result: PreTriageResult<string>) {
 		explanations: explanationsOutput.join(''),
 		actions: actionsOutput.join(''),
 	};
-}
-
-/**
- * Send a patient somewhere
- */
-export function sendTo(destination: NamedLocation): void {
-	//TODO if playing on map, emit displacement event
-	wlog('Go to', destination);
 }

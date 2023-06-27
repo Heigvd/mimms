@@ -1,5 +1,5 @@
-import { EventPayload } from "./the_world";
 import { parse } from "../../tools/WegasHelper";
+import { EventPayload } from "./eventTypes";
 
 export interface FullEvent<T extends EventPayload> {
 	id: number;
@@ -35,4 +35,16 @@ export function getAllEvents(): FullEvent<EventPayload>[] {
 	});
 
 	return events;
+}
+
+export function compareEvent(a: FullEvent<EventPayload>, b: FullEvent<EventPayload>): number {
+	if (a.time < b.time) {
+		return -1;
+	} else if (a.time > b.time) {
+		return +1;
+	} else if (a.timestamp === b.timestamp) {
+		return a.id - b.id;
+	} else {
+		return a.timestamp - b.timestamp;
+	}
 }

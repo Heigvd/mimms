@@ -147,7 +147,7 @@ export function intersection<T>(...lists: T[][]) {
 }
 
 /**
- * return the first set minus others set
+ * return the first set minus other sets
  */
 export function substraction<T>(...lists: Readonly<T[]>[]): T[] {
 	const [firstList, ...others] = lists;

@@ -29,7 +29,6 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
 		}
 	});
 }
-/**Hello */
 
 /**
  * Used to extract all vitals keys as string.
@@ -131,7 +130,6 @@ onChangeRef.current = (x, y, newData) => {
 };
 
 function getBagsDefinitions() {
-	//TODO translations
 	return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
 }
 

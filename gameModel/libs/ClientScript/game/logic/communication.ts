@@ -1,8 +1,8 @@
-import { BaseEvent, initEmitterIds} from "./baseEvent";
+import { initEmitterIds} from "./baseEvent";
 import { FullEvent, sendEvent } from "./EventManager";
-import { EventPayload } from "./the_world";
 import { getCurrentSimulationTime } from "./TimeManager";
 import { whoAmI } from "../../tools/WegasHelper";
+import { DirectCommunicationEvent, EventPayload, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent } from "./eventTypes";
 
 export type Channel = string;
 
@@ -18,44 +18,6 @@ export type Phone = {
 	phoneId : number;
 	//other phone ids present in contact
 	//contactIds : number[];
-}
-
-export type CommunicationEvent = BaseEvent & {
-	message: string;
-	sender: string;//player id
-}
-
-export type DirectCommunicationEvent = CommunicationEvent & {
-	type: 'DirectCommunication';
-}
-///// RADIO EVENTS /////////////////////////
-export type RadioChannelUpdateEvent = BaseEvent & {
-	type: "RadioChannelUpdate";
-	targetRadio: number;
-	newChannel: Channel
-}
-
-export type RadioCreationEvent = BaseEvent & {
-	type: 'RadioCreation';
-	radioTemplate : Radio;
-	//ownerId: string //the guy who will have it (TODO might be some other entity)
-}
-
-export type RadioCommunicationEvent = CommunicationEvent & {
-	type: 'RadioCommunication';
-	senderRadioId: number ; //radio sending the message
-}
-
-//// PHONE EVENTS ////////////////
-export type PhoneCommunicationEvent = CommunicationEvent & {
-	type: 'PhoneCommunication';
-	senderPhoneId: number;
-	recipientPhoneId: number;
-}
-
-export type PhoneCreationEvent = BaseEvent & {
-	type : 'PhoneCreation';
-	phoneTemplate : Phone;
 }
 
 const commLogger = Helpers.getLogger("communication");
@@ -340,3 +302,5 @@ export function emitPhoneMessageEvent(senderPhoneId : number, recipientPhoneId: 
 		message : message
 	})
 }
+
+

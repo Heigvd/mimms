@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1687854125636,
+  "createdTime" : 1687866290195,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5057,7 +5057,7 @@
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_dark-purple_cat_fa",
     "logID" : null,

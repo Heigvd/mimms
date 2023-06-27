@@ -8,18 +8,19 @@ const KEEPALIVE_TICK_S = 30; // 10 sec
 
 const KEEPALIVE_DELAY_S = 60; // 30 sec
 
+// diff between server time and client time
 let delta_epoch: number | undefined = undefined;
 let currentTime_s = 0;
 
 
 type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'REPLAY' | 'IDLE' | 'REPLAY_DONE';
 
-export interface TimeStatus {
+interface TimeStatus {
 	mode: RunningMode;
 	currentTime: number;
 }
 
-export function initDelta_epoch() {
+function initDelta_epoch() {
 	const currentLocalTime_epoch = new Date().getTime();
 	APIMethods.getServerTime().then(curentServerTime_epoch => {
 		delta_epoch = curentServerTime_epoch - currentLocalTime_epoch;
@@ -132,7 +133,7 @@ export function getCurrentSimulationTime() {
 	return currentTime_s;
 }
 
-export function updateInSimCurrentTime() {
+function updateInSimCurrentTime() {
 	currentTime_s = getTimeStatus().currentTime;
 	return currentTime_s;
 }

@@ -4,15 +4,16 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, Motr
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { ConsoleLog, getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../logic/the_world";
+import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
 import { getCurrentSimulationTime } from "../logic/TimeManager";
 import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
 import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
-import { toHourMinutesSeconds, toHoursMinutesSecondsIso } from "../../tools/helper";
+import { toHoursMinutesSecondsIso } from "../../tools/helper";
 import { getBloodRatio } from "../../HUMAn/physiologicalModel";
 import { SkillLevel } from "../../edition/GameModelerHelper";
+import { ConsoleLog } from "./consoleLog";
 
 /////////////////////////////////
 // The Wheel
@@ -1127,8 +1128,6 @@ export function getMainIndication(): string {
 }
 
 
-
-
 function formatLog(log: ConsoleLog): string {
 
 	const formattedTime = toHoursMinutesSecondsIso(log.time);
@@ -1402,7 +1401,7 @@ export function getSelectedActionDuration(selectedAction: WheelAction,
 		if(skillLevel){
 			return action.duration[skillLevel];
 		}
- 	}
+	}
 
 	logger.warn('duration not found for ' + selectedAction.id);
 	return 0;
