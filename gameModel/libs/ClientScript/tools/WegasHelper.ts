@@ -5,7 +5,7 @@ import { BodyFactoryParam, Environnment } from "../HUMAn/human";
 import { logger } from "./logger";
 import { getCompensationModel, getOverdriveModel, getSystemModel } from "../HUMAn/physiologicalModel";
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
-import { BagDefinition } from "../game/logic/the_world";
+import { BagDefinition } from "../game/legacy/the_world";
 import { checkUnreachable } from "./helper";
 import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/legacy/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";

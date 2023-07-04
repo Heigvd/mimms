@@ -4,7 +4,7 @@ import { pickRandom } from '../tools/helper';
 import { BodyFactoryParam, Sex } from '../HUMAn/human';
 import { ActDefinition, ActionBodyEffect, afflictPathology, ItemDefinition } from '../HUMAn/pathology';
 import { getAct, getActs, getItem, getItems, getPathologies, getPathologiesMap } from '../HUMAn/registries';
-import { ActionSource, resolveAction} from '../game/logic/the_world';
+import { ActionSource, resolveAction} from '../game/legacy/the_world';
 import { getCurrentPatientId, getPatientsBodyFactoryParams, parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
 import { patientGenerationLogger } from '../tools/logger';

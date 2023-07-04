@@ -1,7 +1,7 @@
 import { createHumanBody, defaultMeta } from '../HUMAn/human';
 import { DataDef, MatrixConfig } from './MatrixEditor';
 import { getActs, getItems, getPathologies } from '../HUMAn/registries';
-import { BagDefinition } from '../game/logic/the_world';
+import { BagDefinition } from '../game/legacy/the_world';
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
 import { compare } from '../tools/helper';
 import {

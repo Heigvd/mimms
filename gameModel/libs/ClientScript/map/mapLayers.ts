@@ -1,7 +1,7 @@
 import { getDirectMessagesFrom } from '../game/legacy/communication';
 import { getInitialExtentState, mapRefs } from './layersData';
 import { getBuildingInExtent } from './lineOfSight';
-import { getLocatedHumans, lineOfSightRadius, paths } from '../game/logic/the_world';
+import { getLocatedHumans, lineOfSightRadius, paths } from '../game/legacy/the_world';
 import { whoAmI } from '../tools/WegasHelper';
 
 interface PointFeature {

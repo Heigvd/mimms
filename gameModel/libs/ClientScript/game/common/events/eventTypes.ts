@@ -5,7 +5,7 @@ import { Location } from "../../../map/locationTypes";
 import { BaseEvent, TargetedEvent } from "./baseEvent";
 import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./EventManager";
-import { ActionSource, ResolvedAction } from "../../logic/the_world";
+import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
 
 /**

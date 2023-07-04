@@ -1,5 +1,5 @@
 import { isRealLifeGame } from "../legacy/gameMaster";
-import { syncWorld } from "../logic/the_world";
+import { syncWorld } from "../legacy/the_world";
 
 const timeLogger = Helpers.getLogger("TimeManager");
 

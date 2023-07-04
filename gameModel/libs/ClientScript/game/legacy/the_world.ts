@@ -47,7 +47,7 @@ import {
 	processRadioCreationEvent,
 	processPhoneCommunication,
 	clearAllCommunicationState,
-} from '../legacy/communication';
+} from './communication';
 import { calculateLOS, isPointInPolygon } from '../../map/lineOfSight';
 import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
@@ -57,7 +57,7 @@ import {
 	getFogType,
 	infiniteBags,
 	isInterfaceDisabled,
-} from '../legacy/gameMaster';
+} from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {

@@ -2,7 +2,7 @@ import { BaseEvent, initEmitterIds } from "../common/events/baseEvent";
 import { getSendEventServerScript } from "../common/events/EventManager";
 import { compare } from "../../tools/helper";
 import { reviveScriptedEvent } from "../legacy/scenario";
-import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "../logic/the_world";
+import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "../legacy/the_world";
 import { getCurrentSimulationTime, getRunningMode } from "../common/TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
