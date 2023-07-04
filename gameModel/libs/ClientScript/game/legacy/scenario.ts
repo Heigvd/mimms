@@ -1,6 +1,6 @@
-import { sendEvents } from "./EventManager";
+import { sendEvents } from "../common/events/EventManager";
 import { mapRefs } from "../../map/layersData";
-import { EventPayload, ScriptedEvent, TeleportEvent } from "./the_world";
+import { EventPayload, ScriptedEvent, TeleportEvent } from "../common/events/eventTypes";
 import { getPatientsBodyFactoryParamsArray } from "../../tools/WegasHelper";
 
 export function reviveScriptedEvent(emitter: {

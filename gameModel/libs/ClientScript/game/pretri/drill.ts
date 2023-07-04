@@ -1,13 +1,13 @@
-import { BaseEvent, initEmitterIds } from "./baseEvent";
-import { getSendEventServerScript } from "./EventManager";
+import { BaseEvent, initEmitterIds } from "../common/events/baseEvent";
+import { getSendEventServerScript } from "../common/events/EventManager";
 import { compare } from "../../tools/helper";
-import { reviveScriptedEvent } from "./scenario";
-import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "./the_world";
-import { getCurrentSimulationTime, getRunningMode } from "./TimeManager";
+import { reviveScriptedEvent } from "../legacy/scenario";
+import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "../logic/the_world";
+import { getCurrentSimulationTime, getRunningMode } from "../common/TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
 import { drillLogger } from "../../tools/logger";
-import { AgingEvent, TeleportEvent } from "./eventTypes";
+import { AgingEvent, TeleportEvent } from "../common/events/eventTypes";
 
 
 interface DrillStatus {

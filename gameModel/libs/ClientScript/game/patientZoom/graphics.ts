@@ -3,7 +3,7 @@ import { interpolate, normalize } from "../../tools/helper";
 import { Point } from "../../map/point2D";
 import { BlockName, BodyPosition, Glasgow, HumanBody } from "../../HUMAn/human";
 import { getCurrentPatientBody, getHuman } from "../logic/the_world";
-import { Categorization, Category, getCategory } from "../logic/triage";
+import { Categorization, Category, getCategory } from "../pretri/triage";
 import { convertMeterToMapUnit } from "../../map/layersData";
 import { getTranslation } from "../../tools/translation";
 

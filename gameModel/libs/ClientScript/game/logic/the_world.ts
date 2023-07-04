@@ -29,7 +29,7 @@ import {
 	getItem,
 	getPathology,
 } from '../../HUMAn/registries';
-import { fastForward, getCurrentSimulationTime } from './TimeManager';
+import { fastForward, getCurrentSimulationTime } from '../common/TimeManager';
 import {
 	getBagDefinition,
 	getBodyParam,
@@ -38,7 +38,7 @@ import {
 	getHumanSkillLevelForItemAction,
 	whoAmI,
 } from '../../tools/WegasHelper';
-import { initEmitterIds, TargetedEvent } from './baseEvent';
+import { initEmitterIds, TargetedEvent } from '../common/events/baseEvent';
 import {
 	processPhoneCreation,
 	processDirectMessageEvent,
@@ -47,17 +47,17 @@ import {
 	processRadioCreationEvent,
 	processPhoneCommunication,
 	clearAllCommunicationState,
-} from './communication';
+} from '../legacy/communication';
 import { calculateLOS, isPointInPolygon } from '../../map/lineOfSight';
 import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
-import { compareEvent, FullEvent, getAllEvents, sendEvent } from './EventManager';
-import { Categorization } from './triage';
+import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/EventManager';
+import { Categorization } from '../pretri/triage';
 import {
 	getFogType,
 	infiniteBags,
 	isInterfaceDisabled,
-} from './gameMaster';
+} from '../legacy/gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
@@ -66,10 +66,10 @@ import {
 	getItemTranslation,
 	getTranslation,
 } from '../../tools/translation';
-import { AgingEvent, CancelActionEvent, CategorizeEvent, DelayedAction, DirectCommunicationEvent, EventPayload, EventType, FollowPathEvent, FreezeEvent, GiveBagEvent, HumanLogMessageEvent, HumanMeasureEvent, HumanMeasureResultEvent, HumanTreatmentEvent, PathologyEvent, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent, TeleportEvent } from './eventTypes';
+import { AgingEvent, CancelActionEvent, CategorizeEvent, DelayedAction, DirectCommunicationEvent, EventPayload, EventType, FollowPathEvent, FreezeEvent, GiveBagEvent, HumanLogMessageEvent, HumanMeasureEvent, HumanMeasureResultEvent, HumanTreatmentEvent, PathologyEvent, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent, TeleportEvent } from '../common/events/eventTypes';
 import { Location, LocationState, PositionAtTime } from '../../map/locationTypes';
 import { MeasureMetric } from '../../HUMAn/registry/acts';
-import { ConsoleLog, MeasureLog, TreatmentLog } from '../display/consoleLog';
+import { ConsoleLog, MeasureLog, TreatmentLog } from '../pretri/consoleLog';
 
 
 ///////////////////////////////////////////////////////////////////////////

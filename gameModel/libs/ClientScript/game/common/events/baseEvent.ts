@@ -1,4 +1,4 @@
-import { whoAmI } from "../../tools/WegasHelper";
+import { whoAmI } from "../../../tools/WegasHelper";
 
 export interface BaseEvent {
 	type: string;

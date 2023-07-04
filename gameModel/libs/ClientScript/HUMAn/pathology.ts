@@ -7,7 +7,7 @@
  */
 
 import { SkillLevel } from "../edition/GameModelerHelper";
-import { STANDARD_CATEGORY } from "../game/logic/triage";
+import { STANDARD_CATEGORY } from "../game/pretri/triage";
 import { checkUnreachable, getRandomValue, intersection, pickRandom, Range } from "../tools/helper";
 import { Block, BlockName, BodyState, BodyStateKeys, BoneBlock, ExternalBlock, NervousBlock } from "./human";
 import { getPathology } from "./registries";

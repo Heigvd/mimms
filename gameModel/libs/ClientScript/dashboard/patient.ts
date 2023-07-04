@@ -1,5 +1,5 @@
 import { EnhancedCellData, MatrixConfig } from "../edition/MatrixEditor";
-import { getCurrentPresetSortedPatientIds } from "../game/logic/drill";
+import { getCurrentPresetSortedPatientIds } from "../game/pretri/drill";
 import { compare } from "../tools/helper";
 
 type PatientId = string;

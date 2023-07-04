@@ -1,5 +1,5 @@
-import { initEmitterIds } from './baseEvent';
-import { sendEvent } from './EventManager';
+import { initEmitterIds } from '../common/events/baseEvent';
+import { sendEvent } from '../common/events/EventManager';
 import { checkUnreachable, normalize } from '../../tools/helper';
 import {
 	BodyState,
@@ -15,13 +15,13 @@ import {
 	getHuman,
 	getHumanConsole,
 	HumanHealth,
-} from './the_world';
+} from '../logic/the_world';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
-import { getOverview } from '../display/graphics';
+import { getOverview } from '../patientZoom/graphics';
 import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
 import { logger } from '../../tools/logger';
-import { ConsoleLog } from '../display/consoleLog';
+import { ConsoleLog } from './consoleLog';
 
 export interface Categorization {
 	system: SystemName;

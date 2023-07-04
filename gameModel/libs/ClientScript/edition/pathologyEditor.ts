@@ -9,7 +9,7 @@ import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageAr
 import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
 import { getPathology } from "../HUMAn/registries";
 import { getBodyParam, getCurrentPatientId } from "../tools/WegasHelper";
-import { ScriptedEvent } from "../game/logic/eventTypes";
+import { ScriptedEvent } from "../game/common/events/eventTypes";
 
 
 interface PathologyEditorContext {
@@ -228,7 +228,7 @@ function updatePatientPathology(patientId: string, newAp: AfflictedPathology) {
 	}
 }
 
-export function getCurrentPatientPathologyConfigs(): PathologyEditorContext[] {
+export function getCurrentPatientPathologyConfigs(): PathologyEditorContext[] | undefined {
 	return getPatientPathologyConfigs(getCurrentPatientId());
 }
 

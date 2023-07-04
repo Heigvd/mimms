@@ -1,6 +1,6 @@
-import { FullEvent } from "../game/logic/EventManager";
-import { EventPayload, HumanMeasureResultEvent, MeasureResultStatus } from "../game/logic/the_world";
-import { getTagSystem } from "../game/logic/triage";
+import { FullEvent } from "../game/common/events/EventManager";
+import { EventPayload, HumanMeasureResultEvent, MeasureResultStatus } from "../game/common/events/eventTypes";
+import { getTagSystem } from "../game/pretri/triage";
 import { compare } from "../tools/helper";
 import { exportLogger } from "../tools/logger";
 
@@ -146,7 +146,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		if(vitals){
 			const keys = Object.keys(vitals[id]);
 			vitalsExists[id] = keys.length;
-			for(let vitalName of keys){
+			for(const vitalName of keys){
 				appendHeader(id, vitalName);
 			}
 		}

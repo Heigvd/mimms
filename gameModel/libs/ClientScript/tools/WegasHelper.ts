@@ -1,4 +1,4 @@
-import { TargetedEvent } from "../game/logic/baseEvent";
+import { TargetedEvent } from "../game/common/events/baseEvent";
 import { getSkillDefinition, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
 import { Point } from "../map/point2D";
 import { BodyFactoryParam, Environnment } from "../HUMAn/human";
@@ -7,9 +7,9 @@ import { getCompensationModel, getOverdriveModel, getSystemModel } from "../HUMA
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition } from "../game/logic/the_world";
 import { checkUnreachable } from "./helper";
-import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/logic/gameMaster";
+import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/legacy/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
-import { HumanTreatmentEvent, PathologyEvent } from "../game/logic/eventTypes";
+import { HumanTreatmentEvent, PathologyEvent } from "../game/common/events/eventTypes";
 
 export function parse<T>(meta: string): T | null {
 	try {

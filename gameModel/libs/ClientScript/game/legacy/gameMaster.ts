@@ -1,6 +1,6 @@
-import { getDrillStatus } from "./drill";
-import { FogType } from "./the_world";
-import { getRunningMode } from "./TimeManager";
+import { getDrillStatus } from "../pretri/drill";
+import { FogType } from "../logic/the_world";
+import { getRunningMode } from "../common/TimeManager";
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LIKERT';
 

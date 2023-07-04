@@ -1,8 +1,8 @@
-import { initEmitterIds} from "./baseEvent";
-import { FullEvent, sendEvent } from "./EventManager";
-import { getCurrentSimulationTime } from "./TimeManager";
+import { initEmitterIds} from "../common/events/baseEvent";
+import { FullEvent, sendEvent } from "../common/events/EventManager";
+import { getCurrentSimulationTime } from "../common/TimeManager";
 import { whoAmI } from "../../tools/WegasHelper";
-import { DirectCommunicationEvent, EventPayload, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent } from "./eventTypes";
+import { DirectCommunicationEvent, EventPayload, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent } from "../common/events/eventTypes";
 
 export type Channel = string;
 

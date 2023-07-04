@@ -1,4 +1,4 @@
-import { getDirectMessagesFrom } from '../game/logic/communication';
+import { getDirectMessagesFrom } from '../game/legacy/communication';
 import { getInitialExtentState, mapRefs } from './layersData';
 import { getBuildingInExtent } from './lineOfSight';
 import { getLocatedHumans, lineOfSightRadius, paths } from '../game/logic/the_world';

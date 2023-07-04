@@ -1,4 +1,4 @@
-import { parse } from "../../tools/WegasHelper";
+import { parse } from "../../../tools/WegasHelper";
 import { EventPayload } from "./eventTypes";
 
 export interface FullEvent<T extends EventPayload> {

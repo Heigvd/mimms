@@ -9,7 +9,7 @@ import { getCurrentPatientId, getPatientsBodyFactoryParams, parseObjectDescripto
 import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
 import { patientGenerationLogger } from '../tools/logger';
 import {getActTranslation, getItemActionTranslation, getTranslation} from '../tools/translation';
-import { HumanTreatmentEvent, ScriptedEvent } from '../game/logic/eventTypes';
+import { HumanTreatmentEvent, ScriptedEvent } from '../game/common/events/eventTypes';
 
 /**
  * Add patients to the existing list

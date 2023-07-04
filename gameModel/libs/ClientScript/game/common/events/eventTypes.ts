@@ -1,12 +1,12 @@
-import { BlockName } from "../../HUMAn/human";
-import { AfflictedPathology } from "../../HUMAn/pathology";
-import { MeasureMetric } from "../../HUMAn/registry/acts";
-import { Location } from "../../map/locationTypes";
+import { BlockName } from "../../../HUMAn/human";
+import { AfflictedPathology } from "../../../HUMAn/pathology";
+import { MeasureMetric } from "../../../HUMAn/registry/acts";
+import { Location } from "../../../map/locationTypes";
 import { BaseEvent, TargetedEvent } from "./baseEvent";
-import { Channel, Phone, Radio } from "./communication";
+import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./EventManager";
-import { ActionSource, ResolvedAction } from "./the_world";
-import { Categorization } from "./triage";
+import { ActionSource, ResolvedAction } from "../../logic/the_world";
+import { Categorization } from "../../pretri/triage";
 
 /**
  * Walk, drive, fly to destination

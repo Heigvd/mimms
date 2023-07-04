@@ -1,19 +1,19 @@
-import { initEmitterIds } from "../logic/baseEvent";
-import { sendEvent } from "../logic/EventManager";
+import { initEmitterIds } from "../common/events/baseEvent";
+import { sendEvent } from "../common/events/EventManager";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue, readKey } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../logic/the_world";
-import { getCurrentSimulationTime } from "../logic/TimeManager";
-import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../logic/triage";
+import { getCurrentSimulationTime } from "../common/TimeManager";
+import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../pretri/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
 import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
 import { toHoursMinutesSecondsIso } from "../../tools/helper";
 import { getBloodRatio } from "../../HUMAn/physiologicalModel";
 import { SkillLevel } from "../../edition/GameModelerHelper";
-import { ConsoleLog } from "./consoleLog";
+import { ConsoleLog } from "../pretri/consoleLog";
 
 /////////////////////////////////
 // The Wheel

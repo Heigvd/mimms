@@ -26,7 +26,7 @@ import {
 	inferExtraOutputs,
 } from "./physiologicalModel";
 import { getChemical } from "./registries";
-import { ScriptedEvent } from "../game/logic/eventTypes";
+import { ScriptedEvent } from "../game/common/events/eventTypes";
 
 export type BodyPosition =
 	| "RECOVERY"

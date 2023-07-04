@@ -1,9 +1,9 @@
 import { getEnv, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getAllHuman_omniscient, getHealth, getHumanMeta } from "../logic/the_world";
-import { doAutomaticTriage_internal, PreTriageData } from "../logic/triage";
+import { doAutomaticTriage_internal, PreTriageData } from "../pretri/triage";
 
 
-export interface PatientOverview {
+interface PatientOverview {
 	id: string;
 	category: string | undefined;
 	liveCategory: string | undefined;
@@ -29,7 +29,7 @@ export function getPatientsOverview(): PatientOverview[] {
 				actions: [],
 				health: health,
 				env: env,
-				// do not event try to use any console !
+				// do not even try to use any console !
 				console: [],
 			} : undefined;
 
