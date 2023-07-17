@@ -7,10 +7,10 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./EventManager";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
+import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
 
 /**
  * Walk, drive, fly to destination
- * TODO: path to follow
  */
 export interface FollowPathEvent extends TargetedEvent {
 	type: 'FollowPath';
@@ -158,6 +158,23 @@ export type EventPayload =
 	| GiveBagEvent
 	| CancelActionEvent
 	| FreezeEvent
-	| AgingEvent;
+	| AgingEvent
+	| GetInformationEvent;
 
 export type EventType = EventPayload['type'];
+
+/////////////////////////////////////////////////
+/// NEW EVENTS FOR MAIN SIMULATION
+/////////////////////////////////////////////////
+
+export interface ActionEvent extends BaseEvent {
+	timeStamp : SimTime;
+}
+
+export interface GetInformationEvent extends ActionEvent {
+	type: string;
+	emitterPlayerId: string;
+	emitterCharacterId: string;
+	messageKey: TranslationKey;
+	durationSec: SimDuration;
+}
