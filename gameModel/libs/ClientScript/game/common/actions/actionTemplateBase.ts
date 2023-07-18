@@ -57,6 +57,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     return {
       ...initEmitterIds(),
       messageKey : 'todo',
+      actionNameKey : 'todo',
       timeStamp : 0,
       durationSec : TimeSliceDuration * 3
     }

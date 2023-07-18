@@ -176,5 +176,6 @@ export interface GetInformationEvent extends ActionEvent {
 	emitterPlayerId: string;
 	emitterCharacterId: string;
 	messageKey: TranslationKey;
+	actionNameKey: TranslationKey;
 	durationSec: SimDuration;
 }

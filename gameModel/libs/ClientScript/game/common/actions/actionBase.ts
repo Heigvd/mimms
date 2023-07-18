@@ -1,14 +1,18 @@
 import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { EventId } from "../events/eventTypes";
+import { EventId } from "../events/EventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
 
+interface IClonable {
+  clone(): this
+}
+
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
-export abstract class ActionBase {
+export abstract class ActionBase implements IClonable {
 
   public readonly StartTime : SimTime;
   
@@ -23,6 +27,11 @@ export abstract class ActionBase {
   public constructor(startSimTime : SimTime, evtId: EventId) {
     this.StartTime = startSimTime;
     this.eventId = evtId;
+  }
+
+  clone(): this {
+    return this;
+    throw new Error("Method not implemented.");
   }
 
   /**
@@ -51,7 +60,6 @@ export abstract class ActionBase {
   public getStatus(): ActionStatus {
     return this.status;
   }
-
 
 }
 
@@ -110,11 +118,19 @@ export abstract class StartEndAction extends ActionBase {
 
 export class GetInformationAction extends StartEndAction {
 
-  private readonly messageKey: TranslationKey;
+  /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
+  /**
+   * Translation key for the name of the action (displayed in the timeline)
+   */
+  public readonly actionNameKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, evtId: EventId){
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: EventId){
     super(startTimeSec, durationSeconds, evtId);
     this.messageKey = messageKey;
+    this.actionNameKey = actionNameKey;
   }
 
   protected dispatchStartedEvents(state: MainSimulationState): void {
