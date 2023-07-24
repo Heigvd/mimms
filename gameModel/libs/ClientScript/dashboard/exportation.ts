@@ -1,4 +1,4 @@
-import { FullEvent } from "../game/common/events/EventManager";
+import { FullEvent } from "../game/common/events/eventUtils";
 import { EventPayload, HumanMeasureResultEvent, MeasureResultStatus } from "../game/common/events/eventTypes";
 import { getTagSystem } from "../game/pretri/triage";
 import { compare } from "../tools/helper";

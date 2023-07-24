@@ -51,7 +51,7 @@ import {
 import { calculateLOS, isPointInPolygon } from '../../map/lineOfSight';
 import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
-import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/EventManager';
+import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
 import { Categorization } from '../pretri/triage';
 import {
 	getFogType,

@@ -1,10 +1,12 @@
 import { InterventionRole } from "../actors/interventionRole";
-import { TimeSliceDuration, TranslationKey } from "../baseTypes";
+import {  TranslationKey } from "../baseTypes";
 import { BaseEvent, initEmitterIds } from "../events/baseEvent";
-import { FullEvent } from "../events/EventManager";
-import { EventPayload, GetInformationEvent } from "../events/eventTypes";
+import { FullEvent } from "../events/eventUtils";
+import { EventPayload } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ActionBase, GetInformationAction } from "./actionBase";
+import { GetInformationEvent } from "../events/getInformationEvent";
+import { TimeSliceDuration } from "../constants";
 
 /**
  * Action template
@@ -12,8 +14,15 @@ import { ActionBase, GetInformationAction } from "./actionBase";
  */
 export abstract class ActionTemplateBase<ActionType extends ActionBase, EventType extends EventPayload> {
 
+  protected readonly Title: TranslationKey;
+  protected readonly Description: TranslationKey;
+
   // TODO constructor, certainly from static scenarist's config
   // includes descriptition title
+  public constructor(title: TranslationKey, description: TranslationKey) {
+    this.Description = description;
+    this.Title= title;
+  }
 
   /**
    * Build an instance from an incoming event payload
@@ -21,7 +30,7 @@ export abstract class ActionTemplateBase<ActionType extends ActionBase, EventTyp
   public abstract instanciateFromEvent(event: FullEvent<EventType>): ActionType;
 
   /**
-   * Generate a event to be broadcasted
+   * Generate an event to be broadcasted
    */
   public abstract buildEvent(params: any): EventType;// TODO params
 
@@ -49,7 +58,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
   public instanciateFromEvent(event: FullEvent<GetInformationEvent>): GetInformationAction {
     const payload = event.payload;
-    return new GetInformationAction(payload.timeStamp, payload.durationSec, payload.messageKey, event.id);
+    return new GetInformationAction(payload.timeStamp, payload.durationSec, payload.messageKey, this.Title , event.id);
   }
 
   public buildEvent(params: any) : GetInformationEvent {
@@ -64,6 +73,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
   }
 
   public isAvailable(state: MainSimulationState, role: InterventionRole): boolean {
+    return true;
     throw new Error("Method not implemented.");
   }
   public getDescription(): string {

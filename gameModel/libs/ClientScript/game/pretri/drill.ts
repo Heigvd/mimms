@@ -1,5 +1,5 @@
 import { BaseEvent, initEmitterIds } from "../common/events/baseEvent";
-import { getSendEventServerScript } from "../common/events/EventManager";
+import { getSendEventServerScript } from "../common/events/eventUtils";
 import { compare } from "../../tools/helper";
 import { reviveScriptedEvent } from "../legacy/scenario";
 import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "../legacy/the_world";

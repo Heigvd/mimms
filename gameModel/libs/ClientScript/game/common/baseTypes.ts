@@ -9,11 +9,10 @@ export type SimTime = number
  */
 export type SimDuration = number
 
-/**
- * duration of one step in the simulation in seconds
- */
-export const TimeSliceDuration = 60;
-
 export type TranslationKey = string;
 
 export type Position = Point;
+
+export type LocalEventId = number;
+
+export type GlobalEventId = number;

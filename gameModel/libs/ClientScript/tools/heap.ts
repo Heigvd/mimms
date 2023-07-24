@@ -29,6 +29,15 @@ export class Heap<T> {
 
 	/**
 	 * returns the element E that satisfies comparison(E, X)
+	 * without removing it
+	 * for any other element X in the heap
+	 */
+	peek(): T | undefined {
+		return this.data[0];
+	}
+
+	/**
+	 * returns the element E that satisfies comparison(E, X)
 	 * for any other element X in the heap
 	 * log(N) complexity
 	 */

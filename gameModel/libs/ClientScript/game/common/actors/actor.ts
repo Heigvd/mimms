@@ -1,7 +1,8 @@
 import { getTranslation } from "../../../tools/translation";
 import { InterventionRole } from "./interventionRole";
 
-export class Actor {
+// TODO probably immutable
+export class Actor{
 
   public readonly FullName;
   public readonly ShortName;

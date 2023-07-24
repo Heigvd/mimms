@@ -1,13 +1,9 @@
-import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { EventId } from "../events/EventManager";
-import { MainSimulationState } from "../simulationState/mainSimulationState";
+import { GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { IClonable } from "../interfaces";
+import * as MainSimulationState from "../simulationState/mainSimulationState";
 
 export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
-
-interface IClonable {
-  clone(): this
-}
 
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
@@ -16,30 +12,27 @@ export abstract class ActionBase implements IClonable {
 
   public readonly StartTime : SimTime;
   
-  private static slogger = Helpers.getLogger("actions-logger");
+  protected static slogger = Helpers.getLogger("actions-logger");
 
   protected logger = ActionBase.slogger;
 
   protected status : ActionStatus;
 
-  protected readonly eventId: EventId;
+  protected readonly eventId: LocalEventId;
 
-  public constructor(startSimTime : SimTime, evtId: EventId) {
+  public constructor(startSimTime : SimTime, evtId: LocalEventId) {
     this.StartTime = startSimTime;
     this.eventId = evtId;
   }
 
-  clone(): this {
-    return this;
-    throw new Error("Method not implemented.");
-  }
+  abstract clone(): this;
 
   /**
    * Will update the given status
    * @param state the current state that will be updated
    * @param simTime
    */
-  public abstract update(state: Readonly<MainSimulationState>, simTime: SimTime): void;
+  public abstract update(state: Readonly<MainSimulationState.MainSimulationState>, simTime: SimTime): void;
 
   public abstract duration(): number;
 
@@ -69,19 +62,19 @@ export abstract class ActionBase implements IClonable {
  */
 export abstract class StartEndAction extends ActionBase {
 
-  private readonly durationSec;
+  protected readonly durationSec;
 
   // TODO build from incoming event (or in a factory class)
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: EventId){
+  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: LocalEventId){
     super(startTimeSec, evtId);
     this.durationSec = durationSeconds;
   }
 
-  protected abstract dispatchStartedEvents(state: MainSimulationState): void;
-  protected abstract dispatchEndedEvents(state: MainSimulationState): void;
+  protected abstract dispatchInitEvents(state: MainSimulationState.MainSimulationState): void;
+  protected abstract dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void;
 
-  public update(state: MainSimulationState, simTime: SimDuration): void {
+  public update(state: MainSimulationState.MainSimulationState, simTime: SimDuration): void {
 
     switch(this.status){
       case 'Cancelled':
@@ -91,7 +84,7 @@ export abstract class StartEndAction extends ActionBase {
       case 'Planned': {
         if(simTime >= this.StartTime){ // if action did start
           this.logger.debug('dispatching start events...');
-          this.dispatchStartedEvents(state);
+          this.dispatchInitEvents(state);
           this.status = "OnGoing";
         }
       }
@@ -127,32 +120,40 @@ export class GetInformationAction extends StartEndAction {
    */
   public readonly actionNameKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: EventId){
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId){
     super(startTimeSec, durationSeconds, evtId);
     this.messageKey = messageKey;
     this.actionNameKey = actionNameKey;
   }
 
-  protected dispatchStartedEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: MainSimulationState.MainSimulationState): void {
     this.logger.info('start event GetInformationAction');
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void {
     // TODO dispatch event that will modify state to add a radio message
     this.logger.info('end event GetInformationAction');
     
     throw new Error("Method not implemented.");
   }
 
+  override clone(): this {
+    return new GetInformationAction(this.StartTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId) as this;
+  }
+
 }
 
 export class DefineMapAction extends StartEndAction {
 
-  protected dispatchStartedEvents(state: MainSimulationState): void {
+  clone(): this {
+    throw new Error("Method not implemented.");
+  }
+
+  protected dispatchInitEvents(state: MainSimulationState.MainSimulationState): void {
     // Dispatch local event such that interface to select a point or draw geometry should open
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void {
     // TODO dispatch event that will modify state to add a radio message
     throw new Error("Method not implemented.");
   }

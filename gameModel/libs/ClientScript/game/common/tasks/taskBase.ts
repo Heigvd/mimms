@@ -1,6 +1,7 @@
+import { IClonable } from "../interfaces";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
-export abstract class TaskBase {
+export abstract class TaskBase implements IClonable{
 
   public constructor(){
 
@@ -14,5 +15,7 @@ export abstract class TaskBase {
   protected abstract releaseAllResources(): void;
 
   public abstract updateState(state: Readonly<MainSimulationState>): void;
+
+  public abstract clone(): this;
 
 }

@@ -1,5 +1,5 @@
 import { initEmitterIds } from '../common/events/baseEvent';
-import { sendEvent } from '../common/events/EventManager';
+import { sendEvent } from '../common/events/eventUtils';
 import { checkUnreachable, normalize } from '../../tools/helper';
 import {
 	BodyState,

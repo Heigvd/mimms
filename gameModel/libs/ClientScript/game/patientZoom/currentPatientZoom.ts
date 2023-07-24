@@ -1,5 +1,5 @@
 import { initEmitterIds } from "../common/events/baseEvent";
-import { sendEvent } from "../common/events/EventManager";
+import { sendEvent } from "../common/events/eventUtils";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue, readKey } from "../../HUMAn/human";
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";

@@ -1,15 +1,13 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { LocalEvent } from "../localEvents/localEventBase";
+import { IClonable } from "../interfaces";
+import { LocalEventBase } from "../localEvents/localEventBase";
 import { TaskBase } from "../tasks/taskBase";
 
 
-export class MainSimulationState {
+export class MainSimulationState implements IClonable {
 
-  /**
-   * Immutable state
-   */
   private readonly internalState: MainStateObject;
   /**
    * Simulated time in seconds
@@ -18,30 +16,65 @@ export class MainSimulationState {
 
   public readonly stateCount;
 
+  public readonly baseEventId;
+
   private static stateCounter = 0;
 
-  public constructor(state : MainStateObject, simTime: number){
+  public constructor(state : MainStateObject, simTime: number, baseEventId: number){
     this.internalState = state;
     this.simulationTimeSec = simTime;
-    MainSimulationState.stateCounter++;
+    this.baseEventId = baseEventId;
     this.stateCount = MainSimulationState.stateCounter;
+    MainSimulationState.stateCounter++;
   }
 
-  public static applyEvent(event: LocalEvent, currentState : MainSimulationState): MainSimulationState {
-    
-    const clone = {...currentState.internalState};
-    // TODO apply state changes event changes
+  clone(): this {
+    return new MainSimulationState(this.deepCloneState(), this.simulationTimeSec, this.baseEventId) as this;
+  }
 
-    return new MainSimulationState(clone, currentState.simulationTimeSec);
+  private deepCloneState(): MainStateObject {
+
+    return {
+      actions : this.internalState.actions.map((act) => act.clone()),
+      actors : [...this.internalState.actors], // same ref to immutable
+      mapLocations: [...this.internalState.mapLocations],
+      patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
+      tasks : this.internalState.tasks.map((task) => task.clone()),
+    }
+
+  }
+
+  /**
+   * computes a new state with the applied events.
+   * the current instance is not modified
+   * @param events events to be applied
+   * @returns a new state 
+   */
+  public applyEvents(events: LocalEventBase[]): MainSimulationState {
+    
+    const newState = this.clone();
+
+    events.forEach(ev => {
+      ev.applyStateUpdate(newState);
+    })
+
+    return newState;
+  }
+
+  /**
+   * Only use this function if you will not modify the state or while applying an event
+   */
+  public getInternalStateObject(): MainStateObject {
+    return this.internalState;
   }
 
 }
 
 interface MainStateObject {
-  actions: ActionBase[];
-  tasks: TaskBase[]; // TODO
-  mapElements: any;
-  patients: HumanBody[];
-  actors : Actor[];
-  
+  actions: Readonly<ActionBase>[];
+  tasks: Readonly<TaskBase>[]; // TODO
+  mapLocations: Readonly<any>[]; // TODO type
+  patients: Readonly<HumanBody>[];
+  actors : Readonly<Actor>[];
+
 }

@@ -1,4 +1,4 @@
-import { sendEvents } from "../common/events/EventManager";
+import { sendEvents } from "../common/events/eventUtils";
 import { mapRefs } from "../../map/layersData";
 import { EventPayload, ScriptedEvent, TeleportEvent } from "../common/events/eventTypes";
 import { getPatientsBodyFactoryParamsArray } from "../../tools/WegasHelper";

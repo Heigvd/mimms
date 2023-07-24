@@ -1,5 +1,5 @@
 import { initEmitterIds} from "../common/events/baseEvent";
-import { FullEvent, sendEvent } from "../common/events/EventManager";
+import { FullEvent, sendEvent } from "../common/events/eventUtils";
 import { getCurrentSimulationTime } from "../common/TimeManager";
 import { whoAmI } from "../../tools/WegasHelper";
 import { DirectCommunicationEvent, EventPayload, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent } from "../common/events/eventTypes";

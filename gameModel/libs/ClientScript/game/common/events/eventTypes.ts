@@ -4,10 +4,11 @@ import { MeasureMetric } from "../../../HUMAn/registry/acts";
 import { Location } from "../../../map/locationTypes";
 import { BaseEvent, TargetedEvent } from "./baseEvent";
 import { Channel, Phone, Radio } from "../../legacy/communication";
-import { FullEvent } from "./EventManager";
+import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
 import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { GetInformationEvent } from "./getInformationEvent";
 
 /**
  * Walk, drive, fly to destination
@@ -171,11 +172,4 @@ export interface ActionEvent extends BaseEvent {
 	timeStamp : SimTime;
 }
 
-export interface GetInformationEvent extends ActionEvent {
-	type: string;
-	emitterPlayerId: string;
-	emitterCharacterId: string;
-	messageKey: TranslationKey;
-	actionNameKey: TranslationKey;
-	durationSec: SimDuration;
-}
+// TODO move to own file

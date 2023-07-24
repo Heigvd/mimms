@@ -1,9 +1,7 @@
 import { parse } from "../../../tools/WegasHelper";
-import { SimTime } from "../baseTypes";
+import { GlobalEventId, SimTime } from "../baseTypes";
 import { EventPayload } from "./eventTypes";
 
-
-export type EventId = number;
 
 /** 
  * a FullEvent is meant to be broadcasted to all opened games instances
@@ -12,7 +10,7 @@ export type EventId = number;
  * TODO adpat to EventBox new type when implemented
  */
 export interface FullEvent<T extends EventPayload> {
-	id: EventId;
+	id: GlobalEventId;
 	timestamp: number;
 	time: SimTime;
 	payload: T;
