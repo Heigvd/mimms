@@ -1,5 +1,6 @@
 import { parse } from "../../../tools/WegasHelper";
 import { GlobalEventId, SimTime } from "../baseTypes";
+import { initEmitterIds } from "./baseEvent";
 import { EventPayload } from "./eventTypes";
 
 
@@ -14,6 +15,13 @@ export interface FullEvent<T extends EventPayload> {
 	timestamp: number;
 	time: SimTime;
 	payload: T;
+}
+
+function emitEvent(payload : any){
+	sendEvent({
+		...initEmitterIds(),
+		...payload,
+	});
 }
 
 export function getSendEventServerScript(payload: EventPayload, time?: number) {
@@ -57,3 +65,5 @@ export function compareEvent(a: FullEvent<EventPayload>, b: FullEvent<EventPaylo
 		return a.timestamp - b.timestamp;
 	}
 }
+
+

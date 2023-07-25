@@ -16,3 +16,5 @@ export type Position = Point;
 export type LocalEventId = number;
 
 export type GlobalEventId = number;
+
+export type TemplateRef = string;

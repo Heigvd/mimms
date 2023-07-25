@@ -1,6 +1,8 @@
 import { GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { IClonable } from "../interfaces";
-import * as MainSimulationState from "../simulationState/mainSimulationState";
+import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
+import { localEventManager } from "../localEvents/localEventManager";
+import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -10,20 +12,13 @@ export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | u
  */
 export abstract class ActionBase implements IClonable {
 
-  public readonly StartTime : SimTime;
-  
   protected static slogger = Helpers.getLogger("actions-logger");
 
-  protected logger = ActionBase.slogger;
+  protected readonly logger = ActionBase.slogger;
 
   protected status : ActionStatus;
 
-  protected readonly eventId: LocalEventId;
-
-  public constructor(startSimTime : SimTime, evtId: LocalEventId) {
-    this.StartTime = startSimTime;
-    this.eventId = evtId;
-  }
+  public constructor(readonly startTime : SimTime, protected readonly eventId: GlobalEventId) { }
 
   abstract clone(): this;
 
@@ -32,11 +27,12 @@ export abstract class ActionBase implements IClonable {
    * @param state the current state that will be updated
    * @param simTime
    */
-  public abstract update(state: Readonly<MainSimulationState.MainSimulationState>, simTime: SimTime): void;
+  public abstract update(state: Readonly<MainSimulationState>): void;
 
-  public abstract duration(): number;
+  public abstract duration(): SimDuration;
 
   /**
+   * TODO could be a pure function that just returns a cloned instance
    * @returns True if cancellation could be applied
    */
   public cancel(): boolean {
@@ -46,9 +42,9 @@ export abstract class ActionBase implements IClonable {
       this.logger.error('This action is completed, it cannot be cancelled');
       return false;
     }
+    this.status = 'Cancelled';
     return true;
   }
-
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -71,18 +67,19 @@ export abstract class StartEndAction extends ActionBase {
     this.durationSec = durationSeconds;
   }
 
-  protected abstract dispatchInitEvents(state: MainSimulationState.MainSimulationState): void;
-  protected abstract dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void;
+  protected abstract dispatchInitEvents(state: MainSimulationState): void;
+  protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
-  public update(state: MainSimulationState.MainSimulationState, simTime: SimDuration): void {
+  public update(state: MainSimulationState): void {
 
+    const simTime = state.getSimulationTime();
     switch(this.status){
       case 'Cancelled':
       case 'Completed':
 
         return;
       case 'Planned': {
-        if(simTime >= this.StartTime){ // if action did start
+        if(simTime >= this.startTime){ // if action did start
           this.logger.debug('dispatching start events...');
           this.dispatchInitEvents(state);
           this.status = "OnGoing";
@@ -90,8 +87,9 @@ export abstract class StartEndAction extends ActionBase {
       }
       break;
       case 'OnGoing': { 
-        if(simTime >= this.StartTime + this.duration()){ // if action did end
+        if(simTime >= this.startTime + this.duration()){ // if action did end
           this.logger.debug('dispatching end events...');
+          this.dispatchEndedEvents(state);
           this.status = "Completed";
         }
       }
@@ -105,7 +103,6 @@ export abstract class StartEndAction extends ActionBase {
   public duration(): number {
     return this.durationSec;
   }
-
 
 }
 
@@ -126,35 +123,41 @@ export class GetInformationAction extends StartEndAction {
     this.actionNameKey = actionNameKey;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState.MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
     this.logger.info('start event GetInformationAction');
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void {
-    // TODO dispatch event that will modify state to add a radio message
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
     
     throw new Error("Method not implemented.");
   }
 
   override clone(): this {
-    return new GetInformationAction(this.StartTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId) as this;
+    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId);
+    clone.status = this.status;
+    return clone as this;
   }
 
 }
 
-export class DefineMapAction extends StartEndAction {
+export class DefineMapObjectAction extends StartEndAction {
 
   clone(): this {
     throw new Error("Method not implemented.");
   }
 
-  protected dispatchInitEvents(state: MainSimulationState.MainSimulationState): void {
-    // Dispatch local event such that interface to select a point or draw geometry should open
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place immediatly
+    // TODO show grayed out map element
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimulationTime(), 'todo'));
+    throw new Error("Method not implemented.");
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState.MainSimulationState): void {
-    // TODO dispatch event that will modify state to add a radio message
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place at the end of the action
+    // ungrey the map element
     throw new Error("Method not implemented.");
   }
 

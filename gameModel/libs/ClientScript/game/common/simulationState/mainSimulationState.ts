@@ -1,6 +1,7 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
+import { SimDuration, SimTime } from "../baseTypes";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { TaskBase } from "../tasks/taskBase";
@@ -8,24 +9,23 @@ import { TaskBase } from "../tasks/taskBase";
 
 export class MainSimulationState implements IClonable {
 
+  private static stateCounter = 0;
+
   private readonly internalState: MainStateObject;
   /**
    * Simulated time in seconds
    */
-  public readonly simulationTimeSec : number;
+  private simulationTimeSec : number;
 
   public readonly stateCount;
 
   public readonly baseEventId;
 
-  private static stateCounter = 0;
-
   public constructor(state : MainStateObject, simTime: number, baseEventId: number){
     this.internalState = state;
     this.simulationTimeSec = simTime;
     this.baseEventId = baseEventId;
-    this.stateCount = MainSimulationState.stateCounter;
-    MainSimulationState.stateCounter++;
+    this.stateCount = MainSimulationState.stateCounter++;
   }
 
   clone(): this {
@@ -48,7 +48,7 @@ export class MainSimulationState implements IClonable {
    * computes a new state with the applied events.
    * the current instance is not modified
    * @param events events to be applied
-   * @returns a new state 
+   * @returns a new state
    */
   public applyEvents(events: LocalEventBase[]): MainSimulationState {
     
@@ -67,6 +67,16 @@ export class MainSimulationState implements IClonable {
   public getInternalStateObject(): MainStateObject {
     return this.internalState;
   }
+
+  /**
+   * Only use when applying events
+   * @param jump jump in seconds
+   */
+  public incrementSimulationTime(jump :SimDuration): void {
+    this.simulationTimeSec += jump;
+  }
+
+  public getSimulationTime(): SimTime {return this.simulationTimeSec;}
 
 }
 

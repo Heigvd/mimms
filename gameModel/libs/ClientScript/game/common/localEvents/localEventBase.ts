@@ -1,20 +1,22 @@
-import { SimTime } from "../baseTypes";
+import { HumanBody } from "../../../HUMAn/human";
+import { ActionBase } from "../actions/actionBase";
+import { GlobalEventId, SimTime } from "../baseTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
+export interface LocalEvent {
+  type: string;
+  ParentEventId: GlobalEventId;
+  simTimeStamp: SimTime
+}
+
 export abstract class LocalEventBase implements LocalEvent{
 
-  public type: string;
-
-  public readonly ParentEventId : string;
-
-  public readonly simTimeStamp: SimTime;
-
-  protected constructor(parentEventId: string, type: string, simTimeStamp: number){
-    this.ParentEventId = parentEventId;
-    this.type = type;
-    this.simTimeStamp = simTimeStamp;
+  protected constructor(
+    readonly ParentEventId: GlobalEventId, 
+    readonly type: string, 
+    readonly simTimeStamp: number){
   }
 
   /**
@@ -22,44 +24,73 @@ export abstract class LocalEventBase implements LocalEvent{
    * @param state In this function, state changes are allowed
    */
   abstract applyStateUpdate(state: MainSimulationState): void;
+
 }
 
-
-
-export interface LocalEvent {
-  type: string;
-  ParentEventId: string;
-  simTimeStamp: SimTime
+export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boolean {
+  return e1.simTimeStamp > e2.simTimeStamp;
 }
 
 // TODO move in own file
-// should be immutable
+// immutable
 /**
  * Creates an action that will be inserted in the timeline
  */
-export class PlanActionEvent extends LocalEventBase {
+export class PlanActionLocalEvent extends LocalEventBase {
   
-  
-  constructor(){
-    super();
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
+    super(parentEventId, 'PlanActionEvent', timeStamp);
 
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.
+    const so = state.getInternalStateObject();
+    so.actions.push(this.action);
+    // init action
+    this.action.update(state);
   }
 
 }
 
 /////////// TODO in own file
+export class TimeForwardLocalEvent extends LocalEventBase {
 
-export class TimeForwardEvent extends LocalEventBase {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly timeJump: number){
+    super(parentEventId, 'TimeForwardEvent', timeStamp);
+  }
 
   applyStateUpdate(state: MainSimulationState): void {
-    // set new time
-    // update patients
-    // update all actions => 
-    // update all tasks
+    state.incrementSimulationTime(this.timeJump);
+    const so = state.getInternalStateObject();
+    // TODO update patients
+    this.updatePatients(so.patients, state.getSimulationTime());
+    // update all actions =>
+    this.updateActions(state);
+    // TODO update all tasks
+  }
+
+  updatePatients(patients: HumanBody[], currentTime: SimTime) {
+    //TODO
+  }
+
+  updateActions(state: MainSimulationState) {
+    state.getInternalStateObject().actions.forEach(a => a.update(state));
+  }
+
+}
+
+/////////
+export class AddMapItemLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, todo: any){
+    super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    // TODO Mikkel
+    const so = state.getInternalStateObject();
+    so.mapLocations.push('your cool map element descriptor' as any);
+    throw new Error("Method not implemented.");
   }
 
 }

@@ -1,42 +1,48 @@
 import { InterventionRole } from "../actors/interventionRole";
-import {  TranslationKey } from "../baseTypes";
-import { BaseEvent, initEmitterIds } from "../events/baseEvent";
+import { SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
+import { initEmitterIds } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import { EventPayload } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ActionBase, GetInformationAction } from "./actionBase";
+import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
 import { GetInformationEvent } from "../events/getInformationEvent";
-import { TimeSliceDuration } from "../constants";
+import { DefineMapObjectEvent } from "../events/defineMapObjectEvent";
+import { LocalEventBase, PlanActionLocalEvent } from "../localEvents/localEventBase";
+
 
 /**
  * Action template
  * This object is the descriptor of an action it represents the data of an action
+ * It can create local events that will in turn create actions
  */
-export abstract class ActionTemplateBase<ActionType extends ActionBase, EventType extends EventPayload> {
+export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends EventPayload = EventPayload, LocalEventT extends LocalEventBase = LocalEventBase> {
 
-  protected readonly Title: TranslationKey;
-  protected readonly Description: TranslationKey;
+  public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey) {}
 
-  // TODO constructor, certainly from static scenarist's config
-  // includes descriptition title
-  public constructor(title: TranslationKey, description: TranslationKey) {
-    this.Description = description;
-    this.Title= title;
-  }
+  /**
+   * a deterministic unique identifier for this template
+   */
+  public abstract getTemplateRef(): TemplateRef;
 
   /**
    * Build an instance from an incoming event payload
    */
-  public abstract instanciateFromEvent(event: FullEvent<EventType>): ActionType;
+  protected abstract createActionFromEvent(event: FullEvent<EventT>): ActionT;
 
   /**
    * Generate an event to be broadcasted
    */
-  public abstract buildEvent(params: any): EventType;// TODO params
+  public abstract buildEvent(timeStamp: SimTime, params: any): EventT;// TODO polymorphic params ?
+
+  /**
+   * Generate a local event to create an action from a broadcasted global event
+   * @param globalEvent the broadcasted event
+   */
+  public abstract buildLocalEvent(globalEvent: FullEvent<EventT>): LocalEventT;
 
   /**
    * 
-   * @param state game state
+   * @param state the current game state
    * @param role currently selected role
    * @returns true if the player can trigger this action
    */
@@ -54,23 +60,41 @@ export abstract class ActionTemplateBase<ActionType extends ActionBase, EventTyp
 }
 
 // TODO move to own file
-export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, GetInformationEvent> {
-
-  public instanciateFromEvent(event: FullEvent<GetInformationEvent>): GetInformationAction {
-    const payload = event.payload;
-    return new GetInformationAction(payload.timeStamp, payload.durationSec, payload.messageKey, this.Title , event.id);
+/**
+ * Get some information
+ */
+export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, GetInformationEvent, PlanActionLocalEvent> {
+  
+  public buildLocalEvent(globalEvent: FullEvent<GetInformationEvent>): PlanActionLocalEvent {
+    const action = this.createActionFromEvent(globalEvent);
+    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.timeStamp, action);
+  }
+  
+  constructor(title: TranslationKey, description: TranslationKey, 
+    readonly duration: SimDuration, readonly message: TranslationKey) {
+    super(title, description);
   }
 
-  public buildEvent(params: any) : GetInformationEvent {
+  protected createActionFromEvent(event: FullEvent<GetInformationEvent>): GetInformationAction {
+    const payload = event.payload;
+    return new GetInformationAction(payload.timeStamp, this.duration, this.message, this.title , event.id);
+  }
+
+  public buildEvent(timeStamp: SimTime,params: any) : GetInformationEvent {
     // TODO figure out params polymorphism
     return {
       ...initEmitterIds(),
-      messageKey : 'todo',
-      actionNameKey : 'todo',
-      timeStamp : 0,
-      durationSec : TimeSliceDuration * 3
+      type: 'ActionEvent',
+      templateRef: this.getTemplateRef(),
+      timeStamp : timeStamp,
+      durationSec : this.duration,
     }
   }
+
+  public getTemplateRef(): TemplateRef {
+    return 'GetInformationTemplate' + '_' + this.title;
+  }
+
 
   public isAvailable(state: MainSimulationState, role: InterventionRole): boolean {
     return true;
@@ -83,5 +107,36 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     throw new Error("Method not implemented.");
   }
 
+}
+
+/**
+ * 
+ */
+export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent, LocalEventBase> {
+  
+  public buildLocalEvent(globalEvent: FullEvent<DefineMapObjectEvent>): LocalEventBase {
+    throw new Error("Method not implemented.");
+  }
+
+  public getTemplateRef(): string {
+    throw new Error("Method not implemented.");
+  }
+
+  protected createActionFromEvent(event: FullEvent<DefineMapObjectEvent>): DefineMapObjectAction {
+    throw new Error("Method not implemented.");
+  }
+  
+  public buildEvent(timeStamp: number, params: any): DefineMapObjectEvent {
+    throw new Error("Method not implemented.");
+  }
+  public isAvailable(state: MainSimulationState, role: InterventionRole): boolean {
+    throw new Error("Method not implemented.");
+  }
+  public getDescription(): string {
+    throw new Error("Method not implemented.");
+  }
+  public getTitle(): string {
+    throw new Error("Method not implemented.");
+  }
 
 }

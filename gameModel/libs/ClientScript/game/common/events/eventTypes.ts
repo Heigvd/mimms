@@ -7,7 +7,7 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { GetInformationEvent } from "./getInformationEvent";
 
 /**
@@ -160,7 +160,8 @@ export type EventPayload =
 	| CancelActionEvent
 	| FreezeEvent
 	| AgingEvent
-	| GetInformationEvent;
+	| GetInformationEvent
+	| TimeForwardEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -169,7 +170,16 @@ export type EventType = EventPayload['type'];
 /////////////////////////////////////////////////
 
 export interface ActionEvent extends BaseEvent {
+	type: 'ActionEvent';
 	timeStamp : SimTime;
+	templateRef: TemplateRef;
 }
 
-// TODO move to own file
+export interface TimeForwardEvent extends BaseEvent {
+	type: 'TimeForwardEvent';
+	timeStamp : SimTime;
+	/**
+	 * The time duration to jump forward
+	 */
+	timeJump: SimDuration;
+}
