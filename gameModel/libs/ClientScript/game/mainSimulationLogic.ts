@@ -2,16 +2,15 @@
  * Setup function
  */
 
-import { template } from "lodash";
 import { mainSimLogger } from "../tools/logger";
-import { ActionBase } from "./common/actions/actionBase";
+import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
-import { InterventionRole } from "./common/actors/interventionRole";
-import { TemplateRef } from "./common/baseTypes";
+import { Actor } from "./common/actors/actor";
+import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { EventPayload } from "./common/events/eventTypes";
 import { FullEvent, sendEvent } from "./common/events/eventUtils";
-import { LocalEventBase, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
+import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 
@@ -27,12 +26,17 @@ function initMainState(): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
+  const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
+
+  const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
+
   return new MainSimulationState({
-    actions: [],
-    actors: [],
+    actions: [testAction],
+    actors: {[testAL.Uid]: testAL},
     mapLocations: [],
     patients: [],
-    tasks: []
+    tasks: [],
+    radioMessages: []
   }, 0, 0);
 
 }
@@ -114,16 +118,21 @@ function processEvent(event : FullEvent<EventPayload>): MainSimulationState{
 
 }
 
-export function fetchAvailableActions(role: InterventionRole): ActionTemplateBase[] {
-  return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, role));
+export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
+  const actor = currentSimulationState.getActorById(actorId);
+  if(actor){
+    return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor));
+  }else{
+    return [];
+  }
 }
 
 
-export async function buildAndLaunchActionFromTemplate(ref: TemplateRef): Promise<IManagedResponse | undefined>{
+export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: Actor): Promise<IManagedResponse | undefined>{
 
   const actTemplate = actionTemplates[ref];
   if(actTemplate){
-    const evt = actTemplate.buildEvent(currentSimulationState.getSimulationTime(), undefined);
+    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), selectedActor, undefined);
     return await sendEvent(evt);
   }else {
     mainSimLogger.error('Could not find action template with ref', ref);

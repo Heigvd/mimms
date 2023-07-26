@@ -13,10 +13,18 @@ export interface LocalEvent {
 
 export abstract class LocalEventBase implements LocalEvent{
 
+  private static eventCounter = 0;
+
+  /**
+   * Used for ordering
+   */
+  public readonly eventNumber: number;
+
   protected constructor(
     readonly ParentEventId: GlobalEventId, 
     readonly type: string, 
     readonly simTimeStamp: number){
+      this.eventNumber = LocalEventBase.eventCounter++;
   }
 
   /**
@@ -27,8 +35,16 @@ export abstract class LocalEventBase implements LocalEvent{
 
 }
 
+/**
+ * @param e1 
+ * @param e2 
+ * @returns true if e1 precedes e2
+ */
 export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boolean {
-  return e1.simTimeStamp > e2.simTimeStamp;
+  if(e1.simTimeStamp === e2.simTimeStamp){
+    return e1.eventNumber < e2.eventNumber;
+  }
+  return e1.simTimeStamp < e2.simTimeStamp;
 }
 
 // TODO move in own file
@@ -63,7 +79,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
     // TODO update patients
-    this.updatePatients(so.patients, state.getSimulationTime());
+    this.updatePatients(so.patients, state.getSimTime());
     // update all actions =>
     this.updateActions(state);
     // TODO update all tasks
@@ -75,6 +91,18 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
   updateActions(state: MainSimulationState) {
     state.getInternalStateObject().actions.forEach(a => a.update(state));
+  }
+
+}
+
+export class AddActorLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime){
+    super(parentEventId, 'TimeForwardEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    throw new Error("Method not implemented.");
   }
 
 }

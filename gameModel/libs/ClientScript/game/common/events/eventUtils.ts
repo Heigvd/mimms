@@ -17,13 +17,6 @@ export interface FullEvent<T extends EventPayload> {
 	payload: T;
 }
 
-function emitEvent(payload : any){
-	sendEvent({
-		...initEmitterIds(),
-		...payload,
-	});
-}
-
 export function getSendEventServerScript(payload: EventPayload, time?: number) {
 	return `EventManager.postEvent(${JSON.stringify(payload)}${time != null ? `, ${time}` : ''});`;
 }

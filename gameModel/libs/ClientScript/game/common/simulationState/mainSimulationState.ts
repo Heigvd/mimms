@@ -1,9 +1,10 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { SimDuration, SimTime } from "../baseTypes";
+import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
+import { RadioMessage } from "../radioMessage";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -36,10 +37,11 @@ export class MainSimulationState implements IClonable {
 
     return {
       actions : this.internalState.actions.map((act) => act.clone()),
-      actors : [...this.internalState.actors], // same ref to immutable
+      actors : {...this.internalState.actors}, // same ref to immutable
       mapLocations: [...this.internalState.mapLocations],
       patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
       tasks : this.internalState.tasks.map((task) => task.clone()),
+      radioMessages : [...this.internalState.radioMessages]
     }
 
   }
@@ -54,7 +56,7 @@ export class MainSimulationState implements IClonable {
     
     const newState = this.clone();
 
-    events.forEach(ev => {
+    events.forEach(ev => { 
       ev.applyStateUpdate(newState);
     })
 
@@ -76,15 +78,39 @@ export class MainSimulationState implements IClonable {
     this.simulationTimeSec += jump;
   }
 
-  public getSimulationTime(): SimTime {return this.simulationTimeSec;}
+  /************ IMMUTABLE GETTERS ***************/
+  public getSimTime(): SimTime {return this.simulationTimeSec;}
 
+  public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
+    return this.internalState.actors[actorId];
+  }
+
+  public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
+    const val = this.internalState.actions.reduce<Record<ActorId, Readonly<ActionBase>[]>>((map, act) =>{
+
+      const id = act.ownerId;
+      if(!map[id]){
+        map[id] = []
+      }
+      map[id]!.push(act);
+      return map;
+    }, {});
+  
+    return val;
+  }
+
+  
 }
 
 interface MainStateObject {
+  /**
+   * All actions that have been created
+   */
   actions: Readonly<ActionBase>[];
   tasks: Readonly<TaskBase>[]; // TODO
   mapLocations: Readonly<any>[]; // TODO type
   patients: Readonly<HumanBody>[];
-  actors : Readonly<Actor>[];
+  actors : Readonly<Record<ActorId,Actor>>;
+  radioMessages: Readonly<RadioMessage>[];
 
 }

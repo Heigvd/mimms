@@ -33,7 +33,7 @@ export class LocalEventManager {
       safeguard++;
       // TODO get main state apply to state
 
-      pending = this.getPendingEvents(newState.getSimulationTime());
+      pending = this.getPendingEvents(newState.getSimTime());
       // TODO apply events figure out if logic goes there 
       // we might as well apply event by event and store each single change
       newState = state.applyEvents(pending);

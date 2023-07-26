@@ -18,3 +18,5 @@ export type LocalEventId = number;
 export type GlobalEventId = number;
 
 export type TemplateRef = string;
+
+export type ActorId = number;

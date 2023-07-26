@@ -1,5 +1,6 @@
-import { GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { IClonable } from "../interfaces";
+import { AddLogMessageLocalEvent } from "../localEvents/AddLogMessageLocalEvent";
 import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -18,7 +19,11 @@ export abstract class ActionBase implements IClonable {
 
   protected status : ActionStatus;
 
-  public constructor(readonly startTime : SimTime, protected readonly eventId: GlobalEventId) { }
+  public constructor(
+    readonly startTime : SimTime, 
+    protected readonly eventId: GlobalEventId,
+    public readonly ownerId: ActorId) 
+  { }
 
   abstract clone(): this;
 
@@ -62,8 +67,8 @@ export abstract class StartEndAction extends ActionBase {
 
   // TODO build from incoming event (or in a factory class)
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: LocalEventId){
-    super(startTimeSec, evtId);
+  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId, ownerId: ActorId){
+    super(startTimeSec, evtId, ownerId);
     this.durationSec = durationSeconds;
   }
 
@@ -72,7 +77,7 @@ export abstract class StartEndAction extends ActionBase {
 
   public update(state: MainSimulationState): void {
 
-    const simTime = state.getSimulationTime();
+    const simTime = state.getSimTime();
     switch(this.status){
       case 'Cancelled':
       case 'Completed':
@@ -117,8 +122,8 @@ export class GetInformationAction extends StartEndAction {
    */
   public readonly actionNameKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId){
-    super(startTimeSec, durationSeconds, evtId);
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
+    super(startTimeSec, durationSeconds, evtId, ownerId);
     this.messageKey = messageKey;
     this.actionNameKey = actionNameKey;
   }
@@ -130,12 +135,11 @@ export class GetInformationAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
-    
-    throw new Error("Method not implemented.");
+    localEventManager.queueLocalEvent(new AddLogMessageLocalEvent(this.eventId, this.startTime, this.ownerId, this.messageKey));
   }
 
   override clone(): this {
-    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId);
+    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
     clone.status = this.status;
     return clone as this;
   }
@@ -151,7 +155,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
     // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimulationTime(), 'todo'));
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), 'todo'));
     throw new Error("Method not implemented.");
   }
 
