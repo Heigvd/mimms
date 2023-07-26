@@ -95,18 +95,6 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
 }
 
-export class AddActorLocalEvent extends LocalEventBase {
-
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime){
-    super(parentEventId, 'TimeForwardEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    throw new Error("Method not implemented.");
-  }
-
-}
-
 /////////
 export class AddMapItemLocalEvent extends LocalEventBase {
 

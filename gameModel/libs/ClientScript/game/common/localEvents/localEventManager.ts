@@ -39,7 +39,7 @@ export class LocalEventManager {
       newState = state.applyEvents(pending);
       this.processedEvents.concat(pending);
 
-    } while( safeguard <= 10 && pending.length >0)
+    } while( safeguard <= 10 && pending.length >0);
     
     if(safeguard >= 10){
       this.logger.error('Too much event generations, might be an infinite event generation')

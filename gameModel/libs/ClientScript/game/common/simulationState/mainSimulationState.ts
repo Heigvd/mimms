@@ -1,4 +1,5 @@
 import { HumanBody } from "../../../HUMAn/human";
+import { mapById } from "../../../tools/mapById";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
@@ -60,14 +61,36 @@ export class MainSimulationState implements IClonable {
       ev.applyStateUpdate(newState);
     })
 
+    // TODO is that too much ?
+    // Object.freeze(newState.internalState);
     return newState;
   }
 
   /**
    * Only use this function if you will not modify the state or while applying an event
    */
-  public getInternalStateObject(): MainStateObject {
+  public getInternalStateObject(): Readonly<MainStateObject> {
     return this.internalState;
+  }
+
+  // experimental, might be interesting to enforce immutability
+  // but functions are not callable anymore
+  // maybe this https://stackoverflow.com/questions/58210331/exclude-function-types-from-an-object-type
+  /**
+   * @returns a deep readonly main state object
+   */
+  public getImmutableStateObject(): Immutable<MainStateObject> {
+    const imm : Immutable<MainStateObject>= {
+      ...this.internalState
+    }
+    // const so = this.internalState;
+    // so.actions[0]!.test.a = 2
+    // so.actions.push()
+    // imm.actions[0]!.test.a = 2
+    // imm.actions.push()
+    //imm.actions[0]?.cancel() non callable
+
+    return imm;
   }
 
   /**
@@ -82,24 +105,23 @@ export class MainSimulationState implements IClonable {
   public getSimTime(): SimTime {return this.simulationTimeSec;}
 
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
-    return this.internalState.actors[actorId];
+    return this.internalState.actors.find(a => a.Uid === actorId);
   }
 
+  /**
+   * @returns A map of action arrays mapped by actor ids
+   */
   public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
-    const val = this.internalState.actions.reduce<Record<ActorId, Readonly<ActionBase>[]>>((map, act) =>{
-
-      const id = act.ownerId;
-      if(!map[id]){
-        map[id] = []
-      }
-      map[id]!.push(act);
-      return map;
-    }, {});
-  
-    return val;
+    return mapById(this.internalState.actions);
   }
 
-  
+  /**
+   * @returns A map of action arrays mapped by actor ids
+   */
+  public getTasksByActorIds(): Record<ActorId, Readonly<TaskBase>[]> {
+    return mapById(this.internalState.tasks);
+  }
+
 }
 
 interface MainStateObject {
@@ -110,7 +132,11 @@ interface MainStateObject {
   tasks: Readonly<TaskBase>[]; // TODO
   mapLocations: Readonly<any>[]; // TODO type
   patients: Readonly<HumanBody>[];
-  actors : Readonly<Record<ActorId,Actor>>;
+  actors : Readonly<Actor>[];
   radioMessages: Readonly<RadioMessage>[];
 
+}
+
+type Immutable<T> = {
+  readonly [K in keyof T ]: Immutable<T[K]>
 }

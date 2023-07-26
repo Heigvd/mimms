@@ -32,7 +32,7 @@ function initMainState(): MainSimulationState {
 
   return new MainSimulationState({
     actions: [testAction],
-    actors: {[testAL.Uid]: testAL},
+    actors: [testAL],
     mapLocations: [],
     patients: [],
     tasks: [],
@@ -43,7 +43,7 @@ function initMainState(): MainSimulationState {
 
 function initActionTemplates(): Record<string, ActionTemplateBase> {
 
-  // TODO read from variable
+  // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');

@@ -2,7 +2,7 @@ import { ActorId, GlobalEventId, SimTime, TranslationKey } from "../baseTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { LocalEventBase } from "./localEventBase";
 
-export class AddLogMessageLocalEvent extends LocalEventBase {
+export class AddRadioMessageLocalEvent extends LocalEventBase {
 
   constructor(
     parentId: GlobalEventId,

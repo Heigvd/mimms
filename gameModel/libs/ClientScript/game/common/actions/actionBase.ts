@@ -1,6 +1,7 @@
+import { MappableById } from "../../../tools/mapById";
 import { ActorId, GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { IClonable } from "../interfaces";
-import { AddLogMessageLocalEvent } from "../localEvents/AddLogMessageLocalEvent";
+import { AddRadioMessageLocalEvent } from "../localEvents/AddLogMessageLocalEvent";
 import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -11,7 +12,7 @@ export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | u
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
-export abstract class ActionBase implements IClonable {
+export abstract class ActionBase implements IClonable, MappableById<ActorId> {
 
   protected static slogger = Helpers.getLogger("actions-logger");
 
@@ -24,6 +25,10 @@ export abstract class ActionBase implements IClonable {
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId) 
   { }
+
+  id(): ActorId {
+    return this.ownerId;
+  }
 
   abstract clone(): this;
 
@@ -135,7 +140,7 @@ export class GetInformationAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
-    localEventManager.queueLocalEvent(new AddLogMessageLocalEvent(this.eventId, this.startTime, this.ownerId, this.messageKey));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, this.messageKey));
   }
 
   override clone(): this {
