@@ -119,7 +119,7 @@ export function fetchAvailableActions(role: InterventionRole): ActionTemplateBas
 }
 
 
-export async function buildAndLaunchActionFromTemplate(ref: TemplateRef): Promise<void>{
+export async function buildAndLaunchActionFromTemplate(ref: TemplateRef): Promise<IManagedResponse | undefined>{
 
   const actTemplate = actionTemplates[ref];
   if(actTemplate){

@@ -9,7 +9,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getWorldTime } from './game/logic/TimeManager';\nimport { toHourMinutesSeconds } from './tools/helper';\n\"Time: t+\" + toHourMinutesSeconds(getWorldTime().time);",
+              "content" : "import { getWorldTime } from './game/legacy/TimeManager';\nimport { toHourMinutesSeconds } from './tools/helper';\n\"Time: t+\" + toHourMinutesSeconds(getWorldTime().time);",
               "language" : "JavaScript"
             }
           },

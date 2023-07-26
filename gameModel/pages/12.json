@@ -16,7 +16,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { autoTimeManager } from \"./game/logic/drill\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst title = getTranslation(\"pretriage-interface\", 'title');\n`<h3 style=\"margin: 0\">${title}</h3>`",
+                  "content" : "import { autoTimeManager } from \"./game/pretri/drill\";\nimport { getTranslation } from \"./tools/translation\";\nautoTimeManager();\nconst title = getTranslation(\"pretriage-interface\", 'title');\n`<h3 style=\"margin: 0\">${title}</h3>`",
                   "language" : "JavaScript"
                 }
               },
@@ -43,7 +43,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\ntoHoursMinutesSecondsIso(getCurrentSimulationTime());",
+                      "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\ntoHoursMinutesSecondsIso(getCurrentSimulationTime());",
                       "language" : "TypeScript"
                     }
                   },
@@ -61,7 +61,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPatientTitle } from \"./game/display/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
+                              "content" : "import { getCurrentPatientTitle } from \"./game/patientZoom/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
                               "language" : "TypeScript"
                             }
                           },
@@ -121,7 +121,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
+                                      "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -148,7 +148,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
+                                          "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
                                           "language" : "JavaScript"
                                         }
                                       },
@@ -195,7 +195,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getCurrentPatientAutoTriage } from './game/display/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
+                                      "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -226,7 +226,7 @@
                             "alignSelf" : "flex-end",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                              "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() !== 'ongoing'",
                               "language" : "typescript"
                             },
                             "icon" : "arrow-right",
@@ -241,7 +241,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectNextPatient } from './game/logic/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
+                                "content" : "import { selectNextPatient } from './game/pretri/drill';\nContext.explanation.setState({showExplanation: false});\nselectNextPatient();",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -254,7 +254,7 @@
                         } ],
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
+                          "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
                           "language" : "typescript"
                         },
                         "layout" : {
@@ -277,12 +277,12 @@
                         "className" : "invertedButton",
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
+                          "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
                           "language" : "typescript"
                         },
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import {getDrillStatus} from './game/logic/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
+                          "content" : "import {getDrillStatus} from './game/pretri/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
                           "language" : "typescript"
                         },
                         "label" : {
@@ -326,7 +326,7 @@
                   "props" : {
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
+                      "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
                       "language" : "typescript"
                     },
                     "icon" : "envelope-open-text",
@@ -339,7 +339,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { toSummaryScreen } from \"./game/logic/drill\";\n\ntoSummaryScreen()",
+                        "content" : "import { toSummaryScreen } from \"./game/pretri/drill\";\n\ntoSummaryScreen()",
                         "language" : "TypeScript",
                         "returnType" : "Promise<unknown>"
                       }
@@ -353,12 +353,12 @@
                     "className" : "invertedButton",
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { isCurrentPatientCategorized } from \"./game/logic/drill\";\n!isCurrentPatientCategorized()",
+                      "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
                       "language" : "typescript"
                     },
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() !== 'ongoing'",
+                      "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() !== 'ongoing'",
                       "language" : "typescript"
                     },
                     "icon" : "arrow-right",
@@ -374,7 +374,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { selectNextPatient } from './game/logic/drill';\nselectNextPatient();",
+                        "content" : "import { selectNextPatient } from './game/pretri/drill';\nselectNextPatient();",
                         "language" : "TypeScript",
                         "returnType" : "Promise<unknown> | undefined"
                       }
@@ -397,7 +397,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { isCurrentPatientCategorized } from './game/logic/drill';\n!Variable.find(gameModel, 'currentPatient').getValue(self)",
+              "content" : "import { isCurrentPatientCategorized } from './game/pretri/drill';\n!Variable.find(gameModel, 'currentPatient').getValue(self)",
               "language" : "typescript"
             },
             "layout" : {
@@ -437,7 +437,7 @@
             "className" : "review-label",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() == 'ongoing'",
+              "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
               "language" : "typescript"
             },
             "layoutStyle" : {
@@ -460,7 +460,7 @@
               "className" : "review-mode",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import {getDrillStatus} from './game/logic/drill'\ngetDrillStatus() != 'ongoing'",
+                "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() != 'ongoing'",
                 "language" : "typescript"
               }
             } ],
@@ -489,7 +489,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
                   "language" : "TypeScript"
                 }
               },
@@ -518,7 +518,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { setDrillStatus } from './game/logic/drill';\n\nsetDrillStatus('validated');",
+                        "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
                         "language" : "typescript"
                       }
                     },
@@ -654,7 +654,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
+                              "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
                               "language" : "TypeScript"
                             }
                           },
@@ -667,7 +667,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
+                              "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
                               "language" : "TypeScript"
                             }
                           },
@@ -697,7 +697,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { showPatient } from \"./game/logic/drill\";\n\nshowPatient(Context.patient.data.id)",
+                                "content" : "import { showPatient } from \"./game/pretri/drill\";\n\nshowPatient(Context.patient.data.id)",
                                 "language" : "TypeScript"
                               }
                             },
@@ -720,7 +720,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                      "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -763,7 +763,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed_summary'",
+              "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() !== 'completed_summary'",
               "language" : "typescript"
             },
             "layout" : {
@@ -778,7 +778,7 @@
         "className" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
           "language" : "typescript"
         },
         "layout" : {
@@ -901,7 +901,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { selectNextPatient } from './game/logic/drill';\n\nselectNextPatient();",
+                        "content" : "import { selectNextPatient } from './game/pretri/drill';\n\nselectNextPatient();",
                         "language" : "typescript"
                       }
                     },
@@ -1013,7 +1013,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() != 'not_started'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() != 'not_started'",
           "language" : "JavaScript"
         },
         "layout" : {
@@ -1039,7 +1039,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
               "language" : "TypeScript"
             }
           },
@@ -1068,7 +1068,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "Script",
-                    "content" : "import { setDrillStatus } from './game/logic/drill';\n\nsetDrillStatus('validated');",
+                    "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
                     "language" : "typescript"
                   }
                 },
@@ -1209,7 +1209,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
+                          "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
                           "language" : "TypeScript"
                         }
                       },
@@ -1222,7 +1222,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
+                          "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
                           "language" : "TypeScript"
                         }
                       },
@@ -1257,7 +1257,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { showPatient } from \"./game/logic/drill\";\n\nshowPatient(Context.patient.data.id)",
+                            "content" : "import { showPatient } from \"./game/pretri/drill\";\n\nshowPatient(Context.patient.data.id)",
                             "language" : "TypeScript"
                           }
                         },
@@ -1280,7 +1280,7 @@
                 "exposeAs" : "patient",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -1332,7 +1332,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'completed_summary'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() !== 'completed_summary'",
           "language" : "typescript"
         },
         "layout" : {
@@ -1372,7 +1372,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() !== 'validated'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() !== 'validated'",
           "language" : "typescript"
         },
         "layout" : {

@@ -1,6 +1,6 @@
 import { getDrillStatus } from "../pretri/drill";
 import { FogType } from "./the_world";
-import { getRunningMode } from "../common/TimeManager";
+import { getRunningMode } from "./TimeManager";
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LIKERT';
 

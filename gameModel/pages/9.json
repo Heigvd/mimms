@@ -411,7 +411,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { HumanTreatmentEvent } from './game/logic/the_world';\n\n\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\nevent.payload.blocks = [Context.newBlock];\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
+                                    "content" : "import { HumanTreatmentEvent } from './game/legacy/the_world';\n\n\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\nevent.payload.blocks = [Context.newBlock];\n\nconst script = `Variable.find(gameModel, \"patients\").setProperty('${Context.patient.id}', ${JSON.stringify(JSON.stringify(Context.patient.meta))})`\nAPIMethods.runScript(script, {});",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -422,7 +422,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { HumanTreatmentEvent } from './game/logic/the_world';\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\n\nevent.payload.blocks[0] || '';",
+                                  "content" : "import { HumanTreatmentEvent } from './game/legacy/the_world';\nconst event = Context.patient.meta.scriptedEvents[Context.scriptedEvent.seIndex] as {payload: HumanTreatmentEvent};\n\nevent.payload.blocks[0] || '';",
                                   "language" : "JavaScript"
                                 },
                                 "style" : { }
@@ -713,7 +713,7 @@
         "exposeAs" : "patient",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import {  getPatientsBodyFactoryParamsArray } from './tools/WegasHelper';\ngetPatientsBodyFactoryParamsArray();",
+          "content" : "import { getPatientsBodyFactoryParamsArray } from './tools/WegasHelper';\ngetPatientsBodyFactoryParamsArray();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",

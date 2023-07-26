@@ -4,7 +4,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\ngetRunningMode() !== 'GLOBAL_PAUSE';",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\ngetRunningMode() !== 'GLOBAL_PAUSE';",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
@@ -20,7 +20,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\nconst mode = getRunningMode();\n(mode !== 'RUNNING' && mode !== 'REPLAY')",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\nconst mode = getRunningMode();\n(mode !== 'RUNNING' && mode !== 'REPLAY')",
           "language" : "typescript"
         },
         "icon" : "pause",
@@ -45,7 +45,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\ngetRunningMode() !== 'TEAM_PAUSE';",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\ngetRunningMode() !== 'TEAM_PAUSE';",
           "language" : "JavaScript"
         },
         "icon" : "play",
@@ -70,7 +70,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\ngetRunningMode() !== 'IDLE';",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\ngetRunningMode() !== 'IDLE';",
           "language" : "JavaScript"
         },
         "icon" : "play",
@@ -97,7 +97,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\nconst mode = getRunningMode();\nmode !== 'TEAM_PAUSE' && mode !== 'REPLAY_DONE';",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\nconst mode = getRunningMode();\nmode !== 'TEAM_PAUSE' && mode !== 'REPLAY_DONE';",
           "language" : "JavaScript"
         },
         "label" : {
@@ -131,7 +131,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\nconst mode = getRunningMode();\nmode !== 'REPLAY_DONE';",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\nconst mode = getRunningMode();\nmode !== 'REPLAY_DONE';",
           "language" : "JavaScript"
         },
         "icon" : "step-backward",
@@ -157,7 +157,7 @@
         "displayValues" : "NumberInput",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getRunningMode } from './game/logic/TimeManager';\ngetRunningMode() !== 'TEAM_PAUSE' || Variable.find(gameModel, 'replay').isFalse(self);",
+          "content" : "import { getRunningMode } from './game/legacy/TimeManager';\ngetRunningMode() !== 'TEAM_PAUSE' || Variable.find(gameModel, 'replay').isFalse(self);",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },

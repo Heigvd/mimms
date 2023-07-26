@@ -29,7 +29,7 @@ import {
 	getItem,
 	getPathology,
 } from '../../HUMAn/registries';
-import { fastForward, getCurrentSimulationTime } from '../common/TimeManager';
+import { fastForward, getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
 	getBodyParam,

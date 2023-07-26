@@ -70,7 +70,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { actAsPatientPayload, processQrCode } from \"./game/logic/qr\";\nconst data = JSON.stringify(actAsPatientPayload(Context.patient.id));\nprocessQrCode(data);",
+                                "content" : "import { actAsPatientPayload, processQrCode } from \"./game/legacy/qr\";\nconst data = JSON.stringify(actAsPatientPayload(Context.patient.id));\nprocessQrCode(data);",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -95,7 +95,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { actAsPatientPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
+                          "content" : "import { actAsPatientPayload } from \"./game/legacy/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
                           "language" : "TypeScript"
                         }
                       },
@@ -156,7 +156,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { examinePatientPayload } from \"./game/logic/qr\";\nJSON.stringify(examinePatientPayload(Context.patient.id));",
+                          "content" : "import { examinePatientPayload } from \"./game/legacy/qr\";\nJSON.stringify(examinePatientPayload(Context.patient.id));",
                           "language" : "TypeScript"
                         }
                       },
@@ -174,7 +174,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { examinePatientPayload, processQrCode } from \"./game/logic/qr\";\nconst data = JSON.stringify(examinePatientPayload(Context.patient.id));\nprocessQrCode(data);",
+                            "content" : "import { examinePatientPayload, processQrCode } from \"./game/legacy/qr\";\nconst data = JSON.stringify(examinePatientPayload(Context.patient.id));\nprocessQrCode(data);",
                             "language" : "TypeScript",
                             "returnType" : "Promise<unknown> | undefined"
                           }

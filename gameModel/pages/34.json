@@ -11,7 +11,7 @@
         "onScan" : {
           "@class" : "ScriptCallback",
           "args" : [ "data" ],
-          "content" : "import { processQrCode } from \"./game/logic/qr\";\nprocessQrCode(data);\nreturn;"
+          "content" : "import { processQrCode } from \"./game/legacy/qr\";\nprocessQrCode(data);\nreturn;"
         },
         "style" : {
           "width" : "100%"

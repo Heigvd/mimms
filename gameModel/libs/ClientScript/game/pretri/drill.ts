@@ -3,7 +3,7 @@ import { getSendEventServerScript } from "../common/events/eventUtils";
 import { compare } from "../../tools/helper";
 import { reviveScriptedEvent } from "../legacy/scenario";
 import { getCurrentPatientBody, getCurrentPatientId, getInstantiatedHumanIds } from "../legacy/the_world";
-import { getCurrentSimulationTime, getRunningMode } from "../common/TimeManager";
+import { getCurrentSimulationTime, getRunningMode } from "../legacy/TimeManager";
 import { getBodyParam, getSortedPatientIds } from "../../tools/WegasHelper";
 import { getPatientPreset } from "../../edition/patientPreset";
 import { drillLogger } from "../../tools/logger";

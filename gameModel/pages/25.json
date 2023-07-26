@@ -4,7 +4,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { areAllPatientsCompleted } from './game/logic/likert';\nareAllPatientsCompleted();",
+          "content" : "import { areAllPatientsCompleted } from './game/legacy/likert';\nareAllPatientsCompleted();",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
@@ -21,7 +21,7 @@
       "props" : {
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { areAllPatientsCompleted } from './game/logic/likert';\n!areAllPatientsCompleted();",
+          "content" : "import { areAllPatientsCompleted } from './game/legacy/likert';\n!areAllPatientsCompleted();",
           "language" : "JavaScript"
         },
         "layoutStyle" : { },
@@ -38,7 +38,7 @@
       "props" : {
         "disableIf" : {
           "@class" : "Script",
-          "content" : "import { areAllPatientsCompleted } from './game/logic/likert';\n!areAllPatientsCompleted();",
+          "content" : "import { areAllPatientsCompleted } from './game/legacy/likert';\n!areAllPatientsCompleted();",
           "language" : "JavaScript"
         },
         "impactVariable" : {

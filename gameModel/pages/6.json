@@ -16,7 +16,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction = Context.pendingAction;\nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
+                          "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction = Context.pendingAction;\nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
                           "language" : "JavaScript"
                         }
                       },
@@ -46,19 +46,19 @@
                   "props" : {
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3;",
+                      "content" : "import { DelayedAction } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3;",
                       "language" : "JavaScript"
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/logic/the_world';\nimport { getCurrentSimulationTime } from './game/logic/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? getTranslation('pretriage-interface', 'toolatetocancel') : getTranslation('pretriage-interface', 'cancel', true);",
+                      "content" : "import { DelayedAction } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? getTranslation('pretriage-interface', 'toolatetocancel') : getTranslation('pretriage-interface', 'cancel', true);",
                       "language" : "JavaScript"
                     },
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "Script",
-                        "content" : "import { sendEvent } from './game/logic/EventManager';\n\nsendEvent({\n\ttype: 'CancelAction',\n\teventId: Context.pendingAction.id,\n})",
+                        "content" : "import { sendEvent } from './game/common/events/eventUtils';\n\nsendEvent({\n\ttype: 'CancelAction',\n\teventId: Context.pendingAction.id,\n})",
                         "language" : "typescript"
                       }
                     },
@@ -78,7 +78,7 @@
             "exposeAs" : "pendingAction",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getMyPendingActions } from './game/logic/the_world';\ngetMyPendingActions();",
+              "content" : "import { getMyPendingActions } from './game/legacy/the_world';\ngetMyPendingActions();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",
@@ -91,7 +91,7 @@
         "className" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getMyPendingActions } from './game/logic/the_world';\ngetMyPendingActions().length === 0;",
+          "content" : "import { getMyPendingActions } from './game/legacy/the_world';\ngetMyPendingActions().length === 0;",
           "language" : "JavaScript"
         },
         "layout" : { },
@@ -134,7 +134,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { keepStateAlive } from './game/display/currentPatientZoom';\nkeepStateAlive(Context.patientConsole);\n\"\";",
+                  "content" : "import { keepStateAlive } from './game/patientZoom/currentPatientZoom';\nkeepStateAlive(Context.patientConsole);\n\"\";",
                   "language" : "JavaScript"
                 }
               },
@@ -153,7 +153,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPatientTitle } from './game/display/currentPatientZoom';\ngetCurrentPatientTitle();",
+                              "content" : "import { getCurrentPatientTitle } from './game/patientZoom/currentPatientZoom';\ngetCurrentPatientTitle();",
                               "language" : "JavaScript"
                             }
                           },
@@ -168,7 +168,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getHumanVisualInfos } from './game/display/currentPatientZoom';\ngetHumanVisualInfos();",
+                              "content" : "import { getHumanVisualInfos } from './game/patientZoom/currentPatientZoom';\ngetHumanVisualInfos();",
                               "language" : "JavaScript"
                             }
                           },
@@ -202,7 +202,7 @@
                             },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
+                              "content" : "import { getVisualDetails } from './game/patientZoom/graphics';\ngetVisualDetails();",
                               "language" : "JavaScript"
                             }
                           },
@@ -216,7 +216,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
+                                  "content" : "import { getCategoryCard } from './game/patientZoom/graphics';\ngetCategoryCard();",
                                   "language" : "JavaScript"
                                 }
                               },
@@ -295,7 +295,7 @@
                     },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getVisualOverview } from './game/display/graphics';\ngetVisualOverview();",
+                      "content" : "import { getVisualOverview } from './game/patientZoom/graphics';\ngetVisualOverview();",
                       "language" : "JavaScript"
                     }
                   },
@@ -334,7 +334,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getPatientConsole } from './game/display/currentPatientZoom';\ngetPatientConsole();",
+                          "content" : "import { getPatientConsole } from './game/patientZoom/currentPatientZoom';\ngetPatientConsole();",
                           "language" : "JavaScript"
                         }
                       },
@@ -356,7 +356,7 @@
                 "className" : "",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'first');",
+                  "content" : "import { shouldHideColumn } from \"./game/patientZoom/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'first');",
                   "language" : "typescript"
                 },
                 "id" : "",
@@ -422,7 +422,7 @@
                             },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
+                              "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
                               "language" : "JavaScript"
                             },
                             "layoutClassName" : "wheelButton",
@@ -432,7 +432,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectWheelMainMenu } from './game/display/currentPatientZoom';\n\nselectWheelMainMenu(Context.wheelItem.id, Context.patientConsole.setState);",
+                                "content" : "import { selectWheelMainMenu } from './game/patientZoom/currentPatientZoom';\n\nselectWheelMainMenu(Context.wheelItem.id, Context.patientConsole.setState);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -446,7 +446,7 @@
                         "exposeAs" : "wheelItem",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getWheel } from './game/display/currentPatientZoom';\ngetWheel().mainMenu;",
+                          "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().mainMenu;",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -479,7 +479,7 @@
                             },
                             "label" : {
                               "@class" : "Script",
-                              "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
+                              "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
                               "language" : "JavaScript"
                             },
                             "layoutClassName" : "btnTriage",
@@ -487,7 +487,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { selectWheelItem } from './game/display/currentPatientZoom';\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
+                                "content" : "import { selectWheelItem } from './game/patientZoom/currentPatientZoom';\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -499,7 +499,7 @@
                         "exposeAs" : "wheelItem",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getWheel } from './game/display/currentPatientZoom';\ngetWheel().shortcuts;",
+                          "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().shortcuts;",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -556,7 +556,7 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
+                                  "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.menuItem) + ` (${Context.menuItem.items.length})`;",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : {
@@ -565,7 +565,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { selectWheelItem } from './game/display/currentPatientZoom';\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
+                                    "content" : "import { selectWheelItem } from './game/patientZoom/currentPatientZoom';\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -579,7 +579,7 @@
                             "exposeAs" : "menuItem",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getSubWheelMenu } from './game/display/currentPatientZoom';\ngetSubWheelMenu(Context.patientConsole.state);",
+                              "content" : "import { getSubWheelMenu } from './game/patientZoom/currentPatientZoom';\ngetSubWheelMenu(Context.patientConsole.state);",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -636,14 +636,14 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from './game/display/currentPatientZoom';\ngetButtonLabel(Context.menuItem);",
+                                  "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.menuItem);",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "Script",
-                                    "content" : "import { selectWheelItem } from './game/display/currentPatientZoom';\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
+                                    "content" : "import { selectWheelItem } from './game/patientZoom/currentPatientZoom';\n\nselectWheelItem(Context.menuItem, Context.patientConsole.setState);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -656,7 +656,7 @@
                             "exposeAs" : "menuItem",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getSubWheelSubmenu } from './game/display/currentPatientZoom';\ngetSubWheelSubmenu(Context.patientConsole.state);",
+                              "content" : "import { getSubWheelSubmenu } from './game/patientZoom/currentPatientZoom';\ngetSubWheelSubmenu(Context.patientConsole.state);",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -711,7 +711,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "Script",
-                                    "content" : "import { selectWheelAction } from './game/display/currentPatientZoom';\n\nselectWheelAction(undefined, Context.patientConsole.setState);",
+                                    "content" : "import { selectWheelAction } from './game/patientZoom/currentPatientZoom';\n\nselectWheelAction(undefined, Context.patientConsole.setState);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -788,7 +788,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
+                                          "content" : "import { getSelectedActionDuration } from \"./game/patientZoom/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyMeasure');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -820,7 +820,7 @@
                                 "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled();",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
                                   "language" : "typescript"
                                 },
                                 "flexShrink" : 1,
@@ -834,7 +834,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { doWheelMeasure } from './game/display/currentPatientZoom';\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
+                                    "content" : "import { doWheelMeasure } from './game/patientZoom/currentPatientZoom';\ndoWheelMeasure(Context.patientConsole.state.selectedAction, Context.patientConsole.setState);",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -903,7 +903,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "Script",
-                                        "content" : "import { selectWheelBlock } from './game/display/currentPatientZoom';\n\nselectWheelBlock(Context.block.id, Context.patientConsole.setState);",
+                                        "content" : "import { selectWheelBlock } from './game/patientZoom/currentPatientZoom';\n\nselectWheelBlock(Context.block.id, Context.patientConsole.setState);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -1027,7 +1027,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getSelectedActionDuration } from \"./game/display/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
+                                      "content" : "import { getSelectedActionDuration } from \"./game/patientZoom/currentPatientZoom\";\nimport { toHourMinutesSeconds } from \"./tools/helper\";\nconst duration = getSelectedActionDuration(Context.patientConsole.state.selectedAction, 'ActionBodyEffect');\ntoHourMinutesSeconds(duration, '', ' min. ', ' sec.', true);",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -1045,7 +1045,7 @@
                                 "className" : "applyMeasureBtn",
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
+                                  "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                   "language" : "typescript"
                                 },
                                 "flexShrink" : 1,
@@ -1059,7 +1059,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { doWheelTreatment } from './game/display/currentPatientZoom';\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);\nContext.patientConsole.state.selectedBlock = undefined // unselect block",
+                                    "content" : "import { doWheelTreatment } from './game/patientZoom/currentPatientZoom';\n\ndoWheelTreatment(Context.patientConsole.state.selectedAction, Context.patientConsole.state.selectedBlock, Context.patientConsole.setState);\nContext.patientConsole.state.selectedBlock = undefined // unselect block",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -1115,7 +1115,7 @@
                                 },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getPatientMostRecentConsoleLog } from \"./game/display/currentPatientZoom\";\ngetPatientMostRecentConsoleLog();",
+                                  "content" : "import { getPatientMostRecentConsoleLog } from \"./game/patientZoom/currentPatientZoom\";\ngetPatientMostRecentConsoleLog();",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -1182,7 +1182,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { doAutomaticTriageAndLogToConsole } from './game/logic/triage';\n\ndoAutomaticTriageAndLogToConsole();",
+                            "content" : "import { doAutomaticTriageAndLogToConsole } from './game/legacy/triage';\n\ndoAutomaticTriageAndLogToConsole();",
                             "language" : "typescript"
                           }
                         },
@@ -1197,7 +1197,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { selectAndValidateCategory } from \"./game/display/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/logic/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
+                                "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -1226,7 +1226,7 @@
                         "exposeAs" : "tagCategory",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentCategory, getTagSystemCategories } from './game/logic/triage';\nconst selectedId = Context.patientConsole.state.selectedCategory;\n[...getTagSystemCategories().categories].reverse().map((cat)=>{\n\treturn {\n\t\t...cat,\n\t\tisSelected: selectedId === cat.id\n\t}\n});",
+                          "content" : "import { getCurrentCategory, getTagSystemCategories } from './game/pretri/triage';\nconst selectedId = Context.patientConsole.state.selectedCategory;\n[...getTagSystemCategories().categories].reverse().map((cat)=>{\n\treturn {\n\t\t...cat,\n\t\tisSelected: selectedId === cat.id\n\t}\n});",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -1258,7 +1258,7 @@
                 "className" : "patientWheel",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'second');",
+                  "content" : "import { shouldHideColumn } from \"./game/patientZoom/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'second');",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -1296,7 +1296,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getBlockDetail } from './game/display/currentPatientZoom';\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
+                          "content" : "import { getBlockDetail } from './game/patientZoom/currentPatientZoom';\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
                           "language" : "JavaScript"
                         }
                       },
@@ -1324,7 +1324,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getShadowMan } from './game/display/graphics';\ngetShadowMan();",
+                              "content" : "import { getShadowMan } from './game/patientZoom/graphics';\ngetShadowMan();",
                               "language" : "JavaScript"
                             }
                           },
@@ -1372,14 +1372,14 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "Script",
-                                    "content" : "import { selectWheelBlock } from './game/display/currentPatientZoom';\nif (Context.block.selectable) {\n\tselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);\n}",
+                                    "content" : "import { selectWheelBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.selectable) {\n\tselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);\n}",
                                     "language" : "typescript"
                                   }
                                 },
                                 "onPointerOver" : {
                                   "@class" : "ScriptCallback",
                                   "args" : [ ],
-                                  "content" : "import { observeBlock } from './game/display/currentPatientZoom';\nif (Context.block.observable) {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n}\nreturn;"
+                                  "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.observable) {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n}\nreturn;"
                                 },
                                 "style" : { },
                                 "text" : {
@@ -1393,7 +1393,7 @@
                             "exposeAs" : "block",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getAllLocalizedBlocks } from './game/display/graphics';\ngetAllLocalizedBlocks()",
+                              "content" : "import { getAllLocalizedBlocks } from './game/patientZoom/graphics';\ngetAllLocalizedBlocks()",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "blockName",
@@ -1427,7 +1427,7 @@
                             "onPointerOver" : {
                               "@class" : "ScriptCallback",
                               "args" : [ ],
-                              "content" : "import { observeBlock } from './game/display/currentPatientZoom';\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
+                              "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
                             },
                             "style" : { },
                             "text" : {
@@ -1441,7 +1441,7 @@
                         "exposeAs" : "block",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getLocalizedAfflictedBlocks } from './game/display/graphics';\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
+                          "content" : "import { getLocalizedAfflictedBlocks } from './game/patientZoom/graphics';\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "blockName",
@@ -1479,7 +1479,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { selectWheelBlock } from './game/display/currentPatientZoom';\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                "content" : "import { selectWheelBlock } from './game/patientZoom/currentPatientZoom';\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1492,7 +1492,7 @@
                         "exposeAs" : "block",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getLocalizedBlocks } from './game/display/graphics';\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
+                          "content" : "import { getLocalizedBlocks } from './game/patientZoom/graphics';\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "blockName",
@@ -1521,7 +1521,7 @@
                 "className" : "",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { shouldHideColumn } from \"./game/display/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'third');",
+                  "content" : "import { shouldHideColumn } from \"./game/patientZoom/currentPatientZoom\";\nshouldHideColumn(Context.patientConsole, 'third');",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -1542,7 +1542,7 @@
               "className" : "responsiveColumns",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { shouldHideNavButtons } from \"./game/display/currentPatientZoom\";\n!shouldHideNavButtons()",
+                "content" : "import { shouldHideNavButtons } from \"./game/patientZoom/currentPatientZoom\";\n!shouldHideNavButtons()",
                 "language" : "typescript"
               }
             } ],
@@ -1572,7 +1572,7 @@
                   "className" : "selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'first')",
+                    "content" : "import { isColumnSelected } from \"./game/patientZoom/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'first')",
                     "language" : "typescript"
                   }
                 } ],
@@ -1589,7 +1589,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'first');",
+                    "content" : "import { showColumn } from \"./game/patientZoom/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'first');",
                     "language" : "TypeScript"
                   }
                 },
@@ -1603,7 +1603,7 @@
                   "className" : "selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'second')",
+                    "content" : "import { isColumnSelected } from \"./game/patientZoom/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'second')",
                     "language" : "typescript"
                   }
                 } ],
@@ -1620,7 +1620,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'second');",
+                    "content" : "import { showColumn } from \"./game/patientZoom/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'second');",
                     "language" : "TypeScript"
                   }
                 },
@@ -1634,7 +1634,7 @@
                   "className" : "selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isColumnSelected } from \"./game/display/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'third')",
+                    "content" : "import { isColumnSelected } from \"./game/patientZoom/currentPatientZoom\";\nisColumnSelected(Context.patientConsole, 'third')",
                     "language" : "typescript"
                   }
                 } ],
@@ -1651,7 +1651,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { showColumn } from \"./game/display/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'third');",
+                    "content" : "import { showColumn } from \"./game/patientZoom/currentPatientZoom\";\n\nshowColumn(Context.patientConsole, 'third');",
                     "language" : "TypeScript"
                   }
                 },
@@ -1662,7 +1662,7 @@
             "className" : "jean",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { shouldHideNavButtons } from \"./game/display/currentPatientZoom\";\nshouldHideNavButtons();",
+              "content" : "import { shouldHideNavButtons } from \"./game/patientZoom/currentPatientZoom\";\nshouldHideNavButtons();",
               "language" : "typescript"
             },
             "layout" : {
@@ -1682,7 +1682,7 @@
         "exposeAs" : "patientConsole",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { getInitialPatientZoomState } from './game/display/currentPatientZoom';\ngetInitialPatientZoomState();",
+          "content" : "import { getInitialPatientZoomState } from './game/patientZoom/currentPatientZoom';\ngetInitialPatientZoomState();",
           "language" : "TypeScript"
         },
         "layout" : { },

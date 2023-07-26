@@ -26,7 +26,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { selectPatient } from './game/logic/likert';\n\nselectPatient(Context.patientMenuItem.id);",
+                "content" : "import { selectPatient } from './game/legacy/likert';\n\nselectPatient(Context.patientMenuItem.id);",
                 "language" : "typescript"
               }
             },
@@ -44,7 +44,7 @@
         "exposeAs" : "patientMenuItem",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getPatientMenu } from './game/logic/likert';\ngetPatientMenu();",
+          "content" : "import { getPatientMenu } from './game/legacy/likert';\ngetPatientMenu();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -66,7 +66,7 @@
           "className" : "selectedItem",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { getDrillStatus } from './game/logic/drill';\ngetDrillStatus() === 'completed';",
+            "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() === 'completed';",
             "language" : "JavaScript"
           }
         } ],
@@ -79,7 +79,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { gotoValidatePage } from './game/logic/likert';\n\ngotoValidatePage();",
+            "content" : "import { gotoValidatePage } from './game/legacy/likert';\n\ngotoValidatePage();",
             "language" : "typescript"
           }
         },

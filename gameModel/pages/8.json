@@ -13,7 +13,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { regenerateSamples } from './edition/distributionSampling';\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
+                "content" : "import { regenerateSamples } from './tools/distributionSampling';\n\nregenerateSamples();\nAPIMethods.runScript(\"var v = Variable.find(gameModel, 'trigger').getInstance(self); v.setValue(!v.getValue())\", {});",
                 "language" : "TypeScript"
               }
             },
@@ -57,7 +57,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { uniformSample } from './edition/distributionSampling';\nuniformSample;",
+              "content" : "import { uniformSample } from './tools/distributionSampling';\nuniformSample;",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -101,7 +101,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { histogramSample } from './edition/distributionSampling';\nhistogramSample;",
+              "content" : "import { histogramSample } from './tools/distributionSampling';\nhistogramSample;",
               "language" : "TypeScript"
             },
             "showLine" : true,
@@ -145,7 +145,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { normalSample } from './edition/distributionSampling';\nnormalSample;",
+              "content" : "import { normalSample } from './tools/distributionSampling';\nnormalSample;",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -212,7 +212,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { uniformSample } from './edition/distributionSampling';\nimport { generateTestPatients, testPatientsHeight } from './edition/patientGeneration';\n\ntestPatientsHeight();",
+              "content" : "import { uniformSample } from './tools/distributionSampling';\nimport { generateTestPatients, testPatientsHeight } from './edition/patientGeneration';\n\ntestPatientsHeight();",
               "language" : "TypeScript"
             },
             "showLine" : false,
@@ -256,7 +256,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { histogramSample } from './edition/distributionSampling';\nimport { testPatientBmi } from './edition/patientGeneration';\ntestPatientBmi();",
+              "content" : "import { histogramSample } from './tools/distributionSampling';\nimport { testPatientBmi } from './edition/patientGeneration';\ntestPatientBmi();",
               "language" : "TypeScript"
             },
             "showLine" : true,
@@ -300,7 +300,7 @@
             },
             "series" : {
               "@class" : "Script",
-              "content" : "import { normalSample } from './edition/distributionSampling';\nimport { testPatientAge } from './edition/patientGeneration';\ntestPatientAge();",
+              "content" : "import { normalSample } from './tools/distributionSampling';\nimport { testPatientAge } from './edition/patientGeneration';\ntestPatientAge();",
               "language" : "TypeScript"
             },
             "showLine" : false,

@@ -24,7 +24,7 @@
         "className" : "modalPatient",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isCurrentPatientCloseEnough } from './game/logic/the_world';\nVariable.find(gameModel, 'currentPatient').getValue(self) === \"\" \n\t|| Variable.find(gameModel, 'showPatientModal').isFalse(self)\n\t|| !isCurrentPatientCloseEnough();",
+          "content" : "import { isCurrentPatientCloseEnough } from './game/legacy/the_world';\nVariable.find(gameModel, 'currentPatient').getValue(self) === \"\" \n\t|| Variable.find(gameModel, 'showPatientModal').isFalse(self)\n\t|| !isCurrentPatientCloseEnough();",
           "language" : "JavaScript"
         },
         "id" : "",
@@ -76,7 +76,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('')",
+                                "content" : "import { setMapIdForPlayer } from './game/legacy/the_world';\n\nsetMapIdForPlayer('')",
                                 "language" : "typescript"
                               }
                             },
@@ -105,7 +105,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "Script",
-                                                    "content" : "import {premiereVague} from './game/logic/scenario';\n\npremiereVague();",
+                                                    "content" : "import {premiereVague} from './game/legacy/scenario';\n\npremiereVague();",
                                                     "language" : "typescript"
                                                   }
                                                 },
@@ -269,7 +269,7 @@
                                                         "style" : { },
                                                         "text" : {
                                                           "@class" : "Script",
-                                                          "content" : "import { getVisualOverviewForHumanId } from './game/display/graphics';\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
+                                                          "content" : "import { getVisualOverviewForHumanId } from './game/patientZoom/graphics';\ngetVisualOverviewForHumanId(Context.human.id, Context.resolution);",
                                                           "language" : "JavaScript"
                                                         }
                                                       },
@@ -296,7 +296,7 @@
                                                           "priority" : 1,
                                                           "script" : {
                                                             "@class" : "Script",
-                                                            "content" : "import { goToHuman } from './game/logic/the_world';\n\ngoToHuman(Context.human.id);",
+                                                            "content" : "import { goToHuman } from './game/legacy/the_world';\n\ngoToHuman(Context.human.id);",
                                                             "language" : "typescript"
                                                           }
                                                         },
@@ -525,7 +525,7 @@
                                               "onClick" : {
                                                 "@class" : "ScriptCallback",
                                                 "args" : [ "coord", "features" ],
-                                                "content" : "import { handleClickOnMap } from './game/logic/the_world';\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
+                                                "content" : "import { handleClickOnMap } from './game/legacy/the_world';\nhandleClickOnMap({x: coord[0], y: coord[1]}, features);\nreturn;"
                                               }
                                             },
                                             "style" : { },
@@ -652,7 +652,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { setMapIdForPlayer } from './game/logic/the_world';\n\nsetMapIdForPlayer('GVA');",
+                                "content" : "import { setMapIdForPlayer } from './game/legacy/the_world';\n\nsetMapIdForPlayer('GVA');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -781,7 +781,7 @@
                           "priority" : 0,
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { initEmitterIds } from './game/logic/baseEvent';\nimport { sendEvent } from './game/logic/EventManager';\nimport { whoAmI } from './tools/WegasHelper';\n\nsendEvent({\n  ...initEmitterIds(),\n  type: 'DirectCommunication',\n  message : Variable.find(gameModel, 'lastMsg').getValue(self),\n  sender : whoAmI()\n});\n",
+                            "content" : "import { initEmitterIds } from './game/common/events/baseEvent';\nimport { sendEvent } from './game/common/events/eventUtils';\nimport { whoAmI } from './tools/WegasHelper';\n\nsendEvent({\n  ...initEmitterIds(),\n  type: 'DirectCommunication',\n  message : Variable.find(gameModel, 'lastMsg').getValue(self),\n  sender : whoAmI()\n});\n",
                             "language" : "typescript"
                           }
                         },
@@ -834,7 +834,7 @@
                         "alignSelf" : "flex-start",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getRadios } from './game/logic/communication';\ngetRadios().length > 0",
+                          "content" : "import { getRadios } from './game/legacy/communication';\ngetRadios().length > 0",
                           "language" : "JavaScript"
                         },
                         "icon" : "air-freshener",
@@ -848,7 +848,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { emitRadioCreation } from './game/logic/communication';\n\nemitRadioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nemitRadioCreation('Renard balafré', ['A', 'B', 'C'], 'B');\n",
+                            "content" : "import { emitRadioCreation } from './game/legacy/communication';\n\nemitRadioCreation('Belette furtive', ['A', 'B', 'C'], 'C');\nemitRadioCreation('Renard balafré', ['A', 'B', 'C'], 'B');\n",
                             "language" : "typescript"
                           }
                         },
@@ -863,7 +863,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import {getRadios} from './game/logic/communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
+                              "content" : "import {getRadios} from './game/legacy/communication'\ngetRadios().map(r => {return {label: r.name, value: r.id.toString()}})",
                               "language" : "typescript"
                             },
                             "exposeAs" : "state",
@@ -899,7 +899,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import { getChannelChoices } from './game/logic/communication';\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
+                              "content" : "import { getChannelChoices } from './game/legacy/communication';\ngetChannelChoices(Context.radioState.state.selectedRadioId);",
                               "language" : "typescript"
                             },
                             "exposeAs" : "item",
@@ -915,7 +915,7 @@
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "import { emitRadioChannelUpdateEvent } from './game/logic/communication';\n\nemitRadioChannelUpdateEvent(Context.radioState.state.selectedRadioId, Context.newChannel);",
+                                "content" : "import { emitRadioChannelUpdateEvent } from './game/legacy/communication';\n\nemitRadioChannelUpdateEvent(Context.radioState.state.selectedRadioId, Context.newChannel);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
@@ -931,7 +931,7 @@
                             },
                             "script" : {
                               "@class" : "Script",
-                              "content" : "import { getRadio } from './game/logic/communication';\nconst r = getRadio(Context.radioState.state.selectedRadioId);\nr ? r.channel : 'No channel';",
+                              "content" : "import { getRadio } from './game/legacy/communication';\nconst r = getRadio(Context.radioState.state.selectedRadioId);\nr ? r.channel : 'No channel';",
                               "language" : "JavaScript"
                             },
                             "style" : { }
@@ -988,7 +988,7 @@
                               "priority" : 0,
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { emitRadioCommunication } from './game/logic/communication';\n\nconst msg = Variable.find(gameModel, 'lastRadioMsg').getValue(self);\nemitRadioCommunication(msg, Context.radioState.state.selectedRadioId);",
+                                "content" : "import { emitRadioCommunication } from './game/legacy/communication';\n\nconst msg = Variable.find(gameModel, 'lastRadioMsg').getValue(self);\nemitRadioCommunication(msg, Context.radioState.state.selectedRadioId);",
                                 "language" : "typescript"
                               }
                             },
@@ -1034,7 +1034,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getRadio, getRadioMessages } from './game/logic/communication';\nconst radioId = Context.radioState.state.selectedRadioId || -1;\nconst channel = getRadio(radioId)?.channel;\ngetRadioMessages(channel || '').join('<br>')",
+                          "content" : "import { getRadio, getRadioMessages } from './game/legacy/communication';\nconst radioId = Context.radioState.state.selectedRadioId || -1;\nconst channel = getRadio(radioId)?.channel;\ngetRadioMessages(channel || '').join('<br>')",
                           "language" : "JavaScript"
                         }
                       },
@@ -1057,7 +1057,7 @@
                 },
                 "initialState" : {
                   "@class" : "Script",
-                  "content" : "import { getInitialRadioState } from './game/logic/communication';\ngetInitialRadioState();",
+                  "content" : "import { getInitialRadioState } from './game/legacy/communication';\ngetInitialRadioState();",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
@@ -1087,7 +1087,7 @@
                         "alignSelf" : "flex-start",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\np !== undefined && p.phoneId > 0;",
+                          "content" : "import { getMyPhone } from './game/legacy/communication';\nconst p = getMyPhone();\np !== undefined && p.phoneId > 0;",
                           "language" : "JavaScript"
                         },
                         "icon" : "phone",
@@ -1101,7 +1101,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "Script",
-                            "content" : "import { emitPhoneCreationEvent } from './game/logic/communication';\nimport { whoAmI } from './tools/WegasHelper';\n\nemitPhoneCreationEvent(whoAmI())",
+                            "content" : "import { emitPhoneCreationEvent } from './game/legacy/communication';\nimport { whoAmI } from './tools/WegasHelper';\n\nemitPhoneCreationEvent(whoAmI())",
                             "language" : "typescript"
                           }
                         },
@@ -1127,7 +1127,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "import { getPhoneDropDownList } from './game/logic/communication';\ngetPhoneDropDownList();",
+                              "content" : "import { getPhoneDropDownList } from './game/legacy/communication';\ngetPhoneDropDownList();",
                               "language" : "typescript"
                             },
                             "layoutStyle" : { },
@@ -1143,7 +1143,7 @@
                         } ],
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
+                          "content" : "import { userHasPhone } from './game/legacy/communication';\n!userHasPhone();",
                           "language" : "JavaScript"
                         },
                         "layout" : {
@@ -1201,7 +1201,7 @@
                               "priority" : 0,
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { emitPhoneMessageEvent } from './game/logic/communication';\n\nconst recipient = Variable.find(gameModel, 'recipientPhoneId').getValue(self);\nconst msg = Variable.find(gameModel, 'lastPhoneMsg').getValue(self);\nemitPhoneMessageEvent(Context.phoneState.state.myPhoneId, recipient, msg);\n",
+                                "content" : "import { emitPhoneMessageEvent } from './game/legacy/communication';\n\nconst recipient = Variable.find(gameModel, 'recipientPhoneId').getValue(self);\nconst msg = Variable.find(gameModel, 'lastPhoneMsg').getValue(self);\nemitPhoneMessageEvent(Context.phoneState.state.myPhoneId, recipient, msg);\n",
                                 "language" : "typescript"
                               }
                             },
@@ -1215,7 +1215,7 @@
                         "className" : "",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { userHasPhone } from './game/logic/communication';\n!userHasPhone();",
+                          "content" : "import { userHasPhone } from './game/legacy/communication';\n!userHasPhone();",
                           "language" : "JavaScript"
                         },
                         "layout" : { },
@@ -1240,7 +1240,7 @@
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
-                          "content" : "import { getPhoneDropDownList } from './game/logic/communication';\ngetPhoneDropDownList();",
+                          "content" : "import { getPhoneDropDownList } from './game/legacy/communication';\ngetPhoneDropDownList();",
                           "language" : "typescript"
                         },
                         "layoutStyle" : { },
@@ -1260,7 +1260,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getPhoneMessages } from './game/logic/communication';\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\nlet v = '';\nif(selectedPhone){\n\tv = getPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');\n}else {\n\tv = 'no phone selected'\n}\nv;",
+                          "content" : "import { getPhoneMessages } from './game/legacy/communication';\nconst selectedPhone = Variable.find(gameModel, 'fromPhone').getValue(self);\nlet v = '';\nif(selectedPhone){\n\tv = getPhoneMessages(Number.parseInt(selectedPhone)).join('<br>');\n}else {\n\tv = 'no phone selected'\n}\nv;",
                           "language" : "JavaScript"
                         }
                       },
@@ -1295,7 +1295,7 @@
                 },
                 "initialState" : {
                   "@class" : "Script",
-                  "content" : "import { getMyPhone } from './game/logic/communication';\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
+                  "content" : "import { getMyPhone } from './game/legacy/communication';\nconst p = getMyPhone();\n({myPhoneId : (p ? p.phoneId : -1)});",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },

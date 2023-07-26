@@ -13,7 +13,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPatientTitle } from './game/display/currentPatientZoom';\ngetCurrentPatientTitle(true);",
+              "content" : "import { getCurrentPatientTitle } from './game/patientZoom/currentPatientZoom';\ngetCurrentPatientTitle(true);",
               "language" : "JavaScript"
             }
           },
@@ -41,7 +41,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getRealLifeRole } from \"./game/logic/gameMaster\";\ngetRealLifeRole() !== 'OBSERVER';",
+              "content" : "import { getRealLifeRole } from \"./game/legacy/gameMaster\";\ngetRealLifeRole() !== 'OBSERVER';",
               "language" : "typescript"
             },
             "icon" : "arrow-left",
@@ -114,7 +114,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPatientDescription } from './game/display/currentPatientZoom';\ngetCurrentPatientDescription();",
+                  "content" : "import { getCurrentPatientDescription } from './game/patientZoom/currentPatientZoom';\ngetCurrentPatientDescription();",
                   "language" : "JavaScript"
                 }
               },
@@ -204,7 +204,7 @@
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getPain } from \"./game/display/currentPatientZoom\";\ngetPain();",
+                  "content" : "import { getPain } from \"./game/patientZoom/currentPatientZoom\";\ngetPain();",
                   "language" : "JavaScript"
                 }
               },
@@ -244,7 +244,7 @@
             },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getMainIndication } from \"./game/display/currentPatientZoom\";\ngetMainIndication();",
+              "content" : "import { getMainIndication } from \"./game/patientZoom/currentPatientZoom\";\ngetMainIndication();",
               "language" : "TypeScript"
             }
           },
@@ -302,7 +302,7 @@
         "exposeAs" : "vital",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getMainVitals } from \"./game/display/currentPatientZoom\";\ngetMainVitals();",
+          "content" : "import { getMainVitals } from \"./game/patientZoom/currentPatientZoom\";\ngetMainVitals();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -361,7 +361,7 @@
         "exposeAs" : "vital",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getSecondaryVitals } from \"./game/display/currentPatientZoom\";\ngetSecondaryVitals();",
+          "content" : "import { getSecondaryVitals } from \"./game/patientZoom/currentPatientZoom\";\ngetSecondaryVitals();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -383,7 +383,7 @@
             "className" : "",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { isInterfaceDisabled } from \"./game/logic/gameMaster\";\nisInterfaceDisabled()",
+              "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled()",
               "language" : "typescript"
             },
             "label" : {
@@ -403,7 +403,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { sendEvent } from \"./game/logic/EventManager\";\n\nimport { getCurrentPatientId } from \"./tools/WegasHelper\";\nconst patientId = getCurrentPatientId();\n\nsendEvent({\n\ttype: 'HumanTreatment',\n\ttargetType: 'Human',\n\ttargetId: patientId,\n\temitterCharacterId: patientId,\n\temitterPlayerId: String(self.getId()),\n\tblocks: [],\n\tsource: {type: 'act', actId: Context.act.id}\n});",
+                "content" : "import { sendEvent } from \"./game/legacy/EventManager\";\n\nimport { getCurrentPatientId } from \"./tools/WegasHelper\";\nconst patientId = getCurrentPatientId();\n\nsendEvent({\n\ttype: 'HumanTreatment',\n\ttargetType: 'Human',\n\ttargetId: patientId,\n\temitterCharacterId: patientId,\n\temitterPlayerId: String(self.getId()),\n\tblocks: [],\n\tsource: {type: 'act', actId: Context.act.id}\n});",
                 "language" : "TypeScript",
                 "returnType" : "Promise<unknown> | undefined"
               }
@@ -489,7 +489,7 @@
             "exposeAs" : "vital",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getPains } from \"./game/display/currentPatientZoom\";\ngetPains();",
+              "content" : "import { getPains } from \"./game/patientZoom/currentPatientZoom\";\ngetPains();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",
@@ -549,7 +549,7 @@
             "exposeAs" : "block",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAfflictedBlocksDetails } from \"./game/display/currentPatientZoom\";\ngetAfflictedBlocksDetails().map((data, i) => ({\n\tid: i, \n\tdata: data\n}));",
+              "content" : "import { getAfflictedBlocksDetails } from \"./game/patientZoom/currentPatientZoom\";\ngetAfflictedBlocksDetails().map((data, i) => ({\n\tid: i, \n\tdata: data\n}));",
               "language" : "TypeScript"
             },
             "itemKey" : "id",

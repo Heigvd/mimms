@@ -1,4 +1,4 @@
-import { Histogram, HistogramDistribution, IHistogram, NormalDistribution } from './distributionSampling'
+import { Histogram, HistogramDistribution, IHistogram, NormalDistribution } from '../tools/distributionSampling'
 import { getSituationDefinition } from './GameModelerHelper';
 import { pickRandom } from '../tools/helper';
 import { BodyFactoryParam, Sex } from '../HUMAn/human';

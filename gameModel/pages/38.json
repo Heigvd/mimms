@@ -41,7 +41,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { actAsObserverPayload, processQrCode } from \"./game/logic/qr\";\nconst data = JSON.stringify(actAsObserverPayload());\nprocessQrCode(data);",
+                    "content" : "import { actAsObserverPayload, processQrCode } from \"./game/legacy/qr\";\nconst data = JSON.stringify(actAsObserverPayload());\nprocessQrCode(data);",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
@@ -66,7 +66,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { actAsObserverPayload } from \"./game/logic/qr\";\nJSON.stringify(actAsObserverPayload());",
+              "content" : "import { actAsObserverPayload } from \"./game/legacy/qr\";\nJSON.stringify(actAsObserverPayload());",
               "language" : "TypeScript"
             }
           },

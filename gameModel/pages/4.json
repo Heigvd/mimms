@@ -625,7 +625,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'LIKERT'",
+              "content" : "import { getDrillType } from './game/legacy/gameMaster';\ngetDrillType() !== 'LIKERT'",
               "language" : "JavaScript"
             },
             "label" : {
@@ -639,7 +639,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { getAllLikertData } from './game/logic/likert';\n\ngetAllLikertData();",
+                "content" : "import { getAllLikertData } from './game/legacy/likert';\n\ngetAllLikertData();",
                 "language" : "typescript"
               }
             },
@@ -651,7 +651,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillType } from './game/logic/gameMaster';\ngetDrillType() !== 'PRE-TRIAGE'",
+              "content" : "import { getDrillType } from './game/legacy/gameMaster';\ngetDrillType() !== 'PRE-TRIAGE'",
               "language" : "typescript"
             },
             "label" : {
@@ -677,7 +677,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n !isDrillMode();",
+          "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n !isDrillMode();",
           "language" : "typescript"
         },
         "layout" : {
@@ -850,7 +850,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n isDrillMode();",
+          "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n isDrillMode();",
           "language" : "typescript"
         },
         "layout" : { },

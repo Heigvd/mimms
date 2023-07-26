@@ -22,7 +22,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { nextUndonePatient } from './game/logic/likert';\n\nnextUndonePatient();",
+            "content" : "import { nextUndonePatient } from './game/legacy/likert';\n\nnextUndonePatient();",
             "language" : "TypeScript",
             "returnType" : "Promise<unknown> | undefined"
           }

@@ -82,7 +82,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.category);",
+                      "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.category);",
                       "language" : "TypeScript"
                     }
                   },
@@ -94,7 +94,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { categoryToHtml } from \"./game/logic/triage\";\ncategoryToHtml(Context.patient.liveCategory);",
+                      "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.liveCategory);",
                       "language" : "TypeScript"
                     }
                   },
@@ -155,7 +155,7 @@
             "exposeAs" : "patient",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getPatientsOverview } from \"./game/display/liveOverview\";\ngetPatientsOverview();",
+              "content" : "import { getPatientsOverview } from \"./game/pretri/liveOverview\";\ngetPatientsOverview();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",

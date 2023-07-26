@@ -21,7 +21,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { registerSetStateAndThrottle } from \"./game/logic/TimeManager\";\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\"\"",
+                              "content" : "import { registerSetStateAndThrottle } from \"./game/legacy/TimeManager\";\nregisterSetStateAndThrottle(Context.worldTime.setState);\n\"\"",
                               "language" : "typescript"
                             }
                           },
@@ -37,7 +37,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getWorldTime } from './game/logic/TimeManager';\n\"Simulation Time: \" + getWorldTime().time;",
+                              "content" : "import { getWorldTime } from './game/legacy/TimeManager';\n\"Simulation Time: \" + getWorldTime().time;",
                               "language" : "JavaScript"
                             }
                           },
@@ -74,7 +74,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "Script",
-                                "content" : "import { clearState } from './game/logic/the_world';\n\nclearState();",
+                                "content" : "import { clearState } from './game/legacy/the_world';\n\nclearState();",
                                 "language" : "TypeScript"
                               }
                             },
@@ -95,7 +95,7 @@
                         "id" : "",
                         "initialSelectedPageId" : {
                           "@class" : "Script",
-                          "content" : "import { getGamePageId } from './game/logic/gameMaster';\ngetGamePageId()",
+                          "content" : "import { getGamePageId } from './game/legacy/gameMaster';\ngetGamePageId()",
                           "language" : "TypeScript"
                         },
                         "layoutStyle" : {
@@ -147,7 +147,7 @@
                         "className" : "paused-overlay",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { isDrillMode } from \"./game/logic/gameMaster\";\n!isDrillMode() ||  Variable.find(gameModel, 'running_global').getValue(self);",
+                          "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n!isDrillMode() ||  Variable.find(gameModel, 'running_global').getValue(self);",
                           "language" : "typescript"
                         },
                         "layout" : {
@@ -197,7 +197,7 @@
                 "id" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
-                  "content" : "import { getGamePageId } from './game/logic/gameMaster';\ngetGamePageId()",
+                  "content" : "import { getGamePageId } from './game/legacy/gameMaster';\ngetGamePageId()",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "fullSize",
@@ -214,7 +214,7 @@
         "id" : "ifID",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getTimeMode } from './game/logic/gameMaster';\ngetTimeMode() === 'LIVE_WORLD';",
+          "content" : "import { getTimeMode } from './game/legacy/gameMaster';\ngetTimeMode() === 'LIVE_WORLD';",
           "language" : "JavaScript"
         },
         "layoutClassName" : "fullSize",
