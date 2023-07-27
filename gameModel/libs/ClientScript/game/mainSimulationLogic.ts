@@ -2,14 +2,14 @@
  * Setup function
  */
 
-import { mainSimLogger } from "../tools/logger";
+import { logger, mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
-import { EventPayload } from "./common/events/eventTypes";
-import { FullEvent, sendEvent } from "./common/events/eventUtils";
+import { TimedEventPayload } from "./common/events/eventTypes";
+import { compareEvent, compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
@@ -19,6 +19,7 @@ let currentSimulationState = initMainState();//Helpers.useRef<MainSimulationStat
 const stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
 const actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+const processedEvents :Record<string, FullEvent<TimedEventPayload>> = {};
 
 mainSimLogger.info('Main simulation initialized')
 
@@ -64,32 +65,40 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 function runUpdateLoop(): void {
 
   // get all events
-  const globalEvents : FullEvent<EventPayload>[] = [];
+  const globalEvents : FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
   // filter out non processed events
+  const unprocessed = globalEvents.filter(e => processedEvents[e.id] !== undefined);
 
-  // apply events and generate new state
+  const sorted = unprocessed.sort(compareTimedEvents);
 
-  let last : MainSimulationState | undefined = undefined;
-  globalEvents.forEach(event =>  {
-    last = processEvent(event);
+  // process all candidate events
+  sorted.forEach(event =>  {
+    processEvent(event);
   })
-
-  if(last){
-    currentSimulationState = last;
-  }
 
   // TODO force render ?
 }
 
 /**
- * Processes one global event and computes a new state from there
+ * Processes one global event and computes a new resulting state
+ * The new state is appended in the history
+ * The event is ignored if it doesn't match with the current simulation time
  * @param event the global event to process
  * @returns the resulting simulation state
  */
-function processEvent(event : FullEvent<EventPayload>): MainSimulationState{
+function processEvent(event : FullEvent<TimedEventPayload>){
 
-  // TODO store ids of processed events
+  const now = currentSimulationState.getSimTime();
+  if(event.payload.triggerTime < now){
+    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+    mainSimLogger.warn('Likely due to a TimeForwardEvent that has jumped over an existing event');
+    return;
+  }else if (event.payload.triggerTime > now){
+    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+    mainSimLogger.warn('This event will be processed later');
+    return;
+  }
 
   switch(event.payload.type){
     case 'ActionEvent': {
@@ -104,18 +113,23 @@ function processEvent(event : FullEvent<EventPayload>): MainSimulationState{
       }
       break;
     case 'TimeForwardEvent':{
-        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.timeJump, event.payload.timeStamp);
+        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.timeJump, event.payload.triggerTime);
         localEventManager.queueLocalEvent(timefwdEvent);
       }
       break;
-    
+    default :
+      mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
+      break;
   }
 
+  processedEvents[event.id] = event;
   // process all generated events
+  
   const newState = localEventManager.processPendingEvents(currentSimulationState);
-  stateHistory.push(newState);
-  return newState;
-
+  if(newState.stateCount !== currentSimulationState.stateCount){
+    currentSimulationState = newState;
+    stateHistory.push(newState);
+  }
 }
 
 export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {

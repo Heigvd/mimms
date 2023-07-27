@@ -168,16 +168,22 @@ export type EventType = EventPayload['type'];
 /////////////////////////////////////////////////
 /// NEW EVENTS FOR MAIN SIMULATION
 /////////////////////////////////////////////////
+interface TimedPayload {
+	/**
+	 * Simulation time at which the event has to take effect
+	 */
+	triggerTime: SimTime
+}
 
-export interface ActionEvent extends BaseEvent {
+export type TimedEventPayload = TimedPayload & EventPayload;
+
+export interface ActionEvent extends BaseEvent, TimedPayload {
 	type: 'ActionEvent';
-	timeStamp : SimTime;
 	templateRef: TemplateRef;
 }
 
-export interface TimeForwardEvent extends BaseEvent {
+export interface TimeForwardEvent extends BaseEvent, TimedPayload {
 	type: 'TimeForwardEvent';
-	timeStamp : SimTime;
 	/**
 	 * The time duration to jump forward
 	 */

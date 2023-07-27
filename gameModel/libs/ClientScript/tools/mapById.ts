@@ -1,16 +1,18 @@
-export interface MappableById<K extends string | number> {
-  id(): K;
-}
 
-export function mapById<K extends string | number, V extends MappableById<K>>(array: V[]): Record<K, V[]> {
+/**
+ * Group elements of an array using a discriminant function
+ * @param array 
+ * @param getGroupId function providing a discriminant to pick the group
+ * @returns 
+ */
+export function group<K extends number | string | symbol, V>(array: Readonly<V[]>, getGroupId : ((elem: V) => K)): Record<K,V[]> {
+  const val = array.reduce<Record<K, V[]>>((map, elem) =>{
 
-  const val = array.reduce<Record<K, V[]>>((map, act) =>{
-
-    const id = act.id();
+    const id = getGroupId(elem);
     if(!map[id]){
       map[id] = []
     }
-    map[id]!.push(act);
+    map[id]!.push(elem);
     return map;
   }, {} as Record<K, V[]>);
 

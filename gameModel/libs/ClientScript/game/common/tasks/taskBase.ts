@@ -1,17 +1,13 @@
-import { MappableById } from "../../../tools/mapById";
 import { ActorId } from "../baseTypes";
 import { IClonable } from "../interfaces";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
-export abstract class TaskBase implements IClonable, MappableById<ActorId> {
+export abstract class TaskBase implements IClonable {
 
-  public constructor(){
-
-  }
-  
-  id(): number {
-    throw new Error("Method not implemented.");
-  }
+  public constructor(
+    public readonly ownerId: ActorId
+  )
+  {  }
 
   public abstract isCompleted(): boolean;
 

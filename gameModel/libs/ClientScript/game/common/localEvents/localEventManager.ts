@@ -39,22 +39,26 @@ export class LocalEventManager {
       newState = state.applyEvents(pending);
       this.processedEvents.concat(pending);
 
-    } while( safeguard <= 10 && pending.length >0);
+    } while( safeguard <= 10 && pending.length > 0);
     
     if(safeguard >= 10){
-      this.logger.error('Too much event generations, might be an infinite event generation')
+      this.logger.error('Too much event generations, might be an infinite event generation. Stopping')
     }
 
     return newState;
   }
 
-  private getPendingEvents(timeStamp: SimTime): LocalEventBase[] {
+  private getPendingEvents(currentTime: SimTime): LocalEventBase[] {
     const events: LocalEventBase[] = [];
 
-    while(this.pendingEvents.peek() && this.pendingEvents.peek()!.simTimeStamp <= timeStamp){
-      events.push(this.pendingEvents.extract());
+    while(this.pendingEvents.peek() && this.pendingEvents.peek()!.simTimeStamp <= currentTime){
+      const e = this.pendingEvents.extract();
+      if(e.simTimeStamp < currentTime){
+        this.logger.error(`Current time = ${currentTime}, this event happened in the past, ignoring`, e);
+      }
+      events.push(e);
     }
-    return [];
+    return events;
   }
 
 }

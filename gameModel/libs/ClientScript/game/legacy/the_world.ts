@@ -960,7 +960,7 @@ function doMeasure(
 	const logEntry: MeasureLog = {
 		type: 'MeasureLog',
 		time: time,
-		emitterCharacterId: event.emitterCharacterId,
+		emitterCharacterId: event.emitterCharacterId.toString(),
 		metrics: values,
 	};
 	snapshot.state.console.push(logEntry);
@@ -1056,7 +1056,7 @@ function processCancelActionEvent(event: FullEvent<CancelActionEvent>) {
 				sendEvent(dA.resultEvent);
 			}
 			addLogMessage(
-				dA.event.payload.emitterCharacterId,
+				dA.event.payload.emitterCharacterId.toString(),
 				dA.event.payload.targetId,
 				event.time,
 				`${cancel} ${dA.action.label}`,
@@ -1144,7 +1144,7 @@ function delayAction(
 	};
 	const start = getTranslation('pretriage-interface', 'start');
 	addLogMessage(
-		event.payload.emitterCharacterId,
+		event.payload.emitterCharacterId.toString(),
 		event.payload.targetId,
 		event.time,
 		`${start} ${dA.action.label}`,
@@ -1201,7 +1201,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			if (source.type === 'item') {
 				const characterId: ObjectId = {
 					objectType: 'Human',
-					objectId: event.payload.emitterCharacterId,
+					objectId: event.payload.emitterCharacterId.toString(),
 				};
 				if (
 					checkItemAvailabilityAndConsume(
@@ -1226,7 +1226,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			);
 
 			const skillLevel = getHumanSkillLevelForAction(
-				event.payload.emitterCharacterId,
+				event.payload.emitterCharacterId.toString(),
 				event.payload.source,
 			);
 			if (skillLevel) {
@@ -1245,7 +1245,7 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			} else {
 				const dontknow = getTranslation('pretriage-interface', 'skillMissing');
 				addLogMessage(
-					event.payload.emitterCharacterId,
+					event.payload.emitterCharacterId.toString(),
 					event.payload.targetId,
 					event.time,
 					`${dontknow} ${getResolvedActionDisplayName(resolvedAction)}`,
@@ -1344,7 +1344,7 @@ function processHumanLogMessageEvent(event: FullEvent<HumanLogMessageEvent>) {
 	const logEntry: ConsoleLog = {
 		type: 'MessageLog',
 		time: time,
-		emitterCharacterId: event.payload.emitterCharacterId,
+		emitterCharacterId: event.payload.emitterCharacterId.toString(),
 		message: event.payload.message,
 	};
 
@@ -1411,7 +1411,7 @@ function doTreatment(
 	const entry: TreatmentLog = {
 		time: event.time,
 		message: message,
-		emitterCharacterId: event.payload.emitterCharacterId,
+		emitterCharacterId: event.payload.emitterCharacterId.toString(),
 		type: 'TreatmentLog',
 	};
 
@@ -1430,7 +1430,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 			if (source.type === 'item') {
 				const characterId: ObjectId = {
 					objectType: 'Human',
-					objectId: event.payload.emitterCharacterId,
+					objectId: event.payload.emitterCharacterId.toString(),
 				};
 
 				if (
@@ -1446,7 +1446,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 			}
 
 			const skillLevel = getHumanSkillLevelForAction(
-				event.payload.emitterCharacterId,
+				event.payload.emitterCharacterId.toString(),
 				event.payload.source,
 			);
 			const patientOnItselfAct = event.payload.emitterCharacterId === event.payload.targetId && !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
@@ -1466,7 +1466,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 			} else {
 				const dontknow = getTranslation('pretriage-interface', 'skillMissing');
 				addLogMessage(
-					event.payload.emitterCharacterId,
+					event.payload.emitterCharacterId.toString(),
 					event.payload.targetId,
 					event.time,
 					`${dontknow} (${getResolvedActionDisplayName(resolvedAction)})`,

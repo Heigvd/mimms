@@ -64,7 +64,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
       ...initBaseEvent(actorId),
       type: 'ActionEvent',
       templateRef: this.getTemplateRef(),
-      timeStamp : timeStamp,
+      triggerTime : timeStamp,
     }
   }
 
@@ -85,7 +85,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new GetInformationAction(payload.timeStamp, this.duration, this.message, this.title , event.id, ownerId);
+    return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: any) : GetInformationEvent {
@@ -98,7 +98,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
   public buildLocalEvent(globalEvent: FullEvent<GetInformationEvent>): PlanActionLocalEvent {
     const action = this.createActionFromEvent(globalEvent);
-    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.timeStamp, action);
+    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
   public getTemplateRef(): TemplateRef {

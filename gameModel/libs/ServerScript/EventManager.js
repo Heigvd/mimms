@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /**
  * Server-side event manager
  */

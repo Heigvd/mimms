@@ -1,5 +1,5 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { mapById } from "../../../tools/mapById";
+import { group, mapById } from "../../../tools/mapById";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
@@ -109,17 +109,17 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
-   * @returns A map of action arrays mapped by actor ids
+   * @returns A map of action arrays grouped by actor ids
    */
   public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
-    return mapById(this.internalState.actions);
+    return group(this.internalState.actions, (a) => a.ownerId);
   }
 
   /**
    * @returns A map of action arrays mapped by actor ids
    */
   public getTasksByActorIds(): Record<ActorId, Readonly<TaskBase>[]> {
-    return mapById(this.internalState.tasks);
+    return group(this.internalState.tasks, (t) => t.ownerId);
   }
 
 }

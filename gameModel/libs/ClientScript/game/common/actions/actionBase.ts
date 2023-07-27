@@ -1,7 +1,6 @@
-import { MappableById } from "../../../tools/mapById";
 import { ActorId, GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { IClonable } from "../interfaces";
-import { AddRadioMessageLocalEvent } from "../localEvents/AddLogMessageLocalEvent";
+import { AddRadioMessageLocalEvent } from "../localEvents/addRadioMessageLocalEvent";
 import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -12,7 +11,7 @@ export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | u
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
-export abstract class ActionBase implements IClonable, MappableById<ActorId> {
+export abstract class ActionBase implements IClonable{
 
   protected static slogger = Helpers.getLogger("actions-logger");
 
@@ -26,10 +25,6 @@ export abstract class ActionBase implements IClonable, MappableById<ActorId> {
     public readonly ownerId: ActorId) 
   { }
 
-  id(): ActorId {
-    return this.ownerId;
-  }
-
   abstract clone(): this;
 
   /**
@@ -42,7 +37,7 @@ export abstract class ActionBase implements IClonable, MappableById<ActorId> {
   public abstract duration(): SimDuration;
 
   /**
-   * TODO could be a pure function that just returns a cloned instance
+   * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
   public cancel(): boolean {
@@ -69,8 +64,6 @@ export abstract class ActionBase implements IClonable, MappableById<ActorId> {
 export abstract class StartEndAction extends ActionBase {
 
   protected readonly durationSec;
-
-  // TODO build from incoming event (or in a factory class)
 
   public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId, ownerId: ActorId){
     super(startTimeSec, evtId, ownerId);

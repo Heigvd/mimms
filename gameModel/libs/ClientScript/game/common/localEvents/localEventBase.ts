@@ -7,7 +7,7 @@ export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
 export interface LocalEvent {
   type: string;
-  ParentEventId: GlobalEventId;
+  parentEventId: GlobalEventId;
   simTimeStamp: SimTime
 }
 
@@ -21,7 +21,7 @@ export abstract class LocalEventBase implements LocalEvent{
   public readonly eventNumber: number;
 
   protected constructor(
-    readonly ParentEventId: GlobalEventId, 
+    readonly parentEventId: GlobalEventId, 
     readonly type: string, 
     readonly simTimeStamp: number){
       this.eventNumber = LocalEventBase.eventCounter++;
