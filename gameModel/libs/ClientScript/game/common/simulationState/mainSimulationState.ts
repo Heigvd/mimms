@@ -1,8 +1,9 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { group, mapById } from "../../../tools/mapById";
+import { group } from "../../../tools/mapById";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
+import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
@@ -130,7 +131,7 @@ interface MainStateObject {
    */
   actions: Readonly<ActionBase>[];
   tasks: Readonly<TaskBase>[]; // TODO
-  mapLocations: Readonly<any>[]; // TODO type
+  mapLocations: Readonly<MapFeature>[];
   patients: Readonly<HumanBody>[];
   actors : Readonly<Actor>[];
   radioMessages: Readonly<RadioMessage>[];

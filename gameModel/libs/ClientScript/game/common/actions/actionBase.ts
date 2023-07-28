@@ -1,4 +1,5 @@
-import { ActorId, GlobalEventId, LocalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, LocalEventId, Position, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { AddRadioMessageLocalEvent } from "../localEvents/addRadioMessageLocalEvent";
 import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
@@ -53,6 +54,10 @@ export abstract class ActionBase implements IClonable{
 
   public getStatus(): ActionStatus {
     return this.status;
+  }
+
+  public getAction(): ActionBase {
+    return this
   }
 
 }
@@ -146,14 +151,39 @@ export class GetInformationAction extends StartEndAction {
 
 export class DefineMapObjectAction extends StartEndAction {
 
+  /**
+   * Map feature to be displayed
+  */
+ public readonly feature: MapFeature;
+
+  constructor(
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    evtId: GlobalEventId,
+    ownerId: ActorId,
+    feature: MapFeature,
+    ) { 
+      super(startTimeSec, durationSeconds, evtId, ownerId);
+      this.feature = feature;
+  }
+
   clone(): this {
-    throw new Error("Method not implemented.");
+    const clone = new DefineMapObjectAction(
+        this.startTime,
+        this.durationSec,
+        this.eventId,
+        this.ownerId,
+        this.feature
+    );
+    clone.status = this.status;
+    return clone as this;
+    
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
     // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), 'todo'));
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.getAction(), this.feature));
     throw new Error("Method not implemented.");
   }
 

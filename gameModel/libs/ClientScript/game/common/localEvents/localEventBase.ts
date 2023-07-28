@@ -1,6 +1,7 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { ActionBase } from "../actions/actionBase";
 import { GlobalEventId, SimTime } from "../baseTypes";
+import { MapFeature } from "../events/defineMapObjectEvent";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -95,18 +96,19 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
 }
 
-/////////
+//////////// TODO in own file ¿?
 export class AddMapItemLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, todo: any){
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase, readonly feature: MapFeature){
     super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    // TODO Mikkel
     const so = state.getInternalStateObject();
-    so.mapLocations.push('your cool map element descriptor' as any);
-    throw new Error("Method not implemented.");
+    so.actions.push(this.action);
+    so.mapLocations.push(this.feature);
+    // Otherwise no update ¿?
+    this.action.update(state);
   }
 
 }

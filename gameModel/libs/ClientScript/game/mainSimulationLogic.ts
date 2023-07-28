@@ -48,7 +48,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
-  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc');
+  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', {type: 'Point', name: 'Map Point', id: 0, geometry: {x:0, y:0}});
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;

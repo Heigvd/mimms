@@ -5,8 +5,8 @@ import { ActionEvent, EventPayload } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
 import { GetInformationEvent } from "../events/getInformationEvent";
-import { DefineMapObjectEvent } from "../events/defineMapObjectEvent";
-import { LocalEventBase, PlanActionLocalEvent } from "../localEvents/localEventBase";
+import { DefineMapObjectEvent, MapFeature } from "../events/defineMapObjectEvent";
+import { AddMapItemLocalEvent, LocalEventBase, PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 
 
@@ -124,21 +124,37 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
  */
 export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent, LocalEventBase> {
   
-  
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly feature: MapFeature
+  ) {
+    super(title, description);
+  }
+
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: any): DefineMapObjectEvent {
-    throw new Error("Method not implemented.");
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      feature: this.feature,
+    }
   }
   
-  public buildLocalEvent(globalEvent: FullEvent<DefineMapObjectEvent>): LocalEventBase {
-    throw new Error("Method not implemented.");
+  public buildLocalEvent(globalEvent: FullEvent<DefineMapObjectEvent>): AddMapItemLocalEvent {
+    const action = this.createActionFromEvent(globalEvent);
+    return new AddMapItemLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action, action.feature)
   }
 
   public getTemplateRef(): string {
-    throw new Error("Method not implemented.");
+    return 'DefineMapObjectTemplate' + '_' + this.title;
   }
 
   protected createActionFromEvent(event: FullEvent<DefineMapObjectEvent>): DefineMapObjectAction {
-    throw new Error("Method not implemented.");
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, this.feature)
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
