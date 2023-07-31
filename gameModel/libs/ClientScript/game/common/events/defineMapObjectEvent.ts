@@ -1,5 +1,5 @@
 import { Position, SimDuration } from "../baseTypes";
-import { ActionEvent } from "./eventTypes";
+import { ActionCreationEvent } from "./eventTypes";
 
 export type MapFeature = PointFeature | LineFeature;
 
@@ -18,7 +18,7 @@ interface LineFeature extends BaseFeature<Position[]> {
   type: 'Line'
 }
 
-export interface DefineMapObjectEvent extends ActionEvent {
+export interface DefineMapObjectEvent extends ActionCreationEvent {
   durationSec: SimDuration;
   feature: MapFeature;
 }

@@ -160,8 +160,9 @@ export type EventPayload =
 	| CancelActionEvent
 	| FreezeEvent
 	| AgingEvent
-	| GetInformationEvent
-	| TimeForwardEvent;
+	// NEW EVENTS
+	| TimeForwardEvent
+	| ActionCreationEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -177,8 +178,8 @@ interface TimedPayload {
 
 export type TimedEventPayload = TimedPayload & EventPayload;
 
-export interface ActionEvent extends BaseEvent, TimedPayload {
-	type: 'ActionEvent';
+export interface ActionCreationEvent extends BaseEvent, TimedPayload {
+	type: 'ActionCreationEvent';
 	templateRef: TemplateRef;
 }
 

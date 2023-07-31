@@ -1,21 +1,21 @@
 import { ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
-import { ActionEvent, EventPayload } from "../events/eventTypes";
+import { ActionCreationEvent, EventPayload } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
 import { GetInformationEvent } from "../events/getInformationEvent";
 import { DefineMapObjectEvent, MapFeature } from "../events/defineMapObjectEvent";
-import { AddMapItemLocalEvent, LocalEventBase, PlanActionLocalEvent } from "../localEvents/localEventBase";
+import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 
 
 /**
- * Action template
- * This object is the descriptor of an action it represents the data of an action
- * It can create local events that will in turn create actions
+ * This class is the descriptor of an action, it represents the data of a playable action
+ * It is meant to contain the generic information of an action as well as the conditions for this action to available
+ * It is an action generator
  */
-export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends EventPayload = EventPayload, LocalEventT extends LocalEventBase = LocalEventBase> {
+export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> {
 
   public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey) {}
 
@@ -34,16 +34,10 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
    */
-  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: any): EventT;// TODO polymorphic params ?
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: UserInput): EventT;
 
   /**
-   * Generate a local event to create an action from a broadcasted global event
-   * @param globalEvent the broadcasted event
-   */
-  public abstract buildLocalEvent(globalEvent: FullEvent<EventT>): LocalEventT;
-
-  /**
-   * 
+   * Determines if the action can be launched given the current state of the game and the actor being played
    * @param state the current game state
    * @param actor currently selected actor
    * @returns true if the player can trigger this action
@@ -59,13 +53,22 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    */
   public abstract getTitle(): TranslationKey;
 
-  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionEvent {
+  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
     return {
       ...initBaseEvent(actorId),
-      type: 'ActionEvent',
+      type: 'ActionCreationEvent',
       templateRef: this.getTemplateRef(),
       triggerTime : timeStamp,
     }
+  }
+
+  /**
+   * Generate a local event to create an action from a broadcasted global event
+   * @param globalEvent the broadcasted event
+   */
+  public buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
+    const action = this.createActionFromEvent(globalEvent);
+    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
 }
@@ -74,7 +77,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 /**
  * Get some information
  */
-export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, GetInformationEvent, PlanActionLocalEvent> {
+export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, GetInformationEvent, undefined> {
   
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
@@ -88,17 +91,11 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: any) : GetInformationEvent {
-    // TODO figure out params polymorphism
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : GetInformationEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
     }
-  }
-
-  public buildLocalEvent(globalEvent: FullEvent<GetInformationEvent>): PlanActionLocalEvent {
-    const action = this.createActionFromEvent(globalEvent);
-    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -122,8 +119,10 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 /**
  * 
  */
-export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent, LocalEventBase> {
+export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent> {
   
+  //@Mikkel : the feature is not known in the template, this template is only a generator of actions
+  // however the type of feature might be known.
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -133,17 +132,14 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     super(title, description);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: any): DefineMapObjectEvent {
+  // @ Mikkel the feature should be built here from user input coordinates for example
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, featureData: any): DefineMapObjectEvent {
+    // TODO build feature here from user input
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
       feature: this.feature,
     }
-  }
-  
-  public buildLocalEvent(globalEvent: FullEvent<DefineMapObjectEvent>): AddMapItemLocalEvent {
-    const action = this.createActionFromEvent(globalEvent);
-    return new AddMapItemLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action, action.feature)
   }
 
   public getTemplateRef(): string {
@@ -154,7 +150,9 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, this.feature)
+    // @Mikkel the feature will be parsed from the event payload 
+    // (suppose I created a geometry on my interface and you receive the payload that describes it)
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, this.feature);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {

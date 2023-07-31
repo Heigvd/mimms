@@ -4,10 +4,11 @@
  * put minimal logic in here
  */
 
+import { ActionBase } from "../game/common/actions/actionBase";
 import { ActionTemplateBase } from "../game/common/actions/actionTemplateBase";
 import { Actor } from "../game/common/actors/actor";
 import { ActorId, TemplateRef } from "../game/common/baseTypes";
-import { buildAndLaunchActionFromTemplate, fetchAvailableActions } from "../game/mainSimulationLogic";
+import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
@@ -22,8 +23,15 @@ export async function planAction(actionTemplateId: TemplateRef, selectedActor: A
 
 /**
  * @param actorId
- * @returns a list of available actions
+ * @returns a list of actions that the current actor can undertake
  */
 export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
   return fetchAvailableActions(actorId);
+}
+
+/**
+ * @returns All the actions that have been planned
+ */
+export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
+  return getCurrentState().getActionsByActorIds();
 }

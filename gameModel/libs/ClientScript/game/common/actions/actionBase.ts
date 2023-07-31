@@ -154,7 +154,7 @@ export class DefineMapObjectAction extends StartEndAction {
   /**
    * Map feature to be displayed
   */
- public readonly feature: MapFeature;
+  public readonly feature: MapFeature;
 
   constructor(
     startTimeSec: SimTime, 

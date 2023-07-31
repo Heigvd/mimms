@@ -29,7 +29,7 @@ export abstract class LocalEventBase implements LocalEvent{
   }
 
   /**
-   * 
+   * Applies the effects of this event to the state
    * @param state In this function, state changes are allowed
    */
   abstract applyStateUpdate(state: MainSimulationState): void;
@@ -51,7 +51,7 @@ export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boo
 // TODO move in own file
 // immutable
 /**
- * Creates an action that will be inserted in the timeline
+ * Creates an action to be inserted in the timeline and inits it
  */
 export class PlanActionLocalEvent extends LocalEventBase {
   
@@ -70,6 +70,7 @@ export class PlanActionLocalEvent extends LocalEventBase {
 }
 
 /////////// TODO in own file
+// TODO dynamic time progression (continue advancing until something relevant happens)
 export class TimeForwardLocalEvent extends LocalEventBase {
 
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly timeJump: number){
@@ -96,19 +97,20 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
 }
 
-//////////// TODO in own file ¿?
+//////////// TODO in own file ¿? => YES
 export class AddMapItemLocalEvent extends LocalEventBase {
 
+  // @Mikkel TODO see if passing the action is necessary, likely not
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase, readonly feature: MapFeature){
     super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.actions.push(this.action);
     so.mapLocations.push(this.feature);
-    // Otherwise no update ¿?
-    this.action.update(state);
+    // Otherwise no update ¿? 
+    // @Mikkel => action update calls are performed during 1) in PlanActionLocalEvent or in TimeForwardEvents
+    // this.action.update(state);
   }
 
 }
