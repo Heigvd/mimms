@@ -1,5 +1,5 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { group, mapById } from "../../../tools/mapById";
+import { group } from "../../../tools/mapById";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
