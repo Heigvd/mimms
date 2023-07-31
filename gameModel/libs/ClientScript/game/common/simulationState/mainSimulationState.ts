@@ -1,5 +1,5 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { group } from "../../../tools/mapById";
+import { group } from "../../../tools/groupBy";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
@@ -109,18 +109,22 @@ export class MainSimulationState implements IClonable {
     return this.internalState.actors.find(a => a.Uid === actorId);
   }
 
+  public getAllActors(): Readonly<Actor[]> {
+    return this.internalState.actors;
+  }
+
   /**
    * @returns A map of action arrays grouped by actor ids
    */
   public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
-    return group(this.internalState.actions, (a) => a.ownerId);
+    return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
-
+  
   /**
    * @returns A map of action arrays mapped by actor ids
    */
   public getTasksByActorIds(): Record<ActorId, Readonly<TaskBase>[]> {
-    return group(this.internalState.tasks, (t) => t.ownerId);
+    return group(this.internalState.tasks, (t: TaskBase) => t.ownerId);
   }
 
 }
@@ -129,13 +133,12 @@ interface MainStateObject {
   /**
    * All actions that have been created
    */
-  actions: Readonly<ActionBase>[];
-  tasks: Readonly<TaskBase>[]; // TODO
-  mapLocations: Readonly<MapFeature>[];
-  patients: Readonly<HumanBody>[];
-  actors : Readonly<Actor>[];
-  radioMessages: Readonly<RadioMessage>[];
-
+  actions: ActionBase[];
+  tasks: TaskBase[]; // TODO
+  mapLocations: MapFeature[];
+  patients: HumanBody[];
+  actors : Actor[];
+  radioMessages: RadioMessage[];
 }
 
 type Immutable<T> = {

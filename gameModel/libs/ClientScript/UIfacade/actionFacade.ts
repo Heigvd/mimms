@@ -35,3 +35,10 @@ export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
+
+/**
+ * @returns All currently present actors
+ */
+export function getAllActors(): Readonly<Actor[]> {
+  return getCurrentState().getAllActors();
+}

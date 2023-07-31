@@ -87,7 +87,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     // TODO update all tasks
   }
 
-  updatePatients(patients: HumanBody[], currentTime: SimTime) {
+  updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
     //TODO
   }
 
