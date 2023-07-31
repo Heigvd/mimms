@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1687866290195,
+  "createdTime" : 1690815590929,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4513,15 +4513,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/distributionSampling",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:56275:82YVxT",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "edition/GameModelerHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4567,127 +4558,307 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/display/currentPatientZoom",
+    "contentKey" : "game/common/actions/actionBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24036051:ztApZh",
+    "refId" : "GameModelContent:#85:kDy3w4",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/display/graphics",
+    "contentKey" : "game/common/actions/actionTemplateBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24034415:otYUNi",
+    "refId" : "GameModelContent:#84:ASnhzm",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/display/liveOverview",
+    "contentKey" : "game/common/actors/actor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24107179:dd3C6J",
+    "refId" : "GameModelContent:#82:cx3Owv",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/baseEvent",
+    "contentKey" : "game/common/actors/actorTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48402:lGu9ss",
+    "refId" : "GameModelContent:#83:EGOR7D",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/communication",
+    "contentKey" : "game/common/baseTypes",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48401:Ve4BQW",
+    "refId" : "GameModelContent:#74:dtrIsT",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/drill",
+    "contentKey" : "game/common/constants",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24054901:bbSDJz",
+    "refId" : "GameModelContent:#81:S7Wppz",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/EventManager",
+    "contentKey" : "game/common/events/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24049824:epY4oR",
+    "refId" : "GameModelContent:#88:8WnWmR",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/gameMaster",
+    "contentKey" : "game/common/events/defineMapObjectEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24054702:2tMzal",
+    "refId" : "GameModelContent:#87:tLE73u",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/likert",
+    "contentKey" : "game/common/events/eventTypes",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24059683:1NMuL8",
+    "refId" : "GameModelContent:#86:eYkbJ6",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/qr",
+    "contentKey" : "game/common/events/eventUtils",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24098787:1qAwBH",
+    "refId" : "GameModelContent:#90:IKf0YP",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/scenario",
+    "contentKey" : "game/common/events/getInformationEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24049849:6Sh9Xt",
+    "refId" : "GameModelContent:#89:wdarUx",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/the_world",
+    "contentKey" : "game/common/interfaces",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24034257:SD9os9",
+    "refId" : "GameModelContent:#92:QAAvva",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/TimeManager",
+    "contentKey" : "game/common/localEvents/addActorLocalEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24034173:6MYV6p",
+    "refId" : "GameModelContent:#77:h67Lvz",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/logic/triage",
+    "contentKey" : "game/common/localEvents/addRadioMessageLocalEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:24046951:nJSvVn",
+    "refId" : "GameModelContent:#78:T6CAs8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBase",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#79:DDVeKO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#76:ISxqrN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/radioMessage",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#91:qHLHn7",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/resource",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:438809:YzX1wL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/mainSimulationState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#80:E5GgqQ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/taskBase",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#75:6MFZQm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/communication",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#70:IWimDK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/gameMaster",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#73:Nu8q8h",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/likert",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#67:7aiTeC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/qr",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#71:zNPabl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/scenario",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#69:OCwcyC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/the_world",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#68:h6AnTo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/legacy/TimeManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#72:gtpcJn",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/mainSimulationLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#64:vfz80k",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/patientZoom/currentPatientZoom",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#65:9axtYS",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/patientZoom/graphics",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#66:AmE1GG",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/consoleLog",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#96:9mfYgL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/drill",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#94:1RwMmv",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/liveOverview",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#93:PinW8a",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/triage",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#95:CKuK9v",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -4783,6 +4954,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "map/locationTypes",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#97:Qr2j9E",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "map/mapLayers",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4828,6 +5008,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "tools/distributionSampling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#63:AlVHDq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "tools/groupBy",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#62:V1OWJh",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/heap",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4868,6 +5066,24 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033052:uGpD6q",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/actionFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#99:UED7ju",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/timeFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#98:zPXGtM",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5051,7 +5267,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri XGO code clean up",
+  "name" : "MIMMS cleanup TEMP",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
