@@ -2,14 +2,15 @@
  * Setup function
  */
 
-import { logger, mainSimLogger } from "../tools/logger";
+import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
-import { TimedEventPayload } from "./common/events/eventTypes";
-import { compareEvent, compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
+import { initBaseEvent } from "./common/events/baseEvent";
+import { ActionCreationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
@@ -48,7 +49,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
-  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc');
+  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, {type: 'Point', name: 'Map Point', id: 0, geometry: {x:0, y:0}});
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -62,13 +63,13 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
  * Checks for new events and applies them to the state
  * Forces rerendering if any changes ?
  */
-function runUpdateLoop(): void {
+export function runUpdateLoop(): void {
 
   // get all events
   const globalEvents : FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
   // filter out non processed events
-  const unprocessed = globalEvents.filter(e => processedEvents[e.id] !== undefined);
+  const unprocessed = globalEvents.filter(e => !processedEvents[e.id]);
 
   const sorted = unprocessed.sort(compareTimedEvents);
 
@@ -92,7 +93,7 @@ function processEvent(event : FullEvent<TimedEventPayload>){
   const now = currentSimulationState.getSimTime();
   if(event.payload.triggerTime < now){
     mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-    mainSimLogger.warn('Likely due to a TimeForwardEvent that has jumped over an existing event');
+    mainSimLogger.warn('Likely due to a TimeForwardEvent that has jumped over an existing event => BUG');
     return;
   }else if (event.payload.triggerTime > now){
     mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
@@ -101,13 +102,13 @@ function processEvent(event : FullEvent<TimedEventPayload>){
   }
 
   switch(event.payload.type){
-    case 'ActionEvent': {
+    case 'ActionCreationEvent': {
         // find corresponding creation template
         const actionTemplate = actionTemplates[event.payload.templateRef];
         if(!actionTemplate){
           mainSimLogger.error('no template was found for ref ', event.payload.templateRef);
         }else{
-          const localEvent = actionTemplate?.buildLocalEvent(event);
+          const localEvent = actionTemplate.buildLocalEvent(event as FullEvent<ActionCreationEvent>);
           localEventManager.queueLocalEvent(localEvent);
         }
       }
@@ -123,8 +124,8 @@ function processEvent(event : FullEvent<TimedEventPayload>){
   }
 
   processedEvents[event.id] = event;
-  // process all generated events
-  
+
+  // process all generated events 
   const newState = localEventManager.processPendingEvents(currentSimulationState);
   if(newState.stateCount !== currentSimulationState.stateCount){
     currentSimulationState = newState;
@@ -146,9 +147,29 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 
   const actTemplate = actionTemplates[ref];
   if(actTemplate){
-    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), selectedActor, undefined);
+    const params : any = 'TODO local parameters fetched from UI like geometry, text inputs, etc.';
+    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), selectedActor, params);
     return await sendEvent(evt);
   }else {
     mainSimLogger.error('Could not find action template with ref', ref);
   }
+}
+
+/**
+ * Triggers time forward in the simulation
+ * @returns managed response
+ */
+export async function triggerTimeForward() : Promise<IManagedResponse> {
+  const tf : TimeForwardEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    timeJump: TimeSliceDuration,
+    type: "TimeForwardEvent",
+  }
+
+  return await sendEvent(tf);
+}
+
+export function getCurrentState(): Readonly<MainSimulationState> {
+  return currentSimulationState;
 }
