@@ -33,7 +33,11 @@ export class Heap<T> {
 	 * for any other element X in the heap
 	 */
 	peek(): T | undefined {
-		return this.data[0];
+		if(this.data[0]){
+			return this.data[0];
+		}else {
+			return undefined;
+		}
 	}
 
 	/**
@@ -41,10 +45,13 @@ export class Heap<T> {
 	 * for any other element X in the heap
 	 * log(N) complexity
 	 */
-	extract(): T {
+	extract(): T | undefined {
+		if(this.data.length < 1) return undefined;
+
 		const res : T = this.data[0]!;
+		const last = this.data.pop()!;
+
 		if(this.data.length > 0){
-			const last = this.data.pop()!;
 			this.data[0] = last;
 			this.heapDown(0);
 		}
@@ -62,6 +69,10 @@ export class Heap<T> {
 
 	isEmpty(): boolean{
 		return this.data.length < 1;
+	}
+
+	size(): number {
+		return this.data.length;
 	}
 
 	clear(){
@@ -120,18 +131,22 @@ export class Heap<T> {
 		return idx < this.data.length;
 	}
 }
-//
-//function test1(){
-//	const values = [7,5,86,3,4,24,23,6,8,4,2,5,332,34,5,3,4,2,3,554,2,45];
-//
-//	const minHeap = new Heap((x:number,y: number) => x <= y);
-//
-//	for(let i = 0; i < values.length; i++){
-//		minHeap.insert(values[i]!);
-//	}
-//
-//	for(let i = 0; i < values.length; i++){
-//		wlog(minHeap.extract());
-//	}
-//
-//}
+
+/*
+export function test1(){
+	const values = [7,5,86,3,4,24,23,6,8,4,2,5,332,34,5,3,4,2,3,554,2,45];
+
+	const minHeap = new Heap((x:number,y: number) => x <= y);
+
+	for(let i = 0; i < values.length; i++){
+		minHeap.insert(values[i]!);
+	}
+
+	for(let i = 0; i < values.length; i++){
+		wlog(minHeap.extract());
+	}
+	wlog('peek empty ', minHeap.peek());
+	wlog('extract while empty: should be undefined', minHeap.extract());
+
+}
+*/

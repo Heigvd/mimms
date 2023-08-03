@@ -1,0 +1,117 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Log state<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n\nwlog(getCurrentState())",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Run Event Loop<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { test1 } from \"./tools/heap\";\nimport { triggerEventLoop } from \"./UIfacade/debugFacade\";\n\ntriggerEventLoop();",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "eventLoop cheat",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>nothing</p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Launch Get Information Action<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { planAction } from \"./UIfacade/actionFacade\";\nimport { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "getInfo",
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "state",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'STATE ' + JSON.stringify(getCurrentState());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "act templates",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getAllActionTemplates } from \"./UIfacade/debugFacade\";\n'ACTION TEMPLATES ' + JSON.stringify(getAllActionTemplates());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getAllEvents } from \"./UIfacade/debugFacade\";\n'EVENTS ' + JSON.stringify(getAllEvents())",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

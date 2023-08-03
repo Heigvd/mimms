@@ -39,7 +39,7 @@ export class MainSimulationState implements IClonable {
 
     return {
       actions : this.internalState.actions.map((act) => act.clone()),
-      actors : {...this.internalState.actors}, // same ref to immutable
+      actors : [...this.internalState.actors],
       mapLocations: [...this.internalState.mapLocations],
       patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
       tasks : this.internalState.tasks.map((task) => task.clone()),
@@ -141,6 +141,7 @@ interface MainStateObject {
   radioMessages: RadioMessage[];
 }
 
+// experimental to make an object immutable
 type Immutable<T> = {
   readonly [K in keyof T ]: Immutable<T[K]>
 }

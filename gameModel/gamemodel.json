@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1690815590929,
+  "createdTime" : 1691058053778,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5080,6 +5080,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/debugFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:439594:1D3Hgu",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/timeFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5267,7 +5276,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS cleanup TEMP",
+  "name" : "MIMMS main simulation XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

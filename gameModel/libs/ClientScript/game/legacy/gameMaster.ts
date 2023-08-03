@@ -43,6 +43,7 @@ export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
 	return 'LIVE_WORLD';
 }
 
+
 export function getGamePageId() {
 	if (isDrillMode()) {
 		// DRILL / individually

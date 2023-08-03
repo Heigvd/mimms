@@ -258,6 +258,12 @@
         "name" : "debug_matrix",
         "scenaristPage" : false,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "41",
+        "name" : "mainSimEventsDebug",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "debug_pages"
     }, {

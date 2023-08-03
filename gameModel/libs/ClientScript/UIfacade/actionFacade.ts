@@ -17,7 +17,7 @@ import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentStat
  * @param selectedActor The actor the plans the action and will be its owner
  * @returns a promise
  */
-export async function planAction(actionTemplateId: TemplateRef, selectedActor: Actor): Promise<IManagedResponse | undefined>{
+export async function planAction(actionTemplateId: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
   return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor);
 }
 

@@ -6,7 +6,7 @@ import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
-export type ActionStatus = 'Planned' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
+export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
 
 /**
@@ -21,10 +21,12 @@ export abstract class ActionBase implements IClonable{
   protected status : ActionStatus;
 
   public constructor(
-    readonly startTime : SimTime, 
+    readonly startTime : SimTime,
     protected readonly eventId: GlobalEventId,
-    public readonly ownerId: ActorId) 
-  { }
+    public readonly ownerId: ActorId)
+  {
+    this.status = 'Uninitialized';
+  }
 
   abstract clone(): this;
 
@@ -55,11 +57,6 @@ export abstract class ActionBase implements IClonable{
   public getStatus(): ActionStatus {
     return this.status;
   }
-
-  public getAction(): ActionBase {
-    return this
-  }
-
 }
 
 
@@ -86,7 +83,7 @@ export abstract class StartEndAction extends ActionBase {
       case 'Completed':
 
         return;
-      case 'Planned': {
+      case 'Uninitialized': {
         if(simTime >= this.startTime){ // if action did start
           this.logger.debug('dispatching start events...');
           this.dispatchInitEvents(state);
@@ -183,7 +180,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
     // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.getAction(), this.feature));
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this, this.feature));
     throw new Error("Method not implemented.");
   }
 

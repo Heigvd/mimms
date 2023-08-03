@@ -22,7 +22,10 @@ const stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationSta
 const actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
 const processedEvents :Record<string, FullEvent<TimedEventPayload>> = {};
 
-mainSimLogger.info('Main simulation initialized')
+let updateCount = 0;
+
+mainSimLogger.info('Main simulation initialized', actionTemplates);
+mainSimLogger.info('Initial state', currentSimulationState);
 
 function initMainState(): MainSimulationState {
 
@@ -65,6 +68,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
  */
 export function runUpdateLoop(): void {
 
+  updateCount++;
+  mainSimLogger.info('------ start of update loop', updateCount);
+
   // get all events
   const globalEvents : FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
@@ -74,10 +80,13 @@ export function runUpdateLoop(): void {
   const sorted = unprocessed.sort(compareTimedEvents);
 
   // process all candidate events
+  mainSimLogger.info('Starting event processing...');
   sorted.forEach(event =>  {
+	mainSimLogger.info('Processing event ', event);
     processEvent(event);
   })
 
+	mainSimLogger.info('------ ..... end of update loop', updateCount);
   // TODO force render ?
 }
 
@@ -125,9 +134,12 @@ function processEvent(event : FullEvent<TimedEventPayload>){
 
   processedEvents[event.id] = event;
 
-  // process all generated events 
+  // process all generated events
   const newState = localEventManager.processPendingEvents(currentSimulationState);
+  mainSimLogger.info('new state with count', newState.stateCount, newState);
+
   if(newState.stateCount !== currentSimulationState.stateCount){
+	mainSimLogger.info('updating current state');
     currentSimulationState = newState;
     stateHistory.push(newState);
   }
@@ -138,20 +150,27 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
   if(actor){
     return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor));
   }else{
+	mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
   }
 }
 
+export function debugGetAllActionTemplates(): ActionTemplateBase[] {
+	return Object.values(actionTemplates);
+}
 
-export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: Actor): Promise<IManagedResponse | undefined>{
+export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
 
   const actTemplate = actionTemplates[ref];
-  if(actTemplate){
+  
+  const actor = getCurrentState().getActorById(selectedActor);
+
+  if(actTemplate && actor){
     const params : any = 'TODO local parameters fetched from UI like geometry, text inputs, etc.';
-    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), selectedActor, params);
+    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   }else {
-    mainSimLogger.error('Could not find action template with ref', ref);
+    mainSimLogger.error('Could not find action template with ref or actor with id', ref, selectedActor);
   }
 }
 

@@ -176,6 +176,7 @@ export function isRunning(): boolean {
 	return status.mode === 'REPLAY' || status.mode === 'RUNNING';
 }
 
+
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	setWorldTimeState = setTime;
 	if (isRunning()) {
