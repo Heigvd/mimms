@@ -16,16 +16,20 @@ import { localEventManager } from "./common/localEvents/localEventManager";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
-let currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-const stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+let currentSimulationState : MainSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
+let stateHistory : MainSimulationState[] = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
-const actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
-const processedEvents :Record<string, FullEvent<TimedEventPayload>> = {};
+let actionTemplates :Record<string, ActionTemplateBase>= {};//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+let processedEvents :Record<string, FullEvent<TimedEventPayload>> = {};
 
 let updateCount = 0;
 
+// make sure local state reset works
+recomputeState();
+
 mainSimLogger.info('Main simulation initialized', actionTemplates);
 mainSimLogger.info('Initial state', currentSimulationState);
+
 
 function initMainState(): MainSimulationState {
 
@@ -192,3 +196,20 @@ export async function triggerTimeForward() : Promise<IManagedResponse> {
 export function getCurrentState(): Readonly<MainSimulationState> {
   return currentSimulationState;
 }
+
+export function recomputeState(){
+	wlog('Reinitialize state');
+	processedEvents = {};
+
+	// TODO see if useRef makes sense (makes persistent to script changes)
+	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
+	stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+
+	actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+
+	updateCount = 0;
+
+	wlog('reset done');
+	runUpdateLoop();
+}
+

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1691058053778,
+  "createdTime" : 1691066545625,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4472,6 +4472,71 @@
     "name" : "localization",
     "refId" : "ListDescriptor:63752:ISsY6g",
     "scopeType" : "GameModelScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:439768:zdTrxN"
+    },
+    "editorTag" : "debug",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:439773:C4MigU",
+        "value" : 0.0
+      },
+      "defaultValue" : 0.0,
+      "editorTag" : "debug",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:439774:ZhYUKB",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:439774:ZhYUKB::EN",
+            "status" : "",
+            "translation" : "debug"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "debug_LMEBup",
+      "refId" : "NumberDescriptor:439772:l1mxlS",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:439769:vc1WSV",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:439769:vc1WSV::EN",
+          "status" : "",
+          "translation" : "debug"
+        }
+      }
+    },
+    "name" : "debug",
+    "refId" : "ListDescriptor:439767:xLh2KN",
+    "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
   } ],

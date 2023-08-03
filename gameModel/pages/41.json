@@ -2,6 +2,34 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "impactVariable" : {
+          "impact" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'debug_LMEBup').add(self, 1);",
+            "language" : "javascript"
+          },
+          "priority" : 2
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Reset Local State<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "priority" : 1,
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { recomputeLocalState } from \"./UIfacade/debugFacade\";\n\nrecomputeLocalState()",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "Reset local",
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
         "label" : {
           "@class" : "Script",
           "content" : "\"<p>Log state<br></p>\"",
@@ -15,6 +43,7 @@
             "language" : "TypeScript"
           }
         },
+        "name" : "Log state",
         "style" : { }
       },
       "type" : "Button"
@@ -22,7 +51,7 @@
       "props" : {
         "label" : {
           "@class" : "Script",
-          "content" : "\"<p>Run Event Loop<br></p>\"",
+          "content" : "\"<p>Force Run Event Loop<br></p>\"",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
@@ -33,6 +62,7 @@
             "language" : "TypeScript"
           }
         },
+        "name" : "Force Run Event Loop",
         "style" : { }
       },
       "type" : "Button"
@@ -43,7 +73,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>nothing</p>\"",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>(Trigger event loop hack)</p>\"",
           "language" : "TypeScript"
         }
       },

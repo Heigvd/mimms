@@ -25,3 +25,8 @@ export function triggerEventLoop() {
 	wlog('RUNNING UPDATE LOOP');
 	mainLogic.runUpdateLoop();
 }
+
+export function recomputeLocalState() {
+	wlog('--- LOCAL STATE RESET');
+	mainLogic.recomputeState();
+}
