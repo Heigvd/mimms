@@ -32,7 +32,7 @@
             },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCategoryCard } from './game/display/graphics';\ngetCategoryCard();",
+              "content" : "import { getCategoryCard } from './game/patientZoom/graphics';\ngetCategoryCard();",
               "language" : "JavaScript"
             }
           },
@@ -165,7 +165,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getVisualOverview } from './game/display/graphics';\ngetVisualOverview();",
+              "content" : "import { getVisualOverview } from './game/patientZoom/graphics';\ngetVisualOverview();",
               "language" : "JavaScript"
             }
           },
@@ -187,7 +187,7 @@
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getVisualDetails } from './game/display/graphics';\ngetVisualDetails();",
+                  "content" : "import { getVisualDetails } from './game/patientZoom/graphics';\ngetVisualDetails();",
                   "language" : "JavaScript"
                 }
               },

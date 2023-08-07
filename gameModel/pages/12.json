@@ -274,7 +274,7 @@
                       "type" : "Modal"
                     }, {
                       "props" : {
-                        "className" : "invertedButton",
+                        "className" : "navButton",
                         "disableIf" : {
                           "@class" : "Script",
                           "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
@@ -350,7 +350,7 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "className" : "invertedButton",
+                    "className" : "navButton",
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
@@ -795,10 +795,7 @@
           "props" : {
             "className" : "h1title",
             "layoutStyle" : { },
-            "style" : {
-              "marginBottom" : "30px",
-              "marginTop" : "50px"
-            },
+            "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\nconst welcome = getTranslation('pretriage-interface', 'welcome');\nreturn welcome",
@@ -1020,13 +1017,11 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "NOT_STARTED",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "maxWidth" : "2000px"
+        },
         "name" : "not_started",
-        "style" : {
-          "margin" : "auto",
-          "maxWidth" : "1500px",
-          "width" : "100%"
-        }
+        "style" : { }
       },
       "type" : "FlexList"
     }, {
@@ -1040,6 +1035,19 @@
             "text" : {
               "@class" : "Script",
               "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
               "language" : "TypeScript"
             }
           },
@@ -1347,6 +1355,32 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "patient-overview",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-overview",
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "layoutStyle" : { },
             "name" : "finish-text",
             "style" : { },
@@ -1394,6 +1428,8 @@
       " display" : "grid",
       "grid-auto-flow" : "column",
       "height" : "100%",
+      "margin" : "auto",
+      "maxWidth" : "1500px",
       "width" : "100%"
     },
     "style" : { }

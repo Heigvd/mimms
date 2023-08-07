@@ -33,6 +33,31 @@
 	flex-grow: 1;
 }
 
+.lastResult div .log_container{
+	color: #313131;
+    animation: popping 1s linear;
+	padding-left: 10px;;
+	border-radius: 15px;
+	align-items: baseline;
+	
+}
+
+@keyframes popping{
+	0%{
+		color: #924D86;
+		background-color: #d3617f59;
+		
+	}
+
+	50%{
+		color: #924D86;
+		background-color: #d3617f59;
+	}
+	100%{
+		
+	}
+}
+
 .responsiveButtons .selected,
 .patientConsole .selected {
 	background-color: var(--colors-activecolor);
@@ -113,6 +138,7 @@
 	overflow: auto;
 	min-height: 100px;
 	max-height: 180px;
+	font-size: .7rem;
 }
 
 
@@ -136,12 +162,18 @@ border: none;
 
 }
 
+.tabs{
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+}
 /* triangle under ABCDWheelMenu */
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
 	position: relative;
 	}
 
+/*
 .toolbox .menu:after {
 	content: '';
 	height: 0;
@@ -155,6 +187,7 @@ border: none;
 	transform: translateX(-50%);
 	
 }
+*/
 
 /* WHEEL menu */
 
@@ -196,9 +229,17 @@ border: none;
 }
 
  .wheelButton> button:hover{
-background-color: var(--colors-primarycolor);
+background-color: #666191;
+border-color: #666191;
 color: #fff;
 }
+
+ .wheelButton> button:hover.selected{
+background-color:var(--colors-primarycolorshade);
+border-color:var(--colors-primarycolorshade);
+color: #fff;
+}
+
 .ABCDwheelMenu .wheelButton:nth-child(1){
 	grid-column: 1;
 	grid-row: 3;
@@ -241,7 +282,8 @@ color: #fff;
 }
 .ABCDwheelMenu .wheelButton:nth-child(6) > button:hover, .ABCDwheelMenu .wheelButton:nth-child(6) > button.selected {
 	color: var(--colors-backgroundcolor);
-	background-color: var(--colors-primarycolor);
+	background-color: #666191;
+	border-color: #666191;
 }
 
 /*BUTTON DRILL PATIENT*/
@@ -254,7 +296,8 @@ color: #fff;
 }
 
 .btnTriage > button:hover{
-	background-color: var(--colors-primarycolor);
+	background-color: #666191;
+	border-color: #666191;
 	color: #fff;
 } 
 
@@ -277,6 +320,7 @@ color: #fff;
 	border-radius: 15px 15px 0px 0px;
 	border-bottom:none;
 	padding: 5px 15px 5px  15px ;
+	flex-grow: 2;
 }
 
 .mesActBtn.selected{
@@ -288,10 +332,10 @@ color: #fff;
 }
 
 .mesActBtn:hover{
-	color: #fff !important;
-	background-color:var(--colors-primarycolorshade);
-	border: solid 3px var(--colors-primarycolorshade);
-	border-bottom:none;
+	color: #fff;
+	background-color:#666191;
+	border: solid 3px #666191;
+	border-bottom: none;
 }
 
 .mesActBtn.no-selection{
@@ -319,14 +363,20 @@ color: var(--colors-disabledcolor);
 
 .selectedSubMenuItem:hover{
 	color: #fff;
-	border-color: var(--colors-activecolor);
-	background-color: var(--colors-activecolor);
+	border-color: #666191;
+	background-color: #666191;
 }
 
 
 .applyMeasureBtn{
 padding: 10px 25px 10px 25px;
-border-radius: 50px;
+border-radius: 10px;
+background-color: #924D86;
+}
+
+.applyMeasureBtn:hover{
+	background-color: #753E6B;
+
 }
 
 /* RESPONSIVE */

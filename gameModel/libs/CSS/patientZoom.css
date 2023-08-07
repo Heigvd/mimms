@@ -60,7 +60,7 @@
 	margin: auto;
 
 }
-
+/*
 .coloration_triangle {
 	-webkit-clip-path: polygon(0 50%, 100% 100%, 100% 0); 
 	clip-path: polygon(0 50%, 100% 100%, 100% 0);
@@ -88,13 +88,14 @@
 	background-image: linear-gradient(to right, white 15%, rgba(255, 255, 255, 0.2));
 	z-index: 1;
 }
+*/
 .coloration_cursor {
 	display: block;
 	position: absolute;
 	border: 4px solid black;
 	border-radius: 50%;
-	height: 0;
-	width: 0;
+	/*height: 0;
+	width: 0;*/
 }
 
 .patientConsole .tagSystemCategories.sacco {
