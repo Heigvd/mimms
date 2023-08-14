@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "5",
+  "defaultPageId" : "43",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
@@ -262,7 +262,13 @@
         "@class" : "Page",
         "id" : "41",
         "name" : "mainSimEventsDebug",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "42",
+        "name" : "mainSimMapDebug",
+        "scenaristPage" : true,
         "trainerPage" : null
       } ],
       "name" : "debug_pages"
@@ -294,6 +300,22 @@
         "trainerPage" : null
       } ],
       "name" : "tools"
+    }, {
+      "@class" : "Page",
+      "id" : "43",
+      "name" : "main simulation page",
+      "scenaristPage" : true,
+      "trainerPage" : null
+    }, {
+      "@class" : "Folder",
+      "items" : [ {
+        "@class" : "Page",
+        "id" : "44",
+        "name" : "welcomePage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      } ],
+      "name" : "mainSimulation pages"
     } ],
     "name" : null
   }

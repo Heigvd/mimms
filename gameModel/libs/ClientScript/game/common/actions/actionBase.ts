@@ -180,8 +180,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
     // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this, this.feature));
-    throw new Error("Method not implemented.");
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {

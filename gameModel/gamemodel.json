@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1685008141813,
+  "createdTime" : 1691999540131,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4541,6 +4541,267 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:445462:PIW3b6"
+    },
+    "editorTag" : "",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:445467:D93XX8"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "Hack boolean to force map rerenders, do not change Script alias",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:445486:ouvVD3",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:445487:2KWVZz",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:445487:2KWVZz::EN",
+              "status" : "",
+              "translation" : "[HACK] tmpFeatureForcer"
+            }
+          }
+        },
+        "name" : "tmpFeatureForcer",
+        "refId" : "BooleanDescriptor:445485:45dlZf",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:445604:u4SZgz",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:445605:CL1139",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:445605:CL1139::EN",
+                "status" : "",
+                "translation" : "AL"
+              }
+            }
+          }
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:445606:TFvhEc",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:445606:TFvhEc::EN",
+              "status" : "",
+              "translation" : "currentActor"
+            }
+          }
+        },
+        "maxSelectable" : 1,
+        "name" : "currentActor",
+        "refId" : "StringDescriptor:445603:bTmTCT",
+        "scopeType" : "TeamScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ {
+          "@class" : "EnumItem",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:447303:Wj5qaa",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:447303:Wj5qaa::EN",
+                "status" : "",
+                "translation" : "NOT_INITIATED"
+              }
+            }
+          },
+          "name" : "NOT_INITIATED",
+          "refId" : "EnumItem:#0:uv8dvO"
+        }, {
+          "@class" : "EnumItem",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:447305:Eg4tA0",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:447305:Eg4tA0::EN",
+                "status" : "",
+                "translation" : "RUNNING"
+              }
+            }
+          },
+          "name" : "RUNNING",
+          "refId" : "EnumItem:#1:DKYQyY"
+        }, {
+          "@class" : "EnumItem",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:447307:bifIRx",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:447307:bifIRx::EN",
+                "status" : "",
+                "translation" : "PAUSED"
+              }
+            }
+          },
+          "name" : "PAUSED",
+          "refId" : "EnumItem:#2:lkefQk"
+        } ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:447296:O913ll",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:447297:xNSPnC",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:447297:xNSPnC::EN",
+                "status" : "",
+                "translation" : "NOT_INITIATED"
+              }
+            }
+          }
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:447298:OPyvRw",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:447298:OPyvRw::EN",
+              "status" : "",
+              "translation" : "gameState"
+            }
+          }
+        },
+        "maxSelectable" : 1,
+        "name" : "gameState",
+        "refId" : "StringDescriptor:447295:K0tLMx",
+        "scopeType" : "TeamScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:447313:qKiUvM",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:447314:XtY4t7",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:447314:XtY4t7::EN",
+              "status" : "",
+              "translation" : "[admin] adminMode"
+            }
+          }
+        },
+        "name" : "_admin_AdminMode",
+        "refId" : "BooleanDescriptor:447312:e1CT8m",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:445468:prDFxE",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:445468:prDFxE::EN",
+            "status" : "",
+            "translation" : "interface"
+          }
+        }
+      },
+      "name" : "interface",
+      "refId" : "ListDescriptor:445466:kMdtO9",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:445463:Nx7TNE",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:445463:Nx7TNE::EN",
+          "status" : "",
+          "translation" : "mainGame"
+        }
+      }
+    },
+    "name" : "mainGame",
+    "refId" : "ListDescriptor:445461:gyfByM",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -4931,6 +5192,69 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/layers/testLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45813:EYths4",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/layers/tmpLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:445452:UkK1Rn",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/main",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45809:5382kv",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/styling/layerStyling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45814:wYOBaw",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/styling/mapStyling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45810:HHD4Y8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/types/featureTypes",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45812:jN2hmN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/utils/mapUtils",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:46875:gUAz3z",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "HUMAn/human",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5156,6 +5480,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/gameFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:447294:JAN77v",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/mapFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:45811:YEkZhQ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/timeFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5352,15 +5694,15 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Pré-tri V2.1 ALPHA",
+  "name" : "MIMMS main simulation convergence",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : false,
+    "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_dark-purple_cat_fa",
+    "iconUri" : "ICON_black-blue_dot_icon",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",

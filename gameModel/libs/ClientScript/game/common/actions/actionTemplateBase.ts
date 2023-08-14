@@ -1,11 +1,11 @@
 import { ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
-import { ActionCreationEvent, EventPayload } from "../events/eventTypes";
+import { ActionCreationEvent } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
 import { GetInformationEvent } from "../events/getInformationEvent";
-import { DefineMapObjectEvent, MapFeature } from "../events/defineMapObjectEvent";
+import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 
@@ -116,29 +116,35 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 }
 
+// TODO move to own file
 /**
  * 
  */
 export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent> {
   
-  //@Mikkel : the feature is not known in the template, this template is only a generator of actions
-  // however the type of feature might be known.
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     readonly duration: SimDuration,
-    readonly feature: MapFeature
+    readonly featureName: string,
+    readonly featureType: GeometryType,
   ) {
     super(title, description);
   }
 
-  // @ Mikkel the feature should be built here from user input coordinates for example
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, featureData: any): DefineMapObjectEvent {
-    // TODO build feature here from user input
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, featureData: featurePayload): DefineMapObjectEvent {
+    
+	const feature: MapFeature = {
+      type: this.featureType,
+      name: this.featureName,
+      id: featureData.id,
+      geometry: featureData.geometry,
+    }
+
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: this.feature,
+      feature: feature,
     }
   }
 
@@ -150,9 +156,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    // @Mikkel the feature will be parsed from the event payload 
-    // (suppose I created a geometry on my interface and you receive the payload that describes it)
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, this.feature);
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, payload.feature);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {

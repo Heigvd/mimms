@@ -2,6 +2,7 @@
  * Setup function
  */
 
+import { getTmpFeature, isMapAction } from "../gameMap/main";
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
@@ -56,7 +57,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
-  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, {type: 'Point', name: 'Map Point', id: 0, geometry: {x:0, y:0}});
+  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
+  const mapTest2 = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -127,7 +129,7 @@ function processEvent(event : FullEvent<TimedEventPayload>){
       }
       break;
     case 'TimeForwardEvent':{
-        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
+        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.timeJump, event.payload.triggerTime);
         localEventManager.queueLocalEvent(timefwdEvent);
       }
       break;
@@ -170,7 +172,7 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
   const actor = getCurrentState().getActorById(selectedActor);
 
   if(actTemplate && actor){
-    const params : any = 'TODO local parameters fetched from UI like geometry, text inputs, etc.';
+    const params : any = getTmpFeature();
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   }else {

@@ -97,20 +97,17 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
 }
 
-//////////// TODO in own file ¿? => YES
+/////////// TODO in own file
 export class AddMapItemLocalEvent extends LocalEventBase {
 
-  // @Mikkel TODO see if passing the action is necessary, likely not
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase, readonly feature: MapFeature){
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature){
     super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
+	wlog('-----PUSHING FEATURE------', this.feature)
     so.mapLocations.push(this.feature);
-    // Otherwise no update ¿? 
-    // @Mikkel => action update calls are performed during 1) in PlanActionLocalEvent or in TimeForwardEvents
-    // this.action.update(state);
   }
 
 }

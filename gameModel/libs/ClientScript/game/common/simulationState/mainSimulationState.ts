@@ -127,6 +127,13 @@ export class MainSimulationState implements IClonable {
     return group(this.internalState.tasks, (t: TaskBase) => t.ownerId);
   }
 
+  /**
+   * @returns An array of all map locations
+   */
+  public getMapLocations(): MapFeature[] {
+	  return this.internalState.mapLocations;
+  }
+
 }
 
 interface MainStateObject {

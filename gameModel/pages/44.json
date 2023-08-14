@@ -1,0 +1,16 @@
+{
+  "props" : {
+    "children" : [ ],
+    "layout" : {
+      "alignItems" : "center",
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

@@ -1,6 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { planAction } from '../UIfacade/actionFacade';
+import { resetTmpFeature } from '../UIfacade/mapFacade';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -11,10 +12,16 @@ export function getAllActionTemplates() {
 }
 
 export async function planFirstActionWithFirstActor(){
-
-	const actor = getCurrentState().getInternalStateObject().actors[0].Uid;
+	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
 	const actTpl = getAllActionTemplates()[0];
-	return planAction(actTpl.getTemplateRef(), actor);
+	return planAction(actTpl!.getTemplateRef(), actor!);
+}
+
+export async function planFirstMapActionWithFirstActor() {
+	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
+	const actTpl = getAllActionTemplates()[2];
+	return planAction(actTpl!.getTemplateRef(), actor!)
+
 }
 
 export function getAllEvents() {
@@ -29,4 +36,5 @@ export function triggerEventLoop() {
 export function recomputeLocalState() {
 	wlog('--- LOCAL STATE RESET');
 	mainLogic.recomputeState();
+	resetTmpFeature();
 }

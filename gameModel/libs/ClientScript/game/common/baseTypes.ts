@@ -11,7 +11,7 @@ export type SimDuration = number
 
 export type TranslationKey = string;
 
-export type Position = Point;
+export type Position = PointLikeObject;
 
 export type LocalEventId = number;
 
