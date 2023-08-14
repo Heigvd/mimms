@@ -314,6 +314,24 @@
         "name" : "welcomePage",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "45",
+        "name" : "actions",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "46",
+        "name" : "resources",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "47",
+        "name" : "gamePage",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

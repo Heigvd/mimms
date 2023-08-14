@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1691999540131,
+  "createdTime" : 1692014136481,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4764,6 +4764,74 @@
         "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:447321:ctITU1",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:447322:zkHGDf",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:447322:zkHGDf::EN",
+              "status" : "",
+              "translation" : "actionID"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "actionID",
+        "refId" : "NumberDescriptor:447320:LoXoVJ",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:447326:Vil92o",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:447327:uOGbik",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:447327:uOGbik::EN",
+              "status" : "",
+              "translation" : "assigned"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "assigned",
+        "refId" : "NumberDescriptor:447325:IqHd0N",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5489,6 +5557,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/InterfaceFacade/dummyActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:447319:ddISGF",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/InterfaceFacade/timeline",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:447317:O3AclD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/mapFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5547,6 +5633,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:24060901:IMT4Wb",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mainSim",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:447318:MtktUj",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5682,6 +5777,15 @@
     "contentType" : "json",
     "libraryType" : "Theme",
     "refId" : "GameModelContent:56945:NgCAXB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "MIMMS_p2",
+    "contentType" : "json",
+    "libraryType" : "Theme",
+    "refId" : "GameModelContent:447334:vpUZlr",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

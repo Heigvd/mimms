@@ -1,0 +1,166 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "taskName",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : " Context.item.title ;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "taskDuration",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "`${Context.item.duration}`;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "minutes",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"minutes\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "noPadding noMargin",
+                    "layoutStyle" : { },
+                    "name" : "duration",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "actionHeader",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderActive",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Variable.find(gameModel, 'actionID').getValue(self) === Context.item.id;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "impactVariable" : {
+                  "impact" : {
+                    "@class" : "Script",
+                    "content" : "Variable.find(gameModel, 'actionID').setValue(self, Context.item.id);",
+                    "language" : "javascript"
+                  }
+                },
+                "layout" : {
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "max-height" : "40px"
+                },
+                "name" : "Title",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Une description d une beauté et d'une justesse absolue.</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "noPadding playActionBtn",
+                    "icon" : "play",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "actionInfo",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'actionID').getValue(self) !== Context.item.id;",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Description&play",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "name" : "Actions",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "allDisplay-container",
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getDummyActionChoices } from \"./UIfacade/InterfaceFacade/dummyActions\";\ngetDummyActionChoices();",
+          "language" : "TypeScript"
+        },
+        "id" : "id",
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

@@ -5,6 +5,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/MIMMS_logo.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/dead_man.png" : {
     "description" : "",
     "mimeType" : "image/png",

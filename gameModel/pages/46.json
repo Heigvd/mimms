@@ -1,0 +1,126 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "taskName",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Titre</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "taskDescription",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>description</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : {
+          "border" : "solid 1px orange"
+        },
+        "name" : "texts",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>-</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "-",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "ambulance",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'assigned')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Number"
+                } ],
+                "layout" : {
+                  "alignItems" : "stretch",
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>+</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "name" : "+",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "aButton",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : { },
+        "layoutStyle" : {
+          "border" : "solid 1px brown"
+        },
+        "name" : "buttons",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "row",
+      "justifyContent" : "space-between"
+    },
+    "layoutClassName" : "ressourceAction-container noPadding noMargin",
+    "layoutStyle" : {
+      "height" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
