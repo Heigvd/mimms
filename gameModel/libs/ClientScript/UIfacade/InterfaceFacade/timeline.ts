@@ -4,6 +4,9 @@
  * 
  */
 
+import { getAllActors } from "../../UIfacade/actionFacade";
+import { getCurrentActor } from "../../UIfacade/InterfaceFacade/interfaceFacade";
+
 interface Action {
 	startTime: number,
 	duration: number,
@@ -94,6 +97,17 @@ export function getCurrentRole(): string {
 
 export function getTimeline() {
 	return dummyTimeline;
+}
+
+// TODO 
+export function buildTimelineObject() {
+	const timeline = [];
+
+	const actors = getAllActors();
+
+	for (let actor of actors) {
+		
+	}
 }
 
 /**
@@ -211,7 +225,7 @@ export function createGrid(currentTime: number, timelines: Timeline[]): string {
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
 	// TODO Implement getCurrentRole();
-		const active = timelines[i].id === getCurrentRole();
+		const active = timelines[i].id === getCurrentActor();
 		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
 	}
 

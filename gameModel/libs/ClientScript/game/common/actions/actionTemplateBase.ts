@@ -105,7 +105,6 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
     return true;
-    throw new Error("Method not implemented.");
   }
   public getDescription(): string {
     throw new Error("Method not implemented.");
@@ -160,7 +159,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    throw new Error("Method not implemented.");
+    return true;
   }
   public getDescription(): string {
     throw new Error("Method not implemented.");

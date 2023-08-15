@@ -37,12 +37,14 @@ function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
+  const testMCS = new Actor('MCS', 'actor-mcs', 'actor-mcs-long')
+  const testACS = new Actor('ACS', 'actor-als', 'actor-als-long')
 
   const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
 
   return new MainSimulationState({
     actions: [testAction],
-    actors: [testAL],
+    actors: [testAL, testMCS, testACS],
     mapLocations: [],
     patients: [],
     tasks: [],
@@ -58,7 +60,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
   const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
-  const mapTest2 = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;

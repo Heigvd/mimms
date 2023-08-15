@@ -250,7 +250,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Current Role</p>\"",
+                                  "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Variable.find(gameModel, 'currentActorUid').getValue(self))!.Role}</p>`;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -436,9 +436,16 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "actor",
+                                        "impactVariable" : {
+                                          "impact" : {
+                                            "@class" : "Script",
+                                            "content" : "Variable.find(gameModel, 'currentActorUid').setValue(self, Context.actor.Uid);",
+                                            "language" : "javascript"
+                                          }
+                                        },
                                         "label" : {
                                           "@class" : "Script",
-                                          "content" : "Context.timeline.id;",
+                                          "content" : "Context.actor.Role;",
                                           "language" : "TypeScript"
                                         },
                                         "layoutStyle" : { },
@@ -446,13 +453,13 @@
                                       },
                                       "type" : "Button"
                                     } ],
-                                    "exposeAs" : "timeline",
+                                    "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTimeline } from \"./UIfacade/InterfaceFacade/timeline\";\ngetTimeline();",
+                                      "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors();",
                                       "language" : "TypeScript"
                                     },
-                                    "itemKey" : "id",
+                                    "itemKey" : "Uid",
                                     "layout" : {
                                       "alignItems" : "center",
                                       "flexDirection" : "column",

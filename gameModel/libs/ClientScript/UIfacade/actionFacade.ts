@@ -6,7 +6,6 @@
 
 import { ActionBase } from "../game/common/actions/actionBase";
 import { ActionTemplateBase } from "../game/common/actions/actionTemplateBase";
-import { Actor } from "../game/common/actors/actor";
 import { ActorId, TemplateRef } from "../game/common/baseTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 
@@ -34,11 +33,4 @@ export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
-}
-
-/**
- * @returns All currently present actors
- */
-export function getAllActors(): Readonly<Actor[]> {
-  return getCurrentState().getAllActors();
 }

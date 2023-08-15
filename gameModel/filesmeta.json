@@ -59,6 +59,78 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ACS.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/AL.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/MCS.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/Nest.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/firetruck.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/mainAccident.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/police.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/secondaryAccident.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

@@ -13,7 +13,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : " Context.item.title ;",
+                      "content" : " Context.action.title;",
                       "language" : "TypeScript"
                     }
                   },
@@ -27,7 +27,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "`${Context.item.duration}`;",
+                          "content" : "`${Context.action.duration / 60}`;",
                           "language" : "TypeScript"
                         }
                       },
@@ -59,14 +59,14 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'actionID').getValue(self) === Context.item.id;",
+                    "content" : "Variable.find(gameModel, 'currentActionTitle').getValue(self) === Context.action.title;",
                     "language" : "typescript"
                   }
                 } ],
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'actionID').setValue(self, Context.item.id);",
+                    "content" : "Variable.find(gameModel, 'currentActionTitle').setValue(self, Context.action.title);",
                     "language" : "javascript"
                   }
                 },
@@ -91,7 +91,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Une description d une beauté et d'une justesse absolue.</p>\"",
+                      "content" : "`${Context.action.description}`",
                       "language" : "TypeScript"
                     }
                   },
@@ -113,7 +113,7 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'actionID').getValue(self) !== Context.item.id;",
+                  "content" : "Variable.find(gameModel, 'currentActionTitle').getValue(self) !== Context.action.title;",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -137,14 +137,14 @@
           "type" : "FlexList"
         } ],
         "className" : "allDisplay-container",
-        "exposeAs" : "item",
+        "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getDummyActionChoices } from \"./UIfacade/InterfaceFacade/dummyActions\";\ngetDummyActionChoices();",
+          "content" : "import { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(Variable.find(gameModel, 'currentActorUid').getValue(self));",
           "language" : "TypeScript"
         },
-        "id" : "id",
-        "itemKey" : "id",
+        "id" : "",
+        "itemKey" : "title",
         "layout" : {
           "flexDirection" : "column"
         },
