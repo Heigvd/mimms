@@ -1,4 +1,4 @@
-import { ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
+import { ActionTemplateId, ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import { ActionCreationEvent } from "../events/eventTypes";
@@ -17,7 +17,13 @@ import { Actor } from "../actors/actor";
  */
 export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> {
 
-  public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey) {}
+  private static IdSeed = 1000;
+
+  public readonly Uid: ActionTemplateId;
+
+  public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey) {
+	  this.Uid = ActionTemplateBase.IdSeed++;
+  }
 
   /**
    * a deterministic unique identifier for this template

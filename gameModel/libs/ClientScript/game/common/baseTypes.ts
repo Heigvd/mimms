@@ -1,5 +1,3 @@
-import { Point } from "../../map/point2D";
-
 /**
  * Represents the time in the simulation in seconds
  */
@@ -20,3 +18,5 @@ export type GlobalEventId = number;
 export type TemplateRef = string;
 
 export type ActorId = number;
+
+export type ActionTemplateId = number;
