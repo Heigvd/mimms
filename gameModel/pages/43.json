@@ -425,6 +425,13 @@
                                 },
                                 "layoutClassName" : "next-container",
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "name" : "Next",
                                 "style" : { }
                               },

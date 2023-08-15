@@ -4,8 +4,7 @@
  * 
  */
 
-import { getAllActors } from "../../UIfacade/actionFacade";
-import { getCurrentActor } from "../../UIfacade/InterfaceFacade/interfaceFacade";
+import { getCurrentActor } from "../../UIfacade/actorFacade";
 
 interface Action {
 	startTime: number,

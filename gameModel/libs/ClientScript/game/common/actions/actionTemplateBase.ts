@@ -107,10 +107,10 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     return true;
   }
   public getDescription(): string {
-    throw new Error("Method not implemented.");
+	return this.description;
   }
   public getTitle(): string {
-    throw new Error("Method not implemented.");
+    return this.title;
   }
 
 }
@@ -162,10 +162,10 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     return true;
   }
   public getDescription(): string {
-    throw new Error("Method not implemented.");
+    return this.description;
   }
   public getTitle(): string {
-    throw new Error("Method not implemented.");
+    return this.title;
   }
 
 }

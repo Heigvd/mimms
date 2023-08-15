@@ -3,13 +3,6 @@
  */
 
 /**
- * Get the currently selected actor
- */
-export function getCurrentActor() {
-	return Variable.find(gameModel, 'currentActor').getValue(self);
-}
-
-/**
  * Get the currently active action ID
  */
 export function getSelectedActionId() {

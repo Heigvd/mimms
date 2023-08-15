@@ -106,6 +106,13 @@
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { getActionTemplateRef, planAction } from \"./UIfacade/actionFacade\";\nimport { getCurrentActorUid } from \"./UIfacade/actorFacade\";\n\nconst ref = getActionTemplateRef(Context.action.title);\nconst uid = getCurrentActorUid();\nplanAction(ref, uid);",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "style" : { }
                   },
                   "type" : "Button"

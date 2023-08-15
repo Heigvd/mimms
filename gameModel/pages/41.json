@@ -32,6 +32,25 @@
       "props" : {
         "label" : {
           "@class" : "Script",
+          "content" : "\"<p>Log Sim Time<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { getSimTime } from \"./UIfacade/timeFacade\";\n\nwlog(getSimTime())",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "Log state",
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
           "content" : "\"<p>Log state<br></p>\"",
           "language" : "TypeScript"
         },
