@@ -11,6 +11,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/PMA.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/dead_man.png" : {
     "description" : "",
     "mimeType" : "image/png",

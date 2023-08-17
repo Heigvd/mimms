@@ -14,9 +14,8 @@ export function getAllMapFeatures(): MapFeature[] {
  * Set the map in planning mode for the given action and plan it once done
  * TODO launch action once planned
  */
-export function planAction(action: Promise<IManagedResponse | undefined>): void {
+export function planMapAction(): void {
 	setMapAction(true);
-	
 }
 
 /**

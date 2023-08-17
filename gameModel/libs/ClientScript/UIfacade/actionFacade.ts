@@ -5,7 +5,7 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, DefineMapObjectTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActorId, TemplateRef } from "../game/common/baseTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../UIfacade/actorFacade";
@@ -37,10 +37,18 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
 }
 
 /**
- * @params title Title of given action
+ * @param id Uid of given action
  * @returns TemplateRef Ref of given action
  */
-export function getActionTemplateRef(title: string) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.getTitle() === title);
+export function getActionTemplateRef(id: number) {
+	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
 	return template!.getTemplateRef();
+}
+
+/**
+ * @param id Uid of given action
+ */
+export function isDefineMapObjectTemplate(id: number) {
+	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	return template instanceof DefineMapObjectTemplate;
 }

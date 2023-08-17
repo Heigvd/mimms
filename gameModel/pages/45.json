@@ -59,14 +59,14 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionTitle').getValue(self) === Context.action.title;",
+                    "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) === Context.action.Uid;",
                     "language" : "typescript"
                   }
                 } ],
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionTitle').setValue(self, Context.action.title);",
+                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);",
                     "language" : "javascript"
                   }
                 },
@@ -109,7 +109,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { getActionTemplateRef, planAction } from \"./UIfacade/actionFacade\";\nimport { getCurrentActorUid } from \"./UIfacade/actorFacade\";\n\nconst ref = getActionTemplateRef(Context.action.title);\nconst uid = getCurrentActorUid();\nplanAction(ref, uid);",
+                        "content" : "import { getActionTemplateRef, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\nimport { getCurrentActorUid } from \"./UIfacade/actorFacade\";\nimport { planMapAction } from \"./UIfacade/mapFacade\";\n\nconst ref = getActionTemplateRef(Context.action.Uid);\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tplanMapAction();\n} else {\n\tplanAction(ref, uid);\n}",
                         "language" : "TypeScript"
                       }
                     },
@@ -120,7 +120,7 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'currentActionTitle').getValue(self) !== Context.action.title;",
+                  "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) !== Context.action.Uid;",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -151,7 +151,7 @@
           "language" : "TypeScript"
         },
         "id" : "",
-        "itemKey" : "title",
+        "itemKey" : "Uid",
         "layout" : {
           "flexDirection" : "column"
         },

@@ -215,7 +215,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "",
+                            "content" : "import { getTmpFeature } from \"./gameMap/main\";\n\nwlog(getTmpFeature())",
                             "language" : "TypeScript"
                           }
                         },
@@ -250,7 +250,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Variable.find(gameModel, 'currentActorUid').getValue(self))!.Role}</p>`;",
+                                  "content" : "import { getActor, getCurrentActorUid } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -500,7 +500,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { createGrid, getTimeline } from \"./UIfacade/InterfaceFacade/timeline\";\ncreateGrid(360, getTimeline())",
+                                      "content" : "import { buildTimelineObject, createGrid } from \"./UIfacade/InterfaceFacade/timeline\";\ncreateGrid(0, buildTimelineObject())",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -549,6 +549,22 @@
                     }, {
                       "props" : {
                         "children" : [ {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "`<p>(tmpFeature rfrsh hack: ${Variable.find(gameModel, 'tmpFeatureForcer').getValue(self)})</p>`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
                           "props" : {
                             "OSMLayer" : false,
                             "children" : [ {
@@ -625,6 +641,92 @@
                                 "style" : { }
                               },
                               "type" : "WegasMapOverlay"
+                            }, {
+                              "props" : {
+                                "className" : "",
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getTmpLayer } from \"./gameMap/layers/tmpLayer\";\ngetTmpLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:2056",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "image" : {
+                                    "fill" : {
+                                      "color" : "yellow",
+                                      "type" : "FillStyle"
+                                    },
+                                    "radius" : 10,
+                                    "stroke" : {
+                                      "color" : "black",
+                                      "lineCap" : "round",
+                                      "lineJoin" : "round",
+                                      "miterLimit" : 10,
+                                      "type" : "StrokeStyle",
+                                      "width" : 1
+                                    },
+                                    "type" : "CircleStyle"
+                                  }
+                                },
+                                "layoutStyle" : { },
+                                "name" : "[DEBUG] tmp",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "disableIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getPointLayer } from \"./gameMap/layers/testLayer\";\ngetPointLayer() === undefined;",
+                                  "language" : "typescript"
+                                },
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getPointLayer } from \"./gameMap/layers/testLayer\";\ngetPointLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:2056",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "image" : {
+                                    "fill" : {
+                                      "color" : "Red",
+                                      "type" : "FillStyle"
+                                    },
+                                    "radius" : 10,
+                                    "stroke" : {
+                                      "color" : "Black",
+                                      "lineCap" : "round",
+                                      "lineJoin" : "round",
+                                      "miterLimit" : 10,
+                                      "type" : "StrokeStyle",
+                                      "width" : 1
+                                    },
+                                    "type" : "CircleStyle"
+                                  }
+                                },
+                                "layoutStyle" : { },
+                                "name" : "[DEBUG] points",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
                             }, {
                               "props" : {
                                 "layerId" : "",

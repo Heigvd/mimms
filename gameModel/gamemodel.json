@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692103445236,
+  "createdTime" : 1692280024448,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4901,6 +4901,40 @@
         "scopeType" : "TeamScope",
         "sortable" : false,
         "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:449197:P4cab6",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:449198:ggLJH0",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:449198:ggLJH0::EN",
+              "status" : "",
+              "translation" : "currentActionUid"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "currentActionUid",
+        "refId" : "NumberDescriptor:449196:0Z848U",
+        "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],

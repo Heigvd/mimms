@@ -4,7 +4,8 @@
  * 
  */
 
-import { getCurrentActor } from "../../UIfacade/actorFacade";
+import { getAllActions } from "../../UIfacade/actionFacade";
+import { getAllActors, getCurrentActor } from "../../UIfacade/actorFacade";
 
 interface Action {
 	startTime: number,
@@ -90,23 +91,31 @@ export const dummyTimeline: Timeline[] = [
 	},
 ];
 
-export function getCurrentRole(): string {
-	return 'ALS'
-}
-
-export function getTimeline() {
-	return dummyTimeline;
-}
-
 // TODO 
 export function buildTimelineObject() {
-	const timeline = [];
+	const timelines: any = [];
 
 	const actors = getAllActors();
+	const actions = getAllActions();
 
-	for (let actor of actors) {
-		
+	for (const actor of actors) {
+		const timeline = [];
+		if (actions[actor.Uid] !== undefined) {
+			for (const action of actions[actor.Uid]) {
+				timeline.push({
+					startTime: action.startTime,
+					duration: action.duration(),
+					title: 'Action title'
+				})
+			}
+		}	
+		timelines.push({
+			id: actor.Role,
+			timeline: timeline,
+		})
 	}
+
+	return timelines;
 }
 
 /**
@@ -192,6 +201,8 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, actions[actionIndex].title, current ? 'timeline-item current' : 'timeline-item')
 
 			timer += actionDuration;
+			actionIndex++;
+		} else if (timer > actions[actionIndex].startTime) {
 			actionIndex++;
 		} else {
 			timer += 60;

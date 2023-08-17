@@ -1,4 +1,4 @@
-import { ActorId, GlobalEventId, LocalEventId, Position, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { AddRadioMessageLocalEvent } from "../localEvents/addRadioMessageLocalEvent";

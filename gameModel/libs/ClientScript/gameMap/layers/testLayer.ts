@@ -1,7 +1,6 @@
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { FeatureCollection } from "../../map/mapLayers";
 import { getCurrentState } from "../../UIfacade/debugFacade";
-import { getAllMapFeatures } from "../../UIfacade/mapFacade";
 
 export function getPointLayer(): FeatureCollection {
 

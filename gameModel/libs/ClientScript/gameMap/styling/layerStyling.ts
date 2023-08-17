@@ -16,25 +16,6 @@ export function getStyle(feature: any): LayerStyleObject {
 	}
 }
 
-const debugStyle = {
-	"image": {
-		"fill": {
-			"color":"Yellow",
-			"type":"FillStyle"
-		},
-		"radius":10,
-		"stroke":{
-			"color":"Black",
-			"lineCap":"round",
-			"lineJoin":"round",
-			"miterLimit":10,
-			"type":"StrokeStyle",
-			"width":1
-		},
-		"type":"CircleStyle"
-		}
-}
-
 /**
  * Icon style example (should be a function)
  */
@@ -43,7 +24,8 @@ const iconStyle: ImageStyleObject = {
 		achor: [0,0],
 		anchorXUnits: 'fraction',
 		anchorYUnits: 'pixels',
-		src: '/dead_man.png',
+		src: '/PMA.svg',
+		scale: .1
 }
 
 const iconLayer: LayerStyleObject = {
