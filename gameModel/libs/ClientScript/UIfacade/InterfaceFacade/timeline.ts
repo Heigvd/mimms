@@ -1,11 +1,5 @@
-/**
- * 
- * TODO Remove all dummy action related code
- * 
- */
-
 import { getAllActions } from "../../UIfacade/actionFacade";
-import { getAllActors, getCurrentActor } from "../../UIfacade/actorFacade";
+import { getAllActors, getCurrentActorRole } from "../../UIfacade/actorFacade";
 
 interface Action {
 	startTime: number,
@@ -18,94 +12,25 @@ interface Timeline {
 	timeline: Action[];
 }
 
-
-export const dummyActions: Action[] = [
-	{
-		startTime: 0,
-		duration: 60,
-		title: 'First Action'
-	},
-	{
-		startTime: 60,
-		duration: 60,
-		title: 'Second Action'
-	},
-	{
-		startTime: 120,
-		duration: 60,
-		title: 'Third Action'
-	},
-	{
-		startTime: 180,
-		duration: 60,
-		title: 'Fourth Action'
-	},
-];
-
-const dummyActions2: Action[] = [
-	{
-		startTime: 0,
-		duration: 60,
-		title: 'First Action'
-	},
-	{
-		startTime: 120,
-		duration: 60,
-		title: 'Third Action'
-	},
-	{
-		startTime: 180,
-		duration: 60,
-		title: 'Fourth Action'
-	},
-	{
-		startTime: 240,
-		duration: 120,
-		title: 'Fifth Action'
-	},
-];
-
-const dummyActions3: Action[] = [
-	{
-		startTime: 0,
-		duration: 180,
-		title: 'First Action'
-	},
-];
-
-export const dummyTimeline: Timeline[] = [
-	{
-		id: 'ALS',
-		timeline: dummyActions,
-
-	},
-	{
-		id: 'MCS',
-		timeline: dummyActions2,
-
-	},
-	{
-		id: 'AL',
-		timeline: dummyActions3,
-
-	},
-];
-
-// TODO 
-export function buildTimelineObject() {
+/**
+ * Build an array of Timelines for the current set of actions/actors
+ * @return {Timeline[]}
+ */
+export function buildTimelineObject(): Timeline[] {
 	const timelines: any = [];
 
 	const actors = getAllActors();
 	const actions = getAllActions();
 
 	for (const actor of actors) {
-		const timeline = [];
+		const timeline: Action[] = [];
 		if (actions[actor.Uid] !== undefined) {
 			for (const action of actions[actor.Uid]) {
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
-					title: 'Action title'
+					// TODO Somehow retrieve action titles!
+					title: 'Action Title'
 				})
 			}
 		}	
@@ -235,7 +160,7 @@ export function createGrid(currentTime: number, timelines: Timeline[]): string {
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
 	// TODO Implement getCurrentRole();
-		const active = timelines[i].id === getCurrentActor();
+		const active = timelines[i].id === getCurrentActorRole();
 		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
 	}
 

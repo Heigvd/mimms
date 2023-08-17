@@ -19,8 +19,9 @@ export function getActor(id: number): Readonly<Actor | undefined> | undefined {
 /**
  * Get the currently selected actor
  */
-export function getCurrentActor() {
-	return Variable.find(gameModel, 'currentActor').getValue(self);
+export function getCurrentActorRole() {
+	const id = Variable.find(gameModel, 'currentActorUid').getValue(self);
+	return getActor(id)?.Role;
 }
 
 /**

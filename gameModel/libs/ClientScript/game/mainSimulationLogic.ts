@@ -130,7 +130,7 @@ function processEvent(event : FullEvent<TimedEventPayload>){
       }
       break;
     case 'TimeForwardEvent':{
-        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.timeJump, event.payload.triggerTime);
+        const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
         localEventManager.queueLocalEvent(timefwdEvent);
       }
       break;
