@@ -1,4 +1,4 @@
-import { Actor, InterventionRole } from "../game/common/actors/actor";
+import { Actor } from "../game/common/actors/actor";
 import { getCurrentState } from "../game/mainSimulationLogic";
 
 
@@ -27,6 +27,16 @@ export function getCurrentActorRole() {
 /**
  * Get the currently selected actor Uid
  */
-export function getCurrentActorUid() {
+export function getCurrentActorUid(): number {
 	return Variable.find(gameModel, 'currentActorUid').getValue(self);
+}
+
+/**
+ * Set the currently selected actor Uid
+ */
+export function setCurrentActorUid(id: number): void {
+	APIMethods.runScript(
+		`Variable.find(gameModel, 'currentActorUid').setValue(self, ${id});`,
+		{},
+	);
 }

@@ -17,19 +17,29 @@ import { localEventManager } from "./common/localEvents/localEventManager";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
-let currentSimulationState : MainSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-let stateHistory : MainSimulationState[] = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
+let stateHistory : MainSimulationState[];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
-let actionTemplates :Record<string, ActionTemplateBase>= {};//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
-let processedEvents :Record<string, FullEvent<TimedEventPayload>> = {};
+let actionTemplates :Record<string, ActionTemplateBase>;//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+let processedEvents :Record<string, FullEvent<TimedEventPayload>>;
 
-let updateCount = 0;
+let updateCount: number;
 
-// make sure local state reset works
-recomputeState();
+// useEffect to force initate simulationState
+Helpers.registerEffect(() => {
+	currentSimulationState = initMainState();
+	stateHistory = [currentSimulationState];
 
-mainSimLogger.info('Main simulation initialized', actionTemplates);
-mainSimLogger.info('Initial state', currentSimulationState);
+	actionTemplates = {};
+	processedEvents = {};
+
+	updateCount = 0;
+
+	mainSimLogger.info('Main simulation initialized', actionTemplates);
+	mainSimLogger.info('Initial state', currentSimulationState);
+	
+	recomputeState();
+})
 
 
 function initMainState(): MainSimulationState {

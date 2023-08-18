@@ -1,3 +1,5 @@
+// TODO Remove this file (radio still in use)
+
 interface Action {
 	id: number,
 	startTime: number,

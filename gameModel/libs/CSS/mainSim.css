@@ -374,6 +374,10 @@ background: var(--secondaryInterface_400);
 	
 }
 
+.actor.current {
+	border: 3px solid var(--interface_BLUE);
+}
+
 .actor:hover{
 	background:var(--interface_100);
 	
@@ -381,7 +385,6 @@ background: var(--secondaryInterface_400);
 
 .actor:focus {
 	background: var(--interface_0);
-	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
 }
 
 .actor:focus:hover{
@@ -409,6 +412,10 @@ background: var(--secondaryInterface_400);
 
 .timeline-item.current {
 	background:var(--interface_0);
+}
+
+.timeline-item.planned {
+	opacity: .8;
 }
 
 .marker-time {

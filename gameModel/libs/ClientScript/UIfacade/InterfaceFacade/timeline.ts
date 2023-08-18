@@ -1,5 +1,8 @@
+// TODO Move to own folder
+
 import { getAllActions } from "../../UIfacade/actionFacade";
 import { getAllActors, getCurrentActorRole } from "../../UIfacade/actorFacade";
+import { getSimTime } from "../../UIfacade/timeFacade";
 
 interface Action {
 	startTime: number,
@@ -11,6 +14,8 @@ interface Timeline {
 	id: string;
 	timeline: Action[];
 }
+
+// Potential TODO, use ActionBase / StartEndAction instead of custom interface
 
 /**
  * Build an array of Timelines for the current set of actions/actors
@@ -30,7 +35,7 @@ export function buildTimelineObject(): Timeline[] {
 					startTime: action.startTime,
 					duration: action.duration(),
 					// TODO Somehow retrieve action titles!
-					title: 'Action Title'
+					title: 'Action title'
 				})
 			}
 		}	
@@ -106,7 +111,7 @@ function createGridSegment(
  * @param {Action[]} actions Actions of a specific actor
  * @return {string} HTML timeline
  */
-function createGridRow(row: number, current: boolean, actions: Action[]): string {
+export function createGridRow(row: number, current: boolean, actions: Action[]): string {
 
 	// Starts at 2 and increments by 2 to skip markers positions
 	let gridIndex = 2;
@@ -114,6 +119,8 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 	let timer = 0;
 
 	let output = '';
+
+	const simTime = getSimTime()
 
 	while (actionIndex < actions.length) {
 		// If the action takes place later than current timer, we move forward
@@ -123,16 +130,23 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 			// Marker positions need to be taken into account
 			let actionEndIndex = gridIndex + ((actionDuration / 60) * 2 - 1)
 
-			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, actions[actionIndex].title, current ? 'timeline-item current' : 'timeline-item')
+			// TODO Not optimal and working
+			const activeclassName = current ? 'timeline-item current' : 'timeline-item';
+			const futureClassName = actions[actionIndex].startTime >= simTime ? 'planned' : '';
+			const className = activeclassName.concat(' ', futureClassName)
+
+			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, actions[actionIndex].title, className)
 
 			timer += actionDuration;
 			actionIndex++;
+			gridIndex += actionDuration / 60 * 2;
 		} else if (timer > actions[actionIndex].startTime) {
+			// Prevent actions with same startTime, first come first serve
 			actionIndex++;
 		} else {
 			timer += 60;
+			gridIndex += 2;
 		}
-		gridIndex += 2;
 	}
 
 	return output;

@@ -65,6 +65,13 @@
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { initInterface } from \"./UIfacade/InterfaceFacade/init\";\n\ninitInterface();",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "style" : { }
                   },
                   "type" : "Button"
@@ -378,9 +385,18 @@
                                       },
                                       "type" : "Text"
                                     } ],
+                                    "computedAttributes" : [ {
+                                      "attrName" : "sender-role",
+                                      "attrValue" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.item.msgFrom;",
+                                        "language" : "TypeScript"
+                                      }
+                                    } ],
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
+                                    "layoutClassName" : "radioMessage-container",
                                     "layoutStyle" : { },
                                     "style" : { }
                                   },
@@ -443,6 +459,15 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "actor",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "current",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Variable.find(gameModel, 'currentActorUid').getValue(self) === Context.actor.Uid;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "impactVariable" : {
                                           "impact" : {
                                             "@class" : "Script",
@@ -500,7 +525,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { buildTimelineObject, createGrid } from \"./UIfacade/InterfaceFacade/timeline\";\ncreateGrid(0, buildTimelineObject())",
+                                      "content" : "import { buildTimelineObject, createGrid } from \"./UIfacade/InterfaceFacade/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime(), buildTimelineObject())",
                                       "language" : "TypeScript"
                                     }
                                   },

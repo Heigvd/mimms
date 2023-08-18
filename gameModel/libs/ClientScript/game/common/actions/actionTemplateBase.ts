@@ -110,7 +110,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return true;
+	return true;
   }
   public getDescription(): string {
 	return this.description;
