@@ -8,6 +8,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     parentId: GlobalEventId,
     timeStamp: SimTime,
     public readonly recipient: ActorId, 
+    public readonly emitter: TranslationKey,
     public readonly message: TranslationKey)
   {
       super(parentId, 'AddLogMessageLocalEvent', timeStamp);
@@ -15,9 +16,10 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     state.getInternalStateObject().radioMessages.push({
-      message: this.message,
       recipientId: this.recipient,
-      timeStamp: this.simTimeStamp
+      timeStamp: this.simTimeStamp,
+      emitter: this.emitter,
+      message: this.message,
     })
   }
 

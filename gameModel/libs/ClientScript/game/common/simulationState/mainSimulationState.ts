@@ -134,6 +134,12 @@ export class MainSimulationState implements IClonable {
 	  return this.internalState.mapLocations;
   }
 
+  /**
+   * @returns An array of all radio messages
+   */
+  public getRadioMessages(): RadioMessage[] {
+	  return this.internalState.radioMessages;
+  }
 }
 
 interface MainStateObject {

@@ -23,6 +23,7 @@ export function isMapAction(): boolean {
 
 /**
  * Change the action state of the map
+ * TODO Include the action
  * @param value
  */
 export function setMapAction(value: boolean) {
@@ -52,8 +53,8 @@ export function launchMapAction(action: any) {
 	// TODO implement validation of tmpFeature before initiating action
 	if (tmpFeature === undefined) return;
 
-	action();
 	setMapAction(false);
+	action();
 }
 
 /**

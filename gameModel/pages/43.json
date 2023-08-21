@@ -2,6 +2,20 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "layoutStyle" : {
+          "display" : "none"
+        },
+        "name" : "eventLoop cheat",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>(Trigger event loop hack)</p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -341,6 +355,19 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "layoutStyle" : {
+                                  "display" : "none"
+                                },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "I18n.toString(Variable.find(gameModel,'currentActorUid'))",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
                                 "className" : "panel-title",
                                 "layoutStyle" : { },
                                 "name" : "RadioTitle",
@@ -365,7 +392,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "Context.item.msgFrom;",
+                                          "content" : "Context.item.emitter;",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -379,7 +406,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "Context.item.content;",
+                                          "content" : "Context.item.message;",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -406,10 +433,10 @@
                                 "exposeAs" : "item",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getDummyRadio } from \"./UIfacade/InterfaceFacade/dummyActions\";\ngetDummyRadio();",
+                                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id);",
                                   "language" : "TypeScript"
                                 },
-                                "itemKey" : "id",
+                                "itemKey" : "message",
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
@@ -627,7 +654,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { clearTmpFeature, launchMapAction } from \"./gameMap/main\";\nimport { planFirstMapActionWithFirstActor } from \"./UIfacade/debugFacade\";\n\nlaunchMapAction(planFirstMapActionWithFirstActor);\nclearTmpFeature();",
+                                            "content" : "import { clearTmpFeature, setMapAction } from \"./gameMap/main\";\nimport { getActionTemplateRef, planAction } from \"./UIfacade/actionFacade\";\nimport { getCurrentActorUid } from \"./UIfacade/actorFacade\";\n\nconst ref = getActionTemplateRef(Variable.find(gameModel, 'currentActionUid').getValue(self));\nconst uid = getCurrentActorUid();\n\nsetMapAction(false);\nplanAction(ref, uid);\nclearTmpFeature();",
                                             "language" : "TypeScript"
                                           }
                                         },
