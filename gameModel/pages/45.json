@@ -75,9 +75,7 @@
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "max-height" : "40px"
-                },
+                "layoutStyle" : { },
                 "name" : "Title",
                 "style" : { }
               },
@@ -86,7 +84,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding aDescriptionAction",
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {
@@ -155,19 +153,27 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "allDisplay-container",
+        "layoutStyle" : {
+          "margin-top" : "0px",
+          "padding-top" : "0px"
+        },
         "style" : { }
       },
       "type" : "For each"
     } ],
     "layout" : {
-      "flexDirection" : "column"
+      "flexDirection" : "column",
+      "justifyContent" : "flex-start"
     },
     "layoutStyle" : {
       "height" : "100%",
+      "margin-top" : "0px",
       "overflow" : "auto",
+      "padding-top" : "0px",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

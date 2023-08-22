@@ -169,3 +169,47 @@ export const dummyRadio: Radio[] = [
 export function getDummyRadio() {
 	return dummyRadio;
 }
+
+interface Tasks {
+	id: number,
+	startTime: number,
+	duration: number,
+	title: string,
+	description: string
+}
+
+
+export const dummyTasks: Tasks[] = [
+{
+		id: 0,
+		startTime: 0,
+		duration: 42,
+		title: 'First Action',
+		description: 'Such a nice description'
+	},
+	{
+		id: 1,
+		startTime: 0,
+		duration: 42,
+		title: 'TRI zone 1',
+		description: 'Such a nice description. But a medium long one.'
+	},
+	{
+		id: 2,
+		startTime: 0,
+		duration: 42,
+		title: 'First Action',
+		description: 'Such a nice description, and this time one of those that takes ages to be red.'
+	},
+	{
+		id: 3,
+		startTime: 0,
+		duration: 42,
+		title: 'First Action',
+		description: 'Such a nice description bis'
+	}
+];
+
+export function getTasks() {
+	return dummyTasks;
+}

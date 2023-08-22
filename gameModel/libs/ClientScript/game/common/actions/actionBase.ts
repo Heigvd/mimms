@@ -135,7 +135,7 @@ export class GetInformationAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'emitter', this.messageKey))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'ACS', this.messageKey))
   }
 
   override clone(): this {
@@ -186,7 +186,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'Game Master', 'You placed a point!'))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'MCS', 'You placed a point!'))
   }
 
 }

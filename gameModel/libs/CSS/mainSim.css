@@ -72,9 +72,12 @@ html{
 
 }
 
-.interface{
+.interface-container{
 	pointer-events: none;
 	z-index: 1;
+	width: 100%;
+	height: 100%;
+	position: absolute;
 }
 
 
@@ -110,6 +113,7 @@ html{
 
 
 /********** PINK BTN ***************/
+/* Assign the pink class to every action button of the interface */
 
 .pink{
 	background-color: var(--secondaryInterface_400);
@@ -117,132 +121,152 @@ html{
 
 .pink:hover{
 	background-color: var(--secondaryInterface_200);
+	cursor: pointer;
 }
-
-
-/*****************************************  RESSOURCES ******************************/
-.btnActionRessource{
-	background-color:transparent;
-	color: var(--gray_BLACK);
-	font-size: var(--M_text);
-
-	
-}
-
-.btnActionRessource:hover{
-	background-color:transparent;
-}
-
-/* ajouter un état par défaut focus au 1er élément */
-.btnActionRessource:focus{
-	color: var(--colors-primarycolor);
-	font-weight: var(--boldWeight);
-}
-
-
-/*************** Ressources Action *******************************************/
-.ressourceAction-container{
-	background-color: var(--gray_200);
-	margin: 3%;
-	border-radius: var(--S_borderRadius);
-	
-}
-
-.ressourceAction-container * p{
-	margin: 0px;
-}
-
-
-
-
-/************ REMPLACER CES COULEURS *************/
-.interface {
-	
-	--interface-bg-secondary: #DDDFF5;
-	--interface-bg-active: #DDDFF3;
-}
-/************************************************/
-
 
 /********************** GENERAL PANEL *********************************************/
-.allDisplay-container{
-	flex-direction: column;
-	max-width: 100%;
-	max-height: 23rem;
-	overflow-y: scroll;
+.generalPanels-container {
+  width: auto;
+  height: auto;
+  top: 0;
+  padding: 1rem; 
+  
+
 }
 
+.generalPanels {
+  background: var(--gray_WHITE);
+  border-radius: var(--S_borderRadius);
+  width: auto;
+  height: auto;
+  pointer-events: auto;
+  max-height: 65%;
+
+ 
+}
+
+.generalPanels > * {
+  padding: 0;
+}
+
+/* Container for the dynamically displayed items (actions, resources and radio */
+.allDisplay-container{
+	flex-direction: column;
+	max-height: 30rem;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--gray_500) var(--gray_200);
+	
+	
+}
+::scrollbar-thumb{
+    border-radius: 10px;
+	background-color: pink;
+	}
 
 .panel-title {
 	white-space: nowrap;
 	text-align: center;
-	color: var(--colors-backgroundcolor);
-	background: var(--colors-primarycolor);
+	color: var(--gray_WHITE);
+	background: var(--interface_BLUE);
 	width: 100%;
 	font-weight: var(--boldWeight);
 	font-size: var(--ML_text);
 	border-top-left-radius: var(--S_borderRadius);
 	border-top-right-radius:var(--S_borderRadius);
+
 }
 
 
-/************************** MENU CSS (upper-left) *********************************/
-
+/************************** Actions & resources panel (upper-left) *********************************/
+/****** PANEL ******/
 .leftPanel-container {
-	width: auto;
-	height: auto;
-	top: 0;
 	left: 0;
-	padding: 1rem;
-	pointer-events: none;
+	pointer-events: auto; /* voir si none ou auto*/
+	overflow-y: auto ;
+	
+	
+	
 }
 
 .leftPanel{
-	background: var(--gray_WHITE);
-	border-radius: var(--S_borderRadius);
 	width: auto;
 	height: auto;
-	min-width: 20em;
-	min-height: 30em;
-	pointer-events: auto;
-
+	 	
 }
 
 
-.leftPanel > * {
-	padding: 0;
+/*******  Menu: action / resources *******/
+/* menuLeftPanel    btnActionRessource*/
+.menuLeftPanel{
+	background-color:transparent;
+	color: var(--gray_BLACK);
+	font-size: var(--M_text);
+
+
+}
+
+.menuLeftPanel:hover{
+	background-color:transparent;
+	cursor: pointer;
 }
 
 
 
+.menuLeftPanel-selected{
+color: var(--colors-primarycolor);
+	font-weight: var(--boldWeight);
+}
 
+/******* ACTIONS ELEMENTS *******/
 
-
-/** ACTIONS **/
+.actions-container{
+	margin:0px;
+	padding: 0px;
+	/*ANIMATION TO SEE*/
+	animation-duration: 2s ease-out;
+}
 
 .actionHeader{
 	background-color: var(--gray_200);
-	padding: 5px 20px ;
-	border-radius: var(--L_borderRadius);
+	padding: 5px 10px ;
+	border-radius: var(--S_borderRadius);
 	font-size: var(--SM_text);
+	cursor: pointer;
 }
 
 .actionHeaderActive{
 		font-weight: var(--boldWeight);
-		border-radius: 25px 25px 0px 0px ;		
+		border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
+
+}
+
+.actionHeader > div{
+	padding: 0px;
+	margin: 0px;
+	align-items: center;
+	color: var(--interface_700);
 }
 
 .actionInfo{
-	border-radius: 0px 0px 25px 25px ;
+	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
 	background-color: var(--gray_200);
-	padding: 0px 20px;
+	padding: 0px 10px;
 	font-size: var(--S_text);
+	
 }
 
 .actionInfo p{
 	margin: 5px 0px 0px 0px;
 	padding-bottom: 15px;
+	color: var(--gray_BLACK);
 	
+}
+
+
+.aDescriptionAction{
+	min-width: 20em;
+	max-width: 30em;
 }
 
 /** Play btn **/
@@ -261,9 +285,129 @@ background: var(--secondaryInterface_400);
 
 .playActionBtn:hover > *{
 	background: var(--secondaryInterface_200);
+	cursor: pointer;
+}
+
+
+/****** resources ******/
+
+
+.resourcesPanel-container{
+	width:auto;
+	height: auto;
+}
+
+
+.resourceTask-container{
+	background-color: var(--gray_200);
+	margin: 5px 15px 5px 15px ;
+	border-radius: var(--S_borderRadius);
+	width: auto;
 	
+}
+
+.resourceTask-container * p{
+	margin: 0px;
+	justify-content: center;
+	
+}
+
+/*** Button for resources assignations ***/
+.resourceGestion-container{
+background-color: var(--gray_WHITE);
+border-radius: var(--S_borderRadius);
+max-height: 60px;
+}
+
+.assignBtn{
+height: 100%;
+width: .6em;
+justify-content:  center;
+font-weight: var(--boldWeight);
+font-size: var(--L_text);
+padding: .4em;
+}
+
+.assignBtn-container{
+margin: 0px;
+padding: 0px;
+}
+
+.minusBtn{
+border-radius: 5px 0px 0px 5px;
+}
+
+.plusBtn{
+border-radius:  0px 5px  5px 0px;
+}
+
+
+
+
+
+/*** Title + description of an assignable task ***/ 
+
+.taskName{
+	color: var(--interface_700);
+	font-size: var(--SM_text);
+	font-weight: var(--boldWeight);
+	
+}
+
+.taskDescription{
+	font-size: var(--S_text);
+	color: var(--interface_700);
+	max-width: 18em;
+}
+
+
+
+
+/*** resources pool ***/
+.poolResources-container{
+	padding-left: .5em;
+	padding-top: 1em;
+}
+
+
+.poolResources-container * p{
+	font-size: var(--M_text);
+	font-weight: var(--boldWeight);
+}
+
+.oneRessource-container{
+padding: 10px;
+border-radius: var(--S_borderRadius);
+border: 3px solid var(--interface_BLUE);
+}
+
+.oneRessource{
+font-size: var(--L_text);
+color: var(--interface_BLUE);
+}
+
+.ressourceCounter-container{
+border-radius: 100%;
+height: 1.2em;
+width: 1.2em;
+border: 2px solid var(--interface_BLUE);
+position: absolute;
+top: -.1em;
+right: -.1em;
+background-color: var(--interface_0);
+}
+
+.ressourceCounter{
+	font-size: var(--S_text);
+	font-weight: var(--boldWeight);
+	position: absolute;
+	top: -.1em;
+	right: .40em;
+	color: var(--interface_BLUE);
 
 }
+
+	
 
 
 
@@ -271,61 +415,68 @@ background: var(--secondaryInterface_400);
 /**************************** RADIO CSS (upper-right) ************************************/
 
 .radio-container {
-	width: auto;
-	height: auto;
 	right: 0;
-	top: 0;
-	padding: 2rem;
 	pointer-events: auto;
 	min-width: 17em;
-	min-height: 15em;
-	justify-content:flex-end;
 	max-width: 20%;
-	max-height: 65%;	
+	overflow: hidden;
 }
 
-.radio {
-	background: var(--gray_WHITE);
-	border-radius: var(--S_borderRadius);
-	pointer-events: auto;
-	width: auto;
-	height: auto;
-	
+.aMessage{
+		border-radius: var(--S_borderRadius);
+		
+		padding: 0px;
+		margin: 0px;
+
 }
 
-.radio > * {
-	padding: 0;
-}
 
 .radioContent-container{
-	background-color: var(--gray_200);
 	font-size: var(--S_text);
-	color: var(--gray_BLACK);
-	border-collapse: collapse;
-	margin: 0px 5px ;
-			
+	color: var(--gray_BLACK);			
 }
+
+
 
 .sender-container{
-	border-radius:  var(--S_borderRadius) var(--S_borderRadius) 0px  0px;
 	font-weight: var(--boldWeight);
+	margin-bottom: 0px ;
+	padding-bottom: 0px;
 }
 
-.message-container{
+.aMessage-container{
 	padding-top: 0px;
-	border-radius: 0px  0px var(--S_borderRadius) var(--S_borderRadius);
-}
-
-.sender, .message{
-	padding: 0px 10px 0px 10px ;
 	
 }
 
-/* sert à imiter le padding qui provient du pagelayout du panel de gauche */
+.sender-role{
+	border-radius: var(--S_borderRadius);
+	margin: .3em;
+	padding: 4px;
+
+}
+.sender-role[data-sender-role="MCS"] {
+  background-color: var(--yellow_0);
+}
+
+.sender-role[data-sender-role="ACS"] {
+  background-color: var(--orange_0);
+}
+
+.sender-role[data-sender-role="AL"] {
+  background-color:var(--blue_0);
+}
+
+.sender{
+		font-weight: var(--boldWeight);
+
+}
+/* sert à imiter le padding qui provient du pagelayout du panel de gauche --> à voir si utile.
 .s_margin{
 	margin-top: .5em;
 	margin-bottom: .5em;
 }
+*/
 
 
 
@@ -374,21 +525,20 @@ background: var(--secondaryInterface_400);
 	
 }
 
-.actor.current {
-	border: 3px solid var(--interface_BLUE);
-}
-
 .actor:hover{
 	background:var(--interface_100);
+	cursor: pointer;
 	
 }
 
 .actor:focus {
 	background: var(--interface_0);
+	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
 }
 
 .actor:focus:hover{
 	background:var(--interface_100);
+	cursor: pointer;
 }
 
 
@@ -412,10 +562,6 @@ background: var(--secondaryInterface_400);
 
 .timeline-item.current {
 	background:var(--interface_0);
-}
-
-.timeline-item.planned {
-	opacity: .8;
 }
 
 .marker-time {
@@ -467,7 +613,7 @@ background: var(--secondaryInterface_400);
 
 /** NEXT BUTTON **/
 .next-container{
-z-index: 1;
+z-index: 2;
 position: absolute;
 top: -.2em;
 right: 5em;
