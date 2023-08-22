@@ -5,7 +5,7 @@
 import { getTmpFeature } from "../gameMap/main";
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, DefineMethaneObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -67,7 +67,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
-  const methane = new DefineMethaneObjectTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
+  const methane = new MethaneTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
   const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
 
   const templates : Record<string, ActionTemplateBase> = {};

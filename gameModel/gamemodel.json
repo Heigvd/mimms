@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692703668308,
+  "createdTime" : 1692712441706,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5149,15 +5149,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/events/getInformationEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#89:wdarUx",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/interfaces",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5930,7 +5921,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence",
+  "name" : "MIMMS main simulation GREG (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
