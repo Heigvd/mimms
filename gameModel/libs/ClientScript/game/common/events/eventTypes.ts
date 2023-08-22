@@ -7,8 +7,7 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
-import { GetInformationEvent } from "./getInformationEvent";
+import { SimDuration, SimTime, TemplateRef } from "../baseTypes";
 
 /**
  * Walk, drive, fly to destination
@@ -189,4 +188,8 @@ export interface TimeForwardEvent extends BaseEvent, TimedPayload {
 	 * The time duration to jump forward
 	 */
 	timeJump: SimDuration;
+}
+
+export interface StandardActionEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
 }

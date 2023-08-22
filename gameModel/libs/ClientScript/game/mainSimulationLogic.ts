@@ -2,10 +2,10 @@
  * Setup function
  */
 
-import { getTmpFeature, isMapAction } from "../gameMap/main";
+import { getTmpFeature } from "../gameMap/main";
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import { ActionTemplateBase, DefineMapObjectTemplate, DefineMethaneObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -47,14 +47,12 @@ function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
-  const testMCS = new Actor('MCS', 'actor-mcs', 'actor-mcs-long')
-  const testACS = new Actor('ACS', 'actor-als', 'actor-als-long')
 
   const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
 
   return new MainSimulationState({
     actions: [testAction],
-    actors: [testAL, testMCS, testACS],
+    actors: [testAL],
     mapLocations: [],
     patients: [],
     tasks: [],
@@ -69,11 +67,13 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
+  const methane = new DefineMethaneObjectTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
   const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
+  templates[methane.getTemplateRef()] = methane;
   templates[mapTest.getTemplateRef()] = mapTest;
 
   return templates;

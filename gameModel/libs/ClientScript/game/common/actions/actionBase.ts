@@ -1,6 +1,7 @@
-import { ActorId, GlobalEventId, LocalEventId, Position, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
+import { AddActorLocalEvent } from "../localEvents/addActorLocalEvent";
 import { AddRadioMessageLocalEvent } from "../localEvents/addRadioMessageLocalEvent";
 import { AddMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
@@ -144,6 +145,42 @@ export class GetInformationAction extends StartEndAction {
     return clone as this;
   }
 
+}
+
+export class DefineMethaneObjectAction extends StartEndAction {
+
+  /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
+  /**
+   * Translation key for the name of the action (displayed in the timeline)
+   */
+  public readonly actionNameKey: TranslationKey;
+
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
+    super(startTimeSec, durationSeconds, evtId, ownerId);
+    this.messageKey = messageKey;
+    this.actionNameKey = actionNameKey;
+  }
+
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    //likely nothing to do
+    this.logger.info('start event DefineMethaneObjectAction');
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    this.logger.info('end event GetInformationAction');
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'AL', this.messageKey))
+    localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
+  }
+
+  clone(): this {
+    const clone = new DefineMethaneObjectAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    clone.status = this.status;
+    return clone as this;
+  }
+  
 }
 
 export class DefineMapObjectAction extends StartEndAction {

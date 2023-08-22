@@ -11,8 +11,10 @@ export class AddActorLocalEvent extends LocalEventBase {
 
   // TODO !!! create actor from parameters
   applyStateUpdate(state: MainSimulationState): void {
-    const actor = new Actor('ACS', 'adasd', 'ACS');
-    state.getInternalStateObject().actors.push(actor);
+    const acs = new Actor('ACS', 'adasd', 'ACS');
+    state.getInternalStateObject().actors.push(acs);
+    const mcs = new Actor('MCS', 'adasd', 'MCS');
+    state.getInternalStateObject().actors.push(mcs);
   }
 
 }

@@ -1,10 +1,9 @@
 import { ActionTemplateId, ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
-import { ActionCreationEvent } from "../events/eventTypes";
+import { ActionCreationEvent, StandardActionEvent } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
-import { GetInformationEvent } from "../events/getInformationEvent";
+import { ActionBase, DefineMapObjectAction, DefineMethaneObjectAction, GetInformationAction } from "./actionBase";
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
@@ -83,21 +82,21 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 /**
  * Get some information
  */
-export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, GetInformationEvent, undefined> {
+export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, StandardActionEvent, undefined> {
   
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
     super(title, description);
   }
 
-  protected createActionFromEvent(event: FullEvent<GetInformationEvent>): GetInformationAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : GetInformationEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
@@ -115,6 +114,44 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
   public getDescription(): string {
 	return this.description;
   }
+  public getTitle(): string {
+    return this.title;
+  }
+
+}
+
+export class DefineMethaneObjectTemplate extends ActionTemplateBase<DefineMethaneObjectAction, StandardActionEvent> {
+
+  constructor(title: TranslationKey, description: TranslationKey, 
+    readonly duration: SimDuration, readonly message: TranslationKey) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'DefineMethaneObjectTemplate' + '_' + this.title;
+  }
+  
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): DefineMethaneObjectAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new DefineMethaneObjectAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Actor, params: unknown): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec : this.duration,
+    }
+  }
+
+  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+    return true;
+  }
+  
+  public getDescription(): string {
+    return this.description;
+  }
+    
   public getTitle(): string {
     return this.title;
   }
