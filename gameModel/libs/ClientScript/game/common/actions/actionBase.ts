@@ -147,7 +147,7 @@ export class GetInformationAction extends StartEndAction {
 
 }
 
-export class DefineMethaneObjectAction extends StartEndAction {
+export class MethaneAction extends StartEndAction {
 
   /**
    * Translation key to the message received at the end of the action
@@ -176,7 +176,7 @@ export class DefineMethaneObjectAction extends StartEndAction {
   }
 
   clone(): this {
-    const clone = new DefineMethaneObjectAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
     clone.status = this.status;
     return clone as this;
   }

@@ -3,7 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import { ActionCreationEvent, StandardActionEvent } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ActionBase, DefineMapObjectAction, DefineMethaneObjectAction, GetInformationAction } from "./actionBase";
+import { ActionBase, DefineMapObjectAction, MethaneAction, GetInformationAction } from "./actionBase";
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
@@ -120,7 +120,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 }
 
-export class DefineMethaneObjectTemplate extends ActionTemplateBase<DefineMethaneObjectAction, StandardActionEvent> {
+export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardActionEvent> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
@@ -131,10 +131,10 @@ export class DefineMethaneObjectTemplate extends ActionTemplateBase<DefineMethan
     return 'DefineMethaneObjectTemplate' + '_' + this.title;
   }
   
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): DefineMethaneObjectAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): MethaneAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMethaneObjectAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
+    return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Actor, params: unknown): StandardActionEvent {
