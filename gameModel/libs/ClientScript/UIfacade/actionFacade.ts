@@ -7,8 +7,9 @@
 import { ActionBase } from "../game/common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActorId, TemplateRef } from "../game/common/baseTypes";
+import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
-import { getCurrentActorUid } from "../UIfacade/actorFacade";
+import { getCurrentActorUid } from "../gameInterface/main";
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
@@ -37,12 +38,10 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
 }
 
 /**
- * @param id Uid of given action
- * @returns TemplateRef Ref of given action
+ * @returns Template of given action Uid
  */
-export function getActionTemplateRef(id: number) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
-	return template!.getTemplateRef();
+export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
+	return getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
 }
 
 /**

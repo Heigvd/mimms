@@ -97,6 +97,11 @@
                 }, {
                   "props" : {
                     "className" : "noPadding playActionBtn",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
+                      "language" : "typescript"
+                    },
                     "icon" : "play",
                     "label" : {
                       "@class" : "Script",
@@ -107,7 +112,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { getActionTemplateRef, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\nimport { getCurrentActorUid } from \"./UIfacade/actorFacade\";\nimport { planMapAction } from \"./UIfacade/mapFacade\";\n\nconst ref = getActionTemplateRef(Context.action.Uid);\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tplanMapAction();\n} else {\n\tplanAction(ref, uid);\n}",
+                        "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { setMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tsetMapAction(true);\n} else {\n\tplanAction(ref, uid);\n}",
                         "language" : "TypeScript"
                       }
                     },
@@ -155,8 +160,8 @@
         },
         "layoutClassName" : "allDisplay-container",
         "layoutStyle" : {
-          "margin-top" : "0px",
-          "padding-top" : "0px"
+          "marginTop" : "0px",
+          "paddingTop" : "0px"
         },
         "style" : { }
       },
@@ -168,9 +173,9 @@
     },
     "layoutStyle" : {
       "height" : "100%",
-      "margin-top" : "0px",
+      "marginTop" : "0px",
       "overflow" : "auto",
-      "padding-top" : "0px",
+      "paddingTop" : "0px",
       "width" : "100%"
     },
     "style" : { }

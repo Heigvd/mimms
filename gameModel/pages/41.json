@@ -158,7 +158,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./UIfacade/debugFacade\";\nimport { getAllMapFeatures } from \"./UIfacade/mapFacade\";\n'FEATURES ' + JSON.stringify(getAllMapFeatures())",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'FEATURES ' + JSON.stringify(getCurrentState().getMapLocations())",
           "language" : "TypeScript"
         }
       },

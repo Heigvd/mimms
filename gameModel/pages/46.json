@@ -81,7 +81,7 @@
                           "type" : "Number"
                         } ],
                         "layout" : {
-                          "alignItems" : "stretch",
+                          "alignItems" : "center",
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : { },
@@ -148,7 +148,7 @@
                           "type" : "Number"
                         } ],
                         "layout" : {
-                          "alignItems" : "stretch",
+                          "alignItems" : "center",
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : { },
@@ -215,7 +215,7 @@
                           "type" : "Number"
                         } ],
                         "layout" : {
-                          "alignItems" : "stretch",
+                          "alignItems" : "center",
                           "flexDirection" : "column"
                         },
                         "layoutStyle" : { },
@@ -267,7 +267,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getTasks } from \"./UIfacade/InterfaceFacade/dummyActions\";\ngetTasks();",
+          "content" : "import { getTasks } from \"./gameInterface/debugValues\";\ngetTasks();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -286,7 +286,7 @@
     },
     "layoutClassName" : "noPadding noMargin resourcesPanel-container",
     "layoutStyle" : {
-      "min-width" : "fit-content"
+      "minWidth" : "fit-content"
     },
     "style" : { }
   },

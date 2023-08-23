@@ -3,7 +3,21 @@
     "children" : [ {
       "props" : {
         "layoutStyle" : {
-          "text-align" : "center"
+          "height" : "100px",
+          "width" : "100px"
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "\"/MIMMS_logo.png\"",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Image"
+    }, {
+      "props" : {
+        "layoutStyle" : {
+          "textAlign" : "center"
         },
         "style" : { },
         "text" : {

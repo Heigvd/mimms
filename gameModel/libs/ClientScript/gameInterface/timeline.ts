@@ -1,8 +1,8 @@
-// TODO Move to own folder
+import { getCurrentActorUid } from "../gameInterface/main";
+import { getAllActions } from "../UIfacade/actionFacade";
+import { getAllActors } from "../UIfacade/actorFacade";
+import { getSimTime } from "../UIfacade/timeFacade";
 
-import { getAllActions } from "../../UIfacade/actionFacade";
-import { getAllActors, getCurrentActorRole } from "../../UIfacade/actorFacade";
-import { getSimTime } from "../../UIfacade/timeFacade";
 
 interface Action {
 	startTime: number,
@@ -11,7 +11,8 @@ interface Action {
 }
 
 interface Timeline {
-	id: string;
+	id: number;
+	role: string;
 	timeline: Action[];
 }
 
@@ -40,7 +41,8 @@ export function buildTimelineObject(): Timeline[] {
 			}
 		}	
 		timelines.push({
-			id: actor.Role,
+			id: actor.Uid,
+			role: actor.Role,
 			timeline: timeline,
 		})
 	}
@@ -111,7 +113,7 @@ function createGridSegment(
  * @param {Action[]} actions Actions of a specific actor
  * @return {string} HTML timeline
  */
-export function createGridRow(row: number, current: boolean, actions: Action[]): string {
+function createGridRow(row: number, current: boolean, actions: Action[]): string {
 
 	// Starts at 2 and increments by 2 to skip markers positions
 	let gridIndex = 2;
@@ -174,7 +176,7 @@ export function createGrid(currentTime: number, timelines: Timeline[]): string {
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
 	// TODO Implement getCurrentRole();
-		const active = timelines[i].id === getCurrentActorRole();
+		const active = timelines[i].id === getCurrentActorUid();
 		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
 	}
 
