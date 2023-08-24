@@ -1,7 +1,6 @@
 import { setMapAction } from "../gameMap/main";
 import { getAllActors } from "../UIfacade/actorFacade";
 
-
 /**
  * 
  */

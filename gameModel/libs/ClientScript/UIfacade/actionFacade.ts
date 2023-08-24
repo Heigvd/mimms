@@ -10,6 +10,7 @@ import { ActorId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../gameInterface/main";
+import { getTmpFeature } from "../gameMap/main";
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
@@ -19,7 +20,8 @@ import { getCurrentActorUid } from "../gameInterface/main";
  * @returns a promise
  */
 export async function planAction(actionTemplateId: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
-  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor);
+  const tmpFeature = getTmpFeature();
+  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, tmpFeature);
 }
 
 /**

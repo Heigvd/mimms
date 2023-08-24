@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692826203815,
+  "createdTime" : 1692876473136,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4585,7 +4585,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:445487:2KWVZz::EN",
               "status" : "",
-              "translation" : "[HACK] tmpFeatureForcer"
+              "translation" : "[HACK] mapUpdater"
             }
           }
         },
@@ -4721,40 +4721,6 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:447321:ctITU1",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:447322:zkHGDf",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:447322:zkHGDf::EN",
-              "status" : "",
-              "translation" : "actionID"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "actionID",
-        "refId" : "NumberDescriptor:447320:LoXoVJ",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "NumberDescriptor",
         "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
@@ -4785,51 +4751,6 @@
         "name" : "assigned",
         "refId" : "NumberDescriptor:447325:IqHd0N",
         "scopeType" : "PlayerScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:449102:eO5jdv",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:449103:Hlz4qC",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:449103:Hlz4qC::EN",
-                "status" : "",
-                "translation" : "AL"
-              }
-            }
-          }
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449104:W5VqUh",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449104:W5VqUh::EN",
-              "status" : "",
-              "translation" : "currentActor"
-            }
-          }
-        },
-        "maxSelectable" : 1,
-        "name" : "currentActor",
-        "refId" : "StringDescriptor:449101:pgiolO",
-        "scopeType" : "TeamScope",
-        "sortable" : false,
-        "validationPattern" : null,
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
@@ -4864,43 +4785,6 @@
         "name" : "currentActorUid",
         "refId" : "NumberDescriptor:449120:diqFev",
         "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:449134:iBBDnJ",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:449135:ozlpe1",
-            "translations" : { }
-          }
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449136:VCOfgi",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449136:VCOfgi::EN",
-              "status" : "",
-              "translation" : "currentActionTitle"
-            }
-          }
-        },
-        "maxSelectable" : 1,
-        "name" : "currentActionTitle",
-        "refId" : "StringDescriptor:449133:vOTy5J",
-        "scopeType" : "TeamScope",
-        "sortable" : false,
-        "validationPattern" : null,
         "version" : null,
         "visibility" : "PRIVATE"
       }, {

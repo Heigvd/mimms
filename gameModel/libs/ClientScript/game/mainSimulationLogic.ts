@@ -181,15 +181,13 @@ export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);
 }
 
-export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
+export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: ActorId, params: any): Promise<IManagedResponse | undefined>{
 
   const actTemplate = actionTemplates[ref];
   
   const actor = getCurrentState().getActorById(selectedActor);
 
   if(actTemplate && actor){
-    const params : any = getTmpFeature();
-	wlog('PARAMSssssSSSSS', params)
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   }else {
