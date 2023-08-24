@@ -9,7 +9,6 @@ import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 
-
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
  * It is meant to contain the generic information of an action as well as the conditions for this action to available

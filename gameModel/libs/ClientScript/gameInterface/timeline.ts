@@ -32,11 +32,12 @@ export function buildTimelineObject(): Timeline[] {
 		const timeline: Action[] = [];
 		if (actions[actor.Uid] !== undefined) {
 			for (const action of actions[actor.Uid]) {
+
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
 					// TODO Somehow retrieve action titles!
-					title: 'Action title'
+					title: 'Action title',
 				})
 			}
 		}	
@@ -63,8 +64,10 @@ function createGridTimes(maxTime: number, currentTime: number): string {
 	let output = '';
 
 	for (let i = 0; i < steps; i++) {
-		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${timer === currentTime ? 'time current' : 'time'}">${String(timer)}</div>`);
-		output += createGridSegment( 1, -1, columnIndex, columnIndex+1, '' ,'marker', `<div class="${timer === currentTime ? 'marker-line current' : 'marker-line'}"></div>`);
+		let isCurrentTime = timer === currentTime;
+
+		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${isCurrentTime ? 'time current' : 'time'}" ${isCurrentTime ? `id="current-time"` : ''}">${String(timer)}</div>`);
+		output += createGridSegment( 1, -1, columnIndex, columnIndex+1, '' ,'marker', `<div class="${isCurrentTime ? 'marker-line current' : 'marker-line'}"></div>`);
 		timer += 60;
 		columnIndex += 2;
 	}

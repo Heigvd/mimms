@@ -50,7 +50,7 @@
                   "props" : {
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Admin mode: \"",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'admin-mode')}: `",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
@@ -77,7 +77,7 @@
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Launch</p>\"",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'start')}</p>`",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
@@ -273,7 +273,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`",
+                                  "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -296,7 +296,7 @@
                                         } ],
                                         "label" : {
                                           "@class" : "Script",
-                                          "content" : "\"<p>Actions</p>\"",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'actions')}</p>`",
                                           "language" : "TypeScript"
                                         },
                                         "layoutStyle" : { },
@@ -324,7 +324,7 @@
                                         } ],
                                         "label" : {
                                           "@class" : "Script",
-                                          "content" : "\"<p>Resources</p>\"",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'resources')}</p>`",
                                           "language" : "TypeScript"
                                         },
                                         "layoutStyle" : { },
@@ -484,10 +484,13 @@
                                       "props" : {
                                         "layoutClassName" : "radioMessage-container",
                                         "layoutStyle" : { },
-                                        "style" : { },
+                                        "style" : {
+                                          "margin" : "5px",
+                                          "padding" : "5px"
+                                        },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "\"<p>No radio messages.</p>\"",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-radio')}</p>`",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -529,7 +532,7 @@
                                 "className" : "nextBtn s_button pink",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Next phase</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'next-phase')}</p>`",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "next-container",

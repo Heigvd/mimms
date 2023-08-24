@@ -431,6 +431,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/mainSim-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/pretriage-explanations.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
