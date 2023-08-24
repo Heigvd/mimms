@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692886721579,
+  "createdTime" : 1692893635952,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4878,6 +4878,105 @@
         "minValue" : null,
         "name" : "currentActionUid",
         "refId" : "NumberDescriptor:449196:0Z848U",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:49476:pw2rUP"
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "GameModelScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:49481:QaEwQu",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:49482:5Vh141",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:49482:5Vh141::EN",
+                "status" : "",
+                "translation" : "minutes"
+              }
+            }
+          },
+          "maxValue" : 59.0,
+          "minValue" : 0.0,
+          "name" : "startMinutes",
+          "refId" : "NumberDescriptor:49480:oMtgKP",
+          "scopeType" : "GameModelScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "GameModelScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:49486:epfRL6",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:49487:EaGesX",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:49487:EaGesX::EN",
+                "status" : "",
+                "translation" : "hours"
+              }
+            }
+          },
+          "maxValue" : 23.0,
+          "minValue" : 0.0,
+          "name" : "startHours",
+          "refId" : "NumberDescriptor:49485:JiLgaA",
+          "scopeType" : "GameModelScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:49477:giLYUH",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:49477:giLYUH::EN",
+              "status" : "",
+              "translation" : "startTime"
+            }
+          }
+        },
+        "name" : "startTime",
+        "refId" : "ListDescriptor:49475:As9tqf",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"

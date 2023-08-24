@@ -16,6 +16,24 @@ interface Timeline {
 	timeline: Action[];
 }
 
+function getStartTime() {
+	const hours = Variable.find(gameModel, 'startHours').getValue(self);
+	const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+
+	const dateTime = new Date();
+	dateTime.setHours(hours);
+	dateTime.setMinutes(minutes);
+
+	return dateTime;
+}
+
+function formatTime(dateTime: Date) {
+	const hours = dateTime.getHours();
+	const minutes = dateTime.getMinutes();
+
+	return `${hours}:${minutes}`;
+}
+
 // Potential TODO, use ActionBase / StartEndAction instead of custom interface
 
 /**
@@ -61,14 +79,16 @@ function createGridTimes(maxTime: number, currentTime: number): string {
 	let columnIndex = 1;
 	let steps = maxTime / 60;
 	let timer = 0;
+	let dateTime = getStartTime();
 	let output = '';
 
 	for (let i = 0; i < steps; i++) {
 		let isCurrentTime = timer === currentTime;
 
-		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${isCurrentTime ? 'time current' : 'time'}" ${isCurrentTime ? `id="current-time"` : ''}">${String(timer)}</div>`);
+		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${isCurrentTime ? 'time current' : 'time'}" ${isCurrentTime ? `id="current-time"` : ''}">${formatTime(dateTime)}</div>`);
 		output += createGridSegment( 1, -1, columnIndex, columnIndex+1, '' ,'marker', `<div class="${isCurrentTime ? 'marker-line current' : 'marker-line'}"></div>`);
 		timer += 60;
+		dateTime.setMinutes(dateTime.getMinutes() + 1)
 		columnIndex += 2;
 	}
 

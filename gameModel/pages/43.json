@@ -66,6 +66,75 @@
                   "type" : "Boolean"
                 }, {
                   "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0",
+                          "textAlign" : "center"
+                        },
+                        "style" : {
+                          "margin" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Scenario start time :</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "displayValues" : "NumberInput",
+                            "layoutStyle" : { },
+                            "onVariableChange" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'startHours')",
+                              "language" : "TypeScript"
+                            },
+                            "steps" : 23,
+                            "style" : { }
+                          },
+                          "type" : "NumberSlider"
+                        }, {
+                          "props" : {
+                            "displayValues" : "NumberInput",
+                            "layoutStyle" : { },
+                            "onVariableChange" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'startMinutes')",
+                              "language" : "TypeScript"
+                            },
+                            "steps" : 59,
+                            "style" : { }
+                          },
+                          "type" : "NumberSlider"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "row"
+                        },
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
                     "icon" : "play",
                     "impactVariable" : {
                       "impact" : {
