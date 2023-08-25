@@ -1,7 +1,6 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { planAction } from '../UIfacade/actionFacade';
-import { resetTmpFeature } from '../UIfacade/mapFacade';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -36,5 +35,4 @@ export function triggerEventLoop() {
 export function recomputeLocalState() {
 	wlog('--- LOCAL STATE RESET');
 	mainLogic.recomputeState();
-	resetTmpFeature();
 }

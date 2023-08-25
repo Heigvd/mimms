@@ -1,6 +1,8 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { ActionBase } from "../actions/actionBase";
-import { GlobalEventId, SimTime } from "../baseTypes";
+import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
+import { Actor } from "../actors/actor";
+import { ActorId, GlobalEventId, SimTime, TranslationKey } from "../baseTypes";
+import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
@@ -108,6 +110,49 @@ export class AddMapItemLocalEvent extends LocalEventBase {
     const so = state.getInternalStateObject();
 	wlog('-----PUSHING FEATURE------', this.feature)
     so.mapLocations.push(this.feature);
+  }
+
+}
+
+export class AddActorLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime){
+    super(parentEventId, 'AddActorLocalEvent', timeStamp);
+  }
+
+  // TODO !!! create actor from parameters
+  applyStateUpdate(state: MainSimulationState): void {
+    const acs = new Actor('ACS', 'adasd', 'ACS');
+    state.getInternalStateObject().actors.push(acs);
+    const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, acs.Uid);
+    state.getInternalStateObject().actions.push(acsAction);
+    const mcs = new Actor('MCS', 'adasd', 'MCS');
+    state.getInternalStateObject().actors.push(mcs);
+    const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, mcs.Uid);
+    state.getInternalStateObject().actions.push(mcsAction);
+  }
+
+}
+
+export class AddRadioMessageLocalEvent extends LocalEventBase {
+
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    public readonly recipient: ActorId, 
+    public readonly emitter: TranslationKey,
+    public readonly message: TranslationKey)
+  {
+      super(parentId, 'AddLogMessageLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.getInternalStateObject().radioMessages.push({
+      recipientId: this.recipient,
+      timeStamp: this.simTimeStamp,
+      emitter: this.emitter,
+      message: this.message,
+    })
   }
 
 }

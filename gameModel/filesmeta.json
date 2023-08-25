@@ -7,13 +7,7 @@
   },
   "/MIMMS_logo.png" : {
     "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/PMA.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -432,6 +426,12 @@
     "visibility" : "PRIVATE"
   },
   "/translations/human-pathology.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/mainSim-interface.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
     "note" : "",

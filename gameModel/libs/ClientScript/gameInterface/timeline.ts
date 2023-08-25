@@ -1,8 +1,8 @@
-// TODO Move to own folder
+import { getCurrentActorUid } from "../gameInterface/main";
+import { getAllActions } from "../UIfacade/actionFacade";
+import { getAllActors } from "../UIfacade/actorFacade";
+import { getSimTime } from "../UIfacade/timeFacade";
 
-import { getAllActions } from "../../UIfacade/actionFacade";
-import { getAllActors, getCurrentActorRole } from "../../UIfacade/actorFacade";
-import { getSimTime } from "../../UIfacade/timeFacade";
 
 interface Action {
 	startTime: number,
@@ -11,8 +11,27 @@ interface Action {
 }
 
 interface Timeline {
-	id: string;
+	id: number;
+	role: string;
 	timeline: Action[];
+}
+
+function getStartTime() {
+	const hours = Variable.find(gameModel, 'startHours').getValue(self);
+	const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+
+	const dateTime = new Date();
+	dateTime.setHours(hours);
+	dateTime.setMinutes(minutes);
+
+	return dateTime;
+}
+
+function formatTime(dateTime: Date) {
+	const hours = dateTime.getHours();
+	const minutes = dateTime.getMinutes();
+
+	return `${hours}:${minutes}`;
 }
 
 // Potential TODO, use ActionBase / StartEndAction instead of custom interface
@@ -31,16 +50,18 @@ export function buildTimelineObject(): Timeline[] {
 		const timeline: Action[] = [];
 		if (actions[actor.Uid] !== undefined) {
 			for (const action of actions[actor.Uid]) {
+
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
 					// TODO Somehow retrieve action titles!
-					title: 'Action title'
+					title: 'Action title',
 				})
 			}
 		}	
 		timelines.push({
-			id: actor.Role,
+			id: actor.Uid,
+			role: actor.Role,
 			timeline: timeline,
 		})
 	}
@@ -58,12 +79,16 @@ function createGridTimes(maxTime: number, currentTime: number): string {
 	let columnIndex = 1;
 	let steps = maxTime / 60;
 	let timer = 0;
+	let dateTime = getStartTime();
 	let output = '';
 
 	for (let i = 0; i < steps; i++) {
-		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${timer === currentTime ? 'time current' : 'time'}">${String(timer)}</div>`);
-		output += createGridSegment( 1, -1, columnIndex, columnIndex+1, '' ,'marker', `<div class="${timer === currentTime ? 'marker-line current' : 'marker-line'}"></div>`);
+		let isCurrentTime = timer === currentTime;
+
+		output += createGridSegment( 1, 2, columnIndex, columnIndex+1, '' ,'marker-time', `<div class="${isCurrentTime ? 'time current' : 'time'}" ${isCurrentTime ? `id="current-time"` : ''}">${formatTime(dateTime)}</div>`);
+		output += createGridSegment( 1, -1, columnIndex, columnIndex+1, '' ,'marker', `<div class="${isCurrentTime ? 'marker-line current' : 'marker-line'}"></div>`);
 		timer += 60;
+		dateTime.setMinutes(dateTime.getMinutes() + 1)
 		columnIndex += 2;
 	}
 
@@ -111,7 +136,7 @@ function createGridSegment(
  * @param {Action[]} actions Actions of a specific actor
  * @return {string} HTML timeline
  */
-export function createGridRow(row: number, current: boolean, actions: Action[]): string {
+function createGridRow(row: number, current: boolean, actions: Action[]): string {
 
 	// Starts at 2 and increments by 2 to skip markers positions
 	let gridIndex = 2;
@@ -174,7 +199,7 @@ export function createGrid(currentTime: number, timelines: Timeline[]): string {
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
 	// TODO Implement getCurrentRole();
-		const active = timelines[i].id === getCurrentActorRole();
+		const active = timelines[i].id === getCurrentActorUid();
 		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
 	}
 

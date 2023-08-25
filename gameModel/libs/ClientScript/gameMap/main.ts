@@ -28,6 +28,7 @@ export function isMapAction(): boolean {
  */
 export function setMapAction(value: boolean) {
 	mapAction = value;
+	clearTmpFeature();
 }
 
 /**

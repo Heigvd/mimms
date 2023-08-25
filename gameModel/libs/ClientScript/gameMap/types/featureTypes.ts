@@ -26,7 +26,7 @@ export interface AdvancedFeature {
 	geometry: Geometry;
 }
 
-type Feature = Geometry | AdvancedFeature;
+export type Feature = Geometry | AdvancedFeature;
 
 interface CRS {
 	type: string;

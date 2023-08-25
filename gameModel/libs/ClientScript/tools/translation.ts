@@ -157,6 +157,7 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'pretriage-interface',
 		'qr-interface',
 		'general-likert',
+		'mainSim-interface',
 	]
 
 	variables.forEach(v => {

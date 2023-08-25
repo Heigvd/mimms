@@ -1,8 +1,6 @@
 /**
  * Setup function
  */
-
-import { getTmpFeature } from "../gameMap/main";
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
@@ -67,14 +65,20 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
+
   const methane = new MethaneTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
-  const mapTest = new DefineMapObjectTemplate('define-map-object', 'define-map-object-desc', TimeSliceDuration, 'PMA', 'Point');
+
+  const placePMA = new DefineMapObjectTemplate('define-PMA', 'define-map-PMA', TimeSliceDuration, 'PMA', 'Point');
+  const placePC = new DefineMapObjectTemplate('define-PC', 'define-map-PC', TimeSliceDuration, 'PC', 'Point');
+  const placeNest = new DefineMapObjectTemplate('define-Nest', 'define-map-Nest', TimeSliceDuration, 'Nest', 'Point');
 
   const templates : Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[methane.getTemplateRef()] = methane;
-  templates[mapTest.getTemplateRef()] = mapTest;
+  templates[placePMA.getTemplateRef()] = placePMA;
+  templates[placePC.getTemplateRef()] = placePC;
+  templates[placeNest.getTemplateRef()] = placeNest;
 
   return templates;
 }
@@ -176,14 +180,13 @@ export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);
 }
 
-export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
+export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selectedActor: ActorId, params: any): Promise<IManagedResponse | undefined>{
 
   const actTemplate = actionTemplates[ref];
   
   const actor = getCurrentState().getActorById(selectedActor);
 
   if(actTemplate && actor){
-    const params : any = getTmpFeature();
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   }else {

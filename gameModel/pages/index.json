@@ -264,12 +264,6 @@
         "name" : "mainSimEventsDebug",
         "scenaristPage" : true,
         "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "42",
-        "name" : "mainSimMapDebug",
-        "scenaristPage" : true,
-        "trainerPage" : null
       } ],
       "name" : "debug_pages"
     }, {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692955999710,
+  "createdTime" : 1692955764319,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4090,29 +4090,21 @@
           "category-system" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"category system\"},\"FR\":{\"status\":\"\",\"translation\":\"système de catégorisation\",\"lang\":\"FR\"}},\"version\":0}",
           "coloration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
           "console" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"console\"},\"FR\":{\"status\":\"\",\"translation\":\"console\",\"lang\":\"FR\"}},\"version\":0}",
-          "context" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"This module is meant to train on pretriage algorithms. Your goal is to perform pretriage on a serie of patients with a specific algorithm. The patients evolve in real time. You can measure their vital parameters and apply treatments.\"},\"FR\":{\"status\":\"\",\"translation\":\"Ce module de drill va vous permettre de vous entraîner aux algorithmes de pré-triage. Votre objectif est de prétrier une série de patients en utilisant un algorithme spécifique. L’état des patients évolue en temps réel. Vous pouvez mesurer leurs constantes vitales et appliquer les traitements que vous jugez appropriés.\",\"lang\":\"FR\"}},\"version\":0}",
           "correction" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"correction\"},\"FR\":{\"status\":\"\",\"translation\":\"correction\",\"lang\":\"FR\"}},\"version\":0}",
           "details" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"details\"},\"FR\":{\"status\":\"\",\"translation\":\"détails\",\"lang\":\"FR\"}},\"version\":0}",
           "domeasure" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"do measure\"},\"FR\":{\"status\":\"\",\"translation\":\"mesurer\",\"lang\":\"FR\"}},\"version\":0}",
           "drill-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"drill type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de drill\",\"lang\":\"FR\"}},\"version\":0}",
-          "duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée\",\"lang\":\"FR\"}},\"version\":0}",
           "explanation-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have to perform pretriage on simulated patients. Use the central interface to evaluate their condition\"},\"FR\":{\"status\":\"\",\"translation\":\"vous devez prétrier les patients suivants. Utilisez l'interface centrale pour les évaluer\",\"lang\":\"FR\"}},\"version\":0}",
-          "explanation-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"explanations\"},\"FR\":{\"status\":\"\",\"translation\":\"explications\",\"lang\":\"FR\"}},\"version\":0}",
-          "face" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"face & skin coloration\"},\"FR\":{\"status\":\"\",\"translation\":\"faciès et coloration cutanée\",\"lang\":\"FR\"}},\"version\":0}",
+          "face" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"face\"},\"FR\":{\"status\":\"\",\"translation\":\"faciès\",\"lang\":\"FR\"}},\"version\":0}",
           "finish" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"finish\"},\"FR\":{\"status\":\"\",\"translation\":\"terminer\",\"lang\":\"FR\"}},\"version\":0}",
           "gamesessionsetup" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"setup\"},\"FR\":{\"status\":\"\",\"translation\":\"configuration\",\"lang\":\"FR\"}},\"version\":0}",
           "given-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"given answer\"},\"FR\":{\"status\":\"\",\"translation\":\"réponse donnée\",\"lang\":\"FR\"}},\"version\":0}",
           "go to" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"go to\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer au\",\"lang\":\"FR\"}},\"version\":0}",
-          "history" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"history\"},\"FR\":{\"status\":\"\",\"translation\":\"historique\",\"lang\":\"FR\"}},\"version\":0}",
-          "hours" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hours\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "itemmissing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you don't have any\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'avez pas de\",\"lang\":\"FR\"}},\"version\":0}",
-          "last-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"last result\"},\"FR\":{\"status\":\"\",\"translation\":\"dernier résultat\",\"lang\":\"FR\"}},\"version\":0}",
           "list" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"list\"},\"FR\":{\"status\":\"\",\"translation\":\"liste\",\"lang\":\"FR\"}},\"version\":0}",
           "measures" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"measures\"},\"FR\":{\"status\":\"\",\"translation\":\"mesures\",\"lang\":\"FR\"}},\"version\":0}",
-          "minutes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "nb-patients-correct" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient(s) correctly categorized\"},\"FR\":{\"status\":\"\",\"translation\":\"patient(s) correctement catégorisés\",\"lang\":\"FR\"}},\"version\":0}",
           "next-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next patient\"},\"FR\":{\"status\":\"\",\"translation\":\"patient suivant\",\"lang\":\"FR\"}},\"version\":0}",
-          "pain-scale" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pain scale\"},\"FR\":{\"status\":\"\",\"translation\":\"échelle de douleur\",\"lang\":\"FR\"}},\"version\":0}",
           "patient-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient id\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du patient\",\"lang\":\"FR\"}},\"version\":0}",
           "patient-set" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient set\"},\"FR\":{\"status\":\"\",\"translation\":\"set de patients\",\"lang\":\"FR\"}},\"version\":0}",
           "patient-set-selection" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient set selection\"},\"FR\":{\"status\":\"\",\"translation\":\"sélection du set de patients\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4124,7 +4116,6 @@
           "result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat\",\"lang\":\"FR\"}},\"version\":0}",
           "review" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"review\"},\"FR\":{\"status\":\"\",\"translation\":\"review\",\"lang\":\"FR\"}},\"version\":0}",
           "review-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"review patient\"},\"FR\":{\"status\":\"\",\"translation\":\"revoir patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "seconds" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"second(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"seconde(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "sectowait" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"seconds\"},\"FR\":{\"status\":\"\",\"translation\":\"secondes\",\"lang\":\"FR\"}},\"version\":0}",
           "setup-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"game session set up\"},\"FR\":{\"status\":\"\",\"translation\":\"configuration de la partie de jeu\",\"lang\":\"FR\"}},\"version\":0}",
           "show" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"show\"},\"FR\":{\"status\":\"\",\"translation\":\"voir\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4135,10 +4126,7 @@
           "startpausesimulation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start / Pause simulation\"},\"FR\":{\"status\":\"\",\"translation\":\"reprendre / Mettre en pause\",\"lang\":\"FR\"}},\"version\":0}",
           "still" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"still\"},\"FR\":{\"status\":\"\",\"translation\":\"encore\",\"lang\":\"FR\"}},\"version\":0}",
           "suggested-answer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"suggested answer\"},\"FR\":{\"status\":\"\",\"translation\":\"réponse suggérée\",\"lang\":\"FR\"}},\"version\":0}",
-          "temporality" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"game temporality\"},\"FR\":{\"status\":\"\",\"translation\":\"temporalité dans le jeu\",\"lang\":\"FR\"}},\"version\":0}",
-          "temporality-explanation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Time flows normally second by second. Each measure or treatment has a time cost, when you decide to apply one, time jumps forward by the amount of time of the selected action.\"},\"FR\":{\"status\":\"\",\"translation\":\"Le temps s’écoule normalement seconde par seconde. Chaque mesure ou traitement a une durée, lorsque vous l’effectuez, le temps “saute” en avant d’une durée équivalente.\",\"lang\":\"FR\"}},\"version\":0}",
           "thankyou-playing" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"thank you for playing!\"},\"FR\":{\"status\":\"\",\"translation\":\"merci d'avoir joué!\",\"lang\":\"FR\"}},\"version\":0}",
-          "time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"time\"},\"FR\":{\"status\":\"\",\"translation\":\"temps\",\"lang\":\"FR\"}},\"version\":0}",
           "title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"drill pretri\"},\"FR\":{\"status\":\"\",\"translation\":\"drill pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "toolatetocancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"too late to cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"trop tard pour annuler\",\"lang\":\"FR\"}},\"version\":0}",
           "treatment" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"action\"},\"FR\":{\"status\":\"\",\"translation\":\"action\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4147,7 +4135,6 @@
           "unmeasurable" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"unmeasurable\"},\"FR\":{\"status\":\"\",\"translation\":\"non-mesurable\",\"lang\":\"FR\"}},\"version\":0}",
           "validate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"validate\"},\"FR\":{\"status\":\"\",\"translation\":\"valider\",\"lang\":\"FR\"}},\"version\":0}",
           "view" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"view\"},\"FR\":{\"status\":\"\",\"translation\":\"voir\",\"lang\":\"FR\"}},\"version\":0}",
-          "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Welcome in Drill pretri\"},\"FR\":{\"status\":\"\",\"translation\":\"Bienvenue dans drill pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "you don't know how to do this" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you don't know how to do this\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne savez pas effectuer\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:63785:8sYyho",
@@ -4457,6 +4444,79 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "ObjectDescriptor",
+      "allowedTypes" : [ "ObjectDescriptor" ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:49456:SuTGlR"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:49463:nISNjv"
+        },
+        "description" : "",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:49464:s5nUlS",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:49464:s5nUlS::EN",
+              "status" : "",
+              "translation" : "mainSim - interface"
+            }
+          }
+        },
+        "name" : "mainSim-interface",
+        "properties" : {
+          "actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actor\"},\"FR\":{\"status\":\"\",\"translation\":\"acteur\",\"lang\":\"FR\"}},\"version\":0}",
+          "admin-mode" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"admin mode\"},\"FR\":{\"status\":\"\",\"translation\":\"mode admin\",\"lang\":\"FR\"}},\"version\":0}",
+          "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
+          "no-radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no radio messages\"},\"FR\":{\"status\":\"\",\"translation\":\"aucun message radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio\"},\"FR\":{\"status\":\"\",\"translation\":\"radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
+          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advance time\"},\"FR\":{\"status\":\"\",\"translation\":\"avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:49462:KdFc2a",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:49457:zlz5sG",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:49457:zlz5sG::EN",
+            "status" : "",
+            "translation" : "mainSim"
+          }
+        }
+      },
+      "name" : "mainSim",
+      "refId" : "ListDescriptor:49455:3wsqe7",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4585,7 +4645,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:445487:2KWVZz::EN",
               "status" : "",
-              "translation" : "[HACK] tmpFeatureForcer"
+              "translation" : "[HACK] mapUpdater"
             }
           }
         },
@@ -4721,40 +4781,6 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:447321:ctITU1",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:447322:zkHGDf",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:447322:zkHGDf::EN",
-              "status" : "",
-              "translation" : "actionID"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "actionID",
-        "refId" : "NumberDescriptor:447320:LoXoVJ",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "NumberDescriptor",
         "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
@@ -4785,51 +4811,6 @@
         "name" : "assigned",
         "refId" : "NumberDescriptor:447325:IqHd0N",
         "scopeType" : "PlayerScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:449102:eO5jdv",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:449103:Hlz4qC",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:449103:Hlz4qC::EN",
-                "status" : "",
-                "translation" : "AL"
-              }
-            }
-          }
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449104:W5VqUh",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449104:W5VqUh::EN",
-              "status" : "",
-              "translation" : "currentActor"
-            }
-          }
-        },
-        "maxSelectable" : 1,
-        "name" : "currentActor",
-        "refId" : "StringDescriptor:449101:pgiolO",
-        "scopeType" : "TeamScope",
-        "sortable" : false,
-        "validationPattern" : null,
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
@@ -4867,43 +4848,6 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:449134:iBBDnJ",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:449135:ozlpe1",
-            "translations" : { }
-          }
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449136:VCOfgi",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449136:VCOfgi::EN",
-              "status" : "",
-              "translation" : "currentActionTitle"
-            }
-          }
-        },
-        "maxSelectable" : 1,
-        "name" : "currentActionTitle",
-        "refId" : "StringDescriptor:449133:vOTy5J",
-        "scopeType" : "TeamScope",
-        "sortable" : false,
-        "validationPattern" : null,
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
         "comments" : "",
@@ -4934,6 +4878,105 @@
         "minValue" : null,
         "name" : "currentActionUid",
         "refId" : "NumberDescriptor:449196:0Z848U",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:49476:pw2rUP"
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "GameModelScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:49481:QaEwQu",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:49482:5Vh141",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:49482:5Vh141::EN",
+                "status" : "",
+                "translation" : "minutes"
+              }
+            }
+          },
+          "maxValue" : 59.0,
+          "minValue" : 0.0,
+          "name" : "startMinutes",
+          "refId" : "NumberDescriptor:49480:oMtgKP",
+          "scopeType" : "GameModelScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "GameModelScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:49486:epfRL6",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:49487:EaGesX",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:49487:EaGesX::EN",
+                "status" : "",
+                "translation" : "hours"
+              }
+            }
+          },
+          "maxValue" : 23.0,
+          "minValue" : 0.0,
+          "name" : "startHours",
+          "refId" : "NumberDescriptor:49485:JiLgaA",
+          "scopeType" : "GameModelScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:49477:giLYUH",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:49477:giLYUH::EN",
+              "status" : "",
+              "translation" : "startTime"
+            }
+          }
+        },
+        "name" : "startTime",
+        "refId" : "ListDescriptor:49475:As9tqf",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -5158,24 +5201,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/addActorLocalEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#77:h67Lvz",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/localEvents/addRadioMessageLocalEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#78:T6CAs8",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/localEvents/localEventBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5356,10 +5381,37 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameMap/layers/testLayer",
+    "contentKey" : "gameInterface/debugValues",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:45813:EYths4",
+    "refId" : "GameModelContent:48991:88pEUl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/main",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:48966:DC70DH",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/timeline",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:48961:1JsWuI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/layers/pointFeatures",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:48716:kMhFMc",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5378,15 +5430,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:45809:5382kv",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameMap/styling/layerStyling",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:45814:wYOBaw",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5648,51 +5691,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:439594:1D3Hgu",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/gameFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:447294:JAN77v",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/InterfaceFacade/dummyActions",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:447319:ddISGF",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/InterfaceFacade/init",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:450075:0ku6BK",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/InterfaceFacade/timeline",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:447317:O3AclD",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/mapFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:45811:YEkZhQ",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
