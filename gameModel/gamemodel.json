@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692955764319,
+  "createdTime" : 1692958455186,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5928,7 +5928,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence",
+  "name" : "MIMMS copy SAM",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -5936,7 +5936,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_black-blue_dot_icon",
+    "iconUri" : "ICON_white-wine_coffee_fa",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",
