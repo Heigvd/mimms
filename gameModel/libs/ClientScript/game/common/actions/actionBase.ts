@@ -166,11 +166,11 @@ export class OnTheRoadgAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event GetInformationAction');
+    this.logger.info('start event OnTheRoadgAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event GetInformationAction');
+    this.logger.info('end event OnTheRoadgAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'ACS', this.messageKey))
   }
 
@@ -201,11 +201,11 @@ export class MethaneAction extends StartEndAction {
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     //likely nothing to do
-    this.logger.info('start event DefineMethaneObjectAction');
+    this.logger.info('start event MethaneAction');
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    this.logger.info('end event GetInformationAction');
+    this.logger.info('end event MethaneAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'AL', this.messageKey))
     localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
   }
