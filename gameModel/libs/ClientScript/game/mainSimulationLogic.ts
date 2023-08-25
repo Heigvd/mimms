@@ -2,7 +2,6 @@
  * Setup function
  */
 
-import { getTmpFeature, isMapAction } from "../gameMap/main";
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";

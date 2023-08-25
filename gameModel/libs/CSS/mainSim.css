@@ -375,18 +375,18 @@ border-radius:  0px 5px  5px 0px;
 	font-weight: var(--boldWeight);
 }
 
-.oneRessource-container{
+.oneResource-container{
 padding: 10px;
 border-radius: var(--S_borderRadius);
 border: 3px solid var(--interface_BLUE);
 }
 
-.oneRessource{
+.oneResource{
 font-size: var(--L_text);
 color: var(--interface_BLUE);
 }
 
-.ressourceCounter-container{
+.resourceCounter-container{
 border-radius: 100%;
 height: 1.2em;
 width: 1.2em;
@@ -397,7 +397,7 @@ right: -.1em;
 background-color: var(--interface_0);
 }
 
-.ressourceCounter{
+.resourceCounter{
 	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 	position: absolute;

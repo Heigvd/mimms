@@ -63,5 +63,8 @@ export class LocalEventManager {
 
 }
 
-export const localEventManager = new LocalEventManager();//Helpers.useRef<LocalEventManager>('local-event-manager', new LocalEventManager());
-
+// will be initialized as soon as all scripts have been evaluated
+export let localEventManager : LocalEventManager = undefined as unknown as LocalEventManager;
+Helpers.registerEffect(() => {
+    localEventManager = new LocalEventManager();
+});

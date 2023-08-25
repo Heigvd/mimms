@@ -279,9 +279,136 @@
         "style" : { }
       },
       "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "'Available'",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "oneResource",
+                    "icon" : "user-nurse",
+                    "layoutClassName" : "oneResource-container",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "resourceCounter",
+                    "layoutClassName" : "resourceCounter-container noPadding",
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'assigned')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Number"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Medic",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "oneResource",
+                    "icon" : "ambulance",
+                    "layoutClassName" : "oneResource-container",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "resourceCounter",
+                    "layoutClassName" : "resourceCounter-container noPadding",
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'assigned')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Number"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Ambulance",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "oneResource",
+                    "icon" : "helicopter",
+                    "layoutClassName" : "oneResource-container",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "resourceCounter",
+                    "layoutClassName" : "resourceCounter-container noPadding",
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'assigned')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Number"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "Helicopter",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin",
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "resource pools",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "poolResources-container",
+        "layoutStyle" : { },
+        "name" : "poolResources",
+        "style" : { }
+      },
+      "type" : "FlexList"
     } ],
     "layout" : {
-      "flexDirection" : "row",
+      "flexDirection" : "column",
       "justifyContent" : "space-between"
     },
     "layoutClassName" : "noPadding noMargin resourcesPanel-container",
