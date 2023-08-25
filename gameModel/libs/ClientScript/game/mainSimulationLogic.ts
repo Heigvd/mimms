@@ -13,6 +13,7 @@ import { ActionCreationEvent, TimeForwardEvent, TimedEventPayload } from "./comm
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
+import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
@@ -57,7 +58,8 @@ function initMainState(): MainSimulationState {
     mapLocations: [],
     patients: [],
     tasks: [],
-    radioMessages: []
+    radioMessages: [],
+    resources: [],
   }, 0, 0);
 
 }
@@ -174,6 +176,15 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 	mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
   }
+}
+
+export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
+  const matchingResources = getCurrentState().getResources(actorId, type);
+
+  let sum = 0;
+  matchingResources.forEach(res => sum += res.nbAvailable);
+
+  return sum;
 }
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {

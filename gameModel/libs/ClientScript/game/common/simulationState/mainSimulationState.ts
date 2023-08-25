@@ -7,6 +7,7 @@ import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
+import { ResourcePool, ResourceType } from "../resources/resourcePool";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -43,7 +44,8 @@ export class MainSimulationState implements IClonable {
       mapLocations: [...this.internalState.mapLocations],
       patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
       tasks : this.internalState.tasks.map((task) => task.clone()),
-      radioMessages : [...this.internalState.radioMessages]
+      radioMessages : [...this.internalState.radioMessages],
+      resources : [...this.internalState.resources],
     }
 
   }
@@ -128,6 +130,38 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
+   * @returns All pool resources matching actor id and type
+   */
+  public getResources(actorId: ActorId, type: ResourceType): Readonly<ResourcePool>[] {
+    return this.internalGetResources(actorId, type);
+  }
+
+  /**
+   * Get, but for internal use, return object can be updated
+   *
+   * @returns All pool resources matching actor id and type
+   */
+  private internalGetResources(actorId: ActorId, type: ResourceType): ResourcePool[] {
+    return this.internalState.resources.filter(res => res.ownerId === actorId && res.type === type);
+  }
+
+  /**
+   * Change the number of resources in the matching resource pool.
+   * <p>
+   * If none, create a resource pool.
+   */
+  public addResources(actorId: ActorId, type: ResourceType, nb: number): void {
+    const allMatching = this.internalGetResources(actorId, type);
+
+    if (allMatching != null && allMatching.length === 1 && allMatching[0] != null) {
+      const matching = allMatching[0];
+      matching.nbAvailable += nb;
+    } else {
+      this.internalState.resources.push(new ResourcePool(actorId, type, nb));
+    }
+  }
+
+  /**
    * @returns An array of all map locations
    */
   public getMapLocations(): MapFeature[] {
@@ -152,6 +186,10 @@ interface MainStateObject {
   patients: HumanBody[];
   actors : Actor[];
   radioMessages: RadioMessage[];
+  /**
+   * All available resources
+   */
+  resources: ResourcePool[];
 }
 
 // experimental to make an object immutable

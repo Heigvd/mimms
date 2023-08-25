@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692958455186,
+  "createdTime" : 1692963460903,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5237,10 +5237,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resource",
+    "contentKey" : "game/common/resources/resourcePool",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:438809:YzX1wL",
+    "refId" : "GameModelContent:#99:1Rh8ZA",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5709,6 +5709,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:452462:iQFw3U",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/resourceFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:wpez2S",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
