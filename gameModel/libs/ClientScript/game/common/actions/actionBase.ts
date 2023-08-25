@@ -147,6 +147,41 @@ export class GetInformationAction extends StartEndAction {
 
 }
 
+export class OnTheRoadgAction extends StartEndAction {
+
+  /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
+  /**
+   * Translation key for the name of the action (displayed in the timeline)
+   */
+  public readonly actionNameKey: TranslationKey;
+
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
+    super(startTimeSec, durationSeconds, evtId, ownerId);
+    this.messageKey = messageKey;
+    this.actionNameKey = actionNameKey;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event GetInformationAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event GetInformationAction');
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'ACS', this.messageKey))
+  }
+
+  override clone(): this {
+    const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    clone.status = this.status;
+    return clone as this;
+  }
+
+}
+
 export class MethaneAction extends StartEndAction {
 
   /**
