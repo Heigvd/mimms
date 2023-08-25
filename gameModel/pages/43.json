@@ -691,7 +691,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { buildTimelineObject, createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime(), buildTimelineObject())",
+                                      "content" : "import { createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime());",
                                       "language" : "TypeScript"
                                     }
                                   },

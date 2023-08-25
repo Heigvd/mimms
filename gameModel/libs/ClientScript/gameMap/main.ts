@@ -1,5 +1,7 @@
 import { Point } from "../map/point2D";
 
+const logger = Helpers.getLogger('mainSim-interface');
+
 let mapAction = false;
 let isMultiClick = false;
 let tmpFeature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][] | undefined = undefined;
@@ -27,35 +29,19 @@ export function isMapAction(): boolean {
  * @param value
  */
 export function setMapAction(value: boolean) {
+	logger.info('MAP ACTION: ' + isMapAction())
 	mapAction = value;
 	clearTmpFeature();
-}
-
-/**
- * Initiate map action routine
- */
-export function initiateMapAction() {
-	setMapAction(true);
 }
 
 /**
  * Cancel current map action routine
  */
 export function cancelMapAction() {
+	logger.info('MAP ACTION: Action Cancelled')
 	clearTmpFeature();
 	setMapAction(false);
 	forceUpdateMap();
-}
-
-/**
- * Launch specified action if tmpFeature matches necessary geometry
- */
-export function launchMapAction(action: any) {
-	// TODO implement validation of tmpFeature before initiating action
-	if (tmpFeature === undefined) return;
-
-	setMapAction(false);
-	action();
 }
 
 /**
@@ -91,5 +77,6 @@ export function getTmpFeature() {
  * Clear the current tmpFeature
  */
 export function clearTmpFeature() {
+	logger.info('MAP ACTION: tmpFeature cleared')
 	tmpFeature = undefined;
 }
