@@ -1,8 +1,9 @@
 import { ActorId, GlobalEventId, LocalEventId, Position, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
-import { AddMapItemLocalEvent, AddRadioMessageLocalEvent } from "../localEvents/localEventBase";
+import { AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
+import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
@@ -186,6 +187,44 @@ export class DefineMapObjectAction extends StartEndAction {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'MCS', 'You placed a point!'))
+  }
+
+}
+
+export class AskReinforcementAction extends StartEndAction {
+  public readonly type: ResourceType;
+  public readonly nb: number;
+
+  public readonly feedbackAtEnd: TranslationKey;
+
+  constructor(startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    evtId: GlobalEventId,
+    ownerId: ActorId,
+    type: ResourceType,
+    nb: number,
+    feedbackAtEnd: TranslationKey) {
+    super(startTimeSec, durationSeconds, evtId, ownerId);
+    this.type = type;
+    this.nb = nb;
+    this.feedbackAtEnd = feedbackAtEnd;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('start event AskReinforcementAction');
+    //likely nothing to do
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event AskReinforcementAction');
+    localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, this.startTime, this.ownerId, this.type, this.nb));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'CASU', this.feedbackAtEnd));
+  }
+
+  override clone(): this { 
+    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd);
+    clone.status = this.status;
+    return clone as this;
   }
 
 }

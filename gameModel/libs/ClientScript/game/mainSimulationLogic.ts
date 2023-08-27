@@ -4,7 +4,7 @@
 
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -74,13 +74,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePMA = new DefineMapObjectTemplate('define-PMA', 'define-map-PMA', TimeSliceDuration, 'PMA', 'Point');
   const placePC = new DefineMapObjectTemplate('define-PC', 'define-map-PC', TimeSliceDuration, 'PC', 'Point');
   const placeNest = new DefineMapObjectTemplate('define-Nest', 'define-map-Nest', TimeSliceDuration, 'Nest', 'Point');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement', 'ask-for-resources', TimeSliceDuration, 'MEDICAL_STAFF', 20, '20-resources-joined');
 
-  const templates : Record<string, ActionTemplateBase> = {};
+  const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }

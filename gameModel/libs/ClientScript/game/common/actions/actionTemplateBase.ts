@@ -3,11 +3,13 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import { ActionCreationEvent } from "../events/eventTypes";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ActionBase, DefineMapObjectAction, GetInformationAction } from "./actionBase";
+import { ActionBase, AskReinforcementAction, DefineMapObjectAction, GetInformationAction } from "./actionBase";
 import { GetInformationEvent } from "../events/getInformationEvent";
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
+import { AskReinforcementEvent } from "../events/askReinforcementEvent";
+import { ResourceType } from "../resources/resourcePool";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -171,6 +173,55 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   }
   public getTitle(): string {
     return this.title;
+  }
+
+}
+
+/**
+ * Action template to ask for new resources
+ */
+export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinforcementAction, AskReinforcementEvent> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly resourceType: ResourceType,
+    readonly nb : number,
+    readonly message: TranslationKey,
+  ) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'AskReinforcementActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): TranslationKey {
+    return this.title;
+  }
+
+  public getDescription(): TranslationKey {
+    return this.description;
+  }
+
+  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+    return true;
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): AskReinforcementEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec : this.duration,
+    }
+  }
+
+  protected createActionFromEvent(event: FullEvent<AskReinforcementEvent>): AskReinforcementAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new AskReinforcementAction(payload.triggerTime, this.duration, event.id, ownerId,
+      this.resourceType, this.nb, this.message);
   }
 
 }

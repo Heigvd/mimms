@@ -3,6 +3,7 @@ import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, GlobalEventId, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
+import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -146,6 +147,25 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       emitter: this.emitter,
       message: this.message,
     })
+  }
+
+}
+
+/**
+ * Change the nb of available resources.
+ */
+export class ChangeNbResourcesLocalEvent extends LocalEventBase {
+
+  constructor(parentId: GlobalEventId,
+    timeStamp: SimTime,
+    public readonly actorId: ActorId,
+    public readonly type: ResourceType,
+    public readonly nb: number) {
+      super(parentId, 'ChangeResourcesNbLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.addResources(this.actorId, this.type, this.nb);
   }
 
 }

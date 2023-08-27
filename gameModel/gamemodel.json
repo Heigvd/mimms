@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692963460903,
+  "createdTime" : 1693157674011,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5151,6 +5151,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#81:S7Wppz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/events/askReinforcementEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:w1hs77",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
