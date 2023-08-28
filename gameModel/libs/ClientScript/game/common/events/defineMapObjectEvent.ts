@@ -3,7 +3,8 @@ import { ActionCreationEvent } from "./eventTypes";
 
 export interface featurePayload {
   id?: number | string,
-  geometry: any,
+  featureType: GeometryType;
+  feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 }
 
 export type MapFeature = PointFeature | StringLineFeature | PolygonFeature | MultiPolygonFeature;

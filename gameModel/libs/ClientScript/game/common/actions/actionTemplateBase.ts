@@ -136,19 +136,19 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     super(title, description);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, featureData: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
     
-	const feature: MapFeature = {
+	const feature = {
       type: this.featureType,
       name: this.featureName,
-      id: featureData.id,
-      geometry: featureData.geometry,
+      id: payload.id,
+      geometry: payload.feature,
     }
 
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature,
+      feature: feature as MapFeature,
     }
   }
 

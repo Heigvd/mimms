@@ -1,4 +1,3 @@
-import { setMapAction } from "../gameMap/main";
 import { getAllActors } from "../UIfacade/actorFacade";
 
 /**
@@ -21,7 +20,6 @@ export function initInterface(): void {
 	const actors = getAllActors();
 	setCurrentActorUid(actors[0].Uid);
 	// Reset any map action and tmpFeature
-	setMapAction(false);
 }
 
 /**

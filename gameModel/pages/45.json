@@ -102,7 +102,11 @@
                       "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
                       "language" : "typescript"
                     },
-                    "icon" : "play",
+                    "icon" : {
+                      "@class" : "Script",
+                      "content" : "import { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n}\n'play'",
+                      "language" : "typescript"
+                    },
                     "label" : {
                       "@class" : "Script",
                       "content" : "\"\"",
@@ -112,7 +116,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { setMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tsetMapAction(true);\n} else {\n\tplanAction(ref, uid);\n}",
+                        "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { startMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tstartMapAction(Context.action.featureType);\n} else {\n\tplanAction(ref, uid);\n}",
                         "language" : "TypeScript"
                       }
                     },

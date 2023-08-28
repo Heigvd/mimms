@@ -194,7 +194,7 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
  */
 export function createGrid(currentTime: number): string {
 
-	logger.info('TIMELINE: Generating timeline');
+	// logger.info('TIMELINE: Generating timeline');
 	const timelines = buildTimelineObject()
 
 	// Calculate the total amount of actions represented on the timeline

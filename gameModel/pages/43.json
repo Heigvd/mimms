@@ -300,18 +300,18 @@
                       "props" : {
                         "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Log tmpFeature</p>\"",
+                          "content" : "\"<p>Log mapState</p>\"",
                           "language" : "TypeScript"
                         },
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { getTmpFeature } from \"./gameMap/main\";\n\nwlog(getTmpFeature())",
+                            "content" : "import { getMapState } from \"./gameMap/main\";\n\nwlog(getMapState())",
                             "language" : "TypeScript"
                           }
                         },
-                        "name" : "Log tmp",
+                        "name" : "Log mapState",
                         "style" : { }
                       },
                       "type" : "Button"
@@ -736,22 +736,6 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "true;",
-                              "language" : "typescript"
-                            },
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "`<p>(tmpFeature rfrsh hack: ${Variable.find(gameModel, 'tmpFeatureForcer').getValue(self)})</p>`",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "OSMLayer" : false,
                             "children" : [ {
                               "props" : {
@@ -759,103 +743,97 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "icon" : "times",
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "\"\"",
-                                          "language" : "TypeScript"
-                                        },
+                                        "children" : [ {
+                                          "props" : {
+                                            "icon" : "times",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "\"\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { endMapAction, getMapState } from \"./gameMap/main\";\n\nconst logger = Helpers.getLogger('mainSim-interface');\nlogger.info('Cancel action button')\n\nif (getMapState().mapAction) {\n\tendMapAction();\n}",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        }, {
+                                          "props" : {
+                                            "icon" : "check",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "\"\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { endMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\n\n// TODO Add validation for featureType\nplanAction(ref, actorUid);\nendMapAction();",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ],
+                                        "layout" : { },
                                         "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { cancelMapAction, isMapAction } from \"./gameMap/main\";\n\nif (isMapAction()) {\n\tcancelMapAction();\n}",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
+                                        "style" : {
+                                          "background" : "#F6F7F9",
+                                          "borderRadius" : "10px"
+                                        }
                                       },
-                                      "type" : "Button"
+                                      "type" : "FlexList"
                                     }, {
                                       "props" : {
-                                        "icon" : "check",
-                                        "label" : {
+                                        "layoutStyle" : { },
+                                        "script" : {
                                           "@class" : "Script",
-                                          "content" : "\"\"",
+                                          "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst actionUid = Variable.find(gameModel, 'currentActionUid').getValue(self);\nconst template = getActionTemplate(actionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureName}.svg`;",
                                           "language" : "TypeScript"
                                         },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { setMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\n\nplanAction(ref, actorUid);\nsetMapAction(false);",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
+                                        "style" : {
+                                          "height" : "50px",
+                                          "opacity" : ".5",
+                                          "width" : "50px"
+                                        }
                                       },
-                                      "type" : "Button"
+                                      "type" : "Image"
                                     } ],
-                                    "layout" : { },
-                                    "layoutStyle" : {
-                                      "background" : "#F6F7F9",
-                                      "borderRadius" : "10px"
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { isMapAction } from \"./gameMap/main\";\n!isMapAction();",
+                                      "language" : "typescript"
                                     },
+                                    "layout" : {
+                                      "alignItems" : "center",
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : { },
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
                                 } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { isMapAction } from \"./gameMap/main\";\n!isMapAction();",
-                                  "language" : "typescript"
-                                },
                                 "layoutStyle" : { },
                                 "name" : "Tmp Menu",
                                 "overlayProps" : {
                                   "offset" : {
                                     "@class" : "Script",
-                                    "content" : "([-50,-100])",
+                                    "content" : "([-55,-105])",
                                     "language" : "typescript"
                                   },
-                                  "position" : {
-                                    "@class" : "Script",
-                                    "content" : "import { getTmpFeature } from \"./gameMap/main\";\ngetTmpFeature().geometry as [number,number];",
-                                    "language" : "typescript"
-                                  },
+                                  "positionOnClick" : true,
                                   "projection" : "EPSG:2056"
                                 },
                                 "style" : { }
                               },
                               "type" : "WegasMapOverlay"
-                            }, {
-                              "props" : {
-                                "className" : "",
-                                "layerId" : "",
-                                "layerProps" : {
-                                  "zIndex" : 91
-                                },
-                                "layerSource" : {
-                                  "dataType" : "GeoJSON",
-                                  "source" : {
-                                    "@class" : "Script",
-                                    "content" : "import { getTmpLayer } from \"./gameMap/layers/tmpLayer\";\ngetTmpLayer();",
-                                    "language" : "typescript"
-                                  },
-                                  "sourceProjection" : "EPSG:2056",
-                                  "type" : "VectorLayer",
-                                  "useSpatialIndex" : true
-                                },
-                                "layerStyle" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ "feature", "resolution" ],
-                                  "content" : "import { getTmpIconStyle } from \"./gameMap/layers/tmpLayer\";\ngetTmpIconStyle();"
-                                },
-                                "layoutStyle" : { },
-                                "name" : "Tmp",
-                                "style" : { }
-                              },
-                              "type" : "WegasMapVectorLayer"
                             }, {
                               "props" : {
                                 "disableIf" : {
@@ -1012,7 +990,7 @@
                               "onClick" : {
                                 "@class" : "ScriptCallback",
                                 "args" : [ "coord", "features" ],
-                                "content" : "import { forceUpdateMap, handleMapClick } from './gameMap/main';\nhandleMapClick({x: coord[0], y: coord[1]}, features);\nreturn;"
+                                "content" : "import { handleMapClick } from './gameMap/main';\nhandleMapClick({x: coord[0], y: coord[1]}, features);\nreturn;"
                               }
                             },
                             "style" : { },

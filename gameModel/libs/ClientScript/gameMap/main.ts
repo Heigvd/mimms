@@ -1,47 +1,54 @@
+import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
-let mapAction = false;
-let isMultiClick = false;
-let tmpFeature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][] | undefined = undefined;
-let tmpType = 'Point';
-
-/**
- * Forces an update of map via tmpFeatureForcer boolean
- */
-export function forceUpdateMap() {
-	const curr = Variable.find(gameModel, 'tmpFeatureForcer').getValue(self);
-	APIMethods.runScript(`Variable.find(gameModel, "tmpFeatureForcer").setValue(self, ${!curr})`,{})
+interface MapState {
+	mapAction: boolean;
+	multiClick: boolean;
+	tmpFeature: {
+		feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][],
+		geometryType: GeometryType,
+	}
 }
 
+// Helpers.useRef() to persist across renders ?
+let mapState: MapState;
+
+Helpers.registerEffect(() => {
+	mapState = {
+		mapAction: false,
+		multiClick: false,
+		tmpFeature: {
+			feature: [],
+			geometryType: 'Point',
+		},
+	}
+})
 
 /**
  * Is the map currently in an action state
  */
 export function isMapAction(): boolean {
-	return mapAction;
+	return mapState.mapAction;
 }
 
 /**
- * Change the action state of the map
- * TODO Include the action
- * @param value
+ * Initialize a map interaction
  */
-export function setMapAction(value: boolean) {
-	logger.info('MAP ACTION: ' + isMapAction())
-	mapAction = value;
+export function startMapAction(feature: GeometryType) {
+	logger.info('MAP ACTION: Action initiated');
+	mapState.mapAction = true;
 	clearTmpFeature();
 }
 
 /**
  * Cancel current map action routine
  */
-export function cancelMapAction() {
+export function endMapAction() {
 	logger.info('MAP ACTION: Action Cancelled')
 	clearTmpFeature();
-	setMapAction(false);
-	forceUpdateMap();
+	mapState.mapAction = false;
 }
 
 /**
@@ -57,20 +64,20 @@ export function handleMapClick(
 	}[],
 ): void {
 
-	if (!mapAction) return;
-	tmpFeature = [point.x, point.y];
-	forceUpdateMap();
+	logger.info('MAP ACTION: Map click')
+	logger.info('MAP ACTION - isMapAction: ', mapState.mapAction)
+
+
+	if (!mapState.mapAction) return;
+	mapState.tmpFeature.geometryType = 'Point';
+	mapState.tmpFeature.feature = [point.x, point.y];
 }
 
 /**
  * Return current tmpFeature
  */
-export function getTmpFeature() {
-	return {
-		id: 0,
-		geometryType: tmpType,
-		geometry: tmpFeature,
-	};
+export function getMapState() {
+	return mapState;
 }
 
 /**
@@ -78,5 +85,6 @@ export function getTmpFeature() {
  */
 export function clearTmpFeature() {
 	logger.info('MAP ACTION: tmpFeature cleared')
-	tmpFeature = undefined;
+	mapState.tmpFeature.geometryType = 'Point';
+	mapState.tmpFeature.feature = [];
 }

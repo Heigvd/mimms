@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692977613386,
+  "createdTime" : 1693217892679,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4626,35 +4626,6 @@
       "editorTag" : "",
       "isolation" : "OPEN",
       "items" : [ {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "Hack boolean to force map rerenders, do not change Script alias",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:445486:ouvVD3",
-          "value" : false
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:445487:2KWVZz",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:445487:2KWVZz::EN",
-              "status" : "",
-              "translation" : "[HACK] mapUpdater"
-            }
-          }
-        },
-        "name" : "tmpFeatureForcer",
-        "refId" : "BooleanDescriptor:445485:45dlZf",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "StringDescriptor",
         "allowedValues" : [ {
           "@class" : "EnumItem",

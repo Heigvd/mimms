@@ -169,7 +169,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTmpFeature } from \"./gameMap/main\";\n'TMPFEATURE ' + JSON.stringify(getTmpFeature())",
+          "content" : "import { getMapState } from \"./gameMap/main\";\n'TMPFEATURE ' + JSON.stringify(getMapState().tmpFeature)",
           "language" : "TypeScript"
         }
       },
