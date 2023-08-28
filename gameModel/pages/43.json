@@ -335,6 +335,43 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "attachToClosest" : ".game",
+                            "attachedToId" : "",
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "I18n.toString(Variable.find(gameModel,'modalString'))",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel, 'showModal').isFalse(self);",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "height" : "100%",
+                              "pointer-events" : "auto",
+                              "width" : "100%"
+                            },
+                            "onExitActions" : {
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "Variable.find(gameModel, 'showModal').setValue(self, false);",
+                                "language" : "javascript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "panel-title",

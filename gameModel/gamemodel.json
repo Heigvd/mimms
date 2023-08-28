@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693217892679,
+  "createdTime" : 1693234359537,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4948,6 +4948,152 @@
         },
         "name" : "startTime",
         "refId" : "ListDescriptor:49475:As9tqf",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:50322:i2hqnn"
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "BooleanDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "BooleanInstance",
+            "refId" : "BooleanInstance:50327:47KOMx",
+            "value" : false
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:50328:h0Mtk3",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:50328:h0Mtk3::EN",
+                "status" : "",
+                "translation" : "showModal"
+              }
+            }
+          },
+          "name" : "showModal",
+          "refId" : "BooleanDescriptor:50326:zIdW7L",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:50332:umQy8v",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:50333:UB391c",
+              "translations" : {
+                "EN" : {
+                  "@class" : "Translation",
+                  "lang" : "EN",
+                  "refId" : "TranslatableContent:50333:UB391c::EN",
+                  "status" : "",
+                  "translation" : "Generic error message"
+                }
+              }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:50334:v0YMoL",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:50334:v0YMoL::EN",
+                "status" : "",
+                "translation" : "modalContent"
+              }
+            }
+          },
+          "maxSelectable" : 1,
+          "name" : "modalContent",
+          "refId" : "StringDescriptor:50331:voerd4",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "TextDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "TextInstance",
+            "refId" : "TextInstance:50394:ZdXbKr",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:50395:MfJnJN",
+              "translations" : {
+                "EN" : {
+                  "@class" : "Translation",
+                  "lang" : "EN",
+                  "refId" : "TranslatableContent:50395:MfJnJN::EN",
+                  "status" : "",
+                  "translation" : "<p>Error message</p>"
+                }
+              }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:50396:k8ngAw",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:50396:k8ngAw::EN",
+                "status" : "",
+                "translation" : "modalString"
+              }
+            }
+          },
+          "name" : "modalString",
+          "refId" : "TextDescriptor:50393:ppW3tU",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:50323:DYEV4M",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:50323:DYEV4M::EN",
+              "status" : "",
+              "translation" : "modal"
+            }
+          }
+        },
+        "name" : "modal",
+        "refId" : "ListDescriptor:50321:VGnJ4S",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"

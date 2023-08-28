@@ -1,3 +1,4 @@
+import { StartEndAction } from "../game/common/actions/actionBase";
 import { getCurrentActorUid } from "../gameInterface/main";
 import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
@@ -61,8 +62,7 @@ export function buildTimelineObject(): Timeline[] {
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
-					// TODO Somehow retrieve action titles!
-					title: 'Action title',
+					title: (action as StartEndAction).actionNameKey,
 				})
 			}
 		}	

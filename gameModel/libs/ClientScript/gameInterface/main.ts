@@ -1,4 +1,6 @@
+import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
+import { getSimTime } from "../UIfacade/timeFacade";
 
 /**
  * 
@@ -46,4 +48,34 @@ export function setCurrentActorUid(id: number): void {
  */
 export function getCurrentActionUid() {
 	return Variable.find(gameModel, 'currentActionUid').getValue(self);
+}
+
+/**
+ * Show the mainSim modal
+ */
+export function showModal() {
+	APIMethods.runScript(
+		`Variable.find(gameModel, 'showModal').setValue(self, true)`,
+		{},
+	);
+}
+
+// TODO Add validation for actions taking place over more than 60 seconds
+
+/**
+ * Can the current actor plan an action ?
+ * @returns boolean
+ */
+export function canPlanAction(): boolean {
+	const currentTime = getSimTime();
+	const actorUid = getCurrentActorUid();
+	const actions = getAllActions();
+
+	if (actions[actorUid] === undefined) return true;
+
+	for (const action of actions[actorUid]) {
+		if (action.startTime === currentTime) return false;
+	}
+
+	return true;
 }

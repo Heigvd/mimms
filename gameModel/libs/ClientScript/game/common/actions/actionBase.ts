@@ -65,10 +65,15 @@ export abstract class ActionBase implements IClonable{
 export abstract class StartEndAction extends ActionBase {
 
   protected readonly durationSec;
+  /**
+   * Translation key for the name of the action (displayed in the timeline)
+   */
+  public readonly actionNameKey: TranslationKey;
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId, ownerId: ActorId){
+  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
     super(startTimeSec, evtId, ownerId);
     this.durationSec = durationSeconds;
+	this.actionNameKey = actionNameKey
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -116,15 +121,17 @@ export class GetInformationAction extends StartEndAction {
    * Translation key to the message received at the end of the action
    */
   public readonly messageKey: TranslationKey;
-  /**
-   * Translation key for the name of the action (displayed in the timeline)
-   */
-  public readonly actionNameKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
-    super(startTimeSec, durationSeconds, evtId, ownerId);
+  constructor(
+	startTimeSec: SimTime,
+	durationSeconds: SimDuration,
+	messageKey: TranslationKey,
+	actionNameKey: TranslationKey,
+	evtId: GlobalEventId,
+	ownerId: ActorId 
+	 ){
+    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
     this.messageKey = messageKey;
-    this.actionNameKey = actionNameKey;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -154,12 +161,13 @@ export class DefineMapObjectAction extends StartEndAction {
 
   constructor(
     startTimeSec: SimTime, 
-    durationSeconds: SimDuration, 
+    durationSeconds: SimDuration,
+	actionNameKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
     ) { 
-      super(startTimeSec, durationSeconds, evtId, ownerId);
+      super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
       this.feature = feature;
   }
 
@@ -167,6 +175,7 @@ export class DefineMapObjectAction extends StartEndAction {
     const clone = new DefineMapObjectAction(
         this.startTime,
         this.durationSec,
+		this.actionNameKey,
         this.eventId,
         this.ownerId,
         this.feature

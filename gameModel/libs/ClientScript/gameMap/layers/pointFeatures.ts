@@ -31,7 +31,6 @@ export function getPointLayer(): FeatureCollection {
 	return layer;
 }
 
-// TODO Read icon name and return corresponding style !
 export function getPointLayerStyle(feature: any): LayerStyleObject {
 
 	const icon = feature.getProperties().icon;
@@ -39,7 +38,7 @@ export function getPointLayerStyle(feature: any): LayerStyleObject {
 	const iconStyle: ImageStyleObject = {
 		type: 'IconStyle',
 		achor: [0.5, 0.5],
-		displacement: [0, 300], // svg icons are 500x500
+		displacement: [0, 300],
 		anchorXUnits: 'fraction',
 		anchorYUnits: 'fraction',
 		src: `/maps/mapIcons/${icon}.svg`,
