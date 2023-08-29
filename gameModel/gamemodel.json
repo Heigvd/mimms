@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693234359537,
+  "createdTime" : 1693312596751,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4786,7 +4786,7 @@
         "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "NumberInstance",
@@ -4815,12 +4815,12 @@
         "minValue" : null,
         "name" : "currentActorUid",
         "refId" : "NumberDescriptor:449120:diqFev",
-        "scopeType" : "TeamScope",
+        "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "NumberInstance",
@@ -4849,7 +4849,7 @@
         "minValue" : null,
         "name" : "currentActionUid",
         "refId" : "NumberDescriptor:449196:0Z848U",
-        "scopeType" : "TeamScope",
+        "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
