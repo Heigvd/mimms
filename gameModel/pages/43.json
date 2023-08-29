@@ -335,6 +335,91 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "methaneTitle",
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "methaneTitle",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>METHANE Transmission</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "methaneInput-container",
+                                "layoutStyle" : { },
+                                "name" : "methaneInput",
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'methaneInput')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Text input"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "l_button cancelBtn",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Cancel</p>\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "cancel",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                }, {
+                                  "props" : {
+                                    "className" : "l_button pink",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Send</p>\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "send",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "layout" : {
+                                  "justifyContent" : "flex-end"
+                                },
+                                "layoutClassName" : "methaneBtn-container noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "methaneButtons",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "methane",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : {
+                              "display" : "none"
+                            },
+                            "name" : "methanePopUp",
+                            "onExitActions" : { },
+                            "style" : { }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "panel-title",

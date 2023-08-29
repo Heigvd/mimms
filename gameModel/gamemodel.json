@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1692955764319,
+  "createdTime" : 1693298149453,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4977,6 +4977,39 @@
         },
         "name" : "startTime",
         "refId" : "ListDescriptor:49475:As9tqf",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "TextDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "TextInstance",
+          "refId" : "TextInstance:458483:OR6yQ1",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:458484:2vCsQc",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:458484:2vCsQc::EN",
+                "status" : "",
+                "translation" : "<p>Enter your METHANE message here<br></p>"
+              }
+            }
+          }
+        },
+        "editorTag" : "methaneInput",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:458485:sPwnn6",
+          "translations" : { }
+        },
+        "name" : "methaneInput",
+        "refId" : "TextDescriptor:458482:qmAS1w",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
