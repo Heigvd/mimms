@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693157674011,
+  "createdTime" : 1693328938710,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5727,6 +5727,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#100:wpez2S",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/taskFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#101:Sy8cua",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

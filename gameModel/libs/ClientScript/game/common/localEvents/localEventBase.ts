@@ -82,11 +82,15 @@ export class TimeForwardLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
+
     // TODO update patients
     this.updatePatients(so.patients, state.getSimTime());
+
     // update all actions =>
     this.updateActions(state);
-    // TODO update all tasks
+
+    // update all tasks
+    this.updateTasks(state);
   }
 
   updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
@@ -95,6 +99,10 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
   updateActions(state: MainSimulationState) {
     state.getInternalStateObject().actions.forEach(a => a.update(state));
+  }
+
+  updateTasks(state: MainSimulationState) {
+    state.getAllTasks().forEach(t => t.update(state));
   }
 
 }
@@ -166,6 +174,19 @@ export class ChangeNbResourcesLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     state.addResources(this.actorId, this.type, this.nb);
+  }
+
+}
+
+export class CategorizePatientLocalEvent extends LocalEventBase {
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly zone: string) {
+    super(parentEventId, 'CategorizePatientLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.categorizeOnePatient(this.zone)
   }
 
 }

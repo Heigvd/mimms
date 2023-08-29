@@ -1,5 +1,6 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { group } from "../../../tools/groupBy";
+import { mainSimStateLogger } from "../../../tools/logger";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
@@ -43,6 +44,10 @@ export class MainSimulationState implements IClonable {
       actors : [...this.internalState.actors],
       mapLocations: [...this.internalState.mapLocations],
       patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
+      tmp: {
+        nbForPreTriZoneA: this.internalState.tmp.nbForPreTriZoneA,
+        nbForPreTriZoneB: this.internalState.tmp.nbForPreTriZoneB,
+      },
       tasks : this.internalState.tasks.map((task) => task.clone()),
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
@@ -121,12 +126,9 @@ export class MainSimulationState implements IClonable {
   public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
-  
-  /**
-   * @returns A map of action arrays mapped by actor ids
-   */
-  public getTasksByActorIds(): Record<ActorId, Readonly<TaskBase>[]> {
-    return group(this.internalState.tasks, (t: TaskBase) => t.ownerId);
+
+  public getAllTasks(): Readonly<TaskBase>[] {
+    return this.internalState.tasks;
   }
 
   /**
@@ -134,6 +136,29 @@ export class MainSimulationState implements IClonable {
    */
   public getResources(actorId: ActorId, type: ResourceType): Readonly<ResourcePool>[] {
     return this.internalGetResources(actorId, type);
+  }
+
+  public countNbPatientsForPreTri(zone: string): number {
+    if (zone === "A") {
+      return this.internalState.tmp.nbForPreTriZoneA;
+    } else if (zone === "B") {
+      return this.internalState.tmp.nbForPreTriZoneB;
+    }
+
+    return 0;
+  }
+
+  public categorizeOnePatient(zone: string): void {
+    mainSimStateLogger.debug("categorize 1 patient in zone " + zone);
+
+    if (zone === "A") {
+      this.internalState.tmp.nbForPreTriZoneA -= 1;
+      mainSimStateLogger.debug("still " + this.internalState.tmp.nbForPreTriZoneA + " patients to categorize " + zone);
+
+    } else if (zone === "B") {
+      this.internalState.tmp.nbForPreTriZoneB -= 1;
+      mainSimStateLogger.debug("still " +this.internalState.tmp.nbForPreTriZoneB + " patients to categorize " + zone);
+    }
   }
 
   /**
@@ -181,9 +206,13 @@ interface MainStateObject {
    * All actions that have been created
    */
   actions: ActionBase[];
-  tasks: TaskBase[]; // TODO
+  tasks: TaskBase[];
   mapLocations: MapFeature[];
   patients: HumanBody[];
+  tmp: {
+    nbForPreTriZoneA: number;
+    nbForPreTriZoneB: number;
+  };
   actors : Actor[];
   radioMessages: RadioMessage[];
   /**

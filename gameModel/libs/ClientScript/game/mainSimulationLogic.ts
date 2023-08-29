@@ -15,6 +15,7 @@ import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
+import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -52,12 +53,22 @@ function initMainState(): MainSimulationState {
 
   const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
 
+  const testTaskPretriA = new PreTriTask(1, 5, "A", 'end-of-pretriage-zoneA');
+  const testTaskPretriB = new PreTriTask(1, 5, "B", 'end-of-pretriage-zoneB');
+
+  const initialNbPatientInZoneA = 20;
+  const initialNbPatientInZoneB = 10;
+
   return new MainSimulationState({
     actions: [testAction],
     actors: [testAL, testMCS, testACS],
     mapLocations: [],
     patients: [],
-    tasks: [],
+    tmp: {
+      nbForPreTriZoneA: initialNbPatientInZoneA,
+      nbForPreTriZoneB: initialNbPatientInZoneB,
+    },
+    tasks: [testTaskPretriA, testTaskPretriB],
     radioMessages: [],
     resources: [],
   }, 0, 0);
@@ -176,6 +187,16 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
     return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor));
   }else{
 	mainSimLogger.warn('Actor not found. id = ', actorId);
+    return [];
+  }
+}
+
+export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
+  const actor = currentSimulationState.getActorById(actorId);
+  if (actor) {
+    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
+  } else {
+    mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
   }
 }
