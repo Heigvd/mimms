@@ -2,7 +2,6 @@
  * Setup function
  */
 import { mainSimLogger } from "../tools/logger";
-import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";

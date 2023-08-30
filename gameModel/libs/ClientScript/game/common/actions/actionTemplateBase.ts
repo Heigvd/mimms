@@ -257,7 +257,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new AskReinforcementAction(payload.triggerTime, this.duration, event.id, ownerId,
+    return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
       this.resourceType, this.nb, this.message);
   }
 

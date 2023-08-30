@@ -74,7 +74,7 @@ export abstract class StartEndAction extends ActionBase {
   public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
     super(startTimeSec, evtId, ownerId);
     this.durationSec = durationSeconds;
-	this.actionNameKey = actionNameKey
+	  this.actionNameKey = actionNameKey
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -159,15 +159,17 @@ export class OnTheRoadgAction extends StartEndAction {
    * Translation key to the message received at the end of the action
    */
   public readonly messageKey: TranslationKey;
-  /**
-   * Translation key for the name of the action (displayed in the timeline)
-   */
-  public readonly actionNameKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
-    super(startTimeSec, durationSeconds, evtId, ownerId);
+  constructor (
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    evtId: GlobalEventId,
+    ownerId: ActorId
+  ) {
+    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
     this.messageKey = messageKey;
-    this.actionNameKey = actionNameKey;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -194,15 +196,10 @@ export class MethaneAction extends StartEndAction {
    * Translation key to the message received at the end of the action
    */
   public readonly messageKey: TranslationKey;
-  /**
-   * Translation key for the name of the action (displayed in the timeline)
-   */
-  public readonly actionNameKey: TranslationKey;
 
   constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
-    super(startTimeSec, durationSeconds, evtId, ownerId);
+    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
     this.messageKey = messageKey;
-    this.actionNameKey = actionNameKey;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -234,11 +231,11 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	actionNameKey: TranslationKey, 
+	  actionNameKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
-    ) { 
+  ) { 
       super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
       this.feature = feature;
   }
@@ -279,12 +276,14 @@ export class AskReinforcementAction extends StartEndAction {
 
   constructor(startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    actionNameKey: TranslationKey,
     evtId: GlobalEventId,
     ownerId: ActorId,
     type: ResourceType,
     nb: number,
-    feedbackAtEnd: TranslationKey) {
-    super(startTimeSec, durationSeconds, evtId, ownerId);
+    feedbackAtEnd: TranslationKey
+  ) {
+    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
     this.type = type;
     this.nb = nb;
     this.feedbackAtEnd = feedbackAtEnd;
@@ -302,7 +301,7 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
   override clone(): this { 
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd);
+    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd);
     clone.status = this.status;
     return clone as this;
   }
