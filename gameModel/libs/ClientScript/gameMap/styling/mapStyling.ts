@@ -19,54 +19,54 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 
 	switch(hw){
 		case 'motorway' :
-			color = 'red';
+			color = '#FFF2DA';
 			size = 5;
 			break;
 		case 'trunk' :
 			size = 5;
-			color = 'yellow';
+			color = 'red';
 			break;
 		case 'primary':
 			size = 4;
-			color = 'lime';
+			color = '#F6F7F9';
 			break;
 		case 'secondary':
-			color = 'blue';
+			color = '#F6F7F9';
 			size = 2.5;
 			break;
 		case 'tertiary':
-			color = 'peru';
+			color = '#F6F7F9';
 			size = 5;
 			break;
 		case 'unclassified':
-			color = 'hotpink';
+			color = '#F6F7F9';
 			size = 3;
 			break;
 		case 'residential':
 		case 'living':
-			color = 'white';
+			color = '#F6F7F9';
 			size = 2.6;
 			break;
 		case 'pedestrian':
 		case 'footway':
 			size = 1;
-			color = 'teal'
+			color = '#FCDDE4'
 			break;
 		case 'service':
 		case 'path':
 		case 'cycleway':
 		case 'steps':
 		case 'platform':
-			color = 'white';
+			color = '#FCDDE4';
 			size = 1.2;
 			break;
 		case 'proposed':
 		case 'construction':
-			color = 'gray';
+			color = '#yellow';
 			size = 1.2;
 			break;
 		default :
-			color = 'black';
+			color = '#D9DDE1';
 			layerDataLogger.debug(hw);
 			break;
 	}

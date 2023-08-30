@@ -1,7 +1,6 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
 
-
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN'
 
 export class Actor{

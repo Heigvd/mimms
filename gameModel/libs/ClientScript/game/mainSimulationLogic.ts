@@ -2,12 +2,12 @@
  * Setup function
  */
 import { mainSimLogger } from "../tools/logger";
-import { GetInformationAction } from "./common/actions/actionBase";
 import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
+import { MapFeature } from "./common/events/defineMapObjectEvent";
 import { ActionCreationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
@@ -48,7 +48,12 @@ function initMainState(): MainSimulationState {
 
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
 
-  const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
+  const mainAccident: MapFeature = {
+    type: 'Point',
+    name: 'mainAccident',
+    geometry: [2497449.9236694486,1120779.3310497932]
+  }
+
 
   const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
   const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
@@ -56,10 +61,11 @@ function initMainState(): MainSimulationState {
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 10;
 
+
   return new MainSimulationState({
-    actions: [testAction],
+    actions: [],
     actors: [testAL],
-    mapLocations: [],
+    mapLocations: [mainAccident],
     patients: [],
     tmp: {
       nbForPreTriZoneA: initialNbPatientInZoneA,

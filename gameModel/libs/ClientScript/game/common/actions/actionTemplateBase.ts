@@ -175,19 +175,19 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     super(title, description);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, featureData: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
     
-	const feature: MapFeature = {
+	const feature = {
       type: this.featureType,
       name: this.featureName,
-      id: featureData.id,
-      geometry: featureData.geometry,
+      id: payload.id,
+      geometry: payload.feature,
     }
 
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature,
+      feature: feature as MapFeature,
     }
   }
 
@@ -199,7 +199,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, event.id, ownerId, payload.feature);
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, event.id, ownerId, payload.feature);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
@@ -257,7 +257,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new AskReinforcementAction(payload.triggerTime, this.duration, event.id, ownerId,
+    return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
       this.resourceType, this.nb, this.message);
   }
 

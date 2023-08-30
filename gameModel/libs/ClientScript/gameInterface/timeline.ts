@@ -1,8 +1,10 @@
+import { StartEndAction } from "../game/common/actions/actionBase";
 import { getCurrentActorUid } from "../gameInterface/main";
 import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
+const logger = Helpers.getLogger('mainSim-interface');
 
 interface Action {
 	startTime: number,
@@ -16,6 +18,9 @@ interface Timeline {
 	timeline: Action[];
 }
 
+/**
+ * Return Date object with start time
+ */
 function getStartTime() {
 	const hours = Variable.find(gameModel, 'startHours').getValue(self);
 	const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
@@ -27,11 +32,14 @@ function getStartTime() {
 	return dateTime;
 }
 
+/**
+ * Return given time in HH::MM format
+ */
 function formatTime(dateTime: Date) {
-	const hours = dateTime.getHours();
-	const minutes = dateTime.getMinutes();
+	let splitted = dateTime.toLocaleString().split(' ')[1].split(':').splice(0, 2);
+	let result = splitted.join(':');
 
-	return `${hours}:${minutes}`;
+	return result;
 }
 
 // Potential TODO, use ActionBase / StartEndAction instead of custom interface
@@ -54,8 +62,7 @@ export function buildTimelineObject(): Timeline[] {
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
-					// TODO Somehow retrieve action titles!
-					title: 'Action title',
+					title: (action as StartEndAction).actionNameKey,
 				})
 			}
 		}	
@@ -155,7 +162,7 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 			// Marker positions need to be taken into account
 			let actionEndIndex = gridIndex + ((actionDuration / 60) * 2 - 1)
 
-			// TODO Not optimal and working
+			// TODO Not optimal but working
 			const activeclassName = current ? 'timeline-item current' : 'timeline-item';
 			const futureClassName = actions[actionIndex].startTime >= simTime ? 'planned' : '';
 			const className = activeclassName.concat(' ', futureClassName)
@@ -185,8 +192,10 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
  * @param {Timeline[]} timelines Array of timelines to be displayed
  * @return {string} HTML grid
  */
-export function createGrid(currentTime: number, timelines: Timeline[]): string {
+export function createGrid(currentTime: number): string {
 
+	// logger.info('TIMELINE: Generating timeline');
+	const timelines = buildTimelineObject()
 
 	// Calculate the total amount of actions represented on the timeline
 	// We add empty segments to represent future actions
@@ -198,7 +207,6 @@ export function createGrid(currentTime: number, timelines: Timeline[]): string {
 
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
-	// TODO Implement getCurrentRole();
 		const active = timelines[i].id === getCurrentActorUid();
 		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
 	}

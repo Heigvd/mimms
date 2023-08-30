@@ -3,27 +3,28 @@
  */
 
 import { DefineMapObjectTemplate } from "../../game/common/actions/actionTemplateBase";
-import { getTmpFeature } from "../../gameMap/main";
+import { getMapState } from "../../gameMap/main";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getActionTemplate } from "../../UIfacade/actionFacade";
+
+const logger = Helpers.getLogger('mainSim-interface');
 
 /**
  * Get layer for tmp point feature
  */
 export function getTmpLayer() {
 	const layer = getEmptyFeatureCollection();
-	const tmpFeature = getTmpFeature();
+	const mapState = getMapState();
 
-	if (tmpFeature.geometry === undefined) return layer;
+	if (mapState.tmpFeature.geometryType === undefined) return layer;
 
 	const newFeature: any = {
 		type: 'Feature',
 		geometry: {
-			type: tmpFeature.geometryType,
-			coordinates: tmpFeature.geometry,
+			type: mapState.tmpFeature.geometryType,
+			coordinates: mapState.tmpFeature.feature,
 		}
 	};
-
 	layer.features.push(newFeature);
 
 	return layer;
