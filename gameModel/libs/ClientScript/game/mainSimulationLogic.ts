@@ -3,7 +3,7 @@
  */
 import { mainSimLogger } from "../tools/logger";
 import { GetInformationAction } from "./common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -12,7 +12,9 @@ import { ActionCreationEvent, TimeForwardEvent, TimedEventPayload } from "./comm
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
+import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
+import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -48,13 +50,24 @@ function initMainState(): MainSimulationState {
 
   const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
 
+  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
+  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
+
+  const initialNbPatientInZoneA = 20;
+  const initialNbPatientInZoneB = 10;
+
   return new MainSimulationState({
     actions: [testAction],
     actors: [testAL],
     mapLocations: [],
     patients: [],
-    tasks: [],
-    radioMessages: []
+    tmp: {
+      nbForPreTriZoneA: initialNbPatientInZoneA,
+      nbForPreTriZoneB: initialNbPatientInZoneB,
+    },
+    tasks: [testTaskPretriA, testTaskPretriB],
+    radioMessages: [],
+    resources: [],
   }, 0, 0);
 
 }
@@ -71,14 +84,16 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePMA = new DefineMapObjectTemplate('define-PMA', 'define-map-PMA', TimeSliceDuration, 'PMA', 'Point');
   const placePC = new DefineMapObjectTemplate('define-PC', 'define-map-PC', TimeSliceDuration, 'PC', 'Point');
   const placeNest = new DefineMapObjectTemplate('define-Nest', 'define-map-Nest', TimeSliceDuration, 'Nest', 'Point');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement', 'ask-for-resources', TimeSliceDuration, 'MEDICAL_STAFF', 20, '20-resources-joined');
 
-  const templates : Record<string, ActionTemplateBase> = {};
+  const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[methane.getTemplateRef()] = methane;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }
@@ -174,6 +189,25 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 	mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
   }
+}
+
+export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
+  const actor = currentSimulationState.getActorById(actorId);
+  if (actor) {
+    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
+  } else {
+    mainSimLogger.warn('Actor not found. id = ', actorId);
+    return [];
+  }
+}
+
+export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
+  const matchingResources = getCurrentState().getResources(actorId, type);
+
+  let sum = 0;
+  matchingResources.forEach(res => sum += res.nbAvailable);
+
+  return sum;
 }
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
