@@ -53,8 +53,8 @@ function initMainState(): MainSimulationState {
 
   const testAction = new GetInformationAction(0, TimeSliceDuration * 2, 'message-key', 'action name', 0, testAL.Uid);
 
-  const testTaskPretriA = new PreTriTask(1, 5, "A", 'end-of-pretriage-zoneA');
-  const testTaskPretriB = new PreTriTask(1, 5, "B", 'end-of-pretriage-zoneB');
+  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
+  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 10;

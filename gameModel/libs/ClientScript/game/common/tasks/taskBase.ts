@@ -18,6 +18,8 @@ export abstract class TaskBase implements IClonable {
   protected nbCurrentResources: number;
 
   public constructor(
+    readonly title: string,
+    readonly description: string,
     readonly nbMinResources: number,
     readonly nbMaxResources: number) {
     this.Uid = TaskBase.IdSeed++;
@@ -86,9 +88,11 @@ export abstract class TaskBase implements IClonable {
 export abstract class DefaultTask extends TaskBase {
 
   public constructor(
+    readonly title: string,
+    readonly description: string,
     readonly nbMinResources: number,
     readonly nbMaxResources: number) {
-    super(nbMinResources, nbMaxResources);
+    super(title, description, nbMinResources, nbMaxResources);
   }
 
   protected abstract dispatchEvents(state: MainSimulationState): void;
@@ -138,12 +142,14 @@ export class PreTriTask extends DefaultTask {
   protected lastUpdateSimTime : SimTime | undefined = undefined; // does not work
 
   public constructor(
+    readonly title: string,
+    readonly description: string,
     readonly nbMinResources: number,
     readonly nbMaxResources: number,
     readonly zone: string, // TODO see how represent it
     readonly feedbackAtEnd : TranslationKey,
   ) {
-    super(nbMinResources, nbMaxResources);
+    super(title, description, nbMinResources, nbMaxResources);
   }
 
   public isAvailable(state: MainSimulationState) {
@@ -184,7 +190,7 @@ export class PreTriTask extends DefaultTask {
   }
 
   override clone(): this { 
-    const clone = new PreTriTask(this.nbMinResources, this.nbMaxResources, this.zone, this.feedbackAtEnd);
+    const clone = new PreTriTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.zone, this.feedbackAtEnd);
     clone.status = this.status;
     return clone as this;
   }
