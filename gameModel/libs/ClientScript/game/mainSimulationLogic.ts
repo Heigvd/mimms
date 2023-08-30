@@ -1,9 +1,9 @@
 /**
  * Setup function
  */
-
 import { mainSimLogger } from "../tools/logger";
-import { ActionTemplateBase, DefineMapObjectTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import { GetInformationAction } from "./common/actions/actionBase";
+import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -13,7 +13,9 @@ import { ActionCreationEvent, TimeForwardEvent, TimedEventPayload } from "./comm
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
+import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
+import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -46,8 +48,6 @@ function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
-  const testMCS = new Actor('MCS', 'actor-mcs', 'actor-mcs-long')
-  const testACS = new Actor('ACS', 'actor-als', 'actor-als-long')
 
   const mainAccident: MapFeature = {
     type: 'Point',
@@ -56,13 +56,25 @@ function initMainState(): MainSimulationState {
   }
 
 
+  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
+  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
+
+  const initialNbPatientInZoneA = 20;
+  const initialNbPatientInZoneB = 10;
+
+
   return new MainSimulationState({
     actions: [],
-    actors: [testAL, testMCS, testACS],
+    actors: [testAL],
     mapLocations: [mainAccident],
     patients: [],
-    tasks: [],
-    radioMessages: []
+    tmp: {
+      nbForPreTriZoneA: initialNbPatientInZoneA,
+      nbForPreTriZoneB: initialNbPatientInZoneB,
+    },
+    tasks: [testTaskPretriA, testTaskPretriB],
+    radioMessages: [],
+    resources: [],
   }, 0, 0);
 
 }
@@ -74,16 +86,21 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
   const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
 
+  const methane = new MethaneTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
+
   const placePMA = new DefineMapObjectTemplate('define-PMA', 'define-map-PMA', TimeSliceDuration, 'PMA', 'Point');
   const placePC = new DefineMapObjectTemplate('define-PC', 'define-map-PC', TimeSliceDuration, 'PC', 'Point');
   const placeNest = new DefineMapObjectTemplate('define-Nest', 'define-map-Nest', TimeSliceDuration, 'Nest', 'Point');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement', 'ask-for-resources', TimeSliceDuration, 'MEDICAL_STAFF', 20, '20-resources-joined');
 
-  const templates : Record<string, ActionTemplateBase> = {};
+  const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
+  templates[methane.getTemplateRef()] = methane;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }
@@ -179,6 +196,25 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 	mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
   }
+}
+
+export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
+  const actor = currentSimulationState.getActorById(actorId);
+  if (actor) {
+    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
+  } else {
+    mainSimLogger.warn('Actor not found. id = ', actorId);
+    return [];
+  }
+}
+
+export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
+  const matchingResources = getCurrentState().getResources(actorId, type);
+
+  let sum = 0;
+  matchingResources.forEach(res => sum += res.nbAvailable);
+
+  return sum;
 }
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {

@@ -5273,6 +5273,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/events/askReinforcementEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:w1hs77",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/events/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5304,15 +5313,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#90:IKf0YP",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/events/getInformationEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#89:wdarUx",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5354,10 +5354,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resource",
+    "contentKey" : "game/common/resources/resourcePool",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:438809:YzX1wL",
+    "refId" : "GameModelContent:#99:1Rh8ZA",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5831,6 +5831,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/resourceFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:wpez2S",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/taskFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#101:Sy8cua",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/timeFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6045,7 +6063,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence",
+  "name" : "MIMMS main simulation convergence merge SAM",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -6053,7 +6071,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_black-blue_dot_icon",
+    "iconUri" : "ICON_white-wine_coffee_fa",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",

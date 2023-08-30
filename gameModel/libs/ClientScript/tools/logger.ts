@@ -23,4 +23,8 @@ export const localEventManagerLogger = Helpers.getLogger("local.event.manager");
 export const mainSimInterfaceLogger = Helpers.getLogger("mainSim.interface");
 localEventManagerLogger.setLevel('INFO');
 export const mainSimLogger = Helpers.getLogger('main.simulation.logic');
+export const mainSimStateLogger = Helpers.getLogger('main.simulation.state');
+export const taskLogger = Helpers.getLogger('task');
 mainSimLogger.setLevel('INFO');
+mainSimStateLogger.setLevel('DEBUG');
+taskLogger.setLevel('DEBUG');

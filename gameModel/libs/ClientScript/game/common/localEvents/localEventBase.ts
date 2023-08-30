@@ -1,8 +1,10 @@
 import { HumanBody } from "../../../HUMAn/human";
-import { ActionBase } from "../actions/actionBase";
+import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
+import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -81,11 +83,15 @@ export class TimeForwardLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
+
     // TODO update patients
     this.updatePatients(so.patients, state.getSimTime());
+
     // update all actions =>
     this.updateActions(state);
-    // TODO update all tasks
+
+    // update all tasks
+    this.updateTasks(state);
   }
 
   updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
@@ -94,6 +100,10 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 
   updateActions(state: MainSimulationState) {
     state.getInternalStateObject().actions.forEach(a => a.update(state));
+  }
+
+  updateTasks(state: MainSimulationState) {
+    state.getAllTasks().forEach(t => t.update(state));
   }
 
 }
@@ -121,8 +131,18 @@ export class AddActorLocalEvent extends LocalEventBase {
 
   // TODO !!! create actor from parameters
   applyStateUpdate(state: MainSimulationState): void {
-    const actor = new Actor('ACS', 'adasd', 'ACS');
-    state.getInternalStateObject().actors.push(actor);
+    if (state.getInternalStateObject().actors.find((actor) => actor.Role == "ACS" ) == undefined) {
+      const acs = new Actor('ACS', 'adasd', 'ACS');
+      state.getInternalStateObject().actors.push(acs);
+      const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, acs.Uid);
+      state.getInternalStateObject().actions.push(acsAction);
+    }
+    if (state.getInternalStateObject().actors.find((actor) => actor.Role == "MCS" ) == undefined) {
+      const mcs = new Actor('MCS', 'adasd', 'MCS');
+      state.getInternalStateObject().actors.push(mcs);
+      const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, mcs.Uid);
+      state.getInternalStateObject().actions.push(mcsAction);
+    }
   }
 
 }
@@ -146,6 +166,56 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       emitter: this.emitter,
       message: this.message,
     })
+  }
+
+}
+
+/**
+ * Change the nb of available resources.
+ */
+export class ChangeNbResourcesLocalEvent extends LocalEventBase {
+
+  constructor(parentId: GlobalEventId,
+    timeStamp: SimTime,
+    public readonly actorId: ActorId,
+    public readonly type: ResourceType,
+    public readonly nb: number) {
+      super(parentId, 'ChangeResourcesNbLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.addResources(this.actorId, this.type, this.nb);
+  }
+
+}
+
+/**
+ * Local event to change the nb of resources dedicated to a task
+ */
+export class TaskAllocationLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId,
+    readonly nb: number) {
+    super(parentEventId, 'TaskAllocationLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.changeTaskAllocation(this.taskId, this.nb);
+  }
+
+}
+
+export class CategorizePatientLocalEvent extends LocalEventBase {
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly zone: string) {
+    super(parentEventId, 'CategorizePatientLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.categorizeOnePatient(this.zone)
   }
 
 }

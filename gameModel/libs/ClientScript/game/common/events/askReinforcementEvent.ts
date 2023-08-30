@@ -1,6 +1,6 @@
 import { SimDuration } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
-export interface GetInformationEvent extends ActionCreationEvent {
+export interface AskReinforcementEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 }
