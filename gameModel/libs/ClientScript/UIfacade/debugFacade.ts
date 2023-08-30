@@ -23,6 +23,14 @@ export async function planFirstMapActionWithFirstActor() {
 
 }
 
+export async function planMethaneAction(methaneInputInformation: string) {
+	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
+	const actTpl = getAllActionTemplates()[2];
+	wlog(methaneInputInformation);
+	return planAction(actTpl!.getTemplateRef(), actor!)
+
+}
+
 export function getAllEvents() {
 	return eventUtils.getAllEvents();
 }

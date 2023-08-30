@@ -144,7 +144,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return true;
+    return state.getInternalStateObject().actions.find((action) => action instanceof MethaneAction) == undefined ? true : false;
   }
   
   public getDescription(): string {

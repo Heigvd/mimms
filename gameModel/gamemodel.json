@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693298149453,
+  "createdTime" : 1693385650487,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5013,6 +5013,35 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:29351741:agDhyN",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:29351742:u09miF",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:29351742:u09miF::EN",
+              "status" : "",
+              "translation" : "methaneModalDisplay"
+            }
+          }
+        },
+        "name" : "methaneModalDisplay",
+        "refId" : "BooleanDescriptor:29351740:aw2NEq",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5952,7 +5981,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation GREG (2)",
+  "name" : "MIMMS main simulation GREG (4)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

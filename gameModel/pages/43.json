@@ -370,6 +370,13 @@
                                 "children" : [ {
                                   "props" : {
                                     "className" : "l_button cancelBtn",
+                                    "impactVariable" : {
+                                      "impact" : {
+                                        "@class" : "Script",
+                                        "content" : "Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false);",
+                                        "language" : "javascript"
+                                      }
+                                    },
                                     "label" : {
                                       "@class" : "Script",
                                       "content" : "\"<p>Cancel</p>\"",
@@ -391,6 +398,13 @@
                                     },
                                     "layoutClassName" : "",
                                     "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { planMethaneAction } from \"./UIfacade/debugFacade\";\n\nconst methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)\nplanMethaneAction(methaneInputInformation)\nAPIMethods.runScript(\n        `Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false)`,\n        {},\n    );",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
                                     "name" : "send",
                                     "style" : { }
                                   },
@@ -407,6 +421,11 @@
                               "type" : "FlexList"
                             } ],
                             "className" : "methane",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel, 'methaneModalDisplay').isFalse(self);",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "flexDirection" : "column"
                             },
@@ -414,7 +433,13 @@
                               "display" : "none"
                             },
                             "name" : "methanePopUp",
-                            "onExitActions" : { },
+                            "onExitActions" : {
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false);",
+                                "language" : "javascript"
+                              }
+                            },
                             "style" : { }
                           },
                           "type" : "Modal"
