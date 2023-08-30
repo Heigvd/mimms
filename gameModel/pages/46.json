@@ -287,7 +287,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "'Available'",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'available');",
               "language" : "TypeScript"
             }
           },

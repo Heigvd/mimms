@@ -10,3 +10,12 @@ next-phase	next phase	prochaine phase
 time-forward	advance time	avancer le temps
 time-rewind	rewind time	reculer le temps
 available	available	disponible
+cancel	cancel	annuler
+send	send	envoyer
+methane-transmission	METHANE transmission	Transmission METHANE
+error	You can't do that yet	Vous ne pouvez pas faire ça actuellement
+press-start	Press start to launch the game	Apppuyez sur "démarrer" pour lancer la simulation
+methane-placeholder	Your METHANE message here	Votre message METHANE
+welcome	Welcome to MIMMS	Bienvenue dans MIMMS
+methane-ok	Your METHANE was sent succeffully	Votre message a bien été transmis
+start-time	Scenario start time :	Heure de début du scénario:
