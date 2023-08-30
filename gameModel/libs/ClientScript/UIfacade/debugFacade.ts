@@ -23,10 +23,15 @@ export async function planFirstMapActionWithFirstActor() {
 
 }
 
-export async function planMethaneAction(methaneInputInformation: string) {
+export async function planMethaneAction() {
 	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
 	const actTpl = getAllActionTemplates()[2];
+	const methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)
 	wlog(methaneInputInformation);
+	APIMethods.runScript(
+        `Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false)`,
+        {},
+    );
 	return planAction(actTpl!.getTemplateRef(), actor!)
 
 }

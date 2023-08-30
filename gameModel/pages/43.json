@@ -401,8 +401,9 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { planMethaneAction } from \"./UIfacade/debugFacade\";\n\nconst methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)\nplanMethaneAction(methaneInputInformation)\nAPIMethods.runScript(\n        `Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false)`,\n        {},\n    );",
-                                        "language" : "TypeScript"
+                                        "content" : "import { planMethaneAction } from \"./UIfacade/debugFacade\";\nplanMethaneAction()",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
                                       }
                                     },
                                     "name" : "send",
