@@ -3,7 +3,7 @@ import { group } from "../../../tools/groupBy";
 import { mainSimStateLogger } from "../../../tools/logger";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, SimDuration, SimTime } from "../baseTypes";
+import { ActorId, SimDuration, SimTime, TaskId } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
@@ -43,12 +43,12 @@ export class MainSimulationState implements IClonable {
       actions : this.internalState.actions.map((act) => act.clone()),
       actors : [...this.internalState.actors],
       mapLocations: [...this.internalState.mapLocations],
-      patients : this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
+      patients: this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
       tmp: {
         nbForPreTriZoneA: this.internalState.tmp.nbForPreTriZoneA,
         nbForPreTriZoneB: this.internalState.tmp.nbForPreTriZoneB,
       },
-      tasks : this.internalState.tasks.map((task) => task.clone()),
+      tasks : [...this.internalState.tasks],
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
     }
@@ -184,6 +184,25 @@ export class MainSimulationState implements IClonable {
     } else {
       this.internalState.resources.push(new ResourcePool(actorId, type, nb));
     }
+  }
+
+  private getTask(taskId: TaskId): TaskBase {
+    const matchingTasks = this.internalState.tasks.filter(ta => ta.Uid === taskId);
+
+    if (matchingTasks.length === 0 || matchingTasks[0] == null) {
+      mainSimStateLogger.error("No task matches id : " + taskId);
+    }
+    if (matchingTasks.length > 1) {
+      mainSimStateLogger.error("There must not be 2 tasks with same id : " + taskId);
+    }
+
+    return matchingTasks[0]!;
+  }
+
+  public changeTaskAllocation(taskId : TaskId, nb: number): void {
+    const task = this.getTask(taskId);
+
+    task.incrementNbResources(nb);
   }
 
   /**

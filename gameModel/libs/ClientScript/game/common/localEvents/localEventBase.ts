@@ -1,7 +1,7 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -174,6 +174,24 @@ export class ChangeNbResourcesLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     state.addResources(this.actorId, this.type, this.nb);
+  }
+
+}
+
+/**
+ * Local event to change the nb of resources dedicated to a task
+ */
+export class TaskAllocationLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId,
+    readonly nb: number) {
+    super(parentEventId, 'TaskAllocationLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.changeTaskAllocation(this.taskId, this.nb);
   }
 
 }
