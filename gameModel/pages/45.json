@@ -112,7 +112,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { setMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tsetMapAction(true);\n} else {\n\tplanAction(ref, uid);\n}",
+                        "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { setMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\tsetMapAction(true);\n} else if (isMethaneActionTemplate(Context.action.Uid)) {\n\tAPIMethods.runScript(\n        `Variable.find(gameModel, 'methaneModalDisplay').setValue(self, true)`,\n        {},\n    );\n}\nelse {\n\tplanAction(ref, uid);\n}",
                         "language" : "TypeScript"
                       }
                     },

@@ -4980,6 +4980,68 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "TextDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "TextInstance",
+          "refId" : "TextInstance:458483:OR6yQ1",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:458484:2vCsQc",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:458484:2vCsQc::EN",
+                "status" : "",
+                "translation" : "<p>Enter your METHANE message here<br></p>"
+              }
+            }
+          }
+        },
+        "editorTag" : "methaneInput",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:458485:sPwnn6",
+          "translations" : { }
+        },
+        "name" : "methaneInput",
+        "refId" : "TextDescriptor:458482:qmAS1w",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:29351741:agDhyN",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:29351742:u09miF",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:29351742:u09miF::EN",
+              "status" : "",
+              "translation" : "methaneModalDisplay"
+            }
+          }
+        },
+        "name" : "methaneModalDisplay",
+        "refId" : "BooleanDescriptor:29351740:aw2NEq",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5196,15 +5258,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#90:IKf0YP",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/events/getInformationEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#89:wdarUx",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5955,7 +6008,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS copy SAM",
+  "name" : "MIMMS main simulation convergence merge SAM",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

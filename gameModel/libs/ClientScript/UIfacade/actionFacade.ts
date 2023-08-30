@@ -5,7 +5,7 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActorId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
@@ -52,4 +52,10 @@ export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, Ac
 export function isDefineMapObjectTemplate(id: number) {
 	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
 	return template instanceof DefineMapObjectTemplate;
+}
+
+
+export function isMethaneActionTemplate(id: number) {
+	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	return template instanceof MethaneTemplate;
 }
