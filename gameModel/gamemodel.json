@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693379394990,
+  "createdTime" : 1693399031619,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4466,7 +4466,7 @@
           "refId" : "ObjectInstance:49463:nISNjv"
         },
         "description" : "",
-        "editorTag" : "",
+        "editorTag" : "localization",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
@@ -4477,7 +4477,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:49464:s5nUlS::EN",
               "status" : "",
-              "translation" : "mainSim - interface"
+              "translation" : "mainSim-interface"
             }
           }
         },
