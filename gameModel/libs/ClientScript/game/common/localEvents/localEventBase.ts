@@ -6,6 +6,7 @@ import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import { TaskStatus } from "../tasks/taskBase";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -205,6 +206,33 @@ export class TaskAllocationLocalEvent extends LocalEventBase {
     state.changeTaskAllocation(this.taskId, this.nb);
   }
 
+}
+
+export class ChangeTaskStatusLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId,
+    readonly status: TaskStatus) {
+      super(parentEventId, 'TaskAllocationLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.changeTaskStatus(this.taskId, this.status);
+  }
+}
+
+export class ReleaseTaskResourcesLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId) {
+    super(parentEventId, 'TaskChangeStatus', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.releaseTaskResources(this.taskId);
+  }
 }
 
 export class CategorizePatientLocalEvent extends LocalEventBase {
