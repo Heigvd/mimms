@@ -176,7 +176,6 @@ export class OnTheRoadgAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.warn(this.templateId);
     this.logger.info('start event OnTheRoadgAction');
   }
 

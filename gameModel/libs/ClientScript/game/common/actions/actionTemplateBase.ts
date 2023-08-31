@@ -81,6 +81,11 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
 }
 
+function checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState, template:ActionTemplateBase): boolean {
+	const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === template.Uid);
+    return action == undefined ? true : template.isReplayable;
+}
+
 // TODO move to own file
 /**
  * Get some information
@@ -112,8 +117,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    const action = state.getInternalStateObject().actions.find((action) => action instanceof GetInformationAction && action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return checkIfAlreadyUsedAndCouldReplay(state, this);
   }
 
   public getDescription(): string {
@@ -150,8 +154,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    const action = state.getInternalStateObject().actions.find((action) => action instanceof MethaneAction && action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return checkIfAlreadyUsedAndCouldReplay(state, this);
   }
   
   public getDescription(): string {
@@ -208,8 +211,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    const action = state.getInternalStateObject().actions.find((action) => action instanceof DefineMapObjectAction && action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return checkIfAlreadyUsedAndCouldReplay(state, this);
   }
 
   public getDescription(): string {
@@ -250,7 +252,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return true;
+    return checkIfAlreadyUsedAndCouldReplay(state, this);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): AskReinforcementEvent {
