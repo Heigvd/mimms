@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693399031619,
+  "createdTime" : 1693472115289,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6063,7 +6063,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence merge SAM",
+  "name" : "MIMMS main simulation convergence",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -6071,7 +6071,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_white-wine_coffee_fa",
+    "iconUri" : "ICON_black-blue_dot_icon",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",
