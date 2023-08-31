@@ -93,6 +93,13 @@
                             },
                             "layoutClassName" : "assignBtn-container",
                             "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, -1);",
+                                "language" : "TypeScript"
+                              }
+                            },
                             "name" : "-",
                             "style" : { }
                           },
@@ -109,14 +116,14 @@
                             }, {
                               "props" : {
                                 "layoutStyle" : { },
-                                "script" : {
+                                "style" : { },
+                                "text" : {
                                   "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'assigned')",
+                                  "content" : "\"\" + Context.item.nbCurrentResources;",
                                   "language" : "TypeScript"
-                                },
-                                "style" : { }
+                                }
                               },
-                              "type" : "Number"
+                              "type" : "Text"
                             } ],
                             "layout" : {
                               "alignItems" : "center",
@@ -136,6 +143,13 @@
                             },
                             "layoutClassName" : "assignBtn-container",
                             "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, 1);",
+                                "language" : "TypeScript"
+                              }
+                            },
                             "name" : "+",
                             "style" : { }
                           },
