@@ -7,7 +7,7 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { SimDuration, SimTime, TemplateRef } from "../baseTypes";
+import { ActorId, SimDuration, SimTime, TaskId, TemplateRef } from "../baseTypes";
 
 /**
  * Walk, drive, fly to destination
@@ -161,7 +161,8 @@ export type EventPayload =
 	| AgingEvent
 	// NEW EVENTS
 	| TimeForwardEvent
-	| ActionCreationEvent;
+	| ActionCreationEvent
+	| ResourceAllocationEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -182,14 +183,21 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
 	templateRef: TemplateRef;
 }
 
+export interface StandardActionEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+}
+
+export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {
+	type: 'ResourceAllocationEvent';
+	taskId: TaskId;
+	actorId: ActorId;
+	nbResources: number;
+}
+
 export interface TimeForwardEvent extends BaseEvent, TimedPayload {
 	type: 'TimeForwardEvent';
 	/**
 	 * The time duration to jump forward
 	 */
 	timeJump: SimDuration;
-}
-
-export interface StandardActionEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
 }
