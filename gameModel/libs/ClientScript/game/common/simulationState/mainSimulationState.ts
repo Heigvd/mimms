@@ -9,7 +9,7 @@ import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { ResourcePool, ResourceType } from "../resources/resourcePool";
-import { TaskBase } from "../tasks/taskBase";
+import { TaskBase, TaskStatus } from "../tasks/taskBase";
 
 
 export class MainSimulationState implements IClonable {
@@ -203,6 +203,18 @@ export class MainSimulationState implements IClonable {
     const task = this.getTask(taskId);
 
     task.incrementNbResources(nb);
+  }
+
+  public changeTaskStatus(taskId: TaskId, status: TaskStatus): void {
+    const task = this.getTask(taskId);
+
+    task.setStatus(status);
+  }
+
+  public releaseTaskResources(taskId: TaskId): void {
+    const task = this.getTask(taskId);
+
+    task.releaseAllResources();
   }
 
   /**

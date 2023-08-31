@@ -55,6 +55,13 @@
                         },
                         "layoutClassName" : "assignBtn-container",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, -1);",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "-",
                         "style" : { }
                       },
@@ -71,14 +78,14 @@
                         }, {
                           "props" : {
                             "layoutStyle" : { },
-                            "script" : {
+                            "style" : { },
+                            "text" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'assigned')",
+                              "content" : "\"\" + Context.item.nbCurrentResources;",
                               "language" : "TypeScript"
-                            },
-                            "style" : { }
+                            }
                           },
-                          "type" : "Number"
+                          "type" : "Text"
                         } ],
                         "layout" : {
                           "alignItems" : "center",
@@ -98,6 +105,13 @@
                         },
                         "layoutClassName" : "assignBtn-container",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, 1);",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "+",
                         "style" : { }
                       },
@@ -267,10 +281,10 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getTasks } from \"./gameInterface/debugValues\";\ngetTasks();",
+          "content" : "import { getAvailableTasks } from \"./UIfacade/taskFacade\";\ngetAvailableTasks(Variable.find(gameModel, 'currentActorUid').getValue(self));",
           "language" : "TypeScript"
         },
-        "itemKey" : "id",
+        "itemKey" : "Uid",
         "layout" : {
           "flexDirection" : "column"
         },
@@ -310,14 +324,14 @@
                     "className" : "resourceCounter",
                     "layoutClassName" : "resourceCounter-container noPadding",
                     "layoutStyle" : { },
-                    "script" : {
+                    "style" : { },
+                    "text" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'assigned')",
+                      "content" : "import { countAvailableMedicalStaff } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableMedicalStaff(Variable.find(gameModel, 'currentActorUid').getValue(self));",
                       "language" : "TypeScript"
-                    },
-                    "style" : { }
+                    }
                   },
-                  "type" : "Number"
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },
@@ -341,14 +355,14 @@
                     "className" : "resourceCounter",
                     "layoutClassName" : "resourceCounter-container noPadding",
                     "layoutStyle" : { },
-                    "script" : {
+                    "style" : { },
+                    "text" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'assigned')",
+                      "content" : "import { countAvailableAmbulances } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableAmbulances(Variable.find(gameModel, 'currentActorUid').getValue(self));",
                       "language" : "TypeScript"
-                    },
-                    "style" : { }
+                    }
                   },
-                  "type" : "Number"
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },
@@ -372,14 +386,14 @@
                     "className" : "resourceCounter",
                     "layoutClassName" : "resourceCounter-container noPadding",
                     "layoutStyle" : { },
-                    "script" : {
+                    "style" : { },
+                    "text" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'assigned')",
+                      "content" : "import { countAvailableHelicopters } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableHelicopters(Variable.find(gameModel, 'currentActorUid').getValue(self));",
                       "language" : "TypeScript"
-                    },
-                    "style" : { }
+                    }
                   },
-                  "type" : "Number"
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },

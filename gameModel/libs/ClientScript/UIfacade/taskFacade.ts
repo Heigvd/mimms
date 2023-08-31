@@ -14,10 +14,8 @@ export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
   return fetchAvailableTasks(actorId);
 }
 
-export function fakeTaskAllocation(nbResources: number): void {
+export function fakeTaskAllocation(taskId: number, actorId: number, nbResources: number): void {
   const currentSimTime = getCurrentState().getSimTime();
-	const actorId = getCurrentState().getInternalStateObject().actors[0]?.Uid!;
-  const taskId = getCurrentState().getInternalStateObject().tasks[0]?.Uid!;
 
   localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(0, currentSimTime, actorId, "MEDICAL_STAFF", -nbResources));
   localEventManager.queueLocalEvent(new TaskAllocationLocalEvent(0, currentSimTime, taskId, nbResources));
