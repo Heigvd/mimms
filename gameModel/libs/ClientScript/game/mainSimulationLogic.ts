@@ -54,7 +54,6 @@ function initMainState(): MainSimulationState {
     geometry: [2497449.9236694486,1120779.3310497932]
   }
 
-
   const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
   const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
 

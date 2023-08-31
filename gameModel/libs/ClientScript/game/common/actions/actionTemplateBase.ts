@@ -20,9 +20,11 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
   private static IdSeed = 1000;
 
   public readonly Uid: ActionTemplateId;
+  public readonly replayable: boolean;
 
-  public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey) {
+  public constructor(protected readonly title: TranslationKey, protected readonly description: TranslationKey, replayable: boolean = false) {
 	  this.Uid = ActionTemplateBase.IdSeed++;
+    this.replayable = replayable;
   }
 
   /**
@@ -77,7 +79,14 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
+  protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
+	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
+    return action == undefined ? true : this.replayable;
+  }
+
 }
+
+
 
 // TODO move to own file
 /**
@@ -94,7 +103,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
+    return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : StandardActionEvent {
@@ -110,8 +119,9 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-	return true;
+    return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
+
   public getDescription(): string {
 	return this.description;
   }
@@ -135,7 +145,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): MethaneAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId);
+    return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Actor, params: unknown): StandardActionEvent {
@@ -146,7 +156,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return state.getInternalStateObject().actions.find((action) => action instanceof MethaneAction) == undefined ? true : false;
+    return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
   
   public getDescription(): string {
@@ -199,12 +209,13 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, event.id, ownerId, payload.feature);
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, event.id, ownerId, payload.feature, this.Uid);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return true;
+    return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
+
   public getDescription(): string {
     return this.description;
   }
@@ -243,7 +254,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return true;
+    return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): AskReinforcementEvent {
@@ -258,7 +269,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceType, this.nb, this.message);
+      this.resourceType, this.nb, this.message, this.Uid);
   }
 
 }
