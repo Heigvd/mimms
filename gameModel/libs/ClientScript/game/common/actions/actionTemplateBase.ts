@@ -7,7 +7,6 @@ import { ActionBase, AskReinforcementAction, DefineMapObjectAction, MethaneActio
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
-import { AskReinforcementEvent } from "../events/askReinforcementEvent";
 import { ResourceType } from "../resources/resourcePool";
 
 /**
@@ -217,7 +216,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
 /**
  * Action template to ask for new resources
  */
-export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinforcementAction, AskReinforcementEvent> {
+export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinforcementAction, StandardActionEvent> {
 
   constructor(
     title: TranslationKey,
@@ -246,14 +245,14 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     return true;
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): AskReinforcementEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
     }
   }
 
-  protected createActionFromEvent(event: FullEvent<AskReinforcementEvent>): AskReinforcementAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): AskReinforcementAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
