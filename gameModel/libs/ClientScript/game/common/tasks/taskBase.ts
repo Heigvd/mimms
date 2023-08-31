@@ -19,8 +19,8 @@ export abstract class TaskBase implements IClonable {
   protected nbCurrentResources: number;
 
   public constructor(
-    readonly title: string,
-    readonly description: string,
+    readonly title: TranslationKey,
+    readonly description: TranslationKey,
     readonly nbMinResources: number,
     readonly nbMaxResources: number) {
     this.Uid = TaskBase.IdSeed++;
@@ -84,8 +84,8 @@ export abstract class DefaultTask extends TaskBase {
   protected lastUpdateSimTime : SimTime | undefined = undefined;
 
   public constructor(
-    readonly title: string,
-    readonly description: string,
+    readonly title: TranslationKey,
+    readonly description: TranslationKey,
     readonly nbMinResources: number,
     readonly nbMaxResources: number) {
     super(title, description, nbMinResources, nbMaxResources);
@@ -138,8 +138,8 @@ export abstract class DefaultTask extends TaskBase {
 export class PreTriTask extends DefaultTask {
 
   public constructor(
-    readonly title: string,
-    readonly description: string,
+    readonly title: TranslationKey,
+    readonly description: TranslationKey,
     readonly nbMinResources: number,
     readonly nbMaxResources: number,
     readonly zone: string, // TODO see how represent it

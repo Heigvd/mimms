@@ -161,7 +161,6 @@ html{
 }
 ::scrollbar-thumb{
     border-radius: 10px;
-	background-color: pink;
 	}
 
 .panel-title {
@@ -289,7 +288,7 @@ background: var(--secondaryInterface_400);
 }
 
 
-/****** resources ******/
+/****** ressources ******/
 
 
 .resourcesPanel-container{
@@ -481,16 +480,7 @@ background-color: var(--interface_0);
 }
 
 /************************ METHANE POPUP ******************************/
-/* enlever la ligne pour voir le modal methane 
-.methane{ 
-	display: none;
-}
-*/
 
-.methaneTitle{
-	font-weight: var(--boldWeight);
-	font-size: var(--M_text);
-}
 
 .methaneInput-container{
 	background-color: var(--gray_WHITE);
@@ -515,8 +505,16 @@ background-color: var(--interface_0);
 }
 
 
-.checkCircle{
+.sysOk{
 	color: var(--green);
+}
+.sysFail{
+	color: var(--orange);
+}
+
+.modalTitle{
+font-weight: var(--boldWeight);
+	font-size: var(--M_text);
 }
 
 
@@ -665,6 +663,7 @@ z-index: 2;
 position: absolute;
 top: -.2em;
 right: 5em;
+
 }
 
 

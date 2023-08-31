@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693495498100,
+  "createdTime" : 1693496237381,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4486,13 +4486,23 @@
           "actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
           "actor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actor\"},\"FR\":{\"status\":\"\",\"translation\":\"acteur\",\"lang\":\"FR\"}},\"version\":0}",
           "admin-mode" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"admin mode\"},\"FR\":{\"status\":\"\",\"translation\":\"mode admin\",\"lang\":\"FR\"}},\"version\":0}",
+          "available" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"available\"},\"FR\":{\"status\":\"\",\"translation\":\"disponible\",\"lang\":\"FR\"}},\"version\":0}",
+          "cancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"annuler\",\"lang\":\"FR\"}},\"version\":0}",
+          "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent succeffully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-placeholder" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE message here\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message METHANE\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-transmission" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mETHANE transmission\"},\"FR\":{\"status\":\"\",\"translation\":\"transmission METHANE\",\"lang\":\"FR\"}},\"version\":0}",
           "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
           "no-radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no radio messages\"},\"FR\":{\"status\":\"\",\"translation\":\"aucun message radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "press-start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"press start to launch the game\"},\"FR\":{\"status\":\"\",\"translation\":\"apppuyez sur \\\"démarrer\\\" pour lancer la simulation\",\"lang\":\"FR\"}},\"version\":0}",
           "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio\"},\"FR\":{\"status\":\"\",\"translation\":\"radio\",\"lang\":\"FR\"}},\"version\":0}",
           "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "send" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
+          "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advance time\"},\"FR\":{\"status\":\"\",\"translation\":\"avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
-          "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}"
+          "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:49462:KdFc2a",
         "scopeType" : "TeamScope",
@@ -5075,6 +5085,98 @@
           },
           "name" : "modalString",
           "refId" : "TextDescriptor:50393:ppW3tU",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "TextDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "TextInstance",
+            "refId" : "TextInstance:477070:luDFHz",
+            "trValue" : null
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:477071:RKeMAx",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:477071:RKeMAx::EN",
+                "status" : "",
+                "translation" : "methaneInput"
+              }
+            }
+          },
+          "name" : "methaneInput",
+          "refId" : "TextDescriptor:477069:sPP9UA",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "BooleanDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "BooleanInstance",
+            "refId" : "BooleanInstance:478373:tWdkWN",
+            "value" : false
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:478374:M9yzD3",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:478374:M9yzD3::EN",
+                "status" : "",
+                "translation" : "showMethaneModal"
+              }
+            }
+          },
+          "name" : "showMethaneModal",
+          "refId" : "BooleanDescriptor:478372:Necw1x",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:478394:oppyW9",
+            "value" : 42.0
+          },
+          "defaultValue" : 42.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:478395:sCpXCB",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:478395:sCpXCB::EN",
+                "status" : "",
+                "translation" : "modalPageNumber"
+              }
+            }
+          },
+          "maxValue" : null,
+          "minValue" : null,
+          "name" : "modalPageNumber",
+          "refId" : "NumberDescriptor:478393:7gFlB4",
           "scopeType" : "TeamScope",
           "version" : null,
           "visibility" : "PRIVATE"

@@ -29,8 +29,7 @@ export async function planMethaneAction() {
 	const methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)
 	wlog(methaneInputInformation);
 	APIMethods.runScript(
-        `Variable.find(gameModel, 'methaneModalDisplay').setValue(self, false)`,
-        {},
+		'Variable.find(gameModel, "modalPageNumber").setValue(self, 48);', {}
     );
 	return planAction(actTpl!.getTemplateRef(), actor!)
 

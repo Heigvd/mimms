@@ -41,7 +41,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Welcome the MIMMS main simulation. Please press the button below to launch the game !</p>\"",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst hi = getTranslation(`mainSim-interface`, `welcome`);\nconst start = getTranslation(`mainSim-interface`, `press-start`);\nhi  + `</br>` + start;",
                       "language" : "TypeScript"
                     }
                   },
@@ -135,6 +135,7 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "className" : "l_button pink",
                     "icon" : "play",
                     "impactVariable" : {
                       "impact" : {
@@ -146,7 +147,7 @@
                     },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'start')}</p>`",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'start');",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
@@ -339,19 +340,21 @@
                             "attachedToId" : "",
                             "children" : [ {
                               "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
+                                "exposePageSizeAs" : "",
+                                "initialSelectedPageId" : {
                                   "@class" : "Script",
-                                  "content" : "I18n.toString(Variable.find(gameModel,'modalString'))",
-                                  "language" : "TypeScript"
-                                }
+                                  "content" : "Variable.find(gameModel, \"modalPageNumber\").getValue(self);",
+                                  "language" : "typescript"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "popupLoader",
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "PageLoader"
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel, 'showModal').isFalse(self);",
+                              "content" : "Variable.find(gameModel, 'showMethaneModal').isFalse(self);",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -360,10 +363,11 @@
                               "pointer-events" : "auto",
                               "width" : "100%"
                             },
+                            "name" : "PageLoader",
                             "onExitActions" : {
                               "server" : {
                                 "@class" : "Script",
-                                "content" : "Variable.find(gameModel, 'showModal').setValue(self, false);",
+                                "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);",
                                 "language" : "javascript"
                               }
                             },
