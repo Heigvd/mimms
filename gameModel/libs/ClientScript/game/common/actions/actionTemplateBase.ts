@@ -204,7 +204,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, event.id, ownerId, payload.feature, this.Uid));
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, event.id, ownerId, payload.feature, this.Uid);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
