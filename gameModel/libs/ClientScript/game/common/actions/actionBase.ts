@@ -1,4 +1,4 @@
-import { ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
@@ -20,12 +20,16 @@ export abstract class ActionBase implements IClonable{
 
   protected status : ActionStatus;
 
+  protected readonly templateId;
+
   public constructor(
     readonly startTime : SimTime,
     protected readonly eventId: GlobalEventId,
-    public readonly ownerId: ActorId)
+    public readonly ownerId: ActorId,
+    protected readonly uuidTemplate: ActionTemplateId = -1)
   {
     this.status = 'Uninitialized';
+    this.templateId = uuidTemplate;
   }
 
   abstract clone(): this;
@@ -57,6 +61,10 @@ export abstract class ActionBase implements IClonable{
   public getStatus(): ActionStatus {
     return this.status;
   }
+
+  public getTemplateId(): ActionTemplateId {
+    return this.templateId;
+  }
 }
 
 
@@ -71,8 +79,8 @@ export abstract class StartEndAction extends ActionBase {
    */
   public readonly actionNameKey: TranslationKey;
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
-    super(startTimeSec, evtId, ownerId);
+  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId,actionNameKey: TranslationKey, ownerId: ActorId, uuidTemplate: ActionTemplateId){
+    super(startTimeSec, evtId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
 	  this.actionNameKey = actionNameKey
   }
@@ -123,15 +131,8 @@ export class GetInformationAction extends StartEndAction {
    */
   public readonly messageKey: TranslationKey;
 
-  constructor(
-	startTimeSec: SimTime,
-	durationSeconds: SimDuration,
-	messageKey: TranslationKey,
-	actionNameKey: TranslationKey,
-	evtId: GlobalEventId,
-	ownerId: ActorId 
-	 ){
-    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId, uuidTemplate: ActionTemplateId){
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
   }
 
@@ -142,11 +143,11 @@ export class GetInformationAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'ACS', this.messageKey))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
   override clone(): this {
-    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
@@ -166,24 +167,26 @@ export class OnTheRoadgAction extends StartEndAction {
     messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     evtId: GlobalEventId,
-    ownerId: ActorId
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
+    this.logger.warn(this.templateId);
     this.logger.info('start event OnTheRoadgAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event OnTheRoadgAction');
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'ACS', this.messageKey))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
   override clone(): this {
-    const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
@@ -197,8 +200,8 @@ export class MethaneAction extends StartEndAction {
    */
   public readonly messageKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId){
-    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
+  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId, uuidTemplate: ActionTemplateId){
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
   }
 
@@ -209,12 +212,12 @@ export class MethaneAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event MethaneAction');
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'AL', this.messageKey))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
     localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
   }
 
   clone(): this {
-    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId);
+    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
@@ -235,8 +238,9 @@ export class DefineMapObjectAction extends StartEndAction {
     evtId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
+    uuidTemplate: ActionTemplateId
   ) { 
-      super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
+      super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.feature = feature;
   }
 
@@ -247,7 +251,8 @@ export class DefineMapObjectAction extends StartEndAction {
 		this.actionNameKey,
         this.eventId,
         this.ownerId,
-        this.feature
+        this.feature,
+        this.templateId
     );
     clone.status = this.status;
     return clone as this;
@@ -263,7 +268,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'MCS', 'You placed a point!'))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'MCS', 'You placed a point!'))
   }
 
 }
@@ -281,9 +286,10 @@ export class AskReinforcementAction extends StartEndAction {
     ownerId: ActorId,
     type: ResourceType,
     nb: number,
-    feedbackAtEnd: TranslationKey
+    feedbackAtEnd: TranslationKey,
+    uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, actionNameKey, evtId, ownerId);
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
     this.type = type;
     this.nb = nb;
     this.feedbackAtEnd = feedbackAtEnd;
@@ -301,7 +307,7 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
   override clone(): this { 
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd);
+    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
