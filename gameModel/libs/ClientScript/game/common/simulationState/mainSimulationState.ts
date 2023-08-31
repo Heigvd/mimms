@@ -214,6 +214,10 @@ export class MainSimulationState implements IClonable {
   public releaseTaskResources(taskId: TaskId): void {
     const task = this.getTask(taskId);
 
+    const nbResources = task.getNbCurrentResources();
+    // TODO remove fake forced values as actors[0] and "MEDICAL_STAFF"
+    this.addResources(this.getAllActors()[0]!.Uid, "MEDICAL_STAFF", nbResources);
+
     task.releaseAllResources();
   }
 
