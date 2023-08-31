@@ -1,8 +1,9 @@
 import { taskLogger } from "../../../tools/logger";
 import { Actor } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { OneMinuteDuration } from "../constants";
 import { IClonable } from "../interfaces";
-import { AddRadioMessageLocalEvent, CategorizePatientLocalEvent } from "../localEvents/localEventBase";
+import { AddRadioMessageLocalEvent, CategorizePatientLocalEvent, ChangeTaskStatusLocalEvent, ReleaseTaskResourcesLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 
@@ -31,6 +32,10 @@ export abstract class TaskBase implements IClonable {
     return this.status;
   }
 
+  public setStatus(status: TaskStatus): void {
+    this.status = status;
+  }
+
   public getNbCurrentResources(): number {
     return this.nbCurrentResources;
   }
@@ -48,18 +53,6 @@ export abstract class TaskBase implements IClonable {
     this.nbCurrentResources = 0;
   }
 
-  protected setAsCompleted(): void {
-    this.releaseAllResources();
-    this.status = 'Completed';
-    taskLogger.debug('set as completed');
-  }
-
-  protected setAsCancelled(): void {
-    this.releaseAllResources();
-    this.status = 'Cancelled';
-    taskLogger.debug('set as cancelled');
-  }
-
   /**
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
@@ -73,7 +66,8 @@ export abstract class TaskBase implements IClonable {
       return false;
     }
 
-    this.setAsCancelled();
+    this.releaseAllResources();
+    this.setStatus('Cancelled');
     return true;
   }
 
@@ -86,6 +80,8 @@ export abstract class TaskBase implements IClonable {
 }
 
 export abstract class DefaultTask extends TaskBase {
+
+  protected lastUpdateSimTime : SimTime | undefined = undefined;
 
   public constructor(
     readonly title: string,
@@ -134,12 +130,12 @@ export abstract class DefaultTask extends TaskBase {
       default:
         taskLogger.error('Undefined status cannot update task');
     }
+
+    this.lastUpdateSimTime = state.getSimTime();
   }
 }
 
 export class PreTriTask extends DefaultTask {
-
-  protected lastUpdateSimTime : SimTime | undefined = undefined; // does not work
 
   public constructor(
     readonly title: string,
@@ -162,9 +158,10 @@ export class PreTriTask extends DefaultTask {
       return;
     }
 
-    const durationSinceLastUpdate = state.getSimTime() - (this.lastUpdateSimTime ?? 0); // does not work
+    const durationSinceLastUpdate = state.getSimTime() - (this.lastUpdateSimTime ?? 0);
+    // fixme : see if ok the first time it runs (and so lastUpdateSimTime is null)
 
-    const nbMinutesToProcess = 1;  //Math.floor(durationSinceLastUpdate / OneMinuteDuration);
+    const nbMinutesToProcess = Math.floor(durationSinceLastUpdate / OneMinuteDuration);
 
     const progressionCapacity = nbMinutesToProcess * Math.min(this.nbCurrentResources, this.nbMaxResources);
 
@@ -182,11 +179,10 @@ export class PreTriTask extends DefaultTask {
       // can we broadcast ?
       // which  parent event id ?!?
       // from whom ?
+      localEventManager.queueLocalEvent(new ChangeTaskStatusLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
+      localEventManager.queueLocalEvent(new ReleaseTaskResourcesLocalEvent(0, state.getSimTime(), this.Uid));
       localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), state.getAllActors()[0]!.Uid, 'resources', this.feedbackAtEnd));
-      this.setAsCompleted();
     }
-
-    this.lastUpdateSimTime = state.getSimTime();
   }
 
   override clone(): this { 
