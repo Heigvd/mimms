@@ -1,0 +1,108 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "modalTitle",
+        "layoutStyle" : { },
+        "name" : "modalTitle",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "inputMethane",
+        "onCancel" : { },
+        "onVariableChange" : { },
+        "placeholder" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-placeholder`);",
+          "language" : "TypeScript"
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'methaneInput')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Text input"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "l_button cancelBtn",
+            "impactVariable" : {
+              "impact" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);",
+                "language" : "javascript"
+              }
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `cancel`);",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "cancel",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "pink l_button",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import {planMethaneAction} from \"./UIfacade/debugFacade\";\nplanMethaneAction();",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
+              }
+            },
+            "name" : "send",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "",
+        "layout" : {
+          "justifyContent" : "flex-end"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "btnModal",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "Variable.find(gameModel, 'showModal').getValue(self);",
+      "language" : "typescript"
+    },
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding noMargin",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : "methaneInput",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
