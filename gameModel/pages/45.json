@@ -116,7 +116,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { canPlanAction, getCurrentActorUid, showModal } from \"./gameInterface/main\";\nimport { startMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (canPlanAction()) {\n\tif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\t\tstartMapAction(Context.action.featureType);\n\t} else {\n\t\tplanAction(ref, uid);\n\t}\n} else {\n\tshowModal()\n}\n",
+                        "content" : "import { canPlanAction, getCurrentActorUid, showModal } from \"./gameInterface/main\";\nimport { startMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (canPlanAction()) {\n\tif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\t\tstartMapAction(Context.action.featureType);\n\t} if(isMethaneActionTemplate(Context.action.Uid)){\n\t\tAPIMethods.runScript(\n        `Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`,\n        {},\n    );\n\t} else {\n\t\tplanAction(ref, uid);\n\t}\n} else {\n\tshowModal()\n}\n",
                         "language" : "TypeScript"
                       }
                     },
