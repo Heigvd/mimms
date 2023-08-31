@@ -79,10 +79,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
 }
 
-// TODO move to own file
-/**
- * Get some information
- */
+
 export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, StandardActionEvent, undefined> {
   
   constructor(title: TranslationKey, description: TranslationKey, 
@@ -159,10 +156,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
 
 }
 
-// TODO move to own file
-/**
- * 
- */
+
 export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent> {
   
   constructor(
@@ -171,6 +165,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     readonly duration: SimDuration,
     readonly featureName: string,
     readonly featureType: GeometryType,
+    readonly feedback: TranslationKey
   ) {
     super(title, description);
   }

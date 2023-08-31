@@ -55,8 +55,8 @@ function initMainState(): MainSimulationState {
   }
 
 
-  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-descr", 1, 5, "A", 'end-of-pretriage-zoneA');
-  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-descr", 1, 5, "B", 'end-of-pretriage-zoneB');
+  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-desc", 1, 5, "A", 'pretri-zoneA-feedback');
+  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-desc", 1, 5, "B", 'pretri-zoneB-feedback');
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 10;
@@ -82,15 +82,18 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const getInfo = new GetInformationTemplate('get-basic-info', 'get-basic-info-desc', TimeSliceDuration * 2, 'get-basic-info-message');
-  const getInfo2 = new GetInformationTemplate('get-other-basic-info', 'get-other-basic-info-desc', TimeSliceDuration, 'get-other-basic-info-message');
+  const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
+  const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
 
-  const methane = new MethaneTemplate('define-methane-info', 'define-basic-methane-desc', TimeSliceDuration, 'get-basic-info-message');
+  const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feeback');
 
-  const placePMA = new DefineMapObjectTemplate('define-PMA', 'define-map-PMA', TimeSliceDuration, 'PMA', 'Point');
-  const placePC = new DefineMapObjectTemplate('define-PC', 'define-map-PC', TimeSliceDuration, 'PC', 'Point');
-  const placeNest = new DefineMapObjectTemplate('define-Nest', 'define-map-Nest', TimeSliceDuration, 'Nest', 'Point');
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement', 'ask-for-resources', TimeSliceDuration, 'MEDICAL_STAFF', 20, '20-resources-joined');
+  const placePMA = new DefineMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'PMA', 'Point', 'define-PMA-feedback');
+  const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'PC', 'Point', 'define-PC-feedback');
+  const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'Nest', 'Point', 'define-Nest-feedback');
+  
+  // TODO Mikkel
+  //const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'TODO', 'MultiPolygon', 'define-sectors-feedback');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 20, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -99,6 +102,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  //templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
