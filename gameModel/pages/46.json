@@ -21,9 +21,11 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>* status<br></p>\"",
+                      "content" : "Context.item.status",
                       "language" : "TypeScript"
                     }
                   },
@@ -34,14 +36,14 @@
                   "className" : "actionActiveHeader",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) === Context.action.Uid;",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) === Context.item.Uid;",
                     "language" : "typescript"
                   }
                 } ],
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').setValue(self, Context.item.Uid);",
                     "language" : "javascript"
                   }
                 },
@@ -306,7 +308,7 @@
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) !== Context.action.Uid;",
+                  "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) !== Context.item.Uid;",
                   "language" : "typescript"
                 },
                 "layout" : {

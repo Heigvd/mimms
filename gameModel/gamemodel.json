@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693496237381,
+  "createdTime" : 1693558456009,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4636,6 +4636,40 @@
       "editorTag" : "",
       "isolation" : "OPEN",
       "items" : [ {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:487592:XrfXSE",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:487593:RxOPzl",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:487593:RxOPzl::EN",
+              "status" : "",
+              "translation" : "currentTaskUid"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "currentTaskUid",
+        "refId" : "NumberDescriptor:487591:wyEwIQ",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
         "@class" : "StringDescriptor",
         "allowedValues" : [ {
           "@class" : "EnumItem",
@@ -6156,7 +6190,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence",
+  "name" : "MIMMS main simulation convergence_jess_v9",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
