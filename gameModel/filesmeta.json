@@ -466,5 +466,23 @@
     "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
+  },
+  "/tutorial/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/tutorial/Tutorial_1.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/tutorial/Tutorial_2.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
   }
 }
