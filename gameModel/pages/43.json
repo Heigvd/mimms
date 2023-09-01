@@ -650,7 +650,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\n",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -904,11 +904,6 @@
                                 },
                                 "layoutStyle" : { },
                                 "name" : "PointLayer",
-                                "onLayerReady" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ "layer", "map" ],
-                                  "content" : "return;"
-                                },
                                 "style" : { }
                               },
                               "type" : "WegasMapVectorLayer"
@@ -1024,8 +1019,18 @@
                               },
                               "type" : "WegasMapVectorLayer"
                             } ],
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "cursor-crosshair",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
+                                "language" : "typescript"
+                              }
+                            } ],
                             "debug" : false,
                             "id" : "",
+                            "layoutClassName" : "map",
                             "layoutStyle" : {
                               "backgroundColor" : "#E7EEE3",
                               "flexGrow" : "1",
@@ -1057,6 +1062,7 @@
                           "height" : "100%",
                           "width" : "100%"
                         },
+                        "name" : "",
                         "style" : { }
                       },
                       "type" : "FlexList"

@@ -699,3 +699,9 @@ right: 5em;
 	margin-bottom: 2em;
 	line-height: normal;
 }
+
+/********************** MAP **********************/
+
+.cursor-crosshair {
+	cursor: crosshair;
+}
