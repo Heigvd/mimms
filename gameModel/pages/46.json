@@ -21,6 +21,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "taskStatus",
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {
@@ -31,9 +32,10 @@
                   },
                   "type" : "Text"
                 } ],
+                "className" : "taskHeader",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "actionActiveHeader",
+                  "className" : "taskActiveHeader",
                   "condition" : {
                     "@class" : "Script",
                     "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) === Context.item.Uid;",
@@ -48,7 +50,7 @@
                   }
                 },
                 "layout" : {
-                  "justifyContent" : "flex-start"
+                  "justifyContent" : "space-between"
                 },
                 "layoutStyle" : { },
                 "name" : "taskHeader",
