@@ -720,7 +720,7 @@
                                 "layoutStyle" : { },
                                 "name" : "timeline-actors",
                                 "style" : {
-                                  "paddingTop" : "2em"
+                                  "paddingTop" : "calc(2em + 10px)"
                                 }
                               },
                               "type" : "FlexList"

@@ -533,7 +533,6 @@ font-weight: var(--boldWeight);
 	background: var(--gray_WHITE);
 	width: auto;
 	height: auto;
-	min-height: 10em;
 	pointer-events: auto;
 	border-radius: var(--S_borderRadius);
 }
