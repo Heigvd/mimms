@@ -1,4 +1,5 @@
 import { HumanBody } from "../../../HUMAn/human";
+import { getTranslation } from "../../../tools/translation";
 import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
@@ -130,18 +131,18 @@ export class AddActorLocalEvent extends LocalEventBase {
     super(parentEventId, 'AddActorLocalEvent', timeStamp);
   }
 
-  // TODO !!! create actor from parameters
+  // TODO create actor from parameters
   applyStateUpdate(state: MainSimulationState): void {
     if (state.getInternalStateObject().actors.find((actor) => actor.Role == "ACS" ) == undefined) {
       const acs = new Actor('ACS', 'adasd', 'ACS');
       state.getInternalStateObject().actors.push(acs);
-      const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, acs.Uid);
+      const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on-the-road', 0, acs.Uid, 0);
       state.getInternalStateObject().actions.push(acsAction);
     }
     if (state.getInternalStateObject().actors.find((actor) => actor.Role == "MCS" ) == undefined) {
       const mcs = new Actor('MCS', 'adasd', 'MCS');
       state.getInternalStateObject().actors.push(mcs);
-      const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on the road', 0, mcs.Uid);
+      const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on-the-road', 0, mcs.Uid, 0);
       state.getInternalStateObject().actions.push(mcsAction);
     }
   }
@@ -161,11 +162,12 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
+	
     state.getInternalStateObject().radioMessages.push({
       recipientId: this.recipient,
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
-      message: this.message,
+      message: getTranslation('mainSim-actions-tasks', this.message),
     })
   }
 

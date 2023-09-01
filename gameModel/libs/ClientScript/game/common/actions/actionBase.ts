@@ -241,6 +241,8 @@ export class DefineMapObjectAction extends StartEndAction {
   ) { 
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.feature = feature;
+	    this.feature.startTimeSec = this.startTime;
+      this.feature.durationTimeSec = this.durationSec;
   }
 
   clone(): this {

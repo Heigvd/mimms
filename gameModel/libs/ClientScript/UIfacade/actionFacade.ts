@@ -11,6 +11,9 @@ import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../gameInterface/main";
 import { getMapState } from "../gameMap/main";
+import { getAllActionTemplates } from "../UIfacade/debugFacade";
+
+const logger = Helpers.getLogger('mainSim-interface');
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
@@ -50,11 +53,16 @@ export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, Ac
  * @param id Uid of given action
  */
 export function isDefineMapObjectTemplate(id: number) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	logger.info('isDefined id: ', id)
+	const template = getAllActionTemplates().find(t => t.Uid === id);
+	logger.info(template);
+	logger.info('return: ', template instanceof DefineMapObjectTemplate);
 	return template instanceof DefineMapObjectTemplate;
 }
 
-
+/**
+ * @param id Uid of given action
+ */
 export function isMethaneActionTemplate(id: number) {
 	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
 	return template instanceof MethaneTemplate;
