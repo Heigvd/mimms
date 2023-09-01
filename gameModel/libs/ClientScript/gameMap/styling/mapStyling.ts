@@ -24,7 +24,7 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 			break;
 		case 'trunk' :
 			size = 5;
-			color = 'red';
+			color = '#F6F7F9';
 			break;
 		case 'primary':
 			size = 4;

@@ -21,23 +21,39 @@
                   "type" : "Text"
                 }, {
                   "props" : {
-                    "className" : "taskDescription",
+                    "className" : "taskStatus",
                     "layoutStyle" : { },
-                    "name" : "taskDescription",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getDescription();",
+                      "content" : "Context.item.status",
                       "language" : "TypeScript"
                     }
                   },
                   "type" : "Text"
                 } ],
+                "className" : "taskHeader",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "taskActiveHeader",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) === Context.item.Uid;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "impactVariable" : {
+                  "impact" : {
+                    "@class" : "Script",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').setValue(self, Context.item.Uid);",
+                    "language" : "javascript"
+                  }
+                },
                 "layout" : {
-                  "flexDirection" : "column"
+                  "justifyContent" : "space-between"
                 },
                 "layoutStyle" : { },
-                "name" : "texts",
+                "name" : "taskHeader",
                 "style" : { }
               },
               "type" : "FlexList"
@@ -47,80 +63,23 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "assignBtn minusBtn pink",
-                        "label" : {
+                        "className" : "taskDescription",
+                        "layoutStyle" : { },
+                        "name" : "taskDescription",
+                        "style" : { },
+                        "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>-</p>\"",
+                          "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getDescription();",
                           "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, -1);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "-",
-                        "style" : { }
+                        }
                       },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "icon" : "user-nurse",
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"\" + Context.item.nbCurrentResources;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "layout" : {
-                          "alignItems" : "center",
-                          "flexDirection" : "column"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "className" : "assignBtn plusBtn pink",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>+</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, 1);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "+",
-                        "style" : { }
-                      },
-                      "type" : "Button"
+                      "type" : "Text"
                     } ],
-                    "className" : "resourceGestion-container  ",
-                    "layout" : { },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutStyle" : { },
-                    "name" : "aButton - Person",
+                    "name" : "texts",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -128,147 +87,243 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "assignBtn minusBtn pink",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>-</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
-                        "layoutStyle" : { },
-                        "name" : "-",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "icon" : "ambulance",
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "script" : {
+                            "className" : "assignBtn minusBtn pink",
+                            "label" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'assigned')",
+                              "content" : "\"<p>-</p>\"",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, \"MEDICAL_STAFF\", -1);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "-",
                             "style" : { }
                           },
-                          "type" : "Number"
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "user-nurse",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\" + Context.item.nbCurrentResources;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "assignBtn plusBtn pink",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>+</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, \"MEDICAL_STAFF\", 1);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "+",
+                            "style" : { }
+                          },
+                          "type" : "Button"
                         } ],
-                        "layout" : {
-                          "alignItems" : "center",
-                          "flexDirection" : "column"
-                        },
+                        "className" : "resourceGestion-container  ",
+                        "layout" : { },
                         "layoutStyle" : { },
+                        "name" : "aButton - Person",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "className" : "assignBtn plusBtn pink",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>+</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
-                        "layoutStyle" : { },
-                        "name" : "+",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "resourceGestion-container  ",
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "aButton - Ambulance",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "className" : "assignBtn minusBtn pink",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>-</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
-                        "layoutStyle" : { },
-                        "name" : "-",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "icon" : "helicopter",
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "script" : {
+                            "className" : "assignBtn minusBtn pink",
+                            "label" : {
                               "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'assigned')",
+                              "content" : "\"<p>-</p>\"",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "name" : "-",
                             "style" : { }
                           },
-                          "type" : "Number"
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "ambulance",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'assigned')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "assignBtn plusBtn pink",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>+</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "name" : "+",
+                            "style" : { }
+                          },
+                          "type" : "Button"
                         } ],
-                        "layout" : {
-                          "alignItems" : "center",
-                          "flexDirection" : "column"
-                        },
+                        "className" : "resourceGestion-container  ",
+                        "layout" : { },
                         "layoutStyle" : { },
+                        "name" : "aButton - Ambulance",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "className" : "assignBtn plusBtn pink",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>+</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "assignBtn-container",
+                        "children" : [ {
+                          "props" : {
+                            "className" : "assignBtn minusBtn pink",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>-</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "name" : "-",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "helicopter",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'assigned')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "assignBtn plusBtn pink",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>+</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "assignBtn-container",
+                            "layoutStyle" : { },
+                            "name" : "+",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "resourceGestion-container  ",
+                        "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "+",
+                        "name" : "aButton - Helicopter",
                         "style" : { }
                       },
-                      "type" : "Button"
+                      "type" : "FlexList"
                     } ],
-                    "className" : "resourceGestion-container  ",
                     "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "aButton - Helicopter",
+                    "name" : "buttons",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "layout" : { },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) !== Context.item.Uid;",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
                 "layoutStyle" : { },
-                "name" : "buttons",
                 "style" : { }
               },
               "type" : "FlexList"
             } ],
             "className" : "noMargin noPadding",
             "layout" : {
-              "flexDirection" : "row",
+              "flexDirection" : "column",
               "justifyContent" : "space-between"
             },
             "layoutClassName" : "resourceTask-container noMargin noPadding",

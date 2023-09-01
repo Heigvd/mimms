@@ -161,7 +161,6 @@ html{
 }
 ::scrollbar-thumb{
     border-radius: 10px;
-	background-color: pink;
 	}
 
 .panel-title {
@@ -245,7 +244,11 @@ color: var(--colors-primarycolor);
 	padding: 0px;
 	margin: 0px;
 	align-items: center;
-	color: var(--interface_700);
+	color: var(--gray_BLACK);
+}
+
+.actionName:first-letter {
+    text-transform: uppercase;
 }
 
 .actionInfo{
@@ -289,7 +292,7 @@ background: var(--secondaryInterface_400);
 }
 
 
-/****** resources ******/
+/****** ressources ******/
 
 
 .resourcesPanel-container{
@@ -310,6 +313,10 @@ background: var(--secondaryInterface_400);
 	margin: 0px;
 	justify-content: center;
 	
+}
+
+.taskHeader{
+	cursor: pointer;
 }
 
 /*** Button for resources assignations ***/
@@ -335,10 +342,12 @@ padding: 0px;
 
 .minusBtn{
 border-radius: 5px 0px 0px 5px;
+cursor: pointer;
 }
 
 .plusBtn{
 border-radius:  0px 5px  5px 0px;
+cursor: pointer;
 }
 
 
@@ -348,20 +357,30 @@ border-radius:  0px 5px  5px 0px;
 /*** Title + description of an assignable task ***/ 
 
 .taskName{
-	color: var(--interface_700);
-	font-size: var(--SM_text);
-	font-weight: var(--boldWeight);
-	
+	color: var(--gray_BLACK);
+	font-size: var(--SM_text);	
+}
+
+.taskName:first-letter {
+    text-transform: uppercase;
 }
 
 .taskDescription{
 	font-size: var(--S_text);
-	color: var(--interface_700);
+	color: var(--gray_BLACK);
 	max-width: 18em;
 }
 
 
+.taskActiveHeader{
+	font-weight: var(--boldWeight);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
+}
 
+.taskStatus{
+font-size: var(--XS_text);
+color: var(--gray_700);
+}
 
 /*** resources pool ***/
 .poolResources-container{
@@ -388,12 +407,12 @@ color: var(--interface_BLUE);
 
 .resourceCounter-container{
 border-radius: 100%;
-height: 1.2em;
-width: 1.2em;
+height: 1.5em;
+width: 1.5em;
 border: 2px solid var(--interface_BLUE);
 position: absolute;
 top: -.1em;
-right: -.1em;
+right: -.2em;
 background-color: var(--interface_0);
 }
 
@@ -401,10 +420,9 @@ background-color: var(--interface_0);
 	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 	position: absolute;
-	top: -.1em;
-	right: .40em;
 	color: var(--interface_BLUE);
-
+	right: .45em;
+	
 }
 
 	
@@ -481,16 +499,7 @@ background-color: var(--interface_0);
 }
 
 /************************ METHANE POPUP ******************************/
-/* enlever la ligne pour voir le modal methane 
-.methane{ 
-	display: none;
-}
-*/
 
-.methaneTitle{
-	font-weight: var(--boldWeight);
-	font-size: var(--M_text);
-}
 
 .methaneInput-container{
 	background-color: var(--gray_WHITE);
@@ -515,8 +524,16 @@ background-color: var(--interface_0);
 }
 
 
-.checkCircle{
+.sysOk{
 	color: var(--green);
+}
+.sysFail{
+	color: var(--orange);
+}
+
+.modalTitle{
+font-weight: var(--boldWeight);
+	font-size: var(--M_text);
 }
 
 
@@ -663,8 +680,9 @@ background-color: var(--interface_0);
 .next-container{
 z-index: 2;
 position: absolute;
-top: -.2em;
+top: -.15em;
 right: 5em;
+
 }
 
 

@@ -171,94 +171,54 @@ export function getDummyRadio() {
 }
 
 interface Tasks {
-	id: number,
+	Uid: number,
 	startTime: number,
 	duration: number,
 	title: string,
-	description: string
+	description: string,
+	status: 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled',
+	nbCurrentResources: number,
 }
 
 
 export const dummyTasks: Tasks[] = [
 {
-		id: 0,
+		Uid: 0,
 		startTime: 0,
 		duration: 42,
 		title: 'First Action',
-		description: 'Such a nice description'
+		description: 'Such a nice description',
+		status: 'Uninitialized',
+		nbCurrentResources: 0,
 	},
 	{
-		id: 1,
+		Uid: 1,
 		startTime: 0,
 		duration: 42,
 		title: 'TRI zone 1',
-		description: 'Such a nice description. But a medium long one.'
+		description: 'Such a nice description. But a medium long one.',
+		status: 'OnGoing',
+		nbCurrentResources: 3,
 	},
 	{
-		id: 2,
+		Uid: 2,
 		startTime: 0,
 		duration: 42,
 		title: 'First Action',
-		description: 'Such a nice description, and this time one of those that takes ages to be red.'
+		description: 'Such a nice description, and this time one of those that takes ages to be red.',
+		status: 'Paused',
+		nbCurrentResources: 1,
 	},
 	{
-		id: 3,
+		Uid: 3,
 		startTime: 0,
 		duration: 42,
 		title: 'First Action',
-		description: 'Such a nice description bis'
+		description: 'Such a nice description bis',
+		status: 'Completed',
+		nbCurrentResources: 0,
 	}
 ];
-
-// interface Tasks {
-// 	Uid: number,
-// 	startTime: number,
-// 	duration: number,
-// 	title: string,
-// 	description: string,
-// 	status: 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled',
-// 	nbCurrentResources: number,
-// }
-
-
-// export const dummyTasks: Tasks[] = [
-// {
-// 		Uid: 0,
-// 		startTime: 0,
-// 		duration: 42,
-// 		title: 'First Action',
-// 		description: 'Such a nice description',
-// 		status: 'Uninitialized',
-// 		nbCurrentResources: 0,
-// 	},
-// 	{
-// 		Uid: 1,
-// 		startTime: 0,
-// 		duration: 42,
-// 		title: 'TRI zone 1',
-// 		description: 'Such a nice description. But a medium long one.',
-// 		status: 'OnGoing',
-// 		nbCurrentResources: 3,
-// 	},
-// 	{
-// 		Uid: 2,
-// 		startTime: 0,
-// 		duration: 42,
-// 		title: 'First Action',
-// 		description: 'Such a nice description, and this time one of those that takes ages to be red.',
-// 		status: 'Paused',
-// 		nbCurrentResources: 1,
-// 	},
-// 	{
-// 		Uid: 3,
-// 		startTime: 0,
-// 		duration: 42,
-// 		title: 'First Action',
-// 		description: 'Such a nice description bis',
-// 		status: 'Completed',
-// 		nbCurrentResources: 0,
-// 	}
-// ];
 
 export function getTasks() {
 	return dummyTasks;

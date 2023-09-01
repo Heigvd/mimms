@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693564381497,
+  "createdTime" : 1693563652504,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4738,6 +4738,40 @@
       "editorTag" : "",
       "isolation" : "OPEN",
       "items" : [ {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:487592:XrfXSE",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:487593:RxOPzl",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:487593:RxOPzl::EN",
+              "status" : "",
+              "translation" : "currentTaskUid"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "currentTaskUid",
+        "refId" : "NumberDescriptor:487591:wyEwIQ",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
         "@class" : "StringDescriptor",
         "allowedValues" : [ {
           "@class" : "EnumItem",
@@ -5190,6 +5224,98 @@
           "scopeType" : "TeamScope",
           "version" : null,
           "visibility" : "PRIVATE"
+        }, {
+          "@class" : "TextDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "TextInstance",
+            "refId" : "TextInstance:477070:luDFHz",
+            "trValue" : null
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:477071:RKeMAx",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:477071:RKeMAx::EN",
+                "status" : "",
+                "translation" : "methaneInput"
+              }
+            }
+          },
+          "name" : "methaneInput",
+          "refId" : "TextDescriptor:477069:sPP9UA",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "BooleanDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "BooleanInstance",
+            "refId" : "BooleanInstance:478373:tWdkWN",
+            "value" : false
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:478374:M9yzD3",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:478374:M9yzD3::EN",
+                "status" : "",
+                "translation" : "showMethaneModal"
+              }
+            }
+          },
+          "name" : "showMethaneModal",
+          "refId" : "BooleanDescriptor:478372:Necw1x",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:478394:oppyW9",
+            "value" : 42.0
+          },
+          "defaultValue" : 42.0,
+          "editorTag" : "",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:478395:sCpXCB",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:478395:sCpXCB::EN",
+                "status" : "",
+                "translation" : "modalPageNumber"
+              }
+            }
+          },
+          "maxValue" : null,
+          "minValue" : null,
+          "name" : "modalPageNumber",
+          "refId" : "NumberDescriptor:478393:7gFlB4",
+          "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
         } ],
         "label" : {
           "@class" : "TranslatableContent",
@@ -5380,15 +5506,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#81:S7Wppz",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/events/askReinforcementEvent",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#100:w1hs77",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
