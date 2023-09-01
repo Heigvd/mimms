@@ -1,13 +1,17 @@
+import { PointFeature } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
+import { getSimTime } from "../../UIfacade/timeFacade";
+
+const logger = Helpers.getLogger('mainSim-interface');
 
 export function getPointLayer(): FeatureCollection {
 	const layer = getEmptyFeatureCollection();
 	layer.name = 'Points';
 
 	const features = getCurrentState().getMapLocations();
-	const points = features.filter(f => f.type === 'Point');
+	const points: PointFeature[] = features.filter(f => f.geometryType === 'Point') as PointFeature[];
 
 	if (points.length > 0) {
 
@@ -20,7 +24,10 @@ export function getPointLayer(): FeatureCollection {
 					coordinates: f.geometry,
 				},
 				properties: {
-						icon: f.name,
+						name: f.name,
+						icon: f.icon,
+						startTimeSec: f.startTimeSec,
+						durationTimeSec: f.durationTimeSec,
 					}
 			}
 			layer.features.push(point);
@@ -33,7 +40,10 @@ export function getPointLayer(): FeatureCollection {
 
 export function getPointLayerStyle(feature: any): LayerStyleObject {
 
-	const icon = feature.getProperties().icon;
+	const properties = feature.getProperties();
+	const icon = properties.icon;
+	const completed = properties.startTimeSec !== undefined ? properties.startTimeSec + properties.durationTimeSec <= getSimTime() : true;
+
 
 	const iconStyle: ImageStyleObject = {
 		type: 'IconStyle',
@@ -42,7 +52,8 @@ export function getPointLayerStyle(feature: any): LayerStyleObject {
 		anchorXUnits: 'fraction',
 		anchorYUnits: 'fraction',
 		src: `/maps/mapIcons/${icon}.svg`,
-		scale: .1
+		scale: .1,
+		opacity: completed ? 1 : .5,
 	}
 
 	return {image: iconStyle};

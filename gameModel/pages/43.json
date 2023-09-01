@@ -836,7 +836,7 @@
                                         "layoutStyle" : { },
                                         "script" : {
                                           "@class" : "Script",
-                                          "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst actionUid = Variable.find(gameModel, 'currentActionUid').getValue(self);\nconst template = getActionTemplate(actionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureName}.svg`;",
+                                          "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst actionUid = Variable.find(gameModel, 'currentActionUid').getValue(self);\nconst template = getActionTemplate(actionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureDescription.icon}.svg`;",
                                           "language" : "TypeScript"
                                         },
                                         "style" : {
@@ -904,6 +904,11 @@
                                 },
                                 "layoutStyle" : { },
                                 "name" : "PointLayer",
+                                "onLayerReady" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "layer", "map" ],
+                                  "content" : "return;"
+                                },
                                 "style" : { }
                               },
                               "type" : "WegasMapVectorLayer"

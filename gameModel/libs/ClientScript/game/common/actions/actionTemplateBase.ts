@@ -170,26 +170,29 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     title: TranslationKey,
     description: TranslationKey,
     readonly duration: SimDuration,
-    readonly featureName: string,
-    readonly featureType: GeometryType,
-    readonly feedback: TranslationKey
+    readonly feedback: TranslationKey,
+    readonly featureDescription: {
+      geometryType: GeometryType,
+      name: string,
+      icon?: string,
+    }
   ) {
     super(title, description);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
     
-	const feature = {
-      type: this.featureType,
-      name: this.featureName,
-      id: payload.id,
-      geometry: payload.feature,
-    }
+  const feature = {
+    geometryType: this.featureDescription.geometryType,
+    name: this.featureDescription.name,
+    geometry: payload.feature,
+    ...this.featureDescription.icon && {icon: this.featureDescription.icon}
+  }
 
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature as MapFeature,
+      feature: feature as unknown as MapFeature,
     }
   }
 
