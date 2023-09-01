@@ -21,32 +21,36 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "taskStatus",
+                    "layoutStyle" : { },
+                    "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>* status<br></p>\"",
+                      "content" : "Context.item.status",
                       "language" : "TypeScript"
                     }
                   },
                   "type" : "Text"
                 } ],
+                "className" : "taskHeader",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "actionActiveHeader",
+                  "className" : "taskActiveHeader",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) === Context.action.Uid;",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) === Context.item.Uid;",
                     "language" : "typescript"
                   }
                 } ],
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);",
+                    "content" : "Variable.find(gameModel, 'currentTaskUid').setValue(self, Context.item.Uid);",
                     "language" : "javascript"
                   }
                 },
                 "layout" : {
-                  "justifyContent" : "flex-start"
+                  "justifyContent" : "space-between"
                 },
                 "layoutStyle" : { },
                 "name" : "taskHeader",
@@ -306,7 +310,7 @@
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) !== Context.action.Uid;",
+                  "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) !== Context.item.Uid;",
                   "language" : "typescript"
                 },
                 "layout" : {

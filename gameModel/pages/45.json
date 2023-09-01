@@ -8,8 +8,9 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "actionName",
                     "layoutStyle" : { },
-                    "name" : "taskName",
+                    "name" : "actionName",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
