@@ -54,8 +54,8 @@ function initMainState(): MainSimulationState {
     geometry: [2497449.9236694486,1120779.3310497932]
   }
 
-  const testTaskPretriA = new PreTriTask("pretri-zoneA-title", "pretri-zoneA-desc", 1, 5, "A", 'pretri-zoneA-feedback');
-  const testTaskPretriB = new PreTriTask("pretri-zoneB-title", "pretri-zoneB-desc", 1, 5, "B", 'pretri-zoneB-feedback');
+  const testTaskPretriA = new PreTriTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
+  const testTaskPretriB = new PreTriTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 10;
@@ -83,7 +83,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
   const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
 
-  const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feeback');
+  const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
 
   const placePMA = new DefineMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'PMA', 'Point', 'define-PMA-feedback');
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'PC', 'Point', 'define-PC-feedback');

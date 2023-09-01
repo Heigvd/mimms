@@ -9,6 +9,7 @@ import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { AskReinforcementEvent } from "../events/askReinforcementEvent";
 import { ResourceType } from "../resources/resourcePool";
+import { getTranslation } from "../../../tools/translation";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -84,11 +85,17 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return action == undefined ? true : this.replayable;
   }
 
+  /**
+   * @return true if the action should be created in the timeline right away, 
+   * false if some other interaction should take place in between
+   */
+  public abstract planActionEventOnFirstClick(): boolean;
+
 }
 
 
 export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, StandardActionEvent, undefined> {
-  
+
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
     super(title, description);
@@ -118,10 +125,15 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
   }
 
   public getDescription(): string {
-	return this.description;
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
+
   public getTitle(): string {
-    return this.title;
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
   }
 
 }
@@ -155,11 +167,15 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
   
   public getDescription(): string {
-    return this.description;
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
-    
+
   public getTitle(): string {
-    return this.title;
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return false;
   }
 
 }
@@ -210,10 +226,15 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   }
 
   public getDescription(): string {
-    return this.description;
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
+
   public getTitle(): string {
-    return this.title;
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return false;
   }
 
 }
@@ -238,12 +259,12 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     return 'AskReinforcementActionTemplate' + '_' + this.title;
   }
 
-  public getTitle(): TranslationKey {
-    return this.title;
+  public getDescription(): string {
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  public getDescription(): TranslationKey {
-    return this.description;
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
@@ -263,6 +284,10 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
       this.resourceType, this.nb, this.message, this.Uid);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
   }
 
 }

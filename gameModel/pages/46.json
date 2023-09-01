@@ -14,7 +14,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.item.title",
+                      "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getTitle();",
                       "language" : "TypeScript"
                     }
                   },
@@ -27,7 +27,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.item.description",
+                      "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getDescription();",
                       "language" : "TypeScript"
                     }
                   },

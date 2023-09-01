@@ -431,6 +431,18 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/mainSim-actions-tasks.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/mainSim-actors.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/mainSim-interface.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
