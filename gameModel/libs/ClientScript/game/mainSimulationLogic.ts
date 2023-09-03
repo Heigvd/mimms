@@ -7,7 +7,7 @@ import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
-import { MapFeature } from "./common/events/defineMapObjectEvent";
+import { MapFeature, PointFeature, PolygonFeature } from "./common/events/defineMapObjectEvent";
 import { ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
@@ -48,7 +48,7 @@ function initMainState(): MainSimulationState {
 
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
 
-  const mainAccident: MapFeature = {
+  const mainAccident: PointFeature = {
     geometryType: 'Point',
     name: "Lieu de l'accident",
     geometry: [2497449.9236694486,1120779.3310497932],
@@ -89,6 +89,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePMA = new DefineMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {geometryType: 'Point', name: 'PMA', icon: 'PMA'});
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
+
+  const placeTriZoneA = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
+  {geometryType: 'Polygon', name: 'Tri Zone A', feature: {
+	  geometryType: 'Polygon',
+	  name: 'Tri Zone A',
+	  geometry: [[[2497432.4129048395,1120763.6774621026], [2497443.532362223,1120750.4618063779], 
+	  [2497476.6047682296,1120782.215321906], [2497465.031258829,1120794.875361428], [2497432.4129048395,1120763.6774621026]]],
+  }})
   
   // TODO Mikkel
   //const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'TODO', 'MultiPolygon', 'define-sectors-feedback');
@@ -102,6 +110,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   //templates[placeSectors.getTemplateRef()] = placeSectors;
+  templates[placeTriZoneA.getTemplateRef()] = placeTriZoneA;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;

@@ -734,6 +734,32 @@
                               "type" : "WegasMapOverlay"
                             }, {
                               "props" : {
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getPolygonLayer } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getPolygonLayerStyle } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "PolygonLayer",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
                                 "disableIf" : {
                                   "@class" : "Script",
                                   "content" : "import { getPointLayer } from \"./gameMap/layers/pointFeatures\";\ngetPointLayer() === undefined;",

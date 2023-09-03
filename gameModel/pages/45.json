@@ -119,7 +119,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "// import { actionClickHandler, canPlanAction, getCurrentActorUid, showModal } from \"./gameInterface/main\";\n// import { startMapAction } from \"./gameMap/main\";\n// import { getActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n// \n// const ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\n// const uid = getCurrentActorUid();\n// \n// if (canPlanAction()) {\n// \tif (isDefineMapObjectTemplate(Context.action.Uid)) {\n// \t\tstartMapAction(Context.action.featureType);\n// \t} else if (isMethaneActionTemplate(Context.action.Uid)){\n// \t\tAPIMethods.runScript(\n//         `Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`,\n//         {});\n// \n// \t} else {\n// \t\tplanAction(ref, uid);\n// \t}\n// } else {\n// \tshowModal()\n// }\n\nimport { actionClickHandler } from \"./gameInterface/main\";\n\nactionClickHandler(Context.action.Uid, Context.action.featureType)",
+                        "content" : "import { actionClickHandler } from \"./gameInterface/main\";\n\nactionClickHandler(Context.action.Uid, Context.action.featureType)",
                         "language" : "TypeScript"
                       }
                     },
