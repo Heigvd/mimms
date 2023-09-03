@@ -16,7 +16,7 @@ define-PMA-desc	Pick a location on the map for the advanced medical post	Défini
 define-PMA-feedback	The advanced medical post can now be built	Le nid de blessé est maintenant placé
 define-sectors-title	Sectorize incident site	Sectoriser les zones du chantier
 define-sectors-desc	Define sectors of the incident on the map	Définir différents secteurs de l'incident en vue de pré-trier
-define-sectors-title	You successfully defined sectors of the incident. New pré-tri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
+define-sectors-feedback	You successfully defined sectors of the incident. New pré-tri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
 methane-title	Send METHANE	Envoi METHANE
 methane-desc	Send a METHANE radio message to emergency 	Envoyer un message METHANE à CASU
 methane-feedback	We got your METHANE message, the ACS and MCS are their way as well as more resources	Message METHANE bien reçu, l'ACS et le MCS sont en route ainsi que des ressources supplémentaires
@@ -29,3 +29,4 @@ pre-tri-zone-A-feedback	The prétriage of zone A is done. 10 red, 20 yellow, 10 
 pre-tri-zone-B-title	Pretriage of zone B	Prétriage de la zone B
 pre-tri-zone-B-desc	Send resources to perform prétriage of zone B	Envoyer des resources prétrier la zone B
 pre-tri-zone-B-feedback	The prétriage of zone B is done. 10 red, 20 yellow, 10 green	Prétriage de la zone B terminé. 10 rouges, 20 jaunes, 10 verts
+on-the-road	On the way	En route

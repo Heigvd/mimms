@@ -191,6 +191,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
       geometryType: GeometryType,
       name: string,
       icon?: string,
+	  feature?: MapFeature,
     }
   ) {
     super(title, description);
@@ -201,7 +202,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   const feature = {
     geometryType: this.featureDescription.geometryType,
     name: this.featureDescription.name,
-    geometry: payload.feature,
+    geometry: this.featureDescription.feature?.geometry || payload.feature,
     ...this.featureDescription.icon && {icon: this.featureDescription.icon}
   }
 
