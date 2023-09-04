@@ -91,10 +91,10 @@ export function actionClickHandler (id: number, featureType: GeometryType) {
 
 	const template = getActionTemplate(id)!;
 	const uid = getCurrentActorUid();
-	const geoType = template.featureDescription.geometryType;
 
 	if (canPlanAction()) {
-		if (isDefineMapObjectTemplate(id) && geoType === 'Point') {
+		// TODO hardcoded for demo
+		if (isDefineMapObjectTemplate(id) && template.featureDescription.geometryType === 'Point') {
 			startMapAction(featureType);
 		} else if (isMethaneActionTemplate(id)){
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
