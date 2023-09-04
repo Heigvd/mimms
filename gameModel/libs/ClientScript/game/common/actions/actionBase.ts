@@ -233,7 +233,7 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	  actionNameKey: TranslationKey, 
+	actionNameKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
@@ -241,7 +241,7 @@ export class DefineMapObjectAction extends StartEndAction {
   ) { 
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.feature = feature;
-	    this.feature.startTimeSec = this.startTime;
+	  this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
@@ -269,7 +269,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'MCS', 'You placed a point!'))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.actionNameKey))
   }
 
 }

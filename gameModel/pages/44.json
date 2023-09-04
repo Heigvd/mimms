@@ -136,7 +136,8 @@
     } ],
     "layout" : {
       "alignItems" : "center",
-      "flexDirection" : "column"
+      "flexDirection" : "column",
+      "justifyContent" : "center"
     },
     "layoutStyle" : {
       "height" : "100%",

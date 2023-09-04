@@ -20,17 +20,31 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "exposePageSizeAs" : "",
-                "initialSelectedPageId" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'startMenuPageLoader').getValue(self);",
-                  "language" : "typescript"
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel, 'startMenuPageLoader').getValue(self);",
+                      "language" : "typescript"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "startMenuPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "layout" : {
+                  "alignContent" : "center",
+                  "justifyContent" : "center"
                 },
-                "layoutStyle" : { },
-                "name" : "startMenuPageLoader",
+                "layoutStyle" : {
+                  "height" : "100%",
+                  "width" : "100%"
+                },
                 "style" : { }
               },
-              "type" : "PageLoader"
+              "type" : "FlexList"
             } ]
           },
           "type" : "PlayerIf"
@@ -732,6 +746,32 @@
                                 "style" : { }
                               },
                               "type" : "WegasMapOverlay"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getMultiPolygonLayer } from \"./gameMap/layers/multiPolygonFeatures\";\ngetMultiPolygonLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getMultiPolygonLayerStyle } from \"./gameMap/layers/multiPolygonFeatures\";\ngetMultiPolygonLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "MultiPolygonLayer",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
                             }, {
                               "props" : {
                                 "layerId" : "",
