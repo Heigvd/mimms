@@ -301,8 +301,8 @@ export class AskReinforcementAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AskReinforcementAction');
-    localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, this.startTime, this.ownerId, this.type, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, this.startTime, this.ownerId, 'CASU', this.feedbackAtEnd));
+    localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.nb));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
   }
 
   override clone(): this { 
