@@ -216,6 +216,18 @@ export class MainSimulationState implements IClonable {
     return task.getNbCurrentResources();
   }
 
+  public getTaskNbResourcesStillMissing(taskId : TaskId): number {
+    const task = this.getTask(taskId);
+
+    return task.getNbMaxResources() - task.getNbCurrentResources();
+  }
+
+  public isTaskAlive(taskId: TaskId): boolean {
+    const task = this.getTask(taskId);
+
+    return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
+  }
+
   public changeTaskAllocation(taskId : TaskId, nb: number): void {
     const task = this.getTask(taskId);
 

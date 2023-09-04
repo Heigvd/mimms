@@ -22,17 +22,22 @@ export function createResourceAllocationLocalEvents(globalEvent: FullEvent<Resou
 
 function findEffectiveNbResourcesToAllocate(state: MainSimulationState,
   actorId: ActorId, taskId: TaskId, type: ResourceType, nbRequested: number): number {
+
   if (nbRequested > 0) {
     // resources go from resource pool to a task
-    const nbAvailable : number = state.getNbResourcesAvailable(actorId, type);
-    return Math.min(nbRequested, nbAvailable);
+    if (state.isTaskAlive(taskId)) {
+      const nbAvailable: number = state.getNbResourcesAvailable(actorId, type);
+      const taskNbStillMessingResources = state.getTaskNbResourcesStillMissing(taskId);
+      const nbFeasible = Math.min(nbRequested, nbAvailable, taskNbStillMessingResources);
+      return nbFeasible;
+    }
   }
 
   if (nbRequested < 0) {
     // resources go from a task to resources pool
     const nbAvailable: number = state.getTaskNbCurrentResources(taskId);
-    const min = Math.min(Math.abs(nbRequested), nbAvailable);
-    return -min;
+    const nbFeasible = Math.min(Math.abs(nbRequested), nbAvailable);
+    return -nbFeasible;
   }
 
   return 0;
