@@ -60,7 +60,7 @@ function initMainState(): MainSimulationState {
   const testTaskPretriB = new PreTriTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
   const initialNbPatientInZoneA = 20;
-  const initialNbPatientInZoneB = 20;
+  const initialNbPatientInZoneB = 10;
 
   return new MainSimulationState({
     actions: [],
@@ -91,17 +91,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
-  const placeTriZoneA = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
-  {geometryType: 'Polygon', name: 'Tri Zone A', feature: {
-	  geometryType: 'Polygon',
-	  name: 'Tri Zone A',
-	  geometry: [[[2497432.4129048395,1120763.6774621026], [2497443.532362223,1120750.4618063779], 
-	  [2497476.6047682296,1120782.215321906], [2497465.031258829,1120794.875361428], [2497432.4129048395,1120763.6774621026]]],
-  }})
-  
-  // TODO Mikkel
-  //const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'TODO', 'MultiPolygon', 'define-sectors-feedback');
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 20, 'ask-reinforcement-feedback');
+  const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
+  	{geometryType: 'MultiPolygon', name: 'Tri Zone B', feature: {
+		  geometryType: 'MultiPolygon',
+		  name: 'Tri Zone B',
+		  geometry: [
+			  [[
+				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 
+		  		[2497437.046434614,1120798.377919056], [2497426.03428612,1120778.8641895403],
+				[2497448.123431715,1120782.855941937],
+			  ]],
+			  [[
+				[2497451.4923869567,1120779.4898404605], [2497436.995642877,1120761.1578418843], 
+		  		[2497444.3693446065,1120756.7930486996], [2497471.1334157903,1120774.0791353388],
+				[2497465.031258829,1120794.875361428], [2497451.4923869567,1120779.4898404605],
+			]]
+			],
+  	}});
+
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -110,8 +118,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  //templates[placeSectors.getTemplateRef()] = placeSectors;
-  templates[placeTriZoneA.getTemplateRef()] = placeTriZoneA;
+  templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;

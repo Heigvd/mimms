@@ -134,15 +134,15 @@ export class AddActorLocalEvent extends LocalEventBase {
   // TODO create actor from parameters
   applyStateUpdate(state: MainSimulationState): void {
     if (state.getInternalStateObject().actors.find((actor) => actor.Role == "ACS" ) == undefined) {
-      const acs = new Actor('ACS', 'adasd', 'ACS');
+      const acs = new Actor('ACS', 'actor-acs', 'actor-acs-long');
       state.getInternalStateObject().actors.push(acs);
-      const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on-the-road', 0, acs.Uid, 0);
+      const acsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'methane-acs-arrived', 'on-the-road', 0, acs.Uid, 0);
       state.getInternalStateObject().actions.push(acsAction);
     }
     if (state.getInternalStateObject().actors.find((actor) => actor.Role == "MCS" ) == undefined) {
-      const mcs = new Actor('MCS', 'adasd', 'MCS');
+      const mcs = new Actor('MCS', 'actor-mcs', 'actor-mcs-long');
       state.getInternalStateObject().actors.push(mcs);
-      const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'message-key', 'on-the-road', 0, mcs.Uid, 0);
+      const mcsAction = new OnTheRoadgAction(state.getSimTime(), TimeSliceDuration * 3, 'methane-mcs-arrived', 'on-the-road', 0, mcs.Uid, 0);
       state.getInternalStateObject().actions.push(mcsAction);
     }
   }
