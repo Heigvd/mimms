@@ -100,7 +100,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, \"MEDICAL_STAFF\", -1);",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, uid, \"MEDICAL_STAFF\", -1);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -150,7 +150,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { fakeTaskAllocation } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nfakeTaskAllocation(Context.item.Uid, uid, \"MEDICAL_STAFF\", 1);",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, uid, \"MEDICAL_STAFF\", 1);",
                                 "language" : "TypeScript"
                               }
                             },

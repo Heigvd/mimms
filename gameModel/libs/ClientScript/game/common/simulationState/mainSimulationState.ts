@@ -170,6 +170,17 @@ export class MainSimulationState implements IClonable {
     return this.internalState.resources.filter(res => res.ownerId === actorId && res.type === type);
   }
 
+  public getNbResourcesAvailable(actorId: ActorId, type: ResourceType): number {
+    const allMatching = this.internalGetResources(actorId, type);
+
+    if (allMatching != null && allMatching.length === 1 && allMatching[0] != null) {
+      const matching = allMatching[0];
+      return matching.nbAvailable;
+    }
+
+    return 0;
+  }
+
   /**
    * Change the number of resources in the matching resource pool.
    * <p>
@@ -197,6 +208,12 @@ export class MainSimulationState implements IClonable {
     }
 
     return matchingTasks[0]!;
+  }
+
+  public getTaskNbCurrentResources(taskId : TaskId): number {
+    const task = this.getTask(taskId);
+
+    return task.getNbCurrentResources();
   }
 
   public changeTaskAllocation(taskId : TaskId, nb: number): void {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693563652504,
+  "createdTime" : 1693809786951,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5508,6 +5508,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/tasks/taskHelper",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:WwvaBX",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/legacy/communication",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6190,7 +6199,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence_jess_v9",
+  "name" : "MIMMS main simulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
