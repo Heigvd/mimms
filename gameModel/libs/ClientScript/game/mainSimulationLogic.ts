@@ -60,7 +60,7 @@ function initMainState(): MainSimulationState {
   const testTaskPretriB = new PreTriTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
   const initialNbPatientInZoneA = 20;
-  const initialNbPatientInZoneB = 10;
+  const initialNbPatientInZoneB = 20;
 
   return new MainSimulationState({
     actions: [],
