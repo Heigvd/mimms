@@ -271,7 +271,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
   }
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return this.checkIfAlreadyUsedAndCouldReplay(state);
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): StandardActionEvent {
