@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693743571672,
+  "createdTime" : 1693810400967,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5645,6 +5645,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/tasks/taskHelper",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#100:WwvaBX",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/legacy/communication",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6336,7 +6345,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation convergence",
+  "name" : "MIMMS main simulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -6344,7 +6353,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_black-blue_dot_icon",
+    "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",

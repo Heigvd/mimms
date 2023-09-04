@@ -15,6 +15,7 @@ import { localEventManager } from "./common/localEvents/localEventManager";
 import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
+import { createResourceAllocationLocalEvents } from "./common/tasks/taskHelper";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -100,7 +101,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   
   // TODO Mikkel
   //const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'TODO', 'MultiPolygon', 'define-sectors-feedback');
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 20, 'ask-reinforcement-feedback');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -176,6 +177,11 @@ function processEvent(event : FullEvent<TimedEventPayload>){
         }
       }
       break;
+    case 'ResourceAllocationEvent': {
+      const newLocalEvents = createResourceAllocationLocalEvents(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
+      newLocalEvents.forEach(lclEvt => localEventManager.queueLocalEvent(lclEvt));
+      break;
+    }
     case 'TimeForwardEvent':{
         const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
         localEventManager.queueLocalEvent(timefwdEvent);
