@@ -37,6 +37,10 @@ export abstract class TaskBase implements IClonable {
     this.status = status;
   }
 
+  public getNbMaxResources(): number {
+    return this.nbMaxResources;
+  }
+
   public getNbCurrentResources(): number {
     return this.nbCurrentResources;
   }
