@@ -1,6 +1,10 @@
-import { getAllActions } from "../UIfacade/actionFacade";
+import { GeometryType } from "../game/common/events/defineMapObjectEvent";
+import { startMapAction } from "../gameMap/main";
+import { getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
+
+const logger = Helpers.getLogger('mainSim-interface')
 
 /**
  * 
@@ -79,3 +83,30 @@ export function canPlanAction(): boolean {
 
 	return true;
 }
+
+/**
+ * 
+ */
+export function actionClickHandler (id: number, featureType: GeometryType) {
+
+	const template = getActionTemplate(id)!;
+	const uid = getCurrentActorUid();
+	const geoType = template.featureDescription.geometryType;
+
+	if (canPlanAction()) {
+		if (isDefineMapObjectTemplate(id) && geoType === 'Point') {
+			startMapAction(featureType);
+		} else if (isMethaneActionTemplate(id)){
+			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
+		} else {
+			planAction(template.getTemplateRef(), uid);
+		}
+	} else {
+		showModal()
+	}
+
+}
+
+
+
+

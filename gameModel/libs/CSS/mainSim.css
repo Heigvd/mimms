@@ -552,7 +552,6 @@ font-weight: var(--boldWeight);
 	background: var(--gray_WHITE);
 	width: auto;
 	height: auto;
-	min-height: 10em;
 	pointer-events: auto;
 	border-radius: var(--S_borderRadius);
 }
@@ -699,4 +698,10 @@ right: 5em;
 	font-size: var(--L_text);
 	margin-bottom: 2em;
 	line-height: normal;
+}
+
+/********************** MAP **********************/
+
+.cursor-crosshair {
+	cursor: crosshair;
 }

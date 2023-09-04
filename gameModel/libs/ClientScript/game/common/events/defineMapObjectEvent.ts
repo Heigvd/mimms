@@ -1,4 +1,4 @@
-import { Position, SimDuration } from "../baseTypes";
+import { Position, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
 export interface featurePayload {
@@ -12,26 +12,29 @@ export type MapFeature = PointFeature | StringLineFeature | PolygonFeature | Mul
 export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon';
 
 interface BaseFeature<T> {
-  type: GeometryType,
+  geometryType: GeometryType,
   name: string,
   id?: number | string;
   geometry: T;
+  startTimeSec?: SimTime;
+  durationTimeSec?: SimDuration;
 }
 
-interface PointFeature extends BaseFeature<Position> {
-  type: 'Point';
+export interface PointFeature extends BaseFeature<Position> {
+  geometryType: 'Point';
+  icon?: string;
 }
 
-interface StringLineFeature extends BaseFeature<Position[]> {
-  type: 'StringLine'
+export interface StringLineFeature extends BaseFeature<Position[]> {
+  geometryType: 'StringLine'
 }
 
-interface PolygonFeature extends BaseFeature<Position[][]> {
-  type: 'Polygon'
+export interface PolygonFeature extends BaseFeature<Position[][]> {
+  geometryType: 'Polygon'
 }
 
-interface MultiPolygonFeature extends BaseFeature<Position[][][]> {
-  type: 'MultiPolygon'
+export interface MultiPolygonFeature extends BaseFeature<Position[][][]> {
+  geometryType: 'MultiPolygon'
 }
 
 export interface DefineMapObjectEvent extends ActionCreationEvent {

@@ -14,7 +14,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : " Context.action.title;",
+                      "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
                       "language" : "TypeScript"
                     }
                   },
@@ -67,7 +67,7 @@
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);",
+                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);\n",
                     "language" : "javascript"
                   }
                 },
@@ -77,6 +77,13 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nendMapAction();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "Title",
                 "style" : { }
               },
@@ -90,7 +97,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "`${Context.action.description}`",
+                      "content" : "import { ActionBase } from \"./game/common/actions/actionBase\";\nimport { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nimport { getTranslation } from \"./tools/translation\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
                       "language" : "TypeScript"
                     }
                   },
@@ -98,11 +105,6 @@
                 }, {
                   "props" : {
                     "className" : "noPadding playActionBtn",
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
-                      "language" : "typescript"
-                    },
                     "icon" : {
                       "@class" : "Script",
                       "content" : "import { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n}\n'play'",
@@ -117,7 +119,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { canPlanAction, getCurrentActorUid, showModal } from \"./gameInterface/main\";\nimport { startMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst ref = getActionTemplate(Context.action.Uid)!.getTemplateRef();\nconst uid = getCurrentActorUid();\n\nif (canPlanAction()) {\n\tif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\t\tstartMapAction(Context.action.featureType);\n\t} if(isMethaneActionTemplate(Context.action.Uid)){\n\t\tAPIMethods.runScript(\n        `Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`,\n        {},\n    );\n\t} else {\n\t\tplanAction(ref, uid);\n\t}\n} else {\n\tshowModal()\n}\n",
+                        "content" : "import { actionClickHandler } from \"./gameInterface/main\";\n\nactionClickHandler(Context.action.Uid, Context.action.featureType)",
                         "language" : "TypeScript"
                       }
                     },

@@ -1,0 +1,54 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "\"/tutorial/Tutorial_1.svg\"",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Image"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "pink l_button",
+            "impactVariable" : {
+              "impact" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'startMenuPageLoader').setValue(self, 50);",
+                "language" : "javascript"
+              }
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Continuer</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "justifyContent" : "flex-end"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

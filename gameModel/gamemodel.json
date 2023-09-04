@@ -4458,7 +4458,7 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "GameModelScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "ObjectInstance",
@@ -4505,7 +4505,110 @@
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:49462:KdFc2a",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Temporary translations for tasks and actions of phase 1",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:482279:Crma9l"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:482280:bKJnjJ",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:482280:bKJnjJ::EN",
+              "status" : "",
+              "translation" : "mainSim-actions-tasks"
+            }
+          }
+        },
+        "name" : "mainSim-actions-tasks",
+        "properties" : {
+          "ask-reinforcement-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"call the emergency center and ask for more resources on site\"},\"FR\":{\"status\":\"\",\"translation\":\"appeler CASU pour demander plus de renforts sur site\",\"lang\":\"FR\"}},\"version\":0}",
+          "ask-reinforcement-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU : we are now teleporting 20 resources for you\"},\"FR\":{\"status\":\"\",\"translation\":\"cASU : Nous téléportons 20 resources pour vous\",\"lang\":\"FR\"}},\"version\":0}",
+          "ask-reinforcement-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ask CASU for reinforcements\"},\"FR\":{\"status\":\"\",\"translation\":\"demande de renforts à CASU\",\"lang\":\"FR\"}},\"version\":0}",
+          "basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you take sometime to evaluate the sitation\"},\"FR\":{\"status\":\"\",\"translation\":\"vous prenez le temps d'évaluer la situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"after a quick overview of the incident zone, you evaluate that there are likely between 30 and 50 injured people\"},\"FR\":{\"status\":\"\",\"translation\":\"après un un rapide coup d'oeil vous estimez que le nombre de blessés se situe entre 30 et 50\",\"lang\":\"FR\"}},\"version\":0}",
+          "basic-info-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"quick situation overview\"},\"FR\":{\"status\":\"\",\"translation\":\"bilan d'ambiance\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-nest-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pick a position on the map for the \\\"injured's nest\\\"\"},\"FR\":{\"status\":\"\",\"translation\":\"définir l'emplacement du nid de blessés sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-nest-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the \\\"injured's nest\\\" is now ready\"},\"FR\":{\"status\":\"\",\"translation\":\"le nid de blessé est maintenant placé\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-nest-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define wounded nest location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pc-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pick a position on the map for your command post\"},\"FR\":{\"status\":\"\",\"translation\":\"définir l'emplacement du poste de commandement sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pc-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the command post is now ready\"},\"FR\":{\"status\":\"\",\"translation\":\"le post de commandement est maintenant prêt\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pc-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define command post location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le poste de commandement\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pick a location on the map for the advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"définir l'emplacement du poste médical avancé (PMA) sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pma-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the advanced medical post can now be built\"},\"FR\":{\"status\":\"\",\"translation\":\"le nid de blessé est maintenant placé\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-pma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define advanced medical post location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le poste médical avancé (PMA)\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-sectors-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define sectors of the incident on the map\"},\"FR\":{\"status\":\"\",\"translation\":\"définir différents secteurs de l'incident en vue de pré-trier\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-sectors-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined sectors of the incident. New pré-tri tasks are available in the resources section\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-sectors-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sectorize incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"sectoriser les zones du chantier\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a METHANE radio message to emergency\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message METHANE à CASU\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"we got your METHANE message, the ACS and MCS are their way as well as more resources\"},\"FR\":{\"status\":\"\",\"translation\":\"message METHANE bien reçu, l'ACS et le MCS sont en route ainsi que des ressources supplémentaires\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send METHANE\"},\"FR\":{\"status\":\"\",\"translation\":\"envoi METHANE\",\"lang\":\"FR\"}},\"version\":0}",
+          "on-the-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"on the way\"},\"FR\":{\"status\":\"\",\"translation\":\"en route\",\"lang\":\"FR\"}},\"version\":0}",
+          "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.\"},\"FR\":{\"status\":\"\",\"translation\":\"prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.\",\"lang\":\"FR\"}},\"version\":0}",
+          "other-basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"he seems quite shocked and tells you that his mother might be in this train but that he is not sure, but that she usually takes thsi train because there are not many people at this hour\"},\"FR\":{\"status\":\"\",\"translation\":\"il semble en état de choc et vous dit que sa mère est certainement dans ce train mais qu'il n'est pas sûr. Elle prend ce train habituellement parce qu'il n'est pas trop fréquenté.\",\"lang\":\"FR\"}},\"version\":0}",
+          "other-basic-info-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"get information from passerby\"},\"FR\":{\"status\":\"\",\"translation\":\"obtenir de l'information d'un passant\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-a-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources to perform prétriage of zone A\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des resources prétrier la zone A\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-a-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the prétriage of zone A is done. 10 red, 20 yellow, 10 green\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone A terminé. 10 rouges, 20 jaunes, 10 verts\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-a-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage of zone A\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone A\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-b-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources to perform prétriage of zone B\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des resources prétrier la zone B\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-b-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the prétriage of zone B is done. 10 red, 20 yellow, 10 green\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone B terminé. 10 rouges, 20 jaunes, 10 verts\",\"lang\":\"FR\"}},\"version\":0}",
+          "pre-tri-zone-b-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage of zone B\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone B\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:482278:SnYevy",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:487597:gc0TbY"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:487598:IddlZN",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:487598:IddlZN::EN",
+              "status" : "",
+              "translation" : "mainSim-actors"
+            }
+          }
+        },
+        "name" : "mainSim-actors",
+        "properties" : {
+          "actor-acs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aCS?\"},\"FR\":{\"status\":\"\",\"translation\":\"aCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-acs-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"chief Ambulance Man?\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier Chef des Secours\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-al" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aL?\"},\"FR\":{\"status\":\"\",\"translation\":\"aL\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-al-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"leader Ambulance Driver?\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier Leader\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-evasan" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-evasan-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-mcs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mCS?\"},\"FR\":{\"status\":\"\",\"translation\":\"mCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-mcs-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"chief emergency doctor?\"},\"FR\":{\"status\":\"\",\"translation\":\"médecin Chef des Secours\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:487596:frcIa7",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -5233,6 +5336,40 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:57176:mDUvll",
+          "value" : 44.0
+        },
+        "defaultValue" : 44.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:57177:zg2cu3",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:57177:zg2cu3::EN",
+              "status" : "",
+              "translation" : "startMenuPageLoader"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "startMenuPageLoader",
+        "refId" : "NumberDescriptor:57175:HwLLn1",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5674,6 +5811,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48716:kMhFMc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/layers/polygonFeatures",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:57229:9GhOnn",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6199,7 +6345,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation",
+  "name" : "MIMMS main simulation convergence",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

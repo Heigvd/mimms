@@ -15,12 +15,9 @@
       "type" : "Image"
     }, {
       "props" : {
-        "className" : "welcomeText",
-        "layoutClassName" : "welcomeText-container",
         "layoutStyle" : {
           "textAlign" : "center"
         },
-        "name" : "welcome&press",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -33,7 +30,7 @@
       "props" : {
         "label" : {
           "@class" : "Script",
-          "content" : "\"Admin mode: \"",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'admin-mode')}: `",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
@@ -49,11 +46,80 @@
       "type" : "Boolean"
     }, {
       "props" : {
-        "className" : "pink l_button",
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : {
+              "margin" : "0",
+              "padding" : "0",
+              "textAlign" : "center"
+            },
+            "style" : {
+              "margin" : "0"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Scenario start time :</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "displayValues" : "NumberInput",
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'startHours')",
+                  "language" : "TypeScript"
+                },
+                "steps" : 23,
+                "style" : { }
+              },
+              "type" : "NumberSlider"
+            }, {
+              "props" : {
+                "displayValues" : "NumberInput",
+                "layoutStyle" : { },
+                "onVariableChange" : { },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'startMinutes')",
+                  "language" : "TypeScript"
+                },
+                "steps" : 59,
+                "style" : { }
+              },
+              "type" : "NumberSlider"
+            } ],
+            "layout" : {
+              "flexDirection" : "row"
+            },
+            "layoutStyle" : {
+              "margin" : "0",
+              "padding" : "0"
+            },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "className" : "l_button pink",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
+            "content" : "Variable.find(gameModel, 'startMenuPageLoader').setValue(self, 49);",
             "language" : "javascript"
           },
           "priority" : 0

@@ -342,6 +342,22 @@
           "trainerPage" : null
         } ],
         "name" : "modal"
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "49",
+          "name" : "page1",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "50",
+          "name" : "page2",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "tutorialPages"
       } ],
       "name" : "mainSimulation pages"
     } ],

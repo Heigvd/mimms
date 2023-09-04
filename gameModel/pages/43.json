@@ -20,160 +20,17 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "\"/MIMMS_logo.png\"",
-                      "language" : "TypeScript"
-                    },
-                    "style" : {
-                      "width" : "25rem"
-                    }
-                  },
-                  "type" : "Image"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "textAlign" : "center"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\nconst hi = getTranslation(`mainSim-interface`, `welcome`);\nconst start = getTranslation(`mainSim-interface`, `press-start`);\nhi  + `</br>` + start;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'admin-mode')}: `",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "onVariableChange" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'_admin_AdminMode')",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { },
-                    "type" : "toggler"
-                  },
-                  "type" : "Boolean"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : {
-                          "margin" : "0",
-                          "padding" : "0",
-                          "textAlign" : "center"
-                        },
-                        "style" : {
-                          "margin" : "0"
-                        },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Scenario start time :</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "displayValues" : "NumberInput",
-                            "layoutStyle" : { },
-                            "onVariableChange" : { },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'startHours')",
-                              "language" : "TypeScript"
-                            },
-                            "steps" : 23,
-                            "style" : { }
-                          },
-                          "type" : "NumberSlider"
-                        }, {
-                          "props" : {
-                            "displayValues" : "NumberInput",
-                            "layoutStyle" : { },
-                            "onVariableChange" : { },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Variable.find(gameModel,'startMinutes')",
-                              "language" : "TypeScript"
-                            },
-                            "steps" : 59,
-                            "style" : { }
-                          },
-                          "type" : "NumberSlider"
-                        } ],
-                        "layout" : {
-                          "flexDirection" : "row"
-                        },
-                        "layoutStyle" : {
-                          "margin" : "0",
-                          "padding" : "0"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "layout" : {
-                      "alignItems" : "center",
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "className" : "l_button pink",
-                    "icon" : "play",
-                    "impactVariable" : {
-                      "impact" : {
-                        "@class" : "Script",
-                        "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
-                        "language" : "javascript"
-                      },
-                      "priority" : 0
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'start');",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { initInterface } from \"./gameInterface/main\";\n\ninitInterface();",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "layout" : {
-                  "alignItems" : "center",
-                  "flexDirection" : "column"
+                "exposePageSizeAs" : "",
+                "initialSelectedPageId" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel, 'startMenuPageLoader').getValue(self);",
+                  "language" : "typescript"
                 },
-                "layoutStyle" : {
-                  "height" : "100%",
-                  "overflow" : "auto",
-                  "width" : "100%"
-                },
+                "layoutStyle" : { },
+                "name" : "startMenuPageLoader",
                 "style" : { }
               },
-              "type" : "FlexList"
+              "type" : "PageLoader"
             } ]
           },
           "type" : "PlayerIf"
@@ -650,7 +507,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\n",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -720,7 +577,7 @@
                                 "layoutStyle" : { },
                                 "name" : "timeline-actors",
                                 "style" : {
-                                  "paddingTop" : "2em"
+                                  "paddingTop" : "calc(2em + 10px)"
                                 }
                               },
                               "type" : "FlexList"
@@ -836,7 +693,7 @@
                                         "layoutStyle" : { },
                                         "script" : {
                                           "@class" : "Script",
-                                          "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst actionUid = Variable.find(gameModel, 'currentActionUid').getValue(self);\nconst template = getActionTemplate(actionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureName}.svg`;",
+                                          "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst actionUid = Variable.find(gameModel, 'currentActionUid').getValue(self);\nconst template = getActionTemplate(actionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureDescription.icon}.svg`;",
                                           "language" : "TypeScript"
                                         },
                                         "style" : {
@@ -875,6 +732,32 @@
                                 "style" : { }
                               },
                               "type" : "WegasMapOverlay"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getPolygonLayer } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getPolygonLayerStyle } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "PolygonLayer",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
                             }, {
                               "props" : {
                                 "disableIf" : {
@@ -1019,8 +902,18 @@
                               },
                               "type" : "WegasMapVectorLayer"
                             } ],
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "cursor-crosshair",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
+                                "language" : "typescript"
+                              }
+                            } ],
                             "debug" : false,
                             "id" : "",
+                            "layoutClassName" : "map",
                             "layoutStyle" : {
                               "backgroundColor" : "#E7EEE3",
                               "flexGrow" : "1",
@@ -1052,6 +945,7 @@
                           "height" : "100%",
                           "width" : "100%"
                         },
+                        "name" : "",
                         "style" : { }
                       },
                       "type" : "FlexList"

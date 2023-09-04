@@ -13,10 +13,12 @@ export class Actor{
 
   public readonly Uid: ActorId;
 
+  private readonly translationVar : keyof VariableClasses = 'mainSim-actors';
+
   constructor(role: InterventionRole, fullName: TranslationKey, shortName: TranslationKey){
     this.Role = role;
-    this.FullName = getTranslation('general-interface', fullName); // TODO
-    this.ShortName = getTranslation('general-interface', shortName);
+    this.FullName = getTranslation(this.translationVar, fullName);
+    this.ShortName = getTranslation(this.translationVar, shortName);
 
     this.Uid = Actor.IdSeed++;
   }

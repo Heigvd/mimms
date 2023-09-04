@@ -1,4 +1,5 @@
 import { taskLogger } from "../../../tools/logger";
+import { getTranslation } from "../../../tools/translation";
 import { Actor } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { OneMinuteDuration } from "../constants";
@@ -77,6 +78,10 @@ export abstract class TaskBase implements IClonable {
 
   public abstract clone(): this;
 
+  public abstract getDescription(): string;
+
+  public abstract getTitle(): string;
+
 }
 
 export abstract class DefaultTask extends TaskBase {
@@ -133,9 +138,21 @@ export abstract class DefaultTask extends TaskBase {
 
     this.lastUpdateSimTime = state.getSimTime();
   }
+
+  
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+
 }
 
 export class PreTriTask extends DefaultTask {
+
 
   public constructor(
     readonly title: TranslationKey,

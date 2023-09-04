@@ -1,5 +1,6 @@
 import { StartEndAction } from "../game/common/actions/actionBase";
 import { getCurrentActorUid } from "../gameInterface/main";
+import { getTranslation } from "../tools/translation";
 import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
@@ -167,7 +168,8 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 			const futureClassName = actions[actionIndex].startTime >= simTime ? 'planned' : '';
 			const className = activeclassName.concat(' ', futureClassName)
 
-			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, actions[actionIndex].title, className)
+			const title = getTranslation('mainSim-actions-tasks', actions[actionIndex].title);
+			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, title, className);
 
 			timer += actionDuration;
 			actionIndex++;
