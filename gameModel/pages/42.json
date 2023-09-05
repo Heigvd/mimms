@@ -87,11 +87,6 @@
       },
       "type" : "FlexList"
     } ],
-    "hideIf" : {
-      "@class" : "Script",
-      "content" : "Variable.find(gameModel, 'showModal').getValue(self);",
-      "language" : "typescript"
-    },
     "layout" : {
       "flexDirection" : "column"
     },

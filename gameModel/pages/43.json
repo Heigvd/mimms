@@ -969,13 +969,14 @@
                             },
                             "style" : { },
                             "viewOptions" : {
-                              "center" : [ 2497811, 1121621 ],
+                              "center" : [ 2497449, 1120779 ],
                               "extent" : [ 2496886.446917642, 1120206.0764877768, 2498495.0351261925, 1121778.2033636002 ],
                               "projection" : {
                                 "@class" : "Script",
                                 "content" : "import { swissDefaultProjection } from \"./map/layersData\";\nswissDefaultProjection;",
                                 "language" : "typescript"
-                              }
+                              },
+                              "zoom" : 18.5
                             }
                           },
                           "type" : "WegasMap"
