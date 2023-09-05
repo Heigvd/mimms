@@ -92,9 +92,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
-  	{geometryType: 'MultiPolygon', name: 'Tri Zone B', feature: {
+  	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
 		  geometryType: 'MultiPolygon',
-		  name: 'Tri Zone B',
+		  name: 'Triage Zone',
 		  geometry: [
 			  [[
 				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 

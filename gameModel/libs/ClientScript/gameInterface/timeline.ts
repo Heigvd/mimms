@@ -201,7 +201,7 @@ export function createGrid(currentTime: number): string {
 
 	// Calculate the total amount of actions represented on the timeline
 	// We add empty segments to represent future actions
-	const futureSegments = 4;
+	const futureSegments = 8;
 	// Future time displayed
 	const maxTime = currentTime + (futureSegments * 60);
 	const totalColumns = (maxTime / 60);
