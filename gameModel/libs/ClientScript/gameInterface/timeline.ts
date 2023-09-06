@@ -166,7 +166,12 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 			// TODO Not optimal but working
 			const activeclassName = current ? 'timeline-item current' : 'timeline-item';
 			const futureClassName = actions[actionIndex].startTime >= simTime ? 'planned' : '';
-			const className = activeclassName.concat(' ', futureClassName)
+			let timelineSize = '';
+			if (actionDuration === 60) {
+				timelineSize = 'col-size-small';
+			}
+			
+			const className = activeclassName.concat(' ', futureClassName, ' ', timelineSize);
 
 			const title = getTranslation('mainSim-actions-tasks', actions[actionIndex].title);
 			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, title, className);
