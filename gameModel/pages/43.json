@@ -740,7 +740,11 @@
                                     "content" : "([-55,-105])",
                                     "language" : "typescript"
                                   },
-                                  "positionOnClick" : true,
+                                  "position" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getMapState } from \"./gameMap/main\";\n// TODO Will only work for point interactions !\ngetMapState().tmpFeature.feature as PointLikeObject;",
+                                    "language" : "typescript"
+                                  },
                                   "projection" : "EPSG:2056"
                                 },
                                 "style" : { }
@@ -947,7 +951,7 @@
                               "className" : "cursor-crosshair",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
+                                "content" : "Variable.find(gameModel, 'isMapAction').getValue(self);",
                                 "language" : "typescript"
                               }
                             } ],

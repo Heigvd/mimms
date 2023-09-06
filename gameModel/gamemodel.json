@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693984518812,
+  "createdTime" : 1694003538117,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5370,6 +5370,35 @@
         "name" : "startMenuPageLoader",
         "refId" : "NumberDescriptor:57175:HwLLn1",
         "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:58172:UFfqWL",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:58173:cWijd8",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:58173:cWijd8::EN",
+              "status" : "",
+              "translation" : "isMapAction"
+            }
+          }
+        },
+        "name" : "isMapAction",
+        "refId" : "BooleanDescriptor:58171:f8C2dj",
+        "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
