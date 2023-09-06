@@ -740,11 +740,7 @@
                                     "content" : "([-55,-105])",
                                     "language" : "typescript"
                                   },
-                                  "position" : {
-                                    "@class" : "Script",
-                                    "content" : "import { getMapState } from \"./gameMap/main\";\n// TODO Will only work for point interactions !\ngetMapState().tmpFeature.feature as PointLikeObject;",
-                                    "language" : "typescript"
-                                  },
+                                  "positionOnClick" : true,
                                   "projection" : "EPSG:2056"
                                 },
                                 "style" : { }
