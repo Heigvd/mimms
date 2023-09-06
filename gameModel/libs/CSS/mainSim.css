@@ -620,9 +620,16 @@ font-weight: var(--boldWeight);
 	align-items: center;
 	height: 2em;
 	color: var(--gray_BLACK);
-	
 }
 
+.col-size-small {
+	display: block;
+	padding: 0.5em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+}
 
 .timeline-item.current {
 	background:var(--interface_0);
