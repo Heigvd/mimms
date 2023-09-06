@@ -131,7 +131,15 @@ export class GetInformationAction extends StartEndAction {
    */
   public readonly messageKey: TranslationKey;
 
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId, uuidTemplate: ActionTemplateId){
+  constructor (
+	  startTimeSec: SimTime,
+	  durationSeconds: SimDuration,
+	  messageKey: TranslationKey,
+	  actionNameKey: TranslationKey,
+	  evtId: GlobalEventId,
+	  ownerId: ActorId,
+	  uuidTemplate: ActionTemplateId
+	  ){
     super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
   }
@@ -226,6 +234,10 @@ export class MethaneAction extends StartEndAction {
 export class DefineMapObjectAction extends StartEndAction {
 
   /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
+  /**
    * Map feature to be displayed
   */
   public readonly feature: MapFeature;
@@ -233,15 +245,17 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	actionNameKey: TranslationKey, 
+	  actionNameKey: TranslationKey,
+    messageKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
     uuidTemplate: ActionTemplateId
   ) { 
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
+      this.messageKey = messageKey;
       this.feature = feature;
-	  this.feature.startTimeSec = this.startTime;
+	    this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
@@ -249,7 +263,8 @@ export class DefineMapObjectAction extends StartEndAction {
     const clone = new DefineMapObjectAction(
         this.startTime,
         this.durationSec,
-		this.actionNameKey,
+		    this.actionNameKey,
+        this.messageKey,
         this.eventId,
         this.ownerId,
         this.feature,
@@ -269,7 +284,7 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.actionNameKey))
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
 }

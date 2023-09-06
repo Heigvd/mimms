@@ -78,7 +78,10 @@ export function canPlanAction(): boolean {
 	if (actions[actorUid] === undefined) return true;
 
 	for (const action of actions[actorUid]) {
+		// Is a future action planned ?
 		if (action.startTime === currentTime) return false;
+		// Is a previous action finished ?
+		if (action.startTime + action.duration() > currentTime) return false;
 	}
 
 	return true;

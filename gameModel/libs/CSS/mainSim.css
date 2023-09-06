@@ -592,11 +592,6 @@ font-weight: var(--boldWeight);
 	
 }
 
-.actor:focus {
-	background: var(--interface_0);
-	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
-}
-
 .actor:focus:hover{
 	background:var(--interface_100);
 	cursor: pointer;

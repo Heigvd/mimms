@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693915708566,
+  "createdTime" : 1694003538117,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5372,6 +5372,35 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:58172:UFfqWL",
+          "value" : false
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:58173:cWijd8",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:58173:cWijd8::EN",
+              "status" : "",
+              "translation" : "isMapAction"
+            }
+          }
+        },
+        "name" : "isMapAction",
+        "refId" : "BooleanDescriptor:58171:f8C2dj",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -6356,7 +6385,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation (5.9.2023 demo) (last minute fixes)",
+  "name" : "MIMMS main simulation convergence",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
