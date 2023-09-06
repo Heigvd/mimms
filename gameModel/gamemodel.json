@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693915708566,
+  "createdTime" : 1693984518812,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6356,7 +6356,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation (5.9.2023 demo) (last minute fixes)",
+  "name" : "MIMMS main simulation convergence",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
