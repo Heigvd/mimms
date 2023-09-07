@@ -631,7 +631,7 @@ font-weight: var(--boldWeight);
 }
 
 .marker-time {
-	z-index: 1;
+	z-index: 3;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -666,6 +666,7 @@ font-weight: var(--boldWeight);
 	width: 1px;
 	height: 100%;
 	border-right: 3px dashed var(--gray_200);
+	z-index: 2;
 }
 
 .marker-line.current {
