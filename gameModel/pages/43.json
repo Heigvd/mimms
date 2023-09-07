@@ -377,7 +377,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Radio</p>\"",
+                                  "content" : "\"<p>Notification</p>\"",
                                   "language" : "TypeScript"
                                 }
                               },
