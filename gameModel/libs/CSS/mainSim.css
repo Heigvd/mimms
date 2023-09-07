@@ -680,7 +680,7 @@ font-weight: var(--boldWeight);
 
 /** NEXT BUTTON **/
 .next-container{
-z-index: 2;
+z-index: 4;
 position: absolute;
 top: -.15em;
 right: 5em;

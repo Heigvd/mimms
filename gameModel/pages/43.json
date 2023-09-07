@@ -513,7 +513,7 @@
                                 "className" : "nextBtn s_button pink",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'next-phase')}</p>`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'time-forward')}</p>`",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "next-container",
