@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1694009314932,
+  "createdTime" : 1694073260682,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5838,37 +5838,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameMap/layers/multiPolygonFeatures",
+    "contentKey" : "gameMap/layers/mainSimLayer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:57634:4JlVYM",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameMap/layers/pointFeatures",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48716:kMhFMc",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameMap/layers/polygonFeatures",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:57229:9GhOnn",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameMap/layers/tmpLayer",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:445452:UkK1Rn",
+    "refId" : "GameModelContent:60471:KCOb6a",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5878,6 +5851,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:45809:5382kv",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/styling/layerStyles",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:60398:f3eVTd",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
