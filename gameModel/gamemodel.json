@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1693915708566,
+  "createdTime" : 1694177960268,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4492,10 +4492,10 @@
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent succeffully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-placeholder" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE message here\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message METHANE\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-transmission" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mETHANE transmission\"},\"FR\":{\"status\":\"\",\"translation\":\"transmission METHANE\",\"lang\":\"FR\"}},\"version\":0}",
-          "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
+          "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Advance in time\"},\"FR\":{\"status\":\"\",\"translation\":\"Avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "no-radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no radio messages\"},\"FR\":{\"status\":\"\",\"translation\":\"aucun message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "press-start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"press start to launch the game\"},\"FR\":{\"status\":\"\",\"translation\":\"apppuyez sur \\\"démarrer\\\" pour lancer la simulation\",\"lang\":\"FR\"}},\"version\":0}",
-          "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio\"},\"FR\":{\"status\":\"\",\"translation\":\"radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"notifications\"},\"FR\":{\"status\":\"\",\"translation\":\"notifications\",\"lang\":\"FR\"}},\"version\":0}",
           "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6356,7 +6356,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation (5.9.2023 demo) (last minute fixes)",
+  "name" : "MIMMS_wip_jess_v11",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

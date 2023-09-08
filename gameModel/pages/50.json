@@ -2,10 +2,12 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "width" : "70%"
+        },
         "script" : {
           "@class" : "Script",
-          "content" : "\"/tutorial/Tutorial_2.svg\"",
+          "content" : "\"/tutorial/tutorial_2.png\"",
           "language" : "TypeScript"
         },
         "style" : { }

@@ -442,7 +442,6 @@ background-color: var(--interface_0);
 
 .aMessage{
 		border-radius: var(--S_borderRadius);
-		
 		padding: 0px;
 		margin: 0px;
 
@@ -455,7 +454,6 @@ background-color: var(--interface_0);
 }
 
 
-
 .sender-container{
 	font-weight: var(--boldWeight);
 	margin-bottom: 0px ;
@@ -465,6 +463,8 @@ background-color: var(--interface_0);
 .aMessage-container{
 	padding-top: 0px;
 	background-color: var(--gray_200);
+	animation: popping 1s linear;
+
 	
 }
 
@@ -546,6 +546,8 @@ font-weight: var(--boldWeight);
 	bottom: 0;
 	padding: 1rem;
 	pointer-events: auto;
+	overflow: visible!important;
+	/* trouver pourquoi il y a collusion de style*/
 }
 
 .timeline {
@@ -679,9 +681,9 @@ font-weight: var(--boldWeight);
 .next-container{
 z-index: 2;
 position: absolute;
-top: -.15em;
+top: -.5em;
 right: 5em;
-
+overflow: visible;
 }
 
 

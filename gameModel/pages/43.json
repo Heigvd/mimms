@@ -377,7 +377,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Radio</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'radio')}</p>`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -447,10 +447,11 @@
                                         },
                                         "itemKey" : "message",
                                         "layout" : {
-                                          "flexDirection" : "column"
+                                          "flexDirection" : "column-reverse"
                                         },
                                         "layoutClassName" : "",
                                         "layoutStyle" : {
+                                          "flex-direction" : "flex-end",
                                           "width" : "100%"
                                         },
                                         "style" : { }
