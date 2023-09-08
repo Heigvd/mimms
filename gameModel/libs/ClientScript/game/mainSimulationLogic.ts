@@ -14,6 +14,8 @@ import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
+import * as ResourceState from "./common/simulationState/resourceStateAccess";
+import * as TaskState from "./common/simulationState/taskStateAccess";
 import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
 import { createResourceAllocationLocalEvents } from "./common/tasks/taskHelper";
 
@@ -225,7 +227,7 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
   const actor = currentSimulationState.getActorById(actorId);
   if (actor) {
-    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
+    return Object.values(TaskState.getAllTasks(currentSimulationState)).filter(ta => ta.isAvailable(currentSimulationState, actor));
   } else {
     mainSimLogger.warn('Actor not found. id = ', actorId);
     return [];
@@ -233,7 +235,7 @@ export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
 }
 
 export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
-  const matchingResources = getCurrentState().getResources(actorId, type);
+  const matchingResources = ResourceState.getResources(getCurrentState(), actorId, type);
 
   let sum = 0;
   matchingResources.forEach(res => sum += res.nbAvailable);

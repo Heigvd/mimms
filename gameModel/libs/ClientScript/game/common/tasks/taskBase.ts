@@ -7,6 +7,7 @@ import { IClonable } from "../interfaces";
 import { AddRadioMessageLocalEvent, CategorizePatientLocalEvent, ChangeTaskStatusLocalEvent, ReleaseTaskResourcesLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import * as PatientState from "../simulationState/patientStateAccess";
 
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled'; // | undefined ?
 
@@ -188,7 +189,7 @@ export class PreTriTask extends DefaultTask {
 
     taskLogger.debug("update task for a capacity of " + progressionCapacity + "(duration : " + durationSinceLastUpdate + " aka nbMinutes : " + nbMinutesToProcess + ", nbCurrentResources : " + this.nbCurrentResources + ")");
 
-    let nbToPreTri = state.countNbPatientsForPreTri(this.zone);
+    let nbToPreTri = PatientState.countNbPatientsForPreTri(state, this.zone);
 
     for (let i = 0; i < progressionCapacity && nbToPreTri > 0; i++) {
         // ?!? which parent event id ?!?

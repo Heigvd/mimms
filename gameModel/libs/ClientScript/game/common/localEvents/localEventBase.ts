@@ -7,6 +7,9 @@ import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import * as PatientState from "../simulationState/patientStateAccess";
+import * as ResourceState from "../simulationState/resourceStateAccess";
+import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -105,7 +108,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
   }
 
   updateTasks(state: MainSimulationState) {
-    state.getAllTasks().forEach(t => t.update(state));
+    TaskState.getAllTasks(state).forEach(t => t.update(state));
   }
 
 }
@@ -187,7 +190,7 @@ export class ChangeNbResourcesLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.addResources(this.actorId, this.type, this.nb);
+    ResourceState.addResources(state, this.actorId, this.type, this.nb);
   }
 
 }
@@ -205,7 +208,7 @@ export class TaskAllocationLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.changeTaskAllocation(this.taskId, this.nb);
+    TaskState.changeTaskAllocation(state, this.taskId, this.nb);
   }
 
 }
@@ -220,7 +223,7 @@ export class ChangeTaskStatusLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.changeTaskStatus(this.taskId, this.status);
+    TaskState.changeTaskStatus(state, this.taskId, this.status);
   }
 }
 
@@ -233,7 +236,7 @@ export class ReleaseTaskResourcesLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.releaseTaskResources(this.taskId);
+    TaskState.releaseTaskResources(state, this.taskId);
   }
 }
 
@@ -245,7 +248,7 @@ export class CategorizePatientLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.categorizeOnePatient(this.zone)
+    PatientState.categorizeOnePatient(state, this.zone)
   }
 
 }
