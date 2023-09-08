@@ -428,6 +428,15 @@
                                                 "language" : "TypeScript"
                                               }
                                             } ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "aMessage-animation",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { RadioMessage } from \"./game/common/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },

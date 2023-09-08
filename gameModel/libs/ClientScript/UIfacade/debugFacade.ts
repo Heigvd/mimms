@@ -1,6 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
-import { planAction } from '../UIfacade/actionFacade';
+import { getActionTemplate, planAction } from '../UIfacade/actionFacade';
+import { getCurrentActionUid } from '../gameInterface/main';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -25,7 +26,7 @@ export async function planFirstMapActionWithFirstActor() {
 
 export async function planMethaneAction() {
 	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
-	const actTpl = getAllActionTemplates()[2];
+	const actTpl = getActionTemplate(getCurrentActionUid());
 	const methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)
 	wlog(methaneInputInformation);
 	APIMethods.runScript(
