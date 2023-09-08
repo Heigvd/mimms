@@ -3,8 +3,8 @@ start	start	démarrer
 admin-mode	admin mode	mode admin
 actions	actions	actions
 resources	resources	ressources
-radio	radio	radio
-no-radio	no radio messages	aucun message radio
+notifications	notifications	notifications
+no-notifications	no notification	aucune notification
 actor	actor	acteur
 next-phase	next phase	prochaine phase
 time-forward	advance time	avancer le temps

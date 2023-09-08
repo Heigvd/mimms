@@ -480,7 +480,7 @@
                                         },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-radio')}</p>`",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-notifications')}</p>`",
                                           "language" : "TypeScript"
                                         }
                                       },
