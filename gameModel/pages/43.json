@@ -377,7 +377,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Notification</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'notifications')}</p>`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -428,6 +428,15 @@
                                                 "language" : "TypeScript"
                                               }
                                             } ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "aMessage-animation",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { RadioMessage } from \"./game/common/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
@@ -471,7 +480,7 @@
                                         },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-radio')}</p>`",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-notifications')}</p>`",
                                           "language" : "TypeScript"
                                         }
                                       },

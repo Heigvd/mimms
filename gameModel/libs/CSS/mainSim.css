@@ -442,10 +442,13 @@ background-color: var(--interface_0);
 
 .aMessage{
 		border-radius: var(--S_borderRadius);
-		
 		padding: 0px;
 		margin: 0px;
 
+}
+
+.aMessage-animation {
+	animation: popping 1s linear;
 }
 
 
@@ -578,6 +581,7 @@ font-weight: var(--boldWeight);
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
 	padding: 15px 5px 15px 5px;
+	animation: popping 1s linear;
 	
 }
 
@@ -615,6 +619,10 @@ font-weight: var(--boldWeight);
 	align-items: center;
 	height: 2em;
 	color: var(--gray_BLACK);
+}
+
+.timeline-animation {
+	animation: popping 1s linear;
 }
 
 .col-size-small {
@@ -707,4 +715,21 @@ right: 5em;
 
 .cursor-crosshair {
 	cursor: crosshair;
+}
+
+/********************** Animation ****************/
+@keyframes popping{
+	0%{
+		color: #924D86;
+		background-color: #d3617f59;
+		
+	}
+
+	50%{
+		color: #924D86;
+		background-color: #d3617f59;
+	}
+	100%{
+		
+	}
 }

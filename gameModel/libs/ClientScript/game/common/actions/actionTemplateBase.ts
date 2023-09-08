@@ -120,7 +120,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
 
 
   public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return this.checkIfAlreadyUsedAndCouldReplay(state);
+	return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
   public getDescription(): string {
