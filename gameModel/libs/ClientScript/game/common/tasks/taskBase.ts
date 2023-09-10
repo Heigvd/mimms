@@ -170,7 +170,7 @@ export class PreTriTask extends DefaultTask {
   }
 
   public isAvailable(state: MainSimulationState) {
-    return true;
+    return state.areZonesAlreadyDefined();
   }
 
   protected dispatchEvents(state: MainSimulationState): void {
