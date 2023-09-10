@@ -475,13 +475,25 @@
   },
   "/tutorial/Tutorial_1.svg" : {
     "description" : "",
-    "mimeType" : "image/svg+xml",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/tutorial/Tutorial_2.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/tutorial/tutorial_1.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/tutorial/tutorial_2.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   }

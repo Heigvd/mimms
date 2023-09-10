@@ -228,7 +228,9 @@
                         } ],
                         "className" : "resourceGestion-container  ",
                         "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "display" : "none"
+                        },
                         "name" : "aButton - Ambulance",
                         "style" : { }
                       },
@@ -295,7 +297,9 @@
                         } ],
                         "className" : "resourceGestion-container  ",
                         "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "display" : "none"
+                        },
                         "name" : "aButton - Helicopter",
                         "style" : { }
                       },
@@ -420,7 +424,9 @@
                   "type" : "Text"
                 } ],
                 "layout" : { },
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "display" : "none"
+                },
                 "name" : "Ambulance",
                 "style" : { }
               },
@@ -451,7 +457,9 @@
                   "type" : "Text"
                 } ],
                 "layout" : { },
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "display" : "none"
+                },
                 "name" : "Helicopter",
                 "style" : { }
               },
