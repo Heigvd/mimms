@@ -460,7 +460,6 @@
                                         },
                                         "layoutClassName" : "",
                                         "layoutStyle" : {
-                                          "flex-direction" : "flex-end",
                                           "width" : "100%"
                                         },
                                         "style" : { }
