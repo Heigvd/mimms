@@ -39,6 +39,7 @@ export function isMapAction(): boolean {
 export function startMapAction(feature: GeometryType) {
 	logger.info('MAP ACTION: Action initiated');
 	mapState.mapAction = true;
+	APIMethods.runScript(`Variable.find(gameModel, "isMapAction").setValue(self, true)`, {});
 	clearTmpFeature();
 }
 
@@ -47,8 +48,9 @@ export function startMapAction(feature: GeometryType) {
  */
 export function endMapAction() {
 	logger.info('MAP ACTION: Action Cancelled')
-	clearTmpFeature();
 	mapState.mapAction = false;
+	APIMethods.runScript(`Variable.find(gameModel, "isMapAction").setValue(self, false)`, {});
+	clearTmpFeature();
 }
 
 /**

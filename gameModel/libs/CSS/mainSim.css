@@ -447,6 +447,10 @@ background-color: var(--interface_0);
 
 }
 
+.aMessage-animation {
+	animation: popping 1s linear;
+}
+
 
 .radioContent-container{
 	font-size: var(--S_text);
@@ -580,6 +584,7 @@ font-weight: var(--boldWeight);
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
 	padding: 15px 5px 15px 5px;
+	animation: popping 1s linear;
 	
 }
 
@@ -592,11 +597,6 @@ font-weight: var(--boldWeight);
 	background:var(--interface_100);
 	cursor: pointer;
 	
-}
-
-.actor:focus {
-	background: var(--interface_0);
-	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
 }
 
 .actor:focus:hover{
@@ -622,16 +622,27 @@ font-weight: var(--boldWeight);
 	align-items: center;
 	height: 2em;
 	color: var(--gray_BLACK);
-	
 }
 
+.timeline-animation {
+	animation: popping 1s linear;
+}
+
+.col-size-small {
+	display: block;
+	padding: calc(0.5em + -1px) 0.5em 0 0.5em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+}
 
 .timeline-item.current {
 	background:var(--interface_0);
 }
 
 .marker-time {
-	z-index: 1;
+	z-index: 3;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -666,6 +677,7 @@ font-weight: var(--boldWeight);
 	width: 1px;
 	height: 100%;
 	border-right: 3px dashed var(--gray_200);
+	z-index: 2;
 }
 
 .marker-line.current {
@@ -679,7 +691,7 @@ font-weight: var(--boldWeight);
 
 /** NEXT BUTTON **/
 .next-container{
-z-index: 2;
+z-index: 4;
 position: absolute;
 top: -.5em;
 right: 5em;
@@ -706,4 +718,21 @@ overflow: visible;
 
 .cursor-crosshair {
 	cursor: crosshair;
+}
+
+/********************** Animation ****************/
+@keyframes popping{
+	0%{
+		color: #924D86;
+		background-color: #d3617f59;
+		
+	}
+
+	50%{
+		color: #924D86;
+		background-color: #d3617f59;
+	}
+	100%{
+		
+	}
 }

@@ -377,7 +377,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'radio')}</p>`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'notifications')}</p>`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -428,6 +428,15 @@
                                                 "language" : "TypeScript"
                                               }
                                             } ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "aMessage-animation",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { RadioMessage } from \"./game/common/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
@@ -472,7 +481,7 @@
                                         },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-radio')}</p>`",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-notifications')}</p>`",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -514,7 +523,7 @@
                                 "className" : "nextBtn s_button pink",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'next-phase')}</p>`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'time-forward')}</p>`",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "next-container",
@@ -734,7 +743,7 @@
                                   "type" : "FlexList"
                                 } ],
                                 "layoutStyle" : { },
-                                "name" : "Tmp Menu",
+                                "name" : "MenuLayer",
                                 "overlayProps" : {
                                   "offset" : {
                                     "@class" : "Script",
@@ -751,70 +760,14 @@
                               "props" : {
                                 "layerId" : "",
                                 "layerProps" : {
+                                  "opacity" : 0.5,
                                   "zIndex" : 91
                                 },
                                 "layerSource" : {
                                   "dataType" : "GeoJSON",
                                   "source" : {
                                     "@class" : "Script",
-                                    "content" : "import { getMultiPolygonLayer } from \"./gameMap/layers/multiPolygonFeatures\";\ngetMultiPolygonLayer();",
-                                    "language" : "typescript"
-                                  },
-                                  "type" : "VectorLayer",
-                                  "useSpatialIndex" : true
-                                },
-                                "layerStyle" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ "feature", "resolution" ],
-                                  "content" : "import { getMultiPolygonLayerStyle } from \"./gameMap/layers/multiPolygonFeatures\";\ngetMultiPolygonLayerStyle(feature);"
-                                },
-                                "layoutStyle" : { },
-                                "name" : "MultiPolygonLayer",
-                                "style" : { }
-                              },
-                              "type" : "WegasMapVectorLayer"
-                            }, {
-                              "props" : {
-                                "layerId" : "",
-                                "layerProps" : {
-                                  "zIndex" : 91
-                                },
-                                "layerSource" : {
-                                  "dataType" : "GeoJSON",
-                                  "source" : {
-                                    "@class" : "Script",
-                                    "content" : "import { getPolygonLayer } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayer();",
-                                    "language" : "typescript"
-                                  },
-                                  "type" : "VectorLayer",
-                                  "useSpatialIndex" : true
-                                },
-                                "layerStyle" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ "feature", "resolution" ],
-                                  "content" : "import { getPolygonLayerStyle } from \"./gameMap/layers/polygonFeatures\";\ngetPolygonLayerStyle(feature);"
-                                },
-                                "layoutStyle" : { },
-                                "name" : "PolygonLayer",
-                                "style" : { }
-                              },
-                              "type" : "WegasMapVectorLayer"
-                            }, {
-                              "props" : {
-                                "disableIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getPointLayer } from \"./gameMap/layers/pointFeatures\";\ngetPointLayer() === undefined;",
-                                  "language" : "typescript"
-                                },
-                                "layerId" : "",
-                                "layerProps" : {
-                                  "zIndex" : 91
-                                },
-                                "layerSource" : {
-                                  "dataType" : "GeoJSON",
-                                  "source" : {
-                                    "@class" : "Script",
-                                    "content" : "import { getPointLayer } from \"./gameMap/layers/pointFeatures\";\ngetPointLayer();",
+                                    "content" : "import { getUnavailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetUnavailableLayer();",
                                     "language" : "typescript"
                                   },
                                   "sourceProjection" : "EPSG:2056",
@@ -824,10 +777,37 @@
                                 "layerStyle" : {
                                   "@class" : "ScriptCallback",
                                   "args" : [ "feature", "resolution" ],
-                                  "content" : "import { getPointLayerStyle } from \"./gameMap/layers/pointFeatures\";\ngetPointLayerStyle(feature);"
+                                  "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
                                 },
                                 "layoutStyle" : { },
-                                "name" : "PointLayer",
+                                "name" : "UnavailableLayer",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getAvailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetAvailableLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:2056",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "AvailableLayer",
                                 "style" : { }
                               },
                               "type" : "WegasMapVectorLayer"
@@ -948,7 +928,7 @@
                               "className" : "cursor-crosshair",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { isMapAction } from \"./gameMap/main\";\nisMapAction();",
+                                "content" : "Variable.find(gameModel, 'isMapAction').getValue(self);",
                                 "language" : "typescript"
                               }
                             } ],

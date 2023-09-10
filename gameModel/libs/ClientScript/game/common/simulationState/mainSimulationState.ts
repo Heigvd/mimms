@@ -258,6 +258,15 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
+   * @returns True if the zones are defined
+   */
+  public areZonesAlreadyDefined(): boolean {
+    // TODO make it stronger when zones, PMA, PC, ... are more thant just places
+    return this.internalState.mapLocations.filter(loc => loc.name === 'Triage Zone'
+      && (((loc.startTimeSec || 0) + (loc.durationTimeSec || 0)) <= this.simulationTimeSec)).length > 0;
+  }
+
+  /**
    * @returns An array of all radio messages
    */
   public getRadioMessages(): RadioMessage[] {

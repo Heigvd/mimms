@@ -144,6 +144,11 @@
               },
               "type" : "FlexList"
             } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction()",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
