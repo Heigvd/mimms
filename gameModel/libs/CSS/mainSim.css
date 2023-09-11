@@ -467,8 +467,6 @@ background-color: var(--interface_0);
 .aMessage-container{
 	padding-top: 0px;
 	background-color: var(--gray_200);
-	animation: popping 1s linear;
-
 	
 }
 
