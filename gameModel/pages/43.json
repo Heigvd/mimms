@@ -530,7 +530,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\n",
+                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\nHelpers.scrollIntoView('#current-time', {behavior: 'smooth', inline: 'center'})\n",
                                     "language" : "TypeScript"
                                   }
                                 },
