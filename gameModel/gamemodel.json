@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1694434377872,
+  "createdTime" : 1694437690685,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5655,10 +5655,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourcePool",
+    "contentKey" : "game/common/resources/resource",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#99:1Rh8ZA",
+    "refId" : "GameModelContent:#102:f11tnI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/skillsManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#103:vhNUXW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5673,6 +5682,33 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/patientStateAccess",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#106:fCDuI8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/resourceStateAccess",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#104:TCtCQ8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/taskStateAccess",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#105:6vmm4r",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/tasks/taskBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5682,10 +5718,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/tasks/taskHelper",
+    "contentKey" : "game/common/tasks/taskLogic",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#100:WwvaBX",
+    "refId" : "GameModelContent:#101:sHMfxz",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6141,19 +6177,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/resourceFacade",
+    "contentKey" : "UIfacade/resourceTaskFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#100:wpez2S",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/taskFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#101:Sy8cua",
+    "refId" : "GameModelContent:#107:uYuioa",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

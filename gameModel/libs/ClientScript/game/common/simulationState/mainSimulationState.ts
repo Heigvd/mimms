@@ -1,15 +1,14 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { group } from "../../../tools/groupBy";
-import { mainSimStateLogger } from "../../../tools/logger";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, SimDuration, SimTime, TaskId } from "../baseTypes";
+import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
-import { ResourcePool, ResourceType } from "../resources/resourcePool";
-import { TaskBase, TaskStatus } from "../tasks/taskBase";
+import { Resource } from "../resources/resource";
+import { TaskBase } from "../tasks/taskBase";
 
 
 export class MainSimulationState implements IClonable {
@@ -127,129 +126,6 @@ export class MainSimulationState implements IClonable {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
 
-  public getAllTasks(): Readonly<TaskBase>[] {
-    return this.internalState.tasks;
-  }
-
-  /**
-   * @returns All pool resources matching actor id and type
-   */
-  public getResources(actorId: ActorId, type: ResourceType): Readonly<ResourcePool>[] {
-    return this.internalGetResources(actorId, type);
-  }
-
-  public countNbPatientsForPreTri(zone: string): number {
-    if (zone === "A") {
-      return this.internalState.tmp.nbForPreTriZoneA;
-    } else if (zone === "B") {
-      return this.internalState.tmp.nbForPreTriZoneB;
-    }
-
-    return 0;
-  }
-
-  public categorizeOnePatient(zone: string): void {
-    mainSimStateLogger.debug("categorize 1 patient in zone " + zone);
-
-    if (zone === "A") {
-      this.internalState.tmp.nbForPreTriZoneA -= 1;
-      mainSimStateLogger.debug("still " + this.internalState.tmp.nbForPreTriZoneA + " patients to categorize " + zone);
-
-    } else if (zone === "B") {
-      this.internalState.tmp.nbForPreTriZoneB -= 1;
-      mainSimStateLogger.debug("still " +this.internalState.tmp.nbForPreTriZoneB + " patients to categorize " + zone);
-    }
-  }
-
-  /**
-   * Get, but for internal use, return object can be updated
-   *
-   * @returns All pool resources matching actor id and type
-   */
-  private internalGetResources(actorId: ActorId, type: ResourceType): ResourcePool[] {
-    return this.internalState.resources.filter(res => res.ownerId === actorId && res.type === type);
-  }
-
-  public getNbResourcesAvailable(actorId: ActorId, type: ResourceType): number {
-    const allMatching = this.internalGetResources(actorId, type);
-
-    if (allMatching != null && allMatching.length === 1 && allMatching[0] != null) {
-      const matching = allMatching[0];
-      return matching.nbAvailable;
-    }
-
-    return 0;
-  }
-
-  /**
-   * Change the number of resources in the matching resource pool.
-   * <p>
-   * If none, create a resource pool.
-   */
-  public addResources(actorId: ActorId, type: ResourceType, nb: number): void {
-    const allMatching = this.internalGetResources(actorId, type);
-
-    if (allMatching != null && allMatching.length === 1 && allMatching[0] != null) {
-      const matching = allMatching[0];
-      matching.nbAvailable += nb;
-    } else {
-      this.internalState.resources.push(new ResourcePool(actorId, type, nb));
-    }
-  }
-
-  private getTask(taskId: TaskId): TaskBase {
-    const matchingTasks = this.internalState.tasks.filter(ta => ta.Uid === taskId);
-
-    if (matchingTasks.length === 0 || matchingTasks[0] == null) {
-      mainSimStateLogger.error("No task matches id : " + taskId);
-    }
-    if (matchingTasks.length > 1) {
-      mainSimStateLogger.error("There must not be 2 tasks with same id : " + taskId);
-    }
-
-    return matchingTasks[0]!;
-  }
-
-  public getTaskNbCurrentResources(taskId : TaskId): number {
-    const task = this.getTask(taskId);
-
-    return task.getNbCurrentResources();
-  }
-
-  public getTaskNbResourcesStillMissing(taskId : TaskId): number {
-    const task = this.getTask(taskId);
-
-    return task.getNbMaxResources() - task.getNbCurrentResources();
-  }
-
-  public isTaskAlive(taskId: TaskId): boolean {
-    const task = this.getTask(taskId);
-
-    return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
-  }
-
-  public changeTaskAllocation(taskId : TaskId, nb: number): void {
-    const task = this.getTask(taskId);
-
-    task.incrementNbResources(nb);
-  }
-
-  public changeTaskStatus(taskId: TaskId, status: TaskStatus): void {
-    const task = this.getTask(taskId);
-
-    task.setStatus(status);
-  }
-
-  public releaseTaskResources(taskId: TaskId): void {
-    const task = this.getTask(taskId);
-
-    const nbResources = task.getNbCurrentResources();
-    // TODO remove fake forced values as actors[0] and "MEDICAL_STAFF"
-    this.addResources(this.getAllActors()[0]!.Uid, "MEDICAL_STAFF", nbResources);
-
-    task.releaseAllResources();
-  }
-
   /**
    * @returns An array of all map locations
    */
@@ -288,10 +164,7 @@ interface MainStateObject {
   };
   actors : Actor[];
   radioMessages: RadioMessage[];
-  /**
-   * All available resources
-   */
-  resources: ResourcePool[];
+  resources: Resource[];
 }
 
 // experimental to make an object immutable

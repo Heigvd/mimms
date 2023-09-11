@@ -8,14 +8,14 @@ import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { MapFeature, PointFeature, PolygonFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
-import { ResourceType } from "./common/resources/resourcePool";
+import { ResourceKind } from "./common/resources/resource";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
-import { createResourceAllocationLocalEvents } from "./common/tasks/taskHelper";
+import { PreTriageTask } from "./common/tasks/taskBase";
+import * as TaskLogic from "./common/tasks/taskLogic";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -56,8 +56,8 @@ function initMainState(): MainSimulationState {
 	icon: 'mainAccident',
   }
 
-  const testTaskPretriA = new PreTriTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
-  const testTaskPretriB = new PreTriTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+  const testTaskPretriA = new PreTriageTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
+  const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 20;
@@ -111,7 +111,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			],
   	}});
 
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 5, 'ask-reinforcement-feedback');
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -189,8 +189,17 @@ function processEvent(event : FullEvent<TimedEventPayload>){
       }
       break;
     case 'ResourceAllocationEvent': {
-      const newLocalEvents = createResourceAllocationLocalEvents(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
-      newLocalEvents.forEach(lclEvt => localEventManager.queueLocalEvent(lclEvt));
+      const newLocalEvent = TaskLogic.createResourceAllocationLocalEvent(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
+      if (newLocalEvent != null) {
+        localEventManager.queueLocalEvent(newLocalEvent);
+      }
+      break;
+    }
+    case 'ResourceReleaseEvent': {
+      const newLocalEvent = TaskLogic.createResourceReleaseLocalEvent(event as FullEvent<ResourceReleaseEvent>, currentSimulationState);
+      if (newLocalEvent != null) {
+        localEventManager.queueLocalEvent(newLocalEvent);
+      }
       break;
     }
     case 'TimeForwardEvent':{
@@ -226,25 +235,6 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
   }
 }
 
-export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
-  const actor = currentSimulationState.getActorById(actorId);
-  if (actor) {
-    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
-  } else {
-    mainSimLogger.warn('Actor not found. id = ', actorId);
-    return [];
-  }
-}
-
-export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
-  const matchingResources = getCurrentState().getResources(actorId, type);
-
-  let sum = 0;
-  matchingResources.forEach(res => sum += res.nbAvailable);
-
-  return sum;
-}
-
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);
 }
@@ -253,7 +243,7 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 
   const actTemplate = actionTemplates[ref];
   
-  const actor = getCurrentState().getActorById(selectedActor);
+  const actor = currentSimulationState.getActorById(selectedActor);
 
   if(actTemplate && actor){
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
@@ -263,13 +253,28 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
   }
 }
 
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, kind: ResourceKind, nbResources: number): Promise<IManagedResponse | undefined> {
   const globalEvent: ResourceAllocationEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     type: 'ResourceAllocationEvent',
     taskId,
     actorId: selectedActor,
+    kind,
+    nbResources,
+  }
+
+  return await sendEvent(globalEvent);
+}
+
+export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, kind: ResourceKind, nbResources: number): Promise<IManagedResponse | undefined> {
+  const globalEvent: ResourceReleaseEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    type: 'ResourceReleaseEvent',
+    taskId,
+    actorId: selectedActor,
+    kind,
     nbResources,
   }
 

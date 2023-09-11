@@ -23,4 +23,4 @@ export type ActionTemplateId = number;
 
 export type TaskId = number;
 
-export type ResourcePoolId = number;
+export type ResourceId = number;
