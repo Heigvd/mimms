@@ -454,7 +454,7 @@
                                           "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id);",
                                           "language" : "TypeScript"
                                         },
-                                        "itemKey" : "message",
+                                        "itemKey" : "timeStamp",
                                         "layout" : {
                                           "flexDirection" : "column-reverse"
                                         },

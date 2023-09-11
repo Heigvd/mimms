@@ -43,6 +43,11 @@ export function getAllEvents() {
 export function triggerEventLoop() {
 	wlog('RUNNING UPDATE LOOP');
 	mainLogic.runUpdateLoop();
+	// Force scroll after interface rerender
+	setTimeout(() => {
+		Helpers.scrollIntoView('#current-time', {behavior: 'smooth', inline: 'center'})
+		Helpers.scrollIntoView('.aMessage-animation', {behavior: 'smooth', block: 'start'})
+	}, 1);
 }
 
 export function recomputeLocalState() {
