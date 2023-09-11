@@ -10,7 +10,7 @@ basic-info-police-desc	You approach a nearby police car to get some more informa
 basic-info-police-feedback	The policeman warns you that the service roads access would the best choice for and evacuation way	Le policier vous avertit qu'un accès par les routes de services de bus serait l'idéal pour les voie d'accès
 basic-info-firefighter-title	Get firefighter information	Obtenir des informations de pompiers
 basic-info-firefighter-desc	You approach a firefighter to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.
-basic-info-firefighter-feedback	The firefighter informs you that the access to the platforms is forbidden for the moment because of the power transmission lines potential electrocution risk. He asks you where the casualties should be evacuated.  	Un pompier vous informe que l'accès aux quais est interdit pour le moment à cause des lignes à haute tension et des risques d'électrocution. Il vous demande où les blessés devraient évacués. 
+basic-info-firefighter-feedback	The firefighter informs you that the access to the platforms is forbidden for the moment because of the power transmission lines potential electrocution risk. He asks you where the casualties should be evacuated.  	Un pompier vous informe que l'accès aux quais est interdit pour le moment à cause des lignes à haute tension et des risques d'électrocution. Il vous demande où les blessés devraient être évacués. 
 define-PC-title	Define command post location	Placer le poste de commandement
 define-PC-desc	Pick a position on the map for your command post	Définir l'emplacement du poste de commandement sur la carte
 define-PC-feedback	The command post is now ready	Le post de commandement est maintenant prêt
@@ -20,8 +20,8 @@ define-Nest-feedback	The survivor reception center is now defined	Le nid de bles
 define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
 define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt a être installé
-define-sectors-title	You define the different sectors of the incident site in readiness for prétriage	Vous sectorisez les zones du chantier en vue du pré-triage
-define-sectors-desc	Define sectors of the incident on the map	Définir différents secteurs de l'incident en vue de pré-trier
+define-sectors-title	Define sectors of the incident on the map	Définir différents secteurs de l'incident en vue de pré-trier
+define-sectors-desc	You define the different sectors of the incident site in readiness for prétriage	Vous sectorisez les zones du chantier en vue du pré-triage
 define-sectors-feedback	You successfully defined sectors of the incident. New pré-tri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
 methane-title	Send METHANE	Envoi METHANE
 methane-desc	Send a METHANE radio message to emergency 	Envoyer un message METHANE à CASU
