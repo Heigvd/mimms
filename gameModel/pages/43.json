@@ -399,7 +399,7 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.item.emitter;",
+                                                  "content" : "const unUsed = Context.item.emitter;\nreturn",
                                                   "language" : "TypeScript"
                                                 }
                                               },
