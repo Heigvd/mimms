@@ -7,7 +7,7 @@ import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
-import { ResourcePool } from "../resources/resourcePool";
+import { Resource } from "../resources/resource";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -155,10 +155,7 @@ interface MainStateObject {
   };
   actors : Actor[];
   radioMessages: RadioMessage[];
-  /**
-   * All available resources
-   */
-  resources: ResourcePool[];
+  resources: Resource[];
 }
 
 // experimental to make an object immutable

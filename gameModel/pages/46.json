@@ -100,7 +100,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, uid, \"MEDICAL_STAFF\", -1);",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { releaseResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nreleaseResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -123,7 +123,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"\" + Context.item.nbCurrentResources;",
+                                  "content" : "import { countAllocatedResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAllocatedResources(Context.item.Uid, 'ambulancier');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -150,7 +150,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/taskFacade\";\n\nconst uid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, uid, \"MEDICAL_STAFF\", 1);",
+                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -336,7 +336,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableTasks } from \"./UIfacade/taskFacade\";\ngetAvailableTasks(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(Variable.find(gameModel, 'currentActorUid').getValue(self));",
           "language" : "TypeScript"
         },
         "itemKey" : "Uid",
@@ -382,7 +382,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { countAvailableMedicalStaff } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableMedicalStaff(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), 'ambulancier');",
                       "language" : "TypeScript"
                     }
                   },
@@ -413,7 +413,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { countAvailableAmbulances } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableAmbulances(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+                      "content" : "\"0\";",
                       "language" : "TypeScript"
                     }
                   },
@@ -444,7 +444,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { countAvailableHelicopters } from \"./UIfacade/resourceFacade\";\n\"\" + countAvailableHelicopters(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+                      "content" : "\"0\";",
                       "language" : "TypeScript"
                     }
                   },

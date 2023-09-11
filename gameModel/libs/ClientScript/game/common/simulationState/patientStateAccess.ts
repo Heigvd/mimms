@@ -1,7 +1,13 @@
 import { MainSimulationState } from "./mainSimulationState";
 import { mainSimStateLogger } from "../../../tools/logger";
 
-export function countNbPatientsForPreTri(state: MainSimulationState, zone: string): number {
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// get read only data
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export function countNbPatientsForPreTriage(state: Readonly<MainSimulationState>, zone: string): number {
   const internalState = state.getInternalStateObject();
 
   if (zone === "A") {
@@ -12,6 +18,13 @@ export function countNbPatientsForPreTri(state: MainSimulationState, zone: strin
 
   return 0;
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// change the world
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 export function categorizeOnePatient(state: MainSimulationState, zone: string): void {
   mainSimStateLogger.debug("categorize 1 patient in zone " + zone);

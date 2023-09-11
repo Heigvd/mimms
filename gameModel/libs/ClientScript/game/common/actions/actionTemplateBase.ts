@@ -7,8 +7,8 @@ import { ActionBase, AskReinforcementAction, DefineMapObjectAction, MethaneActio
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
-import { ResourceType } from "../resources/resourcePool";
 import { getTranslation } from "../../../tools/translation";
+import { ResourceKind } from "../resources/resource";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -42,7 +42,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
    */
-  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: UserInput): EventT;
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
 
   /**
    * Determines if the action can be launched given the current state of the game and the actor being played
@@ -50,7 +50,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param actor currently selected actor
    * @returns true if the player can trigger this action
    */
-  public abstract isAvailable(state : MainSimulationState, actor : Actor): boolean;
+  public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
 
   /**
    * @returns A translation to a short description of the action
@@ -79,7 +79,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
-  protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
+  protected checkIfAlreadyUsedAndCouldReplay(state: Readonly<MainSimulationState>): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
     return action == undefined ? true : this.replayable;
   }
@@ -107,7 +107,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : StandardActionEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>) : StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
@@ -119,7 +119,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
   }
 
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
@@ -154,14 +154,14 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
     return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Actor, params: unknown): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: unknown): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
     }
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
   
@@ -197,7 +197,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     super(title, description);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: featurePayload): DefineMapObjectEvent {
     
   const feature = {
     geometryType: this.featureDescription.geometryType,
@@ -224,7 +224,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.feedback, event.id, ownerId, payload.feature, this.Uid);
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
@@ -251,7 +251,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     title: TranslationKey,
     description: TranslationKey,
     readonly duration: SimDuration,
-    readonly resourceType: ResourceType,
+    readonly resourceKind: ResourceKind,
     readonly nb : number,
     readonly message: TranslationKey,
   ) {
@@ -270,11 +270,11 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
@@ -286,7 +286,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceType, this.nb, this.message, this.Uid);
+      this.resourceKind, this.nb, this.message, this.Uid);
   }
 
   public planActionEventOnFirstClick(): boolean {
