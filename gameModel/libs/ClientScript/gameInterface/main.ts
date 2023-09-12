@@ -107,7 +107,43 @@ export function actionClickHandler (id: number, featureType: GeometryType) {
 	} else {
 		showModal()
 	}
+}
 
+/**
+ * Return Date object with start time
+ */
+export function getStartTime(): Date {
+	// const hours = Variable.find(gameModel, 'startHours').getValue(self);
+	// const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+	// Hardcoded in demo
+	const hours = 16;
+	const minutes = 0;
+
+	const dateTime = new Date();
+	dateTime.setHours(hours);
+	dateTime.setMinutes(minutes);
+
+	return dateTime;
+}
+
+/**
+ * Get notification time in HH:MM format
+ */
+export function getNotificationTime(notificationTime: number) {
+	const startTime = getStartTime();
+	startTime.setSeconds(notificationTime + startTime.getSeconds());
+
+	return formatTime(startTime);
+}
+
+/**
+ * Return given time in HH:MM format
+ */
+export function formatTime(dateTime: Date) {
+	let splitted = dateTime.toLocaleString().split(' ')[1].split(':').splice(0, 2);
+	let result = splitted.join(':');
+
+	return result;
 }
 
 

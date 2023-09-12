@@ -610,6 +610,7 @@ font-weight: var(--boldWeight);
 /** TIMELINE ITEM **/
 .timeline-grid {
 	row-gap: 15px;
+	padding: 0 10px 5px 10px;
 }
 
 .timeline-item {
@@ -676,11 +677,11 @@ font-weight: var(--boldWeight);
 	width: 1px;
 	height: 100%;
 	border-right: 3px dashed var(--gray_200);
-	z-index: 2;
 }
 
 .marker-line.current {
 	border-right: 3px solid var(--interface_BLUE);
+	z-index: 2;
 }
 
 .display {
