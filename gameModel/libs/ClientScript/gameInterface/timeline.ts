@@ -23,8 +23,11 @@ interface Timeline {
  * Return Date object with start time
  */
 function getStartTime() {
-	const hours = Variable.find(gameModel, 'startHours').getValue(self);
-	const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+	// const hours = Variable.find(gameModel, 'startHours').getValue(self);
+	// const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+	// Hardcoded in demo
+	const hours = 16;
+	const minutes = 0;
 
 	const dateTime = new Date();
 	dateTime.setHours(hours);
