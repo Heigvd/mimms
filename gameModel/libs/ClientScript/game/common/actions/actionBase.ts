@@ -185,11 +185,11 @@ export class OnTheRoadAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event OnTheRoadgAction');
+    this.logger.info('start event OnTheRoadAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event OnTheRoadgAction');
+    this.logger.info('end event OnTheRoadAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
