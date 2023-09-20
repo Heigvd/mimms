@@ -78,11 +78,24 @@ export abstract class StartEndAction extends ActionBase {
    * Translation key for the name of the action (displayed in the timeline)
    */
   public readonly actionNameKey: TranslationKey;
+  /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId,actionNameKey: TranslationKey, ownerId: ActorId, uuidTemplate: ActionTemplateId){
+  public constructor(
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    evtId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey, 
+    ownerId: ActorId, 
+    uuidTemplate: ActionTemplateId
+  ){
     super(startTimeSec, evtId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
-	  this.actionNameKey = actionNameKey
+	  this.actionNameKey = actionNameKey;
+    this.messageKey = messageKey;
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -126,11 +139,6 @@ export abstract class StartEndAction extends ActionBase {
 
 export class GetInformationAction extends StartEndAction {
 
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-
   constructor (
 	  startTimeSec: SimTime,
 	  durationSeconds: SimDuration,
@@ -140,8 +148,7 @@ export class GetInformationAction extends StartEndAction {
 	  ownerId: ActorId,
 	  uuidTemplate: ActionTemplateId
 	  ){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -164,11 +171,6 @@ export class GetInformationAction extends StartEndAction {
 
 export class OnTheRoadAction extends StartEndAction {
 
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-
   constructor (
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -178,8 +180,7 @@ export class OnTheRoadAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -193,7 +194,7 @@ export class OnTheRoadAction extends StartEndAction {
   }
 
   override clone(): this {
-    const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
+    const clone = new OnTheRoadAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
@@ -202,14 +203,16 @@ export class OnTheRoadAction extends StartEndAction {
 
 export class MethaneAction extends StartEndAction {
 
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId, uuidTemplate: ActionTemplateId){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+  constructor (
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    messageKey: TranslationKey, 
+    actionNameKey: TranslationKey, 
+    evtId: GlobalEventId, 
+    ownerId: ActorId, 
+    uuidTemplate: ActionTemplateId
+  ){
+    super(startTimeSec, durationSeconds, evtId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -234,10 +237,6 @@ export class MethaneAction extends StartEndAction {
 export class DefineMapObjectAction extends StartEndAction {
 
   /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-  /**
    * Map feature to be displayed
   */
   public readonly feature: MapFeature;
@@ -252,8 +251,7 @@ export class DefineMapObjectAction extends StartEndAction {
     feature: MapFeature,
     uuidTemplate: ActionTemplateId
   ) { 
-      super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-      this.messageKey = messageKey;
+      super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
       this.feature = feature;
 	    this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
@@ -293,7 +291,6 @@ export class AskReinforcementAction extends StartEndAction {
   public readonly type: ResourceType;
   public readonly nb: number;
 
-  public readonly feedbackAtEnd: TranslationKey;
 
   constructor(startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -302,13 +299,12 @@ export class AskReinforcementAction extends StartEndAction {
     ownerId: ActorId,
     type: ResourceType,
     nb: number,
-    feedbackAtEnd: TranslationKey,
+    messageKey: TranslationKey,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.type = type;
     this.nb = nb;
-    this.feedbackAtEnd = feedbackAtEnd;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -319,11 +315,21 @@ export class AskReinforcementAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AskReinforcementAction');
     localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
   }
 
   override clone(): this { 
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.type, this.nb, this.feedbackAtEnd, this.templateId);
+    const clone = new AskReinforcementAction(
+      this.startTime, 
+      this.durationSec, 
+      this.actionNameKey, 
+      this.eventId, 
+      this.ownerId, 
+      this.type, 
+      this.nb, 
+      this.messageKey, 
+      this.templateId
+    );
     clone.status = this.status;
     return clone as this;
   }
