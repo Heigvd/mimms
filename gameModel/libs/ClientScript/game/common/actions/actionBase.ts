@@ -162,7 +162,7 @@ export class GetInformationAction extends StartEndAction {
 
 }
 
-export class OnTheRoadgAction extends StartEndAction {
+export class OnTheRoadAction extends StartEndAction {
 
   /**
    * Translation key to the message received at the end of the action
