@@ -1,6 +1,5 @@
 import { parse } from "../../../tools/WegasHelper";
 import { GlobalEventId, SimTime } from "../baseTypes";
-import { initEmitterIds } from "./baseEvent";
 import { EventPayload, TimedEventPayload } from "./eventTypes";
 
 

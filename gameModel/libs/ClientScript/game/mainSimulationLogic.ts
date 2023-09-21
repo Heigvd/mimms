@@ -7,7 +7,7 @@ import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
-import { MapFeature, PointFeature, PolygonFeature } from "./common/events/defineMapObjectEvent";
+import { PointFeature } from "./common/events/defineMapObjectEvent";
 import { ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
