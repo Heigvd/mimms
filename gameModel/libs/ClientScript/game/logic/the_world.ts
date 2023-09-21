@@ -568,49 +568,6 @@ function findNextTargetedEvent(
 	return futureEvents.sort(compareEvent)[0];
 }
 
-/**
- * Compute spatial index at given type
- */
-/*function computeSpatialIndex(objectList: ObjectId[], time: number): PositionState {
-	const spatialIndex: PositionState = {};
-
-	const allEvents = getAllEvents();
-	const events = filterOutFutureEvents(allEvents, time);
-	const mappedEvent = mapLastLocationEventByObject(events);
-
-	worldLogger.debug('Most recent location event', { mappedEvent });
-
-	objectList.forEach(obj => {
-		worldLogger.debug('Compute Location', { obj });
-		const key = getObjectKey(obj);
-		const event = mappedEvent[key];
-		if (event != null) {
-			if (event.payload.type === 'Teleport') {
-				// object is static on this position
-				event.payload.location;
-				spatialIndex[key] = {
-					objectType: obj.objectType,
-					objectId: obj.objectId,
-					time: time,
-					location: event.payload.location,
-					direction: undefined,
-				};
-			}
-			if (event.payload.type === 'FollowPath') {
-				// object is moving
-				spatialIndex[key] = {
-					objectType: obj.objectType,
-					objectId: obj.objectId,
-					time: event.time,
-					location: event.payload.from,
-					direction: event.payload.destination,
-				};
-			}
-		}
-	});
-	return spatialIndex;
-}*/
-
 function initHuman(humanId: string): HumanState {
 	const env = getEnv();
 	const bodyParam = getBodyParam(humanId);
