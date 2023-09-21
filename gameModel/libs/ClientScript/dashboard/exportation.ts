@@ -128,7 +128,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	 */
 
 	const separator = '\t';
-	let header : string[] = ['playerId', 'system_name'];
+	let header : string[] = ['playerId', 'playerName', 'system_name'];
 
 	const treatmentColumns = ['type', 'status', 'startTime', 'duration', 'blocks'];
 	const measureColumns = ['type', 'status', 'startTime', 'duration', 'result'];
@@ -170,11 +170,20 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function appendHeader(patientId : PatientId, ...params: string []){
 		header.push([patientId, ...params].join('_'));
 	}
-	
+
+	// build pid to player name map
+	const players = await APIMethods.runScript(`MimmsHelper.getPlayers()`, {});
+	const playerNames : Record<string, string>= {};
+
+	players.updatedEntities.forEach((v: any) => {
+		playerNames[v.id] = v.name;
+	});
+
 	Object.keys(playersAutoCat).forEach((pid) => {
 
 		lines[pid] = [];
 		lines[pid].push(pid);
+		lines[pid].push(playerNames[pid]);
 		lines[pid].push(systemName);
 		sortedPatientIds.forEach((patId: PatientId) => {
 			addPatientData(pid, patId);

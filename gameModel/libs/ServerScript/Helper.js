@@ -25,10 +25,15 @@ var MimmsHelper = ((function () {
 		}
 	}
 
+	function getPlayers() {
+		return self.getGame().getPlayers();
+	}
+
 	return {
 		isDrillMode: isDrillMode,
 		getDrillType: getDrillType,
 		isRealLifeGame: isRealLifeGame,
 		shouldRunScenarioOnFirstStart: shouldRunScenarioOnFirstStart,
+		getPlayers: getPlayers
 	}
 })());
