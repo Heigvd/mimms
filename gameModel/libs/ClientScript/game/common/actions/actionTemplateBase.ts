@@ -252,7 +252,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     description: TranslationKey,
     readonly duration: SimDuration,
     readonly resourceType: ResourceType,
-    readonly nb : number,
+    readonly resourceQuantity : number,
     readonly message: TranslationKey,
   ) {
     super(title, description);
@@ -286,7 +286,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceType, this.nb, this.message, this.Uid);
+      this.resourceType, this.resourceQuantity, this.message, this.Uid);
   }
 
   public planActionEventOnFirstClick(): boolean {

@@ -86,13 +86,13 @@ export abstract class StartEndAction extends ActionBase {
   public constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration, 
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     ownerId: ActorId, 
     uuidTemplate: ActionTemplateId
   ){
-    super(startTimeSec, evtId, ownerId, uuidTemplate);
+    super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
 	  this.actionNameKey = actionNameKey;
     this.messageKey = messageKey;
@@ -144,11 +144,11 @@ export class GetInformationAction extends StartEndAction {
 	  durationSeconds: SimDuration,
 	  messageKey: TranslationKey,
 	  actionNameKey: TranslationKey,
-	  evtId: GlobalEventId,
+	  eventId: GlobalEventId,
 	  ownerId: ActorId,
 	  uuidTemplate: ActionTemplateId
 	  ){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -176,11 +176,11 @@ export class OnTheRoadAction extends StartEndAction {
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
     actionNameKey: TranslationKey,
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -208,11 +208,11 @@ export class MethaneAction extends StartEndAction {
     durationSeconds: SimDuration, 
     messageKey: TranslationKey, 
     actionNameKey: TranslationKey, 
-    evtId: GlobalEventId, 
+    eventId: GlobalEventId, 
     ownerId: ActorId, 
     uuidTemplate: ActionTemplateId
   ){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey,messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -246,12 +246,12 @@ export class DefineMapObjectAction extends StartEndAction {
     durationSeconds: SimDuration,
 	  actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
     uuidTemplate: ActionTemplateId
   ) { 
-      super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
+      super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
       this.feature = feature;
 	    this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
@@ -289,22 +289,22 @@ export class DefineMapObjectAction extends StartEndAction {
 
 export class AskReinforcementAction extends StartEndAction {
   public readonly type: ResourceType;
-  public readonly nb: number;
+  public readonly resourceQuantity: number;
 
 
   constructor(startTimeSec: SimTime,
     durationSeconds: SimDuration,
     actionNameKey: TranslationKey,
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     type: ResourceType,
-    nb: number,
+    resourceQuantity: number,
     messageKey: TranslationKey,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.type = type;
-    this.nb = nb;
+    this.resourceQuantity = resourceQuantity;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -314,7 +314,7 @@ export class AskReinforcementAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AskReinforcementAction');
-    localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.nb));
+    localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.resourceQuantity));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
   }
 
@@ -326,7 +326,7 @@ export class AskReinforcementAction extends StartEndAction {
       this.eventId, 
       this.ownerId, 
       this.type, 
-      this.nb, 
+      this.resourceQuantity, 
       this.messageKey, 
       this.templateId
     );
