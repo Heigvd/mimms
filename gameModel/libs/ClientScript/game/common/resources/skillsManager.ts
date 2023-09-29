@@ -15,9 +15,10 @@ import { Resource } from "./resource";
 export type SkillLevel = 'no_skill' | 'low_skill' | 'high_skill';
 
 export function getSkillForPretriage(resource: Resource): SkillLevel {
-  switch (resource.kind) {
+  switch (resource.type) {
     case "technicienAmbulancier":
     case "ambulancier":
+    case "infirmier":
     case "medecinJunior":
     case "medecinSenior":
       return 'high_skill';
@@ -29,8 +30,9 @@ export function getSkillForPretriage(resource: Resource): SkillLevel {
 }
 
 export function getSkillForTriage(resource: Resource): SkillLevel {
-  switch (resource.kind) {
+  switch (resource.type) {
     case "ambulancier":
+    case "infirmier":
     case "medecinJunior":
     case "medecinSenior":
       return 'high_skill';
@@ -44,9 +46,10 @@ export function getSkillForTriage(resource: Resource): SkillLevel {
 }
 
 export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
-  switch (resource.kind) {
+  switch (resource.type) {
     case "technicienAmbulancier":
     case "ambulancier":
+    case "infirmier":
       return 'high_skill';
     case "secouriste":
     case "medecinJunior":
@@ -58,10 +61,11 @@ export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
 }
 
 // export function getSkillXXX(resource: Resource): SkillLevel {
-//   switch (resource.kind) {
+//   switch (resource.type) {
 //     case "secouriste":
 //     case "technicienAmbulancier":
 //     case "ambulancier":
+//     case "infirmier":
 //     case "medecinJunior":
 //     case "medecinSenior":
 //     case "ambulance":

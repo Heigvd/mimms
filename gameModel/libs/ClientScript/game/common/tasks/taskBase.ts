@@ -47,13 +47,13 @@ export abstract class TaskBase implements IClonable {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  // TODO to be refined with kinds
+  // TODO to be refined with types
   /** The minimum resources needed for the task to be performed */
   public getNbMinResources(): number {
     return this.nbMinResources;
   }
 
-  // TODO to be refined with kinds
+  // TODO to be refined with types
   /** The maximum useful resources. More would be useless */
   public getNbMaxResources(): number {
     return this.nbMaxResources;

@@ -1,9 +1,9 @@
 import { mainSimStateLogger, taskLogger } from "../../../tools/logger";
 import { ActorId, TaskId } from "../baseTypes";
-import { ResourceKind } from "../resources/resource";
 import { TaskBase, TaskStatus } from "../tasks/taskBase";
 import { MainSimulationState } from "./mainSimulationState";
 import * as ResourceState from "./resourceStateAccess";
+import { ResourceType } from '../resources/resourceType';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -47,10 +47,10 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
 /**
  * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
  */
-export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, kind: ResourceKind): number {
+export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
   const task = internallyGetTask(state, taskId);
 
-  // TODO pro kind
+  // TODO pro type
 
   return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
 }
@@ -59,7 +59,7 @@ export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationS
  * @returns Whether the allocated resources are enough to perform the task
  */
 export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
-  // TODO for each kind
+  // TODO for each type
   return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources();
 }
 

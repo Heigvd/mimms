@@ -8,7 +8,7 @@ import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceKind } from "../resources/resource";
+import { ResourceType } from '../resources/resourceType';
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -251,7 +251,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     title: TranslationKey,
     description: TranslationKey,
     readonly duration: SimDuration,
-    readonly resourceKind: ResourceKind,
+    readonly resourceType: ResourceType,
     readonly nb : number,
     readonly message: TranslationKey,
   ) {
@@ -286,7 +286,7 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceKind, this.nb, this.message, this.Uid);
+      this.resourceType, this.nb, this.message, this.Uid);
   }
 
   public planActionEventOnFirstClick(): boolean {

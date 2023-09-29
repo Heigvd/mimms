@@ -1,7 +1,8 @@
-import { taskLogger } from "../../../tools/logger";
-import { ActorId, TaskId } from "../baseTypes";
-import { Resource, ResourceKind, HumanResourceKindArray } from "../resources/resource";
-import { MainSimulationState } from "./mainSimulationState";
+import { taskLogger } from '../../../tools/logger';
+import { ActorId, TaskId } from '../baseTypes';
+import { Resource } from '../resources/resource';
+import { MainSimulationState } from './mainSimulationState';
+import { ResourceType } from '../resources/resourceType';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -10,14 +11,14 @@ import { MainSimulationState } from "./mainSimulationState";
 // -------------------------------------------------------------------------------------------------
 
 /**
- * @returns The number of resources that are currently without activity, owned by the given actor and of the given kind
+ * @returns The number of resources that are currently without activity, owned by the given actor and of the given type
  */
-export function getResourcesAvailable(state: Readonly<MainSimulationState>, actorId: ActorId, kind: ResourceKind): Resource[] {
+export function getResourcesAvailable(state: Readonly<MainSimulationState>, actorId: ActorId, resourceType: ResourceType): Resource[] {
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res =>
     res.ownerId === actorId
-    && res.kind === kind
+    && res.type === resourceType
     && res.currentActivity == null);
 }
 
@@ -34,47 +35,47 @@ export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>
 /**
  * @returns The number of resources allocated to the given task
  */
-export function getResourcesAllocatedToTaskOfKind(state: Readonly<MainSimulationState>, taskId : TaskId, kind: ResourceKind): Resource[] {
+export function getResourcesAllocatedToTaskOfType(state: Readonly<MainSimulationState>, taskId : TaskId, resourceType: ResourceType): Resource[] {
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res => 
     res.currentActivity === taskId
-  && res.kind === kind);
+  && res.type === resourceType);
 }
 
 /**
- * @returns The number of resources allocated to the given task, owner by the given actor and of the given kind
+ * @returns The number of resources allocated to the given task, owner by the given actor and of the given type
  */
 export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulationState>, taskId: TaskId,
-  actorId: ActorId, kind: ResourceKind): Resource[] {
+  actorId: ActorId, resourceType: ResourceType): Resource[] {
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res => 
     res.currentActivity === taskId
     && res.ownerId === actorId
-    && res.kind === kind);
+    && res.type === resourceType);
 }
 
 /**
  * @returns The resources of the given kind, owned by the given actor and without current activity
  */
-export function getAvailableResources(state: Readonly<MainSimulationState>, actorId: ActorId, kind: ResourceKind): Readonly<Resource>[] {
+export function getAvailableResources(state: Readonly<MainSimulationState>, actorId: ActorId, type: ResourceType): Readonly<Resource>[] {
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res =>
     res.ownerId === actorId
-    && res.kind === kind
+    && res.type === type
     && res.currentActivity == null);
 }
 
 /**
  * @returns The resources of the given kind and allocated to the given task
  */
-export function getAllocatedResources(state: Readonly<MainSimulationState>, taskId: TaskId, kind: ResourceKind): Readonly<Resource>[] {
+export function getAllocatedResources(state: Readonly<MainSimulationState>, taskId: TaskId, resourceType: ResourceType): Readonly<Resource>[] {
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res =>
-    res.kind === kind
+    res.type === resourceType
     && res.currentActivity === taskId);
 }
 
@@ -87,23 +88,23 @@ export function getAllocatedResources(state: Readonly<MainSimulationState>, task
 /**
  * Add resources to an actor.
  */
-export function addIncomingResourcesToActor(state: MainSimulationState, actorId: ActorId, kind: ResourceKind, nb: number): void {
+export function addIncomingResourcesToActor(state: MainSimulationState, actorId: ActorId, resourceType: ResourceType, nb: number): void {
   const internalState = state.getInternalStateObject();
 
   for (let i = 0; i < nb; i++) {
-    internalState.resources.push(new Resource(kind, actorId));
+    internalState.resources.push(new Resource(resourceType, actorId));
   }
 }
 
 /**
  * Allocate resources to a task.
  */
-export function allocateResourcesToTask(state: MainSimulationState, taskId : TaskId, actorId: ActorId, kind: ResourceKind, nb: number): void {
+export function allocateResourcesToTask(state: MainSimulationState, taskId : TaskId, actorId: ActorId, resourceType: ResourceType, nb: number): void {
 
-  const available = getResourcesAvailable(state, actorId, kind);
+  const available = getResourcesAvailable(state, actorId, resourceType);
 
   if (available.length < nb) {
-    taskLogger.error("try to allocate too many resources (" + nb + ") of kind " + kind
+    taskLogger.error("try to allocate too many resources (" + nb + ") of type " + resourceType
       + " for task " + taskId + " and actor " + actorId);
     return;
   }
@@ -116,11 +117,11 @@ export function allocateResourcesToTask(state: MainSimulationState, taskId : Tas
 /**
  * Release (deallocate) resources from a task.
  */
-export function releaseResourcesFromTask(state: MainSimulationState, taskId: TaskId, actorId: ActorId, kind: ResourceKind, nb: number): void {
-  const atDisposal = getResourcesAllocatedToTaskForActor(state, taskId, actorId, kind);
+export function releaseResourcesFromTask(state: MainSimulationState, taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nb: number): void {
+  const atDisposal = getResourcesAllocatedToTaskForActor(state, taskId, actorId, resourceType);
 
   if (atDisposal.length < nb) {
-    taskLogger.error("try to release too many resources (" + nb + ") of kind " + kind
+    taskLogger.error("try to release too many resources (" + nb + ") of type " + resourceType
       + " of task " + taskId + " for actor " + actorId);
     return;
   }

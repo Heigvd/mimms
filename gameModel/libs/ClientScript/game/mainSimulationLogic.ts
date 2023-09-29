@@ -12,10 +12,11 @@ import { ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, Tim
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
-import { ResourceKind } from "./common/resources/resource";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 import { PreTriageTask } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
+import { ResourceType } from './common/resources/resourceType';
+import { Resource } from './common/resources/resource';
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -59,6 +60,29 @@ function initMainState(): MainSimulationState {
   const testTaskPretriA = new PreTriageTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
   const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
+	const initialResources = [
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinSenior', testAL.Uid),];
+
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 20;
 
@@ -73,7 +97,7 @@ function initMainState(): MainSimulationState {
     },
     tasks: [testTaskPretriA, testTaskPretriB],
     radioMessages: [],
-    resources: [],
+    resources: initialResources,
   }, 0, 0);
 
 }
@@ -253,28 +277,28 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
   }
 }
 
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, kind: ResourceKind, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, resourceType : ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
   const globalEvent: ResourceAllocationEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     type: 'ResourceAllocationEvent',
     taskId,
     actorId: selectedActor,
-    kind,
+    resourceType,
     nbResources,
   }
 
   return await sendEvent(globalEvent);
 }
 
-export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, kind: ResourceKind, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
   const globalEvent: ResourceReleaseEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     type: 'ResourceReleaseEvent',
     taskId,
     actorId: selectedActor,
-    kind,
+    resourceType,
     nbResources,
   }
 

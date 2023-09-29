@@ -1,4 +1,5 @@
-import { ActorId, ResourceId, TaskId } from "../baseTypes";
+import { ActorId, ResourceId, TaskId } from '../baseTypes';
+import { ResourceType } from './resourceType';
 
 /**
  * A resource is someone / something at disposal of actors to perform tasks.
@@ -12,7 +13,7 @@ export class Resource {
   public readonly Uid: ResourceId;
 
   /** What is it for a resource (fixed through time) */
-  public readonly kind: ResourceKind;
+  public readonly type: ResourceType;
 
   /** The actor who manage this resource */
   public ownerId: ActorId;
@@ -23,9 +24,9 @@ export class Resource {
   /** Where is the resource currently */
   // public currentLocation;
 
-  constructor(kind: Resource['kind'], ownerId: Resource['ownerId'],
-    currentActivity?: Resource['currentActivity']) {
-    this.kind = kind;
+  constructor(type: Resource['type'], ownerId: Resource['ownerId'],
+              currentActivity?: Resource['currentActivity']) {
+    this.type = type;
     this.ownerId = ownerId;
     this.currentActivity = currentActivity ?? null;
 
@@ -33,13 +34,3 @@ export class Resource {
   }
 }
 
-/**
- * The resources are splitted into several kinds 
- * which determines the ability of the resource to perform a task.
- */
-export type ResourceKind = HumanResourceKind | VehicleKind;
-
-export const HumanResourceKindArray = ['secouriste', 'technicienAmbulancier', 'ambulancier', 'medecinJunior', 'medecinSenior'];
-export type HumanResourceKind = 'secouriste' | 'technicienAmbulancier' | 'ambulancier' | 'medecinJunior' | 'medecinSenior';
-
-export type VehicleKind = 'ambulance' | 'helicopter';

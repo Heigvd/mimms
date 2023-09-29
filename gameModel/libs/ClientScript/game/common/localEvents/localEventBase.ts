@@ -5,12 +5,12 @@ import { Actor } from "../actors/actor";
 import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
-import { ResourceKind } from "../resources/resource";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
+import { ResourceType } from '../resources/resourceType';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -220,13 +220,13 @@ export class IncomingResourcesLocalEvent extends LocalEventBase {
   constructor(parentId: GlobalEventId,
     timeStamp: SimTime,
     public readonly actorId: ActorId,
-    public readonly kind: ResourceKind,
+    public readonly resourceType: ResourceType,
     public readonly nb: number) {
       super(parentId, 'IncomingResourcesLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.addIncomingResourcesToActor(state, this.actorId, this.kind, this.nb);
+    ResourceState.addIncomingResourcesToActor(state, this.actorId, this.resourceType, this.nb);
   }
 
 }
@@ -240,13 +240,13 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly taskId: TaskId,
     readonly actorId: ActorId,
-    readonly kind: ResourceKind,
+    readonly resourceType: ResourceType,
     readonly nb: number) {
     super(parentEventId, 'ResourcesAllocationLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.kind, this.nb);
+    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
   }
 
 }
@@ -260,13 +260,13 @@ export class ResourcesReleaseLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly taskId: TaskId,
     readonly actorId: ActorId,
-    readonly kind: ResourceKind,
+    readonly resourceType: ResourceType,
     readonly nb: number) {
     super(parentEventId, 'ResourcesReleaseLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.releaseResourcesFromTask(state, this.taskId, this.actorId, this.kind, this.nb);
+    ResourceState.releaseResourcesFromTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
   }
 
 }
