@@ -1,4 +1,4 @@
-import { ActionId, ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
@@ -18,10 +18,6 @@ export abstract class ActionBase implements IClonable{
 
   protected readonly logger = ActionBase.slogger;
 
-  private static IdSeed = 1000;
-
-  public readonly Uid: ActionId;
-
   protected status : ActionStatus;
 
   protected readonly templateId;
@@ -32,7 +28,6 @@ export abstract class ActionBase implements IClonable{
     public readonly ownerId: ActorId,
     protected readonly uuidTemplate: ActionTemplateId = -1)
   {
-    this.Uid = ActionBase.IdSeed++;
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }

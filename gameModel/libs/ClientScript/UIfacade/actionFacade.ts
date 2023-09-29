@@ -6,9 +6,9 @@
 
 import { ActionBase } from "../game/common/actions/actionBase";
 import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActorId, TemplateRef } from "../game/common/baseTypes";
+import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
-import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
+import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../gameInterface/main";
 import { getMapState } from "../gameMap/main";
 import { getAllActionTemplates } from "../UIfacade/debugFacade";
@@ -25,6 +25,17 @@ const logger = Helpers.getLogger('mainSim-interface');
 export async function planAction(actionTemplateId: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
   const tmpFeature = getMapState().tmpFeature;
   return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, tmpFeature);
+}
+
+// TODO Maybe ensure only owning actor can cancel actions
+/**
+ * 
+ * @param actionId The action to cancel
+ * @param selectedActor The actor that cancels the action
+ * @returns 
+ */
+export async function cancelAction(templateId: TemplateId, selectedActor: ActorId): Promise<IManagedResponse | undefined> {
+	return await buildAndLaunchActionCancellation(templateId, selectedActor);
 }
 
 /**

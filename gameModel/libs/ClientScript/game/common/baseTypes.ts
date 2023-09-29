@@ -19,7 +19,7 @@ export type TemplateRef = string;
 
 export type ActorId = number;
 
-export type ActionId = number;
+export type TemplateId = number;
 
 export type ActionTemplateId = number;
 

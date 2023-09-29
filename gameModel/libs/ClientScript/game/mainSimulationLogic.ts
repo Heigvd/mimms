@@ -5,7 +5,7 @@ import { mainSimLogger } from "../tools/logger";
 import { ActionBase } from "./common/actions/actionBase";
 import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
-import { ActionId, ActorId, TaskId, TemplateRef } from "./common/baseTypes";
+import { ActionId, ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { PointFeature } from "./common/events/defineMapObjectEvent";
@@ -191,10 +191,10 @@ function processEvent(event : FullEvent<TimedEventPayload>){
       }
       break;
     case 'ActionCancellationEvent': {
-      const actionId = event.payload.actionId;
-      const action = getCurrentState().getAllActions().find(a => a.Uid === actionId);
+      const templateId = event.payload.templateId;
+      const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId);
       if (!action) {
-        mainSimLogger.error('no action was found with id ', actionId);
+        mainSimLogger.error('no action was found with id ', templateId);
       } else {
         const localEvent = new CancelActionLocalEvent(event.id, event.payload.triggerTime, action);
         localEventManager.queueLocalEvent(localEvent);
@@ -290,21 +290,21 @@ export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedA
   return await sendEvent(globalEvent);
 }
 
-export async function buildAndLaunchActionCancellation(actionId: ActionId, selectedActor: ActorId): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchActionCancellation(templateId: TemplateId, selectedActor: ActorId): Promise<IManagedResponse | undefined> {
   const actor = getCurrentState().getActorById(selectedActor);
-  const action = getCurrentState().getAllActions().find(a => a.Uid === actionId);
+  const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId);
 
   if(action && actor) {
     const cancellationEvent: ActionCancellationEvent = {
       ...initBaseEvent(0),
       triggerTime: currentSimulationState.getSimTime(),
       type: 'ActionCancellationEvent',
-      actionId: actionId,
+      templateId: templateId,
     }
 
     return await sendEvent(cancellationEvent);
   } else {
-    mainSimLogger.error('Could not find action or actor with uids', actionId, selectedActor)
+    mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor)
   }
 } 
 
