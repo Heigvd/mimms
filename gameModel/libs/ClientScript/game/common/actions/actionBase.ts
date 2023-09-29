@@ -1,4 +1,4 @@
-import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActionId, ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
@@ -18,6 +18,10 @@ export abstract class ActionBase implements IClonable{
 
   protected readonly logger = ActionBase.slogger;
 
+  private static IdSeed = 1000;
+
+  public readonly Uid: ActionId;
+
   protected status : ActionStatus;
 
   protected readonly templateId;
@@ -28,6 +32,7 @@ export abstract class ActionBase implements IClonable{
     public readonly ownerId: ActorId,
     protected readonly uuidTemplate: ActionTemplateId = -1)
   {
+    this.Uid = ActionBase.IdSeed++;
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }
@@ -55,8 +60,12 @@ export abstract class ActionBase implements IClonable{
       return false;
     }
     this.status = 'Cancelled';
+    this.cancelInternal();
+
     return true;
   }
+
+  protected abstract cancelInternal(): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -154,6 +163,11 @@ export class GetInformationAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(): void {
+      return;
+  }
+
   override clone(): this {
     const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -192,6 +206,11 @@ export class OnTheRoadgAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(): void {
+    return;
+  }
+
   override clone(): this {
     const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -221,6 +240,11 @@ export class MethaneAction extends StartEndAction {
     this.logger.info('end event MethaneAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
     localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(): void {
+    return;
   }
 
   clone(): this {
@@ -259,11 +283,29 @@ export class DefineMapObjectAction extends StartEndAction {
       this.feature.durationTimeSec = this.durationSec;
   }
 
+  
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place immediatly
+    // TODO show grayed out map element
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
+  }
+  
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place at the end of the action
+    // ungrey the map element
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
+  }
+
+  // TODO remove corresponding mapFeature
+  protected cancelInternal(): void {
+    return;
+  }
+  
   clone(): this {
     const clone = new DefineMapObjectAction(
         this.startTime,
         this.durationSec,
-		    this.actionNameKey,
+        this.actionNameKey,
         this.messageKey,
         this.eventId,
         this.ownerId,
@@ -274,19 +316,6 @@ export class DefineMapObjectAction extends StartEndAction {
     return clone as this;
     
   }
-
-  protected dispatchInitEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place immediatly
-    // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
-  }
-
-  protected dispatchEndedEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place at the end of the action
-    // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-  }
-
 }
 
 export class AskReinforcementAction extends StartEndAction {
@@ -320,6 +349,11 @@ export class AskReinforcementAction extends StartEndAction {
     this.logger.info('end event AskReinforcementAction');
     localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.nb));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(): void {
+    return;
   }
 
   override clone(): this { 

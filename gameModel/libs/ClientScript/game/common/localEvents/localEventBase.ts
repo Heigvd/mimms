@@ -62,7 +62,6 @@ export class PlanActionLocalEvent extends LocalEventBase {
   
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
     super(parentEventId, 'PlanActionEvent', timeStamp);
-
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -72,6 +71,25 @@ export class PlanActionLocalEvent extends LocalEventBase {
     this.action.update(state);
   }
 
+}
+
+// Update status of action
+export class CancelActionLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
+    super(parentEventId, 'CancelActionEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+      const so = state.getInternalStateObject();
+      
+      const action = so.actions.find(a => this.action);
+
+      // TODO better error handling if action isn't found
+      if (!action) return;
+
+      action.cancel();
+  }
 }
 
 /////////// TODO in own file

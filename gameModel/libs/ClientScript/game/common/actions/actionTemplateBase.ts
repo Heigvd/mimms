@@ -79,6 +79,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
+
   protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
     return action == undefined ? true : this.replayable;

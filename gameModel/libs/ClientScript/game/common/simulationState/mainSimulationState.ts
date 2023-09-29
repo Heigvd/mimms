@@ -120,6 +120,10 @@ export class MainSimulationState implements IClonable {
     return this.internalState.actors;
   }
 
+  public getAllActions(): Readonly<ActionBase[]>{
+    return this.internalState.actions;
+  }
+
   /**
    * @returns A map of action arrays grouped by actor ids
    */
