@@ -4,13 +4,13 @@ basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps
 basic-info-feedback	After a quick overview of the incident zone, you evaluate that there are likely between 30 and 50 injured people	Après un un rapide coup d'oeil vous estimez que le nombre de blessés se situe entre 30 et 50
 other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant
 other-basic-info-desc	Take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.	Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.
-other-basic-info-feedback	He seems quite shocked and tells you that his mother might be in this train but that he is not sure, but that she usually takes thsi train because there are not many people at this hour	Il semble en état de choc et vous dit que sa mère est certainement dans ce train mais qu'il n'est pas sûr. Elle prend ce train habituellement parce qu'il n'est pas trop fréquenté.
+other-basic-info-feedback	The passerby seems quite shocked and tells you that his mother might be in this train but that he is not sure, but that she usually takes this train because there are not many people at this hour	Le passant semble en état de choc et vous dit que sa mère est certainement dans ce train mais qu'il n'est pas sûr. Elle prend ce train habituellement parce qu'il n'est pas trop fréquenté
 basic-info-police-title	Get police information	Obtenir des informations de la police
 basic-info-police-desc	You approach a nearby police car to get some more information about the situation	Vous approchez d'une voiture de police pour obtenir des informations
-basic-info-police-feedback	The policeman warns you that the service roads access would the best choice for and evacuation way	Le policier vous avertit qu'un accès par les routes de services de bus serait l'idéal pour les voie d'accès
-basic-info-firefighter-title	Get firefighter information	Obtenir des informations de pompiers
-basic-info-firefighter-desc	You approach a firefighter to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.
-basic-info-firefighter-feedback	The firefighter informs you that the access to the platforms is forbidden for the moment because of the power transmission lines potential electrocution risk. He asks you where the casualties should be evacuated.  	Un pompier vous informe que l'accès aux quais est interdit pour le moment à cause des lignes à haute tension et des risques d'électrocution. Il vous demande où les blessés devraient être évacués. 
+basic-info-police-feedback	The policeman/woman warns you that the service roads access would the best choice for and evacuation way	Le policier/ière vous avertit qu'un accès par les routes de services de bus serait l'idéal pour les voie d'évacuation
+basic-info-firefighter-title	Get firefighter information	Obtenir des informations des pompiers
+basic-info-firefighter-desc	You approach a firefighter truck to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.
+basic-info-firefighter-feedback	A firefighter informs you that the access to the platforms is forbidden for the moment because of the power transmission lines potential electrocution risk. He asks you where the casualties should be evacuated.  	Un pompier vous informe que l'accès aux quais est interdit pour le moment à cause des lignes à haute tension et des risques d'électrocution. Il vous demande où les blessés devraient être évacués. 
 define-PC-title	Define command post location	Placer le poste de commandement
 define-PC-desc	Pick a position on the map for your command post	Définir l'emplacement du poste de commandement sur la carte
 define-PC-feedback	The command post is now ready	Le post de commandement est maintenant prêt
@@ -19,21 +19,21 @@ define-Nest-desc	Pick a position on the map for the survivor reception center	D�
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé
 define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
 define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
-define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt a être installé
-define-sectors-title	Define sectors of the incident on the map	Définir différents secteurs de l'incident en vue de pré-trier
-define-sectors-desc	You define the different sectors of the incident site in readiness for prétriage	Vous sectorisez les zones du chantier en vue du pré-triage
-define-sectors-feedback	You successfully defined sectors of the incident. New pré-tri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
-methane-title	Send METHANE	Envoi METHANE
+define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
+define-sectors-title	Sectorize incident area	Sectoriser la zone de l'incident
+define-sectors-desc	Define the different sectors of the incident site in readiness for prétriage	Sectoriser les zones du chantier en vue du pré-triage
+define-sectors-feedback	You successfully defined sectors of the incident. New prétri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
+methane-title	Send METHANE	Envoi du METHANE
 methane-desc	Send a METHANE radio message to emergency 	Envoyer un message METHANE à CASU
-methane-feedback	We got your METHANE message, the ACS and MCS are their way as well as more resources	Message METHANE bien reçu, l'ACS et le MCS sont en route ainsi que des ressources supplémentaires
-methane-acs-arrived	You have arrived at the scene of the accident	Vous êtes arrivé sur les lieux de l'accident
-methane-mcs-arrived	You have arrived at the scene of the accident	Vous êtes arrivé sur les lieux de l'accident
+methane-feedback	We got your METHANE message, the ACS and MCS are their way	Message METHANE bien reçu, l'ACS et le MCS sont en route
+methane-acs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
+methane-mcs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 ask-reinforcement-title	Ask CASU for reinforcements 	Demande de renforts à CASU
 ask-reinforcement-desc	Call the emergency center and ask for more resources on site	Appeler CASU pour demander plus de renforts sur site
 ask-reinforcement-feedback	CASU : we are now sending 5 resources	CASU : Nous envoyons 5 resources supplémentaires pour vous
 pre-tri-zone-A-title	Pretriage of zone A	Prétriage de la zone A
-pre-tri-zone-A-desc	Send resources to perform prétriage of zone A	Envoyer des resources prétrier la zone A
-pre-tri-zone-A-feedback	The prétriage of zone A is done. 5 red, 10 yellow, 5 green	Prétriage de la zone A terminé. 5 rouges, 10 jaunes, 5 verts
+pre-tri-zone-A-desc	Send resources to perform pretriage of zone A	Envoyer des resources prétrier la zone A
+pre-tri-zone-A-feedback	The pretriage of zone A is done. 5 red, 10 yellow, 5 green	Prétriage de la zone A terminé. 5 rouges, 10 jaunes, 5 verts
 pre-tri-zone-B-title	Pretriage of zone B	Prétriage de la zone B
 pre-tri-zone-B-desc	Send resources to perform prétriage of zone B	Envoyer des resources prétrier la zone B
 pre-tri-zone-B-feedback	The prétriage of zone B is done. 5 red, 10 yellow, 5 green	Prétriage de la zone B terminé. 5 rouges, 10 jaunes, 5 verts

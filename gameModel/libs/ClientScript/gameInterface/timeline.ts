@@ -1,5 +1,5 @@
 import { StartEndAction } from "../game/common/actions/actionBase";
-import { getCurrentActorUid } from "../gameInterface/main";
+import { formatTime, getCurrentActorUid, getStartTime } from "../gameInterface/main";
 import { getTranslation } from "../tools/translation";
 import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
@@ -17,30 +17,6 @@ interface Timeline {
 	id: number;
 	role: string;
 	timeline: Action[];
-}
-
-/**
- * Return Date object with start time
- */
-function getStartTime() {
-	const hours = Variable.find(gameModel, 'startHours').getValue(self);
-	const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
-
-	const dateTime = new Date();
-	dateTime.setHours(hours);
-	dateTime.setMinutes(minutes);
-
-	return dateTime;
-}
-
-/**
- * Return given time in HH::MM format
- */
-function formatTime(dateTime: Date) {
-	let splitted = dateTime.toLocaleString().split(' ')[1].split(':').splice(0, 2);
-	let result = splitted.join(':');
-
-	return result;
 }
 
 // Potential TODO, use ActionBase / StartEndAction instead of custom interface

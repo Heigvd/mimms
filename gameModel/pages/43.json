@@ -485,7 +485,7 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "const unUsed = Context.item.emitter;\nreturn",
+                                                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n\ngetNotificationTime(Context.item.timeStamp)",
                                                   "language" : "TypeScript"
                                                 }
                                               },
@@ -537,7 +537,7 @@
                                         "exposeAs" : "item",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id);",
+                                          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id)",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "timeStamp",
@@ -686,7 +686,7 @@
                                 "layoutStyle" : { },
                                 "name" : "timeline-actors",
                                 "style" : {
-                                  "paddingTop" : "calc(2em + 10px)"
+                                  "paddingTop" : "calc(2em + 20px)"
                                 }
                               },
                               "type" : "FlexList"
