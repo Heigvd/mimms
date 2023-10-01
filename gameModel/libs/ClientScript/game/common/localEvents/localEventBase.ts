@@ -10,7 +10,7 @@ import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
-import { ResourceType } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -211,6 +211,24 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 // tasks and resources
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+/**
+ * Local event to transfer resources from an actor to another
+ */
+export class TransferResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId,
+              timeStamp: SimTime,
+              public readonly senderActor: ActorId,
+              public readonly receiverActor: ActorId,
+              public readonly sentResources: ResourceTypeAndNumber[],
+  ) {
+    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.transferResourcesBetweenActors(state, this.senderActor, this.receiverActor, this.sentResources);
+  }
+}
 
 /**
  * Local event to receive new resources for an actor.

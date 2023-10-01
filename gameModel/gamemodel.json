@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1694437690685,
+  "createdTime" : 1696192118307,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5407,6 +5407,116 @@
         "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:542319:8GU3Ic",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:542320:Rhvoer",
+          "translations" : { }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "chosenActor",
+        "refId" : "NumberDescriptor:542318:lTdHHw",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:542581:Lmqk4f",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "chosenNbPretrieurs",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:542582:keKxOr",
+          "translations" : { }
+        },
+        "maxValue" : null,
+        "minValue" : 0.0,
+        "name" : "chosenNbPretrieurs",
+        "refId" : "NumberDescriptor:542580:ClCMlP",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:542586:nLR5vt",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:542587:eSzr5J",
+            "translations" : { }
+          }
+        },
+        "editorTag" : "chosenNbPretrieursB",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:542588:Is12RI",
+          "translations" : { }
+        },
+        "maxSelectable" : 1,
+        "name" : "chosenNbPretrieursB",
+        "refId" : "StringDescriptor:542585:dYUzmO",
+        "scopeType" : "PlayerScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "StringDescriptor",
+        "allowedValues" : [ ],
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "StringInstance",
+          "refId" : "StringInstance:544675:V3lBFx",
+          "trValue" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:544676:NuVoKI",
+            "translations" : { }
+          }
+        },
+        "editorTag" : "chosenNbAmbulanciersB",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:544677:zfKBWA",
+          "translations" : { }
+        },
+        "maxSelectable" : 1,
+        "name" : "chosenNbAmbulanciersB",
+        "refId" : "StringDescriptor:544674:xbj9LS",
+        "scopeType" : "PlayerScope",
+        "sortable" : false,
+        "validationPattern" : null,
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5659,6 +5769,24 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#102:f11tnI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/resourceFunction",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:542535:9AEN2O",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/resourceType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#104:upWZAp",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

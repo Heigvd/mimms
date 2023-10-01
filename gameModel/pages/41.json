@@ -108,7 +108,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { planAction } from \"./UIfacade/actionFacade\";\nimport { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
+            "content" : "import { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
             "language" : "TypeScript",
             "returnType" : "Promise<unknown> | undefined"
           }

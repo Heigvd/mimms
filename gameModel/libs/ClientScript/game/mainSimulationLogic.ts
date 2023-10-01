@@ -2,7 +2,14 @@
  * Setup function
  */
 import { mainSimLogger } from "../tools/logger";
-import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import {
+	ActionTemplateBase,
+	AskReinforcementActionTemplate,
+	DefineMapObjectTemplate,
+	MethaneTemplate,
+	GetInformationTemplate,
+	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate,
+} from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
@@ -72,6 +79,12 @@ function initMainState(): MainSimulationState {
 		new Resource('technicienAmbulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
 		new Resource('infirmier', testAL.Uid),
 		new Resource('infirmier', testAL.Uid),
 		new Resource('infirmier', testAL.Uid),
@@ -135,6 +148,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			],
   	}});
 
+	const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-titles', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
+	const sendResources = new SendResourcesToActorActionTemplate('send-resources-titles', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+
   const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
@@ -147,6 +163,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeSectors.getTemplateRef()] = placeSectors;
+	templates[requestResources.getTemplateRef()] = requestResources;
+	templates[sendResources.getTemplateRef()] = sendResources;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;

@@ -249,16 +249,102 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "panel-title",
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
-                                  "language" : "TypeScript"
-                                }
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "panel-title",
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "width" : "150px"
+                                    },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "oneResource",
+                                                    "icon" : "user-nurse",
+                                                    "layoutClassName" : "oneResource-container",
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Icon"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "resourceCounter",
+                                                    "layoutClassName" : "resourceCounter-container noPadding",
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), Context.resourceType.enum);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "name" : "icon type",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "layoutStyle" : { },
+                                                "name" : "type name",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.resourceType.enum;",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ],
+                                            "layout" : {
+                                              "alignItems" : "center",
+                                              "flexDirection" : "column"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "type",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "exposeAs" : "resourceType",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "enum",
+                                        "layout" : { },
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "For each"
+                                    } ],
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "available resources",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ]
                               },
-                              "type" : "Text"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
                                 "children" : [ {
@@ -695,7 +781,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { endMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\n\n// TODO Add validation for featureType\nplanAction(ref, actorUid);\nendMapAction();",
+                                                "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { endMapAction, getMapState } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\nconst tmpFeature = getMapState().tmpFeature; \n\n// TODO Add validation for featureType\nplanAction(ref, actorUid, tmpFeature);\nendMapAction();",
                                                 "language" : "TypeScript"
                                               }
                                             },

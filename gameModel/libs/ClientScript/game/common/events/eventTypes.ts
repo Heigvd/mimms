@@ -8,7 +8,8 @@ import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
 import { ActorId, SimDuration, SimTime, TaskId, TemplateRef } from "../baseTypes";
-import { ResourceType } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceFunctionAndNumber } from '../resources/resourceFunction';
 
 /**
  * Walk, drive, fly to destination
@@ -163,6 +164,8 @@ export type EventPayload =
 	// NEW EVENTS
 	| TimeForwardEvent
 	| ActionCreationEvent
+	| ResourceRequestFromActorEvent
+	| ResourceSendingToActorEvent
 	| ResourceAllocationEvent
 	| ResourceReleaseEvent;
 
@@ -187,6 +190,18 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
 
 export interface StandardActionEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
+}
+
+export interface ResourceRequestFromActorEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	recipientActor: ActorId;
+	requestedResources: ResourceFunctionAndNumber[];
+}
+
+export interface ResourceSendingToActorEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	receiverActor: ActorId;
+	sentResources: ResourceTypeAndNumber[];
 }
 
 export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {

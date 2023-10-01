@@ -1,12 +1,70 @@
-import { taskLogger } from '../../../tools/logger';
+import { resourceLogger, taskLogger } from '../../../tools/logger';
 import { ActorId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { MainSimulationState } from './mainSimulationState';
-import { ResourceType } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // get read only data
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Retrieve the unoccupied resources.
+ *
+ * @param state The state
+ * @param ownerActorId The actor who owns the resources
+ * @param resourceType The type of the resources
+ *
+ * @returns The matching resources
+ */
+export function getUnoccupiedResources(state: Readonly<MainSimulationState>,
+																			ownerActorId: ActorId,
+																			resourceType: ResourceType):
+	Readonly<Resource>[] {
+	const internalState = state.getInternalStateObject();
+
+	return internalState.resources.filter(res =>
+		res.ownerId === ownerActorId
+		&& res.type === resourceType
+		&& res.currentActivity == null);
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// change the world
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber[]): void {
+  const internalState = state.getInternalStateObject();
+
+  for (const sentResource of sentResources) {
+    const nbResourcesToTransfer = sentResource.nb;
+    const resourceType = sentResource.type;
+
+    if (nbResourcesToTransfer > 0) {
+      const matchingResources = internalState.resources.filter(res => res.ownerId === senderActor && res.type === resourceType);
+
+      if (matchingResources.length >= nbResourcesToTransfer) {
+        for (let i = 0; i < nbResourcesToTransfer; i++) {
+          matchingResources[i]!.ownerId = receiverActor;
+        }
+
+      } else {
+        resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources but has only ${matchingResources.length}`);
+      }
+
+    } else if (nbResourcesToTransfer < 0) {
+      resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources `);
+    }
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// get read only data - old
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -81,7 +139,7 @@ export function getAllocatedResources(state: Readonly<MainSimulationState>, task
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// change the world
+// change the world - old
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 

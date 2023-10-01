@@ -4,18 +4,46 @@
  * put minimal logic in here
  */
 
-import { ActorId, TaskId } from "../game/common/baseTypes";
-import { TaskBase } from "../game/common/tasks/taskBase";
-import { buildAndLaunchResourceAllocation,buildAndLaunchResourceRelease,  getCurrentState } from "../game/mainSimulationLogic";
+import { ActorId, TaskId } from '../game/common/baseTypes';
+import { TaskBase } from '../game/common/tasks/taskBase';
+import {
+	buildAndLaunchResourceAllocation,
+	buildAndLaunchResourceRelease,
+	getCurrentState,
+} from '../game/mainSimulationLogic';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
-import { ResourceType } from '../game/common/resources/resourceType';
+import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/resourceType';
+import { ResourceFunction, ResourceFunctionArray } from '../game/common/resources/resourceFunction';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // get read only data
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+/**
+ * @returns All the human resources types
+ */
+export function getHumanResourceTypes(): ResourceType[] {
+	return HumanResourceTypeArray;
+}
+
+export function getResourceFunction(): ResourceFunction[] {
+	return ResourceFunctionArray;
+}
+
+/**
+ * Retrieve how many resources are unoccupied.
+ *
+ * @param ownerActorId The actor who owns the resources
+ * @param resourceType The type of the resources
+ *
+ * @returns The number of matching resources
+ */
+export function countUnoccupiedResources(ownerActorId: ActorId, resourceType: ResourceType): number {
+	return ResourceState.getUnoccupiedResources(getCurrentState(), ownerActorId, resourceType).length;
+}
 
 /**
  * Retrieve the tasks that can be performed currently by resources owned by the given actor.

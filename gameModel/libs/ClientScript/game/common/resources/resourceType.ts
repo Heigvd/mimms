@@ -9,7 +9,7 @@ export type ResourceType = HumanResourceType | MaterialResourceType;
 
 export type HumanResourceType =
 	'secouriste'
-	| 'technicienAmbulancier'
+	| 'techAmbul'
 	| 'ambulancier'
 	| 'infirmier'
 	| 'medecinJunior'
@@ -18,8 +18,11 @@ export type HumanResourceType =
 export type MaterialResourceType = 'ambulance' | 'helicopter';
 
 /**
- * Number of resources of each type
+ * Combination of a type and an associated number of resources
  */
-export type ResourceNbByType = Record<ResourceType, number>;
+export type ResourceTypeAndNumber = {
+	type: ResourceType;
+	nb: number;
+}
 
-// export const HumanResourceTypeArray = ['secouriste', 'technicienAmbulancier', 'ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior'];
+export const HumanResourceTypeArray: HumanResourceType[] = ['secouriste', 'techAmbul', 'ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior'];
