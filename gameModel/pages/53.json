@@ -1,0 +1,322 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Demander à<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { Actor } from \"./game/common/actors/actor\";\nimport { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().map((actor: Actor) => {return {label: actor.FullName, value: \"\" + actor.Uid}});",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'requestRecipientActor')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "recipient actor",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbEstafette')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>estafettes</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>pré-trieurs<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>brancardiers</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbTrieur')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>trieurs<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbSoignantFront')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>soignants front<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "chosenNuimber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'requestNbMedecinFront')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "fonction-container",
+                "layoutStyle" : { },
+                "name" : "fonction",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>médecins front<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : { },
+        "name" : "requested resources",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : ""
+  },
+  "type" : "FlexList"
+}

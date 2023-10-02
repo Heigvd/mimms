@@ -11,7 +11,7 @@ import {
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -389,6 +389,92 @@ export class SendResourcesToActorAction extends StartEndAction {
 
   override clone(): this {
     const clone = new SendResourcesToActorAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.receiverActor, this.sentResources);
+    clone.status = this.status;
+    return clone as this;
+  }
+}
+
+/**
+ * Action to assign a task to resources
+ */
+export class AssignTaskToResourcesAction extends StartEndAction {
+  public readonly messageKey: TranslationKey;
+
+  public readonly task: ResourceFunction;
+
+  public readonly assignedResources: ResourceTypeAndNumber[];
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    globalEventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    task: ResourceFunction,
+    assignedResources: ResourceTypeAndNumber[]) {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    this.messageKey = messageKey;
+    this.task = task;
+    this.assignedResources = assignedResources;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('start event AssignTaskToResourcesAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event AssignTaskToResourcesAction');
+
+    // TODO
+  }
+
+  override clone(): this {
+    const clone = new AssignTaskToResourcesAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.task, this.assignedResources);
+    clone.status = this.status;
+    return clone as this;
+  }
+}
+
+/**
+ * Action to assign a task to resources
+ */
+export class ReleaseResourcesFromTaskAction extends StartEndAction {
+  public readonly messageKey: TranslationKey;
+
+  public readonly task: ResourceFunction;
+
+  public readonly releasedResources: ResourceTypeAndNumber[];
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    globalEventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    task: ResourceFunction,
+    releasedResources: ResourceTypeAndNumber[]) {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    this.messageKey = messageKey;
+    this.task = task;
+    this.releasedResources = releasedResources;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('start event FreeResourcesFromTaskAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event FreeResourcesFromTaskAction');
+
+    // TODO
+  }
+
+  override clone(): this {
+    const clone = new ReleaseResourcesFromTaskAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.task, this.releasedResources);
     clone.status = this.status;
     return clone as this;
   }

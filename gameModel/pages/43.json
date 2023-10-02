@@ -265,83 +265,17 @@
                                   "type" : "Text"
                                 }, {
                                   "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "children" : [ {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "className" : "oneResource",
-                                                    "icon" : "user-nurse",
-                                                    "layoutClassName" : "oneResource-container",
-                                                    "layoutStyle" : { },
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "Icon"
-                                                }, {
-                                                  "props" : {
-                                                    "className" : "resourceCounter",
-                                                    "layoutClassName" : "resourceCounter-container noPadding",
-                                                    "layoutStyle" : { },
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), Context.resourceType.enum);",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
-                                                } ],
-                                                "layout" : { },
-                                                "layoutStyle" : { },
-                                                "name" : "icon type",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "layoutStyle" : { },
-                                                "name" : "type name",
-                                                "style" : { },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "Context.resourceType.enum;",
-                                                  "language" : "TypeScript"
-                                                }
-                                              },
-                                              "type" : "Text"
-                                            } ],
-                                            "layout" : {
-                                              "alignItems" : "center",
-                                              "flexDirection" : "column"
-                                            },
-                                            "layoutStyle" : { },
-                                            "name" : "type",
-                                            "style" : { }
-                                          },
-                                          "type" : "FlexList"
-                                        } ],
-                                        "exposeAs" : "resourceType",
-                                        "getItemsFn" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
-                                          "language" : "TypeScript"
-                                        },
-                                        "itemKey" : "enum",
-                                        "layout" : { },
-                                        "layoutStyle" : { },
-                                        "style" : { }
-                                      },
-                                      "type" : "For each"
-                                    } ],
-                                    "layout" : { },
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"52\"",
+                                      "language" : "typescript"
+                                    },
                                     "layoutStyle" : { },
-                                    "name" : "available resources",
+                                    "name" : "availableResourcesLoader",
                                     "style" : { }
                                   },
-                                  "type" : "FlexList"
+                                  "type" : "PageLoader"
                                 } ]
                               },
                               "type" : "FlexList"
@@ -409,6 +343,7 @@
                                     "layout" : {
                                       "flexDirection" : "row"
                                     },
+                                    "layoutClassName" : "noDisplay",
                                     "layoutStyle" : { },
                                     "name" : "menu",
                                     "style" : { }

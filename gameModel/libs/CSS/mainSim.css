@@ -80,6 +80,10 @@ html{
 	position: absolute;
 }
 
+.noDisplay{
+	display: none;
+}
+
 
 /******************** BUTTONS ********************/
 /******************** S ***************/
@@ -280,7 +284,7 @@ padding-left: .7em ;
 height: 2em;
 width: 2em;
 border-radius: 50%;
-justify-content: center;
+/*align-content: flex-end; */
 font-weight: var(--boldWeight);
 color: var(--gray_WHITE);
 background: var(--secondaryInterface_400);
@@ -428,10 +432,26 @@ background-color: var(--interface_0);
 	
 
 
+/*****  ****/
 
+.ressourcePersonIcon{
+font-size: 2rem;
+}
+
+.ressourcesBox-container{
+align-items: center;
+}
+
+.chosenNuimber-container  input{
+min-width: 10px;
+max-width: 30px;
+}
+
+.fonction-container{
+font-size: var(--S_text);
+}
 
 /**************************** RADIO CSS (upper-right) ************************************/
-
 .radio-container {
 	right: 0;
 	pointer-events: auto;

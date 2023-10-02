@@ -1,3 +1,4 @@
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { startMapAction } from "../gameMap/main";
 import { getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
@@ -144,6 +145,20 @@ export function formatTime(dateTime: Date) {
 	let result = splitted.join(':');
 
 	return result;
+}
+
+export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
+	if (Context.action instanceof RequestResourcesFromActorActionTemplate) {
+		return "53";
+	} else if (Context.action instanceof SendResourcesToActorActionTemplate) {
+		return "54";
+	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
+		return "55";
+	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
+		return "56";
+	}
+	
+	return "57";
 }
 
 

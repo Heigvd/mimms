@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1696192118307,
+  "createdTime" : 1696261277019,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5550,32 +5550,434 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "PlayerScope",
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
         "comments" : "",
         "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:544675:V3lBFx",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:544676:NuVoKI",
-            "translations" : { }
-          }
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:546939:rLJm17"
         },
-        "editorTag" : "chosenNbAmbulanciersB",
+        "editorTag" : "resourcesTmp",
         "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:545936:UP49iY",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "chosenReceiverActor",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:545937:WvToCH",
+            "translations" : { }
+          },
+          "maxValue" : null,
+          "minValue" : null,
+          "name" : "chosenReceiverActor",
+          "refId" : "NumberDescriptor:545935:w5ZeLp",
+          "scopeType" : "PlayerScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:545948:bwzspj",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:545949:oBaZOA",
+              "translations" : {
+                "EN" : {
+                  "@class" : "Translation",
+                  "lang" : "EN",
+                  "refId" : "TranslatableContent:545949:oBaZOA::EN",
+                  "status" : "",
+                  "translation" : "0"
+                }
+              }
+            }
+          },
+          "editorTag" : "chosenNbSecouristes",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:545950:ZLgYQl",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbSecouristes",
+          "refId" : "StringDescriptor:545947:PIeI7z",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:545941:l09tWk",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:545942:GsYuA5",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "chosenNbTechAmbul",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:545943:Lrt3mN",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbTechAmbul",
+          "refId" : "StringDescriptor:545940:gyG4QJ",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:544675:V3lBFx",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:544676:NuVoKI",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "chosenNbAmbulanciers",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:544677:zfKBWA",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbAmbulanciers",
+          "refId" : "StringDescriptor:544674:xbj9LS",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:546944:hs2MC4",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:546945:gA3b1F",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "chosenNbInfirmiers",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:546946:i6eWNj",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbInfirmiers",
+          "refId" : "StringDescriptor:546943:Agl4yY",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:546955:7x1Xf1",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:546956:o4hzjQ",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "chosenNbMedecinJunior",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:546957:xd8MGb",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbMedecinJunior",
+          "refId" : "StringDescriptor:546954:icofui",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547001:UN1DCz",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547002:iYo7lt",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "chosenNbMedecinSenior",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547003:TWq4CW",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "chosenNbMedecinSenior",
+          "refId" : "StringDescriptor:546950:npbFJH",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "NumberDescriptor",
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "NumberInstance",
+            "history" : [ ],
+            "refId" : "NumberInstance:547088:N09LF1",
+            "value" : 0.0
+          },
+          "defaultValue" : 0.0,
+          "editorTag" : "requestRecipientActor",
+          "historySize" : 20,
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547089:Kkgs7N",
+            "translations" : { }
+          },
+          "maxValue" : null,
+          "minValue" : null,
+          "name" : "requestRecipientActor",
+          "refId" : "NumberDescriptor:547087:r1tfcY",
+          "scopeType" : "PlayerScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547159:tIlIYL",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547160:HAWWR6",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbPretrieur",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547161:dDSOBJ",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbPretrieur",
+          "refId" : "StringDescriptor:547158:6JW7Vx",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547134:wI9J82",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547135:MF2WuW",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbEstafette",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547136:jH6fKS",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbEstafette",
+          "refId" : "StringDescriptor:547133:J6lia0",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547166:yxa2cS",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547167:tqA6pE",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbBrancardier",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547168:mv3reL",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbBrancardier",
+          "refId" : "StringDescriptor:547165:sbhvY6",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547178:POl7DN",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547179:uwlDVB",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbTrieur",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547180:TgeFxy",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbTrieur",
+          "refId" : "StringDescriptor:547177:yCVpyz",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547146:k9wt1p",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547147:ArLYyz",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbSoignantFront",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547148:sCRkVZ",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbSoignantFront",
+          "refId" : "StringDescriptor:547145:Wy28Gu",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "PlayerScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:547185:JTabtE",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:547186:QVWjtu",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "requestNbMedecinFront",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:547187:SoD0tr",
+            "translations" : { }
+          },
+          "maxSelectable" : 1,
+          "name" : "requestNbMedecinFront",
+          "refId" : "StringDescriptor:547184:dn8jUc",
+          "scopeType" : "PlayerScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:544677:zfKBWA",
+          "refId" : "TranslatableContent:546940:LHXeqP",
           "translations" : { }
         },
-        "maxSelectable" : 1,
-        "name" : "chosenNbAmbulanciersB",
-        "refId" : "StringDescriptor:544674:xbj9LS",
-        "scopeType" : "PlayerScope",
-        "sortable" : false,
-        "validationPattern" : null,
+        "name" : "resourcesTmp",
+        "refId" : "ListDescriptor:546938:8K8tEh",
+        "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],

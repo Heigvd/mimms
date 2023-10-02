@@ -1,7 +1,7 @@
 // TODO See which translations are OK
 
 /**
- * The enumeration of functions to which a resources can be affected.
+ * The enumeration of functions to which a resources can be assigned.
  */
 export type ResourceFunction = 
 	'Chauffeur'|

@@ -8,7 +8,7 @@ import {
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
-	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate,
+	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
@@ -74,9 +74,9 @@ function initMainState(): MainSimulationState {
 		new Resource('secouriste', testAL.Uid),
 		new Resource('secouriste', testAL.Uid),
 		new Resource('secouriste', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
@@ -148,8 +148,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			],
   	}});
 
-	const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-titles', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
-	const sendResources = new SendResourcesToActorActionTemplate('send-resources-titles', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+  const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
+  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+
+  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
+  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
 
   const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
 
@@ -163,8 +166,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeSectors.getTemplateRef()] = placeSectors;
-	templates[requestResources.getTemplateRef()] = requestResources;
-	templates[sendResources.getTemplateRef()] = sendResources;
+  templates[requestResources.getTemplateRef()] = requestResources;
+  templates[sendResources.getTemplateRef()] = sendResources;
+  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
+  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
