@@ -89,7 +89,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     const so = state.getInternalStateObject();
 
     // update patients
-    this.updatePatients(so.patients, state.getSimTime());
+    this.updatePatients(so.patients, this.timeJump);
 
     // update all actions =>
     this.updateActions(state);
@@ -98,8 +98,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
-    computeNewPatientsState(patients as HumanBody[], this.timeJump, getEnv());
+  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
+    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
