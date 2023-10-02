@@ -289,7 +289,7 @@ export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedA
   return await sendEvent(globalEvent);
 }
 
-export async function buildAndLaunchActionCancellation(templateId: TemplateId, selectedActor: ActorId): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
   const actor = getCurrentState().getActorById(selectedActor);
   const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId);
 

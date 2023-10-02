@@ -34,8 +34,8 @@ export async function planAction(actionTemplateId: TemplateRef, selectedActor: A
  * @param selectedActor The actor that cancels the action
  * @returns 
  */
-export async function cancelAction(templateId: TemplateId, selectedActor: ActorId): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchActionCancellation(templateId, selectedActor);
+export async function cancelAction(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
+	return await buildAndLaunchActionCancellation(selectedActor, templateId);
 }
 
 /**
