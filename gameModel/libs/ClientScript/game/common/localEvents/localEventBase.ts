@@ -85,10 +85,14 @@ export class CancelActionLocalEvent extends LocalEventBase {
       
       const action = so.actions.find(a => this.action);
 
-      // TODO better error handling if action isn't found
-      if (!action) return;
+      if (action) {
+        so.actions.splice(so.actions.indexOf(action));
+        so.cancelledActions.push(action);
+        action.cancel();
+      } else {
+        // err.log
+      }
 
-      action.cancel();
   }
 }
 

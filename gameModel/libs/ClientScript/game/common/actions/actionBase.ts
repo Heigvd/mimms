@@ -49,7 +49,7 @@ export abstract class ActionBase implements IClonable{
    */
   public cancel(): boolean {
     if(this.status === "Cancelled") {
-      this.logger.warn('This action was cancelled already');
+      this.logger.warn('This action was already cancelled');
     }else if(this.status === 'Completed'){
       this.logger.error('This action is completed, it cannot be cancelled');
       return false;
@@ -96,7 +96,7 @@ export abstract class StartEndAction extends ActionBase {
 
     const simTime = state.getSimTime();
     switch(this.status){
-      case 'Cancelled':
+      case 'Cancelled': // should action do something ?
       case 'Completed':
 
         return;

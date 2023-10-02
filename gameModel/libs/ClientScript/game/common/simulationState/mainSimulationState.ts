@@ -41,6 +41,7 @@ export class MainSimulationState implements IClonable {
 
     return {
       actions : this.internalState.actions.map((act) => act.clone()),
+      cancelledActions : this.internalState.cancelledActions.map((act) => act.clone()),
       actors : [...this.internalState.actors],
       mapLocations: [...this.internalState.mapLocations],
       patients: this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
@@ -283,6 +284,7 @@ interface MainStateObject {
    * All actions that have been created
    */
   actions: ActionBase[];
+  cancelledActions: ActionBase[];
   tasks: TaskBase[];
   mapLocations: MapFeature[];
   patients: HumanBody[];

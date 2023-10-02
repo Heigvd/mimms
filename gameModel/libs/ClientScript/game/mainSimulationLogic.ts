@@ -2,14 +2,13 @@
  * Setup function
  */
 import { mainSimLogger } from "../tools/logger";
-import { ActionBase } from "./common/actions/actionBase";
 import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
-import { ActionId, ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
+import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { PointFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, CancelActionEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
@@ -17,7 +16,6 @@ import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
 import { createResourceAllocationLocalEvents } from "./common/tasks/taskHelper";
-import { initBaseEvent } from './common/events/baseEvent';
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -66,6 +64,7 @@ function initMainState(): MainSimulationState {
 
   return new MainSimulationState({
     actions: [],
+    cancelledActions: [],
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: [],
