@@ -12,6 +12,7 @@ import { ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEv
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
+import { loadPatients } from "./common/patients/handleState";
 import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
 import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
@@ -66,7 +67,7 @@ function initMainState(): MainSimulationState {
     actions: [],
     actors: [testAL],
     mapLocations: [mainAccident],
-    patients: [],
+    patients: loadPatients(),
     tmp: {
       nbForPreTriZoneA: initialNbPatientInZoneA,
       nbForPreTriZoneB: initialNbPatientInZoneB,
