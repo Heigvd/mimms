@@ -128,8 +128,9 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	 */
 
 	const separator = '\t';
-	let header : string[] = ['playerId', 'playerName', 'system_name'];
+	let header : string[] = ['playerId', 'playerName', 'system_name', 'total_patients', 'total_correct_patients'];
 
+	const vitalsColumns = ['vitals.respiration.rr', 'vitals.cardio.radialPulse', 'vitals.cardio.hr', 'vitals.capillaryRefillTime_s', 'vitals.glasgow.motor', 'vitals.canWalk', 'vitals.respiration.stridor', 'vitals.pain', 'massiveHemorrhage', 'isInjured'];
 	const treatmentColumns = ['type', 'status', 'startTime', 'duration', 'blocks'];
 	const measureColumns = ['type', 'status', 'startTime', 'duration', 'result'];
 
@@ -144,9 +145,11 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		// find player that has categorized this patient
 		const vitals = Object.values(playersCatVitals).find(entry => entry[id] !== undefined);
 		if(vitals){
-			const keys = Object.keys(vitals[id]);
-			vitalsExists[id] = keys.length;
-			for(let vitalName of keys){
+
+			vitalsExists[id] = vitalsColumns.length;
+
+			// vitals header
+			for(let vitalName of vitalsColumns){
 				appendHeader(id, vitalName);
 			}
 		}
@@ -185,11 +188,29 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		lines[pid].push(pid);
 		lines[pid].push(playerNames[pid]);
 		lines[pid].push(systemName);
+		lines[pid].push(addPlayerScores(pid));
 		sortedPatientIds.forEach((patId: PatientId) => {
 			addPatientData(pid, patId);
 		})
 
 	})
+
+	function addPlayerScores(pid: PlayerId) {
+		let total = 0;
+		let totalCorrect = 0;
+
+		sortedPatientIds.forEach((patientId: PatientId) => {
+
+			if (playersCategories[pid][patientId]) {
+				total++;
+				if (playersAutoCat[pid][patientId] === playersCategories[pid][patientId]) {
+					totalCorrect++;
+				}
+			}
+		});
+
+		return total + separator + totalCorrect;
+	}
 
 	function addPatientData(pid: PlayerId, patientId: PatientId){
 
@@ -266,19 +287,26 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function addPatientVitalParameters(pid: PlayerId, patientId: PatientId) {
 		const line = lines[pid];
 
+
 		const vitals = playersCatVitals[pid][patientId];
+
 		if(vitals){
-			Object.values(vitals).forEach(v => line.push(v.toString()));
+			
+			// if capillaryRefillTime_s isn't defined we set it as empty
+			vitals['vitals.capillaryRefillTime_s'] ??= '';
+
+			vitalsColumns.forEach(v => {
+				line.push(vitals[v].toString())
+			});
 		}else{
-			const nEmpty = vitalsExists[patientId];
-			line.push(...Array(nEmpty).fill(''));
+			line.push(...Array(vitalsColumns.length).fill(''));
 		}
 	}
 
 	const result = header.join(separator) + '\n' + Object.values(lines).map(line => {
 		return line.join(separator);
 	}).join('\n');
-	
+
 	Helpers.downloadDataAsFile('drill.tsv', result);
 }
 
@@ -293,5 +321,3 @@ export async function getPatientsEvents(): Promise<FullEvent<EventPayload>[]> {
 	return info;
 
 }
-
-
