@@ -82,7 +82,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
   protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return action == undefined || action.getStatus() === 'Uninitialized' ? true : this.replayable;
   }
 
   /**
