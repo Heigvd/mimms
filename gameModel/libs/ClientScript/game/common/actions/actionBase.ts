@@ -101,7 +101,7 @@ export abstract class StartEndAction extends ActionBase {
 
         return;
       case 'Uninitialized': {
-        if(simTime >= this.startTime){ // if action did start
+        if(simTime > this.startTime){ // if action did start
           this.logger.debug('dispatching start events...');
           this.dispatchInitEvents(state);
           this.status = "OnGoing";
