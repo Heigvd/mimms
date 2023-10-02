@@ -53,6 +53,10 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
+export function getAllCancelledActions(): Readonly<ActionBase[]> {
+	return getCurrentState().getAllCancelledActions();
+}
+
 /**
  * @returns Template of given action Uid
  */

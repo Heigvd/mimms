@@ -125,6 +125,10 @@ export class MainSimulationState implements IClonable {
     return this.internalState.actions;
   }
 
+  public getAllCancelledActions(): Readonly<ActionBase[]> {
+	  return this.internalState.cancelledActions;
+  }
+
   /**
    * @returns A map of action arrays grouped by actor ids
    */

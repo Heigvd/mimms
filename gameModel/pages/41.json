@@ -132,6 +132,30 @@
     }, {
       "props" : {
         "layoutStyle" : { },
+        "name" : "state",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'ACTIONS ' + JSON.stringify(getCurrentState().getAllActions());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "state",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'CANCELLED ACTIONS ' + JSON.stringify(getCurrentState().getAllCancelledActions());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
         "name" : "act templates",
         "style" : { },
         "text" : {
