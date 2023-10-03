@@ -226,6 +226,10 @@ color: var(--colors-primarycolor);
 	animation-duration: 2s ease-out;
 }
 
+.action-container.not-planned{
+	opacity: 70%;
+}
+
 .actionHeader{
 	background-color: var(--gray_200);
 	padding: 5px 10px ;

@@ -187,6 +187,8 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
 export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
 	type: 'ActionCancellationEvent';
 	templateId: TemplateId;
+	actorId: ActorId;
+	timeStamp: SimTime;
 }
 
 export interface StandardActionEvent extends ActionCreationEvent {

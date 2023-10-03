@@ -1,6 +1,6 @@
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { startMapAction } from "../gameMap/main";
-import { getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from "../UIfacade/actionFacade";
+import { cancelAction, getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -87,10 +87,24 @@ export function canPlanAction(): boolean {
 	return true;
 }
 
+export function isPlannedAction(id: number) {
+	const actorUid = getCurrentActorUid();
+	const actions = getAllActions()[actorUid];
+
+	if (actorUid && actions) {
+		const action = actions.find(a => a.startTime === getSimTime());
+		if (action) {
+			return id == action.getTemplateId();
+		}
+	}
+	
+	return false;
+}
+
 /**
  * 
  */
-export function actionClickHandler (id: number, featureType: GeometryType) {
+export function actionClickHandler (id: number, featureType: GeometryType): void {
 
 	const template = getActionTemplate(id)!;
 	const uid = getCurrentActorUid();
@@ -104,7 +118,10 @@ export function actionClickHandler (id: number, featureType: GeometryType) {
 		} else {
 			planAction(template.getTemplateRef(), uid);
 		}
+	} else if (isPlannedAction(id)) {
+		cancelAction(uid, id);
 	} else {
+		// Error handling modal
 		showModal()
 	}
 }

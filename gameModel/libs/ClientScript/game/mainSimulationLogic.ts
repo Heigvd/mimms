@@ -50,6 +50,7 @@ function initMainState(): MainSimulationState {
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
 
   const mainAccident: PointFeature = {
+	ownerId: 0,
     geometryType: 'Point',
     name: "Lieu de l'accident",
     geometry: [2497449.9236694486,1120779.3310497932],
@@ -96,6 +97,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
+		  ownerId: 0,
 		  geometryType: 'MultiPolygon',
 		  name: 'Triage Zone',
 		  geometry: [
@@ -190,12 +192,12 @@ function processEvent(event : FullEvent<TimedEventPayload>){
       }
       break;
     case 'ActionCancellationEvent': {
-      const templateId = event.payload.templateId;
-      const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId);
+	  const payload = event.payload;
+      const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId);
       if (!action) {
-        mainSimLogger.error('no action was found with id ', templateId);
+        mainSimLogger.error('no action was found with id ', payload.templateId);
       } else {
-        const localEvent = new CancelActionLocalEvent(event.id, event.payload.triggerTime, action);
+        const localEvent = new CancelActionLocalEvent(event.id, event.payload.triggerTime, event.payload.templateId, event.payload.actorId, event.payload.timeStamp);
         localEventManager.queueLocalEvent(localEvent);
       }
       
@@ -290,17 +292,18 @@ export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedA
 }
 
 export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
-  const actor = getCurrentState().getActorById(selectedActor);
-  const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId);
+  const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId && a.ownerId === selectedActor);
 
-  if(action && actor) {
+  if(action && selectedActor) {
     const cancellationEvent: ActionCancellationEvent = {
       ...initBaseEvent(0),
       triggerTime: currentSimulationState.getSimTime(),
       type: 'ActionCancellationEvent',
       templateId: templateId,
+	  actorId: selectedActor,
+	  timeStamp: getCurrentState().getSimTime(),
     }
-
+	
     return await sendEvent(cancellationEvent);
   } else {
     mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor)

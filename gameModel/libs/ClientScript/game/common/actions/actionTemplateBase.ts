@@ -82,7 +82,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
   protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
-    return action == undefined || action.getStatus() === 'Uninitialized' ? true : this.replayable;
+    return action == undefined || action.startTime === state.getSimTime() ? true : this.replayable;
   }
 
   /**
@@ -201,6 +201,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
     
   const feature = {
+	  ownerId: initiator.Uid,
     geometryType: this.featureDescription.geometryType,
     name: this.featureDescription.name,
     geometry: this.featureDescription.feature?.geometry || payload.feature,

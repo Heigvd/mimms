@@ -1,7 +1,7 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
-import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
+import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent, RemoveMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -47,7 +47,7 @@ export abstract class ActionBase implements IClonable{
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  public cancel(): boolean {
+  public cancel(state: MainSimulationState): boolean {
     if(this.status === "Cancelled") {
       this.logger.warn('This action was already cancelled');
     }else if(this.status === 'Completed'){
@@ -55,12 +55,12 @@ export abstract class ActionBase implements IClonable{
       return false;
     }
     this.status = 'Cancelled';
-    this.cancelInternal();
+    this.cancelInternal(state);
 
     return true;
   }
 
-  protected abstract cancelInternal(): void;
+  protected abstract cancelInternal(state: MainSimulationState): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -101,7 +101,7 @@ export abstract class StartEndAction extends ActionBase {
 
         return;
       case 'Uninitialized': {
-        if(simTime > this.startTime){ // if action did start
+        if(simTime >= this.startTime){ // if action did start
           this.logger.debug('dispatching start events...');
           this.dispatchInitEvents(state);
           this.status = "OnGoing";
@@ -159,7 +159,7 @@ export class GetInformationAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(): void {
+  protected cancelInternal(state: MainSimulationState): void {
       return;
   }
 
@@ -202,7 +202,7 @@ export class OnTheRoadgAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(): void {
+  protected cancelInternal(state: MainSimulationState): void {
     return;
   }
 
@@ -238,7 +238,7 @@ export class MethaneAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(): void {
+  protected cancelInternal(state: MainSimulationState): void {
     return;
   }
 
@@ -264,7 +264,7 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	  actionNameKey: TranslationKey,
+	actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
@@ -274,7 +274,7 @@ export class DefineMapObjectAction extends StartEndAction {
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.messageKey = messageKey;
       this.feature = feature;
-	    this.feature.startTimeSec = this.startTime;
+	  this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
@@ -292,8 +292,8 @@ export class DefineMapObjectAction extends StartEndAction {
   }
 
   // TODO remove corresponding mapFeature
-  protected cancelInternal(): void {
-    return;
+  protected cancelInternal(state: MainSimulationState): void {
+	localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
   }
   
   clone(): this {
@@ -347,7 +347,7 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(): void {
+  protected cancelInternal(state: MainSimulationState): void {
     return;
   }
 
