@@ -387,11 +387,11 @@ export function getSkillsDefinitionsAsChoices() {
 	return choices;
 }
 
-function getSkillActId(actId: string) {
+export function getSkillActId(actId: string) {
 	return `act::${actId}`;
 }
 
-function getSkillItemActionId(itemId: string, actionId: string) {
+export function getSkillItemActionId(itemId: string, actionId: string) {
 	return `item::${itemId}::${actionId}`;
 }
 

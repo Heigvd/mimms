@@ -1,5 +1,5 @@
 import { TargetedEvent } from "../game/logic/baseEvent";
-import { getSkillDefinition, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
+import { getSkillActId, getSkillDefinition, getSkillItemActionId, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
 import { Point } from "../map/point2D";
 import { BodyFactoryParam, Environnment } from "../HUMAn/human";
 import { logger } from "./logger";
@@ -9,6 +9,7 @@ import { BagDefinition, HumanTreatmentEvent, PathologyEvent } from "../game/logi
 import { checkUnreachable } from "./helper";
 import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/logic/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
+
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -647,13 +648,13 @@ export function getHumanSkillLevelForItemAction(
 	itemId: string,
 	actionId: string,
 ): SkillLevel | undefined {
-	const key = `item::${itemId}::${actionId}`;
+	const key = getSkillItemActionId(itemId, actionId);
 	const skills = getHumanSkillDefinition(humanId);
 	return skills.actions && skills.actions[key];
 }
 
 export function getHumanSkillLevelForAct(humanId: string, actId: string) {
-	const key = `act::${actId}`;
+	const key = getSkillActId(actId);
 	const skills = getHumanSkillDefinition(humanId);
 	return skills.actions && skills.actions[key];
 }

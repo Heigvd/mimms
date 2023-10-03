@@ -29,11 +29,18 @@ var MimmsHelper = ((function () {
 		return self.getGame().getPlayers();
 	}
 
+	function charactersInfo() {
+
+		var allCharactersByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "characters"));
+		return allCharactersByTeamId;
+	}
+
 	return {
 		isDrillMode: isDrillMode,
 		getDrillType: getDrillType,
 		isRealLifeGame: isRealLifeGame,
 		shouldRunScenarioOnFirstStart: shouldRunScenarioOnFirstStart,
-		getPlayers: getPlayers
+		getPlayers: getPlayers,
+		charactersInfo : charactersInfo
 	}
 })());

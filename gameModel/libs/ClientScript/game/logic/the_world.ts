@@ -233,7 +233,7 @@ export type ActionSource =
 		actionId: string;
 	};
 
-interface HumanMeasureEvent extends TargetedEvent {
+export interface HumanMeasureEvent extends TargetedEvent {
 	type: 'HumanMeasure';
 	timeJump: boolean;
 	source: ActionSource;
@@ -1130,7 +1130,7 @@ export function resolveAction(
 			return {
 				source: { ...act!, type: 'act' },
 				label: label,
-				actionId: 'default',
+				actionId: event.source.actId,
 				action: action,
 			};
 		}
@@ -1194,6 +1194,7 @@ function doMeasure(
 	if (rEvent) {
 		rEvent.result = values;
 		rEvent.status = 'success';
+		
 		sendEvent(rEvent);
 	}
 
@@ -1454,10 +1455,11 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
+				if(resultEvent){
+					resultEvent.duration = duration;
+				}
 				if (duration > 0 && !event.payload.timeJump) {
-					if (resultEvent) {
-						resultEvent.duration = duration;
-					}
+					// emit an event if timejump is deactivated
 					delayAction(event.time + duration, resolvedAction, event, resultEvent);
 				} else {
 					if(duration > 0){

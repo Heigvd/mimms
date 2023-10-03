@@ -1,17 +1,21 @@
+import { getSkillActId, getSkillDefinition, getSkillItemActionId, SkillLevel } from "../edition/GameModelerHelper";
 import { FullEvent } from "../game/logic/EventManager";
-import { EventPayload, HumanMeasureResultEvent, MeasureResultStatus } from "../game/logic/the_world";
+import { EventPayload, HumanMeasureEvent, HumanMeasureResultEvent, HumanTreatmentEvent, MeasureResultStatus, resolveAction } from "../game/logic/the_world";
 import { getTagSystem } from "../game/logic/triage";
+import { BodyFactoryParam } from "../HUMAn/human";
 import { compare } from "../tools/helper";
 import { exportLogger } from "../tools/logger";
 
 type PlayerId = string;
 type PatientId = string;
-type TreatmentData = {type: string, time: number, blocks: string[]}
-type MeasureData = {name: string, time: number, result: string, sourceEventId: number, status: MeasureResultStatus}
+type TreatmentData = {type: string, time: number, blocks: string[], duration: number}
+type MeasureData = {name: string, time: number, result: string, sourceEventId: number, status: MeasureResultStatus, duration: number}
 
 export async function exportAllPlayersDrillResults() : Promise<void>{
 
 	const patientEvents = await getPatientsEvents();
+	const characters = await getCharactersInfo();
+	wlog(characters);
 	
 	if(!patientEvents){
 		exportLogger.error('Could not get patient info')
@@ -64,12 +68,14 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 					playersCatVitals[plid][ptid] = evt.payload.autoTriage.vitals;
 					break;
 				case 'HumanMeasure':
+					const durationM = getActionDuration(evt.payload as HumanMeasureEvent);
 					const dataM : MeasureData = {
 						time : evt.time,
 						name : evt.payload.type,
 						result : "NO RESULT",
 						sourceEventId: evt.id,
-						status : 'unknown'
+						status : 'unknown', 
+						duration : durationM
 					}
 					if(evt.payload.source.type == 'act'){
 						dataM.name = evt.payload.source.actId;
@@ -87,10 +93,12 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 
 					break;
 				case 'HumanTreatment':
+					const durationT = getActionDuration(evt.payload as HumanTreatmentEvent);
 					const data : TreatmentData = {
 						blocks : evt.payload.blocks,
 						time: evt.time,
-						type : evt.payload.type
+						type : evt.payload.type,
+						duration: durationT
 					};
 					if(evt.payload.source.type == 'act'){
 						data.type = evt.payload.source.actId;
@@ -110,6 +118,50 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 			}
 		}
 	})
+
+	function getActionDuration(event : HumanTreatmentEvent | HumanMeasureEvent): number {
+		const resolvedAction = resolveAction(event);
+		if(!resolvedAction || !resolvedAction.action){
+			wlog('missing resolved action');
+		}
+		const skillId = characters[event.emitterCharacterId].skillId;
+		const skillDef = getSkillDefinition(skillId);
+
+		let skillLvl : SkillLevel = 'low_skill';
+
+		if (event.source.type === 'act'){
+			skillLvl = skillDef.actions![getSkillActId(event.source.actId)];
+		}else {
+			skillLvl = skillDef.actions![getSkillItemActionId(event.source.itemId, event.source.actionId)];
+		}
+		
+		/*if(!skillLvl){
+			wlog('missing skill level', event.emitterCharacterId, event.source);
+			const profiles = getCharacterProfiles();
+			const selectedProfile = Variable.find(gameModel, 'defaultProfile').getValue(self);
+			const skillDef = getSkillDefinition(profiles[selectedProfile].skillId);
+			if (action.type === 'act') {
+				const key = `act::${actId}`;
+				return getHumanSkillLevelForAct(humanId, action.actId);
+			} else {
+				return getHumanSkillLevelForItemAction(humanId, action.itemId, action.actionId);
+			}
+			wlog(skillDef);
+		}*/
+		let duration = 0;
+		if(resolvedAction?.action && skillDef){
+			duration = resolvedAction.action.duration[skillLvl];
+			wlog(duration);
+		}else {
+			
+			if (event.type === 'HumanTreatment'){
+				wlog('/////////////// CANNOT GET TREATMENT DURATION', event);
+			} else {
+				wlog('*************** CANNOT GET MEASURE DURATION', event);
+			}
+		}
+		return duration;
+	}
 
 	const sortedPatientIds = Object.keys(patientsIds).sort((a,b) => compare(a,b));
 
@@ -228,18 +280,18 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function addTreatments(pid: PlayerId, patientId: PatientId){
 		const line = lines[pid];
 		const tdata = playersTreatments[pid][patientId];
-
+		
 		const status : MeasureResultStatus = 'success';
-		const duration = (0).toString();
 
 		const max = maxTreatments[patientId] || 0;
 		for(let i = 0; i < max; i++){
 			const t = tdata ? tdata[i] : undefined;
+			
 			if(t){
 				line.push(t.type);
 				line.push(status);
 				line.push(t.time.toString());
-				line.push(duration);
+				line.push(t.duration.toString());
 				//wrong typing from serialization blocks is an object
 				const blocks = Object.values(t.blocks);
 				if(blocks.length){
@@ -261,6 +313,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		const max = maxMeasures[patientId] || 0;
 		for(let i = 0; i < max; i++){
 			const m = mdata ? mdata[i] : undefined;
+			
 			if(m){
 				// try to fetch the linked result event
 				const resEvent = measureResultMap[m.sourceEventId];
@@ -270,7 +323,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 						m.result = Object.values(resEvent.payload.result).map( v => v.value).join('|')//JSON.stringify(resEvent.payload.result);
 					}
 					m.status = resEvent.payload.status;
-					duration = resEvent.payload.duration;
+					duration = m.duration || resEvent.payload.duration;
 				}
 				line.push(m.name);
 				line.push(m.status);
@@ -320,4 +373,20 @@ export async function getPatientsEvents(): Promise<FullEvent<EventPayload>[]> {
 
 	return info;
 
+}
+
+async function getCharactersInfo(): Promise<Record<string, BodyFactoryParam>>{
+
+	const info : Record<string, BodyFactoryParam> = {};
+	await APIMethods.runScript("MimmsHelper.charactersInfo();", {}).then(response => {
+		const tmp = Object.values(response.updatedEntities[0] as Record<string, any>) as any[];// as unknown as Record<string, string>;
+		tmp.forEach(entry =>  {
+			Object.entries(entry.properties as Record<string, string>).forEach(([k,v]) => {
+				wlog(k, v);
+				info[k] = JSON.parse(v) as BodyFactoryParam;
+			})
+		})
+		
+	})
+	return info;
 }
