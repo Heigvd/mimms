@@ -298,7 +298,7 @@
       "@class" : "Page",
       "id" : "43",
       "name" : "main simulation page",
-      "scenaristPage" : false,
+      "scenaristPage" : true,
       "trainerPage" : null
     }, {
       "@class" : "Folder",
