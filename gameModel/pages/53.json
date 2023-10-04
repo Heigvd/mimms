@@ -77,7 +77,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -120,7 +120,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -163,7 +163,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -206,7 +206,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -249,7 +249,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -292,7 +292,7 @@
               "type" : "Text"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "style" : { }
@@ -300,7 +300,7 @@
           "type" : "FlexList"
         } ],
         "layout" : {
-          "flexDirection" : "row"
+          "flexDirection" : "column"
         },
         "layoutStyle" : { },
         "name" : "requested resources",

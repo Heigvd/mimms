@@ -128,6 +128,17 @@ html{
 	cursor: pointer;
 }
 
+/********** WHITE BTN ***************/
+
+.whiteButton{
+	background-color: var(--gray_WHITE);
+	border-radius: var(--L_borderRadius);
+}
+
+.whiteButton:hover{
+	background-color: var(--gray_200);
+}
+
 /********************** GENERAL PANEL *********************************************/
 .generalPanels-container {
   width: auto;
@@ -448,7 +459,7 @@ max-width: 30px;
 }
 
 .fonction-container{
-font-size: var(--S_text);
+font-size: var(--M_text);
 }
 
 /**************************** RADIO CSS (upper-right) ************************************/
@@ -524,7 +535,7 @@ font-size: var(--S_text);
 
 
 .methaneInput-container{
-	background-color: var(--gray_WHITE);
+	background-color: var(--gray_200);
 }
 
 .jodit{
@@ -532,8 +543,7 @@ font-size: var(--S_text);
 }
 
 .methaneBtn-container{
-	margin-top: 1em;
-}
+	margin-top: 1em;}
 
 .cancelBtn{
 	color: var(--gray_700);
@@ -558,6 +568,11 @@ font-weight: var(--boldWeight);
 	font-size: var(--M_text);
 }
 
+.methaneMenuButton > *{
+font-size: var(--S_text);
+color: var(--gray_BLACK);
+font-weight: var(--boldWeight);
+}
 
 
 /************************ TIMELINE CSS (bottom) ******************************/

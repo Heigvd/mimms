@@ -177,7 +177,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return this.checkIfAlreadyUsedAndCouldReplay(state);
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
   }
   
   public getDescription(): string {
