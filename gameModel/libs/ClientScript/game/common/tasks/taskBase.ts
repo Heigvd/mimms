@@ -76,7 +76,7 @@ export abstract class TaskBase implements IClonable {
     return true;
   }
 
-  public abstract isAvailable(state : MainSimulationState, actor : Actor): boolean;
+  public abstract isAvailable(state : MainSimulationState, actor : Readonly<Actor>): boolean;
 
   public abstract update(state: Readonly<MainSimulationState>): void;
 

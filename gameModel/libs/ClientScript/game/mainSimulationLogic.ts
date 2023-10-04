@@ -4,13 +4,13 @@
 import { mainSimLogger } from "../tools/logger";
 import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
 import { Actor } from "./common/actors/actor";
-import { ActorId, TaskId, TemplateRef } from "./common/baseTypes";
+import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
-import { MapFeature, PointFeature, PolygonFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { PointFeature } from "./common/events/defineMapObjectEvent";
+import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
-import { TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
+import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { ResourceType } from "./common/resources/resourcePool";
@@ -51,6 +51,7 @@ function initMainState(): MainSimulationState {
   const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
 
   const mainAccident: PointFeature = {
+	ownerId: 0,
     geometryType: 'Point',
     name: "Lieu de l'accident",
     geometry: [2497449.9236694486,1120779.3310497932],
@@ -65,6 +66,7 @@ function initMainState(): MainSimulationState {
 
   return new MainSimulationState({
     actions: [],
+    cancelledActions: [],
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
@@ -96,6 +98,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
+		  ownerId: 0,
 		  geometryType: 'MultiPolygon',
 		  name: 'Triage Zone',
 		  geometry: [
@@ -189,6 +192,18 @@ function processEvent(event : FullEvent<TimedEventPayload>){
         }
       }
       break;
+    case 'ActionCancellationEvent': {
+	  const payload = event.payload;
+      const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId);
+      if (!action) {
+        mainSimLogger.error('no action was found with id ', payload.templateId);
+      } else {
+        const localEvent = new CancelActionLocalEvent(event.id, event.payload.triggerTime, event.payload.templateId, event.payload.actorId, event.payload.timeStamp);
+        localEventManager.queueLocalEvent(localEvent);
+      }
+      
+    }
+      break;
     case 'ResourceAllocationEvent': {
       const newLocalEvents = createResourceAllocationLocalEvents(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
       newLocalEvents.forEach(lclEvt => localEventManager.queueLocalEvent(lclEvt));
@@ -276,6 +291,25 @@ export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedA
 
   return await sendEvent(globalEvent);
 }
+
+export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
+  const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === templateId && a.ownerId === selectedActor);
+
+  if(action && selectedActor) {
+    const cancellationEvent: ActionCancellationEvent = {
+      ...initBaseEvent(0),
+      triggerTime: currentSimulationState.getSimTime(),
+      type: 'ActionCancellationEvent',
+      templateId: templateId,
+	  actorId: selectedActor,
+	  timeStamp: getCurrentState().getSimTime(),
+    }
+	
+    return await sendEvent(cancellationEvent);
+  } else {
+    mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor)
+  }
+} 
 
 /**
  * Triggers time forward in the simulation

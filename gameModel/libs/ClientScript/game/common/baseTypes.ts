@@ -19,6 +19,8 @@ export type TemplateRef = string;
 
 export type ActorId = number;
 
+export type TemplateId = number;
+
 export type ActionTemplateId = number;
 
 export type TaskId = number;

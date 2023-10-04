@@ -1,7 +1,7 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
-import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent } from "../localEvents/localEventBase";
+import { AddActorLocalEvent, AddMapItemLocalEvent, AddRadioMessageLocalEvent, ChangeNbResourcesLocalEvent, RemoveMapItemLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -47,16 +47,20 @@ export abstract class ActionBase implements IClonable{
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  public cancel(): boolean {
+  public cancel(state: MainSimulationState): boolean {
     if(this.status === "Cancelled") {
-      this.logger.warn('This action was cancelled already');
+      this.logger.warn('This action was already cancelled');
     }else if(this.status === 'Completed'){
       this.logger.error('This action is completed, it cannot be cancelled');
       return false;
     }
     this.status = 'Cancelled';
+    this.cancelInternal(state);
+
     return true;
   }
+
+  protected abstract cancelInternal(state: MainSimulationState): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -92,7 +96,7 @@ export abstract class StartEndAction extends ActionBase {
 
     const simTime = state.getSimTime();
     switch(this.status){
-      case 'Cancelled':
+      case 'Cancelled': // should action do something ?
       case 'Completed':
 
         return;
@@ -154,6 +158,11 @@ export class GetInformationAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
+  }
+
   override clone(): this {
     const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -192,6 +201,11 @@ export class OnTheRoadgAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
   override clone(): this {
     const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -223,6 +237,11 @@ export class MethaneAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
   clone(): this {
     const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -245,7 +264,7 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	  actionNameKey: TranslationKey,
+	actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
@@ -255,15 +274,33 @@ export class DefineMapObjectAction extends StartEndAction {
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.messageKey = messageKey;
       this.feature = feature;
-	    this.feature.startTimeSec = this.startTime;
+	  this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
+  
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place immediatly
+    // TODO show grayed out map element
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
+  }
+  
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place at the end of the action
+    // ungrey the map element
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
+  }
+
+  // TODO remove corresponding mapFeature
+  protected cancelInternal(state: MainSimulationState): void {
+	localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
+  }
+  
   clone(): this {
     const clone = new DefineMapObjectAction(
         this.startTime,
         this.durationSec,
-		    this.actionNameKey,
+        this.actionNameKey,
         this.messageKey,
         this.eventId,
         this.ownerId,
@@ -274,19 +311,6 @@ export class DefineMapObjectAction extends StartEndAction {
     return clone as this;
     
   }
-
-  protected dispatchInitEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place immediatly
-    // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
-  }
-
-  protected dispatchEndedEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place at the end of the action
-    // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-  }
-
 }
 
 export class AskReinforcementAction extends StartEndAction {
@@ -320,6 +344,11 @@ export class AskReinforcementAction extends StartEndAction {
     this.logger.info('end event AskReinforcementAction');
     localEventManager.queueLocalEvent(new ChangeNbResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.type, this.nb));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
   }
 
   override clone(): this { 

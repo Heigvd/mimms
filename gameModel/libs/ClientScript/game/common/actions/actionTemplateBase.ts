@@ -42,7 +42,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
    */
-  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: UserInput): EventT;
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
 
   /**
    * Determines if the action can be launched given the current state of the game and the actor being played
@@ -50,7 +50,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param actor currently selected actor
    * @returns true if the player can trigger this action
    */
-  public abstract isAvailable(state : MainSimulationState, actor : Actor): boolean;
+  public abstract isAvailable(state : MainSimulationState, actor : Readonly<Actor>): boolean;
 
   /**
    * @returns A translation to a short description of the action
@@ -79,9 +79,10 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
+
   protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return action == undefined || action.startTime === state.getSimTime() ? true : this.replayable;
   }
 
   /**
@@ -200,6 +201,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
   public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
     
   const feature = {
+	  ownerId: initiator.Uid,
     geometryType: this.featureDescription.geometryType,
     name: this.featureDescription.name,
     geometry: this.featureDescription.feature?.geometry || payload.feature,

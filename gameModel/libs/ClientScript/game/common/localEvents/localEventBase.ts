@@ -3,7 +3,7 @@ import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
@@ -64,7 +64,6 @@ export class PlanActionLocalEvent extends LocalEventBase {
   
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
     super(parentEventId, 'PlanActionEvent', timeStamp);
-
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -74,6 +73,30 @@ export class PlanActionLocalEvent extends LocalEventBase {
     this.action.update(state);
   }
 
+}
+
+// Update status of action
+export class CancelActionLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly templateId: TemplateId, readonly actorUid: ActorId, readonly planTime: SimTime){
+    super(parentEventId, 'CancelActionEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+      const so = state.getInternalStateObject();
+      
+      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid);
+
+      if (action && action.startTime === this.planTime) {
+		// We remove the action and place it in cancelled actions
+        so.actions.splice(so.actions.indexOf(action), 1);
+        so.cancelledActions.push(action);
+        action.cancel(state);
+      } else {
+        // err.log
+      }
+
+  }
 }
 
 /////////// TODO in own file
@@ -121,10 +144,21 @@ export class AddMapItemLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-	wlog('-----PUSHING FEATURE------', this.feature)
     so.mapLocations.push(this.feature);
   }
 
+}
+
+export class RemoveMapItemLocalEvent extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature) {
+		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		const so = state.getInternalStateObject();
+		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.feature.name && f.ownerId === this.feature.ownerId), 1);
+	}
 }
 
 export class AddActorLocalEvent extends LocalEventBase {

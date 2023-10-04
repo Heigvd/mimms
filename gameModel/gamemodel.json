@@ -6443,7 +6443,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation USER TESTING 14.09 (2)",
+  "name" : "MIMMS main simulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

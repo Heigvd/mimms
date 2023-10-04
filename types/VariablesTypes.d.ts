@@ -119,6 +119,10 @@
 "multiplayerMode": SStringDescriptor;
 "general": SListDescriptor;
 "general-interface": SObjectDescriptor;
+"mainSim": SListDescriptor;
+"mainSim-interface": SObjectDescriptor;
+"mainSim-actions-tasks": SObjectDescriptor;
+"mainSim-actors": SObjectDescriptor;
 "realLifeRole": SStringDescriptor;
 "scenarioRevived": SBooleanDescriptor;
         }
