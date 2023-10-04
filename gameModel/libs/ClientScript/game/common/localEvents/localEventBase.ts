@@ -1,10 +1,12 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
+import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
+import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
@@ -71,7 +73,6 @@ export class PlanActionLocalEvent extends LocalEventBase {
 
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
     super(parentEventId, 'PlanActionEvent', timeStamp);
-
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -83,11 +84,36 @@ export class PlanActionLocalEvent extends LocalEventBase {
 
 }
 
+// Update status of action
+export class CancelActionLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly templateId: TemplateId, readonly actorUid: ActorId, readonly planTime: SimTime){
+    super(parentEventId, 'CancelActionEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+      const so = state.getInternalStateObject();
+
+      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid);
+
+      if (action && action.startTime === this.planTime) {
+		// We remove the action and place it in cancelled actions
+        so.actions.splice(so.actions.indexOf(action), 1);
+        so.cancelledActions.push(action);
+        action.cancel(state);
+      } else {
+        // err.log
+      }
+
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // time
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
 
 /////////// TODO in own file
 // TODO dynamic time progression (continue advancing until something relevant happens)
@@ -101,8 +127,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
 
-    // TODO update patients
-    this.updatePatients(so.patients, state.getSimTime());
+    // update patients
+    this.updatePatients(so.patients, this.timeJump);
 
     // update all actions =>
     this.updateActions(state);
@@ -111,8 +137,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
-    //TODO
+  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
+    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
@@ -140,10 +166,21 @@ export class AddMapItemLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-	wlog('-----PUSHING FEATURE------', this.feature)
     so.mapLocations.push(this.feature);
   }
 
+}
+
+export class RemoveMapItemLocalEvent extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature) {
+		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		const so = state.getInternalStateObject();
+		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.feature.name && f.ownerId === this.feature.ownerId), 1);
+	}
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -151,6 +188,7 @@ export class AddMapItemLocalEvent extends LocalEventBase {
 // actors
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
 
 export class AddActorLocalEvent extends LocalEventBase {
 

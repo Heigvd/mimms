@@ -129,9 +129,14 @@
                 }, {
                   "props" : {
                     "className" : "noPadding playActionBtn",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+                      "language" : "typescript"
+                    },
                     "icon" : {
                       "@class" : "Script",
-                      "content" : "import { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n}\n'play'",
+                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (canPlanAction() && isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n} else if (isPlannedAction(Context.action.Uid)) {\n\treturn 'stop';\n}\n'play';",
                       "language" : "typescript"
                     },
                     "label" : {
@@ -168,14 +173,19 @@
               },
               "type" : "FlexList"
             } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction()",
-              "language" : "typescript"
-            },
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "not-planned",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.Uid);",
+                "language" : "typescript"
+              }
+            } ],
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "action-container",
             "layoutStyle" : { },
             "name" : "Actions",
             "style" : { }

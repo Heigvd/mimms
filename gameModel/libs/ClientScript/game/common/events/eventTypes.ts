@@ -7,7 +7,7 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { ActorId, SimDuration, SimTime, TaskId, TemplateRef } from "../baseTypes";
+import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
 
@@ -164,6 +164,7 @@ export type EventPayload =
 	// NEW EVENTS
 	| TimeForwardEvent
 	| ActionCreationEvent
+	| ActionCancellationEvent
 	| ResourceRequestFromActorEvent
 	| ResourceSendingToActorEvent
 	| ResourceAllocationEvent
@@ -186,6 +187,13 @@ export type TimedEventPayload = TimedPayload & EventPayload;
 export interface ActionCreationEvent extends BaseEvent, TimedPayload {
 	type: 'ActionCreationEvent';
 	templateRef: TemplateRef;
+}
+
+export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
+	type: 'ActionCancellationEvent';
+	templateId: TemplateId;
+	actorId: ActorId;
+	timeStamp: SimTime;
 }
 
 export interface StandardActionEvent extends ActionCreationEvent {

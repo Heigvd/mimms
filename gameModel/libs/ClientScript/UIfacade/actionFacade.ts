@@ -5,10 +5,10 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActorId, TemplateRef } from "../game/common/baseTypes";
+import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
-import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
+import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../gameInterface/main";
 import { getAllActionTemplates } from "../UIfacade/debugFacade";
 
@@ -26,6 +26,17 @@ export async function planAction(actionTemplateId: TemplateRef, selectedActor: A
   return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, params);
 }
 
+// TODO Maybe ensure only owning actor can cancel actions
+/**
+ *
+ * @param actionId The action to cancel
+ * @param selectedActor The actor that cancels the action
+ * @returns
+ */
+export async function cancelAction(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
+	return await buildAndLaunchActionCancellation(selectedActor, templateId);
+}
+
 /**
  * @param actorId
  * @returns a list of actions that the current actor can undertake
@@ -39,6 +50,10 @@ export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
+}
+
+export function getAllCancelledActions(): Readonly<ActionBase[]> {
+	return getCurrentState().getAllCancelledActions();
 }
 
 /**

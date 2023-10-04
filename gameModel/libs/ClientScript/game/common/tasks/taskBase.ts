@@ -89,8 +89,8 @@ export abstract class TaskBase implements IClonable {
     return true;
   }
 
-  /** Is the task ready for an actor to allocate resources to start it. Aka can the actor see it to allocate resources. */
-  public abstract isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean;
+	/** Is the task ready for an actor to allocate resources to start it. Aka can the actor see it to allocate resources. */
+	public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
 
   /** Update the state */
   public abstract update(state: Readonly<MainSimulationState>): void;

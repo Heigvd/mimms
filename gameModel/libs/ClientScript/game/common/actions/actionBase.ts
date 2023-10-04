@@ -2,11 +2,12 @@ import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, Transla
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import {
-  AddActorLocalEvent,
-  AddMapItemLocalEvent,
-  AddRadioMessageLocalEvent,
-  IncomingResourcesLocalEvent,
-  TransferResourcesLocalEvent,
+	AddActorLocalEvent,
+	AddMapItemLocalEvent,
+	AddRadioMessageLocalEvent,
+	IncomingResourcesLocalEvent,
+	RemoveMapItemLocalEvent,
+	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -54,16 +55,20 @@ export abstract class ActionBase implements IClonable{
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  public cancel(): boolean {
+  public cancel(state: MainSimulationState): boolean {
     if(this.status === "Cancelled") {
-      this.logger.warn('This action was cancelled already');
+      this.logger.warn('This action was already cancelled');
     }else if(this.status === 'Completed'){
       this.logger.error('This action is completed, it cannot be cancelled');
       return false;
     }
     this.status = 'Cancelled';
+    this.cancelInternal(state);
+
     return true;
   }
+
+  protected abstract cancelInternal(state: MainSimulationState): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -99,7 +104,7 @@ export abstract class StartEndAction extends ActionBase {
 
     const simTime = state.getSimTime();
     switch(this.status){
-      case 'Cancelled':
+      case 'Cancelled': // should action do something ?
       case 'Completed':
 
         return;
@@ -161,6 +166,11 @@ export class GetInformationAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
+  }
+
   override clone(): this {
     const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -199,6 +209,11 @@ export class OnTheRoadgAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
   override clone(): this {
     const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -230,6 +245,11 @@ export class MethaneAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
   clone(): this {
     const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
@@ -252,7 +272,7 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	  actionNameKey: TranslationKey,
+	actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     evtId: GlobalEventId,
     ownerId: ActorId,
@@ -262,25 +282,10 @@ export class DefineMapObjectAction extends StartEndAction {
       super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
       this.messageKey = messageKey;
       this.feature = feature;
-	    this.feature.startTimeSec = this.startTime;
+	  this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
-  clone(): this {
-    const clone = new DefineMapObjectAction(
-        this.startTime,
-        this.durationSec,
-		    this.actionNameKey,
-        this.messageKey,
-        this.eventId,
-        this.ownerId,
-        this.feature,
-        this.templateId
-    );
-    clone.status = this.status;
-    return clone as this;
-    
-  }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
@@ -294,6 +299,26 @@ export class DefineMapObjectAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
+  // TODO remove corresponding mapFeature
+  protected cancelInternal(state: MainSimulationState): void {
+	localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
+  }
+
+  clone(): this {
+    const clone = new DefineMapObjectAction(
+        this.startTime,
+        this.durationSec,
+        this.actionNameKey,
+        this.messageKey,
+        this.eventId,
+        this.ownerId,
+        this.feature,
+        this.templateId
+    );
+    clone.status = this.status;
+    return clone as this;
+    
+  }
 }
 
 /**
@@ -334,6 +359,11 @@ export class RequestResourcesFromActorAction extends StartEndAction {
 
     // TODO see how we can send requested resources
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.recipientActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
   }
 
   override clone(): this {
@@ -378,13 +408,18 @@ export class SendResourcesToActorAction extends StartEndAction {
 
     localEventManager.queueLocalEvent(new TransferResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.receiverActor, this.sentResources,
     ));
-    
+
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
     this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
 
     // TODO see how we can send requested resources
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.receiverActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
   }
 
   override clone(): this {
@@ -430,6 +465,11 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     // TODO
   }
 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
   override clone(): this {
     const clone = new AssignTaskToResourcesAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.task, this.assignedResources);
     clone.status = this.status;
@@ -471,6 +511,11 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     this.logger.info('end event FreeResourcesFromTaskAction');
 
     // TODO
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
   }
 
   override clone(): this {
@@ -517,7 +562,12 @@ export class AskReinforcementAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
   }
 
-  override clone(): this { 
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
+  override clone(): this {
     const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.feedbackAtEnd, this.templateId);
     clone.status = this.status;
     return clone as this;

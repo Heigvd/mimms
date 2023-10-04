@@ -1,7 +1,7 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { startMapAction } from "../gameMap/main";
-import { getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
+import { cancelAction, getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -88,10 +88,24 @@ export function canPlanAction(): boolean {
 	return true;
 }
 
+export function isPlannedAction(id: number) {
+	const actorUid = getCurrentActorUid();
+	const actions = getAllActions()[actorUid];
+
+	if (actorUid && actions) {
+		const action = actions.find(a => a.startTime === getSimTime());
+		if (action) {
+			return id == action.getTemplateId();
+		}
+	}
+
+	return false;
+}
+
 /**
  * 
  */
-export function actionClickHandler (id: number, params: any) {
+export function actionClickHandler (id: number, params: any) : void {
 
 	const template = getActionTemplate(id)!;
 	const uid = getCurrentActorUid();
@@ -105,7 +119,10 @@ export function actionClickHandler (id: number, params: any) {
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}
+	} else if (isPlannedAction(id)) {
+		cancelAction(uid, id);
 	} else {
+		// Error handling modal
 		showModal()
 	}
 }
@@ -157,7 +174,7 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";
 	}
-	
+
 	return "57";
 }
 
