@@ -1,10 +1,12 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
+import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
+import { computeNewPatientsState } from "../patients/handleState";
 import { ResourceType } from "../resources/resourcePool";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { TaskStatus } from "../tasks/taskBase";
@@ -109,8 +111,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
 
-    // TODO update patients
-    this.updatePatients(so.patients, state.getSimTime());
+    // update patients
+    this.updatePatients(so.patients, this.timeJump);
 
     // update all actions =>
     this.updateActions(state);
@@ -119,8 +121,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
-    //TODO
+  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
+    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
