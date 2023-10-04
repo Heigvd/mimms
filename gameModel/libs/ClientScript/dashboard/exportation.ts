@@ -122,10 +122,19 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	function getActionDuration(event : HumanTreatmentEvent | HumanMeasureEvent): number {
 		const resolvedAction = resolveAction(event);
 		if(!resolvedAction || !resolvedAction.action){
-			wlog('missing resolved action');
+			wlog('****** Could not resolve action', event);
+			return 0;
 		}
 		const skillId = characters[event.emitterCharacterId].skillId;
 		const skillDef = getSkillDefinition(skillId);
+
+		if(!skillDef){
+			if (event.type === 'HumanTreatment'){
+				wlog('/////////////// CANNOT GET TREATMENT DURATION', event);
+			} else {
+				wlog('*************** CANNOT GET MEASURE DURATION', event);
+			}
+		}
 
 		let skillLvl : SkillLevel = 'low_skill';
 
@@ -134,33 +143,21 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		}else {
 			skillLvl = skillDef.actions![getSkillItemActionId(event.source.itemId, event.source.actionId)];
 		}
+		return resolvedAction.action.duration[skillLvl] || 0;
 		
 		/*if(!skillLvl){
-			wlog('missing skill level', event.emitterCharacterId, event.source);
+			FALLBACK CODE, reading the variable set by the trainer in the setup interface
 			const profiles = getCharacterProfiles();
 			const selectedProfile = Variable.find(gameModel, 'defaultProfile').getValue(self);
 			const skillDef = getSkillDefinition(profiles[selectedProfile].skillId);
 			if (action.type === 'act') {
-				const key = `act::${actId}`;
 				return getHumanSkillLevelForAct(humanId, action.actId);
 			} else {
 				return getHumanSkillLevelForItemAction(humanId, action.itemId, action.actionId);
 			}
 			wlog(skillDef);
 		}*/
-		let duration = 0;
-		if(resolvedAction?.action && skillDef){
-			duration = resolvedAction.action.duration[skillLvl];
-			wlog(duration);
-		}else {
-			
-			if (event.type === 'HumanTreatment'){
-				wlog('/////////////// CANNOT GET TREATMENT DURATION', event);
-			} else {
-				wlog('*************** CANNOT GET MEASURE DURATION', event);
-			}
-		}
-		return duration;
+
 	}
 
 	const sortedPatientIds = Object.keys(patientsIds).sort((a,b) => compare(a,b));
@@ -320,7 +317,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 				let duration = 0;
 				if(resEvent){
 					if(resEvent.payload.result){
-						m.result = Object.values(resEvent.payload.result).map( v => v.value).join('|')//JSON.stringify(resEvent.payload.result);
+						m.result = Object.values(resEvent.payload.result).map( v => v.value).join('|')
 					}
 					m.status = resEvent.payload.status;
 					duration = m.duration || resEvent.payload.duration;
@@ -367,7 +364,6 @@ export async function getPatientsEvents(): Promise<FullEvent<EventPayload>[]> {
 
 	let info : FullEvent<EventPayload>[]= [];
 	await APIMethods.runScript("PatientDashboard.patientInfo();", {}).then(response => {
-		//dashboard = response.updatedEntities[0] as PatientDashboard;
 		info = response.updatedEntities as FullEvent<EventPayload>[];
 	})
 
@@ -379,7 +375,7 @@ async function getCharactersInfo(): Promise<Record<string, BodyFactoryParam>>{
 
 	const info : Record<string, BodyFactoryParam> = {};
 	await APIMethods.runScript("MimmsHelper.charactersInfo();", {}).then(response => {
-		const tmp = Object.values(response.updatedEntities[0] as Record<string, any>) as any[];// as unknown as Record<string, string>;
+		const tmp = Object.values(response.updatedEntities[0] as Record<string, any>);
 		tmp.forEach(entry =>  {
 			Object.entries(entry.properties as Record<string, string>).forEach(([k,v]) => {
 				wlog(k, v);
