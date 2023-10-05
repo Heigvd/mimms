@@ -457,7 +457,7 @@ font-size: 2rem;
 align-items: center;
 }
 
-.chosenNuimber-container  input{
+.chosenNumber-container  input{
 min-width: 10px;
 max-width: 30px;
 }
