@@ -92,16 +92,40 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutClassName" : "noPadding aDescriptionAction",
+                    "children" : [ {
+                      "props" : {
+                        "layoutClassName" : "noPadding aDescriptionAction",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "exposePageSizeAs" : "",
+                        "initialSelectedPageId" : {
+                          "@class" : "Script",
+                          "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action);",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "requestResourcesLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { ActionBase } from \"./game/common/actions/actionBase\";\nimport { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nimport { getTranslation } from \"./tools/translation\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "Description & play",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "className" : "noPadding playActionBtn",
@@ -124,7 +148,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { actionClickHandler } from \"./gameInterface/main\";\n\nactionClickHandler(Context.action.Uid, Context.action.featureType)",
+                        "content" : "import { RequestResourceFromActorActionInput, SendResourcesToActorActionInput } from \"./game/common/actions/actionTemplateBase\";\nimport { ResourceFunction, ResourceFunctionAndNumber } from \"./game/common/resources/resourceFunction\";\nimport { ResourceTypeAndNumber } from \"./game/common/resources/resourceType\";\nimport { actionClickHandler } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSendResourcesToActorActionTemplate } from \"./UIfacade/actionFacade\";\n\nconst actionRefUid = Context.action.Uid;\n\nlet params = {};\n\nif (isDefineMapObjectTemplate(actionRefUid)) {\n\tparams = Context.action.featureType;\n} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);\n\tconst chosenNbPretrieurs = +Variable.find(gameModel, 'chosenNbPretrieursB').getValue(self);\n\tconst requestedResources: ResourceFunctionAndNumber[] = [{function: 'Pretrieur', nb: chosenNbPretrieurs}];\n\n\tconst requestResourceParams : RequestResourceFromActorActionInput= {recipientActor: chosenActor, requestedResources};\n\n\tparams = requestResourceParams;\n} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'chosenReceiverActor').getValue(self);\n\t\n\tconst chosenNbSecouristes = +Variable.find(gameModel, 'chosenNbSecouristes').getValue(self);\n\tconst chosenNbTechAmbs = +Variable.find(gameModel, 'chosenNbTechAmbul').getValue(self);\n\tconst chosenNbAmbulanciers = +Variable.find(gameModel, 'chosenNbAmbulanciers').getValue(self);\n\tconst chosenNbInfirmiers = +Variable.find(gameModel, 'chosenNbInfirmiers').getValue(self);\n\tconst chosenNbMedJuniors = +Variable.find(gameModel, 'chosenNbMedecinJunior').getValue(self);\n\tconst chosenNbMedSeniors = +Variable.find(gameModel, 'chosenNbMedecinSenior').getValue(self);\n\n\tconst sentResources: ResourceTypeAndNumber[] = [\n\t\t{type: 'secouriste', nb: chosenNbSecouristes},\n\t\t{type: 'techAmbul', nb: chosenNbTechAmbs},\n\t\t{type: 'ambulancier', nb: chosenNbAmbulanciers},\n\t\t{type: 'infirmier', nb: chosenNbInfirmiers},\n\t\t{type: 'medecinJunior', nb: chosenNbMedJuniors},\n\t\t{type: 'medecinSenior', nb: chosenNbMedSeniors},\n\t\t];\n\n\tconst sendResourcesParams : SendResourcesToActorActionInput = {receiverActor: chosenActor, sentResources};\n\n\tparams = sendResourcesParams;\n}\n\nactionClickHandler(Context.action.Uid, params);",
                         "language" : "TypeScript"
                       }
                     },
@@ -144,7 +168,7 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "Description&play",
+                "name" : "Description, parameters & play",
                 "style" : { }
               },
               "type" : "FlexList"

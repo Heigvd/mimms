@@ -1,0 +1,363 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "choices" : {
+          "@class" : "Script",
+          "content" : "import { Actor } from \"./game/common/actors/actor\";\nimport { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getAllActors } from \"./UIfacade/actorFacade\";\nimport { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\n\n//return getAllActors().map((actor: Actor) => {return {label: actor.FullName, value: \"\" + actor.Uid}});\ngetAvailableTasks(getCurrentActorUid()).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'chosenReceiverActor')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>assign a task to resources<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbSecouristes')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>secouristes</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "secouristes",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbTechAmbul')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>tech. amb.<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "techniciens ambulanciers",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbAmbulanciers')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>ambulanciers</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "ambulanciers",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbInfirmiers')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>infirmiers</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "infirmiers",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbMedecinJunior')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>méd. junior<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "medecins junior",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "icon" : "user-nurse",
+                "layoutClassName" : "ressourcePersonIcon",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            }, {
+              "props" : {
+                "layoutClassName" : "chosenNumber-container",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"0\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Variable.find(gameModel,'chosenNbMedecinSenior')",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : false
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>méd. senior<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "ressourcesBox-container",
+            "layoutStyle" : { },
+            "name" : "medecins senior",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "assigned resources",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

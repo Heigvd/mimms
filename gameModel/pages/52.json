@@ -1,0 +1,86 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "oneResource",
+                    "icon" : "user-nurse",
+                    "layoutClassName" : "oneResource-container",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "resourceCounter",
+                    "layoutClassName" : "resourceCounter-container noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), Context.resourceType.enum);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "icon and nb",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "name",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.resourceType.enum;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "name" : "one available resource",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "resourceType",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "enum",
+        "layout" : { },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : "available resources",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

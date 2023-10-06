@@ -2,21 +2,29 @@
  * Setup function
  */
 import { mainSimLogger } from "../tools/logger";
-import { ActionTemplateBase, AskReinforcementActionTemplate, DefineMapObjectTemplate, MethaneTemplate, GetInformationTemplate } from "./common/actions/actionTemplateBase";
+import {
+	ActionTemplateBase,
+	AskReinforcementActionTemplate,
+	DefineMapObjectTemplate,
+	MethaneTemplate,
+	GetInformationTemplate,
+	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
+} from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { PointFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
-import { ResourceType } from "./common/resources/resourcePool";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import { PreTriTask, TaskBase } from "./common/tasks/taskBase";
-import { createResourceAllocationLocalEvents } from "./common/tasks/taskHelper";
+import { PreTriageTask } from "./common/tasks/taskBase";
+import * as TaskLogic from "./common/tasks/taskLogic";
+import { ResourceType } from './common/resources/resourceType';
+import { Resource } from './common/resources/resource';
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -58,8 +66,37 @@ function initMainState(): MainSimulationState {
 	icon: 'mainAccident',
   }
 
-  const testTaskPretriA = new PreTriTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
-  const testTaskPretriB = new PreTriTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+  const testTaskPretriA = new PreTriageTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
+  const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+
+	const initialResources = [
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('secouriste', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
+		new Resource('techAmbul', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('ambulancier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('infirmier', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinJunior', testAL.Uid),
+		new Resource('medecinSenior', testAL.Uid),];
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 20;
@@ -76,7 +113,7 @@ function initMainState(): MainSimulationState {
     },
     tasks: [testTaskPretriA, testTaskPretriB],
     radioMessages: [],
-    resources: [],
+    resources: initialResources,
   }, 0, 0);
 
 }
@@ -115,7 +152,13 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			],
   	}});
 
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'MEDICAL_STAFF', 5, 'ask-reinforcement-feedback');
+  const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
+  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+
+  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
+  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
+
+  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -127,6 +170,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeSectors.getTemplateRef()] = placeSectors;
+  templates[requestResources.getTemplateRef()] = requestResources;
+  templates[sendResources.getTemplateRef()] = sendResources;
+  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
+  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
   templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
@@ -201,12 +248,21 @@ function processEvent(event : FullEvent<TimedEventPayload>){
         const localEvent = new CancelActionLocalEvent(event.id, event.payload.triggerTime, event.payload.templateId, event.payload.actorId, event.payload.timeStamp);
         localEventManager.queueLocalEvent(localEvent);
       }
-      
+
     }
       break;
     case 'ResourceAllocationEvent': {
-      const newLocalEvents = createResourceAllocationLocalEvents(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
-      newLocalEvents.forEach(lclEvt => localEventManager.queueLocalEvent(lclEvt));
+      const newLocalEvent = TaskLogic.createResourceAllocationLocalEvent(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
+      if (newLocalEvent != null) {
+        localEventManager.queueLocalEvent(newLocalEvent);
+      }
+      break;
+    }
+    case 'ResourceReleaseEvent': {
+      const newLocalEvent = TaskLogic.createResourceReleaseLocalEvent(event as FullEvent<ResourceReleaseEvent>, currentSimulationState);
+      if (newLocalEvent != null) {
+        localEventManager.queueLocalEvent(newLocalEvent);
+      }
       break;
     }
     case 'TimeForwardEvent':{
@@ -242,25 +298,6 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
   }
 }
 
-export function fetchAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
-  const actor = currentSimulationState.getActorById(actorId);
-  if (actor) {
-    return Object.values(currentSimulationState.getAllTasks()).filter(ta => ta.isAvailable(currentSimulationState, actor));
-  } else {
-    mainSimLogger.warn('Actor not found. id = ', actorId);
-    return [];
-  }
-}
-
-export function countAvailableResources(actorId: ActorId, type: ResourceType) : number { 
-  const matchingResources = getCurrentState().getResources(actorId, type);
-
-  let sum = 0;
-  matchingResources.forEach(res => sum += res.nbAvailable);
-
-  return sum;
-}
-
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);
 }
@@ -269,7 +306,7 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 
   const actTemplate = actionTemplates[ref];
   
-  const actor = getCurrentState().getActorById(selectedActor);
+  const actor = currentSimulationState.getActorById(selectedActor);
 
   if(actTemplate && actor){
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
@@ -279,13 +316,28 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
   }
 }
 
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, resourceType : ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
   const globalEvent: ResourceAllocationEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     type: 'ResourceAllocationEvent',
     taskId,
     actorId: selectedActor,
+    resourceType,
+    nbResources,
+  }
+
+  return await sendEvent(globalEvent);
+}
+
+export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
+  const globalEvent: ResourceReleaseEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    type: 'ResourceReleaseEvent',
+    taskId,
+    actorId: selectedActor,
+    resourceType,
     nbResources,
   }
 
@@ -304,12 +356,12 @@ export async function buildAndLaunchActionCancellation(selectedActor: ActorId, t
 	  actorId: selectedActor,
 	  timeStamp: getCurrentState().getSimTime(),
     }
-	
+
     return await sendEvent(cancellationEvent);
   } else {
     mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor)
   }
-} 
+}
 
 /**
  * Triggers time forward in the simulation
