@@ -188,7 +188,12 @@ html{
 	font-size: var(--ML_text);
 	border-top-left-radius: var(--S_borderRadius);
 	border-top-right-radius:var(--S_borderRadius);
+}
 
+.leftPanel-title{
+	width: 10rem;
+	border-top-right-radius: 0px;
+	text-align: center;
 }
 
 
@@ -447,7 +452,7 @@ background-color: var(--interface_0);
 	
 
 
-/*****  ****/
+/***** Ressources in tasks  ****/
 
 .ressourcePersonIcon{
 font-size: 2rem;
@@ -457,7 +462,7 @@ font-size: 2rem;
 align-items: center;
 }
 
-.chosenNuimber-container  input{
+.chosenNumber-container  input{
 min-width: 10px;
 max-width: 30px;
 }

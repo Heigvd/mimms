@@ -251,11 +251,10 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "panel-title",
+                                    "className" : "panel-title leftPanel-title",
+                                    "layoutClassName" : "noPadding noMargin",
                                     "layoutStyle" : { },
-                                    "style" : {
-                                      "width" : "150px"
-                                    },
+                                    "style" : { },
                                     "text" : {
                                       "@class" : "Script",
                                       "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
