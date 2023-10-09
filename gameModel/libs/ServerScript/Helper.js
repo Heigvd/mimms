@@ -35,12 +35,18 @@ var MimmsHelper = ((function () {
 		return allCharactersByTeamId;
 	}
 
+	// TODO better metric, see issue https://github.com/Heigvd/mimms/issues/59
+	function simRefs() {
+		return Variable.getInstancesByKeyId(Variable.find(gameModel, "inSim_ref"));
+	}
+
 	return {
 		isDrillMode: isDrillMode,
 		getDrillType: getDrillType,
 		isRealLifeGame: isRealLifeGame,
 		shouldRunScenarioOnFirstStart: shouldRunScenarioOnFirstStart,
 		getPlayers: getPlayers,
-		charactersInfo : charactersInfo
+		charactersInfo : charactersInfo,
+		getEndTimes: simRefs
 	}
 })());

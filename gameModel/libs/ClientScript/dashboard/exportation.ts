@@ -15,7 +15,6 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 
 	const patientEvents = await getPatientsEvents();
 	const characters = await getCharactersInfo();
-	wlog(characters);
 	
 	if(!patientEvents){
 		exportLogger.error('Could not get patient info')
@@ -177,7 +176,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	 */
 
 	const separator = '\t';
-	let header : string[] = ['playerId', 'playerName', 'system_name', 'total_patients', 'total_correct_patients'];
+	let header : string[] = ['playerId', 'playerName', 'system_name', 'total_patients', 'total_correct_patients', 'total_time'];
 
 	const vitalsColumns = ['vitals.respiration.rr', 'vitals.cardio.radialPulse', 'vitals.cardio.hr', 'vitals.capillaryRefillTime_s', 'vitals.glasgow.motor', 'vitals.canWalk', 'vitals.respiration.stridor', 'vitals.pain', 'massiveHemorrhage', 'isInjured'];
 	const treatmentColumns = ['type', 'status', 'startTime', 'duration', 'blocks'];
@@ -227,8 +226,12 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 	const players = await APIMethods.runScript(`MimmsHelper.getPlayers()`, {});
 	const playerNames : Record<string, string>= {};
 
-	players.updatedEntities.forEach((v: any) => {
-		playerNames[v.id] = v.name;
+	const simRefs = await getInSimRefs();
+	const playerTimes : Record<string, number>= {};
+
+	players.updatedEntities.forEach((p: any) => {
+		playerNames[p.id] = p.name;
+		playerTimes[p.id] = simRefs[p.teamId];
 	});
 
 	Object.keys(playersAutoCat).forEach((pid) => {
@@ -238,6 +241,7 @@ export async function exportAllPlayersDrillResults() : Promise<void>{
 		lines[pid].push(playerNames[pid]);
 		lines[pid].push(systemName);
 		lines[pid].push(addPlayerScores(pid));
+		lines[pid].push(playerTimes[pid].toString());
 		sortedPatientIds.forEach((patId: PatientId) => {
 			addPatientData(pid, patId);
 		})
@@ -374,15 +378,26 @@ export async function getPatientsEvents(): Promise<FullEvent<EventPayload>[]> {
 async function getCharactersInfo(): Promise<Record<string, BodyFactoryParam>>{
 
 	const info : Record<string, BodyFactoryParam> = {};
-	await APIMethods.runScript("MimmsHelper.charactersInfo();", {}).then(response => {
-		const tmp = Object.values(response.updatedEntities[0] as Record<string, any>);
-		tmp.forEach(entry =>  {
-			Object.entries(entry.properties as Record<string, string>).forEach(([k,v]) => {
-				wlog(k, v);
-				info[k] = JSON.parse(v) as BodyFactoryParam;
-			})
+	const response = await APIMethods.runScript("MimmsHelper.charactersInfo();", {});
+	const tmp = Object.values(response.updatedEntities[0] as Record<string, any>);
+	tmp.forEach(entry =>  {
+		Object.entries(entry.properties as Record<string, string>).forEach(([k,v]) => {
+			info[k] = JSON.parse(v) as BodyFactoryParam;
 		})
-		
 	})
+	
 	return info;
+}
+
+async function getInSimRefs(): Promise<Record<string, number>> {
+
+	const res : Record<string, number> = {};
+
+	const response = await APIMethods.runScript("MimmsHelper.getEndTimes();", {})
+	Object.entries(response.updatedEntities[0] as Record<string,any>).forEach(([k,v]) => {
+		res[k] = v.value;
+	});
+
+	return res;
+
 }
