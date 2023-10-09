@@ -31,7 +31,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -83,7 +83,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -135,7 +135,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -187,7 +187,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -239,7 +239,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -291,7 +291,7 @@
               "type" : "Icon"
             }, {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },

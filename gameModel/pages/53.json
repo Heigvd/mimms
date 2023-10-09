@@ -44,7 +44,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -87,7 +87,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -130,7 +130,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -173,7 +173,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -216,7 +216,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
@@ -259,7 +259,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "chosenNuimber-container",
+                "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
                 "onVariableChange" : { },
