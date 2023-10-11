@@ -345,7 +345,6 @@ function extractNotYetProcessedEvents(events: FullEvent<EventPayload>[]) {
 	);
 }
 
-
 function initHuman(humanId: string): HumanState {
 	const env = getEnv();
 	const bodyParam = getBodyParam(humanId);

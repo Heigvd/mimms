@@ -1,14 +1,29 @@
 import { ActionTemplateId, ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
-import { ActionCreationEvent, StandardActionEvent } from "../events/eventTypes";
+import {
+  ActionCreationEvent,
+  ResourceRequestFromActorEvent,
+  ResourceSendingToActorEvent,
+  ResourceTaskAssignmentEvent,
+  ResourceTaskReleaseEvent,
+  StandardActionEvent,
+} from '../events/eventTypes';
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ActionBase, AskReinforcementAction, DefineMapObjectAction, MethaneAction, GetInformationAction } from "./actionBase";
+import {
+  ActionBase,
+  AskReinforcementAction,
+  DefineMapObjectAction,
+  MethaneAction,
+  GetInformationAction,
+  RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction,
+} from './actionBase';
 import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
-import { ResourceType } from "../resources/resourcePool";
 import { getTranslation } from "../../../tools/translation";
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -42,7 +57,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
    */
-  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Actor, params: UserInput): EventT;
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
 
   /**
    * Determines if the action can be launched given the current state of the game and the actor being played
@@ -50,7 +65,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param actor currently selected actor
    * @returns true if the player can trigger this action
    */
-  public abstract isAvailable(state : MainSimulationState, actor : Actor): boolean;
+  public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
 
   /**
    * @returns A translation to a short description of the action
@@ -79,9 +94,9 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
 
-  protected checkIfAlreadyUsedAndCouldReplay(state: MainSimulationState): boolean {
+  protected checkIfAlreadyUsedAndCouldReplay(state: Readonly<MainSimulationState>): boolean {
 	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
-    return action == undefined ? true : this.replayable;
+    return action == undefined || action.startTime === state.getSimTime() ? true : this.replayable;
   }
 
   /**
@@ -107,7 +122,7 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
     return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor) : StandardActionEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>) : StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
@@ -119,8 +134,8 @@ export class GetInformationTemplate extends ActionTemplateBase<GetInformationAct
   }
 
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-	return this.checkIfAlreadyUsedAndCouldReplay(state);
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+	  return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
   public getDescription(): string {
@@ -154,15 +169,15 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
     return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Actor, params: unknown): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: unknown): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
     }
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
-    return this.checkIfAlreadyUsedAndCouldReplay(state);
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
   }
   
   public getDescription(): string {
@@ -197,9 +212,10 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     super(title, description);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor, payload: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: featurePayload): DefineMapObjectEvent {
     
   const feature = {
+	  ownerId: initiator.Uid,
     geometryType: this.featureDescription.geometryType,
     name: this.featureDescription.name,
     geometry: this.featureDescription.feature?.geometry || payload.feature,
@@ -224,7 +240,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.feedback, event.id, ownerId, payload.feature, this.Uid);
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
@@ -238,6 +254,228 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
 
   public planActionEventOnFirstClick(): boolean {
     return false;
+  }
+
+}
+
+export type RequestResourceFromActorActionInput = { recipientActor: ActorId, requestedResources: ResourceFunctionAndNumber[] };
+
+/**
+ * Action template to create an action to request resources from an actor
+ */
+export class RequestResourcesFromActorActionTemplate extends ActionTemplateBase<RequestResourcesFromActorAction, ResourceRequestFromActorEvent, RequestResourceFromActorActionInput> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly message: TranslationKey,
+  ) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'RequestResourcesFromActorActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: RequestResourceFromActorActionInput): ResourceRequestFromActorEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      recipientActor: params.recipientActor,
+      requestedResources: params.requestedResources,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ResourceRequestFromActorEvent>): RequestResourcesFromActorAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new RequestResourcesFromActorAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.recipientActor, event.payload.requestedResources);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+
+}
+
+export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber[] };
+
+/**
+ * Action template to create an action to request resources from an actor
+ */
+export class SendResourcesToActorActionTemplate extends ActionTemplateBase<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly message: TranslationKey,
+  ) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'SendResourcesToActorActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToActorActionInput): ResourceSendingToActorEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      receiverActor: params.receiverActor,
+      sentResources: params.sentResources,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ResourceSendingToActorEvent>): SendResourcesToActorAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new SendResourcesToActorAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.receiverActor, event.payload.sentResources);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+
+}
+
+export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber[] };
+
+/**
+ * Action template to create an action to request resources from an actor
+ */
+export class AssignTaskToResourcesActionTemplate extends ActionTemplateBase<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly message: TranslationKey,
+  ) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'AssignTaskToResourcesActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    // TODO must have only available tasks ...
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: AssignTaskToResourcesActionInput): ResourceTaskAssignmentEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      task: params.task,
+      assignedResources: params.assignedResources,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ResourceTaskAssignmentEvent>): AssignTaskToResourcesAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new AssignTaskToResourcesAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.task, event.payload.assignedResources);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+
+}
+
+export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber[] };
+
+/**
+ * Action template to create an action to request resources from an actor
+ */
+export class ReleaseResourcesFromTaskActionTemplate extends ActionTemplateBase<ReleaseResourcesFromTaskAction, ResourceTaskReleaseEvent, ReleaseResourcesFromTaskActionInput> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly duration: SimDuration,
+    readonly message: TranslationKey,
+  ) {
+    super(title, description);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ReleaseResourcesFromTaskActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    // TODO must have only available tasks ...
+    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: ReleaseResourcesFromTaskActionInput): ResourceTaskReleaseEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      task: params.task,
+      releasedResources: params.releasedResources,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ResourceTaskReleaseEvent>): ReleaseResourcesFromTaskAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new ReleaseResourcesFromTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.task, event.payload.releasedResources);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
   }
 
 }
@@ -270,11 +508,11 @@ export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinfo
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  public isAvailable(state: MainSimulationState, actor: Actor): boolean {
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Actor): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,

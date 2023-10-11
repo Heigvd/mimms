@@ -7,7 +7,9 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { ActorId, SimDuration, SimTime, TaskId, TemplateRef } from "../baseTypes";
+import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
 
 /**
  * Walk, drive, fly to destination
@@ -162,7 +164,11 @@ export type EventPayload =
 	// NEW EVENTS
 	| TimeForwardEvent
 	| ActionCreationEvent
-	| ResourceAllocationEvent;
+	| ActionCancellationEvent
+	| ResourceRequestFromActorEvent
+	| ResourceSendingToActorEvent
+	| ResourceAllocationEvent
+	| ResourceReleaseEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -183,14 +189,57 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
 	templateRef: TemplateRef;
 }
 
+export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
+	type: 'ActionCancellationEvent';
+	templateId: TemplateId;
+	actorId: ActorId;
+	timeStamp: SimTime;
+}
+
 export interface StandardActionEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 }
 
+export interface ResourceRequestFromActorEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	recipientActor: ActorId;
+	requestedResources: ResourceFunctionAndNumber[];
+}
+
+export interface ResourceSendingToActorEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	receiverActor: ActorId;
+	sentResources: ResourceTypeAndNumber[];
+}
+
+
+export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	task: ResourceFunction;
+	assignedResources: ResourceTypeAndNumber[];
+}
+
+export interface ResourceTaskReleaseEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	task: ResourceFunction;
+	releasedResources: ResourceTypeAndNumber[];
+}
+
+// soon deprecated
 export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {
 	type: 'ResourceAllocationEvent';
 	taskId: TaskId;
 	actorId: ActorId;
+	resourceType: ResourceType;
+	nbResources: number;
+}
+
+// soon deprecated
+export interface ResourceReleaseEvent extends BaseEvent, TimedPayload {
+	type: 'ResourceReleaseEvent';
+	taskId: TaskId;
+	actorId: ActorId;
+	resourceType: ResourceType;
 	nbResources: number;
 }
 

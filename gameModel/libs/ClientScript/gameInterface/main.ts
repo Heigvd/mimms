@@ -1,6 +1,7 @@
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { startMapAction } from "../gameMap/main";
-import { getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, planAction } from "../UIfacade/actionFacade";
+import { cancelAction, getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -87,10 +88,24 @@ export function canPlanAction(): boolean {
 	return true;
 }
 
+export function isPlannedAction(id: number) {
+	const actorUid = getCurrentActorUid();
+	const actions = getAllActions()[actorUid];
+
+	if (actorUid && actions) {
+		const action = actions.find(a => a.startTime === getSimTime());
+		if (action) {
+			return id == action.getTemplateId();
+		}
+	}
+
+	return false;
+}
+
 /**
  * 
  */
-export function actionClickHandler (id: number, featureType: GeometryType) {
+export function actionClickHandler (id: number, params: any) : void {
 
 	const template = getActionTemplate(id)!;
 	const uid = getCurrentActorUid();
@@ -98,13 +113,16 @@ export function actionClickHandler (id: number, featureType: GeometryType) {
 	if (canPlanAction()) {
 		// TODO hardcoded for demo
 		if (isDefineMapObjectTemplate(id) && template.featureDescription.geometryType === 'Point') {
-			startMapAction(featureType);
+			startMapAction(params);
 		} else if (isMethaneActionTemplate(id)){
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
 		} else {
-			planAction(template.getTemplateRef(), uid);
+			planAction(template.getTemplateRef(), uid, params);
 		}
+	} else if (isPlannedAction(id)) {
+		cancelAction(uid, id);
 	} else {
+		// Error handling modal
 		showModal()
 	}
 }
@@ -144,6 +162,20 @@ export function formatTime(dateTime: Date) {
 	let result = splitted.join(':');
 
 	return result;
+}
+
+export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
+	if (Context.action instanceof RequestResourcesFromActorActionTemplate) {
+		return "53";
+	} else if (Context.action instanceof SendResourcesToActorActionTemplate) {
+		return "54";
+	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
+		return "55";
+	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
+		return "56";
+	}
+
+	return "57";
 }
 
 

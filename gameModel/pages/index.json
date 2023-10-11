@@ -321,6 +321,40 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "52",
+          "name" : "availableResources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "53",
+          "name" : "requestResources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "54",
+          "name" : "sendResources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "55",
+          "name" : "assignTaskToResources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "56",
+          "name" : "releaseResourcesFromTask",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "resources"
+      }, {
         "@class" : "Page",
         "id" : "47",
         "name" : "gamePage",
@@ -360,6 +394,12 @@
         "name" : "tutorialPages"
       } ],
       "name" : "mainSimulation pages"
+    }, {
+      "@class" : "Page",
+      "id" : "57",
+      "name" : "stupidEmptyPage",
+      "scenaristPage" : null,
+      "trainerPage" : null
     } ],
     "name" : null
   }

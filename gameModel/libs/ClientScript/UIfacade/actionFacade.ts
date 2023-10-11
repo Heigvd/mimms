@@ -5,12 +5,11 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActorId, TemplateRef } from "../game/common/baseTypes";
+import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
-import { buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
+import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
 import { getCurrentActorUid } from "../gameInterface/main";
-import { getMapState } from "../gameMap/main";
 import { getAllActionTemplates } from "../UIfacade/debugFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
@@ -20,11 +19,22 @@ const logger = Helpers.getLogger('mainSim-interface');
  * 
  * @param actionTemplateId The template to instanciate
  * @param selectedActor The actor the plans the action and will be its owner
+ * @param params The additional optional parameters, related to the chosen action template
  * @returns a promise
  */
-export async function planAction(actionTemplateId: TemplateRef, selectedActor: ActorId): Promise<IManagedResponse | undefined>{
-  const tmpFeature = getMapState().tmpFeature;
-  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, tmpFeature);
+export async function planAction(actionTemplateId: TemplateRef, selectedActor: ActorId, params?: any): Promise<IManagedResponse | undefined>{
+  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, params);
+}
+
+// TODO Maybe ensure only owning actor can cancel actions
+/**
+ *
+ * @param actionId The action to cancel
+ * @param selectedActor The actor that cancels the action
+ * @returns
+ */
+export async function cancelAction(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {
+	return await buildAndLaunchActionCancellation(selectedActor, templateId);
 }
 
 /**
@@ -40,6 +50,10 @@ export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
+}
+
+export function getAllCancelledActions(): Readonly<ActionBase[]> {
+	return getCurrentState().getAllCancelledActions();
 }
 
 /**
@@ -66,4 +80,20 @@ export function isDefineMapObjectTemplate(id: number) {
 export function isMethaneActionTemplate(id: number) {
 	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
 	return template instanceof MethaneTemplate;
+}
+
+/**
+ * @param id Uid of given action template
+ */
+export function isRequestResourcesFromActorActionTemplate(id: number) {
+	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	return template instanceof RequestResourcesFromActorActionTemplate;
+}
+
+/**
+ * @param id Uid of given action template
+ */
+export function isSendResourcesToActorActionTemplate(id: number) {
+	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	return template instanceof SendResourcesToActorActionTemplate;
 }

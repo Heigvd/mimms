@@ -108,7 +108,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { planAction } from \"./UIfacade/actionFacade\";\nimport { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
+            "content" : "import { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
             "language" : "TypeScript",
             "returnType" : "Promise<unknown> | undefined"
           }
@@ -125,6 +125,30 @@
         "text" : {
           "@class" : "Script",
           "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'STATE ' + JSON.stringify(getCurrentState());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "state",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'ACTIONS ' + JSON.stringify(getCurrentState().getAllActions());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "state",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'CANCELLED ACTIONS ' + JSON.stringify(getCurrentState().getAllCancelledActions());",
           "language" : "TypeScript"
         }
       },

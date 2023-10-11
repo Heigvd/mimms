@@ -1,4 +1,4 @@
-import { Position, SimDuration, SimTime } from "../baseTypes";
+import { ActorId, Position, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
 export interface featurePayload {
@@ -12,6 +12,7 @@ export type MapFeature = PointFeature | StringLineFeature | PolygonFeature | Mul
 export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon';
 
 interface BaseFeature<T> {
+  ownerId: ActorId,
   geometryType: GeometryType,
   name: string,
   id?: number | string;

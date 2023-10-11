@@ -15,23 +15,350 @@
       "type" : "Text"
     }, {
       "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "whiteButton methaneMenuButton",
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>METHANE</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "methane",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "whiteButton methaneMenuButton",
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>MET</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "met",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "whiteButton methaneMenuButton",
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>HANE</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "hane",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "whiteButton methaneMenuButton",
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Demande de ressources<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "demandeRessources",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "inputMethane",
-        "onCancel" : { },
-        "onVariableChange" : { },
-        "placeholder" : {
-          "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-placeholder`);",
-          "language" : "TypeScript"
-        },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'methaneInput')",
-          "language" : "TypeScript"
-        },
+        "name" : "methaneButtons",
         "style" : { }
       },
-      "type" : "Text input"
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterM",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>M<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Major incident declared\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'m')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterM",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterE",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>E<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Exact location\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'e')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterE",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterT",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>T<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Type of incident\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'t')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterT",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterH",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>H<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Hazards present or suspected\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'h')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterH",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterA",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>A<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onCancel" : { },
+            "onVariableChange" : { },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Access\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'a')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterA",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterN",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>N<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "letterN",
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'n')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "NumberSlider"
+        } ],
+        "layout" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "LetterN",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "methane-letter-container",
+            "layoutStyle" : { },
+            "name" : "letterE",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>E<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Ici, la demande de ressources</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "LetterE",
+        "style" : { }
+      },
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {

@@ -249,16 +249,36 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "panel-title",
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
-                                  "language" : "TypeScript"
-                                }
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "panel-title",
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "width" : "150px"
+                                    },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"52\"",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "availableResourcesLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ]
                               },
-                              "type" : "Text"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
                                 "children" : [ {
@@ -323,6 +343,7 @@
                                     "layout" : {
                                       "flexDirection" : "row"
                                     },
+                                    "layoutClassName" : "noDisplay",
                                     "layoutStyle" : { },
                                     "name" : "menu",
                                     "style" : { }
@@ -695,7 +716,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { endMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\n\n// TODO Add validation for featureType\nplanAction(ref, actorUid);\nendMapAction();",
+                                                "content" : "import { getCurrentActionUid, getCurrentActorUid } from \"./gameInterface/main\";\nimport { endMapAction, getMapState } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nconst action = getActionTemplate(getCurrentActionUid());\nconst ref = action!.getTemplateRef();\nconst tmpFeature = getMapState().tmpFeature; \n\n// TODO Add validation for featureType\nplanAction(ref, actorUid, tmpFeature);\nendMapAction();",
                                                 "language" : "TypeScript"
                                               }
                                             },

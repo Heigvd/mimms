@@ -1,13 +1,18 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
-import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
+import { getEnv } from "../../../tools/WegasHelper";
+import { ActionBase, OnTheRoadgAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
-import { ResourceType } from "../resources/resourcePool";
+import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import * as PatientState from "../simulationState/patientStateAccess";
+import * as ResourceState from "../simulationState/resourceStateAccess";
+import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -53,16 +58,21 @@ export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boo
   return e1.simTimeStamp < e2.simTimeStamp;
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// action
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 // TODO move in own file
 // immutable
 /**
  * Creates an action to be inserted in the timeline and inits it
  */
 export class PlanActionLocalEvent extends LocalEventBase {
-  
+
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase){
     super(parentEventId, 'PlanActionEvent', timeStamp);
-
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -73,6 +83,37 @@ export class PlanActionLocalEvent extends LocalEventBase {
   }
 
 }
+
+// Update status of action
+export class CancelActionLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly templateId: TemplateId, readonly actorUid: ActorId, readonly planTime: SimTime){
+    super(parentEventId, 'CancelActionEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+      const so = state.getInternalStateObject();
+
+      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid);
+
+      if (action && action.startTime === this.planTime) {
+		// We remove the action and place it in cancelled actions
+        so.actions.splice(so.actions.indexOf(action), 1);
+        so.cancelledActions.push(action);
+        action.cancel(state);
+      } else {
+        // err.log
+      }
+
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// time
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 /////////// TODO in own file
 // TODO dynamic time progression (continue advancing until something relevant happens)
@@ -86,8 +127,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     state.incrementSimulationTime(this.timeJump);
     const so = state.getInternalStateObject();
 
-    // TODO update patients
-    this.updatePatients(so.patients, state.getSimTime());
+    // update patients
+    this.updatePatients(so.patients, this.timeJump);
 
     // update all actions =>
     this.updateActions(state);
@@ -96,8 +137,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, currentTime: SimTime) {
-    //TODO
+  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
+    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
@@ -105,10 +146,16 @@ export class TimeForwardLocalEvent extends LocalEventBase {
   }
 
   updateTasks(state: MainSimulationState) {
-    state.getAllTasks().forEach(t => t.update(state));
+    TaskState.getAllTasks(state).forEach(t => t.update(state));
   }
 
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// map items
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 /////////// TODO in own file
 export class AddMapItemLocalEvent extends LocalEventBase {
@@ -119,11 +166,29 @@ export class AddMapItemLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-	wlog('-----PUSHING FEATURE------', this.feature)
     so.mapLocations.push(this.feature);
   }
 
 }
+
+export class RemoveMapItemLocalEvent extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature) {
+		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		const so = state.getInternalStateObject();
+		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.feature.name && f.ownerId === this.feature.ownerId), 1);
+	}
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// actors
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 export class AddActorLocalEvent extends LocalEventBase {
 
@@ -149,6 +214,12 @@ export class AddActorLocalEvent extends LocalEventBase {
 
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 export class AddRadioMessageLocalEvent extends LocalEventBase {
 
   constructor(
@@ -173,69 +244,123 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// tasks and resources
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 /**
- * Change the nb of available resources.
+ * Local event to transfer resources from an actor to another
  */
-export class ChangeNbResourcesLocalEvent extends LocalEventBase {
+export class TransferResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId,
+              timeStamp: SimTime,
+              public readonly senderActor: ActorId,
+              public readonly receiverActor: ActorId,
+              public readonly sentResources: ResourceTypeAndNumber[],
+  ) {
+    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.transferResourcesBetweenActors(state, this.senderActor, this.receiverActor, this.sentResources);
+  }
+}
+
+/**
+ * Local event to receive new resources for an actor.
+ */
+export class IncomingResourcesLocalEvent extends LocalEventBase {
 
   constructor(parentId: GlobalEventId,
     timeStamp: SimTime,
     public readonly actorId: ActorId,
-    public readonly type: ResourceType,
+    public readonly resourceType: ResourceType,
     public readonly nb: number) {
-      super(parentId, 'ChangeResourcesNbLocalEvent', timeStamp);
+      super(parentId, 'IncomingResourcesLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.addResources(this.actorId, this.type, this.nb);
+    ResourceState.addIncomingResourcesToActor(state, this.actorId, this.resourceType, this.nb);
   }
 
 }
 
 /**
- * Local event to change the nb of resources dedicated to a task
+ * Local event to allocate resources to a task.
  */
-export class TaskAllocationLocalEvent extends LocalEventBase {
+export class ResourcesAllocationLocalEvent extends LocalEventBase {
 
   constructor(parentEventId: GlobalEventId,
     timeStamp: SimTime,
     readonly taskId: TaskId,
+    readonly actorId: ActorId,
+    readonly resourceType: ResourceType,
     readonly nb: number) {
-    super(parentEventId, 'TaskAllocationLocalEvent', timeStamp);
+    super(parentEventId, 'ResourcesAllocationLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.changeTaskAllocation(this.taskId, this.nb);
+    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
   }
 
 }
 
-export class ChangeTaskStatusLocalEvent extends LocalEventBase {
+/**
+ * Local event to release (deallocate) resources from a task.
+ */
+export class ResourcesReleaseLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId,
+    readonly actorId: ActorId,
+    readonly resourceType: ResourceType,
+    readonly nb: number) {
+    super(parentEventId, 'ResourcesReleaseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.releaseResourcesFromTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
+  }
+
+}
+
+export class AllResourcesReleaseLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId) {
+    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.releaseAllResourcesFromTask(state, this.taskId);
+  }
+
+}
+
+export class TaskStatusChangeLocalEvent extends LocalEventBase {
 
   constructor(parentEventId: GlobalEventId,
     timeStamp: SimTime,
     readonly taskId: TaskId,
     readonly status: TaskStatus) {
-      super(parentEventId, 'TaskAllocationLocalEvent', timeStamp);
+      super(parentEventId, 'TaskStatusChangeLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.changeTaskStatus(this.taskId, this.status);
+    TaskState.changeTaskStatus(state, this.taskId, this.status);
   }
+
 }
 
-export class ReleaseTaskResourcesLocalEvent extends LocalEventBase {
-
-  constructor(parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly taskId: TaskId) {
-    super(parentEventId, 'TaskChangeStatus', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    state.releaseTaskResources(this.taskId);
-  }
-}
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// patients
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 export class CategorizePatientLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId,
@@ -245,7 +370,7 @@ export class CategorizePatientLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.categorizeOnePatient(this.zone)
+    PatientState.categorizeOnePatient(state, this.zone)
   }
 
 }
