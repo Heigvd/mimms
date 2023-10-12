@@ -339,7 +339,7 @@ export class RequestResourcesFromActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     recipientActor: ActorId,
     requestedResources: ResourceFunctionAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.recipientActor = recipientActor;
     this.requestedResources = requestedResources;
@@ -391,7 +391,7 @@ export class SendResourcesToActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     receiverActor: ActorId,
     sentResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.receiverActor = receiverActor;
     this.sentResources = sentResources;
@@ -447,7 +447,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
     assignedResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
     this.assignedResources = assignedResources;
@@ -495,7 +495,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
     releasedResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
     this.releasedResources = releasedResources;
@@ -539,13 +539,12 @@ export class AskReinforcementAction extends StartEndAction {
     ownerId: ActorId,
     resourceType: ResourceType,
     nb: number,
-    feedbackAtEnd: TranslationKey,
+    messageKey: TranslationKey,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.resourceType = resourceType;
     this.nb = nb;
-    this.feedbackAtEnd = feedbackAtEnd;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -556,7 +555,7 @@ export class AskReinforcementAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AskReinforcementAction');
     localEventManager.queueLocalEvent(new IncomingResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.resourceType, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
   }
 
   // TODO probably nothing
@@ -565,7 +564,7 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
   override clone(): this {
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.feedbackAtEnd, this.templateId);
+    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.messageKey, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
