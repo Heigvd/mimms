@@ -67,9 +67,10 @@
                 "impactVariable" : {
                   "impact" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);\n",
+                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);",
                     "language" : "javascript"
-                  }
+                  },
+                  "priority" : 1
                 },
                 "layout" : {
                   "flexDirection" : "row",
@@ -78,9 +79,10 @@
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
+                  "priority" : 0,
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nendMapAction();",
+                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\n",
                     "language" : "TypeScript"
                   }
                 },

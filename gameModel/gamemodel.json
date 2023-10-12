@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1696432444963,
+  "createdTime" : 1697121975324,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4809,7 +4809,7 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
+        "broadcastScope" : "PlayerScope",
         "comments" : "",
         "defaultInstance" : {
           "@class" : "NumberInstance",
@@ -4838,7 +4838,7 @@
         "minValue" : null,
         "name" : "currentTaskUid",
         "refId" : "NumberDescriptor:487591:wyEwIQ",
-        "scopeType" : "TeamScope",
+        "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
@@ -7250,7 +7250,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation",
+  "name" : "MIMMS main simulation - refactoring",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

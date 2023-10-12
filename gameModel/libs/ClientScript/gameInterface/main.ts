@@ -56,6 +56,16 @@ export function getCurrentActionUid() {
 }
 
 /**
+ * Set the currently selected action Uid
+ */
+export function setCurrentActionUid(id: number): void {
+	APIMethods.runScript(
+		`Variable.find(gameModel, 'currentActionUid').setValue(self, ${id});`,
+		{},
+	);
+}
+
+/**
  * Show the mainSim modal
  */
 export function showModal() {
