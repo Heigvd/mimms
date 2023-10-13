@@ -1,5 +1,6 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { group } from "../../../tools/groupBy";
+import { PreTriageResult } from "../../pretri/triage";
 import { ActionBase } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
@@ -44,15 +45,11 @@ export class MainSimulationState implements IClonable {
       actors : [...this.internalState.actors],
       mapLocations: [...this.internalState.mapLocations],
       patients: this.internalState.patients.map((p) => Helpers.cloneDeep(p)),
-      tmp: {
-        nbForPreTriZoneA: this.internalState.tmp.nbForPreTriZoneA,
-        nbForPreTriZoneB: this.internalState.tmp.nbForPreTriZoneB,
-      },
+	  pretriageResults: Object.fromEntries(Object.entries(this.internalState.pretriageResults).map( entry => [entry[0], Helpers.cloneDeep(entry[1])])),
       tasks : [...this.internalState.tasks],
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
     }
-
   }
 
   /**
@@ -168,10 +165,7 @@ interface MainStateObject {
   tasks: TaskBase[];
   mapLocations: MapFeature[];
   patients: HumanBody[];
-  tmp: {
-    nbForPreTriZoneA: number;
-    nbForPreTriZoneB: number;
-  };
+  pretriageResults: Record<string, PreTriageResult<string>>,
   actors : Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];

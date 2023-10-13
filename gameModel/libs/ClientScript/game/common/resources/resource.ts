@@ -24,6 +24,9 @@ export class Resource {
   /** Where is the resource currently */
   // public currentLocation;
 
+  /** Resource is cumulating time across timejumps to accomplish a task */
+  public cumulatedUnusedTime: number;
+
   constructor(type: Resource['type'], ownerId: Resource['ownerId'],
               currentActivity?: Resource['currentActivity']) {
     this.type = type;
@@ -31,6 +34,7 @@ export class Resource {
     this.currentActivity = currentActivity ?? null;
 
     this.Uid = Resource.IdSeed++;
+	this.cumulatedUnusedTime = 0;
   }
 }
 

@@ -146,7 +146,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
   }
 
   updateTasks(state: MainSimulationState) {
-    TaskState.getAllTasks(state).forEach(t => t.update(state));
+    TaskState.getAllTasks(state).forEach(t => t.update(state, this.timeJump));
   }
 
 }
@@ -362,10 +362,10 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class CategorizePatientLocalEvent extends LocalEventBase {
+/*export class CategorizePatientLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId,
     timeStamp: SimTime,
-    readonly zone: string) {
+	timeJump: Number) {
     super(parentEventId, 'CategorizePatientLocalEvent', timeStamp);
   }
 
@@ -373,4 +373,4 @@ export class CategorizePatientLocalEvent extends LocalEventBase {
     PatientState.categorizeOnePatient(state, this.zone)
   }
 
-}
+}*/

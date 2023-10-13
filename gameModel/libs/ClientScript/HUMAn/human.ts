@@ -151,10 +151,11 @@ export type HumanMeta = BodyFactoryParam & {
 };
 
 export interface HumanBody {
+	id?: string;
 	meta: HumanMeta;
 	state: BodyState;
-	//pathologies: AfflictedPathology[];
-	//effects: BodyEffect[];
+	revivedPathologies?: RevivedPathology[];
+	effects?: BodyEffect[];
 	//availableActions: BodyAction[];
 }
 
