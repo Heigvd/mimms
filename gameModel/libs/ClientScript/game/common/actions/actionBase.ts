@@ -271,7 +271,7 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	actionNameKey: TranslationKey,
+	  actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     eventId: GlobalEventId,
     ownerId: ActorId,

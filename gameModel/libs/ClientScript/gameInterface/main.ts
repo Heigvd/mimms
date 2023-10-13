@@ -1,15 +1,11 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { GeometryType } from "../game/common/events/defineMapObjectEvent";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { startMapAction } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
+import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
-const logger = Helpers.getLogger('mainSim-interface')
 
-/**
- * 
- */
+
 type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 
 /**
@@ -25,8 +21,9 @@ export function getGameStateStatus(): gameStateStatus {
 export function initInterface(): void {
 	// Set the currentActorUid vegas variable to first actor available
 	const actors = getAllActors();
-	setCurrentActorUid(actors[0].Uid);
-	// Reset any map action and tmpFeature
+	if (actors[0]) {
+		setCurrentActorUid(actors[0].Uid);
+	}
 }
 
 /**
@@ -88,7 +85,7 @@ export function canPlanAction(): boolean {
 
 	if (actions[actorUid] === undefined) return true;
 
-	for (const action of actions[actorUid]) {
+	for (const action of actions[actorUid]!) {
 		// Is a future action planned ?
 		if (action.startTime === currentTime) return false;
 		// Is a previous action finished ?
@@ -121,10 +118,9 @@ export function actionClickHandler (id: number, params: any) : void {
 	const uid = getCurrentActorUid();
 
 	if (canPlanAction()) {
-		// TODO hardcoded for demo
-		if (isDefineMapObjectTemplate(id) && template.featureDescription.geometryType === 'Point') {
+		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
 			startMapAction(params);
-		} else if (isMethaneActionTemplate(id)){
+		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
@@ -168,7 +164,7 @@ export function getNotificationTime(notificationTime: number) {
  * Return given time in HH:MM format
  */
 export function formatTime(dateTime: Date) {
-	let splitted = dateTime.toLocaleString().split(' ')[1].split(':').splice(0, 2);
+	let splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
 	let result = splitted.join(':');
 
 	return result;

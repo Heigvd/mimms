@@ -1,7 +1,7 @@
 import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
-import { ActionBase } from "../actions/actionBase";
+import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
 import { Actor } from "../actors/actor";
 import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";

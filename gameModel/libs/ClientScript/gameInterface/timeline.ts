@@ -5,7 +5,6 @@ import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
-const logger = Helpers.getLogger('mainSim-interface');
 
 interface Action {
 	startTime: number,
@@ -34,7 +33,7 @@ export function buildTimelineObject(): Timeline[] {
 	for (const actor of actors) {
 		const timeline: Action[] = [];
 		if (actions[actor.Uid] !== undefined) {
-			for (const action of actions[actor.Uid]) {
+			for (const action of actions[actor.Uid]!) {
 
 				timeline.push({
 					startTime: action.startTime,
@@ -133,36 +132,36 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
 
 	while (actionIndex < actions.length) {
 		// If the action takes place later than current timer, we move forward
-		if (timer === actions[actionIndex].startTime) {
-			let actionDuration = actions[actionIndex].duration;
-			let actionStartIndex = gridIndex;
-			// Marker positions need to be taken into account
-			let actionEndIndex = gridIndex + ((actionDuration / 60) * 2 - 1)
-
-			// TODO Not optimal but working
-			const activeclassName = current ? 'timeline-item current' : 'timeline-item';
-			const futureClassName = actions[actionIndex].startTime >= simTime ? 'planned' : '';
-			const animationClassName = current && actions[actionIndex].startTime >= simTime ? 'timeline-animation' : '';
-			let timelineSize = '';
-			if (actionDuration === 60) {
-				timelineSize = 'col-size-small';
+			if (timer === actions[actionIndex]!.startTime) {
+				let actionDuration = actions[actionIndex]!.duration;
+				let actionStartIndex = gridIndex;
+				// Marker positions need to be taken into account
+				let actionEndIndex = gridIndex + ((actionDuration / 60) * 2 - 1)
+	
+				// TODO Not optimal but working
+				const activeclassName = current ? 'timeline-item current' : 'timeline-item';
+				const futureClassName = actions[actionIndex]!.startTime >= simTime ? 'planned' : '';
+				const animationClassName = current && actions[actionIndex]!.startTime >= simTime ? 'timeline-animation' : '';
+				let timelineSize = '';
+				if (actionDuration === 60) {
+					timelineSize = 'col-size-small';
+				}
+				
+				const className = activeclassName.concat(' ', futureClassName, ' ', timelineSize, ' ', animationClassName);
+	
+				const title = getTranslation('mainSim-actions-tasks', actions[actionIndex]!.title);
+				output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, title, className);
+	
+				timer += actionDuration;
+				actionIndex++;
+				gridIndex += actionDuration / 60 * 2;
+			} else if (timer > actions[actionIndex]!.startTime) {
+				// Prevent actions with same startTime, first come first serve
+				actionIndex++;
+			} else {
+				timer += 60;
+				gridIndex += 2;
 			}
-			
-			const className = activeclassName.concat(' ', futureClassName, ' ', timelineSize, ' ', animationClassName);
-
-			const title = getTranslation('mainSim-actions-tasks', actions[actionIndex].title);
-			output += createGridSegment(row, row+1, actionStartIndex, actionEndIndex, title, className);
-
-			timer += actionDuration;
-			actionIndex++;
-			gridIndex += actionDuration / 60 * 2;
-		} else if (timer > actions[actionIndex].startTime) {
-			// Prevent actions with same startTime, first come first serve
-			actionIndex++;
-		} else {
-			timer += 60;
-			gridIndex += 2;
-		}
 	}
 
 	return output;
@@ -191,8 +190,8 @@ export function createGrid(currentTime: number): string {
 
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
-		const active = timelines[i].id === getCurrentActorUid();
-		timelinesHTML += createGridRow(i+2,  active, timelines[i].timeline);
+		const active = timelines[i]!.id === getCurrentActorUid();
+		timelinesHTML += createGridRow(i+2,  active, timelines[i]!.timeline);
 	}
 
 	let markersHTML = createGridTimes(maxTime+60, currentTime);

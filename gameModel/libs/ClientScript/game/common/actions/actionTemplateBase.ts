@@ -107,7 +107,6 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
 }
 
-
 export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, StandardActionEvent, undefined> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
