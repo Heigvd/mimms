@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1697121975324,
+  "createdTime" : 1697443002830,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6698,15 +6698,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#95:CKuK9v",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameInterface/debugValues",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48991:88pEUl",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

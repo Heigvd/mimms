@@ -340,7 +340,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+          "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(getCurrentActorUid());",
           "language" : "TypeScript"
         },
         "itemKey" : "Uid",

@@ -1,5 +1,5 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { startMapAction } from "../gameMap/main";
+import { endMapAction, getMapState, startMapAction } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
@@ -14,6 +14,23 @@ type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 export function getGameStateStatus(): gameStateStatus {
 	return Variable.find(gameModel, 'gameState').getValue(self) as gameStateStatus;
 }
+
+
+interface InterfaceState {
+	currentActorUid: number;
+	currentActionUid: number;
+}
+
+let interfaceState: InterfaceState;
+
+Helpers.registerEffect(() => {
+	const actors = getAllActors();
+
+	interfaceState = {
+		currentActorUid: actors[0].Uid,
+		currentActionUid: 0,
+	}
+});
 
 /**
  * Initialise interface with default values
@@ -31,17 +48,14 @@ export function initInterface(): void {
  * @returns Uid
  */
 export function getCurrentActorUid() {
-	return Variable.find(gameModel, 'currentActorUid').getValue(self);
+	return interfaceState.currentActorUid;
 }
 
 /**
  * Set the currently selected actor Uid
  */
 export function setCurrentActorUid(id: number): void {
-	APIMethods.runScript(
-		`Variable.find(gameModel, 'currentActorUid').setValue(self, ${id});`,
-		{},
-	);
+	interfaceState.currentActorUid = id;
 }
 
 /**
@@ -49,17 +63,14 @@ export function setCurrentActorUid(id: number): void {
  * @returns Uid
  */
 export function getCurrentActionUid() {
-	return Variable.find(gameModel, 'currentActionUid').getValue(self);
+	return interfaceState.currentActorUid;
 }
 
 /**
  * Set the currently selected action Uid
  */
 export function setCurrentActionUid(id: number): void {
-	APIMethods.runScript(
-		`Variable.find(gameModel, 'currentActionUid').setValue(self, ${id});`,
-		{},
-	);
+	interfaceState.currentActionUid = id;
 }
 
 /**
@@ -131,6 +142,15 @@ export function actionClickHandler (id: number, params: any) : void {
 		// Error handling modal
 		showModal()
 	}
+}
+
+export function planMapAction() {
+	const actorUid = getCurrentActorUid();
+	const template = getActionTemplate(getCurrentActionUid());
+	const tmpFeature = getMapState().tmpFeature;
+
+	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
+	endMapAction();
 }
 
 /**

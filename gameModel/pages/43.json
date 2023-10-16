@@ -472,7 +472,7 @@
                                         "exposeAs" : "item",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id)",
+                                          "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(getCurrentActorUid())",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "timeStamp",
@@ -513,7 +513,7 @@
                                 "className" : "tomato",
                                 "ifCondition" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\nconst id = Variable.find(gameModel, 'currentActorUid').getValue(self);\ngetAvailableRadioMessages(id).length > 0;",
+                                  "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(getCurrentActorUid()).length > 0;",
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : {
@@ -571,24 +571,24 @@
                                           "className" : "current",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Variable.find(gameModel, 'currentActorUid').getValue(self) === Context.actor.Uid;",
+                                            "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\ngetCurrentActorUid() === Context.actor.Uid;",
                                             "language" : "typescript"
                                           }
                                         } ],
                                         "confirm" : false,
-                                        "impactVariable" : {
-                                          "impact" : {
-                                            "@class" : "Script",
-                                            "content" : "Variable.find(gameModel, 'currentActorUid').setValue(self, Context.actor.Uid);",
-                                            "language" : "javascript"
-                                          }
-                                        },
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "Context.actor.Role;",
                                           "language" : "TypeScript"
                                         },
                                         "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setCurrentActorUid } from \"./gameInterface/main\";\n\nsetCurrentActorUid(Context.actor.Uid)",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
                                         "style" : { }
                                       },
                                       "type" : "Button"

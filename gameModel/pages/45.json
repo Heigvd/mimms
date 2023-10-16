@@ -198,7 +198,7 @@
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+          "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(getCurrentActorUid());",
           "language" : "TypeScript"
         },
         "id" : "",

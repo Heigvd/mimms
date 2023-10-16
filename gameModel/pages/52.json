@@ -23,7 +23,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), Context.resourceType.enum);",
+                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(getCurrentActorUid(), Context.resourceType.enum);",
                       "language" : "TypeScript"
                     }
                   },
