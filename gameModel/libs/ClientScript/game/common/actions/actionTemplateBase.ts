@@ -107,11 +107,89 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
 }
 
-export class GetInformationTemplate extends ActionTemplateBase<GetInformationAction, StandardActionEvent, undefined> {
+export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> extends ActionTemplateBase<ActionT, EventT, UserInput> {
+
+  public readonly duration: SimDuration;
+  public readonly message: TranslationKey;
+
+
+  constructor(title: TranslationKey, description: TranslationKey,
+     duration: SimDuration,  message: TranslationKey) {
+    super(title, description)
+    this.duration = duration;
+    this.message = message;
+  }
+
+  /**
+   * a deterministic unique identifier for this template
+   */
+  public abstract getTemplateRef(): TemplateRef;
+
+  /**
+   * Build an instance from an incoming global event
+   */
+  protected abstract createActionFromEvent(event: FullEvent<EventT>): ActionT;
+
+  /**
+   * Generate an event to be broadcasted
+   * @param timeStamp current time
+   * @param initiator the actor that initiates this action and will be its owner
+   */
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
+
+  /**
+   * Determines if the action can be launched given the current state of the game and the actor being played
+   * @param state the current game state
+   * @param actor currently selected actor
+   * @returns true if the player can trigger this action
+   */
+  public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
+
+  /**
+   * @returns A translation to a short description of the action
+   */
+  public abstract getDescription(): TranslationKey;
+  /**
+   * @returns A translation to the title of the action
+   */
+  public abstract getTitle(): TranslationKey;
+
+  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
+    return {
+      ...initBaseEvent(actorId),
+      type: 'ActionCreationEvent',
+      templateRef: this.getTemplateRef(),
+      triggerTime : timeStamp,
+    }
+  }
+
+  /**
+   * Generate a local event to create an action from a broadcasted global event
+   * @param globalEvent the broadcasted event
+   */
+  public buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
+    const action = this.createActionFromEvent(globalEvent);
+    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
+  }
+
+  protected checkIfAlreadyUsedAndCouldReplay(state: Readonly<MainSimulationState>): boolean {
+	  const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
+    return action == undefined || action.startTime === state.getSimTime() ? true : this.replayable;
+  }
+
+  /**
+   * @return true if the action should be created in the timeline right away, 
+   * false if some other interaction should take place in between
+   */
+  public abstract planActionEventOnFirstClick(): boolean;
+
+}
+
+export class GetInformationTemplate extends StartEndTemplate {
 
   constructor(title: TranslationKey, description: TranslationKey, 
-    readonly duration: SimDuration, readonly message: TranslationKey) {
-    super(title, description);
+    duration: SimDuration, message: TranslationKey) {
+    super(title, description, duration, message);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
@@ -194,13 +272,13 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
 }
 
 
-export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectAction, DefineMapObjectEvent> {
+export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
   
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
-    readonly feedback: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
     readonly featureDescription: {
       geometryType: GeometryType,
       name: string,
@@ -208,7 +286,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
 	  feature?: MapFeature,
     }
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: featurePayload): DefineMapObjectEvent {
@@ -236,7 +314,7 @@ export class DefineMapObjectTemplate extends ActionTemplateBase<DefineMapObjectA
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.feedback, event.id, ownerId, payload.feature, this.Uid);
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, payload.feature, this.Uid);
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
@@ -262,15 +340,15 @@ export type RequestResourceFromActorActionInput = { recipientActor: ActorId, req
 /**
  * Action template to create an action to request resources from an actor
  */
-export class RequestResourcesFromActorActionTemplate extends ActionTemplateBase<RequestResourcesFromActorAction, ResourceRequestFromActorEvent, RequestResourceFromActorActionInput> {
+export class RequestResourcesFromActorActionTemplate extends StartEndTemplate<RequestResourcesFromActorAction, ResourceRequestFromActorEvent, RequestResourceFromActorActionInput> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
-    readonly message: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -317,15 +395,15 @@ export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentReso
 /**
  * Action template to create an action to request resources from an actor
  */
-export class SendResourcesToActorActionTemplate extends ActionTemplateBase<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
+export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
-    readonly message: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -372,15 +450,15 @@ export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assigne
 /**
  * Action template to create an action to request resources from an actor
  */
-export class AssignTaskToResourcesActionTemplate extends ActionTemplateBase<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
+export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
-    readonly message: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -428,15 +506,15 @@ export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, rele
 /**
  * Action template to create an action to request resources from an actor
  */
-export class ReleaseResourcesFromTaskActionTemplate extends ActionTemplateBase<ReleaseResourcesFromTaskAction, ResourceTaskReleaseEvent, ReleaseResourcesFromTaskActionInput> {
+export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<ReleaseResourcesFromTaskAction, ResourceTaskReleaseEvent, ReleaseResourcesFromTaskActionInput> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
-    readonly message: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -482,17 +560,17 @@ export class ReleaseResourcesFromTaskActionTemplate extends ActionTemplateBase<R
 /**
  * Action template to ask for new resources
  */
-export class AskReinforcementActionTemplate extends ActionTemplateBase<AskReinforcementAction, StandardActionEvent> {
+export class AskReinforcementActionTemplate extends StartEndTemplate<AskReinforcementAction, StandardActionEvent> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly duration: SimDuration,
+    duration: SimDuration,
+    message: TranslationKey,
     readonly resourceType: ResourceType,
     readonly resourceQuantity : number,
-    readonly message: TranslationKey,
   ) {
-    super(title, description);
+    super(title, description, duration, message);
   }
 
   public getTemplateRef(): TemplateRef {
