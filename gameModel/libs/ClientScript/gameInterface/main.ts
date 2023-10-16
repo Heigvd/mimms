@@ -63,7 +63,7 @@ export function setCurrentActorUid(id: number): void {
  * @returns Uid
  */
 export function getCurrentActionUid() {
-	return interfaceState.currentActorUid;
+	return interfaceState.currentActionUid;
 }
 
 /**
