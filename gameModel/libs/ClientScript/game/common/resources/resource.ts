@@ -32,5 +32,9 @@ export class Resource {
 
     this.Uid = Resource.IdSeed++;
   }
+
+  static resetIdSeed() {
+    this.IdSeed = 1000;
+  }
 }
 

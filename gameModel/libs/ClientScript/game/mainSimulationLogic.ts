@@ -21,7 +21,7 @@ import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEve
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import { PreTriageTask } from "./common/tasks/taskBase";
+import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
@@ -385,6 +385,11 @@ export function getCurrentState(): Readonly<MainSimulationState> {
 export function recomputeState(){
 	wlog('Reinitialize state');
 	processedEvents = {};
+
+  Actor.resetIdSeed();
+  ActionTemplateBase.resetIdSeed();
+  TaskBase.resetIdSeed();
+  Resource.resetIdSeed();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
 	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());

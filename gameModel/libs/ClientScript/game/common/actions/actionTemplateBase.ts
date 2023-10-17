@@ -42,6 +42,10 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     this.replayable = replayable;
   }
 
+  static resetIdSeed() {
+    this.IdSeed = 1000;
+  }
+
   /**
    * a deterministic unique identifier for this template
    */
