@@ -212,8 +212,8 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"43\"",
-          "language" : "TypeScript"
+          "content" : "\"51\"",
+          "language" : "typescript"
         },
         "layoutStyle" : { },
         "name" : "debugPageLoader",
