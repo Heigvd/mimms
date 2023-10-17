@@ -1,0 +1,52 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "",
+        "layoutStyle" : { },
+        "name" : "Actions",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'ACTIONS ' + JSON.stringify(getCurrentState().getAllActions());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "",
+        "layoutStyle" : { },
+        "name" : "CancelledActions",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'CANCELLED ACTIONS ' + JSON.stringify(getCurrentState().getAllCancelledActions());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "ActionTemplates",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getAllActionTemplates } from \"./UIfacade/debugFacade\";\n'ACTION TEMPLATES ' + JSON.stringify(getAllActionTemplates());",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

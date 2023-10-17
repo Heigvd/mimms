@@ -2,91 +2,6 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "impactVariable" : {
-          "impact" : {
-            "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'debug_LMEBup').add(self, 1);",
-            "language" : "javascript"
-          },
-          "priority" : 2
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Reset Local State<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "priority" : 1,
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { recomputeLocalState } from \"./UIfacade/debugFacade\";\n\nrecomputeLocalState()",
-            "language" : "TypeScript"
-          }
-        },
-        "name" : "Reset local",
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Log Sim Time<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { getSimTime } from \"./UIfacade/timeFacade\";\n\nwlog(getSimTime())",
-            "language" : "TypeScript"
-          }
-        },
-        "name" : "Log state",
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Log state<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n\nwlog(getCurrentState())",
-            "language" : "TypeScript"
-          }
-        },
-        "name" : "Log state",
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Force Run Event Loop<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\n\ntriggerEventLoop();",
-            "language" : "TypeScript"
-          }
-        },
-        "name" : "Force Run Event Loop",
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
         "layoutStyle" : { },
         "name" : "eventLoop cheat",
         "style" : { },
@@ -99,105 +14,212 @@
       "type" : "Text"
     }, {
       "props" : {
-        "label" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Launch Get Information Action<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
+              }
+            },
+            "name" : "getInfo",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Force Run Event Loop<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\n\ntriggerEventLoop();",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Force Run Event Loop",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Log state<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n\nwlog(getCurrentState())",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Log state",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Log Sim Time<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getSimTime } from \"./UIfacade/timeFacade\";\n\nwlog(getSimTime())",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Log state",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "impactVariable" : {
+              "impact" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'debug_LMEBup').add(self, 1);",
+                "language" : "javascript"
+              },
+              "priority" : 2
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Reset Local State<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "priority" : 1,
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { recomputeLocalState } from \"./UIfacade/debugFacade\";\n\nrecomputeLocalState()",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Reset local",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>State</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "State",
+            "openPage" : {
+              "pageId" : "51",
+              "pageLoaderName" : {
+                "@class" : "Script",
+                "content" : "\"debugPageLoader\"",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Actions<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "Actions",
+            "openPage" : {
+              "pageId" : "58",
+              "pageLoaderName" : {
+                "@class" : "Script",
+                "content" : "\"debugPageLoader\"",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Events<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "Events",
+            "openPage" : {
+              "pageId" : "59",
+              "pageLoaderName" : {
+                "@class" : "Script",
+                "content" : "\"debugPageLoader\"",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Features<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "Features",
+            "openPage" : {
+              "pageId" : "60",
+              "pageLoaderName" : {
+                "@class" : "Script",
+                "content" : "\"debugPageLoader\"",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"<p>Launch Get Information Action<br></p>\"",
+          "content" : "\"43\"",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
-            "language" : "TypeScript",
-            "returnType" : "Promise<unknown> | undefined"
-          }
-        },
-        "name" : "getInfo",
+        "name" : "debugPageLoader",
         "style" : { }
       },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "state",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'STATE ' + JSON.stringify(getCurrentState());",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "state",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'ACTIONS ' + JSON.stringify(getCurrentState().getAllActions());",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "state",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'CANCELLED ACTIONS ' + JSON.stringify(getCurrentState().getAllCancelledActions());",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "act templates",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getAllActionTemplates } from \"./UIfacade/debugFacade\";\n'ACTION TEMPLATES ' + JSON.stringify(getAllActionTemplates());",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./UIfacade/debugFacade\";\n'EVENTS ' + JSON.stringify(getAllEvents())",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'FEATURES ' + JSON.stringify(getCurrentState().getMapLocations())",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getMapState } from \"./gameMap/main\";\n'TMPFEATURE ' + JSON.stringify(getMapState().tmpFeature)",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
+      "type" : "PageLoader"
     } ],
     "layout" : {
       "flexDirection" : "column"

@@ -1,5 +1,5 @@
 import { StartEndAction } from "../game/common/actions/actionBase";
-import { formatTime, getCurrentActorUid, getStartTime } from "../gameInterface/main";
+import { formatTime, getStartTime } from "../gameInterface/main";
 import { getTranslation } from "../tools/translation";
 import { getAllActions } from "../UIfacade/actionFacade";
 import { getAllActors } from "../UIfacade/actorFacade";
@@ -190,7 +190,7 @@ export function createGrid(currentTime: number): string {
 
 	let timelinesHTML = '';
 	for (let i = 0; i < timelines.length; i++) {
-		const active = timelines[i]!.id === getCurrentActorUid();
+		const active = timelines[i]!.id === Context.interfaceState.state.currentActorUid;
 		timelinesHTML += createGridRow(i+2,  active, timelines[i]!.timeline);
 	}
 

@@ -1,7 +1,6 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { endMapAction, getMapState, startMapAction } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
-import { getAllActors } from "../UIfacade/actorFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
 
@@ -16,74 +15,17 @@ export function getGameStateStatus(): gameStateStatus {
 }
 
 
-interface InterfaceState {
+export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
 }
 
-let interfaceState: InterfaceState;
-
-Helpers.registerEffect(() => {
-	const actors = getAllActors();
-
-	interfaceState = {
-		currentActorUid: actors[0].Uid,
-		currentActionUid: 0,
-	}
-});
-
 /**
- * Initialise interface with default values
+ * Get the current interface state
  */
-export function initInterface(): void {
-	// Set the currentActorUid vegas variable to first actor available
-	const actors = getAllActors();
-	if (actors[0]) {
-		setCurrentActorUid(actors[0].Uid);
-	}
+export function getInterfaceState(): InterfaceState {
+	return Context.interfaceState.state;
 }
-
-/**
- * Get current selected Actor Uid
- * @returns Uid
- */
-export function getCurrentActorUid() {
-	return interfaceState.currentActorUid;
-}
-
-/**
- * Set the currently selected actor Uid
- */
-export function setCurrentActorUid(id: number): void {
-	interfaceState.currentActorUid = id;
-}
-
-/**
- * Get currently selected Action Uid
- * @returns Uid
- */
-export function getCurrentActionUid() {
-	return interfaceState.currentActionUid;
-}
-
-/**
- * Set the currently selected action Uid
- */
-export function setCurrentActionUid(id: number): void {
-	interfaceState.currentActionUid = id;
-}
-
-/**
- * Show the mainSim modal
- */
-export function showModal() {
-	APIMethods.runScript(
-		`Variable.find(gameModel, 'showModal').setValue(self, true)`,
-		{},
-	);
-}
-
-// TODO Add validation for actions taking place over more than 60 seconds
 
 /**
  * Can the current actor plan an action ?
@@ -91,7 +33,7 @@ export function showModal() {
  */
 export function canPlanAction(): boolean {
 	const currentTime = getSimTime();
-	const actorUid = getCurrentActorUid();
+	const actorUid = Context.interfaceState.state.currentActorUid;
 	const actions = getAllActions();
 
 	if (actions[actorUid] === undefined) return true;
@@ -107,7 +49,7 @@ export function canPlanAction(): boolean {
 }
 
 export function isPlannedAction(id: number) {
-	const actorUid = getCurrentActorUid();
+	const actorUid = Context.interfaceState.state.currentActorUid;
 	const actions = getAllActions()[actorUid];
 
 	if (actorUid && actions) {
@@ -126,7 +68,7 @@ export function isPlannedAction(id: number) {
 export function actionClickHandler (id: number, params: any) : void {
 
 	const template = getActionTemplate(id)!;
-	const uid = getCurrentActorUid();
+	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {
 		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
@@ -138,15 +80,12 @@ export function actionClickHandler (id: number, params: any) : void {
 		}
 	} else if (isPlannedAction(id)) {
 		cancelAction(uid, id);
-	} else {
-		// Error handling modal
-		showModal()
 	}
 }
 
 export function planMapAction() {
-	const actorUid = getCurrentActorUid();
-	const template = getActionTemplate(getCurrentActionUid());
+	const actorUid = Context.interfaceState.state.currentActorUid;
+	const template = getActionTemplate(Context.interfaceState.state.currentActionUid);
 	const tmpFeature = getMapState().tmpFeature;
 
 	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
