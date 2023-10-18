@@ -1,7 +1,8 @@
 import { getEnv, getPatientsBodyFactoryParamsArray } from "../../../tools/WegasHelper";
-import { BodyEffect, computeState, createHumanBody, Environnment, HumanBody } from "../../../HUMAn/human";
+import { BodyEffect, computeState, createHumanBody, doActionOnHumanBody, Environnment, HumanBody } from "../../../HUMAn/human";
 import { mainSimLogger } from "../../../tools/logger";
-import { RevivedPathology, revivePathology } from "../../../HUMAn/pathology";
+import { AfflictedPathology, RevivedPathology, revivePathology } from "../../../HUMAn/pathology";
+import { getAct, getItem } from "../../../HUMAn/registries";
 
 
 
@@ -9,14 +10,83 @@ export function loadPatients(): HumanBody[] {
 	const env = getEnv();
 
 	const patients = getPatientsBodyFactoryParamsArray()
-		.map((bodyFactoryParamWithId) => bodyFactoryParamWithId.meta)
-		.map(bodyParam => createHumanBody(bodyParam, env));
-
-	//TODO: do we need the patient ID?
+		.map((bodyFactoryParamWithId) => {
+			const patient = createHumanBody(bodyFactoryParamWithId.meta, env);
+			patient.id = bodyFactoryParamWithId.id;
+			return patient;
+			})
+		.map(patient => {
+			patient.revivedPathologies = reviveAfflictedPathologies(computeInitialAfflictedPathologies(patient));
+			patient.effects = computeInitialEffects(patient);
+			return patient;
+		});
 
 	mainSimLogger.info('Adding', patients.length,'patients');
 
 	return patients;
+}
+
+function computeInitialAfflictedPathologies(patient: HumanBody):[AfflictedPathology, number][] {
+	const pathologiesWithTime:[AfflictedPathology, number][] = [];
+	const healthConditions = patient.meta.scriptedEvents;
+	healthConditions!.map(healthCondition =>{
+		if (healthCondition.payload.type === 'HumanPathology') {
+			try {
+				pathologiesWithTime.push([healthCondition.payload, healthCondition.time]);
+				mainSimLogger.debug('Afflict Pathology: ', { pathology: healthCondition.payload, time: healthCondition.time });
+			} catch {
+				mainSimLogger.warn(`Afflict Pathology Failed: Pathology "${healthCondition.payload.pathologyId}" does not exist`);
+			}
+		}
+	});
+	return pathologiesWithTime;
+}
+
+function computeInitialEffects (patient: HumanBody): BodyEffect[] {
+	const effects : BodyEffect[] = [];
+	patient.meta.scriptedEvents!.map(healthCondition =>{
+		if (healthCondition.payload.type === 'HumanTreatment') {
+				if (healthCondition.payload.source.type === 'act') {
+				const act = getAct(healthCondition.payload.source.actId);
+				if (act) {
+					if (act.action.type === 'ActionBodyEffect') {
+						mainSimLogger.info('Do Act: ', { time: healthCondition.time, act });
+						effects.push(doActionOnHumanBody(act, act.action, 'default', healthCondition.payload.blocks, healthCondition.time)!);
+					} else {
+						mainSimLogger.info('Ignore measure');
+					}
+				}
+			} else if (healthCondition.payload.source.type === 'itemAction') {
+				const item = getItem(healthCondition.payload.source.itemId);
+				const action = item?.actions[healthCondition.payload.source.actionId];
+				if (action != null) {
+					if (action.type === 'ActionBodyEffect') {
+						mainSimLogger.info('Apply Item: ', { time: healthCondition.time, item, action });
+						effects.push(doActionOnHumanBody(item!, action, healthCondition.payload.source.actionId, healthCondition.payload.blocks, healthCondition.time)!);
+					} else {
+						mainSimLogger.info('Ignore measure');
+					}
+				} else {
+					mainSimLogger.warn(
+						`Item Action Failed: Event/Action "${healthCondition.payload.source.itemId}/${healthCondition.payload.source.actionId}`,
+					);
+				}
+			}
+		}
+	});
+	return effects;
+}
+
+function reviveAfflictedPathologies(afflictedPathologies: [AfflictedPathology, number][]): RevivedPathology[] {
+	const pathologies: RevivedPathology[] = [];
+	afflictedPathologies.forEach(afflictedPathologyTuple =>{
+			const revivedpathology = revivePathology(afflictedPathologyTuple[0], afflictedPathologyTuple[1]);
+			pathologies.push(revivedpathology);
+			mainSimLogger.debug('Revived Pathology: ', { revivedpathology, time: afflictedPathologyTuple[1]});
+		}
+	);
+
+	return pathologies;
 }
 
 export function computeNewPatientsState(patients: HumanBody[], timeJump: number, env: Environnment): void {
@@ -25,31 +95,17 @@ export function computeNewPatientsState(patients: HumanBody[], timeJump: number,
 		if (patient.meta == null)
 			throw `Unable to find meta for patient`;
 
-		const pathologies: RevivedPathology[] = [];
-		const effects: BodyEffect[] = []; //not implemented yet
-		const healthConditions = patient.meta.scriptedEvents;
-		healthConditions!.map(healthCondition =>{
-			if (healthCondition.payload.type === 'HumanPathology') {
-				try {
-					const pathology = revivePathology(healthCondition.payload, healthCondition.time);
-					pathologies.push(pathology);
-					mainSimLogger.debug('Afflict Pathology: ', { pathology, time: healthCondition.time });
-				} catch {
-					mainSimLogger.warn(`Afflict Pathology Failed: Pathology "${healthCondition.payload.pathologyId}" does not exist`);
-				}
-			}
-		});
-
 		const from = patient.state.time;
-		if (effects.length === 0 && pathologies.length === 0) {
+
+		if (patient.effects!.length === 0 && patient.revivedPathologies!.length === 0) {
 			// no need to compute state; Human is stable
 			patient.state.time = from + timeJump;
-			mainSimLogger.debug('Skip Human');
+			mainSimLogger.info('Skip Human');
 		} else {
 			mainSimLogger.debug('Update Human');
 			for (let i = stepDuration; i <= timeJump; i += stepDuration) {
-				mainSimLogger.debug('Compute Human Step ', { currentTime: patient.state.time, stepDuration, pathologies });
-				computeState(patient.state, patient.meta, env, stepDuration, pathologies, effects);
+				mainSimLogger.debug('Compute Human Step ', { currentTime: patient.state.time, stepDuration, patient: patient.revivedPathologies });
+				computeState(patient.state, patient.meta, env, stepDuration, patient.revivedPathologies!, patient.effects!);
 				mainSimLogger.debug('Step Time: ', patient.state.time);
 			}
 
@@ -58,19 +114,18 @@ export function computeNewPatientsState(patients: HumanBody[], timeJump: number,
 				mainSimLogger.debug('Compute Human Step ', {
 					currentTime: patient.state.time,
 					stepDuration: timeJump - patient.state.time,
-					pathologies,
+					patient: patient.revivedPathologies,
 				});
 				computeState(
 					patient.state,
 					patient.meta,
 					env,
 					from + timeJump - patient.state.time,
-					pathologies,
-					effects,
+					patient.revivedPathologies!,
+					patient.effects!,
 				);
 			}
 			mainSimLogger.debug('FinalStateTime: ', patient.state.time);
 		}
-
 	});
 }

@@ -137,6 +137,15 @@ export function getAllocatedResources(state: Readonly<MainSimulationState>, task
     && res.currentActivity === taskId);
 }
 
+/**
+ * @returns The resources allocated to the given task
+ */
+export function getAllocatedResourcesAnyKind(state: Readonly<MainSimulationState>, taskId: TaskId): Readonly<Resource>[] {
+  const internalState = state.getInternalStateObject();
+
+  return internalState.resources.filter(res => res.currentActivity === taskId);
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // change the world - old

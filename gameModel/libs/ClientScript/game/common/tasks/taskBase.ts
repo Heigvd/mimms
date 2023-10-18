@@ -1,11 +1,14 @@
 import { taskLogger } from "../../../tools/logger";
 import { getTranslation } from "../../../tools/translation";
+import { PreTriageResult } from "../../pretri/triage";
 import { Actor } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { OneMinuteDuration } from "../constants";
 import { IClonable } from "../interfaces";
 import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, CategorizePatientLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
+import { doPatientAutomaticTriage, getNextNonPretriagedPatient, getNonPretriagedPatientsSize } from "../patients/pretriage";
+import { Resource } from "../resources/resource";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
@@ -97,7 +100,7 @@ export abstract class TaskBase implements IClonable {
 	public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
 
   /** Update the state */
-  public abstract update(state: Readonly<MainSimulationState>): void;
+  public abstract update(state: Readonly<MainSimulationState>, timeJump: number): void;
 
   public abstract clone(): this;
 }
@@ -122,9 +125,9 @@ export abstract class DefaultTask extends TaskBase {
     super(title, description, nbMinResources, nbMaxResources);
   }
 
-  protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>): void;
+  protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void;
 
-  public update(state: Readonly<MainSimulationState>): void {
+  public update(state: Readonly<MainSimulationState>, timeJump: number): void {
     const enoughResources = TaskState.hasEnoughResources(state, this);
 
     switch (this.status) {
@@ -141,7 +144,7 @@ export abstract class DefaultTask extends TaskBase {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
           this.status = "OnGoing";
-          this.dispatchInProgressEvents(state);
+          this.dispatchInProgressEvents(state, timeJump);
         }
 
         // no evolution if not enough resources
@@ -153,7 +156,7 @@ export abstract class DefaultTask extends TaskBase {
         if (enoughResources) {
           taskLogger.debug('task : dispatch local events to update the state');
 
-          this.dispatchInProgressEvents(state);
+          this.dispatchInProgressEvents(state, timeJump);
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
@@ -167,7 +170,7 @@ export abstract class DefaultTask extends TaskBase {
           taskLogger.debug('task status : Paused -> OnGoing');
 
           this.status = "OnGoing";
-          this.dispatchInProgressEvents(state);
+          this.dispatchInProgressEvents(state, timeJump);
         }
         break;
       }
@@ -197,55 +200,53 @@ export class PreTriageTask extends DefaultTask {
     readonly description: TranslationKey,
     readonly nbMinResources: number,
     readonly nbMaxResources: number,
-    readonly zone: string, // TODO see how represent it
+    //readonly zone: string, // TODO see how represent it
     readonly feedbackAtEnd : TranslationKey,
   ) {
     super(title, description, nbMinResources, nbMaxResources);
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
-    return state.areZonesAlreadyDefined();
+    //return state.areZonesAlreadyDefined();
+	return true;
   }
 
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
     // check if we have the capacity to do something
     if (!TaskState.hasEnoughResources(state, this)) {
-      return;
+		taskLogger.info("Not enough resources!");
+      	return;
     }
+	taskLogger.info("Patients not pretriaged before action: " + getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults));
+	const RESOURCE_EFFICACITY = 1;
+	const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
+    ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
+		if ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY >= TIME_REQUIRED_FOR_PATIENT_PRETRI){
+			
+			(resource as Resource).cumulatedUnusedTime = ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY) - TIME_REQUIRED_FOR_PATIENT_PRETRI;
+			const nextPatient = getNextNonPretriagedPatient(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults);
+			if (nextPatient)
+				state.getInternalStateObject().pretriageResults[nextPatient.id!] = doPatientAutomaticTriage(nextPatient)!;
+		}
+		else {
+			(resource as Resource).cumulatedUnusedTime += timeJump;
+		}
+	});
 
-    const nbCurrentResources = ResourceState.getAllocatedResources(state, this.Uid, 'ambulancier').length;
+	taskLogger.info("Patients not pretriaged after action: " + getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults));
 
-    const durationSinceLastUpdate = state.getSimTime() - (this.lastUpdateSimTime ?? 0);
-    // fixme : see if ok the first time it runs (and so lastUpdateSimTime is null)
-
-    const nbMinutesToProcess = Math.floor(durationSinceLastUpdate / OneMinuteDuration);
-
-    const progressionCapacity = nbMinutesToProcess * Math.min(nbCurrentResources, this.nbMaxResources);
-
-    taskLogger.debug("update task for a capacity of " + progressionCapacity + "(duration : " + durationSinceLastUpdate
-      + " aka nbMinutes : " + nbMinutesToProcess + ", nbCurrentResources : " + nbCurrentResources + ")");
-
-    let nbPatientsForPreTriage = PatientState.countNbPatientsForPreTriage(state, this.zone);
-
-    for (let i = 0; i < progressionCapacity && nbPatientsForPreTriage > 0; i++) {
-        // FIXME ?!? which parent event id ?!?
-      localEventManager.queueLocalEvent(new CategorizePatientLocalEvent(0, state.getSimTime(), this.zone));
-      nbPatientsForPreTriage--;
-    }
-
-    if (nbPatientsForPreTriage === 0) {
-      // FIXME which  parent event id ?!?
-      localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
-      localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
-      // FIXME See to whom and from whom
-      state.getAllActors().forEach(actor => {
-        localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd));
+	if (getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults) === 0){
+		localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
+      	localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
+      	// FIXME See to whom and from whom
+      	state.getAllActors().forEach(actor => {
+        	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd));
       });
-    }
+	}
   }
 
   override clone(): this { 
-    const clone = new PreTriageTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.zone, this.feedbackAtEnd);
+    const clone = new PreTriageTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.feedbackAtEnd);
     clone.status = this.status;
     return clone as this;
   }

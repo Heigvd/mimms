@@ -25,7 +25,7 @@ export class LocalEventManager {
 
   public processPendingEvents(state: MainSimulationState): MainSimulationState{
     
-	  let safeguard = 0;
+	let safeguard = 0;
     let pending : LocalEventBase[] = [];
     let newState = state;
 

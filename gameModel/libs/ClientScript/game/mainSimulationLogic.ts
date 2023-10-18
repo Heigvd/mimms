@@ -66,8 +66,8 @@ function initMainState(): MainSimulationState {
 	icon: 'mainAccident',
   }
 
-  const testTaskPretriA = new PreTriageTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
-  const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+  const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'Pretriage task completed!');
+  //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
 	const initialResources = [
 		new Resource('secouriste', testAL.Uid),
@@ -98,8 +98,6 @@ function initMainState(): MainSimulationState {
 		new Resource('medecinJunior', testAL.Uid),
 		new Resource('medecinSenior', testAL.Uid),];
 
-  const initialNbPatientInZoneA = 20;
-  const initialNbPatientInZoneB = 20;
 
   return new MainSimulationState({
     actions: [],
@@ -107,11 +105,8 @@ function initMainState(): MainSimulationState {
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tmp: {
-      nbForPreTriZoneA: initialNbPatientInZoneA,
-      nbForPreTriZoneB: initialNbPatientInZoneB,
-    },
-    tasks: [testTaskPretriA, testTaskPretriB],
+	pretriageResults: {},
+    tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
   }, 0, 0);
