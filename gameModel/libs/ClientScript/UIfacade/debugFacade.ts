@@ -10,19 +10,6 @@ export function getAllActionTemplates() {
 	return mainLogic.debugGetAllActionTemplates();
 }
 
-export async function planFirstActionWithFirstActor(){
-	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
-	const actTpl = getAllActionTemplates()[0];
-	return planAction(actTpl!.getTemplateRef(), actor!);
-}
-
-export async function planFirstMapActionWithFirstActor() {
-	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
-	const actTpl = getAllActionTemplates()[2];
-	return planAction(actTpl!.getTemplateRef(), actor!)
-
-}
-
 export async function planMethaneAction() {
 	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
 	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);

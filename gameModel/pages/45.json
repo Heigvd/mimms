@@ -157,7 +157,7 @@
                   "language" : "typescript"
                 },
                 "layout" : {
-                  "flexDirection" : "column",
+                  "flexDirection" : "row",
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",

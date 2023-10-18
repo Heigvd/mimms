@@ -213,7 +213,6 @@
                                 "attachedToId" : "",
                                 "children" : [ {
                                   "props" : {
-
                                     "className" : "panel-title leftPanel-title",
                                     "layoutClassName" : "noPadding noMargin",
                                     "layoutStyle" : { },

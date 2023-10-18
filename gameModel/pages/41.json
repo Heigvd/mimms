@@ -18,26 +18,6 @@
           "props" : {
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Launch Get Information Action<br></p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { planFirstActionWithFirstActor } from \"./UIfacade/debugFacade\";\nplanFirstActionWithFirstActor()",
-                "language" : "TypeScript",
-                "returnType" : "Promise<unknown> | undefined"
-              }
-            },
-            "name" : "getInfo",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
               "content" : "\"<p>Force Run Event Loop<br></p>\"",
               "language" : "TypeScript"
             },
