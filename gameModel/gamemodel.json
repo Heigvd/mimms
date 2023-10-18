@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1697551966873,
+  "createdTime" : 1697619033309,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6078,6 +6078,43 @@
           "name" : "n",
           "refId" : "NumberDescriptor:548470:BKaUxa",
           "scopeType" : "TeamScope",
+          "version" : null,
+          "visibility" : "PRIVATE"
+        }, {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:555352:SowYqn",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:555353:IxMZun",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:555354:fanb1O",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:555354:fanb1O::EN",
+                "status" : "",
+                "translation" : "N_string"
+              }
+            }
+          },
+          "maxSelectable" : 1,
+          "name" : "n_3xvRST",
+          "refId" : "StringDescriptor:555351:AZkWqb",
+          "scopeType" : "TeamScope",
+          "sortable" : false,
+          "validationPattern" : null,
           "version" : null,
           "visibility" : "PRIVATE"
         } ],

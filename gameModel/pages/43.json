@@ -213,6 +213,20 @@
                                 "attachedToId" : "",
                                 "children" : [ {
                                   "props" : {
+
+                                    "className" : "panel-title leftPanel-title",
+                                    "layoutClassName" : "noPadding noMargin",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",

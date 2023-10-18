@@ -2,417 +2,866 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "modalTitle",
-        "layoutStyle" : { },
-        "name" : "modalTitle",
-        "style" : { },
-        "text" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "modalTitle",
+                "layoutStyle" : { },
+                "name" : "modalTitle",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "whiteButton methaneMenuButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>METHANE</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : " Context.methaneSelection.setState({selected: 'METHANE'})",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "methane",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "whiteButton methaneMenuButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>MET</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : " Context.methaneSelection.setState({selected: 'MET'})",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "met",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "whiteButton methaneMenuButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>HANE</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : " Context.methaneSelection.setState({selected: 'HANE'})",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "hane",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "whiteButton methaneMenuButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Demande de ressources<br></p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : " Context.methaneSelection.setState({selected: 'E'})",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "demandeRessources",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "flexDirection" : "row"
+                },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "methaneButtons",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterM",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>M<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Major incident declared\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'m')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterM",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterE",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>E<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Exact location\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'e')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.startsWith('MET');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterE",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterT",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>T<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Type of incident\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'t')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.startsWith('MET');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterT",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterH",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>H<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Hazards present or suspected\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'h')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterH",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterA",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>A<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Access\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'a')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterA",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterN",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>N<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"0\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'n_3xvRST')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterN",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterE",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>E<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Ambulance(s)</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>SMUR<br></p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbEstafette')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>PICA</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Hélico</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>PMA<br></p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbEstafette')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>PCS</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>ACS<br></p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutClassName" : "chosenNumber-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "validator" : false
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "E-container-container",
+                                "layoutStyle" : { },
+                                "name" : "container",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>MCS<br></p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "anE-ressource-container",
+                            "layoutStyle" : { },
+                            "name" : "anE-ressource-container",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "E-ressources-container",
+                    "layoutStyle" : { },
+                    "name" : "E-ressources-container",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('E');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "LetterE",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "pink l_button",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import {planMethaneAction} from \"./UIfacade/debugFacade\";\nplanMethaneAction();",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown> | undefined"
+                      }
+                    },
+                    "name" : "send",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "",
+                "layout" : {
+                  "justifyContent" : "flex-end"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "name" : "btnModal",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "methaneSelection",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+          "content" : "({})",
           "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "className" : "whiteButton methaneMenuButton",
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>METHANE</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "methane",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "whiteButton methaneMenuButton",
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>MET</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "met",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "whiteButton methaneMenuButton",
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>HANE</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "hane",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "whiteButton methaneMenuButton",
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>Demande de ressources<br></p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "name" : "demandeRessources",
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "layout" : {
-          "flexDirection" : "row"
         },
-        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "methaneButtons",
+        "localState" : false,
         "style" : { }
       },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterM",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>M<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Major incident declared\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'m')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "String input"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterM",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterE",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>E<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Exact location\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'e')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "String input"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterE",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterT",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>T<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Type of incident\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'t')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "String input"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterT",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterH",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>H<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Hazards present or suspected\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'h')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "String input"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterH",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterA",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>A<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "onCancel" : { },
-            "onVariableChange" : { },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Access\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'a')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "String input"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterA",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterN",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>N<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "name" : "letterN",
-            "onVariableChange" : { },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Variable.find(gameModel,'n')",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "NumberSlider"
-        } ],
-        "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : { },
-        "name" : "LetterN",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutClassName" : "methane-letter-container",
-            "layoutStyle" : { },
-            "name" : "letterE",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>E<br></p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>Ici, la demande de ressources</p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "layout" : { },
-        "layoutStyle" : { },
-        "name" : "LetterE",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "className" : "l_button cancelBtn",
-            "impactVariable" : {
-              "impact" : {
-                "@class" : "Script",
-                "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);",
-                "language" : "javascript"
-              }
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `cancel`);",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "name" : "cancel",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "pink l_button",
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import {planMethaneAction} from \"./UIfacade/debugFacade\";\nplanMethaneAction();",
-                "language" : "TypeScript",
-                "returnType" : "Promise<unknown> | undefined"
-              }
-            },
-            "name" : "send",
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "className" : "",
-        "layout" : {
-          "justifyContent" : "flex-end"
-        },
-        "layoutClassName" : "",
-        "layoutStyle" : { },
-        "name" : "btnModal",
-        "style" : { }
-      },
-      "type" : "FlexList"
+      "type" : "State"
     } ],
     "layout" : {
       "flexDirection" : "column"

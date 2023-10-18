@@ -188,7 +188,12 @@ html{
 	font-size: var(--ML_text);
 	border-top-left-radius: var(--S_borderRadius);
 	border-top-right-radius:var(--S_borderRadius);
+}
 
+.leftPanel-title{
+	width: 10rem;
+	border-top-right-radius: 0px;
+	text-align: center;
 }
 
 
@@ -447,7 +452,7 @@ background-color: var(--interface_0);
 	
 
 
-/*****  ****/
+/***** Ressources in tasks  ****/
 
 .ressourcePersonIcon{
 font-size: 2rem;
@@ -579,6 +584,33 @@ font-weight: var(--boldWeight);
 }
 
 
+.methaneMenuButton:focus{
+	background-color: var(--interface_BLUE);
+	
+}
+
+.methaneMenuButton:focus > *{
+	color: var(--gray_WHITE);
+}
+
+
+.E-ressources-container{
+	flex-wrap: wrap;
+	flex-basis: 33%;
+	}
+
+.methane-letter-container{
+	font-weight: var(--boldWeight);
+	color: var(--interface_BLUE);
+	}
+
+.anE-ressource-container{
+	width: 20em;
+}
+
+.E-container-container{
+height: 3em;
+}
 /************************ TIMELINE CSS (bottom) ******************************/
 
 .timeline-container {

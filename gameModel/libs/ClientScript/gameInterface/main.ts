@@ -4,7 +4,6 @@ import { cancelAction, getActionTemplate, getAllActions, planAction } from "../U
 import { getSimTime } from "../UIfacade/timeFacade";
 
 
-
 type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 
 /**
@@ -138,6 +137,8 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 		return "55";
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";
+	}	else if (Context.action instanceof MethaneTemplate) {
+		return "42";
 	}
 
 	return "57";
