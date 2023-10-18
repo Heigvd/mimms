@@ -584,6 +584,33 @@ font-weight: var(--boldWeight);
 }
 
 
+.methaneMenuButton:focus{
+	background-color: var(--interface_BLUE);
+	
+}
+
+.methaneMenuButton:focus > *{
+	color: var(--gray_WHITE);
+}
+
+
+.E-ressources-container{
+	flex-wrap: wrap;
+	flex-basis: 33%;
+	}
+
+.methane-letter-container{
+	font-weight: var(--boldWeight);
+	color: var(--interface_BLUE);
+	}
+
+.anE-ressource-container{
+	width: 20em;
+}
+
+.E-container-container{
+height: 3em;
+}
 /************************ TIMELINE CSS (bottom) ******************************/
 
 .timeline-container {
