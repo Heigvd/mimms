@@ -40,6 +40,10 @@ export abstract class TaskBase implements IClonable {
     this.status = 'Uninitialized';
   }
 
+  static resetIdSeed() {
+    this.IdSeed = 1000;
+  }
+
   /** Its short name */
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);

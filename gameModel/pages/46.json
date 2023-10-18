@@ -100,7 +100,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { releaseResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nreleaseResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
+                                "content" : "import { releaseResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = Context.interfaceState.state.currentActorUid;\n\nreleaseResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -150,7 +150,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { allocateResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = getCurrentActorUid();\n\nallocateResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
+                                "content" : "import { allocateResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = Context.interfaceState.state.currentActorUid;\n\nallocateResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -340,7 +340,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(Context.interfaceState.state.currentActorUid);",
           "language" : "TypeScript"
         },
         "itemKey" : "Uid",

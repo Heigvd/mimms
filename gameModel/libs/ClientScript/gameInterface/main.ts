@@ -1,15 +1,10 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { GeometryType } from "../game/common/events/defineMapObjectEvent";
-import { startMapAction } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, isDefineMapObjectTemplate, isMethaneActionTemplate, isRequestResourcesFromActorActionTemplate, planAction } from "../UIfacade/actionFacade";
-import { getAllActors } from "../UIfacade/actorFacade";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { endMapAction, getMapState, startMapAction } from "../gameMap/main";
+import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
-const logger = Helpers.getLogger('mainSim-interface')
 
-/**
- * 
- */
+
 type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 
 /**
@@ -19,53 +14,18 @@ export function getGameStateStatus(): gameStateStatus {
 	return Variable.find(gameModel, 'gameState').getValue(self) as gameStateStatus;
 }
 
-/**
- * Initialise interface with default values
- */
-export function initInterface(): void {
-	// Set the currentActorUid vegas variable to first actor available
-	const actors = getAllActors();
-	setCurrentActorUid(actors[0].Uid);
-	// Reset any map action and tmpFeature
+
+export interface InterfaceState {
+	currentActorUid: number;
+	currentActionUid: number;
 }
 
 /**
- * Get current selected Actor Uid
- * @returns Uid
+ * Get the current interface state
  */
-export function getCurrentActorUid() {
-	return Variable.find(gameModel, 'currentActorUid').getValue(self);
+export function getInterfaceState(): InterfaceState {
+	return Context.interfaceState.state;
 }
-
-/**
- * Set the currently selected actor Uid
- */
-export function setCurrentActorUid(id: number): void {
-	APIMethods.runScript(
-		`Variable.find(gameModel, 'currentActorUid').setValue(self, ${id});`,
-		{},
-	);
-}
-
-/**
- * Get currently selected Action Uid
- * @returns Uid
- */
-export function getCurrentActionUid() {
-	return Variable.find(gameModel, 'currentActionUid').getValue(self);
-}
-
-/**
- * Show the mainSim modal
- */
-export function showModal() {
-	APIMethods.runScript(
-		`Variable.find(gameModel, 'showModal').setValue(self, true)`,
-		{},
-	);
-}
-
-// TODO Add validation for actions taking place over more than 60 seconds
 
 /**
  * Can the current actor plan an action ?
@@ -73,12 +33,12 @@ export function showModal() {
  */
 export function canPlanAction(): boolean {
 	const currentTime = getSimTime();
-	const actorUid = getCurrentActorUid();
+	const actorUid = Context.interfaceState.state.currentActorUid;
 	const actions = getAllActions();
 
 	if (actions[actorUid] === undefined) return true;
 
-	for (const action of actions[actorUid]) {
+	for (const action of actions[actorUid]!) {
 		// Is a future action planned ?
 		if (action.startTime === currentTime) return false;
 		// Is a previous action finished ?
@@ -89,7 +49,7 @@ export function canPlanAction(): boolean {
 }
 
 export function isPlannedAction(id: number) {
-	const actorUid = getCurrentActorUid();
+	const actorUid = Context.interfaceState.state.currentActorUid;
 	const actions = getAllActions()[actorUid];
 
 	if (actorUid && actions) {
@@ -108,23 +68,28 @@ export function isPlannedAction(id: number) {
 export function actionClickHandler (id: number, params: any) : void {
 
 	const template = getActionTemplate(id)!;
-	const uid = getCurrentActorUid();
+	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {
-		// TODO hardcoded for demo
-		if (isDefineMapObjectTemplate(id) && template.featureDescription.geometryType === 'Point') {
+		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
 			startMapAction(params);
-		} else if (isMethaneActionTemplate(id)){
+		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}
 	} else if (isPlannedAction(id)) {
 		cancelAction(uid, id);
-	} else {
-		// Error handling modal
-		showModal()
 	}
+}
+
+export function planMapAction() {
+	const actorUid = Context.interfaceState.state.currentActorUid;
+	const template = getActionTemplate(Context.interfaceState.state.currentActionUid);
+	const tmpFeature = getMapState().tmpFeature;
+
+	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
+	endMapAction();
 }
 
 /**
@@ -158,7 +123,7 @@ export function getNotificationTime(notificationTime: number) {
  * Return given time in HH:MM format
  */
 export function formatTime(dateTime: Date) {
-	let splitted = dateTime.toLocaleString().split(' ')[1].split(':').splice(0, 2);
+	let splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
 	let result = splitted.join(':');
 
 	return result;

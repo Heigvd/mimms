@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1697195541199,
+  "createdTime" : 1697551966873,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4808,40 +4808,6 @@
       "editorTag" : "",
       "isolation" : "OPEN",
       "items" : [ {
-        "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:487592:XrfXSE",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:487593:RxOPzl",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:487593:RxOPzl::EN",
-              "status" : "",
-              "translation" : "currentTaskUid"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "currentTaskUid",
-        "refId" : "NumberDescriptor:487591:wyEwIQ",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "StringDescriptor",
         "allowedValues" : [ {
           "@class" : "EnumItem",
@@ -4997,74 +4963,6 @@
         "minValue" : null,
         "name" : "assigned",
         "refId" : "NumberDescriptor:447325:IqHd0N",
-        "scopeType" : "PlayerScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "NumberDescriptor",
-        "broadcastScope" : "PlayerScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:449121:oShzas",
-          "value" : 1003.0
-        },
-        "defaultValue" : 1003.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449122:UOLD7P",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449122:UOLD7P::EN",
-              "status" : "",
-              "translation" : "currentActorUid"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "currentActorUid",
-        "refId" : "NumberDescriptor:449120:diqFev",
-        "scopeType" : "PlayerScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "NumberDescriptor",
-        "broadcastScope" : "PlayerScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:449197:P4cab6",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:449198:ggLJH0",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:449198:ggLJH0::EN",
-              "status" : "",
-              "translation" : "currentActionUid"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "currentActionUid",
-        "refId" : "NumberDescriptor:449196:0Z848U",
         "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -5437,35 +5335,6 @@
         "name" : "startMenuPageLoader",
         "refId" : "NumberDescriptor:57175:HwLLn1",
         "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "PlayerScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:58172:UFfqWL",
-          "value" : false
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:58173:cWijd8",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:58173:cWijd8::EN",
-              "status" : "",
-              "translation" : "isMapAction"
-            }
-          }
-        },
-        "name" : "isMapAction",
-        "refId" : "BooleanDescriptor:58171:f8C2dj",
-        "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
@@ -6712,15 +6581,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameInterface/debugValues",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48991:88pEUl",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "gameInterface/main",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7259,7 +7119,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation",
+  "name" : "MIMMS main simulation - refactoring",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

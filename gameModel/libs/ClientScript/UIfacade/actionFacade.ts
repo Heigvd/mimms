@@ -9,7 +9,6 @@ import { ActionTemplateBase, DefineMapObjectTemplate, MethaneTemplate,RequestRes
 import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
-import { getCurrentActorUid } from "../gameInterface/main";
 import { getAllActionTemplates } from "../UIfacade/debugFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
@@ -60,7 +59,7 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
  * @returns Template of given action Uid
  */
 export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
-	return getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	return getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 }
 
 /**
@@ -78,7 +77,7 @@ export function isDefineMapObjectTemplate(id: number) {
  * @param id Uid of given action
  */
 export function isMethaneActionTemplate(id: number) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof MethaneTemplate;
 }
 
@@ -86,7 +85,7 @@ export function isMethaneActionTemplate(id: number) {
  * @param id Uid of given action template
  */
 export function isRequestResourcesFromActorActionTemplate(id: number) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof RequestResourcesFromActorActionTemplate;
 }
 
@@ -94,6 +93,6 @@ export function isRequestResourcesFromActorActionTemplate(id: number) {
  * @param id Uid of given action template
  */
 export function isSendResourcesToActorActionTemplate(id: number) {
-	const template = getAvailableActions(getCurrentActorUid()).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof SendResourcesToActorActionTemplate;
 }

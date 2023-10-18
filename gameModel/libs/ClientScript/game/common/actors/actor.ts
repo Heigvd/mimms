@@ -23,4 +23,7 @@ export class Actor{
     this.Uid = Actor.IdSeed++;
   }
 
+  static resetIdSeed() {
+    this.IdSeed = 1000;
+  }
 }

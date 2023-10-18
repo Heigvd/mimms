@@ -47,13 +47,13 @@
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);",
+            "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);\nVariable.find(gameModel, 'modalPageNumber').setValue(self, 42);",
             "language" : "javascript"
           }
         },
         "label" : {
           "@class" : "Script",
-          "content" : "const ok = \"Ok\";\nok",
+          "content" : "\"Ok\"",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },

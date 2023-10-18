@@ -36,5 +36,9 @@ export class Resource {
     this.Uid = Resource.IdSeed++;
 	this.cumulatedUnusedTime = 0;
   }
+
+  static resetIdSeed() {
+    this.IdSeed = 1000;
+  }
 }
 
