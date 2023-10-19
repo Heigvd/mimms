@@ -264,6 +264,34 @@
         "name" : "mainSimEventsDebug",
         "scenaristPage" : true,
         "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "51",
+          "name" : "mainSim_state",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "58",
+          "name" : "mainSim_actions",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "59",
+          "name" : "mainSim_events",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "60",
+          "name" : "mainSim_features",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "mainSimDebugPages"
       } ],
       "name" : "debug_pages"
     }, {

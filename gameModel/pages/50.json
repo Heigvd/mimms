@@ -31,13 +31,6 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { initInterface } from \"./gameInterface/main\";\n\ninitInterface()",
-                "language" : "TypeScript"
-              }
-            },
             "style" : { }
           },
           "type" : "Button"

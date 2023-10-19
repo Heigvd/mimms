@@ -7,6 +7,7 @@ import {
 	AddRadioMessageLocalEvent,
 	IncomingResourcesLocalEvent,
 	RemoveMapItemLocalEvent,
+	ResourcesAllocationLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
@@ -90,11 +91,24 @@ export abstract class StartEndAction extends ActionBase {
    * Translation key for the name of the action (displayed in the timeline)
    */
   public readonly actionNameKey: TranslationKey;
+  /**
+   * Translation key to the message received at the end of the action
+   */
+  public readonly messageKey: TranslationKey;
 
-  public constructor(startTimeSec: SimTime, durationSeconds: SimDuration, evtId: GlobalEventId,actionNameKey: TranslationKey, ownerId: ActorId, uuidTemplate: ActionTemplateId){
-    super(startTimeSec, evtId, ownerId, uuidTemplate);
+  public constructor(
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey, 
+    ownerId: ActorId, 
+    uuidTemplate: ActionTemplateId
+  ){
+    super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
-	  this.actionNameKey = actionNameKey
+	  this.actionNameKey = actionNameKey;
+    this.messageKey = messageKey;
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -138,22 +152,16 @@ export abstract class StartEndAction extends ActionBase {
 
 export class GetInformationAction extends StartEndAction {
 
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-
   constructor (
 	  startTimeSec: SimTime,
 	  durationSeconds: SimDuration,
 	  messageKey: TranslationKey,
 	  actionNameKey: TranslationKey,
-	  evtId: GlobalEventId,
+	  eventId: GlobalEventId,
 	  ownerId: ActorId,
 	  uuidTemplate: ActionTemplateId
 	  ){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -179,33 +187,27 @@ export class GetInformationAction extends StartEndAction {
 
 }
 
-export class OnTheRoadgAction extends StartEndAction {
-
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
+export class OnTheRoadAction extends StartEndAction {
 
   constructor (
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
     actionNameKey: TranslationKey,
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event OnTheRoadgAction');
+    this.logger.info('start event OnTheRoadAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event OnTheRoadgAction');
+    this.logger.info('end event OnTheRoadAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
@@ -215,7 +217,7 @@ export class OnTheRoadgAction extends StartEndAction {
   }
 
   override clone(): this {
-    const clone = new OnTheRoadgAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
+    const clone = new OnTheRoadAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
     clone.status = this.status;
     return clone as this;
   }
@@ -224,14 +226,16 @@ export class OnTheRoadgAction extends StartEndAction {
 
 export class MethaneAction extends StartEndAction {
 
-  /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-
-  constructor (startTimeSec: SimTime, durationSeconds: SimDuration, messageKey: TranslationKey, actionNameKey: TranslationKey, evtId: GlobalEventId, ownerId: ActorId, uuidTemplate: ActionTemplateId){
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+  constructor (
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    messageKey: TranslationKey, 
+    actionNameKey: TranslationKey, 
+    eventId: GlobalEventId, 
+    ownerId: ActorId, 
+    uuidTemplate: ActionTemplateId
+  ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -261,10 +265,6 @@ export class MethaneAction extends StartEndAction {
 export class DefineMapObjectAction extends StartEndAction {
 
   /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-  /**
    * Map feature to be displayed
   */
   public readonly feature: MapFeature;
@@ -272,15 +272,14 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	actionNameKey: TranslationKey,
+	  actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
     uuidTemplate: ActionTemplateId
   ) { 
-      super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
-      this.messageKey = messageKey;
+      super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
       this.feature = feature;
 	  this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
@@ -341,7 +340,7 @@ export class RequestResourcesFromActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     recipientActor: ActorId,
     requestedResources: ResourceFunctionAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.recipientActor = recipientActor;
     this.requestedResources = requestedResources;
@@ -393,7 +392,7 @@ export class SendResourcesToActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     receiverActor: ActorId,
     sentResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.receiverActor = receiverActor;
     this.sentResources = sentResources;
@@ -449,7 +448,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
     assignedResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
     this.assignedResources = assignedResources;
@@ -461,8 +460,40 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AssignTaskToResourcesAction');
+	this.logger.info('resourcestypeAndNumber:', this.assignedResources);
+	//TODO: refactor using state in UI
+	const selectedTask = Variable.find(gameModel, 'chosenReceiverActor').getValue(self);
+	this.logger.info("Selected Task: ", selectedTask);
 
-    // TODO
+	const nbSecouristes = +Variable.find(gameModel, 'chosenNbSecouristes').getValue(self);
+	this.logger.info("Selected secouristes: ", nbSecouristes);
+
+	const nbTechAmbul = +Variable.find(gameModel, 'chosenNbTechAmbul').getValue(self);
+	this.logger.info("Selected tech ambul: ", nbTechAmbul);
+	const nbAmbulanciers = +Variable.find(gameModel, 'chosenNbAmbulanciers').getValue(self);
+	this.logger.info("Selected ambul: ", nbAmbulanciers);
+	const nbInfirmiers = +Variable.find(gameModel, 'chosenNbInfirmiers').getValue(self);
+	this.logger.info("Selected infirm: ", nbInfirmiers);
+	const nbMedecinJunior = +Variable.find(gameModel, 'chosenNbMedecinJunior').getValue(self);
+	this.logger.info("Selected med junior: ", nbMedecinJunior);
+	const nbMedecinSenior = +Variable.find(gameModel, 'chosenNbMedecinSenior').getValue(self);
+	this.logger.info("Selected med senior: ", nbMedecinSenior);
+
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'secouriste', nbSecouristes));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'techAmbul', nbTechAmbul));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'ambulancier', nbAmbulanciers));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'infirmier', nbInfirmiers));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'medecinJunior', nbMedecinJunior));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'medecinSenior', nbMedecinSenior));
+
+	/*APIMethods.runScript(`Variable.find(gameModel, "chosenReceiverActor").setValue(self, {});
+	Variable.find(gameModel, "chosenNbSecouristes").setValue(self, 0);
+	Variable.find(gameModel, "chosenNbTechAmbul").setValue(self, 0);
+	Variable.find(gameModel, "chosenNbAmbulanciers").setValue(self, 0);
+	Variable.find(gameModel, "chosenNbInfirmiers").setValue(self, 0);
+	Variable.find(gameModel, "chosenNbMedecinJunior").setValue(self, 0);
+	Variable.find(gameModel, "chosenNbMedecinSenior").setValue(self, 0);
+	`, {});*/
   }
 
   // TODO probably nothing
@@ -497,7 +528,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
     releasedResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
     this.releasedResources = releasedResources;
@@ -533,22 +564,20 @@ export class AskReinforcementAction extends StartEndAction {
   public readonly resourceType: ResourceType;
   public readonly nb: number;
 
-  public readonly feedbackAtEnd: TranslationKey;
 
   constructor(startTimeSec: SimTime,
     durationSeconds: SimDuration,
     actionNameKey: TranslationKey,
-    evtId: GlobalEventId,
+    eventId: GlobalEventId,
     ownerId: ActorId,
     resourceType: ResourceType,
     nb: number,
-    feedbackAtEnd: TranslationKey,
+    messageKey: TranslationKey,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, evtId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.resourceType = resourceType;
     this.nb = nb;
-    this.feedbackAtEnd = feedbackAtEnd;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
@@ -559,7 +588,7 @@ export class AskReinforcementAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AskReinforcementAction');
     localEventManager.queueLocalEvent(new IncomingResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.resourceType, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.feedbackAtEnd));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
   }
 
   // TODO probably nothing
@@ -568,7 +597,7 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
   override clone(): this {
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.feedbackAtEnd, this.templateId);
+    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.messageKey, this.templateId);
     clone.status = this.status;
     return clone as this;
   }

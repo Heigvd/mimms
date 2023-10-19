@@ -60,17 +60,10 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) === Context.action.Uid;",
+                    "content" : "Context.interfaceState.state.currentActionUid === Context.action.Uid;",
                     "language" : "typescript"
                   }
                 } ],
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentActionUid').setValue(self, Context.action.Uid);\n",
-                    "language" : "javascript"
-                  }
-                },
                 "layout" : {
                   "flexDirection" : "row",
                   "justifyContent" : "space-between"
@@ -78,9 +71,10 @@
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
+                  "priority" : 0,
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nendMapAction();",
+                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nContext.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActionUid: Context.action.Uid,\n})\nendMapAction();",
                     "language" : "TypeScript"
                   }
                 },
@@ -148,7 +142,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { RequestResourceFromActorActionInput, SendResourcesToActorActionInput } from \"./game/common/actions/actionTemplateBase\";\nimport { ResourceFunction, ResourceFunctionAndNumber } from \"./game/common/resources/resourceFunction\";\nimport { ResourceTypeAndNumber } from \"./game/common/resources/resourceType\";\nimport { actionClickHandler } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSendResourcesToActorActionTemplate } from \"./UIfacade/actionFacade\";\n\nconst actionRefUid = Context.action.Uid;\n\nlet params = {};\n\nif (isDefineMapObjectTemplate(actionRefUid)) {\n\tparams = Context.action.featureType;\n} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);\n\tconst chosenNbPretrieurs = +Variable.find(gameModel, 'chosenNbPretrieursB').getValue(self);\n\tconst requestedResources: ResourceFunctionAndNumber[] = [{function: 'Pretrieur', nb: chosenNbPretrieurs}];\n\n\tconst requestResourceParams : RequestResourceFromActorActionInput= {recipientActor: chosenActor, requestedResources};\n\n\tparams = requestResourceParams;\n} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'chosenReceiverActor').getValue(self);\n\t\n\tconst chosenNbSecouristes = +Variable.find(gameModel, 'chosenNbSecouristes').getValue(self);\n\tconst chosenNbTechAmbs = +Variable.find(gameModel, 'chosenNbTechAmbul').getValue(self);\n\tconst chosenNbAmbulanciers = +Variable.find(gameModel, 'chosenNbAmbulanciers').getValue(self);\n\tconst chosenNbInfirmiers = +Variable.find(gameModel, 'chosenNbInfirmiers').getValue(self);\n\tconst chosenNbMedJuniors = +Variable.find(gameModel, 'chosenNbMedecinJunior').getValue(self);\n\tconst chosenNbMedSeniors = +Variable.find(gameModel, 'chosenNbMedecinSenior').getValue(self);\n\n\tconst sentResources: ResourceTypeAndNumber[] = [\n\t\t{type: 'secouriste', nb: chosenNbSecouristes},\n\t\t{type: 'techAmbul', nb: chosenNbTechAmbs},\n\t\t{type: 'ambulancier', nb: chosenNbAmbulanciers},\n\t\t{type: 'infirmier', nb: chosenNbInfirmiers},\n\t\t{type: 'medecinJunior', nb: chosenNbMedJuniors},\n\t\t{type: 'medecinSenior', nb: chosenNbMedSeniors},\n\t\t];\n\n\tconst sendResourcesParams : SendResourcesToActorActionInput = {receiverActor: chosenActor, sentResources};\n\n\tparams = sendResourcesParams;\n}\n\nactionClickHandler(Context.action.Uid, params);",
+                        "content" : "import { RequestResourceFromActorActionInput, SendResourcesToActorActionInput } from \"./game/common/actions/actionTemplateBase\";\nimport { ResourceFunctionAndNumber } from \"./game/common/resources/resourceFunction\";\nimport { ResourceTypeAndNumber } from \"./game/common/resources/resourceType\";\nimport { actionClickHandler } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSendResourcesToActorActionTemplate } from \"./UIfacade/actionFacade\";\n\nconst actionRefUid = Context.action.Uid;\n\nlet params = {};\n\nif (isDefineMapObjectTemplate(actionRefUid)) {\n\tparams = Context.action.featureType;\n} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);\n\tconst chosenNbPretrieurs = +Variable.find(gameModel, 'chosenNbPretrieursB').getValue(self);\n\tconst requestedResources: ResourceFunctionAndNumber[] = [{function: 'Pretrieur', nb: chosenNbPretrieurs}];\n\n\tconst requestResourceParams : RequestResourceFromActorActionInput= {recipientActor: chosenActor, requestedResources};\n\n\tparams = requestResourceParams;\n} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {\n\tconst chosenActor = Variable.find(gameModel, 'chosenReceiverActor').getValue(self);\n\t\n\tconst chosenNbSecouristes = +Variable.find(gameModel, 'chosenNbSecouristes').getValue(self);\n\tconst chosenNbTechAmbs = +Variable.find(gameModel, 'chosenNbTechAmbul').getValue(self);\n\tconst chosenNbAmbulanciers = +Variable.find(gameModel, 'chosenNbAmbulanciers').getValue(self);\n\tconst chosenNbInfirmiers = +Variable.find(gameModel, 'chosenNbInfirmiers').getValue(self);\n\tconst chosenNbMedJuniors = +Variable.find(gameModel, 'chosenNbMedecinJunior').getValue(self);\n\tconst chosenNbMedSeniors = +Variable.find(gameModel, 'chosenNbMedecinSenior').getValue(self);\n\n\tconst sentResources: ResourceTypeAndNumber[] = [\n\t\t{type: 'secouriste', nb: chosenNbSecouristes},\n\t\t{type: 'technicienAmbulancier', nb: chosenNbTechAmbs},\n\t\t{type: 'ambulancier', nb: chosenNbAmbulanciers},\n\t\t{type: 'infirmier', nb: chosenNbInfirmiers},\n\t\t{type: 'medecinJunior', nb: chosenNbMedJuniors},\n\t\t{type: 'medecinSenior', nb: chosenNbMedSeniors},\n\t\t];\n\n\tconst sendResourcesParams : SendResourcesToActorActionInput = {receiverActor: chosenActor, sentResources};\n\n\tparams = sendResourcesParams;\n}\n\nactionClickHandler(Context.action.Uid, params);",
                         "language" : "TypeScript"
                       }
                     },
@@ -159,11 +153,11 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'currentActionUid').getValue(self) !== Context.action.Uid;",
+                  "content" : "Context.interfaceState.state.currentActionUid !== Context.action.Uid;",
                   "language" : "typescript"
                 },
                 "layout" : {
-                  "flexDirection" : "column",
+                  "flexDirection" : "row",
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",
@@ -196,7 +190,7 @@
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(Variable.find(gameModel, 'currentActorUid').getValue(self));",
+          "content" : "import { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(Context.interfaceState.state.currentActorUid);",
           "language" : "TypeScript"
         },
         "id" : "",

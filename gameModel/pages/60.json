@@ -1,0 +1,38 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "Features",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'FEATURES ' + JSON.stringify(getCurrentState().getMapLocations())",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "TmpFeatures",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getMapState } from \"./gameMap/main\";\n'TMPFEATURE ' + JSON.stringify(getMapState().tmpFeature)",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

@@ -21,7 +21,7 @@ import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEve
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import { PreTriageTask } from "./common/tasks/taskBase";
+import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
@@ -66,8 +66,8 @@ function initMainState(): MainSimulationState {
 	icon: 'mainAccident',
   }
 
-  const testTaskPretriA = new PreTriageTask("pre-tri-zone-A-title", "pre-tri-zone-A-desc", 1, 5, "A", 'pre-tri-zone-A-feedback');
-  const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+  const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'Pretriage task completed!');
+  //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
 	const initialResources = [
 		new Resource('secouriste', testAL.Uid),
@@ -76,9 +76,9 @@ function initMainState(): MainSimulationState {
 		new Resource('secouriste', testAL.Uid),
 		new Resource('secouriste', testAL.Uid),
 		new Resource('secouriste', testAL.Uid),
-		new Resource('techAmbul', testAL.Uid),
-		new Resource('techAmbul', testAL.Uid),
-		new Resource('techAmbul', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
+		new Resource('technicienAmbulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
 		new Resource('ambulancier', testAL.Uid),
@@ -98,8 +98,6 @@ function initMainState(): MainSimulationState {
 		new Resource('medJunior', testAL.Uid),
 		new Resource('medSenior', testAL.Uid),];
 
-  const initialNbPatientInZoneA = 20;
-  const initialNbPatientInZoneB = 20;
 
   return new MainSimulationState({
     actions: [],
@@ -107,11 +105,8 @@ function initMainState(): MainSimulationState {
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tmp: {
-      nbForPreTriZoneA: initialNbPatientInZoneA,
-      nbForPreTriZoneB: initialNbPatientInZoneB,
-    },
-    tasks: [testTaskPretriA, testTaskPretriB],
+	pretriageResults: {},
+    tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
   }, 0, 0);
@@ -385,6 +380,11 @@ export function getCurrentState(): Readonly<MainSimulationState> {
 export function recomputeState(){
 	wlog('Reinitialize state');
 	processedEvents = {};
+
+  Actor.resetIdSeed();
+  ActionTemplateBase.resetIdSeed();
+  TaskBase.resetIdSeed();
+  Resource.resetIdSeed();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
 	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());

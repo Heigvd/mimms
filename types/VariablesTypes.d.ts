@@ -125,6 +125,9 @@
 "mainSim-actors": SObjectDescriptor;
 "realLifeRole": SStringDescriptor;
 "scenarioRevived": SBooleanDescriptor;
+"gameState": SStringDescriptor;
+"currentActorUid": SNumberDescriptor;
+"currentActionUid": SNumberDescriptor;
         }
 
         interface VariableIds {

@@ -813,6 +813,11 @@
                 "children" : [ {
                   "props" : {
                     "className" : "pink l_button",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "label" : {
                       "@class" : "Script",
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
@@ -854,7 +859,7 @@
         "exposeAs" : "methaneSelection",
         "initialState" : {
           "@class" : "Script",
-          "content" : "({})",
+          "content" : "({selected: ''})",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
