@@ -37,6 +37,7 @@
               "type" : "FlexList"
             }, {
               "props" : {
+                "className" : "SmallText",
                 "layoutStyle" : { },
                 "name" : "name",
                 "style" : { },
@@ -52,6 +53,7 @@
               "alignItems" : "center",
               "flexDirection" : "column"
             },
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "name" : "one available resource",
             "style" : { }
@@ -74,6 +76,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

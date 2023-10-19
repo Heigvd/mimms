@@ -251,17 +251,27 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "panel-title leftPanel-title",
-                                    "layoutClassName" : "noPadding noMargin",
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "panel-title leftPanel-title leftPanel-title-roleName",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "",
+                                    "layout" : { },
+                                    "layoutClassName" : "",
                                     "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
-                                      "language" : "TypeScript"
-                                    }
+                                    "style" : { }
                                   },
-                                  "type" : "Text"
+                                  "type" : "FlexList"
                                 }, {
                                   "props" : {
                                     "exposePageSizeAs" : "",
@@ -270,6 +280,7 @@
                                       "content" : "\"52\"",
                                       "language" : "typescript"
                                     },
+                                    "layoutClassName" : "",
                                     "layoutStyle" : { },
                                     "name" : "availableResourcesLoader",
                                     "style" : { }

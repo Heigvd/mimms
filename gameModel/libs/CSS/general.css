@@ -49,6 +49,10 @@ button.wegas-btn > div > div > p:first-child:last-child {
 font-size: 1rem;
 }
 
+.SmallText{
+	font-size: 12px;
+}
+
 .welcomeColumn{
 	padding: 0px;
 	min-width:1fr;

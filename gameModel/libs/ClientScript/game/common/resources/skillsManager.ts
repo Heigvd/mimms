@@ -16,11 +16,11 @@ export type SkillLevel = 'no_skill' | 'low_skill' | 'high_skill';
 
 export function getSkillForPretriage(resource: Resource): SkillLevel {
   switch (resource.type) {
-    case "technicienAmbulancier":
+    case "techAmbul":
     case "ambulancier":
     case "infirmier":
-    case "medecinJunior":
-    case "medecinSenior":
+    case "medJunior":
+    case "medSenior":
       return 'high_skill';
     case "secouriste" :
     case "ambulance":
@@ -33,10 +33,10 @@ export function getSkillForTriage(resource: Resource): SkillLevel {
   switch (resource.type) {
     case "ambulancier":
     case "infirmier":
-    case "medecinJunior":
-    case "medecinSenior":
+    case "medJunior":
+    case "medSenior":
       return 'high_skill';
-    case "technicienAmbulancier":
+    case "techAmbul":
       return 'low_skill';
     case "secouriste":
     case "ambulance":
@@ -47,13 +47,13 @@ export function getSkillForTriage(resource: Resource): SkillLevel {
 
 export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
   switch (resource.type) {
-    case "technicienAmbulancier":
+    case "techAmbul":
     case "ambulancier":
     case "infirmier":
       return 'high_skill';
     case "secouriste":
-    case "medecinJunior":
-    case "medecinSenior":
+    case "medJunior":
+    case "medSenior":
     case "ambulance":
     case "helicopter":
       return 'no_skill';
@@ -63,11 +63,11 @@ export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
 // export function getSkillXXX(resource: Resource): SkillLevel {
 //   switch (resource.type) {
 //     case "secouriste":
-//     case "technicienAmbulancier":
+//     case "techAmbul":
 //     case "ambulancier":
 //     case "infirmier":
-//     case "medecinJunior":
-//     case "medecinSenior":
+//     case "medJunior":
+//     case "medSenior":
 //     case "ambulance":
 //     case "helicopter":
 //       return 'no_skill';

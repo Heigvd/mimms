@@ -92,11 +92,11 @@ function initMainState(): MainSimulationState {
 		new Resource('infirmier', testAL.Uid),
 		new Resource('infirmier', testAL.Uid),
 		new Resource('infirmier', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinSenior', testAL.Uid),];
+		new Resource('medJunior', testAL.Uid),
+		new Resource('medJunior', testAL.Uid),
+		new Resource('medJunior', testAL.Uid),
+		new Resource('medJunior', testAL.Uid),
+		new Resource('medSenior', testAL.Uid),];
 
   const initialNbPatientInZoneA = 20;
   const initialNbPatientInZoneB = 20;

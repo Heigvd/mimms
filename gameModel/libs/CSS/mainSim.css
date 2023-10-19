@@ -196,6 +196,13 @@ html{
 	text-align: center;
 }
 
+.leftPanel-title-roleName{
+	width: 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 
 /************************** Actions & resources panel (upper-left) *********************************/
 /****** PANEL ******/
