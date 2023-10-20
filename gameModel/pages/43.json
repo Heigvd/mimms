@@ -1032,7 +1032,7 @@
                     "exposeAs" : "interfaceState",
                     "initialState" : {
                       "@class" : "Script",
-                      "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\n({\n\tcurrentActorUid: getAllActors()[0].Uid,\n\tcurrentActionUid: 0,\n})",
+                      "content" : "import { getInitialInterfaceState } from \"./gameInterface/interfaceState\";\ngetInitialInterfaceState();",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : {

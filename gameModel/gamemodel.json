@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1697551966873,
+  "createdTime" : 1697730751827,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6410,15 +6410,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/simulationState/patientStateAccess",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#106:fCDuI8",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/simulationState/resourceStateAccess",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6576,6 +6567,24 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#95:CKuK9v",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/actionsButtonLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:102553:VklJzk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/interfaceState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:103021:OJgUWl",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

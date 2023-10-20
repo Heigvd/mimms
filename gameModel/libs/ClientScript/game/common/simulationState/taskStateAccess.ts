@@ -35,6 +35,20 @@ export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorI
 }
 
 /**
+ * @returns The tasks that can be handled by the actor regarding the current state.
+ * (= the tasks to which the actor can allocate resources)
+ */
+export function fetchOngoingTasks(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor) && ta.getStatus() === 'OnGoing');
+  } else {
+    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
+    return [];
+  }
+}
+
+/**
  * @returns True if the task has a status that is not final. It means that the task can still evolve.
  * The final status are 'Cancelled' and 'Completed'
  */

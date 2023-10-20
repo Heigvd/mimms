@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "[{label:'task', value:'task'}];",
+          "content" : "import { getOnGoingTasks } from \"./UIfacade/resourceTaskFacade\";\ngetOnGoingTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
           "language" : "typescript"
         },
         "layoutStyle" : { },

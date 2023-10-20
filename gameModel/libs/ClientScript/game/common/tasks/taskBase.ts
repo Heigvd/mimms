@@ -1,16 +1,13 @@
 import { taskLogger } from "../../../tools/logger";
 import { getTranslation } from "../../../tools/translation";
-import { PreTriageResult } from "../../pretri/triage";
 import { Actor } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
-import { OneMinuteDuration } from "../constants";
 import { IClonable } from "../interfaces";
-import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, CategorizePatientLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
+import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
-import { doPatientAutomaticTriage, getNextNonPretriagedPatient, getNonPretriagedPatientsSize } from "../patients/pretriage";
+import { doPatientAutomaticTriage, getNextNonPretriagedPatient, getNonPretriagedPatientsSize, getPretriagedAmountByCategory } from "../patients/pretriage";
 import { Resource } from "../resources/resource";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 
@@ -208,7 +205,7 @@ export class PreTriageTask extends DefaultTask {
 
   public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
     //return state.areZonesAlreadyDefined();
-	return true;
+	return getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults) > 0;
   }
 
   protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
@@ -238,9 +235,16 @@ export class PreTriageTask extends DefaultTask {
 	if (getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults) === 0){
 		localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
       	localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
+		
+		//get distinct pretriage categories with count
+		let result = "Result: ";
+		Object.entries(getPretriagedAmountByCategory(state.getInternalStateObject().pretriageResults)).forEach(([key, value]) => {
+			result += key + ": " + value + "\n";
+		});
+
       	// FIXME See to whom and from whom
       	state.getAllActors().forEach(actor => {
-        	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd));
+        	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd + "\n" + result));
       });
 	}
   }
