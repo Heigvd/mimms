@@ -141,7 +141,7 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 		return "42";
 	}
 
-	return "57";
+	return "";
 }
 
 

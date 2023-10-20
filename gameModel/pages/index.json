@@ -422,12 +422,6 @@
         "name" : "tutorialPages"
       } ],
       "name" : "mainSimulation pages"
-    }, {
-      "@class" : "Page",
-      "id" : "57",
-      "name" : "stupidEmptyPage",
-      "scenaristPage" : null,
-      "trainerPage" : null
     } ],
     "name" : null
   }

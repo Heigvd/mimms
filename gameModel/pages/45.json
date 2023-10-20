@@ -101,6 +101,11 @@
                     }, {
                       "props" : {
                         "exposePageSizeAs" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action) === \"\";",
+                          "language" : "typescript"
+                        },
                         "initialSelectedPageId" : {
                           "@class" : "Script",
                           "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action);",
