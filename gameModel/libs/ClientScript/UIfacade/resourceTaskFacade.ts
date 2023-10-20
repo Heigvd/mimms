@@ -57,6 +57,17 @@ export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
 }
 
 /**
+ * Retrieve the tasks ongoing currently by resources owned by the given actor.
+ *
+ * @param actorId The actor who can allocate resource to those tasks
+ *
+ * @returns array of matching tasks
+ */
+export function getOnGoingTasks(actorId: ActorId): Readonly<TaskBase>[] {
+	return TaskState.fetchOngoingTasks(getCurrentState(), actorId);
+}
+
+/**
  * Retrieve how many human resources are available.
  *
  * @param actorId The actor responsible for these resources

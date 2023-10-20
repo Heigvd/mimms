@@ -448,7 +448,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
     assignedResources: ResourceTypeAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+	super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
     this.assignedResources = assignedResources;
@@ -461,39 +461,15 @@ export class AssignTaskToResourcesAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AssignTaskToResourcesAction');
 	this.logger.info('resourcestypeAndNumber:', this.assignedResources);
-	//TODO: refactor using state in UI
-	const selectedTask = Variable.find(gameModel, 'chosenReceiverActor').getValue(self);
-	this.logger.info("Selected Task: ", selectedTask);
+	this.logger.info('Task:', this.task);
 
-	const nbSecouristes = +Variable.find(gameModel, 'chosenNbSecouristes').getValue(self);
-	this.logger.info("Selected secouristes: ", nbSecouristes);
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'secouriste', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'secouriste')!.nb));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'technicienAmbulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'technicienAmbulancier')!.nb));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'ambulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'ambulancier')!.nb));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'infirmier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'infirmier')!.nb));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinJunior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinJunior')!.nb));
+	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinSenior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinSenior')!.nb));
 
-	const nbTechAmbul = +Variable.find(gameModel, 'chosenNbTechAmbul').getValue(self);
-	this.logger.info("Selected tech ambul: ", nbTechAmbul);
-	const nbAmbulanciers = +Variable.find(gameModel, 'chosenNbAmbulanciers').getValue(self);
-	this.logger.info("Selected ambul: ", nbAmbulanciers);
-	const nbInfirmiers = +Variable.find(gameModel, 'chosenNbInfirmiers').getValue(self);
-	this.logger.info("Selected infirm: ", nbInfirmiers);
-	const nbMedecinJunior = +Variable.find(gameModel, 'chosenNbMedecinJunior').getValue(self);
-	this.logger.info("Selected med junior: ", nbMedecinJunior);
-	const nbMedecinSenior = +Variable.find(gameModel, 'chosenNbMedecinSenior').getValue(self);
-	this.logger.info("Selected med senior: ", nbMedecinSenior);
-
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'secouriste', nbSecouristes));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'techAmbul', nbTechAmbul));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'ambulancier', nbAmbulanciers));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'infirmier', nbInfirmiers));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'medecinJunior', nbMedecinJunior));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), selectedTask, this.ownerId, 'medecinSenior', nbMedecinSenior));
-
-	/*APIMethods.runScript(`Variable.find(gameModel, "chosenReceiverActor").setValue(self, {});
-	Variable.find(gameModel, "chosenNbSecouristes").setValue(self, 0);
-	Variable.find(gameModel, "chosenNbTechAmbul").setValue(self, 0);
-	Variable.find(gameModel, "chosenNbAmbulanciers").setValue(self, 0);
-	Variable.find(gameModel, "chosenNbInfirmiers").setValue(self, 0);
-	Variable.find(gameModel, "chosenNbMedecinJunior").setValue(self, 0);
-	Variable.find(gameModel, "chosenNbMedecinSenior").setValue(self, 0);
-	`, {});*/
   }
 
   // TODO probably nothing

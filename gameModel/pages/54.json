@@ -22,10 +22,21 @@
               "language" : "typescript"
             },
             "layoutStyle" : { },
-            "onVariableChange" : { },
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.selectedActorId = Context.sendResourcesSelectedActorId;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"sendResourcesSelectedActorId\"",
+                "language" : "TypeScript"
+              }
+            },
             "script" : {
               "@class" : "Script",
-              "content" : "Variable.find(gameModel,'chosenReceiverActor')",
+              "content" : "Context.interfaceState.state.resources.sendResources.selectedActorId;",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -55,7 +66,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbSecouristes = Context.sendResourcesNbSecouristes;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbSecouristes\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -63,7 +85,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbSecouristes')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbSecouristes;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
@@ -107,7 +129,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbTechAmbulanciers = Context.sendResourcesNbTechAmbulanciers;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbTechAmbulanciers\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -115,7 +148,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbTechAmbul')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbTechAmbulanciers;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
@@ -159,7 +192,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbAmbulanciers = Context.sendResourcesNbAmbulanciers;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbAmbulanciers\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -167,7 +211,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbAmbulanciers')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbAmbulanciers;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
@@ -211,7 +255,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbInfirmiers = Context.sendResourcesNbInfirmiers;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbInfirmiers\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -219,7 +274,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbInfirmiers')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbInfirmiers;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
@@ -263,7 +318,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbMedJunior = Context.sendResourcesNbMedJunior;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbMedJunior\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -271,7 +337,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbMedecinJunior')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbMedJunior;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
@@ -315,7 +381,18 @@
                 "layoutClassName" : "chosenNumber-container",
                 "layoutStyle" : { },
                 "onCancel" : { },
-                "onVariableChange" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources.nbMedSenior = Context.sendResourcesNbMedSenior;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"sendResourcesNbMedSenior\"",
+                    "language" : "TypeScript"
+                  }
+                },
                 "placeholder" : {
                   "@class" : "Script",
                   "content" : "\"0\"",
@@ -323,7 +400,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'chosenNbMedecinSenior')",
+                  "content" : "Context.interfaceState.state.resources.sendResources.nbMedSenior;",
                   "language" : "TypeScript"
                 },
                 "style" : { },
