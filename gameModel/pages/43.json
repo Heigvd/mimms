@@ -856,7 +856,7 @@
                                           "dataType" : "GeoJSON",
                                           "source" : {
                                             "@class" : "Script",
-                                            "content" : "return(`maps/GVA/water.geojson`)",
+                                            "content" : "return(`maps/GVA-center/water.geojson`)",
                                             "language" : "typescript"
                                           },
                                           "sourceProjection" : "EPSG:4326",
@@ -881,7 +881,7 @@
                                           "dataType" : "GeoJSON",
                                           "source" : {
                                             "@class" : "Script",
-                                            "content" : "return(`maps/GVA/rails.geojson`)",
+                                            "content" : "return(`maps/GVA-center/rails.geojson`)",
                                             "language" : "typescript"
                                           },
                                           "sourceProjection" : "EPSG:4326",
@@ -908,7 +908,7 @@
                                           "dataType" : "GeoJSON",
                                           "source" : {
                                             "@class" : "Script",
-                                            "content" : "return(`maps/GVA/roads.geojson`)",
+                                            "content" : "return(`maps/GVA-center/roads.geojson`)",
                                             "language" : "typescript"
                                           },
                                           "sourceProjection" : "EPSG:4326",
@@ -933,7 +933,7 @@
                                           "dataType" : "GeoJSON",
                                           "source" : {
                                             "@class" : "Script",
-                                            "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/GVA/buildings.geojson`)",
+                                            "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/GVA-center/buildings.geojson`)",
                                             "language" : "typescript"
                                           },
                                           "sourceProjection" : "EPSG:4326",
@@ -987,8 +987,8 @@
                                     },
                                     "style" : { },
                                     "viewOptions" : {
-                                      "center" : [ 2497449, 1120779 ],
-                                      "extent" : [ 2496886.446917642, 1120206.0764877768, 2498495.0351261925, 1121778.2033636002 ],
+                                      "center" : [ 2500000, 1118500 ],
+                                      "extent" : [ 2499286.1059294315, 1117892.4878584156, 2500468.4624423133, 1118778.4582210586 ],
                                       "projection" : {
                                         "@class" : "Script",
                                         "content" : "import { swissDefaultProjection } from \"./map/layersData\";\nswissDefaultProjection;",
