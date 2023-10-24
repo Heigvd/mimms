@@ -9,7 +9,8 @@ export interface featurePayload {
 
 export interface selectPayload {
   id?: number | string,
-  featureId: number[],
+  featureKey: string,
+  featureId: string[],
 }
 
 export type MapFeature = CustomFeature | SelectFeature;
@@ -60,5 +61,6 @@ export interface DefineMapObjectEvent extends ActionCreationEvent {
 
 export interface SelectMapObjectEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  featureId: number[];
+  featureKey: string;
+  featureId: string[];
 }

@@ -322,7 +322,8 @@ export class DefineMapObjectAction extends StartEndAction {
 
 export class SelectMapObjectAction extends StartEndAction {
 
-  public readonly featureId: number[];
+  public readonly featureKey: string;
+  public readonly featureId: string[];
 
   constructor(
     startTimeSec: SimTime,
@@ -331,10 +332,12 @@ export class SelectMapObjectAction extends StartEndAction {
     messageKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    featureId: number[],
+    featureKey: string,
+    featureId: string[],
     uuidTemplate: ActionTemplateId,
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    this.featureKey = featureKey;
     this.featureId = featureId;
   }
 
@@ -358,6 +361,7 @@ export class SelectMapObjectAction extends StartEndAction {
         this.messageKey,
         this.eventId,
         this.ownerId,
+        this.featureKey,
         this.featureId,
         this.templateId,
       );

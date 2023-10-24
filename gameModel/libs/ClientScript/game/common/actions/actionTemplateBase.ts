@@ -341,16 +341,19 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 
 export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
 
-  public readonly featureIds: number[];
+  public readonly featureKey: string;
+  public readonly featureIds: string[];
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    featureIds: number[],
+    featureKey: string,
+    featureIds: string[],
   ) {
     super(title, description, duration, message)
+    this.featureKey = featureKey;
     this.featureIds = featureIds;
   }
 
@@ -360,6 +363,7 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
       return {
         ...this.initBaseEvent(timeStamp, initiator.Uid),
         durationSec: this.duration,
+        featureKey: this.featureKey,
         featureId: payload.featureId,
       }
   }
@@ -371,7 +375,7 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
   protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent>): SelectMapObjectAction {
       const payload = event.payload;
       const ownerId = payload.emitterCharacterId as ActorId; 
-      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, payload.featureId, this.Uid)
+      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureKey, payload.featureId, this.Uid)
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {

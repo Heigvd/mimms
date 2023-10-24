@@ -8,7 +8,7 @@ import {
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
-	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
+	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -129,6 +129,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
+  const selectPMA = new SelectMapObjectTemplate('select-PMA-title', 'select-PMA-desc', TimeSliceDuration, 'select-PMA-feedback', '@id', ['way/82753416'])
+
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
 		  ownerId: 0,
@@ -165,6 +167,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  templates[selectPMA.getTemplateRef()] = selectPMA;
   templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[requestResources.getTemplateRef()] = requestResources;
   templates[sendResources.getTemplateRef()] = sendResources;
