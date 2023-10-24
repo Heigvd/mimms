@@ -16,9 +16,9 @@ import {
   DefineMapObjectAction,
   MethaneAction,
   GetInformationAction,
-  RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction,
+  RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
-import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
+import { CustomFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, featurePayload, selectPayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -287,7 +287,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
       geometryType: GeometryType,
       name: string,
       icon?: string,
-	  feature?: MapFeature,
+	  feature?: CustomFeature,
     }
   ) {
     super(title, description, duration, message);
@@ -306,7 +306,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature as unknown as MapFeature,
+      feature: feature as unknown as CustomFeature,
     }
   }
 
@@ -337,6 +337,59 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     return false;
   }
 
+}
+
+export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
+
+  public readonly featureIds: number[];
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    featureIds: number[],
+  ) {
+    super(title, description, duration, message)
+    this.featureIds = featureIds;
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: selectPayload): SelectMapObjectEvent {
+
+
+      return {
+        ...this.initBaseEvent(timeStamp, initiator.Uid),
+        durationSec: this.duration,
+        featureId: payload.featureId,
+      }
+  }
+
+  public getTemplateRef(): string {
+      return 'SelectMapObjectTemplate' + '_' + this.title;
+  }
+
+  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent>): SelectMapObjectAction {
+      const payload = event.payload;
+      const ownerId = payload.emitterCharacterId as ActorId; 
+      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, payload.featureId, this.Uid)
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+      return this.checkIfAlreadyUsedAndCouldReplay(state)
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description)
+
+  }
+
+  public getTitle(): string {
+      return getTranslation('mainSim-actions-tasks', this.title)
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+      return false;
+  }
 }
 
 export type RequestResourceFromActorActionInput = { recipientActor: ActorId, requestedResources: ResourceFunctionAndNumber[] };

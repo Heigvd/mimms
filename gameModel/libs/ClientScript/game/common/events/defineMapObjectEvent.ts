@@ -7,38 +7,58 @@ export interface featurePayload {
   feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 }
 
-export type MapFeature = PointFeature | StringLineFeature | PolygonFeature | MultiPolygonFeature;
+export interface selectPayload {
+  id?: number | string,
+  featureId: number[],
+}
 
-export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon';
+export type MapFeature = CustomFeature | SelectFeature;
 
-interface BaseFeature<T> {
+export type CustomFeature = PointFeature | StringLineFeature | PolygonFeature | MultiPolygonFeature
+
+export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon' | 'Select';
+
+interface BaseFeature {
   ownerId: ActorId,
-  geometryType: GeometryType,
   name: string,
-  id?: number | string;
-  geometry: T;
+  id?: string | number,
+  geometryType: GeometryType,
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
 }
 
-export interface PointFeature extends BaseFeature<Position> {
+interface DefineFeature<T> extends BaseFeature {
+  geometry: T;
+}
+
+export interface PointFeature extends DefineFeature<Position> {
   geometryType: 'Point';
   icon?: string;
 }
 
-export interface StringLineFeature extends BaseFeature<Position[]> {
-  geometryType: 'StringLine'
+export interface StringLineFeature extends DefineFeature<Position[]> {
+  geometryType: 'StringLine';
 }
 
-export interface PolygonFeature extends BaseFeature<Position[][]> {
-  geometryType: 'Polygon'
+export interface PolygonFeature extends DefineFeature<Position[][]> {
+  geometryType: 'Polygon';
 }
 
-export interface MultiPolygonFeature extends BaseFeature<Position[][][]> {
-  geometryType: 'MultiPolygon'
+export interface MultiPolygonFeature extends DefineFeature<Position[][][]> {
+  geometryType: 'MultiPolygon';
+}
+
+export interface SelectFeature extends BaseFeature {
+  geometryType: 'Select';
+  featureIds: number[];
 }
 
 export interface DefineMapObjectEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  feature: MapFeature;
+  feature: CustomFeature;
+}
+
+export interface SelectMapObjectEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  featureId: number[];
 }

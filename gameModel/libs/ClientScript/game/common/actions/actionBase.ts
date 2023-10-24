@@ -320,6 +320,52 @@ export class DefineMapObjectAction extends StartEndAction {
   }
 }
 
+export class SelectMapObjectAction extends StartEndAction {
+
+  public readonly featureId: number[];
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    featureId: number[],
+    uuidTemplate: ActionTemplateId,
+  ) {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    this.featureId = featureId;
+  }
+
+  protected dispatchInitEvents(state: MainSimulationState): void {
+      
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+      
+  }
+
+  protected cancelInternal(state: MainSimulationState): void {
+      
+  }
+
+  clone(): this {
+      const clone = new SelectMapObjectAction(
+        this.startTime,
+        this.durationSec,
+        this.actionNameKey,
+        this.messageKey,
+        this.eventId,
+        this.ownerId,
+        this.featureId,
+        this.templateId,
+      );
+      clone.status = this.status;
+      return clone as this;
+  }
+}
+
 /**
  * Action to request resources from an actor
  */
