@@ -1,5 +1,5 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { MapFeature } from "../events/defineMapObjectEvent";
+import { MapFeature, SelectFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import {
 	AddActorLocalEvent,
@@ -281,7 +281,7 @@ export class DefineMapObjectAction extends StartEndAction {
   ) { 
       super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
       this.feature = feature;
-	  this.feature.startTimeSec = this.startTime;
+	    this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
@@ -342,11 +342,23 @@ export class SelectMapObjectAction extends StartEndAction {
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-      
+    // dispatch state changes that take place immediatly
+    // TODO show grayed out map element
+    const selectFeature: SelectFeature = {
+      ownerId: this.ownerId,
+      name: this.actionNameKey,
+      geometryType: 'Select',
+      featureKey: this.featureKey,
+      featureIds: this.featureId,
+    }
+
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-      
+    // dispatch state changes that take place at the end of the action
+    // ungrey the map element
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
