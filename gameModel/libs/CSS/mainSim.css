@@ -791,6 +791,11 @@ overflow: visible;
 	cursor: crosshair;
 }
 
+/********************** Patient summary **********************/
+.patient-summary--grid-main {
+	grid-template-columns: repeat(3, 1fr);
+}
+
 /********************** Animation ****************/
 @keyframes popping{
 	0%{

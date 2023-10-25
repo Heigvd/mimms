@@ -1,0 +1,152 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "n",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>N°</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "patientID",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-id');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "correction",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'correction');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "n",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.patient.n);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "patientID",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.data.id;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "answer",
+                    "layoutStyle" : { },
+                    "name" : "correction",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization?.categoryId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "patient-summary--line",
+                "layout" : { },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "display" : "contents"
+                },
+                "style" : {
+                  "display" : "contents"
+                }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "patient",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getAllPatients } from \"./UIfacade/pretriFacade\";\ngetAllPatients();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "itemsOnly" : false,
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "display" : "contents"
+            },
+            "name" : "patient",
+            "style" : {
+              "display" : "contents"
+            }
+          },
+          "type" : "For each"
+        } ],
+        "className" : "patient-summary--grid-main",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "exam-mode",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+            "language" : "typescript"
+          }
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "gridAutoRows" : "50px",
+          "justifyItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "summary",
+        "style" : {
+          "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
+        }
+      },
+      "type" : "Grid"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
