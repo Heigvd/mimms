@@ -1,8 +1,7 @@
-import { RequestResourceFromActorActionInput, SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
-import { ResourceFunctionAndNumber } from "../game/common/resources/resourceFunction";
+import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
 import { ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
-import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
+import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
 
 
 export function runActionButton(){
@@ -12,17 +11,7 @@ export function runActionButton(){
 
 	if (isDefineMapObjectTemplate(actionRefUid)) {
 		params = Context.action.featureType;
-	} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {
-		//to be removed
-		const chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);
-		const chosenNbPretrieurs = +Variable.find(gameModel, 'chosenNbPretrieursB').getValue(self);
-		const requestedResources: ResourceFunctionAndNumber[] = [{function: 'Pretrieur', nb: chosenNbPretrieurs}];
-
-		const requestResourceParams : RequestResourceFromActorActionInput= {recipientActor: chosenActor, requestedResources};
-
-		params = requestResourceParams;
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-
 		const sentResources: ResourceTypeAndNumber[] = [
 			{type: 'secouriste', nb: Context.interfaceState.state.resources.sendResources.nbSecouristes},
 			{type: 'technicienAmbulancier', nb: Context.interfaceState.state.resources.sendResources.nbTechAmbulanciers},

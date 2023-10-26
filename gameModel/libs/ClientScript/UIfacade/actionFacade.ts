@@ -5,7 +5,7 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
@@ -79,14 +79,6 @@ export function isDefineMapObjectTemplate(id: number) {
 export function isMethaneActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof MethaneTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isRequestResourcesFromActorActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof RequestResourcesFromActorActionTemplate;
 }
 
 /**

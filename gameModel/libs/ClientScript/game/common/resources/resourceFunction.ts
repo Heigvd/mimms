@@ -16,14 +16,6 @@ export type ResourceFunction =
 	'MedecinPMA'|
 	'MedecinTransport';
 
-/**
- * Combination of a function and an associated number of resources
- */
-export type ResourceFunctionAndNumber = {
-	function : ResourceFunction;
-	nb : number;
-};
-
 // TODO see how it could be automated between type and const
 export const ResourceFunctionArray: ResourceFunction[] = [
 	'Estafette',

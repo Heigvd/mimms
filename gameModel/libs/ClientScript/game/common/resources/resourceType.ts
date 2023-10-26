@@ -19,7 +19,11 @@ export type MaterialResourceType = 'ambulance' | 'helicopter' | 'PMA';
 
 /**
  * Combination of a type and an associated number of resources
+ * // TODO-RES 
  */
+
+export type ResourceTypeAndNumber2 = Record<ResourceType,number>;
+
 export type ResourceTypeAndNumber = {
 	type: ResourceType;
 	nb: number;

@@ -16,6 +16,7 @@ export class Resource {
   public readonly type: ResourceType;
 
   /** The actor who manage this resource */
+  // TODO-RES change to groupId
   public ownerId: ActorId;
 
   /** What the resource do currently */

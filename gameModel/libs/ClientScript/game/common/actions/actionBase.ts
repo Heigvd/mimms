@@ -13,7 +13,7 @@ import {
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceFunction } from '../resources/resourceFunction';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
