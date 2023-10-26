@@ -9,6 +9,7 @@ import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { Resource } from "../resources/resource";
+import { ResourceContainerConfig, ResourceContainerDefinitionId } from "../resources/resourceContainer";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -49,6 +50,7 @@ export class MainSimulationState implements IClonable {
       tasks : [...this.internalState.tasks],
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
+	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers)
     }
   }
 
@@ -99,6 +101,13 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
+   * Get map of containers
+   */
+  public getResourceContainersByDefId() : Record<ResourceContainerDefinitionId, ResourceContainerConfig[]>{
+	return group(this.internalState.resourceContainers, (c =>  c.templateId));
+  }
+
+  /**
    * Only use when applying events
    * @param jump jump in seconds
    */
@@ -112,6 +121,8 @@ export class MainSimulationState implements IClonable {
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
     return this.internalState.actors.find(a => a.Uid === actorId);
   }
+
+
 
   public getAllActors(): Readonly<Actor[]> {
     return this.internalState.actors;
@@ -169,6 +180,10 @@ interface MainStateObject {
   actors : Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];
+  /**
+   * Resources containers that can be dispatched by the emergency dept.
+   */
+  resourceContainers: ResourceContainerConfig[];
 }
 
 // experimental to make an object immutable

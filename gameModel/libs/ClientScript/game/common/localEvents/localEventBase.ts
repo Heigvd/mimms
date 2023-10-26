@@ -8,11 +8,12 @@ import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import * as PatientState from "../simulationState/patientStateAccess";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceContainerDefinition, ResourceContainerDefinitionId } from "../resources/resourceContainer";
+import { getContainerDef } from "../resources/emergencyDepartment";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -285,6 +286,31 @@ export class IncomingResourcesLocalEvent extends LocalEventBase {
     ResourceState.addIncomingResourcesToActor(state, this.actorId, this.resourceType, this.nb);
   }
 
+}
+
+export class ResourcesArrivalLocalEvent extends LocalEventBase {
+
+	constructor(parentId: GlobalEventId,
+	timeStamp: SimTime,
+	//public readonly actorId: ActorId,
+	public readonly containerType: ResourceContainerDefinitionId,
+	public readonly amount: number) {
+		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		// TODO resource pool resolution
+		// now suppose AL
+		const actor = resolveAttribution(state);
+		const cont = getContainerDef(this.containerType);
+		
+	}
+
+}
+
+// TODOOOOOO
+function resolveAttribution(state: MainSimulationState) : ActorId{
+	return state.getAllActors()[0].Uid;
 }
 
 /**

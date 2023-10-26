@@ -15,7 +15,7 @@ export type HumanResourceType =
 	| 'medecinJunior'
 	| 'medecinSenior';
 
-export type MaterialResourceType = 'ambulance' | 'helicopter';
+export type MaterialResourceType = 'ambulance' | 'helicopter' | 'PMA';
 
 /**
  * Combination of a type and an associated number of resources

@@ -25,6 +25,8 @@ import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
+import { resetSeedId } from "./common/resources/resourceContainer";
+import { loadEmergencyResources } from "./common/resources/emergencyDepartment";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -110,6 +112,7 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
+	resourceContainers: loadEmergencyResources()
   }, 0, 0);
 
 }
@@ -386,6 +389,7 @@ export function recomputeState(){
   ActionTemplateBase.resetIdSeed();
   TaskBase.resetIdSeed();
   Resource.resetIdSeed();
+  resetSeedId();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
 	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
