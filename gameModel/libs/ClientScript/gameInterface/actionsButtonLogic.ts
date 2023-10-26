@@ -11,7 +11,7 @@ export function runActionButton(){
 	let params = {};
 
 	if (isDefineMapObjectTemplate(actionRefUid)) {
-		params = Context.action.featureType;
+		params = Context.action.featureDescription.geometryType;
 	} else if (isSelectMapObjectTemplate(actionRefUid)) {
 		params = {key: Context.action.featureKey, ids: Context.action.featureIds};
 	} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {

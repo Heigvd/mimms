@@ -7,23 +7,8 @@ const logger = Helpers.getLogger('mainSim-interface');
 export const mapRef = Helpers.useRef<any>('map', null);
 export const buildingsRef = Helpers.useRef<any>("buildings", null);
 
-interface MapState {
-	mapAction: boolean;
-	mapSelect: boolean;
-	selectionKey: string;
-	selectionIds: string[];
-	multiClick: boolean;
-	tmpFeature: {
-		feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][],
-		geometryType: GeometryType,
-	}
-}
-
-// Helpers.useRef() to persist across renders ?
-let mapState: MapState;
-
-Helpers.registerEffect(() => {
-	mapState = {
+export function getInitialMapState() {
+	return {
 		mapAction: false,
 		mapSelect: false,
 		selectionKey: '',
@@ -32,25 +17,26 @@ Helpers.registerEffect(() => {
 		tmpFeature: {
 			feature: [],
 			geometryType: 'Point',
-		},
-	}
-})
+		}
+	};
+}
 
-/**
- * Is the map currently in an action state
- */
-export function isMapAction(): boolean {
-	return mapState.mapAction;
+export function clearMapState() {
+	const newState = getInitialMapState();
+	Context.mapState.setState(newState);
+	buildingsRef.current.changed();
 }
 
 /**
  * Initialize a map interaction
  */
 export function startMapAction(feature: GeometryType) {
+	clearMapState();
 	logger.info('MAP ACTION: Action initiated');
-	mapState.mapAction = true;
-	updateMapState();
-	clearTmpFeature();
+	const newState = Helpers.cloneDeep(Context.mapState.state);
+	newState.mapAction = true;
+	newState.tmpFeature.geometryType = feature;
+	Context.mapState.setState(newState);
 }
 
 /**
@@ -59,20 +45,17 @@ export function startMapAction(feature: GeometryType) {
 export function endMapAction() {
 	logger.info('MAP ACTION: Action Cancelled')
 	clearMapState();
-	buildingsRef.current.changed();
-	clearTmpFeature();
 }
 
 export function startMapSelect(params: any) {
-	mapState.mapSelect = true;
-	mapState.selectionKey = params.key;
-	mapState.selectionIds = params.ids;
+	clearMapState();
+	const newState = Helpers.cloneDeep(Context.mapState.state);
+	newState.mapSelect = true;
+	newState.selectionKey = params.key;
+	newState.selectionIds = params.ids;
+	Context.mapState.setState(newState);
 	buildingsRef.current.changed();
-	updateMapState();
-	clearTmpFeature();
 }
-
-  const asd = 'asd';
 
 /**
  * Map click handler
@@ -88,13 +71,16 @@ export function handleMapClick(
 ): void {
 
 	logger.info('MAP ACTION: Map click')
-	logger.info('MAP ACTION - isMapAction: ', mapState.mapAction)
+	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
 
 
-	if (mapState.mapAction) {
-		mapState.tmpFeature.geometryType = 'Point';
-		mapState.tmpFeature.feature = [point.x, point.y];
-	} else if (mapState.mapSelect) {
+	if (Context.mapState.state.mapAction) {
+		const newState = Helpers.cloneDeep(Context.mapState.state);
+		newState.tmpFeature.geometryType = 'Point';
+		newState.tmpFeature.feature = [point.x, point.y];
+		Context.mapState.setState(newState);
+
+	} else if (Context.mapState.state.mapSelect) {
 		const selected = features.find(f => Context.mapState.state.selectionIds.includes(f.feature[Context.mapState.state.selectionKey]));
 		if (selected) {
 			const currentActionRef = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
@@ -106,41 +92,4 @@ export function handleMapClick(
 			clearMapState();
 		}
 	}
-}
-
-/**
- * Return current tmpFeature
- */
-export function getMapState() {
-	return mapState;
-}
-
-export function clearMapState() {
-	mapState = {
-		mapAction: false,
-		mapSelect: false,
-		selectionKey: '',
-		selectionIds: [],
-		multiClick: false,
-		tmpFeature: {
-			feature: [],
-			geometryType: 'Point',
-		},
-	};
-	Context.mapState.setState(mapState);
-	buildingsRef.current.changed();
-}
-
-export function updateMapState() {
-	Context.mapState.setState(mapState);
-	buildingsRef.current.changed();
-}
-
-/**
- * Clear the current tmpFeature
- */
-export function clearTmpFeature() {
-	logger.info('MAP ACTION: tmpFeature cleared')
-	mapState.tmpFeature.geometryType = 'Point';
-	mapState.tmpFeature.feature = [];
 }

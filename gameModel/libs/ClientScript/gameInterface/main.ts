@@ -1,5 +1,5 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, getMapState, startMapAction, startMapSelect } from "../gameMap/main";
+import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -87,7 +87,7 @@ export function actionClickHandler (id: number, params: any) : void {
 export function planMapAction() {
 	const actorUid = Context.interfaceState.state.currentActorUid;
 	const template = getActionTemplate(Context.interfaceState.state.currentActionUid);
-	const tmpFeature = getMapState().tmpFeature;
+	const tmpFeature = Context.mapState.state.tmpFeature;
 
 	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
 	endMapAction();

@@ -12,8 +12,9 @@ export function getBuildingsLayer(feature: any, resolution: number) {
 		}
 	}
 
+	// TODO, featureKey shouldn't be hardcoded
 	if (selectionIds.includes(feature.get('@id'))) {
-		return ({"fill":{"color":"red","type":"FillStyle"},"stroke":{"color":"#B1BFCD","lineCap":"round","lineJoin":"round","miterLimit":10,"type":"StrokeStyle","width":1}}) as LayerStyleObject;
+		style = ({"fill":{"color":"red","type":"FillStyle"},"stroke":{"color":"#B1BFCD","lineCap":"round","lineJoin":"round","miterLimit":10,"type":"StrokeStyle","width":1}});
 	}
 
 	return style;

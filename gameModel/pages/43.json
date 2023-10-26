@@ -179,7 +179,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { getMapState } from \"./gameMap/main\";\n\nwlog(getMapState())",
+                            "content" : "wlog(Context.mapState.state)",
                             "language" : "TypeScript"
                           }
                         },
@@ -714,7 +714,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { endMapAction, getMapState } from \"./gameMap/main\";\n\nconst logger = Helpers.getLogger('mainSim-interface');\nlogger.info('Cancel action button')\n\nif (getMapState().mapAction) {\n\tendMapAction();\n}",
+                                                        "content" : "import { endMapAction } from \"./gameMap/main\";\n\nif (Context.mapState.state.mapAction) {\n\tendMapAction();\n}",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -733,7 +733,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { endMapAction, getMapState } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\n\nconst action = getActionTemplate(Context.interfaceState.state.currentActionUid);\nconst ref = action!.getTemplateRef();\nconst tmpFeature = getMapState().tmpFeature; \n\n// TODO Add validation for featureType\nplanAction(ref, Context.interfaceState.state.currentActorUid, tmpFeature);\nendMapAction();",
+                                                        "content" : "import { endMapAction } from \"./gameMap/main\";\nimport { getActionTemplate, planAction } from \"./UIfacade/actionFacade\";\n\nconst action = getActionTemplate(Context.interfaceState.state.currentActionUid);\nconst ref = action!.getTemplateRef();\nconst tmpFeature = Context.mapState.state.tmpFeature;\n\n// TODO Add validation for featureType\nplanAction(ref, Context.interfaceState.state.currentActorUid, tmpFeature);\nendMapAction();",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -767,7 +767,7 @@
                                             } ],
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { isMapAction } from \"./gameMap/main\";\n!Context.mapState.state.mapAction;",
+                                              "content" : "!Context.mapState.state.mapAction;",
                                               "language" : "typescript"
                                             },
                                             "layout" : {
@@ -998,7 +998,7 @@
                                 "exposeAs" : "mapState",
                                 "initialState" : {
                                   "@class" : "Script",
-                                  "content" : "import { getMapState } from \"./gameMap/main\";\ngetMapState();",
+                                  "content" : "import { getInitialMapState } from \"./gameMap/main\";\ngetInitialMapState();",
                                   "language" : "TypeScript"
                                 },
                                 "layoutStyle" : {
