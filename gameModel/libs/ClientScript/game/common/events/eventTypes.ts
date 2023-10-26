@@ -9,7 +9,7 @@ import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
 import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceFunction } from '../resources/resourceFunction';
 
 /**
  * Walk, drive, fly to destination
@@ -202,20 +202,20 @@ export interface StandardActionEvent extends ActionCreationEvent {
 export interface ResourceSendingToActorEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	receiverActor: ActorId;
-	sentResources: ResourceTypeAndNumber[];
+	sentResources: ResourceTypeAndNumber;
 }
 
 
 export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	task: ResourceFunction;
-	assignedResources: ResourceTypeAndNumber[];
+	assignedResources: ResourceTypeAndNumber;
 }
 
 export interface ResourceTaskReleaseEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	task: ResourceFunction;
-	releasedResources: ResourceTypeAndNumber[];
+	releasedResources: ResourceTypeAndNumber;
 }
 
 // soon deprecated

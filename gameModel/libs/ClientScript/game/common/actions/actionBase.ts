@@ -12,8 +12,8 @@ import {
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
+import { ResourceType, ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
+import { ResourceFunction, ResourceFunctionArray } from '../resources/resourceFunction';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -328,7 +328,7 @@ export class SendResourcesToActorAction extends StartEndAction {
 
   public readonly receiverActor: ActorId;
 
-  public readonly sentResources: ResourceTypeAndNumber[];
+  public readonly sentResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -339,7 +339,7 @@ export class SendResourcesToActorAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     receiverActor: ActorId,
-    sentResources: ResourceTypeAndNumber[]) {
+    sentResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.receiverActor = receiverActor;
@@ -384,7 +384,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
   public readonly task: ResourceFunction;
 
-  public readonly assignedResources: ResourceTypeAndNumber[];
+  public readonly assignedResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -395,7 +395,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    assignedResources: ResourceTypeAndNumber[]) {
+    assignedResources: ResourceTypeAndNumber) {
 	super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
@@ -408,16 +408,16 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AssignTaskToResourcesAction');
-	this.logger.info('resourcestypeAndNumber:', this.assignedResources);
-	this.logger.info('Task:', this.task);
+    this.logger.info('resourcestypeAndNumber:', this.assignedResources);
+    this.logger.info('Task:', this.task);
 
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'secouriste', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'secouriste')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'technicienAmbulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'technicienAmbulancier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'ambulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'ambulancier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'infirmier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'infirmier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinJunior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinJunior')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinSenior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinSenior')!.nb));
-
+    // TODO one single event with all the changes at once
+    ResourcesArray.forEach((res) => {
+      const nbRes = this.assignedResources[res];
+      if(nbRes > 0){
+        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, res, nbRes));
+      }
+    })
   }
 
   // TODO probably nothing
@@ -440,7 +440,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
 
   public readonly task: ResourceFunction;
 
-  public readonly releasedResources: ResourceTypeAndNumber[];
+  public readonly releasedResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -451,7 +451,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    releasedResources: ResourceTypeAndNumber[]) {
+    releasedResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;

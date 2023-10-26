@@ -3,6 +3,7 @@ import { ActorId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { MainSimulationState } from './mainSimulationState';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { entries } from '../../../tools/helper';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -37,14 +38,11 @@ export function getUnoccupiedResources(state: Readonly<MainSimulationState>,
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber[]): void {
+export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber): void {
   const internalState = state.getInternalStateObject();
 
-  for (const sentResource of sentResources) {
-    const nbResourcesToTransfer = sentResource.nb;
-    const resourceType = sentResource.type;
-
-    if (nbResourcesToTransfer > 0) {
+  entries(sentResources).forEach(([resourceType, nbResourcesToTransfer]) => {
+    if (nbResourcesToTransfer && nbResourcesToTransfer > 0) {
       const matchingResources = internalState.resources.filter(res => res.ownerId === senderActor && res.type === resourceType);
 
       if (matchingResources.length >= nbResourcesToTransfer) {
@@ -56,10 +54,10 @@ export function transferResourcesBetweenActors(state: MainSimulationState, sende
         resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources but has only ${matchingResources.length}`);
       }
 
-    } else if (nbResourcesToTransfer < 0) {
+    } else {
       resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources `);
     }
-  }
+  })
 }
 
 // -------------------------------------------------------------------------------------------------

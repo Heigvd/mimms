@@ -256,10 +256,10 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
  */
 export class TransferResourcesLocalEvent extends LocalEventBase {
   constructor(parentId: GlobalEventId,
-              timeStamp: SimTime,
-              public readonly senderActor: ActorId,
-              public readonly receiverActor: ActorId,
-              public readonly sentResources: ResourceTypeAndNumber[],
+      timeStamp: SimTime,
+      public readonly senderActor: ActorId,
+      public readonly receiverActor: ActorId,
+      public readonly sentResources: ResourceTypeAndNumber,
   ) {
     super(parentId, 'TransferResourcesLocalEvent', timeStamp);
   }

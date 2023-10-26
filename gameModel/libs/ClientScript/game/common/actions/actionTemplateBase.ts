@@ -22,7 +22,7 @@ import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceFunction } from '../resources/resourceFunction';
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -338,7 +338,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 
 }
 
-export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber[] };
+export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
@@ -393,7 +393,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
 
 }
 
-export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber[] };
+export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
@@ -449,7 +449,7 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<Assign
 
 }
 
-export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber[] };
+export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor

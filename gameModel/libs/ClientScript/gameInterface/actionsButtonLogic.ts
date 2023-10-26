@@ -1,5 +1,6 @@
 import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
-import { ResourceTypeAndNumber } from "../game/common/resources/resourceType";
+import { Resource } from "../game/common/resources/resource";
+import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
 import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
 
@@ -12,14 +13,33 @@ export function runActionButton(){
 	if (isDefineMapObjectTemplate(actionRefUid)) {
 		params = Context.action.featureType;
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-		const sentResources: ResourceTypeAndNumber[] = [
-			{type: 'secouriste', nb: Context.interfaceState.state.resources.sendResources.nbSecouristes},
-			{type: 'technicienAmbulancier', nb: Context.interfaceState.state.resources.sendResources.nbTechAmbulanciers},
-			{type: 'ambulancier', nb: Context.interfaceState.state.resources.sendResources.nbAmbulanciers},
-			{type: 'infirmier', nb: Context.interfaceState.state.resources.sendResources.nbInfirmiers},
-			{type: 'medecinJunior', nb: Context.interfaceState.state.resources.sendResources.nbMedJunior},
-			{type: 'medecinSenior', nb: Context.interfaceState.state.resources.sendResources.nbMedSenior},
-			];
+		const sentResources2 : ResourceTypeAndNumber = {}
+
+		ResourcesArray.forEach(res => {
+			const amount = Context.interfaceState.state.resources.sendResources[res];
+			if(amount){
+				sentResources2[res]= amount;
+			}
+		});
+		// TODO !! generate directly from ResourcesArray as above, but requires a foreach in wegas components and Context.variables renaming
+		// for now hard coded to fit hardcoded interface
+		const sentResources: ResourceTypeAndNumber = {
+			'secouriste': Context.interfaceState.state.resources.sendResources.nbSecouristes,
+			'technicienAmbulancier': Context.interfaceState.state.resources.sendResources.nbTechAmbulanciers,
+			'ambulancier': Context.interfaceState.state.resources.sendResources.nbAmbulanciers,
+			'infirmier': Context.interfaceState.state.resources.sendResources.nbInfirmiers,
+			'medecinJunior': Context.interfaceState.state.resources.sendResources.nbMedJunior,
+			'medecinSenior': Context.interfaceState.state.resources.sendResources.nbMedSenior,
+		};
+
+		// const sentResources: ResourceTypeAndNumber = [
+		// 	{type: 'secouriste', nb: Context.interfaceState.state.resources.sendResources.nbSecouristes},
+		// 	{type: 'technicienAmbulancier', nb: Context.interfaceState.state.resources.sendResources.nbTechAmbulanciers},
+		// 	{type: 'ambulancier', nb: Context.interfaceState.state.resources.sendResources.nbAmbulanciers},
+		// 	{type: 'infirmier', nb: Context.interfaceState.state.resources.sendResources.nbInfirmiers},
+		// 	{type: 'medecinJunior', nb: Context.interfaceState.state.resources.sendResources.nbMedJunior},
+		// 	{type: 'medecinSenior', nb: Context.interfaceState.state.resources.sendResources.nbMedSenior},
+		// 	];
 
 		const sendResourcesParams : SendResourcesToActorActionInput = {receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources};
 
@@ -37,14 +57,17 @@ export function runActionButton(){
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
 
-		const assignedResources: ResourceTypeAndNumber[] = [
-			{type: 'secouriste', nb: Context.interfaceState.state.resources.assignTask.nbSecouristes},
-			{type: 'technicienAmbulancier', nb: Context.interfaceState.state.resources.assignTask.nbTechAmbulanciers},
-			{type: 'ambulancier', nb: Context.interfaceState.state.resources.assignTask.nbAmbulanciers},
-			{type: 'infirmier', nb: Context.interfaceState.state.resources.assignTask.nbInfirmiers},
-			{type: 'medecinJunior', nb: Context.interfaceState.state.resources.assignTask.nbMedJunior},
-			{type: 'medecinSenior', nb: Context.interfaceState.state.resources.assignTask.nbMedSenior},
-			];		
+		// TODO !! generate directly from ResourcesArray as above, but requires a foreach in wegas components and Context.variables renaming
+
+		const assignedResources: ResourceTypeAndNumber = {
+			'secouriste': Context.interfaceState.state.resources.assignTask.nbSecouristes,
+			'technicienAmbulancier': Context.interfaceState.state.resources.assignTask.nbTechAmbulanciers,
+			'ambulancier': Context.interfaceState.state.resources.assignTask.nbAmbulanciers,
+			'infirmier': Context.interfaceState.state.resources.assignTask.nbInfirmiers,
+			'medecinJunior': Context.interfaceState.state.resources.assignTask.nbMedJunior,
+			'medecinSenior': Context.interfaceState.state.resources.assignTask.nbMedSenior,
+		};
+
 		params = {task: Context.interfaceState.state.resources.assignTask.selectedTaskId, assignedResources: assignedResources};
 
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
