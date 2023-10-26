@@ -5,11 +5,10 @@
  */
 
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
-import { getAllActionTemplates } from "../UIfacade/debugFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -66,11 +65,13 @@ export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, Ac
  * @param id Uid of given action
  */
 export function isDefineMapObjectTemplate(id: number) {
-	logger.info('isDefined id: ', id)
-	const template = getAllActionTemplates().find(t => t.Uid === id);
-	logger.info(template);
-	logger.info('return: ', template instanceof DefineMapObjectTemplate);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof DefineMapObjectTemplate;
+}
+
+export function isSelectMapObjectTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof SelectMapObjectTemplate;
 }
 
 /**

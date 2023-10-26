@@ -323,7 +323,7 @@ export class DefineMapObjectAction extends StartEndAction {
 export class SelectMapObjectAction extends StartEndAction {
 
   public readonly featureKey: string;
-  public readonly featureId: string[];
+  public readonly featureId: string;
 
   constructor(
     startTimeSec: SimTime,
@@ -333,7 +333,7 @@ export class SelectMapObjectAction extends StartEndAction {
     eventId: GlobalEventId,
     ownerId: ActorId,
     featureKey: string,
-    featureId: string[],
+    featureId: string,
     uuidTemplate: ActionTemplateId,
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
@@ -350,6 +350,8 @@ export class SelectMapObjectAction extends StartEndAction {
       geometryType: 'Select',
       featureKey: this.featureKey,
       featureIds: this.featureId,
+	    startTimeSec: this.startTime,
+      durationTimeSec: this.durationSec,
     }
 
     localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
@@ -362,7 +364,18 @@ export class SelectMapObjectAction extends StartEndAction {
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-      
+    // TODO maybe store in class similar to DefineMapObject
+	  const selectFeature: SelectFeature = {
+      ownerId: this.ownerId,
+      name: this.actionNameKey,
+      geometryType: 'Select',
+      featureKey: this.featureKey,
+      featureIds: this.featureId,
+	  startTimeSec: this.startTime,
+      durationTimeSec: this.durationSec,
+    }
+
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
   }
 
   clone(): this {

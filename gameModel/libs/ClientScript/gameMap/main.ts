@@ -1,10 +1,17 @@
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
+import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
+export const mapRef = Helpers.useRef<any>('map', null);
+export const buildingsRef = Helpers.useRef<any>("buildings", null);
+
 interface MapState {
 	mapAction: boolean;
+	mapSelect: boolean;
+	selectionKey: string;
+	selectionIds: string[];
 	multiClick: boolean;
 	tmpFeature: {
 		feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][],
@@ -18,6 +25,9 @@ let mapState: MapState;
 Helpers.registerEffect(() => {
 	mapState = {
 		mapAction: false,
+		mapSelect: false,
+		selectionKey: '',
+		selectionIds: [],
 		multiClick: false,
 		tmpFeature: {
 			feature: [],
@@ -48,10 +58,21 @@ export function startMapAction(feature: GeometryType) {
  */
 export function endMapAction() {
 	logger.info('MAP ACTION: Action Cancelled')
-	mapState.mapAction = false;
+	clearMapState();
+	buildingsRef.current.changed();
+	clearTmpFeature();
+}
+
+export function startMapSelect(params: any) {
+	mapState.mapSelect = true;
+	mapState.selectionKey = params.key;
+	mapState.selectionIds = params.ids;
+	buildingsRef.current.changed();
 	updateMapState();
 	clearTmpFeature();
 }
+
+  const asd = 'asd';
 
 /**
  * Map click handler
@@ -61,7 +82,7 @@ export function endMapAction() {
 export function handleMapClick(
 	point: Point,
 	features: {
-		features: Record<string, unknown>;
+		feature: Record<string, unknown>;
 		layerId?: string
 	}[],
 ): void {
@@ -70,9 +91,21 @@ export function handleMapClick(
 	logger.info('MAP ACTION - isMapAction: ', mapState.mapAction)
 
 
-	if (!mapState.mapAction) return;
-	mapState.tmpFeature.geometryType = 'Point';
-	mapState.tmpFeature.feature = [point.x, point.y];
+	if (mapState.mapAction) {
+		mapState.tmpFeature.geometryType = 'Point';
+		mapState.tmpFeature.feature = [point.x, point.y];
+	} else if (mapState.mapSelect) {
+		const selected = features.find(f => Context.mapState.state.selectionIds.includes(f.feature[Context.mapState.state.selectionKey]));
+		if (selected) {
+			const currentActionRef = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
+			const currentActorUid = Context.interfaceState.state.currentActorUid;
+			const params = {
+				featureId: selected.feature[Context.mapState.state.selectionKey]
+			}
+			planAction(currentActionRef, currentActorUid, params);
+			clearMapState();
+		}
+	}
 }
 
 /**
@@ -82,8 +115,25 @@ export function getMapState() {
 	return mapState;
 }
 
+export function clearMapState() {
+	mapState = {
+		mapAction: false,
+		mapSelect: false,
+		selectionKey: '',
+		selectionIds: [],
+		multiClick: false,
+		tmpFeature: {
+			feature: [],
+			geometryType: 'Point',
+		},
+	};
+	Context.mapState.setState(mapState);
+	buildingsRef.current.changed();
+}
+
 export function updateMapState() {
 	Context.mapState.setState(mapState);
+	buildingsRef.current.changed();
 }
 
 /**

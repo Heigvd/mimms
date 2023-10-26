@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1698065383614,
+  "createdTime" : 1698308543127,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6645,6 +6645,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/layers/buildingsLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:73401:JQLM2P",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/layers/mainSimLayer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7165,7 +7174,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev NEW MAP",
+  "name" : "MIMMS main simulation - main",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

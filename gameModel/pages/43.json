@@ -927,13 +927,13 @@
                                       "type" : "WegasMapVectorLayer"
                                     }, {
                                       "props" : {
-                                        "layerId" : "",
+                                        "layerId" : "buildings",
                                         "layerProps" : { },
                                         "layerSource" : {
                                           "dataType" : "GeoJSON",
                                           "source" : {
                                             "@class" : "Script",
-                                            "content" : "//wlog(Context.mapId.mapId)\nreturn(`maps/GVA-center/buildings.geojson`)",
+                                            "content" : "(\"maps/GVA-center/buildings.geojson\")",
                                             "language" : "typescript"
                                           },
                                           "sourceProjection" : "EPSG:4326",
@@ -941,21 +941,17 @@
                                           "useSpatialIndex" : true
                                         },
                                         "layerStyle" : {
-                                          "fill" : {
-                                            "color" : "#CCD2D7",
-                                            "type" : "FillStyle"
-                                          },
-                                          "stroke" : {
-                                            "color" : "#B1BFCD",
-                                            "lineCap" : "round",
-                                            "lineJoin" : "round",
-                                            "miterLimit" : 10,
-                                            "type" : "StrokeStyle",
-                                            "width" : 1
-                                          }
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ "feature", "resolution" ],
+                                          "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
                                         },
                                         "layoutStyle" : { },
                                         "name" : "buildings",
+                                        "onLayerReady" : {
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ "layer", "map" ],
+                                          "content" : "import { buildingsRef, mapRef } from \"./gameMap/main\";\nmapRef.current = map;\nbuildingsRef.current = layer;\nreturn"
+                                        },
                                         "style" : { }
                                       },
                                       "type" : "WegasMapVectorLayer"

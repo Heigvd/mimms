@@ -2,7 +2,7 @@ import { RequestResourceFromActorActionInput, SendResourcesToActorActionInput } 
 import { ResourceFunctionAndNumber } from "../game/common/resources/resourceFunction";
 import { ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
-import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
+import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isRequestResourcesFromActorActionTemplate, isSelectMapObjectTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
 
 
 export function runActionButton(){
@@ -12,6 +12,8 @@ export function runActionButton(){
 
 	if (isDefineMapObjectTemplate(actionRefUid)) {
 		params = Context.action.featureType;
+	} else if (isSelectMapObjectTemplate(actionRefUid)) {
+		params = {key: Context.action.featureKey, ids: Context.action.featureIds};
 	} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {
 		//to be removed
 		const chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);

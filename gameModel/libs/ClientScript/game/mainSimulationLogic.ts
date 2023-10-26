@@ -129,7 +129,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
-  const selectPMA = new SelectMapObjectTemplate('select-PMA-title', 'select-PMA-desc', TimeSliceDuration, 'select-PMA-feedback', '@id', ['way/82753416'])
+  const selectPMA = new SelectMapObjectTemplate('select-PMA-title', 'select-PMA-desc', TimeSliceDuration, 'select-PMA-feedback', '@id', ['way/82683752', 'way/160572065', 'way/82753477']);
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {

@@ -30,6 +30,8 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 	if (features.length > 0) {
 
 		features.forEach((f, i) => {
+			// If the feature is a building selection (geometryType: Select) we skip it
+			if (f.geometryType === 'Select') return;
 
 			const point: any = {
 				type: 'Feature',

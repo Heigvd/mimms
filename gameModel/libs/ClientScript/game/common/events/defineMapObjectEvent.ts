@@ -52,7 +52,7 @@ export interface MultiPolygonFeature extends DefineFeature<Position[][][]> {
 export interface SelectFeature extends BaseFeature {
   geometryType: 'Select';
   featureKey: string;
-  featureIds: string[];
+  featureIds: string;
 }
 
 export interface DefineMapObjectEvent extends ActionCreationEvent {
