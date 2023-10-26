@@ -8,7 +8,7 @@ import {
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
-	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -26,7 +26,7 @@ import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
-import { loadEmergencyResources } from "./common/resources/emergencyDepartment";
+import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -112,7 +112,7 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
-	resourceContainers: loadEmergencyResources()
+	resourceContainers: loadEmergencyResourceContainers()
   }, 0, 0);
 
 }
@@ -132,6 +132,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
+/*
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
 		  ownerId: 0,
@@ -150,8 +151,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			]]
 			],
   	}});
+	  */
 
-  const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
 
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
@@ -168,8 +169,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  templates[placeSectors.getTemplateRef()] = placeSectors;
-  templates[requestResources.getTemplateRef()] = requestResources;
+  //templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;

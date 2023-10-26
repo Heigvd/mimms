@@ -321,58 +321,6 @@ export class DefineMapObjectAction extends StartEndAction {
 }
 
 /**
- * Action to request resources from an actor
- */
-export class RequestResourcesFromActorAction extends StartEndAction {
-  public readonly messageKey: TranslationKey;
-
-  public readonly recipientActor: ActorId;
-
-  public readonly requestedResources: ResourceFunctionAndNumber[];
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    globalEventId: GlobalEventId,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    recipientActor: ActorId,
-    requestedResources: ResourceFunctionAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
-    this.recipientActor = recipientActor;
-    this.requestedResources = requestedResources;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event RequestResourcesAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event RequestResourcesAction');
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
-    this.logger.warn("params to send to message " + JSON.stringify(this.requestedResources));
-
-    // TODO see how we can send requested resources
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.recipientActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-  override clone(): this {
-    const clone = new RequestResourcesFromActorAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.recipientActor, this.requestedResources);
-    clone.status = this.status;
-    return clone as this;
-  }
-}
-
-/**
  * Action to send resources to an actor
  */
 export class SendResourcesToActorAction extends StartEndAction {

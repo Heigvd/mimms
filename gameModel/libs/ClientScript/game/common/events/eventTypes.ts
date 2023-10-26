@@ -165,7 +165,6 @@ export type EventPayload =
 	| TimeForwardEvent
 	| ActionCreationEvent
 	| ActionCancellationEvent
-	| ResourceRequestFromActorEvent
 	| ResourceSendingToActorEvent
 	| ResourceAllocationEvent
 	| ResourceReleaseEvent;
@@ -198,12 +197,6 @@ export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
 
 export interface StandardActionEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
-}
-
-export interface ResourceRequestFromActorEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	recipientActor: ActorId;
-	requestedResources: ResourceFunctionAndNumber[];
 }
 
 export interface ResourceSendingToActorEvent extends ActionCreationEvent {

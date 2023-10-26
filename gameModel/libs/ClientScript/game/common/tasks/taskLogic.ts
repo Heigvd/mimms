@@ -67,7 +67,7 @@ export function createResourceReleaseLocalEvent(globalEvent: FullEvent<ResourceR
  * The restrictions are : how many are requested, how many resources are allocated to the task.
  */
 function findEffectiveNbResourcesToRelease(state: Readonly<MainSimulationState>,
-                                           taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
+	taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
 
     const nbAvailable: number = ResourceState.getResourcesAllocatedToTaskForActor(state, taskId, actorId, type).length;
     const nbFeasible = Math.min(nbRequested, nbAvailable);
