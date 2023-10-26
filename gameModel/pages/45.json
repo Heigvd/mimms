@@ -135,7 +135,7 @@
                     },
                     "icon" : {
                       "@class" : "Script",
-                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (canPlanAction() && isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n} else if (isPlannedAction(Context.action.Uid)) {\n\treturn 'stop';\n}\n'play';",
+                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { isDefineMapObjectTemplate } from \"./UIfacade/actionFacade\";\nif (canPlanAction() && isDefineMapObjectTemplate(Context.action.Uid)) {\n\treturn 'crosshairs';\n} else if (isPlannedAction(Context.action.Uid)) {\n\treturn 'times';\n}\n'plus';",
                       "language" : "typescript"
                     },
                     "label" : {

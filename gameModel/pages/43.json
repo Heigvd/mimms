@@ -555,10 +555,15 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "nextBtn s_button pink",
+                                    "className" : "nextActionBtn",
+                                    "icon" : {
+                                      "@class" : "Script",
+                                      "content" : "'fast-forward';",
+                                      "language" : "typescript"
+                                    },
                                     "label" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'time-forward')}</p>`",
+                                      "content" : "\"\"",
                                       "language" : "TypeScript"
                                     },
                                     "layoutClassName" : "next-container",
@@ -566,7 +571,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\n",
+                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
                                         "language" : "TypeScript"
                                       }
                                     },
