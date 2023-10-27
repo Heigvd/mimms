@@ -39,6 +39,17 @@ export function startMapAction(feature: GeometryType) {
 	Context.mapState.setState(newState);
 }
 
+export function startMapActionLine(feature: GeometryType) {
+	wlog(feature);
+	clearMapState();
+	logger.info('MAP ACTION: LineString action initiated');
+	const newState = Helpers.cloneDeep(Context.mapState.state);
+	newState.mapAction = true;
+	newState.multiClick = true;
+	newState.tmpFeature.geometryType = feature;
+	Context.mapState.setState(newState);
+}
+
 /**
  * Cancel current map action routine
  */
@@ -74,12 +85,14 @@ export function handleMapClick(
 	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
 
 
-	if (Context.mapState.state.mapAction) {
+	if (Context.mapState.state.mapAction && Context.mapState.state.tmpFeature.geometryType === 'Point') {
 		const newState = Helpers.cloneDeep(Context.mapState.state);
-		newState.tmpFeature.geometryType = 'Point';
 		newState.tmpFeature.feature = [point.x, point.y];
 		Context.mapState.setState(newState);
-
+	} else if (Context.mapState.state.mapAction && Context.mapState.state.tmpFeature.geometryType === 'LineString') {
+		const newState = Helpers.cloneDeep(Context.mapState.state);
+		newState.tmpFeature.feature.push([point.x, point.y]);
+		Context.mapState.setState(newState);
 	} else if (Context.mapState.state.mapSelect) {
 		const selected = features.find(f => Context.mapState.state.selectionIds.includes(f.feature[Context.mapState.state.selectionKey]));
 		if (selected) {

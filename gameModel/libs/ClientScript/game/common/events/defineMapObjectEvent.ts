@@ -15,9 +15,9 @@ export interface selectPayload {
 
 export type MapFeature = CustomFeature | SelectFeature;
 
-export type CustomFeature = PointFeature | StringLineFeature | PolygonFeature | MultiPolygonFeature
+export type CustomFeature = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature
 
-export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon' | 'Select';
+export type GeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon' | 'Select';
 
 interface BaseFeature {
   ownerId: ActorId,
@@ -37,8 +37,8 @@ export interface PointFeature extends DefineFeature<Position> {
   icon?: string;
 }
 
-export interface StringLineFeature extends DefineFeature<Position[]> {
-  geometryType: 'StringLine';
+export interface LineStringFeature extends DefineFeature<Position[]> {
+  geometryType: 'LineString';
 }
 
 export interface PolygonFeature extends DefineFeature<Position[][]> {

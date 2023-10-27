@@ -1,6 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { getActionTemplate, planAction } from '../UIfacade/actionFacade';
+import { buildingsRef } from '../gameMap/main';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();

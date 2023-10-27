@@ -128,6 +128,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePMA = new DefineMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {geometryType: 'Point', name: 'PMA', icon: 'PMA'});
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
+  const placeAccess = new DefineMapObjectTemplate('define-Access-title', 'define-Access-desc', TimeSliceDuration, 'define-Access-feedback', {geometryType: 'LineString', name: 'Access Route'});
 
   const selectPMA = new SelectMapObjectTemplate('select-PMA-title', 'select-PMA-desc', TimeSliceDuration, 'select-PMA-feedback', '@id', ['way/82683752', 'way/160572065', 'way/82753477']);
 
@@ -167,6 +168,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  templates[placeAccess.getTemplateRef()] = placeAccess;
   templates[selectPMA.getTemplateRef()] = selectPMA;
   templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[requestResources.getTemplateRef()] = requestResources;

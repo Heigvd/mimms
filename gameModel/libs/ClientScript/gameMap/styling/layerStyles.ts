@@ -8,6 +8,9 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 		case 'Point':
 			style = getPointStyle(feature);
 			break;
+		case 'LineString':
+			style = getLineStringStyle(feature);
+			break;
 		case 'MultiPolygon':
 			style = getMultiPolygonStyle(feature);
 			break;
@@ -21,18 +24,83 @@ function getPointStyle(feature: any): LayerStyleObject {
 	const properties = feature.getProperties();
 	const icon = properties.icon;
 
-	const iconStyle: ImageStyleObject = {
-		type: 'IconStyle',
-		achor: [0.5, 0.5],
-		displacement: [0, 300],
-		anchorXUnits: 'fraction',
-		anchorYUnits: 'fraction',
-		src: `/maps/mapIcons/${icon}.svg`,
-		scale: .1,
-		opacity: 1,
+	if (icon) {
+		const iconStyle: ImageStyleObject = {
+			type: 'IconStyle',
+			achor: [0.5, 0.5],
+			displacement: [0, 300],
+			anchorXUnits: 'fraction',
+			anchorYUnits: 'fraction',
+			src: `/maps/mapIcons/${icon}.svg`,
+			scale: .1,
+			opacity: 1,
+		}
+
+		return { image: iconStyle };
 	}
 
-	return { image: iconStyle };
+	const circle: ImageStyleObject = {
+		type: 'CircleStyle',
+		radius: 10,
+		fill: {
+			type: 'FillStyle',
+			color: 'red',
+		}
+	};
+
+	return { image: circle }
+
+}
+
+function getLineStringStyle(feature: any) {
+	const properties = feature.getProperties();
+
+	const geometry = feature.getGeometry();
+
+	const styles: any[] = [
+		{
+			type: 'StrokeStyle',
+			color: 'red',
+			width: 4,
+			lineCap: 'round',
+			lineJoin: 'round',
+		},
+	]
+
+	// geometry.forEachSegment((start: PointLikeObject, end: PointLikeObject) => {
+	// 	const dx = end[0] - start[0];
+	// 	const dy = end[1] - start[1];
+	// 	const rotation = Math.atan2(dy, dx);
+	// 
+	// 	const lineString1 = {
+	// 		type: 'LineString',
+	// 		coordinates: [end, [end[0] - 20000, end[1] + 20000]]
+	// 	}
+	// 
+	// 	const lineString2 = {
+	// 		type: 'LineString',
+	// 		coordinates: [end, [end[0] - 20000, end[1] - 20000]]
+	// 	}
+	// 	
+	// 	styles.push({
+	// 		geometry: lineString1,
+	// 	});
+	// 	styles.push({
+	// 		geometry: lineString2,
+	// 	});
+	// });
+
+
+
+	const stroke = {
+		type: 'StrokeStyle',
+		color: 'red',
+		width: 4,
+		lineCap: 'round',
+		lineJoin: 'round',
+	}
+
+	return { stroke }
 }
 
 function getMultiPolygonStyle(feature: any): any {
@@ -40,7 +108,6 @@ function getMultiPolygonStyle(feature: any): any {
 
 	const fill: FillStyleObject = {
 		type: 'FillStyle',
-		// TODO CC = 80% opacity
 		color: '#BCBFECCC',
 	};
 

@@ -1,5 +1,5 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
+import { endMapAction, startMapAction, startMapActionLine, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -72,6 +72,10 @@ export function actionClickHandler (id: number, params: any) : void {
 	if (canPlanAction()) {
 		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
 			startMapAction(params);
+		} else if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'LineString') {
+			wlog('actionClickHandler')
+			wlog(params)
+			startMapActionLine(params);
 		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
 		} else if (template instanceof SelectMapObjectTemplate) {

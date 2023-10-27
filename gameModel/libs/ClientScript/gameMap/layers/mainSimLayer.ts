@@ -33,7 +33,7 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 			// If the feature is a building selection (geometryType: Select) we skip it
 			if (f.geometryType === 'Select') return;
 
-			const point: any = {
+			const feature: any = {
 				type: 'Feature',
 				geometry: {
 					type: f.geometryType,
@@ -45,9 +45,9 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 					icon: f.geometryType === 'Point' ? f.icon : undefined,
 					startTimeSec: f.startTimeSec,
 					durationTimeSec: f.durationTimeSec,
-				}
+				},
 			}
-			layer.features.push(point);
+			layer.features.push(feature);
 
 		})
 	}
@@ -74,3 +74,37 @@ export function getUnavailableLayer() {
 
 	return getLayer(unavailable, 'UnavailableLayer')
 }
+
+/**
+ * Creates a layer from tmpFeature
+ */
+export function getTmpLayer() {
+	const feature = Context.mapState.state.tmpFeature;
+	const formattedFeature: MapFeature[] = [{
+		ownerId: Context.interfaceState.state.currentActorUid,
+		geometryType: feature.geometryType,
+		geometry: feature.feature,
+		name: 'tmpFeature'
+	}];
+
+	if (feature.geometryType === 'LineString') {
+		feature.feature.forEach((point: PointLikeObject) => {
+			formattedFeature.push({
+				ownerId: Context.interfaceState.state.currentActorUid,
+				geometryType: 'Point',
+				geometry: point,
+				name: 'tmpFeaturePoint'
+			})
+		})
+	};
+
+	return getLayer(formattedFeature, 'TmpLayer')
+}
+
+
+
+
+
+
+
+

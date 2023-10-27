@@ -751,10 +751,15 @@
                                               "type" : "FlexList"
                                             }, {
                                               "props" : {
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "(Context.mapState.state.multiClick);",
+                                                  "language" : "typescript"
+                                                },
                                                 "layoutStyle" : { },
                                                 "script" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst template = getActionTemplate(Context.interfaceState.state.currentActionUid) as DefineMapObjectTemplate;\n\n`/maps/mapIcons/${template.featureDescription.icon}.svg`;",
+                                                  "content" : "import { DefineMapObjectTemplate } from \"./game/common/actions/actionTemplateBase\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst template = getActionTemplate(Context.interfaceState.state.currentActionUid) as DefineMapObjectTemplate;\n\nif (template.featureDescription.icon) {\n\treturn `/maps/mapIcons/${template.featureDescription.icon}.svg`;\n}\n\n'';",
                                                   "language" : "TypeScript"
                                                 },
                                                 "style" : {
@@ -767,7 +772,7 @@
                                             } ],
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "!Context.mapState.state.mapAction;",
+                                              "content" : "!(Context.mapState.state.mapAction);",
                                               "language" : "typescript"
                                             },
                                             "layout" : {
@@ -793,6 +798,38 @@
                                         "style" : { }
                                       },
                                       "type" : "WegasMapOverlay"
+                                    }, {
+                                      "props" : {
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.mapState.state.tmpFeature.feature > 1",
+                                          "language" : "typescript"
+                                        },
+                                        "layerId" : "",
+                                        "layerProps" : {
+                                          "zIndex" : 91
+                                        },
+                                        "layerSource" : {
+                                          "dataType" : "GeoJSON",
+                                          "source" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getTmpLayer } from \"./gameMap/layers/mainSimLayer\";\ngetTmpLayer();",
+                                            "language" : "typescript"
+                                          },
+                                          "sourceProjection" : "EPSG:2056",
+                                          "type" : "VectorLayer",
+                                          "useSpatialIndex" : true
+                                        },
+                                        "layerStyle" : {
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ "feature", "resolution" ],
+                                          "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                        },
+                                        "layoutStyle" : { },
+                                        "name" : "tmpFeature",
+                                        "style" : { }
+                                      },
+                                      "type" : "WegasMapVectorLayer"
                                     }, {
                                       "props" : {
                                         "layerId" : "",
