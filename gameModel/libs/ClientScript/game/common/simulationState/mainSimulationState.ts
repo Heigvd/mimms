@@ -10,6 +10,7 @@ import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { Resource } from "../resources/resource";
 import { ResourceContainerConfig, ResourceContainerDefinitionId } from "../resources/resourceContainer";
+import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -50,7 +51,8 @@ export class MainSimulationState implements IClonable {
       tasks : [...this.internalState.tasks],
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
-	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers)
+	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers),
+	  resourceGroups: Helpers.cloneDeep(this.internalState.resourceGroups)
     }
   }
 
@@ -143,6 +145,10 @@ export class MainSimulationState implements IClonable {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
 
+  public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined{
+	  return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
+  }
+
   /**
    * @returns An array of all map locations
    */
@@ -180,6 +186,7 @@ interface MainStateObject {
   actors : Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];
+  resourceGroups: ResourceGroup[];
   /**
    * Resources containers that can be dispatched by the emergency dept.
    */

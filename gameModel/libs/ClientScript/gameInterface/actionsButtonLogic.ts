@@ -1,5 +1,4 @@
 import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
-import { Resource } from "../game/common/resources/resource";
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
 import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";

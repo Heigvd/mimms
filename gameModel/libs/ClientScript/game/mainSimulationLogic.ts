@@ -4,7 +4,6 @@
 import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
-	AskReinforcementActionTemplate,
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
@@ -27,6 +26,7 @@ import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
+import { ResourceGroup } from "./common/resources/resourceGroup";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -58,7 +58,7 @@ function initMainState(): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
-  const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
+  const testAL = new Actor('AL');
 
   const mainAccident: PointFeature = {
 	ownerId: 0,
@@ -73,35 +73,39 @@ function initMainState(): MainSimulationState {
   //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
 	const initialResources = [
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinSenior', testAL.Uid),];
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('technicienAmbulancier'),
+		new Resource('technicienAmbulancier'),
+		new Resource('technicienAmbulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinSenior'),];
 
 
+	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
+	testGroup.addResource(initialResources[0]);
+	testGroup.addResource(initialResources[1]);
+	
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
@@ -112,7 +116,8 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
-	resourceContainers: loadEmergencyResourceContainers()
+	resourceContainers: loadEmergencyResourceContainers(),
+	resourceGroups: [testGroup]
   }, 0, 0);
 
 }
@@ -158,8 +163,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
   const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
 
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
-
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
@@ -173,7 +176,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
-  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }

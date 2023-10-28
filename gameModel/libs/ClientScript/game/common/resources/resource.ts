@@ -1,4 +1,4 @@
-import { ActorId, ResourceId, TaskId } from '../baseTypes';
+import { ResourceId, TaskId } from '../baseTypes';
 import { ResourceType } from './resourceType';
 
 /**
@@ -15,10 +15,6 @@ export class Resource {
   /** What is it for a resource (fixed through time) */
   public readonly type: ResourceType;
 
-  /** The actor who manage this resource */
-  // TODO-RES change to groupId
-  public ownerId: ActorId;
-
   /** What the resource do currently */
   public currentActivity: TaskId | null;
 
@@ -28,11 +24,9 @@ export class Resource {
   /** Resource is cumulating time across timejumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
-  constructor(type: Resource['type'], ownerId: Resource['ownerId'],
-              currentActivity?: Resource['currentActivity']) {
+  constructor(type: Resource['type'], currentActivity: Resource['currentActivity'] = null) {
     this.type = type;
-    this.ownerId = ownerId;
-    this.currentActivity = currentActivity ?? null;
+    this.currentActivity = currentActivity;
 
     this.Uid = Resource.IdSeed++;
 	this.cumulatedUnusedTime = 0;

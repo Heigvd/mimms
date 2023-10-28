@@ -8,6 +8,7 @@ import {
 	IncomingResourcesLocalEvent,
 	RemoveMapItemLocalEvent,
 	ResourcesAllocationLocalEvent,
+	ResourcesArrivalLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
@@ -208,6 +209,7 @@ export class OnTheRoadAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event OnTheRoadAction');
+
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
@@ -245,8 +247,8 @@ export class MethaneAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event MethaneAction');
+	// TODO figure out emitter
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-    localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
   }
 
   // TODO probably nothing
@@ -413,7 +415,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
     // TODO one single event with all the changes at once
     ResourcesArray.forEach((res) => {
-      const nbRes = this.assignedResources[res];
+      const nbRes = this.assignedResources[res] || 0;
       if(nbRes > 0){
         localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, res, nbRes));
       }
@@ -484,6 +486,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
  * Action to ask for more resources
  */
 // FIXME see if needed to ask for several resources at same time
+/*
 export class AskReinforcementAction extends StartEndAction {
   public readonly resourceType: ResourceType;
   public readonly nb: number;
@@ -527,3 +530,4 @@ export class AskReinforcementAction extends StartEndAction {
   }
 
 }
+*/

@@ -1,7 +1,7 @@
 import { entries } from "../../../tools/helper";
 import { InterventionRole } from "../actors/actor";
 import { GlobalEventId, TranslationKey } from "../baseTypes";
-import { IncomingResourcesLocalEvent, ResourcesArrivalLocalEvent } from "../localEvents/localEventBase";
+import { IncomingResourcesLocalEvent, ResourceMobilizationEvent, ResourcesArrivalLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId } from "./resourceContainer";
@@ -105,9 +105,9 @@ export function resolveRequest(globalEventId: GlobalEventId,
 			// STATE CHANGE HERE could be done in the emitted events directly ?
 			c.amount -= n;
 			
-			const arrivalTime = Math.max(c.availabilityTime, now) + c.travelTime;
+			const departureTime = Math.max(c.availabilityTime, now);
 			
-			localEventManager.queueLocalEvent(new ResourcesArrivalLocalEvent(globalEventId, arrivalTime, defId, n))
+			localEventManager.queueLocalEvent(new ResourceMobilizationEvent(globalEventId, now, departureTime, c.travelTime, defId, n))
 
 		}
 

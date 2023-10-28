@@ -2,8 +2,8 @@ import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
-import { Actor } from "../actors/actor";
-import { ActorId, GlobalEventId, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
+import { Actor, InterventionRole, sortByHierarchyLevel } from "../actors/actor";
+import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
@@ -14,6 +14,10 @@ import { TaskStatus } from "../tasks/taskBase";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceContainerDefinition, ResourceContainerDefinitionId } from "../resources/resourceContainer";
 import { getContainerDef } from "../resources/emergencyDepartment";
+import { getOrCreateResourceGroup } from "../resources/resourceGroup";
+import { localEventManager } from "../localEvents/localEventManager";
+import { entries } from "../../../tools/helper";
+import { Resource } from "../resources/resource";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -193,12 +197,22 @@ export class RemoveMapItemLocalEvent extends LocalEventBase {
 
 export class AddActorLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime){
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private role: InterventionRole, private travelTime: SimDuration){
     super(parentEventId, 'AddActorLocalEvent', timeStamp);
   }
 
-  // TODO create actor from parameters
   applyStateUpdate(state: MainSimulationState): void {
+
+	const actor = new Actor(this.role);
+	state.getInternalStateObject().actors.push(actor);
+
+	const travelAction = new OnTheRoadAction(state.getSimTime(), this.travelTime, 'methane-acs-arrived', 'on-the-road', 0, actor.Uid, 0);
+	state.getInternalStateObject().actions.push(travelAction);
+
+	// the resource pool assignation is delayed to the arrival time of the actor
+	localEventManager.queueLocalEvent(new ResourceGroupBinding(this.parentEventId, state.getSimTime() + this.travelTime, actor.Uid));
+
+	  /*
     if (state.getInternalStateObject().actors.find((actor) => actor.Role == "ACS" ) == undefined) {
       const acs = new Actor('ACS', 'actor-acs', 'actor-acs-long');
       state.getInternalStateObject().actors.push(acs);
@@ -210,8 +224,24 @@ export class AddActorLocalEvent extends LocalEventBase {
       state.getInternalStateObject().actors.push(mcs);
       const mcsAction = new OnTheRoadAction(state.getSimTime(), TimeSliceDuration * 3, 'methane-mcs-arrived', 'on-the-road', 0, mcs.Uid, 0);
       state.getInternalStateObject().actions.push(mcsAction);
-    }
+    }*/
   }
+
+}
+
+/**
+ * Binds an actor to its resource group
+ */
+export class ResourceGroupBinding extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private ownerId: ActorId){
+		super(parentEventId, 'AddActorLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		// create resource group if not present
+		getOrCreateResourceGroup(state, this.ownerId);
+	}
 
 }
 
@@ -256,10 +286,10 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
  */
 export class TransferResourcesLocalEvent extends LocalEventBase {
   constructor(parentId: GlobalEventId,
-      timeStamp: SimTime,
-      public readonly senderActor: ActorId,
-      public readonly receiverActor: ActorId,
-      public readonly sentResources: ResourceTypeAndNumber,
+              timeStamp: SimTime,
+              public readonly senderActor: ActorId,
+              public readonly receiverActor: ActorId,
+              public readonly sentResources: ResourceTypeAndNumber,
   ) {
     super(parentId, 'TransferResourcesLocalEvent', timeStamp);
   }
@@ -272,6 +302,7 @@ export class TransferResourcesLocalEvent extends LocalEventBase {
 /**
  * Local event to receive new resources for an actor.
  */
+/*
 export class IncomingResourcesLocalEvent extends LocalEventBase {
 
   constructor(parentId: GlobalEventId,
@@ -287,30 +318,65 @@ export class IncomingResourcesLocalEvent extends LocalEventBase {
   }
 
 }
+*/
 
-export class ResourcesArrivalLocalEvent extends LocalEventBase {
+/**
+ * Spawned when the emergency dept sends resource containers
+ */
+export class ResourceMobilizationEvent extends LocalEventBase {
 
 	constructor(parentId: GlobalEventId,
 	timeStamp: SimTime,
-	//public readonly actorId: ActorId,
+	public readonly departureTime: SimTime,
+	public readonly travelTime: SimDuration,
 	public readonly containerType: ResourceContainerDefinitionId,
 	public readonly amount: number) {
 		super(parentId, 'RessourcesArrivalEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		// TODO resource pool resolution
-		// now suppose AL
-		const actor = resolveAttribution(state);
-		const cont = getContainerDef(this.containerType);
-		
+		const containerDef = getContainerDef(this.containerType);
+		// We assume that containers are well configured
+		// and thus that there are no duplicates
+
+		// actors are created right away (they need to appear in the timeline)
+		containerDef.roles.forEach(r => {
+			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, r, this.travelTime);
+			localEventManager.queueLocalEvent(evt);
+		});
+
+		// create resource arrival event
+		// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
+		const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerType, this.amount);
+		localEventManager.queueLocalEvent(evt);
 	}
 
 }
+/**
+ * Resources arrival on site
+ */
+export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
-// TODOOOOOO
-function resolveAttribution(state: MainSimulationState) : ActorId{
-	return state.getAllActors()[0].Uid;
+	constructor(parentId: GlobalEventId,
+	timeStamp: SimTime,
+	public readonly containerType: ResourceContainerDefinitionId,
+	public readonly amount: number) {
+		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		
+		const containerDef = getContainerDef(this.containerType);
+		// we assume there is always at least one actor
+		const recipient : Actor = sortByHierarchyLevel(state.getAllActors())[0];
+		const resourceGroup = getOrCreateResourceGroup(state, recipient.Uid);
+
+		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
+			const n = qty! * this.amount;
+			ResourceState.addIncomingResourcesToActor(state, resourceGroup, rType, n);
+		})
+	}
+
 }
 
 /**

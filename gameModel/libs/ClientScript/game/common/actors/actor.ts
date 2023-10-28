@@ -1,7 +1,31 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
 
-export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN'
+export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA'
+
+/**
+ * Defines ascendance in leadership
+ */
+type AuthorityLevel = number;
+
+/**
+ * 0 = top level
+ */
+const hierarchyLevels : Record<InterventionRole, AuthorityLevel> = {
+	ACS: 0,
+	MCS: 0,
+	LEADPMA: 10,
+	EVASAN:20,
+	AL : 30,
+} as const;
+
+/**
+ * Sort actors by leadership level
+ * The first element has the highest leadership level
+ */
+export function sortByHierarchyLevel(actors : Readonly<Actor[]>){
+	return [...actors].sort(a => hierarchyLevels[a.Role]);
+}
 
 export class Actor{
 
@@ -15,11 +39,11 @@ export class Actor{
 
   private readonly translationVar : keyof VariableClasses = 'mainSim-actors';
 
-  constructor(role: InterventionRole, fullName: TranslationKey, shortName: TranslationKey){
+  constructor(role: InterventionRole){
     this.Role = role;
-    this.FullName = getTranslation(this.translationVar, fullName);
-    this.ShortName = getTranslation(this.translationVar, shortName);
-
+	const tkey : TranslationKey= `actor-${role.toLowerCase()}`;
+    this.ShortName = getTranslation(this.translationVar, tkey);
+    this.FullName = getTranslation(this.translationVar, tkey + '-long');
     this.Uid = Actor.IdSeed++;
   }
 

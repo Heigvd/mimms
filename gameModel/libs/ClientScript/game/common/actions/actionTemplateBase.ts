@@ -11,7 +11,6 @@ import {
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
   ActionBase,
-  AskReinforcementAction,
   DefineMapObjectAction,
   MethaneAction,
   GetInformationAction,
@@ -21,7 +20,7 @@ import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 
 /**
@@ -379,6 +378,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
     };
   }
 
+
   protected createActionFromEvent(event: FullEvent<ResourceSendingToActorEvent>): SendResourcesToActorAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
@@ -505,55 +505,3 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<Rel
 
 }
 
-/**
- * Action template to ask for new resources
- */
-export class AskReinforcementActionTemplate extends StartEndTemplate<AskReinforcementAction, StandardActionEvent> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    readonly resourceType: ResourceType,
-    readonly resourceQuantity : number,
-  ) {
-    super(title, description, duration, message);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'AskReinforcementActionTemplate' + '_' + this.title;
-  }
-
-  public getDescription(): string {
-	return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec : this.duration,
-    }
-  }
-
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): AskReinforcementAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId; 
-    return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceType, this.resourceQuantity, this.message, this.Uid);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-}
