@@ -13,11 +13,12 @@ import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceContainerDefinition, ResourceContainerDefinitionId } from "../resources/resourceContainer";
-import { getContainerDef } from "../resources/emergencyDepartment";
+import { getContainerDef, resolveResourceRequest } from "../resources/emergencyDepartment";
 import { getOrCreateResourceGroup } from "../resources/resourceGroup";
 import { localEventManager } from "../localEvents/localEventManager";
 import { entries } from "../../../tools/helper";
 import { Resource } from "../resources/resource";
+import { MethanePayload } from "../events/methaneEvent";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -445,6 +446,26 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     TaskState.changeTaskStatus(state, this.taskId, this.status);
   }
+
+}
+
+/**
+ * Takes a player formulated request in parameter and resolves it given
+ * the emergency center available resources
+ */
+export class ResourceRequestResolutionEvent extends LocalEventBase {
+
+	constructor(
+		parentEventId: GlobalEventId,
+    	timeStamp: SimTime,
+		private request: MethanePayload
+	){
+		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		resolveResourceRequest(this.parentEventId, this.request.resourceRequest, state);
+	}
 
 }
 

@@ -84,14 +84,6 @@ export function isMethaneActionTemplate(id: number) {
 /**
  * @param id Uid of given action template
  */
-export function isRequestResourcesFromActorActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof RequestResourcesFromActorActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
 export function isSendResourcesToActorActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof SendResourcesToActorActionTemplate;

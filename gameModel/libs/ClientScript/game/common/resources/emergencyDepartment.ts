@@ -1,7 +1,7 @@
 import { entries } from "../../../tools/helper";
 import { InterventionRole } from "../actors/actor";
 import { GlobalEventId, TranslationKey } from "../baseTypes";
-import { IncomingResourcesLocalEvent, ResourceMobilizationEvent, ResourcesArrivalLocalEvent } from "../localEvents/localEventBase";
+import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId } from "./resourceContainer";
@@ -11,6 +11,10 @@ const containerDefinitions : Record<ResourceContainerDefinitionId, ResourceConta
 
 export function getContainerDef(id: ResourceContainerDefinitionId){
 	return containerDefinitions[id];
+}
+
+export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> {
+	return containerDefinitions;
 }
 
 export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
@@ -79,21 +83,22 @@ function addContainerDefinition (name: TranslationKey,
 }
 
 /**
+ * This method changes the state, it should only be called during a state update
  * Resolve a resource request made by a player
  * fetch all the resources available and dispatch them
+ * if the resource is not available right away it will be sent later but scheduled
+ * @param the global event id that triggered this request
  * @param request the amount and type formulated in the request
  * @param state the current state of the game
  */
-export function resolveRequest(globalEventId: GlobalEventId, 
+export function resolveResourceRequest(globalEventId: GlobalEventId, 
 	request :Record<ResourceContainerDefinitionId, number>, 
 	state :MainSimulationState) {
 
-	//const sentContainers : ResourcesArrivalLocalEvent[] = [];
 	const containers = state.getResourceContainersByDefId();
 	const now = state.getSimTime();
 	entries(request).filter(([_,a]) => a > 0).forEach(([defId, requestedAmount]) =>  {
-		// get currently available containers
-		const cs = containers[defId]//.filter(c => c.availabilityTime <= state.getSimTime());
+		const cs = containers[defId];
 		// take them by order of time availability
 		cs.sort((c) => c.availabilityTime);
 		let found = 0;
@@ -102,8 +107,7 @@ export function resolveRequest(globalEventId: GlobalEventId,
 			const n = Math.min(requestedAmount, c.amount);
 
 			found += n;
-			// STATE CHANGE HERE could be done in the emitted events directly ?
-			c.amount -= n;
+			c.amount -= n;// STATE CHANGE HERE
 			
 			const departureTime = Math.max(c.availabilityTime, now);
 			
@@ -111,7 +115,7 @@ export function resolveRequest(globalEventId: GlobalEventId,
 
 		}
 
-	})
+	});
 	
 
 }

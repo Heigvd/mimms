@@ -64,7 +64,6 @@ function initMainState(): MainSimulationState {
 	ownerId: 0,
     geometryType: 'Point',
     name: "Lieu de l'accident",
-    //geometry: [2497449.9236694486,1120779.3310497932],
     geometry: [2500100,1118500],
 	icon: 'mainAccident',
   }

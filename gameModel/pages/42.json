@@ -416,6 +416,19 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAmb;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
                                 "layoutClassName" : "chosenNumber-container",
                                 "layoutStyle" : { },
                                 "onCancel" : { },
@@ -696,6 +709,19 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAcs;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
                                 "layoutClassName" : "chosenNumber-container",
                                 "layoutStyle" : { },
                                 "onCancel" : { },
@@ -740,6 +766,19 @@
                         }, {
                           "props" : {
                             "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "+Context.interfaceState.state.resources.requestedResources.nbMcs;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
                               "props" : {
                                 "layoutClassName" : "chosenNumber-container",
                                 "layoutStyle" : { },

@@ -22,6 +22,8 @@ import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
+import { ResourceContainerDefinitionId } from "../resources/resourceContainer";
+import { MethaneActionEvent, MethanePayload } from "../events/methaneEvent";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -231,7 +233,7 @@ export class GetInformationTemplate extends StartEndTemplate {
 
 }
 
-export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardActionEvent> {
+export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneActionEvent, MethanePayload> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
@@ -242,16 +244,17 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
     return 'DefineMethaneObjectTemplate' + '_' + this.title;
   }
   
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): MethaneAction {
+  protected createActionFromEvent(event: FullEvent<MethaneActionEvent>): MethaneAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: unknown): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: MethanePayload): MethaneActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
+	  methanePayload : params
     }
   }
 

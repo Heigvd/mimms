@@ -1,7 +1,11 @@
 import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
+import { MethanePayload } from "../game/common/events/methaneEvent";
+import { getAllContainerDefs } from "../game/common/resources/emergencyDepartment";
+import { ResourceContainerDefinitionId } from "../game/common/resources/resourceContainer";
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
-import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
+import { values } from "../tools/helper";
+import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
 
 
 export function runActionButton(){
@@ -78,7 +82,36 @@ export function runActionButton(){
 		newState.resources.assignTask.nbMedJunior = '0';
 		newState.resources.assignTask.nbMedSenior = '0';
 		Context.interfaceState.setState(newState);
+	} else if(isMethaneActionTemplate(actionRefUid)){
+
+		params = fetchMethaneRequestValues();
 	}
 
 	actionClickHandler(Context.action.Uid, params);
+}
+
+export function fetchMethaneRequestValues(): MethanePayload {
+		// TODO generate dynamically from container definitions
+		// here tested with two actors defs and one resource def
+		const cdefs = getAllContainerDefs();
+		const acsDef = values(cdefs).find((def) => def.name === 'acs')!; // TODO remove that
+		const mcsDef = values(cdefs).find((def) => def.name === 'mcs')!; // TODO remove that
+		const emAmb = values(cdefs).find((def) => def.name === 'emergencyAmbulance')!; // TODO remove that
+
+		const requestedResources : Record<ResourceContainerDefinitionId, number> = {};
+		requestedResources[acsDef.uid] = Context.interfaceState.state.resources.requestedResources.nbAcs;
+		requestedResources[mcsDef.uid] = Context.interfaceState.state.resources.requestedResources.nbMcs;
+		requestedResources[emAmb.uid] = Context.interfaceState.state.resources.requestedResources.nbAmb;
+
+		const newState = Helpers.cloneDeep(Context.interfaceState.state);
+		newState.resources.requestedResources.nbAcs = '0';
+		newState.resources.requestedResources.nbMcs = '0';
+		newState.resources.requestedResources.nbAmb = '0';
+
+		Context.interfaceState.setState(newState);
+
+		// TODO cleaner and get all the fields
+		const res = {otherStuff : 'METHAN..... stuff', resourceRequest: requestedResources};
+		wlog(res);
+		return res;
 }

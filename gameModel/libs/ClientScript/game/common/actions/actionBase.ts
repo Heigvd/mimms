@@ -2,19 +2,17 @@ import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, Transla
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import {
-	AddActorLocalEvent,
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
-	IncomingResourcesLocalEvent,
 	RemoveMapItemLocalEvent,
 	ResourcesAllocationLocalEvent,
-	ResourcesArrivalLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceType, ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionArray } from '../resources/resourceFunction';
+import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
+import { ResourceFunction } from '../resources/resourceFunction';
+import { MethanePayload } from "../events/methaneEvent";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -235,7 +233,8 @@ export class MethaneAction extends StartEndAction {
     actionNameKey: TranslationKey, 
     eventId: GlobalEventId, 
     ownerId: ActorId, 
-    uuidTemplate: ActionTemplateId
+    uuidTemplate: ActionTemplateId,
+	private methanePayload: MethanePayload
   ){
     super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
@@ -249,6 +248,7 @@ export class MethaneAction extends StartEndAction {
     this.logger.info('end event MethaneAction');
 	// TODO figure out emitter
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
+	
   }
 
   // TODO probably nothing
@@ -257,7 +257,7 @@ export class MethaneAction extends StartEndAction {
   }
 
   clone(): this {
-    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
+    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.methanePayload);
     clone.status = this.status;
     return clone as this;
   }
