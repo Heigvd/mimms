@@ -1,6 +1,10 @@
+import { ResourceContainerType, ResourceContainerTypeArray } from "../game/common/resources/resourceContainer";
 import { getAllActors } from "../UIfacade/actorFacade";
 
 export function getInitialInterfaceState(){
+
+	
+	
 
 	return ({
 		currentActorUid: getAllActors()[0].Uid,
@@ -26,11 +30,13 @@ export function getInitialInterfaceState(){
 				nbMedSenior: '0'
 			},
 			
-			requestedResources : {
-				nbAcs: 0,
-				nbMcs: 0,
-				nbAmb: 0
-			}
+			requestedResources : getEmptyResourceRequest()
 		}
 	});
+}
+
+export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
+	const resourceRequest : Partial<Record<ResourceContainerType, number>>= {};
+	ResourceContainerTypeArray.forEach((t) => {resourceRequest[t]= 0})
+	return resourceRequest;
 }
