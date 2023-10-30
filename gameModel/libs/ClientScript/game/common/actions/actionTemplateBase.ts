@@ -22,7 +22,6 @@ import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
-import { ResourceContainerDefinitionId } from "../resources/resourceContainer";
 import { MethaneActionEvent, MethanePayload } from "../events/methaneEvent";
 
 /**
@@ -247,7 +246,8 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneAc
   protected createActionFromEvent(event: FullEvent<MethaneActionEvent>): MethaneAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
+    return new MethaneAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, event.payload.methanePayload);
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: MethanePayload): MethaneActionEvent {

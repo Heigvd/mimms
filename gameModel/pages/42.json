@@ -418,7 +418,18 @@
                               "props" : {
                                 "layoutStyle" : { },
                                 "onCancel" : { },
-                                "onVariableChange" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbAmb = Context.nbAmb;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"nbAmb\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAmb;",
@@ -711,7 +722,18 @@
                               "props" : {
                                 "layoutStyle" : { },
                                 "onCancel" : { },
-                                "onVariableChange" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbAcs = Context.value;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"value\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAcs;",
@@ -769,7 +791,18 @@
                               "props" : {
                                 "layoutStyle" : { },
                                 "onCancel" : { },
-                                "onVariableChange" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbMcs = Context.value;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"value\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "+Context.interfaceState.state.resources.requestedResources.nbMcs;",

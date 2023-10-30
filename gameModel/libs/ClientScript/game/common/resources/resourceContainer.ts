@@ -3,6 +3,25 @@ import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { ResourceType } from "./resourceType";
 
 export type ResourceContainerDefinitionId = number;
+
+// TODO might be configurable in a far future
+/**
+ * Corresponds to the type of containers that 
+ * a player can request
+ */
+export const ResourceContainerTypeArray = [
+	'ACS',
+	'MCS',
+	'Ambulance',
+	'SMUR',
+	'PMA',
+	'PICA',
+	'PCS',
+	'Helicopter'
+] as const;
+
+export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
+
 /**
  * Describes the content of one container that can be requested by an actor to the emergency departement
  */
@@ -23,7 +42,12 @@ export interface ResourceContainerDefinition {
 	/**
 	 * List of actors that will be sent
 	 */
-	roles: InterventionRole[]
+	roles: InterventionRole[];
+
+	/**
+	 * Associated resource type
+	 */
+	type : ResourceContainerType
 }
 
 let idProvider = 2000;
@@ -32,13 +56,18 @@ export function resetSeedId() {
 	idProvider = 2000;
 }
 
-export function buildContainerDefinition(name: TranslationKey, resources: Partial<Record<ResourceType, number>>, 
-	roles: InterventionRole[] = []) : ResourceContainerDefinition {
+export function buildContainerDefinition( 
+	rtype: ResourceContainerType, 
+	name: TranslationKey, 
+	resources: Partial<Record<ResourceType, number>>, 
+	roles: InterventionRole[] = [])
+	: ResourceContainerDefinition {
 	return {
+		type : rtype,
 		uid : idProvider++,
 		roles : roles,
 		name : name,
-		resources : resources
+		resources : resources,
 	}
 }
 

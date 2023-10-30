@@ -5,6 +5,7 @@ import {
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
 	RemoveMapItemLocalEvent,
+	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
@@ -207,7 +208,6 @@ export class OnTheRoadAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event OnTheRoadAction');
-
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
@@ -247,8 +247,11 @@ export class MethaneAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event MethaneAction');
 	// TODO figure out emitter
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-	
+	const now = state.getSimTime();
+	const actor = state.getActorById(this.ownerId)!;
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, actor.Uid, actor.ShortName, this.messageKey))
+	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.methanePayload);
+	localEventManager.queueLocalEvent(dispatchEvent);
   }
 
   // TODO probably nothing
@@ -482,52 +485,3 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
   }
 }
 
-/**
- * Action to ask for more resources
- */
-// FIXME see if needed to ask for several resources at same time
-/*
-export class AskReinforcementAction extends StartEndAction {
-  public readonly resourceType: ResourceType;
-  public readonly nb: number;
-
-
-  constructor(startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    resourceType: ResourceType,
-    nb: number,
-    messageKey: TranslationKey,
-    uuidTemplate: ActionTemplateId
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.resourceType = resourceType;
-    this.nb = nb;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event AskReinforcementAction');
-    //likely nothing to do
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event AskReinforcementAction');
-    localEventManager.queueLocalEvent(new IncomingResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.resourceType, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-  override clone(): this {
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.messageKey, this.templateId);
-    clone.status = this.status;
-    return clone as this;
-  }
-
-}
-*/

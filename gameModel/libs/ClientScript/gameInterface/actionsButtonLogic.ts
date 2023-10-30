@@ -1,7 +1,7 @@
 import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
 import { MethanePayload } from "../game/common/events/methaneEvent";
 import { getAllContainerDefs } from "../game/common/resources/emergencyDepartment";
-import { ResourceContainerDefinitionId } from "../game/common/resources/resourceContainer";
+import { ResourceContainerDefinitionId, ResourceContainerType } from "../game/common/resources/resourceContainer";
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler } from "../gameInterface/main";
 import { values } from "../tools/helper";
@@ -94,19 +94,19 @@ export function fetchMethaneRequestValues(): MethanePayload {
 		// TODO generate dynamically from container definitions
 		// here tested with two actors defs and one resource def
 		const cdefs = getAllContainerDefs();
-		const acsDef = values(cdefs).find((def) => def.name === 'acs')!; // TODO remove that
-		const mcsDef = values(cdefs).find((def) => def.name === 'mcs')!; // TODO remove that
-		const emAmb = values(cdefs).find((def) => def.name === 'emergencyAmbulance')!; // TODO remove that
+		const acsDef = values(cdefs).find((def) => def.type === 'ACS')!; // TODO remove that
+		const mcsDef = values(cdefs).find((def) => def.type === 'MCS')!; // TODO remove that
+		const emAmb = values(cdefs).find((def) => def.type === 'Ambulance')!; // TODO remove that
 
-		const requestedResources : Record<ResourceContainerDefinitionId, number> = {};
-		requestedResources[acsDef.uid] = Context.interfaceState.state.resources.requestedResources.nbAcs;
-		requestedResources[mcsDef.uid] = Context.interfaceState.state.resources.requestedResources.nbMcs;
-		requestedResources[emAmb.uid] = Context.interfaceState.state.resources.requestedResources.nbAmb;
+		const requestedResources : Partial<Record<ResourceContainerType, number>> = {};
+		requestedResources[acsDef.type] = Context.interfaceState.state.resources.requestedResources.nbAcs;
+		requestedResources[mcsDef.type] = Context.interfaceState.state.resources.requestedResources.nbMcs;
+		requestedResources[emAmb.type] = Context.interfaceState.state.resources.requestedResources.nbAmb;
 
 		const newState = Helpers.cloneDeep(Context.interfaceState.state);
-		newState.resources.requestedResources.nbAcs = '0';
-		newState.resources.requestedResources.nbMcs = '0';
-		newState.resources.requestedResources.nbAmb = '0';
+		newState.resources.requestedResources.nbAcs = 0;
+		newState.resources.requestedResources.nbMcs = 0;
+		newState.resources.requestedResources.nbAmb = 0;
 
 		Context.interfaceState.setState(newState);
 

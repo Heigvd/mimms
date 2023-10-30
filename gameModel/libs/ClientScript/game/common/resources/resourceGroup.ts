@@ -45,10 +45,7 @@ export class ResourceGroup implements IClonable{
 
 export function isManagedBy(state : Readonly<MainSimulationState>, resource: Resource, actorId: ActorId) {
 	const rg = state.getResourceGroupByActorId(actorId);
-	if(rg){
-		return rg.hasResource(resource);
-	}
-	return false;
+	return rg ? rg.hasResource(resource) : false;
 }
 
 /**

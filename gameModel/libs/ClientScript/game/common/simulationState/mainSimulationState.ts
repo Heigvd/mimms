@@ -8,8 +8,9 @@ import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
+import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
-import { ResourceContainerConfig, ResourceContainerDefinitionId } from "../resources/resourceContainer";
+import { ResourceContainerConfig, ResourceContainerDefinitionId, ResourceContainerType } from "../resources/resourceContainer";
 import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 
@@ -105,8 +106,9 @@ export class MainSimulationState implements IClonable {
   /**
    * Get map of containers
    */
-  public getResourceContainersByDefId() : Record<ResourceContainerDefinitionId, ResourceContainerConfig[]>{
-	return group(this.internalState.resourceContainers, (c =>  c.templateId));
+  public getResourceContainersByType() : Record<ResourceContainerType, ResourceContainerConfig[]>{
+	  const defs = getAllContainerDefs();
+	return group(this.internalState.resourceContainers, (c =>  defs[c.templateId].type));
   }
 
   /**
