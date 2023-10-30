@@ -1,21 +1,23 @@
 import { ActorId, Position, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
-export interface featurePayload {
+export interface FeaturePayload {
   id?: number | string,
   featureType: GeometryType;
   feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 }
 
-export interface selectPayload {
+export interface SelectPayload {
   id?: number | string,
   featureKey: string,
-  featureId: string[],
+  featureId: string,
 }
 
 export type MapFeature = CustomFeature | SelectFeature;
 
 export type CustomFeature = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature
+
+export type InteractionType = 'Select' | 'Define'
 
 export type GeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon' | 'Select';
 
@@ -63,5 +65,5 @@ export interface DefineMapObjectEvent extends ActionCreationEvent {
 export interface SelectMapObjectEvent extends ActionCreationEvent {
   durationSec: SimDuration;
   featureKey: string;
-  featureId: string[];
+  featureId: string;
 }

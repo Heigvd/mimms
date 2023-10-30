@@ -18,7 +18,7 @@ import {
   GetInformationAction,
   RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
-import { CustomFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, featurePayload, selectPayload } from "../events/defineMapObjectEvent";
+import { CustomFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -275,6 +275,15 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
 
 }
 
+// Use same class for define or select interations
+// Add InteractionType to handle event generation
+// Reuse feature(s) to describe hardcoded, proposition or definable features geometry
+
+// Selection
+// Should be specified as either layer features or hardcoded geometries
+
+// Feature
+// Any payload or shared ?
 
 export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
   
@@ -293,7 +302,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     super(title, description, duration, message);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: FeaturePayload): DefineMapObjectEvent {
     
   const feature = {
 	  ownerId: initiator.Uid,
@@ -349,15 +358,15 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    featureKey: string,
-    featureIds: string[],
+    featureKey: string | 'Feature',
+    features: string[],
   ) {
     super(title, description, duration, message)
     this.featureKey = featureKey;
-    this.featureIds = featureIds;
+    this.featureIds = features;
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: selectPayload): SelectMapObjectEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload): SelectMapObjectEvent {
 
 
       return {
