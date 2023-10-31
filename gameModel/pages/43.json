@@ -209,6 +209,48 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "panel-title panel-title-header",
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "width" : "150px"
+                                    },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Context.interfaceState.state.currentActorUid)!.Role}</p>`;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"52\"",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "availableResourcesLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "className" : "leftPanel headerPanels",
+                                "layout" : { },
+                                "layoutClassName" : "leftPanel-container headerPanels-container",
+                                "layoutStyle" : {
+                                  "width" : "100%"
+                                },
+                                "style" : {
+                                  "width" : "100%"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
                                 "attachToClosest" : ".game",
                                 "attachedToId" : "",
                                 "children" : [ {
@@ -263,38 +305,6 @@
                             }, {
                               "props" : {
                                 "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "panel-title",
-                                        "layoutStyle" : { },
-                                        "style" : {
-                                          "width" : "150px"
-                                        },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Context.interfaceState.state.currentActorUid)!.Role}</p>`;",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "exposePageSizeAs" : "",
-                                        "initialSelectedPageId" : {
-                                          "@class" : "Script",
-                                          "content" : "\"52\"",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "availableResourcesLoader",
-                                        "style" : { }
-                                      },
-                                      "type" : "PageLoader"
-                                    } ]
-                                  },
-                                  "type" : "FlexList"
-                                }, {
                                   "props" : {
                                     "children" : [ {
                                       "props" : {

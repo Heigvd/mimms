@@ -37,27 +37,33 @@
               "type" : "FlexList"
             }, {
               "props" : {
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "text-align" : "center"
+                },
                 "name" : "name",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.resourceType.enum;",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', Context.resourceType.enum);",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             } ],
+            "className" : "",
             "layout" : {
               "alignItems" : "center",
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
             "name" : "one available resource",
-            "style" : { }
+            "style" : {
+              "width" : "100px"
+            }
           },
           "type" : "FlexList"
         } ],
+        "className" : "header-items",
         "exposeAs" : "resourceType",
         "getItemsFn" : {
           "@class" : "Script",
