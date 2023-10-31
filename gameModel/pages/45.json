@@ -111,6 +111,7 @@
                           "content" : "import { showActionParamsPanel } from \"./gameInterface/main\";\nshowActionParamsPanel(Context.action);",
                           "language" : "typescript"
                         },
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "requestResourcesLoader",
                         "style" : { }
@@ -120,6 +121,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "Description & play",
                     "style" : { }

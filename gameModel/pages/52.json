@@ -8,10 +8,11 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "oneResource",
+                    "className" : "resourceIcon",
                     "icon" : "user-nurse",
-                    "layoutClassName" : "oneResource-container",
+                    "layoutClassName" : "resourceIcon-container headerResourceIcon-container",
                     "layoutStyle" : { },
+                    "name" : "resource icon",
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -20,6 +21,7 @@
                     "className" : "resourceCounter",
                     "layoutClassName" : "resourceCounter-container noPadding",
                     "layoutStyle" : { },
+                    "name" : "nb available",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
@@ -31,39 +33,36 @@
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },
-                "name" : "icon and nb",
+                "name" : "icon with nb",
                 "style" : { }
               },
               "type" : "FlexList"
             }, {
               "props" : {
-                "layoutStyle" : {
-                  "text-align" : "center"
-                },
-                "name" : "name",
+                "layoutClassName" : "resourceTypeName-container",
+                "layoutStyle" : { },
+                "name" : "resource type name",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', Context.resourceType.enum);",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', Context.resourceType.enum);",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             } ],
-            "className" : "",
+            "className" : "oneHeaderResource",
             "layout" : {
               "alignItems" : "center",
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "name" : "one available resource",
-            "style" : {
-              "width" : "100px"
-            }
+            "name" : "one resource",
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "className" : "header-items",
+        "className" : "",
         "exposeAs" : "resourceType",
         "getItemsFn" : {
           "@class" : "Script",
@@ -80,11 +79,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "resourcesPanel-container",
+    "layoutStyle" : { },
     "name" : "available resources",
     "style" : { }
   },

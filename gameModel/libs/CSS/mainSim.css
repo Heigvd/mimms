@@ -142,12 +142,12 @@ html{
 
 /********************** HEADER PANEL *********************************************/
 .headerPanels-container {
-  width: 100%;
-  height: auto;
-  top: 0px;
-  padding: 1rem; 
-  
-
+	width: 100%;
+	height: auto;
+	top: 0px;
+	left: 0;
+	padding: 1rem; 
+	pointer-events: auto; /* voir si none ou auto*/
 }
 
 .headerPanels {
@@ -157,8 +157,6 @@ html{
   height: auto;
   pointer-events: auto;
   max-height: 100%;
-
- 
 }
 
 .headerPanels > * {
@@ -235,7 +233,7 @@ html{
 }
 
 
-/************************** Actions & resources panel (upper-left) *********************************/
+/************************** Actions panel (upper-left) *********************************/
 /****** PANEL ******/
 .leftPanel-container {
 	left: 0;
@@ -373,68 +371,6 @@ background: var(--secondaryInterface_400);
 .nextActionBtn > * > svg {
 	font-size: 1.6em;
 }
-    
-/****** ressources ******/
-
-
-.resourcesPanel-container{
-	width:auto;
-	height: auto;
-}
-
-
-.resourceTask-container{
-	background-color: var(--gray_200);
-	margin: 5px 15px 5px 15px ;
-	border-radius: var(--S_borderRadius);
-	width: auto;
-	
-}
-
-.resourceTask-container * p{
-	margin: 0px;
-	justify-content: center;
-	
-}
-
-.taskHeader{
-	cursor: pointer;
-}
-
-/*** Button for resources assignations ***/
-.resourceGestion-container{
-background-color: var(--gray_WHITE);
-border-radius: var(--S_borderRadius);
-max-height: 60px;
-}
-
-.assignBtn{
-height: 100%;
-width: .6em;
-justify-content:  center;
-font-weight: var(--boldWeight);
-font-size: var(--L_text);
-padding: .4em;
-}
-
-.assignBtn-container{
-margin: 0px;
-padding: 0px;
-}
-
-.minusBtn{
-border-radius: 5px 0px 0px 5px;
-cursor: pointer;
-}
-
-.plusBtn{
-border-radius:  0px 5px  5px 0px;
-cursor: pointer;
-}
-
-
-
-
 
 /*** Title + description of an assignable task ***/ 
 
@@ -462,71 +398,6 @@ cursor: pointer;
 .taskStatus{
 font-size: var(--XS_text);
 color: var(--gray_700);
-}
-
-/*** resources pool ***/
-.poolResources-container{
-	padding-left: .5em;
-	padding-top: 1em;
-}
-
-
-.poolResources-container * p{
-	font-size: var(--M_text);
-	font-weight: var(--boldWeight);
-}
-
-.oneResource-container{
-padding: 10px;
-border-radius: var(--S_borderRadius);
-border: 3px solid var(--interface_BLUE);
-}
-
-.oneResource{
-font-size: var(--L_text);
-color: var(--interface_BLUE);
-}
-
-.resourceCounter-container{
-border-radius: 100%;
-height: 1.5em;
-width: 1.5em;
-border: 2px solid var(--interface_BLUE);
-position: absolute;
-top: -.1em;
-right: -.2em;
-background-color: var(--interface_0);
-}
-
-.resourceCounter{
-	font-size: var(--S_text);
-	font-weight: var(--boldWeight);
-	position: absolute;
-	color: var(--interface_BLUE);
-	right: .45em;
-	
-}
-
-	
-
-
-/***** Ressources in tasks  ****/
-
-.ressourcePersonIcon{
-font-size: 2rem;
-}
-
-.ressourcesBox-container{
-align-items: center;
-}
-
-.chosenNumber-container  input{
-min-width: 10px;
-max-width: 30px;
-}
-
-.fonction-container{
-font-size: var(--M_text);
 }
 
 /**************************** RADIO CSS (upper-right) ************************************/

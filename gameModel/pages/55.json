@@ -2,43 +2,46 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
-          "language" : "typescript"
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "taskChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "selected task",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.assignTask.selectedTaskId = Context.assignTaskSelectedTask;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"assignTaskSelectedTask\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.assignTask.selectedTaskId;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : {
+          "alignContent" : "stretch",
+          "alignItems" : "center"
         },
         "layoutStyle" : { },
-        "onVariableChange" : {
-          "client" : {
-            "@class" : "Script",
-            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.assignTask.selectedTaskId = Context.assignTaskSelectedTask;\nContext.interfaceState.setState(newState);",
-            "language" : "TypeScript"
-          },
-          "exposeVariableAs" : {
-            "@class" : "Script",
-            "content" : "\"assignTaskSelectedTask\"",
-            "language" : "TypeScript"
-          }
-        },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Context.interfaceState.state.resources.assignTask.selectedTaskId;",
-          "language" : "TypeScript"
-        },
+        "name" : "task choice",
         "style" : { }
       },
-      "type" : "Select input"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "\"<p>assign a task to resources<br></p>\"",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {
@@ -437,11 +440,10 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    }
+    "layoutClassName" : "resourcesPanel-container",
+    "layoutStyle" : { },
+    "name" : "resources for assignation",
+    "style" : { }
   },
   "type" : "FlexList"
 }

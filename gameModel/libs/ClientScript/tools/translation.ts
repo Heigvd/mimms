@@ -160,6 +160,7 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'mainSim-interface',
 		'mainSim-actions-tasks',
 		'mainSim-actors',
+		'mainSim-resources',
 		'mainSim-summary'
 	]
 

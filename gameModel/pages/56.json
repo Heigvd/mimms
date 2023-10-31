@@ -2,21 +2,47 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import { getOnGoingTasks } from \"./UIfacade/resourceTaskFacade\";\ngetOnGoingTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
-          "language" : "typescript"
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "taskChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "selected task",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.releaseTask.selectedTaskId = Context.releaseTaskSelectedTask;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"releaseTaskSelectedTask\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.releaseTask.selectedTaskId;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : {
+          "alignContent" : "stretch",
+          "alignItems" : "center"
         },
+        "layoutClassName" : "",
         "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'chosenReceiverActor')",
-          "language" : "TypeScript"
-        },
+        "name" : "task choice",
         "style" : { }
       },
-      "type" : "Select input"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {
@@ -338,26 +364,14 @@
         "style" : { }
       },
       "type" : "FlexList"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "\"<p>release resources from a task<br></p>\"",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    }
+    "layoutClassName" : "resourcesPanel-container",
+    "layoutStyle" : { },
+    "name" : "resources to release",
+    "style" : { }
   },
   "type" : "FlexList"
 }
