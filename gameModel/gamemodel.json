@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1698065383614,
+  "createdTime" : 1698763289532,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4680,6 +4680,42 @@
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:582622:Ji3NLL"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:582623:1Ewwvr",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:582623:1Ewwvr::EN",
+              "status" : "",
+              "translation" : "mainSim-summary"
+            }
+          }
+        },
+        "name" : "mainSim-summary",
+        "properties" : {
+          "summary-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacement\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-nb" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"n°\"},\"FR\":{\"status\":\"\",\"translation\":\"n°\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-patient-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-pretri-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"preTri Result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat du pré-tri\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:582621:U3Go86",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -6438,10 +6474,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/locationState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#110:SRGENq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/mainSimulationState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#80:E5GgqQ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/patientState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#109:VByUlW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7174,7 +7228,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev NEW MAP",
+  "name" : "MIMMS main simulation dev in progress",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

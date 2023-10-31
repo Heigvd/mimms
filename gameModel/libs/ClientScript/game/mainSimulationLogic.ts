@@ -106,7 +106,6 @@ function initMainState(): MainSimulationState {
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-	pretriageResults: {},
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,

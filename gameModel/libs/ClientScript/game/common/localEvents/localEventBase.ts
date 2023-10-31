@@ -1,4 +1,3 @@
-import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
@@ -8,7 +7,7 @@ import { TimeSliceDuration } from "../constants";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import * as PatientState from "../simulationState/patientStateAccess";
+import { PatientState } from "../simulationState/patientState";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
@@ -137,8 +136,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
-    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
+  updatePatients(patients: Readonly<PatientState[]>, timeJump: number) {
+    computeNewPatientsState(patients as PatientState[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {

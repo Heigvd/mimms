@@ -423,7 +423,7 @@
       }, {
         "@class" : "Page",
         "id" : "57",
-        "name" : "PreTriSummaryPage",
+        "name" : "PatientSummaryPage",
         "scenaristPage" : null,
         "trainerPage" : null
       } ],

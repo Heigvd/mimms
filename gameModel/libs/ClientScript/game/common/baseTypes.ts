@@ -1,3 +1,5 @@
+import { LocationEnum } from './simulationState/locationState';
+
 /**
  * Represents the time in the simulation in seconds
  */
@@ -26,3 +28,7 @@ export type ActionTemplateId = number;
 export type TaskId = number;
 
 export type ResourceId = number;
+
+export type PatientId = string;
+
+export type Location = LocationEnum;
