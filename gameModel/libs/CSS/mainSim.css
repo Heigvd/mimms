@@ -139,11 +139,37 @@ html{
 	background-color: var(--gray_200);
 }
 
+
+/********************** HEADER PANEL *********************************************/
+.headerPanels-container {
+  width: 100%;
+  height: auto;
+  top: 0px;
+  padding: 1rem; 
+  
+
+}
+
+.headerPanels {
+  background: var(--gray_WHITE);
+  border-radius: var(--S_borderRadius);
+  width: auto;
+  height: auto;
+  pointer-events: auto;
+  max-height: 100%;
+
+ 
+}
+
+.headerPanels > * {
+  padding: 0;
+}
+
 /********************** GENERAL PANEL *********************************************/
 .generalPanels-container {
   width: auto;
   height: auto;
-  top: 0;
+  top: 142px;
   padding: 1rem; 
   
 
@@ -170,10 +196,13 @@ html{
 	max-height: 30rem;
 	overflow-y: auto;
 	scrollbar-width: thin;
-	scrollbar-color: var(--gray_500) var(--gray_200);
-	
-	
+	scrollbar-color: var(--gray_500) var(--gray_200);	
 }
+
+.leftPanel:first-of-type .allDisplay-container{
+	min-width: 31.5rem;
+}
+
 ::scrollbar-thumb{
     border-radius: 10px;
 	}
@@ -188,6 +217,15 @@ html{
 	font-size: var(--ML_text);
 	border-top-left-radius: var(--S_borderRadius);
 	border-top-right-radius:var(--S_borderRadius);
+}
+
+.panel-title-header {
+	border-bottom-left-radius: var(--S_borderRadius);
+	border-top-right-radius: 0;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
 }
 
 .leftPanel-title{
@@ -247,7 +285,7 @@ color: var(--colors-primarycolor);
 }
 
 .action-container.not-planned{
-	opacity: 70%;
+	opacity: 50%;
 }
 
 .actionHeader{
@@ -300,7 +338,6 @@ color: var(--colors-primarycolor);
 .playActionBtn > *{
 margin: .5em;
 padding: .5em;
-padding-left: .7em ;
 height: 2em;
 width: 2em;
 border-radius: 50%;
@@ -315,7 +352,28 @@ background: var(--secondaryInterface_400);
 	cursor: pointer;
 }
 
+.nextActionBtn > * {
+    /* margin: 0.5em; */
+    padding: 0.5em;
+    padding-left: 1.5em;
+    height: 3.5em;
+    width: 5.5em;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    /* align-content: flex-end; */
+    font-weight: var(--boldWeight);
+    color: var(--gray_WHITE);
+    background: var(--secondaryInterface_400);
+}
 
+.nextActionBtn:hover > *{
+	background: var(--secondaryInterface_200);
+	cursor: pointer;
+}
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
+}
+    
 /****** ressources ******/
 
 
@@ -764,8 +822,8 @@ height: 3em;
 .next-container{
 z-index: 4;
 position: absolute;
-top: -.6em;
-right: 5em;
+top: -2.3em;
+right: 2em;
 overflow: visible;
 }
 

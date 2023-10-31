@@ -1,4 +1,4 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { endMapAction, getMapState, startMapAction } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
@@ -129,9 +129,7 @@ export function formatTime(dateTime: Date) {
 }
 
 export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
-	if (Context.action instanceof RequestResourcesFromActorActionTemplate) {
-		return "53";
-	} else if (Context.action instanceof SendResourcesToActorActionTemplate) {
+	if (Context.action instanceof SendResourcesToActorActionTemplate) {
 		return "54";
 	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
 		return "55";

@@ -358,12 +358,6 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "53",
-          "name" : "requestResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "54",
           "name" : "sendResources",
           "scenaristPage" : null,

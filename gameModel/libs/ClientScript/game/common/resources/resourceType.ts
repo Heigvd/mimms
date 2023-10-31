@@ -5,24 +5,24 @@
 
 // TODO See which translations are OK
 
+export const MaterialResourceTypeArray = ['ambulance', 'helicopter', 'PMA'] as const;
+// type inference
+export type MaterialResourceType = typeof MaterialResourceTypeArray[number];
+
+export const HumanResourceTypeArray = 
+[
+	'secouriste', 
+	'technicienAmbulancier', 
+	'ambulancier', 
+	'infirmier', 
+	'medecinJunior', 
+	'medecinSenior'
+] as const;
+
+export type HumanResourceType = typeof HumanResourceTypeArray[number];
+
 export type ResourceType = HumanResourceType | MaterialResourceType;
 
-export type HumanResourceType =
-	'secouriste'
-	| 'technicienAmbulancier'
-	| 'ambulancier'
-	| 'infirmier'
-	| 'medecinJunior'
-	| 'medecinSenior';
+export const ResourcesArray = [...MaterialResourceTypeArray, ...HumanResourceTypeArray] as const;
 
-export type MaterialResourceType = 'ambulance' | 'helicopter';
-
-/**
- * Combination of a type and an associated number of resources
- */
-export type ResourceTypeAndNumber = {
-	type: ResourceType;
-	nb: number;
-}
-
-export const HumanResourceTypeArray: HumanResourceType[] = ['secouriste', 'technicienAmbulancier', 'ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior'];
+export type ResourceTypeAndNumber = Partial<Record<ResourceType,number>>;
