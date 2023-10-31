@@ -24,6 +24,18 @@
         }
       },
       "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "TmpFeatures",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "'MAPSTATE ' + JSON.stringify(Context.mapState.state)",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
     } ],
     "layout" : {
       "flexDirection" : "column"

@@ -352,7 +352,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
 
   public readonly featureKey: string;
-  public readonly featurePayload: string[];
+  public readonly featurePayload: any[];
 
   constructor(
     title: TranslationKey,

@@ -1,4 +1,4 @@
-import { GeometryType } from "../game/common/events/defineMapObjectEvent";
+import { GeometryType, isGeometryType } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
 import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
@@ -12,7 +12,7 @@ export function getInitialMapState() {
 		mapAction: false,
 		mapSelect: false,
 		selectionKey: '',
-		selectionIds: [],
+		selectionFeatures: [],
 		multiClick: false,
 		tmpFeature: {
 			feature: [],
@@ -62,8 +62,15 @@ export function startMapSelect(params: any) {
 	clearMapState();
 	const newState = Helpers.cloneDeep(Context.mapState.state);
 	newState.mapSelect = true;
-	newState.selectionKey = params.key;
-	newState.selectionIds = params.ids;
+
+	if (isGeometryType(params.key)) {
+		newState.tmpFeature.geometryType = params.key;
+		newState.tmpFeature.feature = params.features;
+	} else {
+		newState.selectionKey = params.key;
+		newState.selectionFeatures = params.features;
+	}
+
 	Context.mapState.setState(newState);
 	buildingsRef.current.changed();
 }
@@ -84,6 +91,8 @@ export function handleMapClick(
 	logger.info('MAP ACTION: Map click')
 	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
 
+	wlog(features)
+
 
 	if (Context.mapState.state.mapAction && Context.mapState.state.tmpFeature.geometryType === 'Point') {
 		const newState = Helpers.cloneDeep(Context.mapState.state);
@@ -94,7 +103,7 @@ export function handleMapClick(
 		newState.tmpFeature.feature.push([point.x, point.y]);
 		Context.mapState.setState(newState);
 	} else if (Context.mapState.state.mapSelect) {
-		const selected = features.find(f => Context.mapState.state.selectionIds.includes(f.feature[Context.mapState.state.selectionKey]));
+		const selected = features.find(f => Context.mapState.state.selectionFeatures.includes(f.feature[Context.mapState.state.selectionKey]));
 		if (selected) {
 			const currentActionRef = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
 			const currentActorUid = Context.interfaceState.state.currentActorUid;

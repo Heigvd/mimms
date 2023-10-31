@@ -80,23 +80,39 @@ export function getUnavailableLayer() {
  */
 export function getTmpLayer() {
 	const feature = Context.mapState.state.tmpFeature;
-	const formattedFeature: MapFeature[] = [{
-		ownerId: Context.interfaceState.state.currentActorUid,
-		geometryType: feature.geometryType,
-		geometry: feature.feature,
-		name: 'tmpFeature'
-	}];
+	let formattedFeature: MapFeature[] = [];
 
-	if (feature.geometryType === 'LineString') {
-		feature.feature.forEach((point: PointLikeObject) => {
-			formattedFeature.push({
-				ownerId: Context.interfaceState.state.currentActorUid,
-				geometryType: 'Point',
-				geometry: point,
-				name: 'tmpFeaturePoint'
+	if (Context.mapState.state.mapSelect) {
+		if (feature.geometryType === 'Point') {
+			feature.feature.forEach((point: PointLikeObject) => {
+				formattedFeature.push({
+					ownerId: Context.interfaceState.currentActionUid,
+					geometryType: 'Point',
+					geometry: point,
+					name: 'tmpFeaturePoint'
+				})
 			})
-		})
-	};
+		}
+	} else {
+		formattedFeature.push({
+			ownerId: Context.interfaceState.state.currentActorUid,
+			geometryType: feature.geometryType,
+			geometry: feature.feature,
+			name: 'tmpFeature'
+		});
+
+		if (feature.geometryType === 'LineString') {
+			feature.feature.forEach((point: PointLikeObject) => {
+				formattedFeature.push({
+					ownerId: Context.interfaceState.state.currentActorUid,
+					geometryType: 'Point',
+					geometry: point,
+					name: 'tmpFeaturePoint'
+				})
+			})
+		};
+	}
+
 
 	return getLayer(formattedFeature, 'TmpLayer')
 }

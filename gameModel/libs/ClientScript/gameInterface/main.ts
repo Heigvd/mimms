@@ -73,8 +73,6 @@ export function actionClickHandler (id: number, params: any) : void {
 		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
 			startMapAction(params);
 		} else if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'LineString') {
-			wlog('actionClickHandler')
-			wlog(params)
 			startMapActionLine(params);
 		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});

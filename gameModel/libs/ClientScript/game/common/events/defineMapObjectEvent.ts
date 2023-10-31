@@ -21,6 +21,10 @@ export type InteractionType = 'Select' | 'Define'
 
 export type GeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
 
+export function isGeometryType(str: string) {
+  return ['Point', 'LineString', 'Polygon', 'MultiPolygon'].includes(str);
+};
+
 interface BaseFeature {
   ownerId: ActorId,
   name: string,
