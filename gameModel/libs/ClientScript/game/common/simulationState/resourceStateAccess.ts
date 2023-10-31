@@ -54,8 +54,9 @@ export function transferResourcesBetweenActors(state: MainSimulationState, sende
 		if (matchingResources.length >= nbResourcesToTransfer) {
 			for (let i = 0; i < nbResourcesToTransfer; i++) {
 			const r = matchingResources[i]!;
-			targetGroup.addResource(r);
+			// first remove, then add. Otherwise we have problems transferring resource to ourselves
 			senderGroup.removeResource(r);
+			targetGroup.addResource(r);
 			}
 
 		} else {
