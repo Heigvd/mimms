@@ -131,6 +131,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placeAccess = new DefineMapObjectTemplate('define-Access-title', 'define-Access-desc', TimeSliceDuration, 'define-Access-feedback', {geometryType: 'LineString', name: 'Access Route'});
 
   const selectPMA = new SelectMapObjectTemplate('select-PMA-title', 'select-PMA-desc', TimeSliceDuration, 'select-PMA-feedback', '@id', ['way/82683752', 'way/160572065', 'way/82753477']);
+  const selectPMA2 = new SelectMapObjectTemplate('select-PMA2-title', 'select-PMA2-desc', TimeSliceDuration, 'select-PMA2-feedback', 'Point', [[2500116.8216012754,1118528.9652622677], [2500108.1037250236,1118471.3135944402], [2500068.643647305,1118423.0058917801]]);
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
@@ -170,6 +171,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccess.getTemplateRef()] = placeAccess;
   templates[selectPMA.getTemplateRef()] = selectPMA;
+  templates[selectPMA2.getTemplateRef()] = selectPMA2;
   templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[requestResources.getTemplateRef()] = requestResources;
   templates[sendResources.getTemplateRef()] = sendResources;

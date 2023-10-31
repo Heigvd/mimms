@@ -18,7 +18,7 @@ import {
   GetInformationAction,
   RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
-import { CustomFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload } from "../events/defineMapObjectEvent";
+import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -285,6 +285,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
 // Feature
 // Any payload or shared ?
 
+
 export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
   
   constructor(
@@ -296,7 +297,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
       geometryType: GeometryType,
       name: string,
       icon?: string,
-	  feature?: CustomFeature,
+	  feature?: DefineFeature,
     }
   ) {
     super(title, description, duration, message);
@@ -315,7 +316,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature as unknown as CustomFeature,
+      feature: feature as unknown as DefineFeature,
     }
   }
 
@@ -351,19 +352,19 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
 
   public readonly featureKey: string;
-  public readonly featureIds: string[];
+  public readonly featurePayload: string[];
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    featureKey: string | 'Feature',
-    features: string[],
+    featureKey: GeometryType | string,
+    featurePayload: any[],
   ) {
     super(title, description, duration, message)
     this.featureKey = featureKey;
-    this.featureIds = features;
+    this.featurePayload = featurePayload;
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload): SelectMapObjectEvent {
