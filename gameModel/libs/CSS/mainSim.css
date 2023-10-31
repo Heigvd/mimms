@@ -194,13 +194,15 @@ html{
 .allDisplay-container{
 	flex-direction: column;
 	max-height: 30rem;
-	min-width: 31.5rem;
 	overflow-y: auto;
 	scrollbar-width: thin;
-	scrollbar-color: var(--gray_500) var(--gray_200);
-	
-	
+	scrollbar-color: var(--gray_500) var(--gray_200);	
 }
+
+.leftPanel:first-of-type .allDisplay-container{
+	min-width: 31.5rem;
+}
+
 ::scrollbar-thumb{
     border-radius: 10px;
 	}
