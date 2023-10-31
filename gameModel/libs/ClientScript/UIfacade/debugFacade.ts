@@ -1,6 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { getActionTemplate, planAction } from '../UIfacade/actionFacade';
+import { fetchMethaneRequestValues } from '../gameInterface/actionsButtonLogic';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -11,14 +12,17 @@ export function getAllActionTemplates() {
 }
 
 export async function planMethaneAction() {
+	wlog('PLAN METHANE ACTION');
 	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
 	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
 	const methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)
 	wlog(methaneInputInformation);
+	// TODO use a local state
 	APIMethods.runScript(
 		'Variable.find(gameModel, "modalPageNumber").setValue(self, 48);', {}
     );
-	return planAction(actTpl!.getTemplateRef(), actor!)
+	const params = fetchMethaneRequestValues();
+	return planAction(actTpl!.getTemplateRef(), actor!, params);
 
 }
 

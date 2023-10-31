@@ -4,11 +4,10 @@
 import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
-	AskReinforcementActionTemplate,
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
-	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -25,6 +24,9 @@ import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
+import { resetSeedId } from "./common/resources/resourceContainer";
+import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
+import { ResourceGroup } from "./common/resources/resourceGroup";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -56,13 +58,12 @@ function initMainState(): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
-  const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
+  const testAL = new Actor('AL');
 
   const mainAccident: PointFeature = {
 	ownerId: 0,
     geometryType: 'Point',
     name: "Lieu de l'accident",
-    //geometry: [2497449.9236694486,1120779.3310497932],
     geometry: [2500100,1118500],
 	icon: 'mainAccident',
   }
@@ -71,35 +72,39 @@ function initMainState(): MainSimulationState {
   //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
 	const initialResources = [
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinSenior', testAL.Uid),];
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('technicienAmbulancier'),
+		new Resource('technicienAmbulancier'),
+		new Resource('technicienAmbulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('ambulancier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('infirmier'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinSenior'),];
 
 
+	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
+	testGroup.addResource(initialResources[0]);
+	testGroup.addResource(initialResources[1]);
+	
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
@@ -110,6 +115,8 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
+	resourceContainers: loadEmergencyResourceContainers(),
+	resourceGroups: [testGroup]
   }, 0, 0);
 
 }
@@ -129,6 +136,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
   const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
 
+/*
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
 		  ownerId: 0,
@@ -147,14 +155,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 			]]
 			],
   	}});
+	  */
 
-  const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
 
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
   const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
-
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ambulancier', 5, 'ask-reinforcement-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -165,12 +171,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  templates[placeSectors.getTemplateRef()] = placeSectors;
-  templates[requestResources.getTemplateRef()] = requestResources;
+  //templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
-  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }
@@ -386,6 +390,7 @@ export function recomputeState(){
   ActionTemplateBase.resetIdSeed();
   TaskBase.resetIdSeed();
   Resource.resetIdSeed();
+  resetSeedId();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
 	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());

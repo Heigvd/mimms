@@ -32,16 +32,16 @@ export function createResourceAllocationLocalEvent(globalEvent: FullEvent<Resour
  * how many maximum resources are useful for the task.
  */
 function findEffectiveNbResourcesToAllocate(state: Readonly<MainSimulationState>,
-																						taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
+	taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
 
     if (TaskState.isTaskAlive(state, taskId)) {
       const nbAvailable: number = ResourceState.getResourcesAvailable(state, actorId, type).length;
       const taskNbStillMissingResources = TaskState.getNbResourcesStillUsefulForTask(state, taskId, type);
       const nbFeasible = Math.min(nbRequested, nbAvailable, taskNbStillMissingResources);
       return nbFeasible;
-    }
+    } 
 
-  return 0;
+	return 0;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ export function createResourceReleaseLocalEvent(globalEvent: FullEvent<ResourceR
  * The restrictions are : how many are requested, how many resources are allocated to the task.
  */
 function findEffectiveNbResourcesToRelease(state: Readonly<MainSimulationState>,
-                                           taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
+	taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
 
     const nbAvailable: number = ResourceState.getResourcesAllocatedToTaskForActor(state, taskId, actorId, type).length;
     const nbFeasible = Math.min(nbRequested, nbAvailable);

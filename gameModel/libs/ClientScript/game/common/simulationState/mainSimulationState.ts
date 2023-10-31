@@ -8,7 +8,10 @@ import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
+import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
+import { ResourceContainerConfig, ResourceContainerDefinitionId, ResourceContainerType } from "../resources/resourceContainer";
+import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 
 
@@ -49,6 +52,8 @@ export class MainSimulationState implements IClonable {
       tasks : [...this.internalState.tasks],
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
+	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers),
+	  resourceGroups: Helpers.cloneDeep(this.internalState.resourceGroups)
     }
   }
 
@@ -99,6 +104,14 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
+   * Get map of containers
+   */
+  public getResourceContainersByType() : Record<ResourceContainerType, ResourceContainerConfig[]>{
+	  const defs = getAllContainerDefs();
+	return group(this.internalState.resourceContainers, (c =>  defs[c.templateId].type));
+  }
+
+  /**
    * Only use when applying events
    * @param jump jump in seconds
    */
@@ -112,6 +125,8 @@ export class MainSimulationState implements IClonable {
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
     return this.internalState.actors.find(a => a.Uid === actorId);
   }
+
+
 
   public getAllActors(): Readonly<Actor[]> {
     return this.internalState.actors;
@@ -130,6 +145,10 @@ export class MainSimulationState implements IClonable {
    */
   public getActionsByActorIds(): Record<ActorId, Readonly<ActionBase>[]> {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
+  }
+
+  public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined{
+	  return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
   }
 
   /**
@@ -169,6 +188,11 @@ interface MainStateObject {
   actors : Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];
+  resourceGroups: ResourceGroup[];
+  /**
+   * Resources containers that can be dispatched by the emergency dept.
+   */
+  resourceContainers: ResourceContainerConfig[];
 }
 
 // experimental to make an object immutable

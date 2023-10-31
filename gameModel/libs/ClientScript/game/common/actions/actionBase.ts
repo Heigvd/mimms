@@ -2,18 +2,18 @@ import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, Transla
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import {
-	AddActorLocalEvent,
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
-	IncomingResourcesLocalEvent,
 	RemoveMapItemLocalEvent,
+	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
+import { ResourceFunction } from '../resources/resourceFunction';
+import { MethanePayload } from "../events/methaneEvent";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -233,7 +233,8 @@ export class MethaneAction extends StartEndAction {
     actionNameKey: TranslationKey, 
     eventId: GlobalEventId, 
     ownerId: ActorId, 
-    uuidTemplate: ActionTemplateId
+    uuidTemplate: ActionTemplateId,
+	private methanePayload: MethanePayload
   ){
     super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
@@ -245,8 +246,12 @@ export class MethaneAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event MethaneAction');
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-    localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, this.durationSec))
+	// TODO figure out emitter
+	const now = state.getSimTime();
+	const actor = state.getActorById(this.ownerId)!;
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, actor.Uid, actor.ShortName, this.messageKey))
+	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.methanePayload);
+	localEventManager.queueLocalEvent(dispatchEvent);
   }
 
   // TODO probably nothing
@@ -255,7 +260,7 @@ export class MethaneAction extends StartEndAction {
   }
 
   clone(): this {
-    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
+    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.methanePayload);
     clone.status = this.status;
     return clone as this;
   }
@@ -321,58 +326,6 @@ export class DefineMapObjectAction extends StartEndAction {
 }
 
 /**
- * Action to request resources from an actor
- */
-export class RequestResourcesFromActorAction extends StartEndAction {
-  public readonly messageKey: TranslationKey;
-
-  public readonly recipientActor: ActorId;
-
-  public readonly requestedResources: ResourceFunctionAndNumber[];
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    globalEventId: GlobalEventId,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    recipientActor: ActorId,
-    requestedResources: ResourceFunctionAndNumber[]) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
-    this.recipientActor = recipientActor;
-    this.requestedResources = requestedResources;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event RequestResourcesAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event RequestResourcesAction');
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
-    this.logger.warn("params to send to message " + JSON.stringify(this.requestedResources));
-
-    // TODO see how we can send requested resources
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.recipientActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-  override clone(): this {
-    const clone = new RequestResourcesFromActorAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.recipientActor, this.requestedResources);
-    clone.status = this.status;
-    return clone as this;
-  }
-}
-
-/**
  * Action to send resources to an actor
  */
 export class SendResourcesToActorAction extends StartEndAction {
@@ -380,7 +333,7 @@ export class SendResourcesToActorAction extends StartEndAction {
 
   public readonly receiverActor: ActorId;
 
-  public readonly sentResources: ResourceTypeAndNumber[];
+  public readonly sentResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -391,7 +344,7 @@ export class SendResourcesToActorAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     receiverActor: ActorId,
-    sentResources: ResourceTypeAndNumber[]) {
+    sentResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.receiverActor = receiverActor;
@@ -436,7 +389,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
   public readonly task: ResourceFunction;
 
-  public readonly assignedResources: ResourceTypeAndNumber[];
+  public readonly assignedResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -447,7 +400,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    assignedResources: ResourceTypeAndNumber[]) {
+    assignedResources: ResourceTypeAndNumber) {
 	super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
@@ -460,16 +413,16 @@ export class AssignTaskToResourcesAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event AssignTaskToResourcesAction');
-	this.logger.info('resourcestypeAndNumber:', this.assignedResources);
-	this.logger.info('Task:', this.task);
+    this.logger.info('resourcestypeAndNumber:', this.assignedResources);
+    this.logger.info('Task:', this.task);
 
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'secouriste', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'secouriste')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'technicienAmbulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'technicienAmbulancier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'ambulancier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'ambulancier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'infirmier', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'infirmier')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinJunior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinJunior')!.nb));
-	localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, 'medecinSenior', this.assignedResources.find(resourceTypeAndNumber => resourceTypeAndNumber.type === 'medecinSenior')!.nb));
-
+    // TODO one single event with all the changes at once
+    ResourcesArray.forEach((res) => {
+      const nbRes = this.assignedResources[res] || 0;
+      if(nbRes > 0){
+        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, res, nbRes));
+      }
+    })
   }
 
   // TODO probably nothing
@@ -492,7 +445,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
 
   public readonly task: ResourceFunction;
 
-  public readonly releasedResources: ResourceTypeAndNumber[];
+  public readonly releasedResources: ResourceTypeAndNumber;
 
   constructor(
     startTimeSec: SimTime,
@@ -503,7 +456,7 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    releasedResources: ResourceTypeAndNumber[]) {
+    releasedResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.messageKey = messageKey;
     this.task = task;
@@ -532,50 +485,3 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
   }
 }
 
-/**
- * Action to ask for more resources
- */
-// FIXME see if needed to ask for several resources at same time
-export class AskReinforcementAction extends StartEndAction {
-  public readonly resourceType: ResourceType;
-  public readonly nb: number;
-
-
-  constructor(startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    resourceType: ResourceType,
-    nb: number,
-    messageKey: TranslationKey,
-    uuidTemplate: ActionTemplateId
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.resourceType = resourceType;
-    this.nb = nb;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event AskReinforcementAction');
-    //likely nothing to do
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event AskReinforcementAction');
-    localEventManager.queueLocalEvent(new IncomingResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.resourceType, this.nb));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'CASU', this.messageKey));
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-  override clone(): this {
-    const clone = new AskReinforcementAction(this.startTime, this.durationSec, this.actionNameKey, this.eventId, this.ownerId, this.resourceType, this.nb, this.messageKey, this.templateId);
-    clone.status = this.status;
-    return clone as this;
-  }
-
-}

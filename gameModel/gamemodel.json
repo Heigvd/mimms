@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1698065383614,
+  "createdTime" : 1698591989066,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6354,6 +6354,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/events/methaneEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:571533:EQvISK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/interfaces",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6408,6 +6417,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/emergencyDepartment",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:30076644:5ntpRr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resource",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6417,10 +6435,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/resourceContainer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:30080917:KbL31o",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resourceFunction",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:542535:9AEN2O",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/resourceGroup",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:568001:79rfkm",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7180,7 +7216,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev NEW MAP",
+  "name" : "MIMMS main simulation XGO containers",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
