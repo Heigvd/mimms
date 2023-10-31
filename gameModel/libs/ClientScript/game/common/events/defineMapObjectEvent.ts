@@ -1,6 +1,8 @@
 import { ActorId, Position, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
+export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
+
 export interface FeaturePayload {
   id?: number | string,
   featureType: GeometryType | 'Select';

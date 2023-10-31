@@ -18,7 +18,7 @@ import {
   GetInformationAction,
   RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
-import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload } from "../events/defineMapObjectEvent";
+import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -351,31 +351,45 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 
 export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
 
-  public readonly featureKey: string;
-  public readonly featurePayload: any[];
+  
+  public readonly geometrySelection?: {
+    geometryType: GeometryType,
+    icon?: string,
+    geometries: PointLikeObjects[],
+  }
+
+  public readonly featuresSelection?: {
+    layerId: string,
+    featureKey: string,
+    featureIds: string[],
+  }
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    featureKey: GeometryType | string,
-    featurePayload: any[],
+    selection: { geometrySelection?: any, featuresSelection?: any},
   ) {
-    super(title, description, duration, message)
-    this.featureKey = featureKey;
-    this.featurePayload = featurePayload;
+    super(title, description, duration, message);
+    if (selection.geometrySelection) {
+      this.geometrySelection = selection.geometrySelection;
+    }
+    if (selection.featuresSelection) {
+      this.featuresSelection = selection.featuresSelection;
+    }
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload): SelectMapObjectEvent {
 
+    throw new Error('not yet implemented')
 
-      return {
-        ...this.initBaseEvent(timeStamp, initiator.Uid),
-        durationSec: this.duration,
-        featureKey: this.featureKey,
-        featureId: payload.featureId,
-      }
+      // return {
+      //   ...this.initBaseEvent(timeStamp, initiator.Uid),
+      //   durationSec: this.duration,
+      //   featureKey: this.featureKey,
+      //   featureId: payload.featureId,
+      // }
   }
 
   public getTemplateRef(): string {
@@ -383,9 +397,12 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
   }
 
   protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent>): SelectMapObjectAction {
-      const payload = event.payload;
-      const ownerId = payload.emitterCharacterId as ActorId; 
-      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureKey, payload.featureId, this.Uid)
+
+    throw new Error('not yet implemented')
+
+      // const payload = event.payload;
+      // const ownerId = payload.emitterCharacterId as ActorId; 
+      // return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureKey, payload.featureId, this.Uid)
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
