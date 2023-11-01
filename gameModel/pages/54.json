@@ -78,12 +78,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources[Context.resourceType.enum] = Context.sendResourcesNbSecouristes;\nContext.interfaceState.setState(newState);",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.sendResources[Context.resourceType.enum] = Context.sendResourcesNbForType;\nContext.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"sendResourcesNbSecouristes\"",
+                    "content" : "\"sendResourcesNbForType\"",
                     "language" : "TypeScript"
                   }
                 },

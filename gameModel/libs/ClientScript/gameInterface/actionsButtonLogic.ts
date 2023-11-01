@@ -1,12 +1,15 @@
-import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
-import { MethanePayload } from "../game/common/events/methaneEvent";
-import { getAllContainerDefs } from "../game/common/resources/emergencyDepartment";
-import { ResourceContainerDefinitionId, ResourceContainerType } from "../game/common/resources/resourceContainer";
-import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
-import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
-import { actionClickHandler } from "../gameInterface/main";
-import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
-import { getAllActors } from "../UIfacade/actorFacade";
+import { MethanePayload } from '../game/common/events/methaneEvent';
+import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
+import {
+	isAssignResourcesToTaskActionTemplate,
+	isDefineMapObjectTemplate,
+	isMethaneActionTemplate,
+	isReleaseResourcesToTaskActionTemplate,
+	isSendResourcesToActorActionTemplate,
+} from '../UIfacade/actionFacade';
+import { getAllActors } from '../UIfacade/actorFacade';
+import { getEmptyResourceRequest } from './interfaceState';
+import { actionClickHandler } from './main';
 
 export function runActionButton(){
 	const actionRefUid = Context.action.Uid;
@@ -17,7 +20,7 @@ export function runActionButton(){
 		params = Context.action.featureType;
 
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-		const sentResources : ResourceTypeAndNumber = {}
+		const sentResources : ResourceTypeAndNumber = {};
 
 		ResourcesArray.forEach(resourceType => {
 			const amount = Context.interfaceState.state.resources.sendResources[resourceType];
@@ -37,28 +40,40 @@ export function runActionButton(){
 		Context.interfaceState.setState(newState);
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
+		const resourcesForAssignation : ResourceTypeAndNumber = {};
 
-		// TODO !! generate directly from ResourcesArray as above, but requires a foreach in wegas components and Context.variables renaming
+		ResourcesArray.forEach(resourceType => {
+			const amount = Context.interfaceState.state.resources.assignResources[resourceType];
+			if(amount){
+				resourcesForAssignation[resourceType]= amount;
+			}
+		});
 
-		const assignedResources: ResourceTypeAndNumber = {
-			'secouriste': Context.interfaceState.state.resources.assignTask.nbSecouristes,
-			'technicienAmbulancier': Context.interfaceState.state.resources.assignTask.nbTechAmbulanciers,
-			'ambulancier': Context.interfaceState.state.resources.assignTask.nbAmbulanciers,
-			'infirmier': Context.interfaceState.state.resources.assignTask.nbInfirmiers,
-			'medecinJunior': Context.interfaceState.state.resources.assignTask.nbMedJunior,
-			'medecinSenior': Context.interfaceState.state.resources.assignTask.nbMedSenior,
-		};
-
-		params = {task: Context.interfaceState.state.resources.assignTask.selectedTaskId, assignedResources: assignedResources};
+		params = {task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation};
 
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.resources.assignTask.selectedTaskId = '';
-		newState.resources.assignTask.nbSecouristes = '0';
-		newState.resources.assignTask.nbTechAmbulanciers = '0';
-		newState.resources.assignTask.nbAmbulanciers = '0';
-		newState.resources.assignTask.nbInfirmiers = '0';
-		newState.resources.assignTask.nbMedJunior = '0';
-		newState.resources.assignTask.nbMedSenior = '0';
+		newState.resources.assignResources.selectedTaskId = '';
+		ResourcesArray.forEach(resourceType => {
+			newState.resources.assignResources[resourceType] = 0;
+		});
+		Context.interfaceState.setState(newState);
+	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
+		const resourcesForRelease : ResourceTypeAndNumber = {};
+
+		ResourcesArray.forEach(resourceType => {
+			const amount = Context.interfaceState.state.resources.releaseResources[resourceType];
+			if(amount){
+				resourcesForRelease[resourceType]= amount;
+			}
+		});
+
+		params = {task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease};
+
+		const newState = Helpers.cloneDeep(Context.interfaceState.state)
+		newState.resources.releaseResources.selectedTaskId = '';
+		ResourcesArray.forEach(resourceType => {
+			newState.resources.releaseResources[resourceType] = 0;
+		});
 		Context.interfaceState.setState(newState);
 	} else if(isMethaneActionTemplate(actionRefUid)){
 

@@ -19,23 +19,25 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-			assignTask: {
+			assignResources: {
 				selectedTaskId: '',
-				nbSecouristes: '0',
-				nbTechAmbulanciers: '0',
-				nbAmbulanciers: '0',
-				nbInfirmiers: '0',
-				nbMedJunior: '0',
-				nbMedSenior: '0',
+				// the keywords must be those of HumanResourceTypeArray
+				secouriste: 0,
+				technicienAmbulancier: 0,
+				ambulancier: 0,
+				infirmier: 0,
+				medecinJunior: 0,
+				medecinSenior: 0,
 			},
-			releaseTask: {
+			releaseResources: {
 				selectedTaskId: '',
-				nbSecouristes: '0',
-				nbTechAmbulanciers: '0',
-				nbAmbulanciers: '0',
-				nbInfirmiers: '0',
-				nbMedJunior: '0',
-				nbMedSenior: '0',
+				// the keywords must be those of HumanResourceTypeArray
+				secouriste: 0,
+				technicienAmbulancier: 0,
+				ambulancier: 0,
+				infirmier: 0,
+				medecinJunior: 0,
+				medecinSenior: 0,
 			},
 
 			requestedResources: getEmptyResourceRequest(),

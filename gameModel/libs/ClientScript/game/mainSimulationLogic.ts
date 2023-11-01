@@ -102,8 +102,33 @@ function initMainState(): MainSimulationState {
 
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
-	testGroup.addResource(initialResources[0]);
-	testGroup.addResource(initialResources[1]);
+	testGroup.addResource(initialResources[0]!);
+	testGroup.addResource(initialResources[1]!);
+	// testGroup.addResource(initialResources[2]!);
+	// testGroup.addResource(initialResources[3]!);
+	// testGroup.addResource(initialResources[4]!);
+	// testGroup.addResource(initialResources[5]!);
+	// testGroup.addResource(initialResources[6]!);
+	// testGroup.addResource(initialResources[7]!);
+	// testGroup.addResource(initialResources[8]!);
+	// testGroup.addResource(initialResources[9]!);
+	// testGroup.addResource(initialResources[10]!);
+	// testGroup.addResource(initialResources[11]!);
+	// testGroup.addResource(initialResources[12]!);
+	// testGroup.addResource(initialResources[13]!);
+	// testGroup.addResource(initialResources[14]!);
+	// testGroup.addResource(initialResources[15]!);
+	// testGroup.addResource(initialResources[16]!);
+	// testGroup.addResource(initialResources[17]!);
+	// testGroup.addResource(initialResources[18]!);
+	// testGroup.addResource(initialResources[19]!);
+	// testGroup.addResource(initialResources[20]!);
+	// testGroup.addResource(initialResources[21]!);
+	// testGroup.addResource(initialResources[22]!);
+	// testGroup.addResource(initialResources[23]!);
+	// testGroup.addResource(initialResources[24]!);
+	// testGroup.addResource(initialResources[25]!);
+	// testGroup.addResource(initialResources[26]!);
 	
   return new MainSimulationState({
     actions: [],
