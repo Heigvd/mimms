@@ -1,11 +1,8 @@
 import { SendResourcesToActorActionInput } from "../game/common/actions/actionTemplateBase";
 import { MethanePayload } from "../game/common/events/methaneEvent";
-import { getAllContainerDefs } from "../game/common/resources/emergencyDepartment";
-import { ResourceContainerDefinitionId, ResourceContainerType } from "../game/common/resources/resourceContainer";
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 import { actionClickHandler } from "../gameInterface/main";
-import { values } from "../tools/helper";
 import { isAssignResourcesToTaskActionTemplate, isDefineMapObjectTemplate, isMethaneActionTemplate, isSendResourcesToActorActionTemplate } from "../UIfacade/actionFacade";
 
 
@@ -92,19 +89,7 @@ export function runActionButton(){
 }
 
 export function fetchMethaneRequestValues(): MethanePayload {
-		// TODO generate dynamically from container definitions
-		// here tested with two actors defs and one resource def
-		/*
-		const cdefs = getAllContainerDefs();
-		const acsDef = values(cdefs).find((def) => def.type === 'ACS')!; // TODO remove that
-		const mcsDef = values(cdefs).find((def) => def.type === 'MCS')!; // TODO remove that
-		const emAmb = values(cdefs).find((def) => def.type === 'Ambulance')!; // TODO remove that
 
-		const requestedResources : Partial<Record<ResourceContainerType, number>> = {};
-		requestedResources[acsDef.type] = Context.interfaceState.state.resources.requestedResources.nbAcs;
-		requestedResources[mcsDef.type] = Context.interfaceState.state.resources.requestedResources.nbMcs;
-		requestedResources[emAmb.type] = Context.interfaceState.state.resources.requestedResources.nbAmb;
-		*/
 		const request = Context.interfaceState.state.resources.requestedResources;
 		
 		const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -113,6 +98,5 @@ export function fetchMethaneRequestValues(): MethanePayload {
 
 		// TODO cleaner and get all the fields
 		const res = {otherStuff : 'METHAN..... stuff', resourceRequest: request};
-		wlog(res);
 		return res;
 }

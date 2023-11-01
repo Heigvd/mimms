@@ -78,32 +78,14 @@ function initMainState(): MainSimulationState {
 		new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
-		new Resource('technicienAmbulancier'),
-		new Resource('technicienAmbulancier'),
-		new Resource('technicienAmbulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
-		new Resource('medecinSenior'),];
-
+	];
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
-	testGroup.addResource(initialResources[0]);
-	testGroup.addResource(initialResources[1]);
+	initialResources.forEach(r => testGroup.addResource(r));
 	
   return new MainSimulationState({
     actions: [],

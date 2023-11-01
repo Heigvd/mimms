@@ -3,9 +3,6 @@ import { getAllActors } from "../UIfacade/actorFacade";
 
 export function getInitialInterfaceState(){
 
-	
-	
-
 	return ({
 		currentActorUid: getAllActors()[0].Uid,
 		currentActionUid: 0,
@@ -29,6 +26,7 @@ export function getInitialInterfaceState(){
 				nbMedJunior: '0',
 				nbMedSenior: '0'
 			},
+			// TODO released resources
 			
 			requestedResources : getEmptyResourceRequest()
 		}
