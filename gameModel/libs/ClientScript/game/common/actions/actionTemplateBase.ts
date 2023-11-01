@@ -349,19 +349,21 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 
 }
 
-export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction, SelectMapObjectEvent> {
+export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
 
   
   public readonly geometrySelection?: {
     geometryType: GeometryType,
     icon?: string,
     geometries: PointLikeObjects[],
+	name: string,
   }
 
-  public readonly featuresSelection?: {
+  public readonly featureSelection?: {
     layerId: string,
     featureKey: string,
     featureIds: string[],
+	name: string,
   }
 
   constructor(
@@ -369,40 +371,57 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    selection: { geometrySelection?: any, featuresSelection?: any},
+    selection: { geometrySelection?: any, featureSelection?: any},
   ) {
     super(title, description, duration, message);
     if (selection.geometrySelection) {
       this.geometrySelection = selection.geometrySelection;
     }
-    if (selection.featuresSelection) {
-      this.featuresSelection = selection.featuresSelection;
+    if (selection.featureSelection) {
+      this.featureSelection = selection.featureSelection;
     }
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload): SelectMapObjectEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload | FeaturePayload): SelectMapObjectEvent | DefineMapObjectEvent {
 
-    throw new Error('not yet implemented')
+    if (this.geometrySelection) {
 
-      // return {
-      //   ...this.initBaseEvent(timeStamp, initiator.Uid),
-      //   durationSec: this.duration,
-      //   featureKey: this.featureKey,
-      //   featureId: payload.featureId,
-      // }
+		const feature = {
+			ownerId: initiator.Uid,
+			geometryType: this.geometrySelection.geometryType,
+			name: this.geometrySelection.name,
+			geometry: (payload as FeaturePayload).feature,
+			...this.geometrySelection.icon && {icon: this.geometrySelection.icon},
+		}
+
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			feature: feature as unknown as DefineFeature,
+		}
+	}
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			featureKey: this.featureSelection!.featureKey,
+			featureId: (payload as SelectPayload).featureId,
+		}
+	
   }
 
   public getTemplateRef(): string {
       return 'SelectMapObjectTemplate' + '_' + this.title;
   }
 
-  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent>): SelectMapObjectAction {
+  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>): SelectMapObjectAction | DefineMapObjectAction {
+	  const payload = event.payload;
+	  const ownerId = payload.emitterCharacterId as ActorId;
 
-    throw new Error('not yet implemented')
+	  if (this.geometrySelection) {
+		  return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
+	  }
 
-      // const payload = event.payload;
-      // const ownerId = payload.emitterCharacterId as ActorId; 
-      // return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureKey, payload.featureId, this.Uid)
+      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureSelection!.featureKey, (payload as SelectMapObjectEvent).featureId, this.Uid)
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {

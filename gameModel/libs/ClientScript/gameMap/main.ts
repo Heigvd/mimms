@@ -1,4 +1,4 @@
-import { GeometryType, isGeometryType } from "../game/common/events/defineMapObjectEvent";
+import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
 import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
@@ -11,13 +11,12 @@ export function getInitialMapState() {
 	return {
 		mapAction: false,
 		mapSelect: false,
-		selectionKey: '',
-		selectionFeatures: [],
 		multiClick: false,
 		tmpFeature: {
 			feature: [],
 			geometryType: 'Point',
-		}
+		},
+		selectionState: {},
 	};
 }
 
@@ -35,17 +34,7 @@ export function startMapAction(feature: GeometryType) {
 	logger.info('MAP ACTION: Action initiated');
 	const newState = Helpers.cloneDeep(Context.mapState.state);
 	newState.mapAction = true;
-	newState.tmpFeature.geometryType = feature;
-	Context.mapState.setState(newState);
-}
-
-export function startMapActionLine(feature: GeometryType) {
-	wlog(feature);
-	clearMapState();
-	logger.info('MAP ACTION: LineString action initiated');
-	const newState = Helpers.cloneDeep(Context.mapState.state);
-	newState.mapAction = true;
-	newState.multiClick = true;
+	newState.multiClick = feature !== 'Point';
 	newState.tmpFeature.geometryType = feature;
 	Context.mapState.setState(newState);
 }
@@ -62,17 +51,8 @@ export function startMapSelect(params: any) {
 	clearMapState();
 	const newState = Helpers.cloneDeep(Context.mapState.state);
 	newState.mapSelect = true;
-
-	if (isGeometryType(params.key)) {
-		newState.tmpFeature.geometryType = params.key;
-		newState.tmpFeature.feature = params.features;
-	} else {
-		newState.selectionKey = params.key;
-		newState.selectionFeatures = params.features;
-	}
-
+	newState.selectionState = params;
 	Context.mapState.setState(newState);
-	buildingsRef.current.changed();
 }
 
 /**
@@ -87,31 +67,53 @@ export function handleMapClick(
 		layerId?: string
 	}[],
 ): void {
+	const interfaceState = Context.interfaceState.state;
+	const mapState = Context.mapState.state;
 
 	logger.info('MAP ACTION: Map click')
 	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
 
-	wlog(features)
-
-
-	if (Context.mapState.state.mapAction && Context.mapState.state.tmpFeature.geometryType === 'Point') {
-		const newState = Helpers.cloneDeep(Context.mapState.state);
-		newState.tmpFeature.feature = [point.x, point.y];
-		Context.mapState.setState(newState);
-	} else if (Context.mapState.state.mapAction && Context.mapState.state.tmpFeature.geometryType === 'LineString') {
-		const newState = Helpers.cloneDeep(Context.mapState.state);
-		newState.tmpFeature.feature.push([point.x, point.y]);
-		Context.mapState.setState(newState);
-	} else if (Context.mapState.state.mapSelect) {
-		const selected = features.find(f => Context.mapState.state.selectionFeatures.includes(f.feature[Context.mapState.state.selectionKey]));
-		if (selected) {
-			const currentActionRef = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
-			const currentActorUid = Context.interfaceState.state.currentActorUid;
-			const params = {
-				featureId: selected.feature[Context.mapState.state.selectionKey]
-			}
-			planAction(currentActionRef, currentActorUid, params);
-			clearMapState();
+	if (mapState.mapAction) {
+		if (mapState.tmpFeature === 'Point') {
+			const newState = Helpers.cloneDeep(Context.mapState.state);
+			newState.tmpFeature.feature = [point.x, point.y];
+			Context.mapState.setState(newState);
+		} else {
+			const newState = Helpers.cloneDeep(Context.mapState.state);
+			newState.tmpFeature.feature.push([point.x, point.y]);
+			Context.mapState.setState(newState);
 		}
+	} else if (mapState.mapSelect) {
+		const ref = getActionTemplate(interfaceState.currentActionUid)!.getTemplateRef();
+		const actor = interfaceState.currentActorUid;
+
+		if (mapState.selectionState.geometryType) {
+			const feature = features.find(f => f.layerId === 'selectionLayer');
+
+			if (feature) {
+				const index = feature.feature.name as number;
+
+				const tmpFeature = {
+					geometryType: feature.feature.type,
+					feature: mapState.selectionState.geometries[index],
+				}
+
+				planAction(ref, actor, tmpFeature);
+			}
+		}
+		if (mapState.selectionState.layerId) {
+			const feature = features.find(f => f.layerId === mapState.selectionState.layerId)
+			if (feature) {
+				const id = feature.feature[mapState.selectionState.featureKey];
+
+				const tmpFeature = {
+					featureKey: mapState.selectionState.featureKey,
+					featureId: id,
+				}
+
+				planAction(ref, actor, tmpFeature)
+			}
+		}
+		clearMapState();
 	}
 }

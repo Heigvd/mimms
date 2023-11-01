@@ -13,7 +13,12 @@ export function runActionButton(){
 	if (isDefineMapObjectTemplate(actionRefUid)) {
 		params = Context.action.featureDescription.geometryType;
 	} else if (isSelectMapObjectTemplate(actionRefUid)) {
-		params = {key: Context.action.featureKey, features: Context.action.featurePayload};
+		if (Context.action.featureSelection) {
+			params = Context.action.featureSelection;
+		}
+		if (Context.action.geometrySelection) {
+			params = Context.action.geometrySelection;
+		}
 	} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {
 		//to be removed
 		const chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);

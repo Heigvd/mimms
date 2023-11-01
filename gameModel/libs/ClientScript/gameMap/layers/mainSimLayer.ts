@@ -77,23 +77,14 @@ export function getUnavailableLayer() {
 
 /**
  * Creates a layer from tmpFeature
+ * This layer displays the temporary feature defined by the user during a DefineMapObjectAction
  */
 export function getTmpLayer() {
 	const feature = Context.mapState.state.tmpFeature;
 	let formattedFeature: MapFeature[] = [];
 
-	if (Context.mapState.state.mapSelect) {
-		if (feature.geometryType === 'Point') {
-			feature.feature.forEach((point: PointLikeObject) => {
-				formattedFeature.push({
-					ownerId: Context.interfaceState.currentActionUid,
-					geometryType: 'Point',
-					geometry: point,
-					name: 'tmpFeaturePoint'
-				})
-			})
-		}
-	} else {
+
+	if (feature) {
 		formattedFeature.push({
 			ownerId: Context.interfaceState.state.currentActorUid,
 			geometryType: feature.geometryType,
@@ -114,7 +105,32 @@ export function getTmpLayer() {
 	}
 
 
+
 	return getLayer(formattedFeature, 'TmpLayer')
+}
+
+/**
+ * Creates a layer from Selection payload
+ * This layer displays the available selection when performing a SelectMapObjectAction
+ */
+export function getSelectionLayer() {
+	const selection = Context.mapState.state.selectionState;
+	let selectionFeatures: MapFeature[] = [];
+
+
+	if (selection.geometryType) {
+		selection.geometries.forEach((geometry: any, i: number) => {
+			selectionFeatures.push({
+				ownerId: Context.interfaceState.state.currentActorUid,
+				geometryType: selection.geometryType,
+				geometry: geometry,
+				name: String(i),
+				icon: selection.icon ?? undefined,
+			})
+		})
+	}
+
+	return getLayer(selectionFeatures, 'SelectionLayer');
 }
 
 

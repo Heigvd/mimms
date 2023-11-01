@@ -70,10 +70,8 @@ export function actionClickHandler (id: number, params: any) : void {
 	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {
-		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
+		if (template instanceof DefineMapObjectTemplate) {
 			startMapAction(params);
-		} else if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'LineString') {
-			startMapActionLine(params);
 		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
 		} else if (template instanceof SelectMapObjectTemplate) {
