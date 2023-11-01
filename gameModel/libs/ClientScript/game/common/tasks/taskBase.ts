@@ -5,11 +5,12 @@ import { SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { IClonable } from "../interfaces";
 import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
-import { doPatientAutomaticTriage, getNextNonPretriagedPatient, getNonPretriagedPatientsSize, getPretriagedAmountByCategory } from "../patients/pretriage";
+import { doPatientAutomaticTriage } from "../patients/pretriage";
 import { Resource } from "../resources/resource";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
+import { getNextNonPreTriagedPatient, getNonPreTriagedPatientsSize, getPreTriagedAmountByCategory } from '../simulationState/patientState';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
@@ -205,7 +206,7 @@ export class PreTriageTask extends DefaultTask {
 
   public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
     //return state.areZonesAlreadyDefined();
-	return getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults) > 0;
+	return getNonPreTriagedPatientsSize(state) > 0;
   }
 
   protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
@@ -214,39 +215,39 @@ export class PreTriageTask extends DefaultTask {
 		taskLogger.info("Not enough resources!");
       	return;
     }
-	taskLogger.info("Patients not pretriaged before action: " + getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults));
-	const RESOURCE_EFFICACITY = 1;
-	const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-    ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
-		if ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY >= TIME_REQUIRED_FOR_PATIENT_PRETRI){
-			
-			(resource as Resource).cumulatedUnusedTime = ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY) - TIME_REQUIRED_FOR_PATIENT_PRETRI;
-			const nextPatient = getNextNonPretriagedPatient(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults);
-			if (nextPatient)
-				state.getInternalStateObject().pretriageResults[nextPatient.id!] = doPatientAutomaticTriage(nextPatient)!;
-		}
-		else {
-			(resource as Resource).cumulatedUnusedTime += timeJump;
-		}
-	});
+		taskLogger.info("Patients not pretriaged before action: " + getNonPreTriagedPatientsSize(state));
+		const RESOURCE_EFFICACITY = 1;
+		const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
+			ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
+			if ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY >= TIME_REQUIRED_FOR_PATIENT_PRETRI){
 
-	taskLogger.info("Patients not pretriaged after action: " + getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults));
-
-	if (getNonPretriagedPatientsSize(state.getInternalStateObject().patients, state.getInternalStateObject().pretriageResults) === 0){
-		localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
-      	localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
-		
-		//get distinct pretriage categories with count
-		let result = "Result: ";
-		Object.entries(getPretriagedAmountByCategory(state.getInternalStateObject().pretriageResults)).forEach(([key, value]) => {
-			result += key + ": " + value + "\n";
+				(resource as Resource).cumulatedUnusedTime = ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY) - TIME_REQUIRED_FOR_PATIENT_PRETRI;
+				const nextPatient = getNextNonPreTriagedPatient(state);
+				if (nextPatient)
+					nextPatient.preTriageResult = doPatientAutomaticTriage(nextPatient.humanBody)!;
+			}
+			else {
+				(resource as Resource).cumulatedUnusedTime += timeJump;
+			}
 		});
 
-      	// FIXME See to whom and from whom
-      	state.getAllActors().forEach(actor => {
-        	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd + "\n" + result));
-      });
-	}
+		taskLogger.info("Patients not pretriaged after action: " + getNonPreTriagedPatientsSize(state));
+
+		if (getNonPreTriagedPatientsSize(state) === 0){
+			localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
+			localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
+
+			//get distinct pretriage categories with count
+			let result = "Result: ";
+			Object.entries(getPreTriagedAmountByCategory(state)).forEach(([key, value]) => {
+				result += key + ": " + value + "\n";
+			});
+
+			// FIXME See to whom and from whom
+			state.getAllActors().forEach(actor => {
+				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd + "\n" + result));
+			});
+		}
   }
 
   override clone(): this { 

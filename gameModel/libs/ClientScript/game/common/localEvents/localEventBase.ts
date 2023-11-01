@@ -1,4 +1,3 @@
-import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
@@ -7,6 +6,7 @@ import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, Trans
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import { PatientState } from "../simulationState/patientState";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
@@ -142,8 +142,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
-    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
+  updatePatients(patients: Readonly<PatientState[]>, timeJump: number) {
+    computeNewPatientsState(patients as PatientState[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
@@ -335,7 +335,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		
+
 		const containerDef = getContainerDef(this.containerDef);
 		const actors = sortByHierarchyLevel(state.getAllActors());
 		// find highest hierarchy group

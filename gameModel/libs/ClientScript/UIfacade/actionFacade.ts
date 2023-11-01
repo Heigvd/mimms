@@ -4,12 +4,24 @@
  * put minimal logic in here
  */
 
-import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
-import { ActionCreationEvent } from "../game/common/events/eventTypes";
-import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
-import { getAllActionTemplates } from "../UIfacade/debugFacade";
+import { ActionBase } from '../game/common/actions/actionBase';
+import {
+	ActionTemplateBase,
+	AssignTaskToResourcesActionTemplate,
+	DefineMapObjectTemplate,
+	MethaneTemplate,
+	ReleaseResourcesFromTaskActionTemplate,
+	SendResourcesToActorActionTemplate,
+} from '../game/common/actions/actionTemplateBase';
+import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
+import { ActionCreationEvent } from '../game/common/events/eventTypes';
+import {
+	buildAndLaunchActionCancellation,
+	buildAndLaunchActionFromTemplate,
+	fetchAvailableActions,
+	getCurrentState,
+} from '../game/mainSimulationLogic';
+import { getAllActionTemplates } from './debugFacade';
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -95,4 +107,12 @@ export function isSendResourcesToActorActionTemplate(id: number) {
 export function isAssignResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof AssignTaskToResourcesActionTemplate;
+}
+
+/**
+ * @param id Uid of given action template
+ */
+export function isReleaseResourcesToTaskActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }

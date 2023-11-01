@@ -7,6 +7,7 @@ import {
 	RemoveMapItemLocalEvent,
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
+	ResourcesReleaseLocalEvent,
 	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
@@ -463,15 +464,32 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     this.releasedResources = releasedResources;
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event FreeResourcesFromTaskAction');
-  }
+	protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+		this.logger.info('start event ReleaseResourcesFromTaskAction');
+	}
 
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event FreeResourcesFromTaskAction');
+	protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+		this.logger.info('end event ReleaseResourcesFromTaskAction');
+		this.logger.info('resourcesTypeAndNumber:', this.releasedResources);
+		this.logger.info('Task:', this.task);
 
-    // TODO
-  }
+		// TODO one single event with all the changes at once
+		ResourcesArray.forEach(res => {
+			const nbRes = this.releasedResources[res] || 0;
+			if (nbRes > 0) {
+				localEventManager.queueLocalEvent(
+					new ResourcesReleaseLocalEvent(
+						this.eventId,
+						state.getSimTime(),
+						+this.task,
+						this.ownerId,
+						res,
+						nbRes,
+					),
+				);
+			}
+		});
+	}
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
