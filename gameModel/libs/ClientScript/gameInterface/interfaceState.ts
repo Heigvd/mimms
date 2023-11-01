@@ -43,6 +43,7 @@ export function getInitialInterfaceState() {
 			requestedResources: getEmptyResourceRequest(),
 		},
 	};
+	
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {

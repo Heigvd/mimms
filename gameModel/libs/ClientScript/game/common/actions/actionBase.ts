@@ -249,9 +249,10 @@ export class MethaneAction extends StartEndAction {
     this.logger.info('end event MethaneAction');
 	// TODO figure out emitter
 	const now = state.getSimTime();
-	const actor = state.getActorById(this.ownerId)!;
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, actor.Uid, actor.ShortName, this.messageKey))
-	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.methanePayload);
+	//const actor = state.getActorById(this.ownerId)!;
+	// TODO filter when we get a full METHANE message
+    //localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, this.ownerId, actor.ShortName, this.messageKey))
+	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.methanePayload);
 	localEventManager.queueLocalEvent(dispatchEvent);
   }
 

@@ -12,8 +12,6 @@ export class LocalEventManager {
   private readonly logger = localEventManagerLogger;
   private readonly pendingEvents : Heap<LocalEventBase>;
   private readonly processedEvents: LocalEventBase[] = [];
-  // TODO figure out best data structure
-  // TODO certainly one heap for pending and a record by ts for processed ones
 
   constructor() {
     this.pendingEvents = new Heap(compareLocalEvents);
