@@ -73,7 +73,9 @@ export function actionClickHandler (id: number, params: any) : void {
 		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
 			startMapAction(params);
 		} else if (template instanceof MethaneTemplate) {
-			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
+			const newState = Helpers.cloneDeep(Context.interfaceState.state)
+			newState.showMethaneModal = true;
+			Context.interfaceState.setState(newState);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}
@@ -135,8 +137,6 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 		return "55";
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";
-	}	else if (Context.action instanceof MethaneTemplate) {
-		return "42";
 	}
 
 	return "";

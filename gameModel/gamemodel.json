@@ -5199,64 +5199,6 @@
           "version" : null,
           "visibility" : "PRIVATE"
         }, {
-          "@class" : "TextDescriptor",
-          "broadcastScope" : "TeamScope",
-          "comments" : "",
-          "defaultInstance" : {
-            "@class" : "TextInstance",
-            "refId" : "TextInstance:477070:luDFHz",
-            "trValue" : null
-          },
-          "editorTag" : "",
-          "isolation" : "OPEN",
-          "label" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:477071:RKeMAx",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:477071:RKeMAx::EN",
-                "status" : "",
-                "translation" : "methaneInput"
-              }
-            }
-          },
-          "name" : "methaneInput",
-          "refId" : "TextDescriptor:477069:sPP9UA",
-          "scopeType" : "TeamScope",
-          "version" : null,
-          "visibility" : "PRIVATE"
-        }, {
-          "@class" : "BooleanDescriptor",
-          "broadcastScope" : "TeamScope",
-          "comments" : "",
-          "defaultInstance" : {
-            "@class" : "BooleanInstance",
-            "refId" : "BooleanInstance:478373:tWdkWN",
-            "value" : false
-          },
-          "editorTag" : "",
-          "isolation" : "OPEN",
-          "label" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:478374:M9yzD3",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:478374:M9yzD3::EN",
-                "status" : "",
-                "translation" : "showMethaneModal"
-              }
-            }
-          },
-          "name" : "showMethaneModal",
-          "refId" : "BooleanDescriptor:478372:Necw1x",
-          "scopeType" : "TeamScope",
-          "version" : null,
-          "visibility" : "PRIVATE"
-        }, {
           "@class" : "NumberDescriptor",
           "broadcastScope" : "TeamScope",
           "comments" : "",

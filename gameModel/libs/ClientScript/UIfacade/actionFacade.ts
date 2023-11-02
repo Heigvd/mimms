@@ -9,6 +9,7 @@ import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjec
 import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
 import { ActionCreationEvent } from "../game/common/events/eventTypes";
 import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
+import { fetchMethaneRequestValues } from "../gameInterface/actionsButtonLogic";
 import { getAllActionTemplates } from "../UIfacade/debugFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
@@ -95,4 +96,14 @@ export function isSendResourcesToActorActionTemplate(id: number) {
 export function isAssignResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof AssignTaskToResourcesActionTemplate;
+}
+
+export async function planMethaneAction() {
+	const actor = Context.interfaceState.state.currentActorUid;
+	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
+	const params = fetchMethaneRequestValues();
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.showMethaneModal = false;
+	Context.interfaceState.setState(newState);
+	return await planAction(actTpl!.getTemplateRef(), actor!, params);
 }

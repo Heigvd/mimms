@@ -9,7 +9,9 @@
                 "className" : "modalTitle",
                 "layoutStyle" : { },
                 "name" : "modalTitle",
-                "style" : { },
+                "style" : {
+                  "width" : "100%"
+                },
                 "text" : {
                   "@class" : "Script",
                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
@@ -121,10 +123,13 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterM",
-                    "style" : { },
+                    "style" : {
+                      "padding" : "0px"
+                    },
                     "text" : {
                       "@class" : "Script",
                       "content" : "\"<p>M<br></p>\"",
@@ -134,6 +139,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -167,6 +173,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterE",
@@ -180,6 +187,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -213,6 +221,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterT",
@@ -226,6 +235,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -259,6 +269,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterH",
@@ -272,6 +283,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -305,6 +317,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterA",
@@ -318,6 +331,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -351,6 +365,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "methane-letter",
                     "layoutClassName" : "methane-letter-container",
                     "layoutStyle" : { },
                     "name" : "letterN",
@@ -364,6 +379,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -397,11 +413,26 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterE",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>E<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "padding-bottom" : "0px"
+                            },
                             "onCancel" : { },
                             "onVariableChange" : { },
                             "style" : { },
@@ -433,10 +464,19 @@
                               "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || 0;",
                               "language" : "TypeScript"
                             },
-                            "style" : { }
+                            "style" : {
+                              "width" : "100px"
+                            }
                           },
                           "type" : "Number input"
-                        } ]
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "width" : "200px"
+                        },
+                        "style" : {
+                          "flex-direction" : "column"
+                        }
                       },
                       "type" : "FlexList"
                     } ],
@@ -448,482 +488,15 @@
                     },
                     "itemKey" : "type",
                     "layout" : { },
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "For each"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterE",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>E<br></p>\"",
-                      "language" : "TypeScript"
+                    "layoutStyle" : {
+                      "margin-top" : "7px"
+                    },
+                    "style" : {
+                      "flex-wrap" : "wrap",
+                      "max-width" : "700px"
                     }
                   },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbAmb = Context.nbAmb;\nContext.interfaceState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"nbAmb\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAmb;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Ambulance(s)</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>SMUR<br></p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbEstafette')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>PICA</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Hélico</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>PMA<br></p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbEstafette')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>PCS</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbAcs = Context.value;\nContext.interfaceState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"value\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "// TODO not hard coded\n+Context.interfaceState.state.resources.requestedResources.nbAcs;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbBrancardier')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>ACS<br></p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources.nbMcs = Context.value;\nContext.interfaceState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"value\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "+Context.interfaceState.state.resources.requestedResources.nbMcs;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "chosenNumber-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'requestNbPretrieur')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { },
-                                "validator" : false
-                              },
-                              "type" : "String input"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "E-container-container",
-                                "layoutStyle" : { },
-                                "name" : "container",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>MCS<br></p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "flexDirection" : "row"
-                            },
-                            "layoutClassName" : "anE-ressource-container",
-                            "layoutStyle" : { },
-                            "name" : "anE-ressource-container",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ]
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutClassName" : "E-ressources-container",
-                    "layoutStyle" : { },
-                    "name" : "E-ressources-container",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
+                  "type" : "For each"
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
@@ -951,7 +524,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import {planMethaneAction} from \"./UIfacade/debugFacade\";\nplanMethaneAction();",
+                        "content" : "import {planMethaneAction} from \"./UIfacade/actionFacade\";\nplanMethaneAction();",
                         "language" : "TypeScript",
                         "returnType" : "Promise<unknown> | undefined"
                       }
@@ -995,11 +568,10 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin",
+    "layoutClassName" : "noPadding noMargin modal-methane-container",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
+      "overflow" : "auto"
     },
     "name" : "methaneInput",
     "style" : { }

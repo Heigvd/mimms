@@ -630,6 +630,11 @@ font-size: var(--M_text);
 	color: var(--orange);
 }
 
+.modal-methane-container {
+	max-width: 700px;
+} 
+
+
 .modalTitle{
 font-weight: var(--boldWeight);
 	font-size: var(--M_text);
@@ -661,6 +666,19 @@ font-weight: var(--boldWeight);
 	font-weight: var(--boldWeight);
 	color: var(--interface_BLUE);
 	}
+
+.methane-letter-container > .methane-letter > p {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	width: 11px;
+}
+
+.methane-letter-input {
+	padding-left: 15px;
+	width: 100%;
+}
 
 .anE-ressource-container{
 	width: 20em;

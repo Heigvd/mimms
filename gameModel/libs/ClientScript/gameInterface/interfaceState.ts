@@ -30,8 +30,10 @@ export function getInitialInterfaceState(){
 				nbMedSenior: '0'
 			},
 			
-			requestedResources : getEmptyResourceRequest()
-		}
+			requestedResources : getEmptyResourceRequest(),
+
+		},
+		showMethaneModal: false,
 	});
 }
 
