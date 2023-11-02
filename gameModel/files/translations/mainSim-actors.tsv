@@ -5,11 +5,5 @@ actor-mcs	MCS?	MCS
 actor-mcs-long	Chief emergency doctor?	Médecin Chef des Secours
 actor-al	AL?	AL
 actor-al-long	Leader Ambulance Driver?	Ambulancier Leader
-actor-evasan 	EVASAN	EVASAN
-actor-evasan-long	EVASAN	EVASAN
-secouriste	First aid	Secouriste
-technicienAmbulancier	Paramedic Technician?	Technicien Ambulancier
-ambulancier	Paramedic	Ambulancier
-infirmier	Nurse	Infirmier
-medecinJunior	Junior Doctor	Médecin Junior
-medecinSenior	Senior Doctor	Médecin Sénior
+actor-evasan 	EVASAN?	EVASAN
+actor-evasan-long	EVASAN?	EVASAN

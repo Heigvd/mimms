@@ -159,7 +159,9 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'general-likert',
 		'mainSim-interface',
 		'mainSim-actions-tasks',
-		'mainSim-actors'
+		'mainSim-actors',
+		'mainSim-resources',
+		'mainSim-summary'
 	]
 
 	variables.forEach(v => {

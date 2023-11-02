@@ -10,7 +10,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>N°</p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-nb');",
               "language" : "TypeScript"
             }
           },
@@ -23,7 +23,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-id');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-patient-id');",
               "language" : "TypeScript"
             }
           },
@@ -36,7 +36,20 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'correction');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-pretri-result');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "location",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-location');",
               "language" : "TypeScript"
             }
           },
@@ -78,6 +91,18 @@
                     "text" : {
                       "@class" : "Script",
                       "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization?.categoryId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "location",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.data.location;",
                       "language" : "TypeScript"
                     }
                   },

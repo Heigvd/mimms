@@ -1,6 +1,6 @@
 import { entries } from "../../../tools/helper";
 import { InterventionRole } from "../actors/actor";
-import { GlobalEventId, TranslationKey } from "../baseTypes";
+import { ActorId, GlobalEventId, TranslationKey } from "../baseTypes";
 import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -94,19 +94,18 @@ function addContainerDefinition (
  * if the resource is not available right away it will be sent later but scheduled
  * @param the global event id that triggered this request
  * @param request the amount and type formulated in the request
+ * @param author of the request
  * @param state the current state of the game
  */
 export function resolveResourceRequest(globalEventId: GlobalEventId, 
-	request :Record<ResourceContainerType, number>, 
+	request :Record<ResourceContainerType, number>,
+	senderId: ActorId,
 	state :MainSimulationState) {
 
 	const containers = state.getResourceContainersByType();
-	wlog('CONTAINERS',containers);
 	const now = state.getSimTime();
 	entries(request).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) =>  {
-		// take them by order of time availability
-		wlog('typeId !!!!!!!!!!!!!!', typeId);
-		
+		// order by time of availability
 		const cs = (containers[typeId] || []).filter(c => c.amount > 0).sort((c) => c.availabilityTime);
 		let found = 0;
 		for(let i = 0; i < cs.length && found < requestedAmount; i++){
@@ -118,7 +117,7 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 			
 			const departureTime = Math.max(c.availabilityTime, now);
 			const definition = getContainerDef(c.templateId);
-			const evt = new ResourceMobilizationEvent(globalEventId, now, departureTime, c.travelTime, definition.uid, n);
+			const evt = new ResourceMobilizationEvent(globalEventId, now, senderId, departureTime, c.travelTime, definition.uid, n);
 			wlog('MOB EVENT *********** ', evt);
 			localEventManager.queueLocalEvent(evt);
 		}

@@ -247,7 +247,7 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneAc
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new MethaneAction(payload.triggerTime, this.duration, this.message, 
-		this.title , event.id, ownerId, this.Uid, event.payload.methanePayload);
+		this.title , event.id, ownerId, this.Uid, payload.methanePayload);
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: MethanePayload): MethaneActionEvent {

@@ -218,7 +218,7 @@
                                     },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Context.interfaceState.state.currentActorUid)!.Role}</p>`;",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -238,15 +238,12 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "leftPanel headerPanels",
+                                "className" : "headerPanels",
                                 "layout" : { },
-                                "layoutClassName" : "leftPanel-container headerPanels-container",
-                                "layoutStyle" : {
-                                  "width" : "100%"
-                                },
-                                "style" : {
-                                  "width" : "100%"
-                                }
+                                "layoutClassName" : "headerPanels-container",
+                                "layoutStyle" : { },
+                                "name" : "headerPanels",
+                                "style" : { }
                               },
                               "type" : "FlexList"
                             }, {

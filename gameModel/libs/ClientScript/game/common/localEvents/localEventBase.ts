@@ -1,4 +1,3 @@
-import { HumanBody } from "../../../HUMAn/human";
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
@@ -7,6 +6,7 @@ import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, Trans
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
+import { PatientState } from "../simulationState/patientState";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
@@ -142,8 +142,8 @@ export class TimeForwardLocalEvent extends LocalEventBase {
     this.updateTasks(state);
   }
 
-  updatePatients(patients: Readonly<HumanBody[]>, timeJump: number) {
-    computeNewPatientsState(patients as HumanBody[], timeJump, getEnv());
+  updatePatients(patients: Readonly<PatientState[]>, timeJump: number) {
+    computeNewPatientsState(patients as PatientState[], timeJump, getEnv());
   }
 
   updateActions(state: MainSimulationState) {
@@ -245,18 +245,21 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     public readonly recipient: ActorId, 
     public readonly emitter: TranslationKey,
-    public readonly message: TranslationKey)
+    public readonly message: TranslationKey,
+	private readonly omitTranslation: boolean = false)
   {
       super(parentId, 'AddLogMessageLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
 	
+	const msg = this.omitTranslation ? this.message 
+		: getTranslation('mainSim-actions-tasks', this.message);
     state.getInternalStateObject().radioMessages.push({
       recipientId: this.recipient,
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
-      message: getTranslation('mainSim-actions-tasks', this.message),
+      message: msg,
     })
   }
 
@@ -286,6 +289,33 @@ export class TransferResourcesLocalEvent extends LocalEventBase {
   }
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// EMERGENCY DEPARTMENT
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Takes a player formulated request and resolves it given
+ * the emergency center's available resources
+ */
+export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
+
+	constructor(
+		parentEventId: GlobalEventId,
+    	timeStamp: SimTime,
+		private actorUid: ActorId,
+		private request: MethanePayload
+	){
+		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		resolveResourceRequest(this.parentEventId, this.request.resourceRequest, this.actorUid, state);
+	}
+
+}
+
 /**
  * Spawned when the emergency dept sends resource containers
  */
@@ -293,6 +323,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 
 	constructor(parentId: GlobalEventId,
 	timeStamp: SimTime,
+	public readonly actorId: ActorId,
 	public readonly departureTime: SimTime,
 	public readonly travelTime: SimDuration,
 	public readonly containerDef: ResourceContainerDefinitionId,
@@ -306,24 +337,54 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		// and thus that there are no duplicates
 
 		// actors are created right away (they need to appear in the timeline)
-		containerDef.roles.forEach(r => {
-			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, r, this.travelTime);
-			wlog("$$$$$$ ", evt);
-
+		// Note : Actor creation ignore the "amount" value
+		containerDef.roles.forEach(role => {
+			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, role, this.travelTime);
 			localEventManager.queueLocalEvent(evt);
 		});
 
-		// create resource arrival event
+		// schedule messages when center has new ressources that are sent
+		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
+		localEventManager.queueLocalEvent(dptEvt);
+
+		// schedule resource arrival event
 		// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
 		const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
-		wlog("####### ", evt);
 		localEventManager.queueLocalEvent(evt);
 	}
 
 }
+
+
+/**
+ * Spawned when the emergeny center has a resource available and sends it to the incident site
+ */
+export class ResourcesDepartureLocalEvent extends LocalEventBase {
+	
+	constructor(
+	parentId: GlobalEventId,
+	timeStamp: SimTime,
+	public readonly senderId: ActorId,
+	public readonly containerDef: ResourceContainerDefinitionId,
+	public readonly travelTime: SimDuration,
+	public readonly amount: number) {
+		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		// TODO translations
+		const c = getContainerDef(this.containerDef);
+		const name = c.type + (this.amount > 1 ? '(s)': '');
+		const msg = `Sending ${this.amount} ${name}. Arrival in ${Math.round(this.travelTime / 60)} minutes`;
+		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
+		localEventManager.queueLocalEvent(evt);
+	}
+
+}
+
 /**
  * Resources arrival on site
- * Resources are assigned to the highest hierarchy level presnet by default
+ * Resources are assigned to the highest hierarchy level present by default
  */
 export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
@@ -335,7 +396,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		
+
 		const containerDef = getContainerDef(this.containerDef);
 		const actors = sortByHierarchyLevel(state.getAllActors());
 		// find highest hierarchy group
@@ -344,24 +405,25 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 			resourceGroup = getOrCreateResourceGroup(state, actors[0].Uid);
 		}else {
 			// multiple actors present but some might be traveling
-			let i = 0;
-			do {
-				resourceGroup = state.getResourceGroupByActorId(actors[i].Uid);
-				i++;
-			}while(!resourceGroup && i < actors.length);
+			resourceGroup = actors.map(a => state.getResourceGroupByActorId(a.Uid)).find(rg => rg !== undefined);
 			if(!resourceGroup){
 				resourceLogger.error('No valid resource group found in existing actor list', actors);
 			}
 		}
-		wlog('CCCCCC', containerDef);
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
-			wlog('RRRRRRRRRR', n, rType);
 			ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
 		})
 	}
 
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// RESOURCE ASSIGNATION
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 /**
  * Local event to allocate resources to a task.
@@ -431,42 +493,3 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
   }
 
 }
-
-/**
- * Takes a player formulated request in parameter and resolves it given
- * the emergency center available resources
- */
-export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
-
-	constructor(
-		parentEventId: GlobalEventId,
-    	timeStamp: SimTime,
-		private request: MethanePayload
-	){
-		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
-	}
-
-	applyStateUpdate(state: MainSimulationState): void {
-		resolveResourceRequest(this.parentEventId, this.request.resourceRequest, state);
-	}
-
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// patients
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/*export class CategorizePatientLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-	timeJump: Number) {
-    super(parentEventId, 'CategorizePatientLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    PatientState.categorizeOnePatient(state, this.zone)
-  }
-
-}*/

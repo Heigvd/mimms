@@ -485,6 +485,18 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/mainSim-resources.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/mainSim-summary.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/pretriage-explanations.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",

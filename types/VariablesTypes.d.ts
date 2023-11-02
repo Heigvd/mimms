@@ -115,6 +115,7 @@
 "pretriage-explanations": SObjectDescriptor;
 "variable_6HaInb": SListDescriptor;
 "qr-interface": SObjectDescriptor;
+"general-likert": SObjectDescriptor;
 "lifeSizeWithQR": SListDescriptor;
 "multiplayerMode": SStringDescriptor;
 "general": SListDescriptor;
@@ -123,6 +124,8 @@
 "mainSim-interface": SObjectDescriptor;
 "mainSim-actions-tasks": SObjectDescriptor;
 "mainSim-actors": SObjectDescriptor;
+"mainSim-resources": SObjectDescriptor;
+"mainSim-summary": SObjectDescriptor;
 "realLifeRole": SStringDescriptor;
 "scenarioRevived": SBooleanDescriptor;
 "gameState": SStringDescriptor;

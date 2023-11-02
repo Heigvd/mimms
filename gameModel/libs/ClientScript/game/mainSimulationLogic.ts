@@ -78,32 +78,14 @@ function initMainState(): MainSimulationState {
 		new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
-		new Resource('technicienAmbulancier'),
-		new Resource('technicienAmbulancier'),
-		new Resource('technicienAmbulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('ambulancier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
-		new Resource('infirmier'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
-		new Resource('medecinSenior'),];
-
+	];
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
-	testGroup.addResource(initialResources[0]);
-	testGroup.addResource(initialResources[1]);
+	initialResources.forEach(r => testGroup.addResource(r));
 	
   return new MainSimulationState({
     actions: [],
@@ -111,7 +93,6 @@ function initMainState(): MainSimulationState {
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-	pretriageResults: {},
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
@@ -157,10 +138,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   	}});
 	  */
 
-  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 
-  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
-  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
+  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
+  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
