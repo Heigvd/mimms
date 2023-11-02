@@ -142,7 +142,18 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.major = Context.major;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"major\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
                       "content" : "\"Major incident declared\"",
@@ -150,7 +161,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'m')",
+                      "content" : "Context.interfaceState.state.methaneInformation.major;",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -190,7 +201,18 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.exact = Context.exact;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"exact\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
                       "content" : "\"Exact location\"",
@@ -198,7 +220,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'e')",
+                      "content" : "Context.interfaceState.state.methaneInformation.exact;",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -238,7 +260,18 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.incidentType = Context.incidentType;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"incidentType\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
                       "content" : "\"Type of incident\"",
@@ -246,7 +279,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'t')",
+                      "content" : "Context.interfaceState.state.methaneInformation.incidentType;",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -286,7 +319,18 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.hazards = Context.hazards;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"hazards\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
                       "content" : "\"Hazards present or suspected\"",
@@ -294,7 +338,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'h')",
+                      "content" : "Context.interfaceState.state.methaneInformation.hazards;",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -334,7 +378,18 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.access = Context.access;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"access\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
                       "content" : "\"Access\"",
@@ -342,7 +397,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'a')",
+                      "content" : "Context.interfaceState.state.methaneInformation.access;",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -382,15 +437,26 @@
                     "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
                     "onCancel" : { },
-                    "onVariableChange" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.victims = Context.victims;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"victims\"",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"0\"",
+                      "content" : "\"0\";",
                       "language" : "TypeScript"
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'n_3xvRST')",
+                      "content" : "Context.interfaceState.state.methaneInformation.victims;",
                       "language" : "TypeScript"
                     },
                     "style" : { }

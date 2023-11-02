@@ -8,6 +8,14 @@ export function getInitialInterfaceState() {
 	return {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
+		methaneInformation: {
+			major: "",
+			exact: "",
+			incidentType: "",
+			hazards: "",
+			access: "",
+			victims: "",
+		},
 		resources: {
 			sendResources: {
 				selectedActorId: getAllActors()[0]!.Uid,

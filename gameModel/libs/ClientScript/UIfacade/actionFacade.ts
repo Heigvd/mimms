@@ -23,6 +23,7 @@ import {
 	getCurrentState,
 } from '../game/mainSimulationLogic';
 import { getAllActionTemplates } from './debugFacade';
+import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -116,6 +117,7 @@ export async function planMethaneAction() {
 	const params = fetchMethaneRequestValues();
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
 	newState.showMethaneModal = false;
+	newState.resources.requestedResources = getEmptyResourceRequest();
 	Context.interfaceState.setState(newState);
 	return await planAction(actTpl!.getTemplateRef(), actor!, params);
 }

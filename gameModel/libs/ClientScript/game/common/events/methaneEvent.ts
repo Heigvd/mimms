@@ -4,8 +4,13 @@ import { ActionCreationEvent } from "./eventTypes";
 
 
 export interface MethanePayload {
-	otherStuff: string, // TODO add all fields for the letters and all
-	resourceRequest : Record<ResourceContainerType, number>
+	major: string,
+	exact: string,
+	incidentType: string,
+	hazards: string,
+	access: string,
+	victims: string,
+	resourceRequest: Record<ResourceContainerType, number>
 }
 
 export interface MethaneActionEvent extends ActionCreationEvent {
