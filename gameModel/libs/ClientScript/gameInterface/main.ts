@@ -142,6 +142,10 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 	return "";
 }
 
-
-
+export function getModalPageNumber(): string {
+	if (Context.interfaceState.state.showMethaneModal) {
+		return "42";
+	}
+	return "";
+}
 

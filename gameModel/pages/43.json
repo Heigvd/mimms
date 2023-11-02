@@ -258,7 +258,7 @@
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "Variable.find(gameModel, \"modalPageNumber\").getValue(self);",
+                                      "content" : "import { getModalPageNumber } from \"./gameInterface/main\";\ngetModalPageNumber();",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
