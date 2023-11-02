@@ -420,6 +420,16 @@
           "trainerPage" : null
         } ],
         "name" : "tutorialPages"
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "57",
+          "name" : "mapSelection",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "mapSelection"
       } ],
       "name" : "mainSimulation pages"
     } ],

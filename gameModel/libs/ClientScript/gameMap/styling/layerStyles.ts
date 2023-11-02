@@ -23,6 +23,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
 	const icon = properties.icon;
+	const name = properties.name;
 
 	if (icon) {
 		const iconStyle: ImageStyleObject = {
@@ -34,6 +35,12 @@ function getPointStyle(feature: any): LayerStyleObject {
 			src: `/maps/mapIcons/${icon}.svg`,
 			scale: .1,
 			opacity: 1,
+		}
+
+		// TODO SELECTION LAYER SHOULD HAVE ITS OWN STYLE
+		// HARDCODED FOR DEMO
+		if (icon === Context.mapState.state.selectionState.icon) {
+			iconStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
 		}
 
 		return { image: iconStyle };

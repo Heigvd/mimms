@@ -6,6 +6,7 @@ const logger = Helpers.getLogger('mainSim-interface');
 
 export const mapRef = Helpers.useRef<any>('map', null);
 export const buildingsRef = Helpers.useRef<any>("buildings", null);
+export const selectionLayerRef = Helpers.useRef<any>("selectionLayer", null);
 
 export function getInitialMapState() {
 	return {
@@ -23,7 +24,7 @@ export function getInitialMapState() {
 export function clearMapState() {
 	const newState = getInitialMapState();
 	Context.mapState.setState(newState);
-	buildingsRef.current.changed();
+	if (buildingsRef.current) buildingsRef.current.changed();
 }
 
 /**
@@ -47,12 +48,21 @@ export function endMapAction() {
 	clearMapState();
 }
 
-export function startMapSelect(params: any) {
+export function startMapSelect() {
+	let params;
+	if (Context.action.featureSelection) {
+			params = Context.action.featureSelection;
+		}
+		if (Context.action.geometrySelection) {
+			params = Context.action.geometrySelection;
+		}
+
 	clearMapState();
 	const newState = Helpers.cloneDeep(Context.mapState.state);
 	newState.mapSelect = true;
 	newState.selectionState = params;
 	Context.mapState.setState(newState);
+	wlog('startMapSelect');
 }
 
 /**
@@ -99,10 +109,13 @@ export function handleMapClick(
 				}
 
 				planAction(ref, actor, tmpFeature);
+				clearMapState();
 			}
 		}
 		if (mapState.selectionState.layerId) {
+			wlog(features)
 			const feature = features.find(f => f.layerId === mapState.selectionState.layerId)
+			wlog(feature)
 			if (feature) {
 				const id = feature.feature[mapState.selectionState.featureKey];
 
@@ -112,8 +125,8 @@ export function handleMapClick(
 				}
 
 				planAction(ref, actor, tmpFeature)
+				clearMapState();
 			}
 		}
-		clearMapState();
 	}
 }

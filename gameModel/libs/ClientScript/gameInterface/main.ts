@@ -1,5 +1,5 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, startMapAction, startMapActionLine, startMapSelect } from "../gameMap/main";
+import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -74,8 +74,6 @@ export function actionClickHandler (id: number, params: any) : void {
 			startMapAction(params);
 		} else if (template instanceof MethaneTemplate) {
 			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
-		} else if (template instanceof SelectMapObjectTemplate) {
-			startMapSelect(params);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}
@@ -141,6 +139,8 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 		return "56";
 	}	else if (Context.action instanceof MethaneTemplate) {
 		return "42";
+	} else if (Context.action instanceof SelectMapObjectTemplate) {
+		return "57";
 	}
 
 	return "";

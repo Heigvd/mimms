@@ -125,13 +125,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
 
-  const placePMA = new DefineMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {geometryType: 'Point', name: 'PMA', icon: 'PMA'});
-  const placePC = new DefineMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometryType: 'Point', name: 'PC', icon: 'PC'});
-  const placeNest = new DefineMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometryType: 'Point', name: 'Nid de Bléssés', icon: 'Nest'});
+  const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
+  const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
+  const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
+
   const placeAccess = new DefineMapObjectTemplate('define-Access-title', 'define-Access-desc', TimeSliceDuration, 'define-Access-feedback', {geometryType: 'LineString', name: 'Access Route'});
 
-  const selectPMA2 = new SelectMapObjectTemplate('select-PMA2-title', 'select-PMA2-desc', TimeSliceDuration, 'select-PMA2-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PMA', geometries: [[2500116.8216012754,1118528.9652622677], [2500108.1037250236,1118471.3135944402], [2500068.643647305,1118423.0058917801]]}});
-  const selectPMA3 = new SelectMapObjectTemplate('select-PMA3-title', 'select-PMA3-desc', TimeSliceDuration, 'select-PMA3-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
 
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
@@ -170,8 +169,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccess.getTemplateRef()] = placeAccess;
-  templates[selectPMA2.getTemplateRef()] = selectPMA2;
-  templates[selectPMA3.getTemplateRef()] = selectPMA3;
   templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[requestResources.getTemplateRef()] = requestResources;
   templates[sendResources.getTemplateRef()] = sendResources;

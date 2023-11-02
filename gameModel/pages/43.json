@@ -248,7 +248,6 @@
                                 "layoutClassName" : "myModalOuter",
                                 "layoutStyle" : {
                                   "height" : "100%",
-                                  "pointer-events" : "auto",
                                   "width" : "100%"
                                 },
                                 "name" : "PageLoader",
@@ -861,6 +860,11 @@
                                         },
                                         "layoutStyle" : { },
                                         "name" : "selectionLayer",
+                                        "onLayerReady" : {
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ "layer", "map" ],
+                                          "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
+                                        },
                                         "style" : { }
                                       },
                                       "type" : "WegasMapVectorLayer"
@@ -1049,7 +1053,7 @@
                                       "onClick" : {
                                         "@class" : "ScriptCallback",
                                         "args" : [ "coord", "features" ],
-                                        "content" : "import { handleMapClick } from './gameMap/main';\nhandleMapClick({x: coord[0], y: coord[1]}, features);\nreturn;"
+                                        "content" : "import { handleMapClick } from './gameMap/main';\nwlog(features\n)\n// handleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
                                       }
                                     },
                                     "style" : { },
