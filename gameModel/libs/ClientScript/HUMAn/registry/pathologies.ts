@@ -9,6 +9,10 @@ function registerPathology(def: PathologyDefinition): void {
 	pathologies[def.id] = def;
 }
 
+export function getPathologyDefinitionById(id: string){
+	return pathologies[id];
+}
+
 export function initPathologies(pathologySet : Record<string, PathologyDefinition>){
 	wlog('init pathologies');
 	if(initialized){

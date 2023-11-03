@@ -56,6 +56,19 @@
           "type" : "Text"
         }, {
           "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "effects",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-effects');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
@@ -103,6 +116,18 @@
                     "text" : {
                       "@class" : "Script",
                       "content" : "Context.patient.data.location;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "effects",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patient.data.effects.join(\", \").toUpperCase();",
                       "language" : "TypeScript"
                     }
                   },

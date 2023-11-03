@@ -4,7 +4,7 @@ import { getEnv } from "../../../tools/WegasHelper";
 import { HumanHealth } from "../../legacy/the_world";
 import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from "../../pretri/triage";
 
-export function doPatientAutomaticTriage(patient: HumanBody): PreTriageResult<string> | undefined {
+export function doPatientAutomaticTriage(patient: HumanBody, simTime: number = 0): PreTriageResult<string> | undefined {
 
 	const env = getEnv();
 
@@ -25,5 +25,5 @@ export function doPatientAutomaticTriage(patient: HumanBody): PreTriageResult<st
 		console: [],
 	};
 
-	return doAutomaticTriage_internal(data);
+	return doAutomaticTriage_internal(data, true, simTime);
 }
