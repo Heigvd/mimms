@@ -5,7 +5,6 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	AskReinforcementActionTemplate,
-	DefineMapObjectTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
 	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
@@ -129,27 +128,24 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
   const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
 
-  const placeAccess = new DefineMapObjectTemplate('define-Access-title', 'define-Access-desc', TimeSliceDuration, 'define-Access-feedback', {geometryType: 'LineString', name: 'Access Route'});
-
-
-  const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
-  	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
-		  ownerId: 0,
-		  geometryType: 'MultiPolygon',
-		  name: 'Triage Zone',
-		  geometry: [
-			  [[
-				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 
-		  		[2497437.046434614,1120798.377919056], [2497426.03428612,1120778.8641895403],
-				[2497448.123431715,1120782.855941937],
-			  ]],
-			  [[
-				[2497451.4923869567,1120779.4898404605], [2497436.995642877,1120761.1578418843], 
-		  		[2497444.3693446065,1120756.7930486996], [2497471.1334157903,1120774.0791353388],
-				[2497465.031258829,1120794.875361428], [2497451.4923869567,1120779.4898404605],
-			]]
-			],
-  	}});
+  // const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
+  // 	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
+// 		  ownerId: 0,
+// 		  geometryType: 'MultiPolygon',
+// 		  name: 'Triage Zone',
+// 		  geometry: [
+// 			  [[
+// 				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 
+// 		  		[2497437.046434614,1120798.377919056], [2497426.03428612,1120778.8641895403],
+// 				[2497448.123431715,1120782.855941937],
+// 			  ]],
+// 			  [[
+// 				[2497451.4923869567,1120779.4898404605], [2497436.995642877,1120761.1578418843], 
+// 		  		[2497444.3693446065,1120756.7930486996], [2497471.1334157903,1120774.0791353388],
+// 				[2497465.031258829,1120794.875361428], [2497451.4923869567,1120779.4898404605],
+// 			]]
+// 			],
+  // 	}});
 
   const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
@@ -168,8 +164,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  templates[placeAccess.getTemplateRef()] = placeAccess;
-  templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[requestResources.getTemplateRef()] = requestResources;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
