@@ -23,6 +23,7 @@ import {
 	fetchAvailableActions,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
+import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 
 const logger = Helpers.getLogger('mainSim-interface');
 

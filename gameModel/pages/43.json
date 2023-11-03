@@ -99,7 +99,7 @@
                               "type" : "FlexList"
                             }, {
                               "props" : {
-                                "attachToClosest" : ".game",
+                                "attachToClosest" : ".main-game",
                                 "attachedToId" : "",
                                 "children" : [ {
                                   "props" : {
@@ -115,14 +115,14 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "myModalInner",
+                                "className" : "",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "!Context.interfaceState.state.showMethaneModal;",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
-                                "layoutClassName" : "myModalOuter",
+                                "layoutClassName" : "",
                                 "layoutStyle" : {
                                   "height" : "100%",
                                   "width" : "100%"
