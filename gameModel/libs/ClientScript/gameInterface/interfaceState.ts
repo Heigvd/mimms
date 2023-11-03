@@ -51,6 +51,8 @@ export function getInitialInterfaceState() {
       
 			requestedResources: getEmptyResourceRequest(),
 		},
+		selectedMapObjectId: '0',
+		selectedMapObject: '',
 	};
 	
 }
@@ -61,4 +63,19 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 		resourceRequest[t] = 0;
 	});
 	return resourceRequest;
+}
+
+/**
+* Helper function, change only key-values give in update object
+*/
+export function setInterfaceState(update: object): void {
+const newState = Helpers.cloneDeep(Context.interfaceState.state);
+
+for (const key in update) {
+if (newState.hasOwnProperty(key)) {
+newState[key] = update[key as keyof typeof update];
+}
+}
+
+Context.interfaceState.setState(newState);
 }

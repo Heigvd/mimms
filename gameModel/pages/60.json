@@ -19,7 +19,19 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getMapState } from \"./gameMap/main\";\n'TMPFEATURE ' + JSON.stringify(getMapState().tmpFeature)",
+          "content" : "'TMPFEATURE ' + JSON.stringify(Context.mapState.state.tmpFeature)",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "name" : "TmpFeatures",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "'MAPSTATE ' + JSON.stringify(Context.mapState.state)",
           "language" : "TypeScript"
         }
       },
