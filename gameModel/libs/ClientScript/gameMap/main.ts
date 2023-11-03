@@ -1,46 +1,43 @@
 import { GeometryType } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
+import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
-interface MapState {
-	mapAction: boolean;
-	multiClick: boolean;
-	tmpFeature: {
-		feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][],
-		geometryType: GeometryType,
-	}
-}
+export const mapRef = Helpers.useRef<any>('map', null);
+export const buildingsRef = Helpers.useRef<any>("buildings", null);
+export const selectionLayerRef = Helpers.useRef<any>("selectionLayer", null);
 
-// Helpers.useRef() to persist across renders ?
-let mapState: MapState;
-
-Helpers.registerEffect(() => {
-	mapState = {
+export function getInitialMapState() {
+	return {
 		mapAction: false,
+		mapSelect: false,
 		multiClick: false,
 		tmpFeature: {
 			feature: [],
 			geometryType: 'Point',
 		},
-	}
-})
+		selectionState: {},
+	};
+}
 
-/**
- * Is the map currently in an action state
- */
-export function isMapAction(): boolean {
-	return mapState.mapAction;
+export function clearMapState() {
+	const newState = getInitialMapState();
+	Context.mapState.setState(newState);
+	if (buildingsRef.current) buildingsRef.current.changed();
 }
 
 /**
  * Initialize a map interaction
  */
 export function startMapAction(feature: GeometryType) {
+	clearMapState();
 	logger.info('MAP ACTION: Action initiated');
-	mapState.mapAction = true;
-	updateMapState();
-	clearTmpFeature();
+	const newState = Helpers.cloneDeep(Context.mapState.state);
+	newState.mapAction = true;
+	newState.multiClick = feature !== 'Point';
+	newState.tmpFeature.geometryType = feature;
+	Context.mapState.setState(newState);
 }
 
 /**
@@ -48,9 +45,24 @@ export function startMapAction(feature: GeometryType) {
  */
 export function endMapAction() {
 	logger.info('MAP ACTION: Action Cancelled')
-	mapState.mapAction = false;
-	updateMapState();
-	clearTmpFeature();
+	clearMapState();
+}
+
+export function startMapSelect() {
+	let params;
+	if (Context.action.featureSelection) {
+			params = Context.action.featureSelection;
+		}
+		if (Context.action.geometrySelection) {
+			params = Context.action.geometrySelection;
+		}
+
+	clearMapState();
+	const newState = Helpers.cloneDeep(Context.mapState.state);
+	newState.mapSelect = true;
+	newState.selectionState = params;
+	Context.mapState.setState(newState);
+	wlog('startMapSelect');
 }
 
 /**
@@ -61,36 +73,60 @@ export function endMapAction() {
 export function handleMapClick(
 	point: Point,
 	features: {
-		features: Record<string, unknown>;
+		feature: Record<string, unknown>;
 		layerId?: string
 	}[],
 ): void {
+	const interfaceState = Context.interfaceState.state;
+	const mapState = Context.mapState.state;
 
 	logger.info('MAP ACTION: Map click')
-	logger.info('MAP ACTION - isMapAction: ', mapState.mapAction)
+	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
 
+	if (mapState.mapAction) {
+		if (mapState.tmpFeature === 'Point') {
+			const newState = Helpers.cloneDeep(Context.mapState.state);
+			newState.tmpFeature.feature = [point.x, point.y];
+			Context.mapState.setState(newState);
+		} else {
+			const newState = Helpers.cloneDeep(Context.mapState.state);
+			newState.tmpFeature.feature.push([point.x, point.y]);
+			Context.mapState.setState(newState);
+		}
+	} else if (mapState.mapSelect) {
+		const ref = getActionTemplate(interfaceState.currentActionUid)!.getTemplateRef();
+		const actor = interfaceState.currentActorUid;
 
-	if (!mapState.mapAction) return;
-	mapState.tmpFeature.geometryType = 'Point';
-	mapState.tmpFeature.feature = [point.x, point.y];
-}
+		if (mapState.selectionState.geometryType) {
+			const feature = features.find(f => f.layerId === 'selectionLayer');
 
-/**
- * Return current tmpFeature
- */
-export function getMapState() {
-	return mapState;
-}
+			if (feature) {
+				const index = feature.feature.name as number;
 
-export function updateMapState() {
-	Context.mapState.setState(mapState);
-}
+				const tmpFeature = {
+					geometryType: feature.feature.type,
+					feature: mapState.selectionState.geometries[index],
+				}
 
-/**
- * Clear the current tmpFeature
- */
-export function clearTmpFeature() {
-	logger.info('MAP ACTION: tmpFeature cleared')
-	mapState.tmpFeature.geometryType = 'Point';
-	mapState.tmpFeature.feature = [];
+				planAction(ref, actor, tmpFeature);
+				clearMapState();
+			}
+		}
+		if (mapState.selectionState.layerId) {
+			wlog(features)
+			const feature = features.find(f => f.layerId === mapState.selectionState.layerId)
+			wlog(feature)
+			if (feature) {
+				const id = feature.feature[mapState.selectionState.featureKey];
+
+				const tmpFeature = {
+					featureKey: mapState.selectionState.featureKey,
+					featureId: id,
+				}
+
+				planAction(ref, actor, tmpFeature)
+				clearMapState();
+			}
+		}
+	}
 }

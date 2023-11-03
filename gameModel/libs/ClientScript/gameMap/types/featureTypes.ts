@@ -3,7 +3,7 @@ interface PointFeature {
 	coordinates: PointLikeObject;
 }
 
-interface LineStringFeature {
+export interface LineStringFeature {
 	type: 'LineString';
 	coordinates: PointLikeObject[];
 }

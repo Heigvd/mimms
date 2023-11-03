@@ -1,44 +1,75 @@
 import { ActorId, Position, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
 
-export interface featurePayload {
+export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
+
+export interface FeaturePayload {
   id?: number | string,
-  featureType: GeometryType;
+  featureType: GeometryType | 'Select';
   feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 }
 
-export type MapFeature = PointFeature | StringLineFeature | PolygonFeature | MultiPolygonFeature;
+export interface SelectPayload {
+  id?: number | string,
+  featureKey: string,
+  featureId: string,
+}
 
-export type GeometryType = 'Point' | 'StringLine' | 'Polygon' | 'MultiPolygon';
+export type MapFeature = DefineFeature | SelectFeature;
 
-interface BaseFeature<T> {
+export type DefineFeature = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature
+
+export type InteractionType = 'Select' | 'Define'
+
+export type GeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
+
+export function isGeometryType(str: string) {
+  return ['Point', 'LineString', 'Polygon', 'MultiPolygon'].includes(str);
+};
+
+interface BaseFeature {
   ownerId: ActorId,
-  geometryType: GeometryType,
   name: string,
-  id?: number | string;
-  geometry: T;
+  id?: string | number,
+  geometryType: GeometryType | 'Select',
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
 }
 
-export interface PointFeature extends BaseFeature<Position> {
+interface GeometryFeature<T> extends BaseFeature {
+  geometry: T;
+}
+
+export interface PointFeature extends GeometryFeature<Position> {
   geometryType: 'Point';
   icon?: string;
 }
 
-export interface StringLineFeature extends BaseFeature<Position[]> {
-  geometryType: 'StringLine'
+export interface LineStringFeature extends GeometryFeature<Position[]> {
+  geometryType: 'LineString';
 }
 
-export interface PolygonFeature extends BaseFeature<Position[][]> {
-  geometryType: 'Polygon'
+export interface PolygonFeature extends GeometryFeature<Position[][]> {
+  geometryType: 'Polygon';
 }
 
-export interface MultiPolygonFeature extends BaseFeature<Position[][][]> {
-  geometryType: 'MultiPolygon'
+export interface MultiPolygonFeature extends GeometryFeature<Position[][][]> {
+  geometryType: 'MultiPolygon';
+}
+
+export interface SelectFeature extends BaseFeature {
+  geometryType: 'Select';
+  featureKey: string;
+  featureIds: string;
 }
 
 export interface DefineMapObjectEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  feature: MapFeature;
+  feature: DefineFeature;
+}
+
+export interface SelectMapObjectEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  featureKey: string;
+  featureId: string;
 }

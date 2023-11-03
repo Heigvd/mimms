@@ -30,8 +30,10 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 	if (features.length > 0) {
 
 		features.forEach((f, i) => {
+			// If the feature is a building selection (geometryType: Select) we skip it
+			if (f.geometryType === 'Select') return;
 
-			const point: any = {
+			const feature: any = {
 				type: 'Feature',
 				geometry: {
 					type: f.geometryType,
@@ -43,9 +45,9 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 					icon: f.geometryType === 'Point' ? f.icon : undefined,
 					startTimeSec: f.startTimeSec,
 					durationTimeSec: f.durationTimeSec,
-				}
+				},
 			}
-			layer.features.push(point);
+			layer.features.push(feature);
 
 		})
 	}
@@ -72,3 +74,69 @@ export function getUnavailableLayer() {
 
 	return getLayer(unavailable, 'UnavailableLayer')
 }
+
+/**
+ * Creates a layer from tmpFeature
+ * This layer displays the temporary feature defined by the user during a DefineMapObjectAction
+ */
+export function getTmpLayer() {
+	const feature = Context.mapState.state.tmpFeature;
+	let formattedFeature: MapFeature[] = [];
+
+
+	if (feature) {
+		formattedFeature.push({
+			ownerId: Context.interfaceState.state.currentActorUid,
+			geometryType: feature.geometryType,
+			geometry: feature.feature,
+			name: 'tmpFeature'
+		});
+
+		if (feature.geometryType === 'LineString') {
+			feature.feature.forEach((point: PointLikeObject) => {
+				formattedFeature.push({
+					ownerId: Context.interfaceState.state.currentActorUid,
+					geometryType: 'Point',
+					geometry: point,
+					name: 'tmpFeaturePoint'
+				})
+			})
+		};
+	}
+
+
+
+	return getLayer(formattedFeature, 'TmpLayer')
+}
+
+/**
+ * Creates a layer from Selection payload
+ * This layer displays the available selection when performing a SelectMapObjectAction
+ */
+export function getSelectionLayer() {
+	const selection = Context.mapState.state.selectionState;
+	let selectionFeatures: MapFeature[] = [];
+
+
+	if (selection.geometryType) {
+		selection.geometries.forEach((geometry: any, i: number) => {
+			selectionFeatures.push({
+				ownerId: Context.interfaceState.state.currentActorUid,
+				geometryType: selection.geometryType,
+				geometry: geometry,
+				name: String(i),
+				icon: selection.icon ?? undefined,
+			})
+		})
+	}
+
+	return getLayer(selectionFeatures, 'SelectionLayer');
+}
+
+
+
+
+
+
+
+

@@ -1,10 +1,10 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, getMapState, startMapAction } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
+import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
 
-type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
+type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 
 /**
  * Get the current gameStateStatus
@@ -62,15 +62,15 @@ export function isPlannedAction(id: number) {
 }
 
 /**
- * 
+ * Handle when an action is planned
  */
-export function actionClickHandler (id: number, params: any) : void {
+export function actionClickHandler(id: number, params: any): void {
 
 	const template = getActionTemplate(id)!;
 	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {
-		if (template instanceof DefineMapObjectTemplate && template.featureDescription.geometryType === 'Point') {
+		if (template instanceof DefineMapObjectTemplate) {
 			startMapAction(params);
 		} else if (template instanceof MethaneTemplate) {
 			const newState = Helpers.cloneDeep(Context.interfaceState.state)
@@ -84,10 +84,24 @@ export function actionClickHandler (id: number, params: any) : void {
 	}
 }
 
+/**
+ * Update state whenever user changes action, check if action is SelectMapObject
+ */
+export function actionChangeHandler() {
+	Context.interfaceState.setState({
+		...Context.interfaceState.state,
+		currentActionUid: Context.action.Uid,
+	})
+	endMapAction();
+	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
+		startMapSelect();
+	}
+}
+
 export function planMapAction() {
 	const actorUid = Context.interfaceState.state.currentActorUid;
 	const template = getActionTemplate(Context.interfaceState.state.currentActionUid);
-	const tmpFeature = getMapState().tmpFeature;
+	const tmpFeature = Context.mapState.state.tmpFeature;
 
 	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
 	endMapAction();
@@ -130,13 +144,15 @@ export function formatTime(dateTime: Date) {
 	return result;
 }
 
-export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
+export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 	if (Context.action instanceof SendResourcesToActorActionTemplate) {
 		return "54";
 	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
 		return "55";
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";
+	} else if (Context.action instanceof SelectMapObjectTemplate) {
+		return "48";
 	}
 
 	return "";
