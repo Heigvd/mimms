@@ -129,7 +129,4 @@ export function isReleaseResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
-function getEmptyResourceRequest(): any {
-	throw new Error("Function not implemented.");
-}
 
