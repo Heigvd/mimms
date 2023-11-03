@@ -5,5 +5,5 @@ actor-mcs	MCS?	MCS
 actor-mcs-long	Chief emergency doctor?	Médecin Chef des Secours
 actor-al	AL?	AL
 actor-al-long	Leader Ambulance Driver?	Ambulancier Leader
-actor-evasan 	EVASAN	EVASAN
-actor-evasan-long	EVASAN	EVASAN
+actor-evasan 	EVASAN?	EVASAN
+actor-evasan-long	EVASAN?	EVASAN

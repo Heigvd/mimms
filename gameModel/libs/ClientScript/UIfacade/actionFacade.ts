@@ -4,11 +4,25 @@
  * put minimal logic in here
  */
 
+import { fetchMethaneRequestValues } from "../gameInterface/actionsButtonLogic";
 import { ActionBase } from "../game/common/actions/actionBase";
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate,RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActorId, TemplateId, TemplateRef } from "../game/common/baseTypes";
-import { ActionCreationEvent } from "../game/common/events/eventTypes";
-import { buildAndLaunchActionCancellation, buildAndLaunchActionFromTemplate, fetchAvailableActions, getCurrentState } from "../game/mainSimulationLogic";
+import {
+	ActionTemplateBase,
+	AssignTaskToResourcesActionTemplate,
+	DefineMapObjectTemplate,
+	MethaneTemplate,
+	ReleaseResourcesFromTaskActionTemplate,
+	SelectMapObjectTemplate,
+	SendResourcesToActorActionTemplate,
+} from '../game/common/actions/actionTemplateBase';
+import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
+import { ActionCreationEvent } from '../game/common/events/eventTypes';
+import {
+	buildAndLaunchActionCancellation,
+	buildAndLaunchActionFromTemplate,
+	fetchAvailableActions,
+	getCurrentState,
+} from '../game/mainSimulationLogic';
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -85,14 +99,6 @@ export function isMethaneActionTemplate(id: number) {
 /**
  * @param id Uid of given action template
  */
-export function isRequestResourcesFromActorActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof RequestResourcesFromActorActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
 export function isSendResourcesToActorActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof SendResourcesToActorActionTemplate;
@@ -105,3 +111,25 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof AssignTaskToResourcesActionTemplate;
 }
+
+export async function planMethaneAction() {
+	const actor = Context.interfaceState.state.currentActorUid;
+	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
+	const params = fetchMethaneRequestValues();
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.showMethaneModal = false;
+	newState.resources.requestedResources = getEmptyResourceRequest();
+	Context.interfaceState.setState(newState);
+	return await planAction(actTpl!.getTemplateRef(), actor!, params);
+}
+/**
+ * @param id Uid of given action template
+ */
+export function isReleaseResourcesToTaskActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof ReleaseResourcesFromTaskActionTemplate;
+}
+function getEmptyResourceRequest(): any {
+	throw new Error("Function not implemented.");
+}
+

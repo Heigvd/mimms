@@ -209,17 +209,16 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "attachToClosest" : ".game",
-                                "attachedToId" : "",
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "panel-title leftPanel-title",
-                                    "layoutClassName" : "noPadding noMargin",
+                                    "className" : "panel-title panel-title-header",
                                     "layoutStyle" : { },
-                                    "style" : { },
+                                    "style" : {
+                                      "width" : "150px"
+                                    },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getCurrentActorUid } from \"./gameInterface/main\";\nimport { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(getCurrentActorUid())!.Role}</p>`;",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -229,7 +228,34 @@
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "Variable.find(gameModel, \"modalPageNumber\").getValue(self);",
+                                      "content" : "\"52\"",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "availableResourcesLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "className" : "headerPanels",
+                                "layout" : { },
+                                "layoutClassName" : "headerPanels-container",
+                                "layoutStyle" : { },
+                                "name" : "headerPanels",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "attachToClosest" : ".game",
+                                "attachedToId" : "",
+                                "children" : [ {
+                                  "props" : {
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getModalPageNumber } from \"./gameInterface/main\";\ngetModalPageNumber();",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
@@ -241,7 +267,7 @@
                                 "className" : "myModalInner",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Variable.find(gameModel, 'showMethaneModal').isFalse(self);",
+                                  "content" : "!Context.interfaceState.state.showMethaneModal;",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -252,10 +278,10 @@
                                 },
                                 "name" : "PageLoader",
                                 "onExitActions" : {
-                                  "server" : {
+                                  "client" : {
                                     "@class" : "Script",
-                                    "content" : "Variable.find(gameModel, 'showMethaneModal').setValue(self, false);",
-                                    "language" : "javascript"
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showMethaneModal = false;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
                                   }
                                 },
                                 "style" : { }
@@ -264,38 +290,6 @@
                             }, {
                               "props" : {
                                 "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "panel-title",
-                                        "layoutStyle" : { },
-                                        "style" : {
-                                          "width" : "150px"
-                                        },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\n`<p>${getActor(Context.interfaceState.state.currentActorUid)!.Role}</p>`;",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "exposePageSizeAs" : "",
-                                        "initialSelectedPageId" : {
-                                          "@class" : "Script",
-                                          "content" : "\"52\"",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "availableResourcesLoader",
-                                        "style" : { }
-                                      },
-                                      "type" : "PageLoader"
-                                    } ]
-                                  },
-                                  "type" : "FlexList"
-                                }, {
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
@@ -556,10 +550,15 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "nextBtn s_button pink",
+                                    "className" : "nextActionBtn",
+                                    "icon" : {
+                                      "@class" : "Script",
+                                      "content" : "'fast-forward';",
+                                      "language" : "typescript"
+                                    },
                                     "label" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'time-forward')}</p>`",
+                                      "content" : "\"\"",
                                       "language" : "TypeScript"
                                     },
                                     "layoutClassName" : "next-container",
@@ -567,7 +566,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();\n",
+                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
                                         "language" : "TypeScript"
                                       }
                                     },

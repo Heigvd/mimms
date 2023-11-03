@@ -3,7 +3,6 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
-  ResourceRequestFromActorEvent,
   ResourceSendingToActorEvent,
   ResourceTaskAssignmentEvent,
   ResourceTaskReleaseEvent,
@@ -12,18 +11,18 @@ import {
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
   ActionBase,
-  AskReinforcementAction,
   DefineMapObjectAction,
   MethaneAction,
   GetInformationAction,
-  RequestResourcesFromActorAction, SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
 import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction, ResourceFunctionAndNumber } from '../resources/resourceFunction';
+import { ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceFunction } from '../resources/resourceFunction';
+import { MethaneActionEvent, MethanePayload } from "../events/methaneEvent";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -233,7 +232,7 @@ export class GetInformationTemplate extends StartEndTemplate {
 
 }
 
-export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardActionEvent> {
+export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneActionEvent, MethanePayload> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
@@ -244,16 +243,18 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
     return 'DefineMethaneObjectTemplate' + '_' + this.title;
   }
   
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): MethaneAction {
+  protected createActionFromEvent(event: FullEvent<MethaneActionEvent>): MethaneAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new MethaneAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
+    return new MethaneAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, payload.methanePayload);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: unknown): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: MethanePayload): MethaneActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
+	  methanePayload : params
     }
   }
 
@@ -274,17 +275,6 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, StandardA
   }
 
 }
-
-// Use same class for define or select interations
-// Add InteractionType to handle event generation
-// Reuse feature(s) to describe hardcoded, proposition or definable features geometry
-
-// Selection
-// Should be specified as either layer features or hardcoded geometries
-
-// Feature
-// Any payload or shared ?
-
 
 export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
   
@@ -442,62 +432,7 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
   }
 }
 
-export type RequestResourceFromActorActionInput = { recipientActor: ActorId, requestedResources: ResourceFunctionAndNumber[] };
-
-/**
- * Action template to create an action to request resources from an actor
- */
-export class RequestResourcesFromActorActionTemplate extends StartEndTemplate<RequestResourcesFromActorAction, ResourceRequestFromActorEvent, RequestResourceFromActorActionInput> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-  ) {
-    super(title, description, duration, message);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'RequestResourcesFromActorActionTemplate' + '_' + this.title;
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: RequestResourceFromActorActionInput): ResourceRequestFromActorEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      recipientActor: params.recipientActor,
-      requestedResources: params.requestedResources,
-    };
-  }
-
-  protected createActionFromEvent(event: FullEvent<ResourceRequestFromActorEvent>): RequestResourcesFromActorAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new RequestResourcesFromActorAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.recipientActor, event.payload.requestedResources);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-}
-
-export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber[] };
+export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
@@ -538,6 +473,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
     };
   }
 
+
   protected createActionFromEvent(event: FullEvent<ResourceSendingToActorEvent>): SendResourcesToActorAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
@@ -552,7 +488,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
 
 }
 
-export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber[] };
+export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
@@ -608,7 +544,7 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<Assign
 
 }
 
-export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber[] };
+export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
@@ -664,55 +600,3 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<Rel
 
 }
 
-/**
- * Action template to ask for new resources
- */
-export class AskReinforcementActionTemplate extends StartEndTemplate<AskReinforcementAction, StandardActionEvent> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    readonly resourceType: ResourceType,
-    readonly resourceQuantity : number,
-  ) {
-    super(title, description, duration, message);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'AskReinforcementActionTemplate' + '_' + this.title;
-  }
-
-  public getDescription(): string {
-	return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec : this.duration,
-    }
-  }
-
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): AskReinforcementAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId; 
-    return new AskReinforcementAction(payload.triggerTime, this.duration, this.title, event.id, ownerId,
-      this.resourceType, this.resourceQuantity, this.message, this.Uid);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-}

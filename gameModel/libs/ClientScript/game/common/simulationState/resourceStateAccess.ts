@@ -3,6 +3,8 @@ import { ActorId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { MainSimulationState } from './mainSimulationState';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { isManagedBy, ResourceGroup } from '../resources/resourceGroup';
+import { entries } from '../../../tools/helper';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -26,7 +28,7 @@ export function getUnoccupiedResources(state: Readonly<MainSimulationState>,
 	const internalState = state.getInternalStateObject();
 
 	return internalState.resources.filter(res =>
-		res.ownerId === ownerActorId
+		isManagedBy(state, res, ownerActorId)
 		&& res.type === resourceType
 		&& res.currentActivity == null);
 }
@@ -37,29 +39,38 @@ export function getUnoccupiedResources(state: Readonly<MainSimulationState>,
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber[]): void {
+export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber): void {
   const internalState = state.getInternalStateObject();
 
-  for (const sentResource of sentResources) {
-    const nbResourcesToTransfer = sentResource.nb;
-    const resourceType = sentResource.type;
+  entries(sentResources).forEach(([resourceType, nbResourcesToTransfer]) => {
 
-    if (nbResourcesToTransfer > 0) {
-      const matchingResources = internalState.resources.filter(res => res.ownerId === senderActor && res.type === resourceType);
+    if (nbResourcesToTransfer && nbResourcesToTransfer > 0) {
+      const matchingResources = internalState.resources.filter(res => isManagedBy(state, res, senderActor) && res.type === resourceType);
 
-      if (matchingResources.length >= nbResourcesToTransfer) {
-        for (let i = 0; i < nbResourcesToTransfer; i++) {
-          matchingResources[i]!.ownerId = receiverActor;
-        }
+	  const senderGroup = state.getResourceGroupByActorId(senderActor);
+	  const targetGroup = state.getResourceGroupByActorId(receiverActor);
+	  if(targetGroup && senderGroup)
+	  {
+		if (matchingResources.length >= nbResourcesToTransfer) {
+			for (let i = 0; i < nbResourcesToTransfer; i++) {
+			const r = matchingResources[i]!;
+			// first remove, then add. Otherwise we have problems transferring resource to ourselves
+			senderGroup.removeResource(r);
+			targetGroup.addResource(r);
+			}
 
-      } else {
-        resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources but has only ${matchingResources.length}`);
-      }
+		} else {
+			resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources but has only ${matchingResources.length}`);
+		}
+	  } else {
+		resourceLogger.error('actor id should have resource group', receiverActor);
+	  }
 
-    } else if (nbResourcesToTransfer < 0) {
+    } else {
       resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources `);
     }
-  }
+  });
+
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -75,7 +86,7 @@ export function getResourcesAvailable(state: Readonly<MainSimulationState>, acto
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res =>
-    res.ownerId === actorId
+    isManagedBy(state, res, actorId)
     && res.type === resourceType
     && res.currentActivity == null);
 }
@@ -110,7 +121,7 @@ export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulati
 
   return internalState.resources.filter(res => 
     res.currentActivity === taskId
-    && res.ownerId === actorId
+    && isManagedBy(state, res, actorId)
     && res.type === resourceType);
 }
 
@@ -121,7 +132,7 @@ export function getAvailableResources(state: Readonly<MainSimulationState>, acto
   const internalState = state.getInternalStateObject();
 
   return internalState.resources.filter(res =>
-    res.ownerId === actorId
+    isManagedBy(state, res, actorId)
     && res.type === type
     && res.currentActivity == null);
 }
@@ -155,11 +166,13 @@ export function getAllocatedResourcesAnyKind(state: Readonly<MainSimulationState
 /**
  * Add resources to an actor.
  */
-export function addIncomingResourcesToActor(state: MainSimulationState, actorId: ActorId, resourceType: ResourceType, nb: number): void {
+export function addIncomingResourcesToActor(state: MainSimulationState, resourceGroup: ResourceGroup, resourceType: ResourceType, amount: number): void {
   const internalState = state.getInternalStateObject();
 
-  for (let i = 0; i < nb; i++) {
-    internalState.resources.push(new Resource(resourceType, actorId));
+  for (let i = 0; i < amount; i++) {
+	const r = new Resource(resourceType);
+	resourceGroup.addResource(r);
+	internalState.resources.push(r);
   }
 }
 

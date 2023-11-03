@@ -28,6 +28,15 @@ methane-desc	Send a METHANE radio message to emergency 	Envoyer un message METHA
 methane-feedback	We got your METHANE message, the ACS and MCS are their way	Message METHANE bien reçu, l'ACS et le MCS sont en route
 methane-acs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 methane-mcs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
+send-resources-title	Send resources	Envoyer des ressources
+send-resources-desc	Transfer some of your resources to another actor	Transférer certaines de vos ressources à un autre acteur
+send-resources-feedback	You received resources	Vous avez reçu des ressources
+assign-task-title	Assign a task	Assigner une tâche
+assign-task-desc	Assign resources to a task	Assigner des ressources à une tâche
+assign-task-feedback	You assigned resources to a task	Vous avez assigné des ressources à une tâche
+release-task-title	Release resources	Libérer des ressources
+release-task-desc	Release resources from a task	Libère des ressources d'une tâche
+release-task-feedback	You released resources from a task	Vous avez libéré des ressources
 ask-reinforcement-title	Ask CASU for reinforcements 	Demande de renforts à CASU
 ask-reinforcement-desc	Call the emergency center and ask for more resources on site	Appeler CASU pour demander plus de renforts sur site
 ask-reinforcement-feedback	CASU : we are now sending 5 resources	CASU : Nous envoyons 5 resources supplémentaires pour vous

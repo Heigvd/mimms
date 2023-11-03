@@ -3,27 +3,28 @@ import { BodyEffect, computeState, createHumanBody, doActionOnHumanBody, Environ
 import { mainSimLogger } from "../../../tools/logger";
 import { AfflictedPathology, RevivedPathology, revivePathology } from "../../../HUMAn/pathology";
 import { getAct, getItem } from "../../../HUMAn/registries";
+import { PatientState } from '../simulationState/patientState';
 
-
-
-export function loadPatients(): HumanBody[] {
+export function loadPatients(): PatientState[] {
 	const env = getEnv();
 
-	const patients = getPatientsBodyFactoryParamsArray()
+	const humanBodies = getPatientsBodyFactoryParamsArray()
 		.map((bodyFactoryParamWithId) => {
-			const patient = createHumanBody(bodyFactoryParamWithId.meta, env);
-			patient.id = bodyFactoryParamWithId.id;
-			return patient;
+			const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
+			humanBody.id = bodyFactoryParamWithId.id;
+			return humanBody;
 			})
-		.map(patient => {
-			patient.revivedPathologies = reviveAfflictedPathologies(computeInitialAfflictedPathologies(patient));
-			patient.effects = computeInitialEffects(patient);
-			return patient;
+		.map(humanBody => {
+			humanBody.revivedPathologies = reviveAfflictedPathologies(computeInitialAfflictedPathologies(humanBody));
+			humanBody.effects = computeInitialEffects(humanBody);
+			return humanBody;
 		});
 
-	mainSimLogger.info('Adding', patients.length,'patients');
+	mainSimLogger.info('Adding', humanBodies.length, 'patients');
 
-	return patients;
+	return humanBodies.flatMap(humanBody => {
+		return { patientId: humanBody.id!, humanBody : humanBody, preTriageResult: undefined, location: undefined };
+	});
 }
 
 function computeInitialAfflictedPathologies(patient: HumanBody):[AfflictedPathology, number][] {
@@ -89,9 +90,9 @@ function reviveAfflictedPathologies(afflictedPathologies: [AfflictedPathology, n
 	return pathologies;
 }
 
-export function computeNewPatientsState(patients: HumanBody[], timeJump: number, env: Environnment): void {
+export function computeNewPatientsState(patients: PatientState[], timeJump: number, env: Environnment): void {
 	const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
-	patients.forEach(patient => {
+	patients.map(patient => patient.humanBody).forEach(patient => {
 		if (patient.meta == null)
 			throw `Unable to find meta for patient`;
 

@@ -139,11 +139,35 @@ html{
 	background-color: var(--gray_200);
 }
 
+
+/********************** HEADER PANEL *********************************************/
+.headerPanels-container {
+	width: 100%;
+	height: auto;
+	top: 0px;
+	left: 0;
+	padding: 1rem; 
+	pointer-events: auto; /* voir si none ou auto*/
+}
+
+.headerPanels {
+  background: var(--gray_WHITE);
+  border-radius: var(--S_borderRadius);
+  width: auto;
+  height: auto;
+  pointer-events: auto;
+  max-height: 100%;
+}
+
+.headerPanels > * {
+  padding: 0;
+}
+
 /********************** GENERAL PANEL *********************************************/
 .generalPanels-container {
   width: auto;
   height: auto;
-  top: 0;
+  top: 142px;
   padding: 1rem; 
   
 
@@ -170,10 +194,13 @@ html{
 	max-height: 30rem;
 	overflow-y: auto;
 	scrollbar-width: thin;
-	scrollbar-color: var(--gray_500) var(--gray_200);
-	
-	
+	scrollbar-color: var(--gray_500) var(--gray_200);	
 }
+
+.leftPanel:first-of-type .allDisplay-container{
+	min-width: 31.5rem;
+}
+
 ::scrollbar-thumb{
     border-radius: 10px;
 	}
@@ -190,6 +217,15 @@ html{
 	border-top-right-radius:var(--S_borderRadius);
 }
 
+.panel-title-header {
+	border-bottom-left-radius: var(--S_borderRadius);
+	border-top-right-radius: 0;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+}
+
 .leftPanel-title{
 	width: 10rem;
 	border-top-right-radius: 0px;
@@ -197,7 +233,7 @@ html{
 }
 
 
-/************************** Actions & resources panel (upper-left) *********************************/
+/************************** Actions panel (upper-left) *********************************/
 /****** PANEL ******/
 .leftPanel-container {
 	left: 0;
@@ -247,7 +283,7 @@ color: var(--colors-primarycolor);
 }
 
 .action-container.not-planned{
-	opacity: 70%;
+	opacity: 50%;
 }
 
 .actionHeader{
@@ -300,7 +336,6 @@ color: var(--colors-primarycolor);
 .playActionBtn > *{
 margin: .5em;
 padding: .5em;
-padding-left: .7em ;
 height: 2em;
 width: 2em;
 border-radius: 50%;
@@ -315,68 +350,27 @@ background: var(--secondaryInterface_400);
 	cursor: pointer;
 }
 
-
-/****** ressources ******/
-
-
-.resourcesPanel-container{
-	width:auto;
-	height: auto;
+.nextActionBtn > * {
+    /* margin: 0.5em; */
+    padding: 0.5em;
+    padding-left: 1.5em;
+    height: 3.5em;
+    width: 5.5em;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    /* align-content: flex-end; */
+    font-weight: var(--boldWeight);
+    color: var(--gray_WHITE);
+    background: var(--secondaryInterface_400);
 }
 
-
-.resourceTask-container{
-	background-color: var(--gray_200);
-	margin: 5px 15px 5px 15px ;
-	border-radius: var(--S_borderRadius);
-	width: auto;
-	
-}
-
-.resourceTask-container * p{
-	margin: 0px;
-	justify-content: center;
-	
-}
-
-.taskHeader{
+.nextActionBtn:hover > *{
+	background: var(--secondaryInterface_200);
 	cursor: pointer;
 }
-
-/*** Button for resources assignations ***/
-.resourceGestion-container{
-background-color: var(--gray_WHITE);
-border-radius: var(--S_borderRadius);
-max-height: 60px;
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
 }
-
-.assignBtn{
-height: 100%;
-width: .6em;
-justify-content:  center;
-font-weight: var(--boldWeight);
-font-size: var(--L_text);
-padding: .4em;
-}
-
-.assignBtn-container{
-margin: 0px;
-padding: 0px;
-}
-
-.minusBtn{
-border-radius: 5px 0px 0px 5px;
-cursor: pointer;
-}
-
-.plusBtn{
-border-radius:  0px 5px  5px 0px;
-cursor: pointer;
-}
-
-
-
-
 
 /*** Title + description of an assignable task ***/ 
 
@@ -404,71 +398,6 @@ cursor: pointer;
 .taskStatus{
 font-size: var(--XS_text);
 color: var(--gray_700);
-}
-
-/*** resources pool ***/
-.poolResources-container{
-	padding-left: .5em;
-	padding-top: 1em;
-}
-
-
-.poolResources-container * p{
-	font-size: var(--M_text);
-	font-weight: var(--boldWeight);
-}
-
-.oneResource-container{
-padding: 10px;
-border-radius: var(--S_borderRadius);
-border: 3px solid var(--interface_BLUE);
-}
-
-.oneResource{
-font-size: var(--L_text);
-color: var(--interface_BLUE);
-}
-
-.resourceCounter-container{
-border-radius: 100%;
-height: 1.5em;
-width: 1.5em;
-border: 2px solid var(--interface_BLUE);
-position: absolute;
-top: -.1em;
-right: -.2em;
-background-color: var(--interface_0);
-}
-
-.resourceCounter{
-	font-size: var(--S_text);
-	font-weight: var(--boldWeight);
-	position: absolute;
-	color: var(--interface_BLUE);
-	right: .45em;
-	
-}
-
-	
-
-
-/***** Ressources in tasks  ****/
-
-.ressourcePersonIcon{
-font-size: 2rem;
-}
-
-.ressourcesBox-container{
-align-items: center;
-}
-
-.chosenNumber-container  input{
-min-width: 10px;
-max-width: 30px;
-}
-
-.fonction-container{
-font-size: var(--M_text);
 }
 
 /**************************** RADIO CSS (upper-right) ************************************/
@@ -572,6 +501,11 @@ font-size: var(--M_text);
 	color: var(--orange);
 }
 
+.modal-methane-container {
+	max-width: 700px;
+} 
+
+
 .modalTitle{
 font-weight: var(--boldWeight);
 	font-size: var(--M_text);
@@ -603,6 +537,19 @@ font-weight: var(--boldWeight);
 	font-weight: var(--boldWeight);
 	color: var(--interface_BLUE);
 	}
+
+.methane-letter-container > .methane-letter > p {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	width: 11px;
+}
+
+.methane-letter-input {
+	padding-left: 15px;
+	width: 100%;
+}
 
 .anE-ressource-container{
 	width: 20em;
@@ -764,8 +711,8 @@ height: 3em;
 .next-container{
 z-index: 4;
 position: absolute;
-top: -.6em;
-right: 5em;
+top: -2.3em;
+right: 2em;
 overflow: visible;
 }
 
@@ -791,6 +738,11 @@ overflow: visible;
 	cursor: crosshair;
 }
 
+/********************** Patient summary **********************/
+.patient-summary--grid-main {
+	grid-template-columns: repeat(4, 1fr);
+}
+
 /********************** Animation ****************/
 @keyframes popping{
 	0%{
@@ -806,4 +758,15 @@ overflow: visible;
 	100%{
 		
 	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }

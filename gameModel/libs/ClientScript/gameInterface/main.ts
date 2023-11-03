@@ -1,5 +1,5 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, RequestResourcesFromActorActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { endMapAction, startMapAction } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -73,7 +73,9 @@ export function actionClickHandler (id: number, params: any) : void {
 		if (template instanceof DefineMapObjectTemplate) {
 			startMapAction(params);
 		} else if (template instanceof MethaneTemplate) {
-			APIMethods.runScript(`Variable.find(gameModel, 'showMethaneModal').setValue(self, true)`, {});
+			const newState = Helpers.cloneDeep(Context.interfaceState.state)
+			newState.showMethaneModal = true;
+			Context.interfaceState.setState(newState);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}
@@ -129,9 +131,7 @@ export function formatTime(dateTime: Date) {
 }
 
 export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
-	if (Context.action instanceof RequestResourcesFromActorActionTemplate) {
-		return "53";
-	} else if (Context.action instanceof SendResourcesToActorActionTemplate) {
+	if (Context.action instanceof SendResourcesToActorActionTemplate) {
 		return "54";
 	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
 		return "55";
@@ -146,6 +146,10 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 	return "";
 }
 
-
-
+export function getModalPageNumber(): string {
+	if (Context.interfaceState.state.showMethaneModal) {
+		return "42";
+	}
+	return "";
+}
 

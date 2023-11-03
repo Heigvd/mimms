@@ -358,12 +358,6 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "53",
-          "name" : "requestResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "54",
           "name" : "sendResources",
           "scenaristPage" : null,
@@ -396,12 +390,6 @@
           "name" : "methaneInput",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "48",
-          "name" : "successfulMethane",
-          "scenaristPage" : null,
-          "trainerPage" : null
         } ],
         "name" : "modal"
       }, {
@@ -421,15 +409,11 @@
         } ],
         "name" : "tutorialPages"
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "57",
-          "name" : "mapSelection",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        } ],
-        "name" : "mapSelection"
+        "@class" : "Page",
+        "id" : "57",
+        "name" : "PatientSummaryPage",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

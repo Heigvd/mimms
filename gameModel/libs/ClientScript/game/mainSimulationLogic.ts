@@ -4,10 +4,9 @@
 import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
-	AskReinforcementActionTemplate,
 	MethaneTemplate,
 	GetInformationTemplate,
-	RequestResourcesFromActorActionTemplate, SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -24,6 +23,9 @@ import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
+import { resetSeedId } from "./common/resources/resourceContainer";
+import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
+import { ResourceGroup } from "./common/resources/resourceGroup";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -55,13 +57,12 @@ function initMainState(): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
-  const testAL = new Actor('AL', 'actor-al', 'actor-al-long');
+  const testAL = new Actor('AL');
 
   const mainAccident: PointFeature = {
 	ownerId: 0,
     geometryType: 'Point',
     name: "Lieu de l'accident",
-    //geometry: [2497449.9236694486,1120779.3310497932],
     geometry: [2500100,1118500],
 	icon: 'mainAccident',
   }
@@ -70,45 +71,32 @@ function initMainState(): MainSimulationState {
   //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
 
 	const initialResources = [
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('secouriste', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('technicienAmbulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('ambulancier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('infirmier', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinJunior', testAL.Uid),
-		new Resource('medecinSenior', testAL.Uid),];
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('secouriste'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),
+	];
 
-
+	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
+	initialResources.forEach(r => testGroup.addResource(r));
+	
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-	pretriageResults: {},
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
+	resourceContainers: loadEmergencyResourceContainers(),
+	resourceGroups: [testGroup]
   }, 0, 0);
 
 }
@@ -128,32 +116,31 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
   const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
 
-  // const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
-  // 	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
-// 		  ownerId: 0,
-// 		  geometryType: 'MultiPolygon',
-// 		  name: 'Triage Zone',
-// 		  geometry: [
-// 			  [[
-// 				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 
-// 		  		[2497437.046434614,1120798.377919056], [2497426.03428612,1120778.8641895403],
-// 				[2497448.123431715,1120782.855941937],
-// 			  ]],
-// 			  [[
-// 				[2497451.4923869567,1120779.4898404605], [2497436.995642877,1120761.1578418843], 
-// 		  		[2497444.3693446065,1120756.7930486996], [2497471.1334157903,1120774.0791353388],
-// 				[2497465.031258829,1120794.875361428], [2497451.4923869567,1120779.4898404605],
-// 			]]
-// 			],
-  // 	}});
+/*
+  const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
+  	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {
+		  ownerId: 0,
+		  geometryType: 'MultiPolygon',
+		  name: 'Triage Zone',
+		  geometry: [
+			  [[
+				[2497448.123431715,1120782.855941937], [2497454.9378800406,1120795.9667623597], 
+		  		[2497437.046434614,1120798.377919056], [2497426.03428612,1120778.8641895403],
+				[2497448.123431715,1120782.855941937],
+			  ]],
+			  [[
+				[2497451.4923869567,1120779.4898404605], [2497436.995642877,1120761.1578418843], 
+		  		[2497444.3693446065,1120756.7930486996], [2497471.1334157903,1120774.0791353388],
+				[2497465.031258829,1120794.875361428], [2497451.4923869567,1120779.4898404605],
+			]]
+			],
+  	}});
+	  */
 
-  const requestResources = new RequestResourcesFromActorActionTemplate('request-resources-title', 'request-resources-description', TimeSliceDuration, 'request-resources-message');
-  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-description', TimeSliceDuration, 'send-resources-message');
+  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 
-  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-description', TimeSliceDuration, 'assign-task-message');
-  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-description', TimeSliceDuration, 'release-task-message');
-
-  const askReinforcement = new AskReinforcementActionTemplate('ask-reinforcement-title', 'ask-reinforcement-desc', TimeSliceDuration, 'ask-reinforcement-feedback', 'ambulancier', 5);
+  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
+  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[getInfo.getTemplateRef()] = getInfo;
@@ -164,11 +151,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  templates[requestResources.getTemplateRef()] = requestResources;
+  //templates[placeSectors.getTemplateRef()] = placeSectors;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
-  templates[askReinforcement.getTemplateRef()] = askReinforcement;
 
   return templates;
 }
@@ -384,6 +370,7 @@ export function recomputeState(){
   ActionTemplateBase.resetIdSeed();
   TaskBase.resetIdSeed();
   Resource.resetIdSeed();
+  resetSeedId();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
 	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
