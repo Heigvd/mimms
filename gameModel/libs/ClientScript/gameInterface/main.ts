@@ -1,10 +1,10 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { endMapAction, startMapAction } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, planAction } from "../UIfacade/actionFacade";
+import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
+import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
 
-type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
+type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
 
 /**
  * Get the current gameStateStatus
@@ -62,9 +62,9 @@ export function isPlannedAction(id: number) {
 }
 
 /**
- * 
+ * Handle when an action is planned
  */
-export function actionClickHandler (id: number, params: any) : void {
+export function actionClickHandler(id: number, params: any): void {
 
 	const template = getActionTemplate(id)!;
 	const uid = Context.interfaceState.state.currentActorUid;
@@ -81,6 +81,20 @@ export function actionClickHandler (id: number, params: any) : void {
 		}
 	} else if (isPlannedAction(id)) {
 		cancelAction(uid, id);
+	}
+}
+
+/**
+ * Update state whenever user changes action, check if action is SelectMapObject
+ */
+export function actionChangeHandler() {
+	Context.interfaceState.setState({
+		...Context.interfaceState.state,
+		currentActionUid: Context.action.Uid,
+	})
+	endMapAction();
+	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
+		startMapSelect();
 	}
 }
 
@@ -130,7 +144,7 @@ export function formatTime(dateTime: Date) {
 	return result;
 }
 
-export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
+export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 	if (Context.action instanceof SendResourcesToActorActionTemplate) {
 		return "54";
 	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
