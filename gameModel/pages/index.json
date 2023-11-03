@@ -414,6 +414,16 @@
         "name" : "PatientSummaryPage",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "48",
+          "name" : "mapSelection",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "mapSelection"
       } ],
       "name" : "mainSimulation pages"
     } ],
