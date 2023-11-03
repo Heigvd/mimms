@@ -13,7 +13,6 @@ import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
-import { RequestResourceFromActorActionInput } from '../game/common/actions/actionTemplateBase';
 
 
 export function runActionButton() {
@@ -54,15 +53,6 @@ export function runActionButton() {
 			clearMapState();
 			return
 		}
-	} else if (isRequestResourcesFromActorActionTemplate(actionRefUid)) {
-		//to be removed
-		const chosenActor = Variable.find(gameModel, 'requestRecipientActor').getValue(self);
-		const chosenNbPretrieurs = +Variable.find(gameModel, 'chosenNbPretrieursB').getValue(self);
-		const requestedResources: ResourceTypeAndNumber[] = [{ function: 'Pretrieur', nb: chosenNbPretrieurs }];
-
-		const requestResourceParams: RequestResourceFromActorActionInput = { recipientActor: chosenActor, requestedResources };
-
-		params = requestResourceParams;
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
 		const sentResources : ResourceTypeAndNumber = {};
 
