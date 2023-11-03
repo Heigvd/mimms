@@ -37,7 +37,7 @@ export function runActionButton() {
 			let tmpFeature;
 			if (mapState.selectionState.geometryType) {
 				tmpFeature = {
-					geometryType: mapState.selectionState.geoemtryType,
+					geometryType: mapState.selectionState.geometryType,
 					feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
 				}
 			}
