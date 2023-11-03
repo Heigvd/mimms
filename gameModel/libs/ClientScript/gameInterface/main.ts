@@ -140,7 +140,7 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 	}	else if (Context.action instanceof MethaneTemplate) {
 		return "42";
 	} else if (Context.action instanceof SelectMapObjectTemplate) {
-		return "57";
+		return "48";
 	}
 
 	return "";
