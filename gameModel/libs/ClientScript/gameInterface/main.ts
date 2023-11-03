@@ -137,8 +137,6 @@ export function showActionParamsPanel(actionTemplate : ActionTemplateBase) {
 		return "55";
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";
-	}	else if (Context.action instanceof MethaneTemplate) {
-		return "42";
 	} else if (Context.action instanceof SelectMapObjectTemplate) {
 		return "48";
 	}
