@@ -8,7 +8,6 @@ import {
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
-import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 import { actionClickHandler } from "../gameInterface/main";
 
 
@@ -85,14 +84,16 @@ export function runActionButton(){
 }
 
 export function fetchMethaneRequestValues(): MethanePayload {
-
+		const methan = Context.interfaceState.state.methaneInformation;
 		const request = Context.interfaceState.state.resources.requestedResources;
-		
-		const newState = Helpers.cloneDeep(Context.interfaceState.state);
-		newState.resources.requestedResources = getEmptyResourceRequest();
-		Context.interfaceState.setState(newState);
-
-		// TODO cleaner and get all the fields
-		const res = {otherStuff : 'METHAN..... stuff', resourceRequest: request};
+		const res = {
+			major: methan.major,
+			exact: methan.exact,
+			incidentType: methan.incidentType,
+			hazards: methan.hazards,
+			access: methan.access,
+			victims: methan.victims,
+			resourceRequest: request
+		};
 		return res;
 }

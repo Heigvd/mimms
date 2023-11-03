@@ -4,7 +4,8 @@
  * put minimal logic in here
  */
 
-import { ActionBase } from '../game/common/actions/actionBase';
+import { fetchMethaneRequestValues } from "../gameInterface/actionsButtonLogic";
+import { ActionBase } from "../game/common/actions/actionBase";
 import {
 	ActionTemplateBase,
 	AssignTaskToResourcesActionTemplate,
@@ -22,6 +23,7 @@ import {
 	getCurrentState,
 } from '../game/mainSimulationLogic';
 import { getAllActionTemplates } from './debugFacade';
+import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -109,6 +111,16 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 	return template instanceof AssignTaskToResourcesActionTemplate;
 }
 
+export async function planMethaneAction() {
+	const actor = Context.interfaceState.state.currentActorUid;
+	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
+	const params = fetchMethaneRequestValues();
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.showMethaneModal = false;
+	newState.resources.requestedResources = getEmptyResourceRequest();
+	Context.interfaceState.setState(newState);
+	return await planAction(actTpl!.getTemplateRef(), actor!, params);
+}
 /**
  * @param id Uid of given action template
  */

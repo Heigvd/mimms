@@ -11,21 +11,6 @@ export function getAllActionTemplates() {
 	return mainLogic.debugGetAllActionTemplates();
 }
 
-export async function planMethaneAction() {
-	wlog('PLAN METHANE ACTION');
-	const actor = getCurrentState().getInternalStateObject().actors[0]?.Uid;
-	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
-	const methaneInputInformation = Variable.find(gameModel, 'methaneInput').getValue(self)
-	wlog(methaneInputInformation);
-	// TODO use a local state
-	APIMethods.runScript(
-		'Variable.find(gameModel, "modalPageNumber").setValue(self, 48);', {}
-    );
-	const params = fetchMethaneRequestValues();
-	return planAction(actTpl!.getTemplateRef(), actor!, params);
-
-}
-
 export function getAllEvents() {
 	return eventUtils.getAllEvents();
 }

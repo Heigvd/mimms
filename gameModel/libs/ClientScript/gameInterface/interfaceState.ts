@@ -8,6 +8,14 @@ export function getInitialInterfaceState() {
 	return {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
+		methaneInformation: {
+			major: "",
+			exact: "",
+			incidentType: "",
+			hazards: "",
+			access: "",
+			victims: "",
+		},
 		resources: {
 			sendResources: {
 				selectedActorId: getAllActors()[0]!.Uid,
@@ -29,7 +37,7 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-			releaseResources: {
+      releaseResources: {
 				selectedTaskId: '',
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
@@ -39,7 +47,8 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-
+		  showMethaneModal: false,
+      
 			requestedResources: getEmptyResourceRequest(),
 		},
 	};

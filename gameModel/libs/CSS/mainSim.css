@@ -501,6 +501,11 @@ color: var(--gray_700);
 	color: var(--orange);
 }
 
+.modal-methane-container {
+	max-width: 700px;
+} 
+
+
 .modalTitle{
 font-weight: var(--boldWeight);
 	font-size: var(--M_text);
@@ -532,6 +537,19 @@ font-weight: var(--boldWeight);
 	font-weight: var(--boldWeight);
 	color: var(--interface_BLUE);
 	}
+
+.methane-letter-container > .methane-letter > p {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	width: 11px;
+}
+
+.methane-letter-input {
+	padding-left: 15px;
+	width: 100%;
+}
 
 .anE-ressource-container{
 	width: 20em;
@@ -740,4 +758,15 @@ overflow: visible;
 	100%{
 		
 	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }
