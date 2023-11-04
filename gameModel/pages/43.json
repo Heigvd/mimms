@@ -422,7 +422,9 @@
                                       }
                                     },
                                     "name" : "Next",
-                                    "style" : { }
+                                    "style" : {
+                                      "margin" : "auto"
+                                    }
                                   },
                                   "type" : "Button"
                                 }, {

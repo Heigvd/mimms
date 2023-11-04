@@ -21,7 +21,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\nconst hi = getTranslation(`mainSim-interface`, `welcome`);\nconst start = getTranslation(`mainSim-interface`, `press-start`);\nhi  + `</br>` + start;",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `press-start`);",
           "language" : "TypeScript"
         }
       },
@@ -32,7 +32,7 @@
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'startMenuPageLoader').setValue(self, 49);",
+            "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
             "language" : "javascript"
           },
           "priority" : 0
