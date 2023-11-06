@@ -26,6 +26,7 @@ import { ConsoleLog } from './consoleLog';
 import { getAct, getItem } from '../../HUMAn/registries';
 import { getPathologyDefinitionById } from '../../HUMAn/registry/pathologies';
 import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, RevivedPathology } from '../../HUMAn/pathology';
+import { clearAirways, healHemorrhages } from './actionsLogic';
 
 export interface Categorization {
 	system: SystemName;
@@ -555,104 +556,8 @@ export interface PreTriageResult<
 	vitals: Record<string, string | number>;
 }
 
-function isActionBodyEffect(action: HumanAction | undefined): action is ActionBodyEffect {
-	return action?.type === 'ActionBodyEffect';
-}
-
-function isMeasureAction(action: HumanAction | undefined): action is ActionBodyMeasure {
-	return action?.type === 'ActionBodyMeasure';
-}
-
-export interface ResolvedAction {
-	source: ActDefinition | ItemDefinition;
-	label: string;
-	actionId: string;
-	action: ActionBodyEffect | ActionBodyMeasure;
-}
-
-function resolveAction(actionType: string, actionId: string, itemId?: string): ResolvedAction | undefined {
-	if (actionType === 'act') {
-		const act = getAct(actionId);
-		const action = act?.action;
-		if (isActionBodyEffect(action) || isMeasureAction(action)) {
-			const label = act ? getActTranslation(act) : `${actionId}`;
-			return {
-				source: { ...act!, type: 'act' },
-				label: label,
-				actionId: 'default',
-				action: action,
-			};
-		}
-	} else if (actionType === 'itemAction') {
-		const item = getItem(itemId!);
-		const action = item?.actions[actionId];
-		//console.log(item);
-		if (isActionBodyEffect(action) || isMeasureAction(action)) {
-			const label = item
-				? getItemActionTranslation(item, actionId)
-				: `${itemId}::${actionId}`;
-			return {
-				source: { ...item!, type: 'item' },
-				actionId: actionId,
-				label: label,
-				action: action,
-			};
-		}
-	}
-
-	return undefined;
-}
-
 function isInjured(data: PreTriageData) {
 	return data.health.pathologies.length > 0;
-}
-
-function getPathologyTypesById(id: string): string[] {
-	return getPathologyDefinitionById(id).modules.map(defModule => defModule.type);
-}
-
-function getHemorrhageZone(pathology: RevivedPathology): string[] {
-	if (getPathologyTypesById(pathology.pathologyId).find(pathologyType => pathologyType === 'Hemorrhage') !== undefined){
-		return pathology.modules.map(pathologyModule => pathologyModule.block);
-	}
-	return [];
-}
-
-function healHemorrhages(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0) {
-	if (!applyPretriageActions)
-		data.actions.push('Try to stop massive hemorrhage');
-	else {
-		//todo choose best item depending on patient zone
-		const { source, actionId, action, label }: ResolvedAction = resolveAction('itemAction', 'setup', 'cat')!;
-		if (action != null) {
-			if (action.type === 'ActionBodyEffect') {
-				// get hemorrhage zone from patient
-				let hemorrhageZones: string[] = [];
-				hemorrhageZones = data.health.pathologies.flatMap(pathology => getHemorrhageZone(pathology));
-				logger.info('Apply CAT: ', { time: simTime, source, action, hemorrhageZones });
-				const bodyEffect = doActionOnHumanBody(source, action, actionId, hemorrhageZones, simTime);
-				if (bodyEffect)
-					data.health.effects.push(bodyEffect);			
-			}
-		}
-	}
-}
-
-function clearAirways(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0) {
-	if (!applyPretriageActions)
-		data.actions.push('LVAS');
-	else {
-		const { source, actionId, action, label }: ResolvedAction = resolveAction('act', 'openAirways')!;
-		if (action != null) {
-			if (action.type === 'ActionBodyEffect') {
-				logger.info('CLEAR AIRWAYS: ', { time: simTime, source, action });
-				const bodyEffect = doActionOnHumanBody(source, action, actionId, [], simTime);
-				if (bodyEffect)
-					data.health.effects.push(bodyEffect);
-			}
-		}
-	}
-
 }
 
 function runOneStep({ human, env, health }: PreTriageData): void {
