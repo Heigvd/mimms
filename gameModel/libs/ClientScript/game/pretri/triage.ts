@@ -629,7 +629,7 @@ function healHemorrhages(data: PreTriageData, applyPretriageActions: boolean = f
 				// get hemorrhage zone from patient
 				let hemorrhageZones: string[] = [];
 				hemorrhageZones = data.health.pathologies.flatMap(pathology => getHemorrhageZone(pathology));
-				logger.warn('Apply CAT: ', { time: simTime, source, action, hemorrhageZones });
+				logger.info('Apply CAT: ', { time: simTime, source, action, hemorrhageZones });
 				const bodyEffect = doActionOnHumanBody(source, action, actionId, hemorrhageZones, simTime);
 				if (bodyEffect)
 					data.health.effects.push(bodyEffect);			
@@ -645,7 +645,7 @@ function clearAirways(data: PreTriageData, applyPretriageActions: boolean = fals
 		const { source, actionId, action, label }: ResolvedAction = resolveAction('act', 'openAirways')!;
 		if (action != null) {
 			if (action.type === 'ActionBodyEffect') {
-				logger.warn('CLEAR AIRWAYS: ', { time: simTime, source, action });
+				logger.info('CLEAR AIRWAYS: ', { time: simTime, source, action });
 				const bodyEffect = doActionOnHumanBody(source, action, actionId, [], simTime);
 				if (bodyEffect)
 					data.health.effects.push(bodyEffect);
@@ -844,7 +844,7 @@ const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console)
 		if (
 			getOrReadMetric<number>('vitals.respiration.rr', data.human.state, console, 'OLDEST') == 0
 		) {
-			//clearAirways(data);
+			clearAirways(data);
 			runOneStep(data);
 		}
 
@@ -1363,7 +1363,7 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 export function doAutomaticTriage_internal(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0): PreTriageResult<string> | undefined {
 	const tagSystem = getTagSystem();
 
-	logger.warn("TRIAGE ALGO: ", tagSystem);
+	//logger.warn("TRIAGE ALGO: ", tagSystem);
 
 	let triageFunction: TriageFunction<string> = undefined;
 	switch (tagSystem) {
