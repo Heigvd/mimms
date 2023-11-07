@@ -22,7 +22,7 @@ import { getOverview } from '../patientZoom/graphics';
 import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
 import { logger } from '../../tools/logger';
 import { ConsoleLog } from './consoleLog';
-import { clearAirways, healHemorrhages } from './actionsLogic';
+import { clearAirways, healHemorrhages, placeInRecoveryPosition } from './actionsLogic';
 
 export interface Categorization {
 	system: SystemName;
@@ -575,10 +575,6 @@ function notCompatibleWithLife(data: PreTriageData) {
 	return false;
 }
 
-function placeInRecoveryPosition(data: PreTriageData) {
-	data.actions.push('RecoveryPosition');
-}
-
 function detectMassiveHemorrhage({ human }: PreTriageData) {
 	return massiveHemorrhage(human);
 }
@@ -847,7 +843,7 @@ const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console, 
 	}
 
 	if (isUnconscious(data)) {
-		placeInRecoveryPosition(data);
+		placeInRecoveryPosition(data, applyPretriageActions, simTime);
 		return {
 			categoryId: 'immediate',
 			explanations: ['UNCONSCIOUS'],
@@ -1263,8 +1259,6 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 
 export function doAutomaticTriage_internal(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0): PreTriageResult<string> | undefined {
 	const tagSystem = getTagSystem();
-
-	//logger.warn("TRIAGE ALGO: ", tagSystem);
 
 	let triageFunction: TriageFunction<string> = undefined;
 	switch (tagSystem) {

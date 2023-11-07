@@ -1,7 +1,7 @@
 import { doActionOnHumanBody } from "../../HUMAn/human";
 import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, RevivedPathology } from "../../HUMAn/pathology";
 import { getAct, getItem } from "../../HUMAn/registries";
-import { PRETRI_ACTION_ITEM_ID_BANDAGE, PRETRI_ACTION_ITEM_ID_CAT } from "../../HUMAn/registry/acts";
+import { PRETRI_ACTION_ID_OPEN_AIRWAYS, PRETRI_ACTION_ID_RECOVERY_POSITION, PRETRI_ACTION_ITEM_ID_BANDAGE, PRETRI_ACTION_ITEM_ID_CAT } from "../../HUMAn/registry/acts";
 import { getPathologyDefinitionById } from "../../HUMAn/registry/pathologies";
 import { logger } from "../../tools/logger";
 import { getActTranslation, getItemActionTranslation } from "../../tools/translation";
@@ -96,7 +96,7 @@ export function healHemorrhages(data: PreTriageData, applyPretriageActions: bool
 				const { source, actionId, action, label }: ResolvedAction = resolveAction('itemAction', bestActionId, bestItemId)!;
 				if (action != null) {
 					if (action.type === 'ActionBodyEffect') {
-						logger.info('Apply: ', { time: simTime, bestItemId, hemorrhageZone });
+						logger.debug('Apply: ', { time: simTime, bestItemId, hemorrhageZone });
 						const bodyEffect = doActionOnHumanBody(source, action, actionId, [hemorrhageZone], simTime);
 						if (bodyEffect)
 							data.health.effects.push(bodyEffect);			
@@ -110,16 +110,25 @@ export function healHemorrhages(data: PreTriageData, applyPretriageActions: bool
 export function clearAirways(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0) {
 	if (!applyPretriageActions)
 		data.actions.push('LVAS');
-	else {
-		const { source, actionId, action, label }: ResolvedAction = resolveAction('act', 'openAirways')!;
-		if (action != null) {
-			if (action.type === 'ActionBodyEffect') {
-				logger.info('CLEAR AIRWAYS: ', { time: simTime, source, action });
-				const bodyEffect = doActionOnHumanBody(source, action, actionId, [], simTime);
-				if (bodyEffect)
-					data.health.effects.push(bodyEffect);
-			}
+	else 
+		executeAction(data, PRETRI_ACTION_ID_OPEN_AIRWAYS, simTime);
+}
+
+export function placeInRecoveryPosition(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0) {
+	if (!applyPretriageActions)
+		data.actions.push('RecoveryPosition');
+	else 
+		executeAction(data, PRETRI_ACTION_ID_RECOVERY_POSITION, simTime);
+}
+
+function executeAction(data: PreTriageData, actionIdentifier: string, simTime: number) {
+	const { source, actionId, action, label }: ResolvedAction = resolveAction('act', actionIdentifier)!;
+	if (action != null) {
+		if (action.type === 'ActionBodyEffect') {
+			logger.debug('ACTION: ', { time: simTime, source, action });
+			const bodyEffect = doActionOnHumanBody(source, action, actionId, [], simTime);
+			if (bodyEffect)
+				data.health.effects.push(bodyEffect);
 		}
 	}
-
 }

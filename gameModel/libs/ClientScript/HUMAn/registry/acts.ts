@@ -10,6 +10,7 @@ let items: Record<string, ItemDefinition> = {};
 let acts: Record<string, ActDefinition> = {};
 
 export const PRETRI_ACTION_ID_OPEN_AIRWAYS = 'openAirways';
+export const PRETRI_ACTION_ID_RECOVERY_POSITION = 'recoveryPosition';
 export const PRETRI_ACTION_ITEM_ID_CAT = 'cat';
 export const PRETRI_ACTION_ITEM_ID_BANDAGE = 'bandage';
 
@@ -56,7 +57,7 @@ export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSe
 	// Airways
 	////////////////////////////////////////
 	registerAct({
-		id: 'recoveryPosition',
+		id: PRETRI_ACTION_ID_RECOVERY_POSITION,
 		priority: 0,
 		action: {
 			type: 'ActionBodyEffect',
