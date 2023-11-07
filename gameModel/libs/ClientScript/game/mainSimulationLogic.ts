@@ -112,9 +112,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
 
-  const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
-  const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
-  const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
+  const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/179543646', 'way/301355984']}});
+  const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500009.75586577,1118472.531405577], [2500057.0688582086,1118551.6205987816]]}});
+  const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125,1118456.4054969894], [2500106.9001576486,1118532.2446804282], [2499999.6045754217,1118483.805125067]]}});
 
 /*
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 

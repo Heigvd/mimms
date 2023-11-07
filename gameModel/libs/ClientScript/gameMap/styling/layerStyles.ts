@@ -37,13 +37,27 @@ function getPointStyle(feature: any): LayerStyleObject {
 			opacity: 1,
 		}
 
-		// TODO SELECTION LAYER SHOULD HAVE ITS OWN STYLE
-		// HARDCODED FOR DEMO
+		const textStyle: TextStyleObject = {
+			type: 'TextStyle'
+		};
+
 		if (icon === Context.mapState.state.selectionState.icon) {
 			iconStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
+
+			// Convert to int to add 1
+			const index = parseInt(name, 10) + 1;
+			// Define textStyle for Icons
+			textStyle.text = String(index);
+			textStyle.offsetY = -18;
+			textStyle.scale = 1.6;
+			textStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
+			textStyle.fill = {
+				type: 'FillStyle',
+				color: 'white',
+			};
 		}
 
-		return { image: iconStyle };
+		return { image: iconStyle, text: textStyle };
 	}
 
 	const circle: ImageStyleObject = {
