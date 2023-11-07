@@ -34,18 +34,10 @@ export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorI
   }
 }
 
-/**
- * @returns The tasks that can be handled by the actor regarding the current state.
- * (= the tasks to which the actor can allocate resources)
- */
-export function fetchOngoingTasks(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
-  const actor = state.getActorById(actorId);
-  if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor) && ta.getStatus() === 'OnGoing');
-  } else {
-    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
-    return [];
-  }
+export function fetchTasksWithResources(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+  const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
+  const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
+  return Object.values(getAllTasks(state)).filter(ta => tasksIdWhereResources.find(taskId => taskId == ta.Uid));
 }
 
 /**
