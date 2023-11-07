@@ -416,7 +416,7 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "48",
+        "id" : "61",
         "name" : "ResourceSummaryPage",
         "scenaristPage" : null,
         "trainerPage" : null
@@ -431,7 +431,7 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "61",
+          "id" : "48",
           "name" : "mapSelection",
           "scenaristPage" : null,
           "trainerPage" : null

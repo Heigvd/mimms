@@ -2,203 +2,402 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "choices" : {
+          "@class" : "Script",
+          "content" : "const choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState) {\n\tlet selection;\n\tif (Context.mapState.state.selectionState.layerId) {\n\t\tselection = Context.mapState.state.selectionState.featureIds;\n\t}\n\tif (Context.mapState.state.selectionState.geometryType) {\n\t\tselection = Context.mapState.state.selectionState.geometries;\n\t}\n\n\tif (selection) {\n\t\tselection.forEach((f: string, i: number) => {\n\t\t\tchoices.push({ label: String(i + 1), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { buildingsRef, selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();\nbuildingsRef.current.changed();",
+            "language" : "TypeScript"
+          },
+          "exposeVariableAs" : {
+            "@class" : "Script",
+            "content" : "\"mapObjectSelection\"",
+            "language" : "TypeScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.selectedMapObjectId;",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    }, {
+      "props" : {
         "children" : [ {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "ownerId",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-id');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "ownerType",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-type');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "resourceId",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-id');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "resourceType",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-type');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "currentActivity",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-activity');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
           "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "id" : "ownerId",
-                    "layoutStyle" : { },
-                    "name" : "ownerId",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.ownerId);",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Entrée/Sortie séparée:&nbsp\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][0] ? \"Vrai\" : \"Faux\";",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
                     }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "id" : "ownerType",
-                    "layoutStyle" : { },
-                    "name" : "ownerType",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.ownerType);",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"De plein pied:&nbsp\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][1] ? \"Vrai\" : \"Faux\";",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
                     }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "layoutStyle" : { },
-                    "name" : "resourceId",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.resourceId);",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Capacités en personnes:&nbsp\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][2])",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
                     }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "answer",
-                    "layoutStyle" : { },
-                    "name" : "resourceType",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.resourceDebug.resourceType;",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Securité du bâtiment:&nbsp\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][3])",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
                     }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "layoutStyle" : { },
-                    "name" : "currentActivity",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.currentActivity);",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Accès à l'eau:&nbsp\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][4] ? \"Vrai\" : \"Faux\";",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
                     }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Chauffé:&nbsp;\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "",
+                        "layoutStyle" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "style" : {
+                          "margin" : "0",
+                          "padding" : "0"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][5] ? \"Vrai\" : \"Faux\";",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "",
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutStyle" : {
+                      "margin" : "0",
+                      "padding " : "0"
+                    },
+                    "style" : {
+                      "margin" : "0",
+                      "padding" : "0"
+                    }
+                  },
+                  "type" : "FlexList"
                 } ],
-                "className" : "patient-summary--line",
-                "layout" : { },
-                "layoutClassName" : "",
-                "layoutStyle" : {
-                  "display" : "contents"
+                "layout" : {
+                  "flexDirection" : "column"
                 },
-                "style" : {
-                  "display" : "contents"
-                }
+                "layoutStyle" : { },
+                "style" : { }
               },
               "type" : "FlexList"
             } ],
-            "exposeAs" : "resourceDebug",
-            "getItemsFn" : {
+            "exposeAs" : "pmaDetails",
+            "initialState" : {
               "@class" : "Script",
-              "content" : "import { getAllResourcesGroup } from \"./UIfacade/debugFacade\";\ngetAllResourcesGroup();",
+              "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId])",
               "language" : "TypeScript"
             },
-            "itemKey" : "ownerId",
-            "itemsOnly" : false,
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : {
-              "display" : "contents"
-            },
-            "name" : "resourceDebug",
-            "style" : {
-              "display" : "contents"
-            }
+            "layoutStyle" : { },
+            "localState" : false,
+            "style" : { }
           },
-          "type" : "For each"
+          "type" : "State"
         } ],
-        "className" : "resource-summary--grid-main",
-        "conditionnalClassNames" : [ {
-          "applyOn" : "Inside",
-          "className" : "exam-mode",
-          "condition" : {
-            "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
-            "language" : "typescript"
-          }
-        } ],
-        "layout" : {
-          "alignItems" : "center",
-          "gridAutoRows" : "50px",
-          "justifyItems" : "center"
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "// TODO Better PMA Information page handling\n!Context.mapState.state.selectionState.layerId",
+          "language" : "typescript"
         },
+        "layout" : { },
         "layoutStyle" : { },
-        "name" : "summary",
-        "style" : {
-          "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
-        }
+        "style" : { }
       },
-      "type" : "Grid"
+      "type" : "FlexList"
     } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "!Context.mapState.state.mapSelect;",
+      "language" : "typescript"
+    },
     "layout" : {
-      "flexDirection" : "column"
+      "flexDirection" : "row"
     },
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
