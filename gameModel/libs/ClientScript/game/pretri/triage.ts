@@ -5,7 +5,6 @@ import {
 	BodyState,
 	BodyStateKeys,
 	computeState,
-	doActionOnHumanBody,
 	Environnment,
 	HumanBody,
 	readKey,
@@ -18,14 +17,11 @@ import {
 	HumanHealth,
 } from '../legacy/the_world';
 import { getEnv } from '../../tools/WegasHelper';
-import { getActTranslation, getItemActionTranslation, getTranslation } from '../../tools/translation';
+import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../patientZoom/graphics';
 import { massiveHemorrhage } from '../../HUMAn/physiologicalModel';
 import { logger } from '../../tools/logger';
 import { ConsoleLog } from './consoleLog';
-import { getAct, getItem } from '../../HUMAn/registries';
-import { getPathologyDefinitionById } from '../../HUMAn/registry/pathologies';
-import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, RevivedPathology } from '../../HUMAn/pathology';
 import { clearAirways, healHemorrhages } from './actionsLogic';
 
 export interface Categorization {

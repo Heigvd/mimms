@@ -1,6 +1,7 @@
 import { doActionOnHumanBody } from "../../HUMAn/human";
 import { ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ItemDefinition, RevivedPathology } from "../../HUMAn/pathology";
 import { getAct, getItem } from "../../HUMAn/registries";
+import { PRETRI_ACTION_ITEM_ID_BANDAGE, PRETRI_ACTION_ITEM_ID_CAT } from "../../HUMAn/registry/acts";
 import { getPathologyDefinitionById } from "../../HUMAn/registry/pathologies";
 import { logger } from "../../tools/logger";
 import { getActTranslation, getItemActionTranslation } from "../../tools/translation";
@@ -22,7 +23,7 @@ export interface ResolvedAction {
 }
 
 function listHemorrhageActionItems(): string[] {
-	return ['cat', 'bandage', 'israeliBandage'];
+	return [PRETRI_ACTION_ITEM_ID_CAT, PRETRI_ACTION_ITEM_ID_BANDAGE];
 }
 
 function getBestHemorrhageItemAndAction(hemorrageZone: string): [string|undefined, string|undefined] {
