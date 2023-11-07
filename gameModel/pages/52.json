@@ -52,6 +52,11 @@
               "type" : "Text"
             } ],
             "className" : "oneHeaderResource",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\ncountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
+              "language" : "typescript"
+            },
             "layout" : {
               "alignItems" : "center",
               "flexDirection" : "column"
