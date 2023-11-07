@@ -414,6 +414,18 @@
         "name" : "PatientSummaryPage",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "48",
+        "name" : "ResourceSummaryPage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "53",
+        "name" : "LocalEventSummary",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

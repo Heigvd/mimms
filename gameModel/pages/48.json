@@ -1,0 +1,204 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "ownerId",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-id');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "ownerType",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-type');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "resourceId",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-id');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "resourceType",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-type');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "currentActivity",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-activity');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "id" : "ownerId",
+                    "layoutStyle" : { },
+                    "name" : "ownerId",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.ownerId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "id" : "ownerType",
+                    "layoutStyle" : { },
+                    "name" : "ownerType",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.ownerType);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "resourceId",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.resourceId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "answer",
+                    "layoutStyle" : { },
+                    "name" : "resourceType",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.resourceDebug.resourceType;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "currentActivity",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.currentActivity);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "patient-summary--line",
+                "layout" : { },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "display" : "contents"
+                },
+                "style" : {
+                  "display" : "contents"
+                }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "resourceDebug",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getAllResourcesGroup } from \"./UIfacade/debugFacade\";\ngetAllResourcesGroup();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "ownerId",
+            "itemsOnly" : false,
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "display" : "contents"
+            },
+            "name" : "resourceDebug",
+            "style" : {
+              "display" : "contents"
+            }
+          },
+          "type" : "For each"
+        } ],
+        "className" : "resource-summary--grid-main",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "exam-mode",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+            "language" : "typescript"
+          }
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "gridAutoRows" : "50px",
+          "justifyItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "summary",
+        "style" : {
+          "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
+        }
+      },
+      "type" : "Grid"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
