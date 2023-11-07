@@ -1,5 +1,5 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { MapFeature } from "../events/defineMapObjectEvent";
+import { MapFeature, SelectFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import {
 	AddMapItemLocalEvent,
@@ -288,7 +288,7 @@ export class DefineMapObjectAction extends StartEndAction {
   ) { 
       super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
       this.feature = feature;
-	  this.feature.startTimeSec = this.startTime;
+	    this.feature.startTimeSec = this.startTime;
       this.feature.durationTimeSec = this.durationSec;
   }
 
@@ -324,6 +324,81 @@ export class DefineMapObjectAction extends StartEndAction {
     clone.status = this.status;
     return clone as this;
     
+  }
+}
+
+export class SelectMapObjectAction extends StartEndAction {
+
+  public readonly featureKey: string;
+  public readonly featureId: string;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    featureKey: string,
+    featureId: string,
+    uuidTemplate: ActionTemplateId,
+  ) {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    this.featureKey = featureKey;
+    this.featureId = featureId;
+  }
+
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place immediatly
+    // TODO show grayed out map element
+    const selectFeature: SelectFeature = {
+      ownerId: this.ownerId,
+      name: this.actionNameKey,
+      geometryType: 'Select',
+      featureKey: this.featureKey,
+      featureIds: this.featureId,
+	    startTimeSec: this.startTime,
+      durationTimeSec: this.durationSec,
+    }
+
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    // dispatch state changes that take place at the end of the action
+    // ungrey the map element
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
+  }
+
+  protected cancelInternal(state: MainSimulationState): void {
+    // TODO maybe store in class similar to DefineMapObject
+	  const selectFeature: SelectFeature = {
+      ownerId: this.ownerId,
+      name: this.actionNameKey,
+      geometryType: 'Select',
+      featureKey: this.featureKey,
+      featureIds: this.featureId,
+	  startTimeSec: this.startTime,
+      durationTimeSec: this.durationSec,
+    }
+
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
+  }
+
+  clone(): this {
+      const clone = new SelectMapObjectAction(
+        this.startTime,
+        this.durationSec,
+        this.actionNameKey,
+        this.messageKey,
+        this.eventId,
+        this.ownerId,
+        this.featureKey,
+        this.featureId,
+        this.templateId,
+      );
+      clone.status = this.status;
+      return clone as this;
   }
 }
 

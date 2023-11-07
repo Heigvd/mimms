@@ -426,6 +426,17 @@
         "name" : "LocalEventSummary",
         "scenaristPage" : null,
         "trainerPage" : null
+      },
+      {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "61",
+          "name" : "mapSelection",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "mapSelection"
       } ],
       "name" : "mainSimulation pages"
     } ],

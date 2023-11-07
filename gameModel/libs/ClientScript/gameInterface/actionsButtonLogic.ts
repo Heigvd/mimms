@@ -1,24 +1,58 @@
 import { MethanePayload } from '../game/common/events/methaneEvent';
 import {
+	getActionTemplate,
 	isAssignResourcesToTaskActionTemplate,
 	isDefineMapObjectTemplate,
 	isMethaneActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
+	isSelectMapObjectTemplate,
 	isSendResourcesToActorActionTemplate,
+	planAction,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
-import { actionClickHandler } from "../gameInterface/main";
+import { actionClickHandler, canPlanAction } from "../gameInterface/main";
+import { clearMapState, startMapSelect } from '../gameMap/main';
 
 
-export function runActionButton(){
+export function runActionButton() {
 	const actionRefUid = Context.action.Uid;
 
 	let params = {};
 
 	if (isDefineMapObjectTemplate(actionRefUid)) {
-		params = Context.action.featureType;
+		params = Context.action.featureDescription.geometryType;
+	} else if (isSelectMapObjectTemplate(actionRefUid)) {
 
+		const ref = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
+		const actor = Context.interfaceState.state.currentActorUid;
+		const mapState = Context.mapState.state;
+
+	// Does this belong here ?
+
+		// If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
+		if (!canPlanAction()) {
+			startMapSelect();
+		} else {
+			let tmpFeature;
+			if (mapState.selectionState.geometryType) {
+				tmpFeature = {
+					geometryType: mapState.selectionState.geometryType,
+					feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
+				}
+			}
+
+			if (mapState.selectionState.layerId) {
+				tmpFeature = {
+					featureKey: mapState.selectionState.featureKey,
+					featureId: mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId]
+				}
+			}
+
+			planAction(ref, actor, tmpFeature);
+			clearMapState();
+			return
+		}
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
 		const sentResources : ResourceTypeAndNumber = {};
 

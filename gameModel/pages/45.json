@@ -74,7 +74,7 @@
                   "priority" : 0,
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { endMapAction } from \"./gameMap/main\";\n\nContext.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActionUid: Context.action.Uid,\n})\nendMapAction();",
+                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler();",
                     "language" : "TypeScript"
                   }
                 },

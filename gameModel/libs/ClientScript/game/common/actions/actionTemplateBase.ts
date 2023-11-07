@@ -14,9 +14,9 @@ import {
   DefineMapObjectAction,
   MethaneAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
-import { DefineMapObjectEvent, GeometryType, MapFeature, featurePayload } from "../events/defineMapObjectEvent";
+import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -276,7 +276,6 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneAc
 
 }
 
-
 export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
   
   constructor(
@@ -288,13 +287,13 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
       geometryType: GeometryType,
       name: string,
       icon?: string,
-	  feature?: MapFeature,
+	  feature?: DefineFeature,
     }
   ) {
     super(title, description, duration, message);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: featurePayload): DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: FeaturePayload): DefineMapObjectEvent {
     
   const feature = {
 	  ownerId: initiator.Uid,
@@ -307,7 +306,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      feature: feature as unknown as MapFeature,
+      feature: feature as unknown as DefineFeature,
     }
   }
 
@@ -338,6 +337,99 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
     return false;
   }
 
+}
+
+export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
+
+  
+  public readonly geometrySelection?: {
+    geometryType: GeometryType,
+    icon?: string,
+    geometries: PointLikeObjects[],
+	name: string,
+  }
+
+  public readonly featureSelection?: {
+    layerId: string,
+    featureKey: string,
+    featureIds: string[],
+	name: string,
+  }
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    selection: { geometrySelection?: any, featureSelection?: any},
+  ) {
+    super(title, description, duration, message);
+    if (selection.geometrySelection) {
+      this.geometrySelection = selection.geometrySelection;
+    }
+    if (selection.featureSelection) {
+      this.featureSelection = selection.featureSelection;
+    }
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload | FeaturePayload): SelectMapObjectEvent | DefineMapObjectEvent {
+
+    if (this.geometrySelection) {
+
+		const feature = {
+			ownerId: initiator.Uid,
+			geometryType: this.geometrySelection.geometryType,
+			name: this.geometrySelection.name,
+			geometry: (payload as FeaturePayload).feature,
+			...this.geometrySelection.icon && {icon: this.geometrySelection.icon},
+		}
+
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			feature: feature as unknown as DefineFeature,
+		}
+	}
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			featureKey: this.featureSelection!.featureKey,
+			featureId: (payload as SelectPayload).featureId,
+		}
+	
+  }
+
+  public getTemplateRef(): string {
+      return 'SelectMapObjectTemplate' + '_' + this.title;
+  }
+
+  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>): SelectMapObjectAction | DefineMapObjectAction {
+	  const payload = event.payload;
+	  const ownerId = payload.emitterCharacterId as ActorId;
+
+	  if (this.geometrySelection) {
+		  return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
+	  }
+
+      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureSelection!.featureKey, (payload as SelectMapObjectEvent).featureId, this.Uid)
+  }
+
+  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+      return this.checkIfAlreadyUsedAndCouldReplay(state)
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description)
+
+  }
+
+  public getTitle(): string {
+      return getTranslation('mainSim-actions-tasks', this.title)
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+      return false;
+  }
 }
 
 export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };

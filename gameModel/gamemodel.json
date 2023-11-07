@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1698832878685,
+  "createdTime" : 1699026817607,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4765,6 +4765,7 @@
           "summary-event-parent" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"parent ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du parent\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-event-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event Time\"},\"FR\":{\"status\":\"\",\"translation\":\"temps de l'événement\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-event-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type d'événement\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-effects" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacement\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-nb" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"n°\"},\"FR\":{\"status\":\"\",\"translation\":\"n°\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-owner-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6121,10 +6122,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameInterface/PMA",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:75985:LIppZ4",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameInterface/timeline",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48961:1JsWuI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/layers/buildingsLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:73401:JQLM2P",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6668,7 +6687,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev NEW MAP",
+  "name" : "MIMMS main simulation dev 3.11.2023",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

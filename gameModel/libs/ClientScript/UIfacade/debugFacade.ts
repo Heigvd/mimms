@@ -1,6 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { localEventManager } from '../game/common/localEvents/localEventManager';
+import { buildingsRef } from '../gameMap/main';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -22,6 +23,7 @@ export function triggerEventLoop() {
 		Helpers.scrollIntoView('#current-time', {behavior: 'smooth', inline: 'center'})
 		Helpers.scrollIntoView('.aMessage-animation', {behavior: 'smooth', block: 'start'})
 	}, 1);
+	if (buildingsRef.current) buildingsRef.current.changed();
 }
 
 export function recomputeLocalState() {

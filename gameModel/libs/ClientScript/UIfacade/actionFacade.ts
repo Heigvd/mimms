@@ -12,6 +12,7 @@ import {
 	DefineMapObjectTemplate,
 	MethaneTemplate,
 	ReleaseResourcesFromTaskActionTemplate,
+	SelectMapObjectTemplate,
 	SendResourcesToActorActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
@@ -22,7 +23,6 @@ import {
 	fetchAvailableActions,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
-import { getAllActionTemplates } from './debugFacade';
 import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 
 const logger = Helpers.getLogger('mainSim-interface');
@@ -80,11 +80,13 @@ export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, Ac
  * @param id Uid of given action
  */
 export function isDefineMapObjectTemplate(id: number) {
-	logger.info('isDefined id: ', id)
-	const template = getAllActionTemplates().find(t => t.Uid === id);
-	logger.info(template);
-	logger.info('return: ', template instanceof DefineMapObjectTemplate);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof DefineMapObjectTemplate;
+}
+
+export function isSelectMapObjectTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof SelectMapObjectTemplate;
 }
 
 /**
@@ -128,3 +130,4 @@ export function isReleaseResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
+

@@ -224,7 +224,7 @@ export class PreTriageTask extends DefaultTask {
 				(resource as Resource).cumulatedUnusedTime = ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY) - TIME_REQUIRED_FOR_PATIENT_PRETRI;
 				const nextPatient = getNextNonPreTriagedPatient(state);
 				if (nextPatient)
-					nextPatient.preTriageResult = doPatientAutomaticTriage(nextPatient.humanBody)!;
+					nextPatient.preTriageResult = doPatientAutomaticTriage(nextPatient.humanBody, state.getSimTime())!;
 			}
 			else {
 				(resource as Resource).cumulatedUnusedTime += timeJump;
