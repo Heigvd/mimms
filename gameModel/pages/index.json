@@ -399,6 +399,19 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
+        "@class" : "Page",
+        "id" : "61",
+        "name" : "ResourceSummaryPage",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "53",
+        "name" : "LocalEventSummary",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      },
+      {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
