@@ -1,0 +1,152 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "parentID",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-parent');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "eventType",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-type');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "eventTime",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-time');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "parentID",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.event.parentId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "eventType",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.event.type;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "answer",
+                    "layoutStyle" : { },
+                    "name" : "eventTime",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.event.time);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "patient-summary--line",
+                "layout" : { },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "display" : "contents"
+                },
+                "style" : {
+                  "display" : "contents"
+                }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "event",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getAllLocalEvents } from \"./UIfacade/debugFacade\";\ngetAllLocalEvents();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "itemsOnly" : false,
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "display" : "contents"
+            },
+            "name" : "patient",
+            "style" : {
+              "display" : "contents"
+            }
+          },
+          "type" : "For each"
+        } ],
+        "className" : "local-event-summary--grid-main",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "exam-mode",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+            "language" : "typescript"
+          }
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "gridAutoRows" : "50px",
+          "justifyItems" : "center"
+        },
+        "layoutStyle" : { },
+        "name" : "summary",
+        "style" : {
+          "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
+        }
+      },
+      "type" : "Grid"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

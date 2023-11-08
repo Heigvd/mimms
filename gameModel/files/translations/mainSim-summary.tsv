@@ -7,3 +7,12 @@ summary-actions	Actions	Actions
 summary-actions-cat	CAT	CAT
 summary-actions-openAirways	Open Airways	Ouvrir voies resp.
 summary-actions-recoveryPosition	Recovery Position	position latérale
+summary-owner-id	Owner ID	ID du propriétaire
+summary-owner-type	Owner Type	Type du propriétaire
+summary-resource-id	Resource ID	ID de la resource
+summary-resource-type	Resource Type	Type de la resource
+summary-resource-activity	Resource Activity	Activité de la resource
+summary-event-parent	Parent ID	ID du parent
+summary-event-type	Event Type	Type d'événement
+summary-event-time	Event Time	Temps de l'événement
+summary-effects	Actions	Actions

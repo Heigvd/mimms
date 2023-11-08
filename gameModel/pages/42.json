@@ -156,7 +156,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"Major incident declared\"",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -215,7 +215,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"Exact location\"",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -274,7 +274,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"Type of incident\"",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -333,7 +333,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"Hazards present or suspected\"",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -392,7 +392,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"Access\"",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -451,7 +451,7 @@
                     },
                     "placeholder" : {
                       "@class" : "Script",
-                      "content" : "\"0\";",
+                      "content" : "\"\"",
                       "language" : "TypeScript"
                     },
                     "script" : {
@@ -511,6 +511,11 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"0\"",
+                              "language" : "TypeScript"
+                            },
                             "layoutStyle" : { },
                             "onCancel" : { },
                             "onVariableChange" : {

@@ -352,12 +352,9 @@ background: var(--secondaryInterface_400);
 
 .nextActionBtn > * {
     /* margin: 0.5em; */
-    padding: 0.5em;
-    padding-left: 1.5em;
-    height: 3.5em;
-    width: 5.5em;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
+    height: 2.5em;
+    width: 4.5em;
+    border-radius: 25px;
     /* align-content: flex-end; */
     font-weight: var(--boldWeight);
     color: var(--gray_WHITE);
@@ -370,6 +367,7 @@ background: var(--secondaryInterface_400);
 }
 .nextActionBtn > * > svg {
 	font-size: 1.6em;
+	margin: auto;
 }
 
 /*** Title + description of an assignable task ***/ 
@@ -711,7 +709,7 @@ height: 3em;
 .next-container{
 z-index: 4;
 position: absolute;
-top: -2.3em;
+top: -1.6em;
 right: 2em;
 overflow: visible;
 }
@@ -741,6 +739,14 @@ overflow: visible;
 /********************** Patient summary **********************/
 .patient-summary--grid-main {
 	grid-template-columns: repeat(5, 1fr);
+}
+
+.resource-summary--grid-main {
+	grid-template-columns: repeat(5, 1fr);
+}
+
+.local-event-summary--grid-main {
+	grid-template-columns: repeat(3, 1fr);
 }
 
 /********************** Animation ****************/

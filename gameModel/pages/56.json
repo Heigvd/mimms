@@ -6,7 +6,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getOnGoingTasks } from \"./UIfacade/resourceTaskFacade\";\n\ngetOnGoingTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+              "content" : "import { getTasksWithResources } from \"./UIfacade/resourceTaskFacade\";\n\ngetTasksWithResources(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",
