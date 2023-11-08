@@ -410,8 +410,7 @@
         "name" : "LocalEventSummary",
         "scenaristPage" : null,
         "trainerPage" : null
-      },
-      {
+      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
