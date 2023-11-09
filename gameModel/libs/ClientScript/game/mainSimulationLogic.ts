@@ -366,7 +366,7 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   return currentSimulationState;
 }
 
-export function recomputeState(containers:ResourceContainerConfig[]){
+export function recomputeState(){
 	wlog('Reinitialize state');
 	processedEvents = {};
 
