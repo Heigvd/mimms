@@ -372,14 +372,22 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		// TODO translations
 		const c = getContainerDef(this.containerDef);
-		const name = c.name;
 		const t = Math.round(this.travelTime / 60);
-		//TODO add amu
-		const msg = `Sending ${this.amount} ${name}. Arrival in ${t} minutes`;
+		const msg = this.buildRadioText(this.amount, c.name, t);
 		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
 		localEventManager.queueLocalEvent(evt);
+	}
+
+	private buildRadioText(amount: number, name: string, time: number): string {
+		const parts : string []= [];
+		parts.push(getTranslation('mainSim-resources', 'sending'));
+		parts.push(amount + '');
+		parts.push(getTranslation('mainSim-resources', name));
+		parts.push(getTranslation('mainSim-resources', 'arrival-in'));
+		parts.push(time + '');
+		parts.push(getTranslation('mainSim-resources', 'minute'));
+		return parts.join(' ');
 	}
 
 }
