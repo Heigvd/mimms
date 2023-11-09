@@ -119,6 +119,8 @@ export async function planCasuMessageAction() {
 	const params = fetchCasuMessageRequestValues();
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
 	newState.showMethaneModal = false;
+	// Reset all casuMessage fields
+	Object.keys(newState.casuMessage).forEach(key => newState.casuMessage[key] = '');
 	newState.resources.requestedResources = getEmptyResourceRequest();
 	Context.interfaceState.setState(newState);
 	return await planAction(actTpl!.getTemplateRef(), actor!, params);

@@ -4,7 +4,7 @@ import { ActionCreationEvent } from "./eventTypes";
 
 
 export interface CasuMessagePayload {
-	messageType: 'METHANE' | 'MET' | 'HANE' | 'Resource',
+	messageType: 'METHANE' | 'MET' | 'HANE' | 'E',
 	major?: string,
 	exact?: string,
 	incidentType?: string,

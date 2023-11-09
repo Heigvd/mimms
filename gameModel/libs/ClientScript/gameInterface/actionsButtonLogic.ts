@@ -117,24 +117,23 @@ export function runActionButton() {
 }
 
 export function fetchCasuMessageRequestValues(): CasuMessagePayload {
-	const alertType = Context.methaneSelection.state.selected;
-	const methan = Context.interfaceState.state.methaneInformation;
+	const casuMessage = Context.interfaceState.state.casuMessage;
 	const request = Context.interfaceState.state.resources.requestedResources;
 
-	let res = {...methan, resourceRequest: request}
+	let res: CasuMessagePayload = { ...casuMessage, resourceRequest: request };
 
-	if (alertType === 'MET') {
+	if (res.messageType === 'MET') {
 		delete res.hazards;
 		delete res.access;
 		delete res.victims;
 		delete res.resourceRequest;
 	}
-	if (alertType === 'HANE' || alertType === 'E') {
+	if (res.messageType === 'HANE' || res.messageType === 'E') {
 		delete res.major;
 		delete res.exact;
 		delete res.incidentType;
 	}
-	if (alertType === 'E') {
+	if (res.messageType === 'E') {
 		delete res.hazards;
 		delete res.access;
 		delete res.victims;
