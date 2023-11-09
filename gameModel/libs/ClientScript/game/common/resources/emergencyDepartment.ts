@@ -17,11 +17,9 @@ export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, Re
 	return containerDefinitions;
 }
 
-export async function loadEmergencyResourceContainers(): Promise<ResourceContainerConfig[]> {
+export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 
-	const containerConfigs: ResourceContainerConfig[]|PromiseLike<ResourceContainerConfig[]> = [];
-	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
-	if(!tsv.startsWith('<!DOCTYPE')){
+		const containerConfigs: ResourceContainerConfig[] = [];
 		const emergencyAmbulance = addContainerDefinition(
 			'Ambulance',
 			"emergencyAmbulance",
@@ -70,33 +68,209 @@ export async function loadEmergencyResourceContainers(): Promise<ResourceContain
 			"pcs",
 			{ }
 		);
-
-		tsv.split('\n').slice(1).forEach(line => {
-			const l = line.split('\t');
-			if(!l) {return;}
-			let definition = null;
-			switch(l[0]) {
-				case 'AMB-U': definition = emergencyAmbulance; break;
-				case 'AMB-I': definition = intermediateAmbulance; break;
-				case 'AMB-T': definition = transfertAmbulance; break;
-				case 'SMUR': definition = smur; break;
-				case 'Helico': definition = helicopter; break;
-				case 'ACS-MCS': definition = acsMcs; break;
-				case 'PMA': definition = pma; break;
-				case 'PICA': definition = pica; break;
-				case 'PC': definition = pcSanitaire; break;
-				default: definition = emergencyAmbulance;
-			}
+		for (let i = 1; i <= 4; i++) {
 			containerConfigs.push({
 				amount: 1,
-				name: l[1],
-				availabilityTime: +l[2] * 60,
-				templateId: definition,
-				travelTime: +l[3] * 60
+				name: `GE-00${i}`,
+				availabilityTime: 0,
+				templateId: emergencyAmbulance,
+				travelTime: 5 * 60
 			});
+		}
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-006`,
+			availabilityTime: 10 * 60,
+			templateId: emergencyAmbulance,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-007`,
+			availabilityTime: 15 * 60,
+			templateId: emergencyAmbulance,
+			travelTime: 5 * 60
+		});
+
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-010`,
+			availabilityTime: 20 * 60,
+			templateId: emergencyAmbulance,
+			travelTime: 5 * 60
+		});
+
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-014`,
+			availabilityTime: 30 * 60,
+			templateId: emergencyAmbulance,
+			travelTime: 5 * 60
+		});
+		for (let i = 1; i <= 3; i++) {
+			containerConfigs.push({
+				amount: 1,
+				name: `VD-00${i}`,
+				availabilityTime: 15 * 60,
+				templateId: emergencyAmbulance,
+				travelTime: 30 * 60
+			});
+		}
+
+		for (let i = 4; i <= 5; i++) {
+			containerConfigs.push({
+				amount: 1,
+				name: `VD-00${i}`,
+				availabilityTime: 30 * 60,
+				templateId: emergencyAmbulance,
+				travelTime: 30 * 60
+			});
+		}
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-005`,
+			availabilityTime: 5 * 60,
+			templateId: intermediateAmbulance,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-008`,
+			availabilityTime: 20 * 60,
+			templateId: intermediateAmbulance,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-012`,
+			availabilityTime: 25 * 60,
+			templateId: intermediateAmbulance,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-013`,
+			availabilityTime: 25 * 60,
+			templateId: intermediateAmbulance,
+			travelTime: 5 * 60
+		});
+
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-009`,
+			availabilityTime: 20 * 60,
+			templateId: transfertAmbulance,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `GE-011`,
+			availabilityTime: 25 * 60,
+			templateId: transfertAmbulance,
+			travelTime: 5 * 60
 		});
 		
-	}
+		containerConfigs.push({
+			amount: 1,
+			name: `SMUR-001`,
+			availabilityTime: 5 * 60,
+			templateId: smur,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `SMUR-002`,
+			availabilityTime: 20 * 60,
+			templateId: smur,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `SMUR-003`,
+			availabilityTime: 30 * 60,
+			templateId: smur,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `SMUR-004`,
+			availabilityTime: 50 * 60,
+			templateId: smur,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `SMUR-005`,
+			availabilityTime: 60 * 60,
+			templateId: smur,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `Heli-001`,
+			availabilityTime: 0 * 60,
+			templateId: helicopter,
+			travelTime: 5 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `Heli-002`,
+			availabilityTime: 15 * 60,
+			templateId: helicopter,
+			travelTime: 15 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `Heli-003`,
+			availabilityTime: 40 * 60,
+			templateId: helicopter,
+			travelTime: 25 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `Heli-004`,
+			availabilityTime: 50 * 60,
+			templateId: helicopter,
+			travelTime: 30 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `Heli-005`,
+			availabilityTime: 55 * 60,
+			templateId: helicopter,
+			travelTime: 30 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `PICA-001`,
+			availabilityTime: 55 * 60,
+			templateId: pica,
+			travelTime: 2 * 60
+		});
+		containerConfigs.push({
+			amount: 1,
+			name: `PMA-001`,
+			availabilityTime: 0 * 60,
+			templateId: pma,
+			travelTime: 5 * 60
+		});
+
+		containerConfigs.push({
+			amount: 1,
+			name: `PC-001`,
+			availabilityTime: 0 * 60,
+			templateId: pcSanitaire,
+			travelTime: 10 * 60
+		});
+
+		containerConfigs.push({
+			amount: 1,
+			name: `ACSMCS-001`,
+			availabilityTime: 0 * 60,
+			templateId: acsMcs,
+			travelTime: 3 * 60
+		});
+	
 	return containerConfigs;
 }
 
