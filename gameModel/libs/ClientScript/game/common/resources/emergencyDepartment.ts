@@ -268,7 +268,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 			name: `ACSMCS-001`,
 			availabilityTime: 0 * 60,
 			templateId: acsMcs,
-			travelTime: 3 * 60
+			travelTime: 5 * 60
 		});
 	
 	return containerConfigs;
