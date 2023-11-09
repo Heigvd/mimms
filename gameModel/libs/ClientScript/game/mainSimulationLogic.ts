@@ -23,7 +23,7 @@ import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
-import { resetSeedId } from "./common/resources/resourceContainer";
+import { resetSeedId, ResourceContainerConfig } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
 
@@ -38,22 +38,24 @@ let updateCount: number;
 
 // useEffect to force initate simulationState
 Helpers.registerEffect(() => {
-	currentSimulationState = initMainState();
-	stateHistory = [currentSimulationState];
+	loadEmergencyResourceContainers().then((containers) => {
+		currentSimulationState = initMainState(containers);
+		stateHistory = [currentSimulationState];
 
-	actionTemplates = {};
-	processedEvents = {};
+		actionTemplates = {};
+		processedEvents = {};
 
-	updateCount = 0;
+		updateCount = 0;
 
-	mainSimLogger.info('Main simulation initialized', actionTemplates);
-	mainSimLogger.info('Initial state', currentSimulationState);
-	
-	recomputeState();
+		mainSimLogger.info('Main simulation initialized', actionTemplates);
+		mainSimLogger.info('Initial state', currentSimulationState);
+		
+		recomputeState(containers);
+	});
 })
 
 
-function initMainState(): MainSimulationState {
+function initMainState(containers:ResourceContainerConfig[]): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
@@ -95,7 +97,7 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
-	resourceContainers: loadEmergencyResourceContainers(),
+	resourceContainers: containers,
 	resourceGroups: [testGroup]
   }, 0, 0);
 
@@ -362,7 +364,7 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   return currentSimulationState;
 }
 
-export function recomputeState(){
+export function recomputeState(containers:ResourceContainerConfig[]){
 	wlog('Reinitialize state');
 	processedEvents = {};
 
@@ -373,7 +375,7 @@ export function recomputeState(){
   resetSeedId();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
-	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
+	currentSimulationState = initMainState(containers);//Helpers.useRef<MainSimulationState>('current-state', initMainState());
 	stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
 	actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
