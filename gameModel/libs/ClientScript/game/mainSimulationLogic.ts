@@ -27,16 +27,14 @@ import { resetSeedId, ResourceContainerConfig } from "./common/resources/resourc
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
 
-// TODO see if useRef makes sense (makes persistent to script changes)
-let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-let stateHistory : MainSimulationState[];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+let currentSimulationState : MainSimulationState;
+let stateHistory : MainSimulationState[];
 
-let actionTemplates :Record<string, ActionTemplateBase>;//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+let actionTemplates :Record<string, ActionTemplateBase>;
 let processedEvents :Record<string, FullEvent<TimedEventPayload>>;
 
 let updateCount: number;
 
-// useEffect to force initate simulationState
 Helpers.registerEffect(() => {
 	loadEmergencyResourceContainers().then((containers) => {
 		currentSimulationState = initMainState(containers);
@@ -87,7 +85,7 @@ function initMainState(containers:ResourceContainerConfig[]): MainSimulationStat
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
 	initialResources.forEach(r => testGroup.addResource(r));
-	
+
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
@@ -114,10 +112,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
 
-  const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
-  const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
-  const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
+  const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
+  const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
+  const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', {geometrySelection: {geometryType: 'Point', icon: 'Nest', geometries: [[2500033.908208875,1118505.0711847763], [2500106.9001576486,1118532.2446804282], [2500045.4567957562,1118561.1111886022]]}});
 
+	// TODO access and regress has duration 3 min
 /*
   const placeSectors = new DefineMapObjectTemplate('define-sectors-title', 'define-sectors-desc', TimeSliceDuration, 'define-sectors-feedback', 
   	{geometryType: 'MultiPolygon', name: 'Triage Zone', feature: {

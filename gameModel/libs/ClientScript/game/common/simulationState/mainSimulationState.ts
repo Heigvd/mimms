@@ -1,6 +1,6 @@
 import { group } from "../../../tools/groupBy";
 import { ActionBase } from "../actions/actionBase";
-import { Actor } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
@@ -121,7 +121,8 @@ export class MainSimulationState implements IClonable {
   public getSimTime(): SimTime {return this.simulationTimeSec;}
 
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
-    return this.internalState.actors.find(a => a.Uid === actorId);
+	// don't do ===, typescript seems to play tricks between string and number with records
+    return this.internalState.actors.find(a => a.Uid == actorId);
   }
 
 
@@ -147,6 +148,13 @@ export class MainSimulationState implements IClonable {
 
   public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined{
 	  return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
+  }
+
+  /**
+   * If multiple matches, returns the first match
+   */
+  public getResourceGroupByRole(role: InterventionRole): ResourceGroup | undefined{
+	  return this.internalState.resourceGroups.find(g => g.hasRole(this, role));
   }
 
   /**

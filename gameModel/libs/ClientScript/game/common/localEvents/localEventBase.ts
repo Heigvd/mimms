@@ -412,6 +412,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 		// find highest hierarchy group
 		let resourceGroup : ResourceGroup | undefined = undefined;
 		if(actors.length === 1){ // AL case create group if not existant
+			wlog('SINGLE ACTOR')
 			resourceGroup = getOrCreateResourceGroup(state, actors[0].Uid);
 		}else {
 			// multiple actors present but some might be traveling
