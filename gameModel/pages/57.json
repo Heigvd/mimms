@@ -58,11 +58,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "effects",
+            "name" : "actions",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-effects');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-actions');",
               "language" : "TypeScript"
             }
           },
@@ -127,7 +127,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patient.data.effects.join(\", \").toUpperCase();",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nContext.patient.data.effects.map((effect: string) => (effect)?getTranslation('mainSim-summary', 'summary-actions-' + effect):\"\").join(\", \");",
                       "language" : "TypeScript"
                     }
                   },
