@@ -16,7 +16,7 @@ import { getContainerDef, resolveResourceRequest } from "../resources/emergencyD
 import { getOrCreateResourceGroup, ResourceGroup } from "../resources/resourceGroup";
 import { localEventManager } from "../localEvents/localEventManager";
 import { entries } from "../../../tools/helper";
-import { MethanePayload } from "../events/methaneEvent";
+import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -305,7 +305,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 		parentEventId: GlobalEventId,
     	timeStamp: SimTime,
 		private actorUid: ActorId,
-		private request: MethanePayload
+		private request: CasuMessagePayload
 	){
 		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
 	}

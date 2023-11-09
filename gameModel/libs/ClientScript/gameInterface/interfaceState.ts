@@ -8,7 +8,7 @@ export function getInitialInterfaceState() {
 	return {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
-		methaneInformation: {
+		casuMessage: {
 			major: "",
 			exact: "",
 			incidentType: "",

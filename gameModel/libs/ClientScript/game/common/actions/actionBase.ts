@@ -14,7 +14,7 @@ import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
-import { MethanePayload } from "../events/methaneEvent";
+import { CasuMessagePayload } from "../events/casuMessageEvent";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -149,6 +149,10 @@ export abstract class StartEndAction extends ActionBase {
     return this.durationSec;
   }
 
+  public getTitle(): string {
+	return this.actionNameKey;
+  }
+
 }
 
 export class GetInformationAction extends StartEndAction {
@@ -225,7 +229,7 @@ export class OnTheRoadAction extends StartEndAction {
 
 }
 
-export class MethaneAction extends StartEndAction {
+export class CasuMessageAction extends StartEndAction {
 
   constructor (
     startTimeSec: SimTime, 
@@ -235,24 +239,24 @@ export class MethaneAction extends StartEndAction {
     eventId: GlobalEventId, 
     ownerId: ActorId, 
     uuidTemplate: ActionTemplateId,
-	private methanePayload: MethanePayload
+	private casuMessagePayload: CasuMessagePayload
   ){
     super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     //likely nothing to do
-    this.logger.info('start event MethaneAction');
+    this.logger.info('start event CasuMessageAction');
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    this.logger.info('end event MethaneAction');
+    this.logger.info('end event CasuMessageAction');
 	// TODO figure out emitter
 	const now = state.getSimTime();
 	//const actor = state.getActorById(this.ownerId)!;
 	// TODO filter when we get a full METHANE message
     //localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, this.ownerId, actor.ShortName, this.messageKey))
-	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.methanePayload);
+	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
 	localEventManager.queueLocalEvent(dispatchEvent);
   }
 
@@ -262,9 +266,13 @@ export class MethaneAction extends StartEndAction {
   }
 
   clone(): this {
-    const clone = new MethaneAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.methanePayload);
+    const clone = new CasuMessageAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.casuMessagePayload);
     clone.status = this.status;
     return clone as this;
+  }
+
+  getTitle(): string {
+	  return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
   }
   
 }
