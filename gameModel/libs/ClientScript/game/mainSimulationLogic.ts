@@ -88,6 +88,10 @@ function initMainState(containers:ResourceContainerConfig[]): MainSimulationStat
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
 	initialResources.forEach(r => testGroup.addResource(r));
 	
+  // Force refresh view
+  const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	Context.interfaceState.setState(newState);
+
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
