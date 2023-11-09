@@ -50,7 +50,7 @@ export function getInitialInterfaceState() {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
-		showMethaneModal: false,
+		showCasuMessageModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
 	};

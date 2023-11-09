@@ -118,7 +118,7 @@
                                 "className" : "",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "!Context.interfaceState.state.showMethaneModal;",
+                                  "content" : "!Context.interfaceState.state.showCasuMessageModal;",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -131,7 +131,7 @@
                                 "onExitActions" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showMethaneModal = false;\nnewState.casuMessage.messageType = '';\nContext.interfaceState.setState(newState);",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showCasuMessageModal = false;\nnewState.casuMessage.messageType = '';\nContext.interfaceState.setState(newState);",
                                     "language" : "TypeScript"
                                   }
                                 },

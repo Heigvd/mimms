@@ -74,7 +74,7 @@ export function actionClickHandler(id: number, params: any): void {
 			startMapAction(params);
 		} else if (template instanceof CasuMessageTemplate) {
 			const newState = Helpers.cloneDeep(Context.interfaceState.state)
-			newState.showMethaneModal = true;
+			newState.showCasuMessageModal = true;
 			Context.interfaceState.setState(newState);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
@@ -159,7 +159,7 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 }
 
 export function getModalPageNumber(): string {
-	if (Context.interfaceState.state.showMethaneModal) {
+	if (Context.interfaceState.state.showCasuMessageModal) {
 		return "42";
 	}
 	return "";

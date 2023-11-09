@@ -33,7 +33,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "Context.methaneSelection.setState({ selected: 'METHANE' })\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\nContext.interfaceState.setState(newState);",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\nContext.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   }
                 },
@@ -55,7 +55,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "Context.methaneSelection.setState({ selected: 'MET' })\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\nContext.interfaceState.setState(newState);",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\nContext.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   }
                 },
@@ -77,7 +77,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "Context.methaneSelection.setState({ selected: 'HANE' })\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\nContext.interfaceState.setState(newState);",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\nContext.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   }
                 },
@@ -99,7 +99,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : " Context.methaneSelection.setState({selected: 'E'})\n const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n Context.interfaceState.setState(newState);",
+                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n Context.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   }
                 },
