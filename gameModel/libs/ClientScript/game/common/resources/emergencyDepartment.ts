@@ -17,150 +17,86 @@ export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, Re
 	return containerDefinitions;
 }
 
-export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
+export async function loadEmergencyResourceContainers(): Promise<ResourceContainerConfig[]> {
 
-	const containerConfigs = [];
-	// TODO read static variable from scenario containing container definitions
-	const emergencyAmbulance = addContainerDefinition(
-		'Ambulance',
-		"emergencyAmbulance",
-		{ 'ambulance': 1, 'ambulancier': 2}
-	);
+	const containerConfigs: ResourceContainerConfig[]|PromiseLike<ResourceContainerConfig[]> = [];
+	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
+	if(!tsv.startsWith('<!DOCTYPE')){
+		const emergencyAmbulance = addContainerDefinition(
+			'Ambulance',
+			"emergencyAmbulance",
+			{ 'ambulance': 1, 'ambulancier': 2}
+		);
 
-	const intermediateAmbulance = addContainerDefinition(
-		'Ambulance',
-		"intermediateAmbulance",
-		{"technicienAmbulancier": 1, "ambulancier": 1, "ambulance": 1},
-	);
+		const intermediateAmbulance = addContainerDefinition(
+			'Ambulance',
+			"intermediateAmbulance",
+			{"technicienAmbulancier": 1, "ambulancier": 1, "ambulance": 1},
+		);
 
-	const transfertAmbulance = addContainerDefinition(
-		'Ambulance',
-		"transfertAmbulance",
-		{ 'ambulance': 1, 'technicienAmbulancier': 1, "secouriste": 1 }
-	);
+		const transfertAmbulance = addContainerDefinition(
+			'Ambulance',
+			"transfertAmbulance",
+			{ 'ambulance': 1, 'technicienAmbulancier': 1, "secouriste": 1 }
+		);
 
-	const acs = addContainerDefinition('ACS', 'acs', {}, ['ACS']);
-	const mcs = addContainerDefinition('MCS', 'mcs', {}, ['MCS']);
+		const helicopter = addContainerDefinition(
+			'Helicopter',
+			"helicopter",
+			{ 'helicopter': 1, 'ambulancier': 1, "medecinSenior": 1 }
+		);
 
-	const helicopter = addContainerDefinition(
-		'Helicopter',
-		"helicopter",
-		{ 'helicopter': 1, 'ambulancier': 1, "medecinSenior": 1 }
-	);
+		const smur = addContainerDefinition(
+			'SMUR',
+			"smur",
+			{ 'ambulancier': 1, "medecinJunior": 1 }
+		);
 
-	const smur = addContainerDefinition(
-		'SMUR',
-		"smur",
-		{ 'ambulancier': 1, "medecinJunior": 1 }
-	);
+		const acsMcs = addContainerDefinition('ACS-MCS', 'acs', {}, ['ACS', 'MCS']);
+		const pma = addContainerDefinition(
+			'PMA',
+			"pma",
+			{ 'secouriste': 4 }
+		);
 
-	const pma = addContainerDefinition(
-		'PMA',
-		"pma",
-		{ 'secouriste': 4 }
-	);
+		const pica = addContainerDefinition(
+			'PICA',
+			"pica",
+			{ 'secouriste': 10 }
+		);
 
-	const pica = addContainerDefinition(
-		'PICA',
-		"pica",
-		{ 'secouriste': 10 }
-	);
+		const pcSanitaire = addContainerDefinition(
+			'PCS',
+			"pcs",
+			{ }
+		);
 
-	const pcSanitaire = addContainerDefinition(
-		'PCS',
-		"pcs",
-		{ }
-	);
-
-	// TODO read static variable containing containers availability
-
-	const acsConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 0,
-		templateId: acs,
-		travelTime: 5 * 60
+		tsv.split('\n').slice(1).forEach(line => {
+			const l = line.split('\t');
+			if(!l) {return;}
+			let definition = null;
+			switch(l[0]) {
+				case 'AMB-U': definition = emergencyAmbulance; break;
+				case 'AMB-I': definition = intermediateAmbulance; break;
+				case 'AMB-T': definition = transfertAmbulance; break;
+				case 'SMUR': definition = smur; break;
+				case 'Helico': definition = helicopter; break;
+				case 'ACS-MCS': definition = acsMcs; break;
+				case 'PMA': definition = pma; break;
+				case 'PICA': definition = pica; break;
+				case 'PC': definition = pcSanitaire; break;
+				default: definition = emergencyAmbulance;
+			}
+			containerConfigs.push({
+				amount: 1,
+				name: l[1],
+				availabilityTime: +l[2] * 60,
+				templateId: definition,
+				travelTime: +l[3] * 60
+			});
+		});
+		
 	}
-	containerConfigs.push(acsConfig);
-
-	const mcsConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 0,
-		templateId: mcs,
-		travelTime: 7 * 60
-	}
-	containerConfigs.push(mcsConfig);
-
-	const closeAmbulances : ResourceContainerConfig = {
-		amount: 2,
-		availabilityTime: 0,
-		templateId : emergencyAmbulance,
-		travelTime : 2*60
-	}
-	containerConfigs.push(closeAmbulances);
-
-	const farAmbulances : ResourceContainerConfig = {
-		amount: 2,
-		availabilityTime: 5*60,
-		templateId : intermediateAmbulance,
-		travelTime : 3*60
-	}
-
-	containerConfigs.push(farAmbulances);
-
-	const transfertAmbulances : ResourceContainerConfig = {
-		amount :3,
-		availabilityTime: 4*60,
-		templateId : transfertAmbulance,
-		travelTime : 2*60
-	}
-
-	containerConfigs.push(transfertAmbulances);
-
-	const helicopterConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 5*60,
-		templateId : helicopter,
-		travelTime : 1*60
-	}
-
-	containerConfigs.push(helicopterConfig);
-
-	const smurConfig : ResourceContainerConfig = {
-		amount: 2,
-		availabilityTime: 3*60,
-		templateId : smur,
-		travelTime : 2*60
-	}
-
-	containerConfigs.push(smurConfig);
-
-	const pmaConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 4*60,
-		templateId : pma,
-		travelTime : 1*60
-	}
-
-	containerConfigs.push(pmaConfig);
-
-	const picaConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 2*60,
-		templateId : pica,
-		travelTime : 1*60
-	}
-
-	containerConfigs.push(picaConfig);
-
-	const pcSanitaireConfig : ResourceContainerConfig = {
-		amount: 1,
-		availabilityTime: 2*60,
-		templateId : pcSanitaire,
-		travelTime : 1*60
-	}
-
-	containerConfigs.push(pcSanitaireConfig);
-
 	return containerConfigs;
 }
 

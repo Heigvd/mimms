@@ -413,6 +413,18 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/resource/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/resource/resource.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/translations/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

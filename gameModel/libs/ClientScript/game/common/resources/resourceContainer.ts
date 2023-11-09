@@ -10,8 +10,7 @@ export type ResourceContainerDefinitionId = number;
  * a player can request
  */
 export const ResourceContainerTypeArray = [
-	'ACS',
-	'MCS',
+	'ACS-MCS',
 	'Ambulance',
 	'SMUR',
 	'PMA',
@@ -95,5 +94,7 @@ export interface ResourceContainerConfig {
 	 * the number of available containers
 	 */
 	amount: number;
+
+	name: string;
 
 }
