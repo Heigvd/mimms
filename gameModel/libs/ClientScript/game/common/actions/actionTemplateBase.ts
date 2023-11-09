@@ -461,7 +461,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return true; // we don't want it to be done only once, so do not this.checkIfAlreadyUsedAndCouldReplay(state);
+    return state.getInternalStateObject().resourceGroups.length > 1;
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToActorActionInput): ResourceSendingToActorEvent {

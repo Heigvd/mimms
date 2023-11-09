@@ -337,13 +337,13 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		// and thus that there are no duplicates
 
 		// actors are created right away (they need to appear in the timeline)
-		// Note : Actor creation ignore the "amount" value
+		// Note : Actor creation ignores the "amount" value
 		containerDef.roles.forEach(role => {
 			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, role, this.travelTime);
 			localEventManager.queueLocalEvent(evt);
 		});
 
-		// schedule messages when center has new ressources that are sent
+		// schedule messages when the emergency center has new ressources that are sent
 		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
 		localEventManager.queueLocalEvent(dptEvt);
 
@@ -374,8 +374,10 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	applyStateUpdate(state: MainSimulationState): void {
 		// TODO translations
 		const c = getContainerDef(this.containerDef);
-		const name = c.type + (this.amount > 1 ? '(s)': '');
-		const msg = `Sending ${this.amount} ${name}. Arrival in ${Math.round(this.travelTime / 60)} minutes`;
+		const name = c.name;
+		const t = Math.round(this.travelTime / 60);
+		//TODO add amu
+		const msg = `Sending ${this.amount} ${name}. Arrival in ${t} minutes`;
 		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
 		localEventManager.queueLocalEvent(evt);
 	}
