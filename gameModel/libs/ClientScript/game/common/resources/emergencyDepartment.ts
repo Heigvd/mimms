@@ -4,7 +4,7 @@ import { ActorId, GlobalEventId, TranslationKey } from "../baseTypes";
 import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType } from "./resourceContainer";
+import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType, SimFlag } from "./resourceContainer";
 import { ResourceType } from "./resourceType";
 
 const containerDefinitions : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
@@ -68,7 +68,9 @@ export async function loadEmergencyResourceContainers(): Promise<ResourceContain
 		const pcSanitaire = addContainerDefinition(
 			'PCS',
 			"pcs",
-			{ }
+			{},
+			[],
+			['PCS-ARRIVED']
 		);
 
 		tsv.split('\n').slice(1).forEach(line => {
@@ -105,9 +107,10 @@ function addContainerDefinition (
 	name: TranslationKey,
 	resources: Partial<Record<ResourceType, number>>, 
 	roles: InterventionRole[] = [],
+	flags: SimFlag[] = []
 ): ResourceContainerDefinitionId 
 {
-	const c = buildContainerDefinition(type, name, resources, roles);
+	const c = buildContainerDefinition(type, name, resources, roles, flags);
 	containerDefinitions[c.uid] = c;
 	return c.uid;
 }

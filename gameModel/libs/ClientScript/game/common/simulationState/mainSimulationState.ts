@@ -8,7 +8,7 @@ import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
-import { ResourceContainerConfig, ResourceContainerDefinitionId, ResourceContainerType } from "../resources/resourceContainer";
+import { ResourceContainerConfig, ResourceContainerDefinitionId, ResourceContainerType, SimFlag } from "../resources/resourceContainer";
 import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 import { PatientState } from "./patientState";
@@ -51,7 +51,8 @@ export class MainSimulationState implements IClonable {
       radioMessages : [...this.internalState.radioMessages],
       resources : [...this.internalState.resources],
 	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers),
-	  resourceGroups: Helpers.cloneDeep(this.internalState.resourceGroups)
+	  resourceGroups: Helpers.cloneDeep(this.internalState.resourceGroups),
+	  flags: Helpers.cloneDeep(this.internalState.flags)
     }
   }
 
@@ -105,7 +106,7 @@ export class MainSimulationState implements IClonable {
    * Get map of containers
    */
   public getResourceContainersByType() : Record<ResourceContainerType, ResourceContainerConfig[]>{
-	  const defs = getAllContainerDefs();
+	const defs = getAllContainerDefs();
 	return group(this.internalState.resourceContainers, (c =>  defs[c.templateId].type));
   }
 
@@ -125,7 +126,9 @@ export class MainSimulationState implements IClonable {
     return this.internalState.actors.find(a => a.Uid == actorId);
   }
 
-
+  public hasFlag(simFlag : SimFlag): boolean {
+	return this.internalState.flags[simFlag]; 
+  }
 
   public getAllActors(): Readonly<Actor[]> {
     return this.internalState.actors;
@@ -198,6 +201,7 @@ interface MainStateObject {
    * Resources containers that can be dispatched by the emergency dept.
    */
   resourceContainers: ResourceContainerConfig[];
+  flags: Record<SimFlag, boolean>;
 }
 
 // experimental to make an object immutable

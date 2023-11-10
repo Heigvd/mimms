@@ -347,10 +347,14 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
 		localEventManager.queueLocalEvent(dptEvt);
 
-		// schedule resource arrival event
-		// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
-		const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
-		localEventManager.queueLocalEvent(evt);
+		if(Object.keys(containerDef.resources).length > 0){
+
+			// schedule resource arrival event
+			// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
+			const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
+			localEventManager.queueLocalEvent(evt);
+		}
+
 	}
 
 }
@@ -408,11 +412,14 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 	applyStateUpdate(state: MainSimulationState): void {
 
 		const containerDef = getContainerDef(this.containerDef);
+		// add flags to state if any
+		if(containerDef.flags){
+			state.addFlags(containerDef.flags);
+		}
 		const actors = sortByHierarchyLevel(state.getAllActors());
 		// find highest hierarchy group
 		let resourceGroup : ResourceGroup | undefined = undefined;
 		if(actors.length === 1){ // AL case create group if not existant
-			wlog('SINGLE ACTOR')
 			resourceGroup = getOrCreateResourceGroup(state, actors[0].Uid);
 		}else {
 			// multiple actors present but some might be traveling
