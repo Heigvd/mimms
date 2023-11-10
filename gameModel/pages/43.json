@@ -88,6 +88,34 @@
                                     "style" : { }
                                   },
                                   "type" : "PageLoader"
+                                }, {
+                                  "props" : {
+                                    "className" : "patient-debug-information",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Variable.find(gameModel, 'display_debug_button').isFalse(self);",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "info",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "width" : "100%"
+                                    },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = true;\nContext.interfaceState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
                                 } ],
                                 "className" : "headerPanels",
                                 "layout" : { },
@@ -116,9 +144,18 @@
                                   "type" : "PageLoader"
                                 } ],
                                 "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "patient-modal-view",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showPatientModal",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "!Context.interfaceState.state.showMethaneModal;",
+                                  "content" : "!Context.interfaceState.state.showMethaneModal && !Context.interfaceState.state.showPatientModal;",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -131,7 +168,7 @@
                                 "onExitActions" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showMethaneModal = false;\nContext.interfaceState.setState(newState);",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showMethaneModal = false;\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
                                     "language" : "TypeScript"
                                   }
                                 },
