@@ -37,8 +37,7 @@ let updateCount: number;
 
 // useEffect to force initate simulationState
 Helpers.registerEffect(() => {
-	loadEmergencyResourceContainers().then((containers) => {
-		currentSimulationState = initMainState(containers);
+		currentSimulationState = initMainState();
 		stateHistory = [currentSimulationState];
 
 		actionTemplates = {};
@@ -49,12 +48,11 @@ Helpers.registerEffect(() => {
 		mainSimLogger.info('Main simulation initialized', actionTemplates);
 		mainSimLogger.info('Initial state', currentSimulationState);
 		
-		recomputeState(containers);
-	});
+		recomputeState();
 })
 
 
-function initMainState(containers:ResourceContainerConfig[]): MainSimulationState {
+function initMainState(): MainSimulationState {
 
   // TODO read all simulation parameters to build start state and initilize the whole simulation
 
@@ -96,7 +94,7 @@ function initMainState(containers:ResourceContainerConfig[]): MainSimulationStat
     tasks: [taskPretri],
     radioMessages: [],
     resources: initialResources,
-	resourceContainers: containers,
+	resourceContainers: loadEmergencyResourceContainers(),
 	resourceGroups: [testGroup]
   }, 0, 0);
 
@@ -363,7 +361,7 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   return currentSimulationState;
 }
 
-export function recomputeState(containers:ResourceContainerConfig[]){
+export function recomputeState(){
 	wlog('Reinitialize state');
 	processedEvents = {};
 
@@ -374,7 +372,7 @@ export function recomputeState(containers:ResourceContainerConfig[]){
   resetSeedId();
 
 	// TODO see if useRef makes sense (makes persistent to script changes)
-	currentSimulationState = initMainState(containers);//Helpers.useRef<MainSimulationState>('current-state', initMainState());
+	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
 	stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
 	actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());

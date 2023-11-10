@@ -1149,6 +1149,31 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:622602:9ikGSk"
+      },
+      "description" : "",
+      "editorTag" : "containers_config",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:622603:Y9tR2e",
+        "translations" : { }
+      },
+      "name" : "containers_config",
+      "properties" : {
+        "config" : "Type de moyen\tID\tDisponibilité (minutes)\tTrajet\r\nAMB-U\tGE-001\t0\t5\r\nAMB-U\tGE-002\t0\t5\r\nAMB-U\tGE-003\t0\t5\r\nAMB-U\tGE-004\t5\t5\r\nAMB-I\tGE-005\t5\t5\r\nAMB-U\tGE-006\t10\t5\r\nAMB-U\tGE-007\t15\t5\r\nAMB-I\tGE-008\t20\t5\r\nAMB-T\tGE-009\t20\t5\r\nAMB-U\tGE-010\t20\t5\r\nAMB-T\tGE-011\t25\t5\r\nAMB-I\tGE-012\t25\t5\r\nAMB-I\tGE-013\t25\t5\r\nAMB-U\tGE-014\t30\t5\r\nAMB-U\tVD-001\t15\t30\r\nAMB-U\tVD-002\t15\t30\r\nAMB-U\tVD-003\t15\t30\r\nAMB-U\tVD-004\t30\t30\r\nAMB-U\tVD-005\t30\t30\r\nSMUR\tSMUR-001\t5\t5\r\nSMUR\tSMUR-002\t20\t5\r\nSMUR\tSMUR-003\t30\t5\r\nSMUR\tSMUR-004\t50\t5\r\nSMUR\tSMUR-005\t60\t5\r\nHelico\tHeli-001\t0\t5\r\nHelico\tHeli-002\t0\t15\r\nHelico\tHeli-003\t15\t25\r\nHelico\tHeli-004\t40\t30\r\nHelico\tHeli-005\t50\t30\r\nPICA\tPICA-001\t0\t30\r\nPMA\tPMA-001\t0\t60\r\nPC\tPC-001\t0\t10\r\nACS-MCS\tACSMCS-001\t0\t5\n"
+      },
+      "refId" : "ObjectDescriptor:622601:IizusP",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4802,6 +4827,62 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:622971:2PCqx6"
+      },
+      "editorTag" : "trainer",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:622930:PnE9EA"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:622931:uK61HZ",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:622931:uK61HZ::EN",
+              "status" : "",
+              "translation" : "trainer-interface"
+            }
+          }
+        },
+        "name" : "trainer-interface",
+        "properties" : {
+          "patient-debug" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"button to display patient summary to user\"},\"FR\":{\"status\":\"\",\"translation\":\"bouton d'affichage du résumé des patient pour l'utilisateur\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:622929:2SsbX6",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:622972:HOrnq9",
+        "translations" : { }
+      },
+      "name" : "trainer",
+      "refId" : "ListDescriptor:622970:cq64eO",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -5569,6 +5650,35 @@
         "name" : "resourcesTmp",
         "refId" : "ListDescriptor:546938:8K8tEh",
         "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:619025:UlDl2R",
+          "value" : false
+        },
+        "editorTag" : "display_debug_button",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:619026:tTt3Du",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:619026:tTt3Du::EN",
+              "status" : "",
+              "translation" : ""
+            }
+          }
+        },
+        "name" : "display_debug_button",
+        "refId" : "BooleanDescriptor:619024:fvXVu7",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],

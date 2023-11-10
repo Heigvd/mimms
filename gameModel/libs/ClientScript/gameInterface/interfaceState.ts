@@ -51,6 +51,7 @@ export function getInitialInterfaceState() {
 			requestedResources: getEmptyResourceRequest(),
 		},
 		showCasuMessageModal: false,
+		showPatientModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
 	};
