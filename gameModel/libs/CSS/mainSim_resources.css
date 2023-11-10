@@ -47,7 +47,7 @@
 	position: absolute;
 	top: -.1em;
 	right: -.2em;
-	background-color: var(--interface_0);
+	background-color: var(--gray_WHITE);
 	border: 2px solid var(--interface_BLUE);
 	border-radius: 100%;
 }

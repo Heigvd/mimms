@@ -9,6 +9,15 @@
                 "children" : [ {
                   "props" : {
                     "className" : "resourceIcon",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "greyRessources",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "icon" : "user-nurse",
                     "layoutClassName" : "resourceIcon-container headerResourceIcon-container",
                     "layoutStyle" : { },
@@ -19,6 +28,15 @@
                 }, {
                   "props" : {
                     "className" : "resourceCounter",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "greyRessources",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "layoutClassName" : "resourceCounter-container noPadding",
                     "layoutStyle" : { },
                     "name" : "nb available",
@@ -30,6 +48,15 @@
                     }
                   },
                   "type" : "Text"
+                } ],
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "greyRessources",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
+                    "language" : "typescript"
+                  }
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },
@@ -52,11 +79,15 @@
               "type" : "Text"
             } ],
             "className" : "oneHeaderResource",
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\ncountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
-              "language" : "typescript"
-            },
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "greyRessources",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\ncountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
+                "language" : "typescript"
+              }
+            } ],
             "layout" : {
               "alignItems" : "center",
               "flexDirection" : "column"
