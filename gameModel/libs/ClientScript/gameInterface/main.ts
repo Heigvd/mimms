@@ -162,6 +162,9 @@ export function getModalPageNumber(): string {
 	if (Context.interfaceState.state.showMethaneModal) {
 		return "42";
 	}
+	if (Context.interfaceState.state.showPatientModal) {
+		return "57";
+	}
 	return "";
 }
 

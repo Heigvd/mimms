@@ -37,7 +37,7 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-      releaseResources: {
+      		releaseResources: {
 				selectedTaskId: '',
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
@@ -47,10 +47,10 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-		  showMethaneModal: false,
-      
 			requestedResources: getEmptyResourceRequest(),
 		},
+		showMethaneModal: false,
+		showPatientModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
 	};
