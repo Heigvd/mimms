@@ -19,13 +19,15 @@ import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEve
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
+import { PreTriageTask } from "./common/tasks/pretriageTask";
+import { PorterTask } from "./common/tasks/porterTask";
+import { TaskBase } from "./common/tasks/taskBase";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
@@ -68,7 +70,7 @@ function initMainState(): MainSimulationState {
   }
 
   const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'Pretriage task completed!');
-  //const testTaskPretriB = new PreTriageTask("pre-tri-zone-B-title", "pre-tri-zone-B-desc", 1, 5, "B", 'pre-tri-zone-B-feedback');
+  const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'Porters task completed!');
 
 	const initialResources = [
 		new Resource('secouriste'),
@@ -92,7 +94,7 @@ function initMainState(): MainSimulationState {
     actors: [testAL],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tasks: [taskPretri],
+    tasks: [taskPretri, taskPorter],
     radioMessages: [],
     resources: initialResources,
 	resourceContainers: loadEmergencyResourceContainers(),

@@ -4,6 +4,7 @@ import { mainSimLogger } from "../../../tools/logger";
 import { AfflictedPathology, RevivedPathology, revivePathology } from "../../../HUMAn/pathology";
 import { getAct, getItem } from "../../../HUMAn/registries";
 import { PatientState } from '../simulationState/patientState';
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export function loadPatients(): PatientState[] {
 	const env = getEnv();
@@ -18,12 +19,12 @@ export function loadPatients(): PatientState[] {
 			humanBody.revivedPathologies = reviveAfflictedPathologies(computeInitialAfflictedPathologies(humanBody));
 			humanBody.effects = computeInitialEffects(humanBody);
 			return humanBody;
-		});
+		})
 
 	mainSimLogger.info('Adding', humanBodies.length, 'patients');
 
 	return humanBodies.flatMap(humanBody => {
-		return { patientId: humanBody.id!, humanBody : humanBody, preTriageResult: undefined, location: undefined };
+		return { patientId: humanBody.id!, humanBody : humanBody, preTriageResult: undefined, location: LOCATION_ENUM.chantier };
 	});
 }
 

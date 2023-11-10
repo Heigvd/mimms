@@ -488,6 +488,15 @@ export function getTagSystemCategories(): TagSystem<string> {
 	checkUnreachable(tagSystem);
 }
 
+export function getCategoryIdsByPriorityOrder(): string[] {
+	const tagSystem = getTagSystemCategories();
+	return tagSystem.categories.sort((a, b) => a.priority < b.priority ? 1 : a.priority > b.priority ? -1 : 0).map(category => category.id);
+}
+
+export function getPriorityByCategoryId(categoryId: string): number {
+	return getTagSystemCategories().categories.find(category => category.id === categoryId)!.priority
+}
+
 type PreTriageAction = string;
 
 export interface PreTriageData {

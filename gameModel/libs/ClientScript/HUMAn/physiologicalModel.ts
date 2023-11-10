@@ -1809,8 +1809,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 
 		// as visiting body cost time, avoid visiting bones if it's unnecessary
 		if (canWalk !== 'obviously_not') {
-			let leftLeg = false;
-			let rightLeg = false;
+			let ok = false;
 			/** starting from head, follow the bone connections */
 			visit(
 				human.state,
@@ -1819,11 +1818,10 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 					if (isNotBroken(block)) {
 						switch (block.name) {
 							case 'LEFT_FOOT':
-								leftLeg = true;
+							case 'RIGHT_FOOT': {
+								ok = (block.params.bloodFlow_mLper ?? 0) > 0;
 								break;
-							case 'RIGHT_FOOT':
-								rightLeg = true;
-								break;
+							}
 						}
 						return 'CONTINUE';
 					} else {
@@ -1835,7 +1833,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 					shouldWalk: isBone,
 				},
 			);
-			if (!leftLeg || !rightLeg) {
+			if (!ok) {
 				extraLogger.log("Can not walk! Fracture");
 				canWalk = 'obviously_not';
 			}
