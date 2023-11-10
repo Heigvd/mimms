@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1699456165698,
+  "createdTime" : 1699624893026,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4638,9 +4638,9 @@
           "pre-tri-zone-b-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources to perform prétriage of zone B\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des resources prétrier la zone B\",\"lang\":\"FR\"}},\"version\":0}",
           "pre-tri-zone-b-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the prétriage of zone B is done. 5 red, 10 yellow, 5 green\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone B terminé. 5 rouges, 10 jaunes, 5 verts\",\"lang\":\"FR\"}},\"version\":0}",
           "pre-tri-zone-b-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage of zone B\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage de la zone B\",\"lang\":\"FR\"}},\"version\":0}",
-          "release-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"libère des ressources d'une tâche\",\"lang\":\"FR\"}},\"version\":0}",
-          "release-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you released resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez libéré des ressources\",\"lang\":\"FR\"}},\"version\":0}",
-          "release-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources\"},\"FR\":{\"status\":\"\",\"translation\":\"libérer des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "release-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"Rappelle des ressources d'une tâche\",\"lang\":\"FR\"}},\"version\":0}",
+          "release-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you released resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez rappelé des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "release-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources\"},\"FR\":{\"status\":\"\",\"translation\":\"Rappeler des ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send-resources-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"transfer some of your resources to another actor\"},\"FR\":{\"status\":\"\",\"translation\":\"transférer certaines de vos ressources à un autre acteur\",\"lang\":\"FR\"}},\"version\":0}",
           "send-resources-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you received resources\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez reçu des ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send-resources-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des ressources\",\"lang\":\"FR\"}},\"version\":0}"
@@ -6699,7 +6699,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev",
+  "name" : "MIMMS main simulation dev_jess_v20",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
