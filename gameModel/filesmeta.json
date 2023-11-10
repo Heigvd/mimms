@@ -527,6 +527,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/translations/trainer-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/tutorial/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

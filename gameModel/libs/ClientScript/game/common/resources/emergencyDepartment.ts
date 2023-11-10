@@ -19,7 +19,7 @@ export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, Re
 
 export async function loadContainerConfigFile() {
 	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
-	const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(JSON.stringify(tsv))})`;
+	const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(tsv)})`;
 	await APIMethods.runScript(s, {}).then(response => {
 		wlog('script executed', response);
 	});
@@ -80,12 +80,10 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 			"pcs",
 			{ }
 		);
-		tsv.split('\\n').slice(1).forEach(line => {
-			const l = line.split('\\t');
+		tsv.split('\n').slice(1).forEach(line => {
+			const l = line.split('\t');
 			if(!l) {return;}
 			let definition = null;
-			if(!l[3]) return;
-			l[3] = l[3].replace('\\r', '');
 			switch(l[0]) {
 				case 'AMB-U': definition = emergencyAmbulance; break;
 				case 'AMB-I': definition = intermediateAmbulance; break;
