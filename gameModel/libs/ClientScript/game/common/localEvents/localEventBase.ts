@@ -16,7 +16,7 @@ import { getContainerDef, resolveResourceRequest } from "../resources/emergencyD
 import { getOrCreateResourceGroup, ResourceGroup } from "../resources/resourceGroup";
 import { localEventManager } from "../localEvents/localEventManager";
 import { entries } from "../../../tools/helper";
-import { MethanePayload } from "../events/methaneEvent";
+import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -305,7 +305,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 		parentEventId: GlobalEventId,
     	timeStamp: SimTime,
 		private actorUid: ActorId,
-		private request: MethanePayload
+		private request: CasuMessagePayload
 	){
 		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
 	}
@@ -337,13 +337,13 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		// and thus that there are no duplicates
 
 		// actors are created right away (they need to appear in the timeline)
-		// Note : Actor creation ignore the "amount" value
+		// Note : Actor creation ignores the "amount" value
 		containerDef.roles.forEach(role => {
 			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, role, this.travelTime);
 			localEventManager.queueLocalEvent(evt);
 		});
 
-		// schedule messages when center has new ressources that are sent
+		// schedule messages when the emergency center has new ressources that are sent
 		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
 		localEventManager.queueLocalEvent(dptEvt);
 
@@ -372,12 +372,22 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		// TODO translations
 		const c = getContainerDef(this.containerDef);
-		const name = c.type + (this.amount > 1 ? '(s)': '');
-		const msg = `Sending ${this.amount} ${name}. Arrival in ${Math.round(this.travelTime / 60)} minutes`;
+		const t = Math.round(this.travelTime / 60);
+		const msg = this.buildRadioText(this.amount, c.name, t);
 		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
 		localEventManager.queueLocalEvent(evt);
+	}
+
+	private buildRadioText(amount: number, name: string, time: number): string {
+		const parts : string []= [];
+		parts.push(getTranslation('mainSim-resources', 'sending'));
+		parts.push(amount + '');
+		parts.push(getTranslation('mainSim-resources', name));
+		parts.push(getTranslation('mainSim-resources', 'arrival-in'));
+		parts.push(time + '');
+		parts.push(getTranslation('mainSim-resources', 'minute'));
+		return parts.join(' ');
 	}
 
 }

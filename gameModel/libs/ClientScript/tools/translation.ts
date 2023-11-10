@@ -161,7 +161,8 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'mainSim-actions-tasks',
 		'mainSim-actors',
 		'mainSim-resources',
-		'mainSim-summary'
+		'mainSim-summary',
+		'trainer-interface'
 	]
 
 	variables.forEach(v => {

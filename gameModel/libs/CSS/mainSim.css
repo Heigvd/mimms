@@ -759,6 +759,24 @@ overflow: visible;
 }
 
 /********************** Patient summary **********************/
+.patient-debug-information {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: var(--colors-primarycolor) 3px solid;
+	position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.patient-debug-information > div > svg{
+    padding-right: 10px;
+}
+
+.patient-modal-view {
+	height: 100%;
+}
+
 .patient-summary--grid-main {
 	grid-template-columns: repeat(5, 1fr);
 }
