@@ -120,23 +120,19 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	const casuMessage = Context.interfaceState.state.casuMessage;
 	const request = Context.interfaceState.state.resources.requestedResources;
 
-	let res: CasuMessagePayload = { ...casuMessage, resourceRequest: request };
+	let res: CasuMessagePayload = {messageType: casuMessage.messageType};
 
-	if (res.messageType === 'MET') {
-		delete res.hazards;
-		delete res.access;
-		delete res.victims;
-		delete res.resourceRequest;
-	}
-	if (res.messageType === 'HANE' || res.messageType === 'E') {
-		delete res.major;
-		delete res.exact;
-		delete res.incidentType;
-	}
-	if (res.messageType === 'E') {
-		delete res.hazards;
-		delete res.access;
-		delete res.victims;
+	if (casuMessage.messageType === 'MET') {
+		res.major = casuMessage.major;
+		res.exact = casuMessage.exact;
+		res.incidentType = casuMessage.incidentType;
+	} else if (casuMessage.messageType === 'HANE') {
+		res.hazards = casuMessage.hazards;
+		res.access = casuMessage.access;
+		res.victims = casuMessage.victims;
+		res.resourceRequest = request;
+	} else if (casuMessage.messageType === 'E') {
+		res.resourceRequest = request;
 	}
 
 	return res;
