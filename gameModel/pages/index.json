@@ -387,7 +387,7 @@
         "items" : [ {
           "@class" : "Page",
           "id" : "42",
-          "name" : "methaneInput",
+          "name" : "casuMessageInput",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],

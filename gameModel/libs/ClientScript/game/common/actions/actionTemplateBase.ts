@@ -12,7 +12,7 @@ import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
   ActionBase,
   DefineMapObjectAction,
-  MethaneAction,
+  CasuMessageAction,
   GetInformationAction,
   SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
 } from './actionBase';
@@ -22,7 +22,7 @@ import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
-import { MethaneActionEvent, MethanePayload } from "../events/methaneEvent";
+import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -232,7 +232,7 @@ export class GetInformationTemplate extends StartEndTemplate {
 
 }
 
-export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneActionEvent, MethanePayload> {
+export class CasuMessageTemplate extends ActionTemplateBase<CasuMessageAction, CasuMessageActionEvent, CasuMessagePayload> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
@@ -240,21 +240,21 @@ export class MethaneTemplate extends ActionTemplateBase<MethaneAction, MethaneAc
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'DefineMethaneObjectTemplate' + '_' + this.title;
+    return 'DefineCasuMessageObjectTemplate' + '_' + this.title;
   }
   
-  protected createActionFromEvent(event: FullEvent<MethaneActionEvent>): MethaneAction {
+  protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
-    return new MethaneAction(payload.triggerTime, this.duration, this.message, 
-		this.title , event.id, ownerId, this.Uid, payload.methanePayload);
+    return new CasuMessageAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, payload.casuMessagePayload);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: MethanePayload): MethaneActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: CasuMessagePayload): CasuMessageActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
-	  methanePayload : params
+	  casuMessagePayload : params
     }
   }
 

@@ -38,7 +38,7 @@ export function buildTimelineObject(): Timeline[] {
 				timeline.push({
 					startTime: action.startTime,
 					duration: action.duration(),
-					title: (action as StartEndAction).actionNameKey,
+					title: (action as StartEndAction).getTitle(),
 				})
 			}
 		}	

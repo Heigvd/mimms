@@ -4,9 +4,8 @@
 import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
-	MethaneTemplate,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -110,7 +109,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
   const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
 
-  const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
+  const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
 
   const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', {featureSelection: {layerId: 'buildings', featureKey: '@id', featureIds: ['way/82683752', 'way/160572065', 'way/82753477']}});
   const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', {geometrySelection: {geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929,1118489.103111194], [2500103.856305609,1118553.3612179824], [2500057.0688582086,1118551.6205987816]]}});
@@ -147,7 +146,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
   templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
-  templates[methane.getTemplateRef()] = methane;
+  templates[casuMessage.getTemplateRef()] = casuMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
