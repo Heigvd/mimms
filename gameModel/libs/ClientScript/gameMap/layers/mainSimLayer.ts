@@ -1,4 +1,4 @@
-import { MapFeature } from "../../game/common/events/defineMapObjectEvent";
+import { MapFeature, PointFeature } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
@@ -33,6 +33,33 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 			// If the feature is a building selection (geometryType: Select) we skip it
 			if (f.geometryType === 'Select') return;
 
+			// If the feature is an arrow add end points for arrow heads
+			if (f.geometryType === 'MultiLineString') {
+				f.geometry.forEach((segment: PointLikeObject[], j) => {
+					const {end, rotation} = getLineEndAndRotation(segment);
+
+					const feature: any = {
+						type: 'Feature',
+						geometry: {
+							type: 'Point',
+							coordinates: end,
+						},
+						properties: {
+							type: 'Point',
+							name: String(i),
+							icon: 'arrow',
+							rotation: -rotation,
+							startTimeSec: f.startTimeSec,
+							durationTimeSec: f.durationTimeSec,
+							accessType: j === 0 ? 'Access' : 'Regress',
+						}
+					};
+
+					layer.features.push(feature)
+				})
+			}
+
+			// Add the feature
 			const feature: any = {
 				type: 'Feature',
 				geometry: {
@@ -42,7 +69,8 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 				properties: {
 					type: f.geometryType,
 					name: f.name,
-					icon: f.geometryType === 'Point' ? f.icon : undefined,
+					icon: f.geometryType === 'Point' || f.geometryType === 'MultiPoint' ? f.icon : undefined,
+					rotation: f.geometryType === 'Point' ? f.rotation : undefined,
 					startTimeSec: f.startTimeSec,
 					durationTimeSec: f.durationTimeSec,
 				},
@@ -117,7 +145,6 @@ export function getSelectionLayer() {
 	const selection = Context.mapState.state.selectionState;
 	let selectionFeatures: MapFeature[] = [];
 
-
 	if (selection.geometryType) {
 		selection.geometries.forEach((geometry: any, i: number) => {
 			selectionFeatures.push({
@@ -126,11 +153,24 @@ export function getSelectionLayer() {
 				geometry: geometry,
 				name: String(i),
 				icon: selection.icon ?? undefined,
-			})
+			});
 		})
-	}
+
+	};
 
 	return getLayer(selectionFeatures, 'SelectionLayer');
+}
+
+// Returns a the end point and rotation for a given line segment
+export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLikeObject, rotation: number} {
+	const start = segment[0];
+	const end = segment[1];
+
+	const dx = end[0] - start[0];
+	const dy = end[1] - start[1];
+	const rotation = Math.atan2(dy, dx);
+
+	return {end, rotation};
 }
 
 

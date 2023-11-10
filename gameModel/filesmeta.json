@@ -143,6 +143,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/arrow-jess.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/firetruck.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",

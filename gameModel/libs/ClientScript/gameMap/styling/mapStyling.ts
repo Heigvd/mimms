@@ -3,6 +3,7 @@ import { layerDataLogger } from "../../tools/logger";
 interface RoadParams {
 	color: string;
 	size: number
+	noStyle: boolean;
 }
 
 function getRoadParams(feature : any, resolution: number): RoadParams {
@@ -13,9 +14,9 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 	}
 	hw = hw || 'primary';
 
+	let noStyle = false;
 	let color = 'white';
 	let size = 1;
-
 
 	switch(hw){
 		case 'motorway' :
@@ -49,8 +50,9 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 			break;
 		case 'pedestrian':
 		case 'footway':
-			size = 1;
+			size = 0;
 			color = '#FCDDE4'
+			noStyle = true;
 			break;
 		case 'service':
 		case 'path':
@@ -58,7 +60,8 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 		case 'steps':
 		case 'platform':
 			color = '#FCDDE4';
-			size = 1.2;
+			size = 0;
+			noStyle = true;
 			break;
 		case 'proposed':
 		case 'construction':
@@ -72,12 +75,13 @@ function getRoadParams(feature : any, resolution: number): RoadParams {
 	}
 
 	
-	return {color: color, size: size/resolution};
+	return {color: color, size: size/resolution, noStyle: noStyle};
 
 }
 
 export function getRoadStyle(feature: any, resolution: number): LayerStyleObject[] {
-	const {color, size} = getRoadParams(feature, resolution);
+	const {color, size, noStyle} = getRoadParams(feature, resolution);
+	if (noStyle) return [];
 	const style : LayerStyleObject[] = 
 	[
 		{"stroke":{"type":"StrokeStyle","lineCap":"butt","lineJoin":"round","miterLimit":10,"width":size,"color":'black'}},

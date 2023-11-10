@@ -132,7 +132,7 @@
                     },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>M<br></p>\"",
+                      "content" : "\"<p>M</p>\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -513,7 +513,7 @@
                           "props" : {
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"0\"",
+                              "content" : "\"\"",
                               "language" : "TypeScript"
                             },
                             "layoutStyle" : { },
@@ -530,9 +530,14 @@
                                 "language" : "TypeScript"
                               }
                             },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"0\"",
+                              "language" : "TypeScript"
+                            },
                             "script" : {
                               "@class" : "Script",
-                              "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || 0;",
+                              "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || '';",
                               "language" : "TypeScript"
                             },
                             "style" : {
