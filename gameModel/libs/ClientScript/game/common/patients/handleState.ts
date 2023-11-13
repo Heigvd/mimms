@@ -5,11 +5,17 @@ import { AfflictedPathology, RevivedPathology, revivePathology } from "../../../
 import { getAct, getItem } from "../../../HUMAn/registries";
 import { PatientState } from '../simulationState/patientState';
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { getPresetByName } from "../../../edition/patientPreset";
+
+const currentPatientPreset = "CERN 12 Mai";
 
 export function loadPatients(): PatientState[] {
 	const env = getEnv();
+	const preset = getPresetByName(currentPatientPreset);
 
 	const humanBodies = getPatientsBodyFactoryParamsArray()
+		// TODO: temporarily filtering hardcoded preset, should be handled in UI
+		.filter(bodyFactoryParamWithId => preset!.patients[bodyFactoryParamWithId.id])
 		.map((bodyFactoryParamWithId) => {
 			const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
 			humanBody.id = bodyFactoryParamWithId.id;
@@ -19,7 +25,7 @@ export function loadPatients(): PatientState[] {
 			humanBody.revivedPathologies = reviveAfflictedPathologies(computeInitialAfflictedPathologies(humanBody));
 			humanBody.effects = computeInitialEffects(humanBody);
 			return humanBody;
-		})
+		});
 
 	mainSimLogger.info('Adding', humanBodies.length, 'patients');
 

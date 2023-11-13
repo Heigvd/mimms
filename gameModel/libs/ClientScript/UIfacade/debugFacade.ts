@@ -52,12 +52,8 @@ export function getAllResourcesGroup() {
 }
 
 export function getAllLocalEvents() {
-	let counter = 1;
-	const response: {id: number, parentId: number, type: string, time: number}[] = []
-	localEventManager.processedEvents.forEach((pe) => {
-		wlog(pe)
-		response.push({id: counter, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp})
-		counter++;
+	let counter = 0;
+	return localEventManager.processedEvents.map((pe) => {
+		return {id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp}
 	})
-	return response;
 }
