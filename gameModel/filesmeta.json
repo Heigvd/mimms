@@ -143,6 +143,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/arrow.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/firetruck.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
@@ -522,6 +528,12 @@
     "visibility" : "PRIVATE"
   },
   "/translations/qr-interface.tsv" : {
+    "description" : "",
+    "mimeType" : "text/tab-separated-values",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/trainer-interface.tsv" : {
     "description" : "",
     "mimeType" : "text/tab-separated-values",
     "note" : "",

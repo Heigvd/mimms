@@ -4,13 +4,13 @@
  * put minimal logic in here
  */
 
-import { fetchMethaneRequestValues } from "../gameInterface/actionsButtonLogic";
+import { fetchCasuMessageRequestValues } from "../gameInterface/actionsButtonLogic";
 import { ActionBase } from "../game/common/actions/actionBase";
 import {
 	ActionTemplateBase,
 	AssignTaskToResourcesActionTemplate,
+	CasuMessageTemplate,
 	DefineMapObjectTemplate,
-	MethaneTemplate,
 	ReleaseResourcesFromTaskActionTemplate,
 	SelectMapObjectTemplate,
 	SendResourcesToActorActionTemplate,
@@ -92,9 +92,9 @@ export function isSelectMapObjectTemplate(id: number) {
 /**
  * @param id Uid of given action
  */
-export function isMethaneActionTemplate(id: number) {
+export function isCasuMessageActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof MethaneTemplate;
+	return template instanceof CasuMessageTemplate;
 }
 
 /**
@@ -113,12 +113,14 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 	return template instanceof AssignTaskToResourcesActionTemplate;
 }
 
-export async function planMethaneAction() {
+export async function planCasuMessageAction() {
 	const actor = Context.interfaceState.state.currentActorUid;
 	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
-	const params = fetchMethaneRequestValues();
+	const params = fetchCasuMessageRequestValues();
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
-	newState.showMethaneModal = false;
+	newState.showCasuMessageModal = false;
+	// Reset all casuMessage fields
+	Object.keys(newState.casuMessage).forEach(key => newState.casuMessage[key] = '');
 	newState.resources.requestedResources = getEmptyResourceRequest();
 	Context.interfaceState.setState(newState);
 	return await planAction(actTpl!.getTemplateRef(), actor!, params);

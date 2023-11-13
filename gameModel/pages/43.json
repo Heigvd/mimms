@@ -88,6 +88,34 @@
                                     "style" : { }
                                   },
                                   "type" : "PageLoader"
+                                }, {
+                                  "props" : {
+                                    "className" : "patient-debug-information",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Variable.find(gameModel, 'display_debug_button').isFalse(self);",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "info",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "width" : "100%"
+                                    },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = true;\nContext.interfaceState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
                                 } ],
                                 "className" : "headerPanels",
                                 "layout" : { },
@@ -116,9 +144,18 @@
                                   "type" : "PageLoader"
                                 } ],
                                 "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "patient-modal-view",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showPatientModal",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "!Context.interfaceState.state.showMethaneModal;",
+                                  "content" : "!Context.interfaceState.state.showCasuMessageModal && !Context.interfaceState.state.showPatientModal;",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -131,7 +168,7 @@
                                 "onExitActions" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showMethaneModal = false;\nContext.interfaceState.setState(newState);",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showCasuMessageModal = false;\nnewState.casuMessage.messageType = '';\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -453,7 +490,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { endMapAction } from \"./gameMap/main\";\n\n// setCurrentActorUid(Context.actor.Uid);\nContext.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n})\nendMapAction();",
+                                                "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -905,19 +942,20 @@
                                       "onClick" : {
                                         "@class" : "ScriptCallback",
                                         "args" : [ "coord", "features" ],
-                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n// handleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\n// handleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
                                       }
                                     },
                                     "style" : { },
                                     "viewOptions" : {
                                       "center" : [ 2500000, 1118500 ],
                                       "extent" : [ 2499286.1059294315, 1117892.4878584156, 2500468.4624423133, 1118778.4582210586 ],
-                                      "projection" : {
+                                      "maxZoom" : 21,
+                                      "projection" : "EPSG:2056",
+                                      "zoom" : {
                                         "@class" : "Script",
-                                        "content" : "import { swissDefaultProjection } from \"./map/layersData\";\nswissDefaultProjection;",
+                                        "content" : "(18.5)",
                                         "language" : "typescript"
-                                      },
-                                      "zoom" : 18.5
+                                      }
                                     }
                                   },
                                   "type" : "WegasMap"

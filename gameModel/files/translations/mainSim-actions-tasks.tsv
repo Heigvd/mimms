@@ -1,7 +1,7 @@
 Key	EN	FR
 basic-info-title	Quick situation overview	Bilan d'ambiance
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation
-basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25.	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25.
+basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 
 other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant
 other-basic-info-desc	Take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.	Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.
 other-basic-info-feedback	The passer-by seems to be in a state of shock. He didn't see what happened.	Le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.
@@ -10,7 +10,7 @@ basic-info-police-desc	You approach a nearby police car to get some more informa
 basic-info-police-feedback	Police are informing you that rue de Lausanne is now closed to traffic in both directions.	La police vous informe que la rue de Lausanne est maintenant coupée à la circulation dans les deux sens.
 basic-info-firefighter-title	Get firefighter information	Obtenir des informations des pompiers
 basic-info-firefighter-desc	You approach a firefighter truck to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.
-basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.  	Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car. 
+basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.
 define-PC-title	Define command post location	Placer le poste de commandement
 define-PC-desc	Pick a position on the map for your command post	Définir l'emplacement du poste de commandement sur la carte
 define-PC-feedback	The command post is now ready	Le post de commandement est maintenant prêt
@@ -20,12 +20,19 @@ define-Nest-feedback	The survivor reception center is now defined	Le nid de bles
 define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
 define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
+define-accreg-title	Define access and regress routes	Définir les route d'accès et de régression.
+define-accreg-desc	Define the access and regress routes along that your resources will use.	Définir les route d'accès et de régression par lesquels les moyens engagés accèdent au site.
+define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et de régression du chantier.
 define-sectors-title	Sectorize incident area	Sectoriser la zone de l'incident
 define-sectors-desc	Define the different sectors of the incident site in readiness for prétriage	Sectoriser les zones du chantier en vue du pré-triage
 define-sectors-feedback	You successfully defined sectors of the incident. New prétri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
-methane-title	Send METHANE	Envoi du METHANE
-methane-desc	Send a METHANE radio message to emergency 	Envoyer un message METHANE à CASU
-methane-feedback	We got your METHANE message, the ACS and MCS are their way	Message METHANE bien reçu, l'ACS et le MCS sont en route
+casu-message-title	Send message to CASU	Envoyer un message à CASU
+casu-message-title-MET	Send MET	Envoi du MET
+casu-message-title-HANE	Send HANE	Envoi du HANE
+casu-message-title-E	Send E	Envoi du E
+casu-message-title-METHANE	Send METHANE	Envoie du METHANE
+casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU
+casu-message-feedback	We got your message, the ACS and MCS are their way	Message bien reçu, l'ACS et le MCS sont en route
 methane-acs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 methane-mcs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 send-resources-title	Send resources	Envoyer des ressources
@@ -34,16 +41,9 @@ send-resources-feedback	You received resources	Vous avez reçu des ressources
 assign-task-title	Assign a task	Assigner une tâche
 assign-task-desc	Assign resources to a task	Assigner des ressources à une tâche
 assign-task-feedback	You assigned resources to a task	Vous avez assigné des ressources à une tâche
-release-task-title	Release resources	Libérer des ressources
-release-task-desc	Release resources from a task	Libère des ressources d'une tâche
-release-task-feedback	You released resources from a task	Vous avez libéré des ressources
-ask-reinforcement-title	Ask CASU for reinforcements 	Demande de renforts à CASU
-ask-reinforcement-desc	Call the emergency center and ask for more resources on site	Appeler CASU pour demander plus de renforts sur site
-ask-reinforcement-feedback	CASU : we are now sending 5 resources	CASU : Nous envoyons 5 resources supplémentaires pour vous
-pre-tri-zone-A-title	Pretriage of zone A	Prétriage de la zone A
-pre-tri-zone-A-desc	Send resources to perform pretriage of zone A	Envoyer des resources prétrier la zone A
-pre-tri-zone-A-feedback	The pretriage of zone A is done. 5 red, 10 yellow, 5 green	Prétriage de la zone A terminé. 5 rouges, 10 jaunes, 5 verts
-pre-tri-zone-B-title	Pretriage of zone B	Prétriage de la zone B
-pre-tri-zone-B-desc	Send resources to perform prétriage of zone B	Envoyer des resources prétrier la zone B
-pre-tri-zone-B-feedback	The prétriage of zone B is done. 5 red, 10 yellow, 5 green	Prétriage de la zone B terminé. 5 rouges, 10 jaunes, 5 verts
+release-task-title	Release resources	Rappeler des ressources
+release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche
+release-task-feedback	You released resources from a task	Vous avez rappelé des ressources
 on-the-road	On the way	En route
+pre-tri-title	Pre tri (?)	Pré tri
+brancardage-title	Brancardage (?)	Brancardage

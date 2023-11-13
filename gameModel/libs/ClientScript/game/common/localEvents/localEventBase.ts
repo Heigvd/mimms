@@ -6,7 +6,7 @@ import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, Trans
 import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { PatientState } from "../simulationState/patientState";
+import { changePatientPosition, PatientState } from "../simulationState/patientState";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { TaskStatus } from "../tasks/taskBase";
@@ -16,8 +16,9 @@ import { getContainerDef, resolveResourceRequest } from "../resources/emergencyD
 import { getOrCreateResourceGroup, ResourceGroup } from "../resources/resourceGroup";
 import { localEventManager } from "../localEvents/localEventManager";
 import { entries } from "../../../tools/helper";
-import { MethanePayload } from "../events/methaneEvent";
+import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -305,7 +306,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 		parentEventId: GlobalEventId,
     	timeStamp: SimTime,
 		private actorUid: ActorId,
-		private request: MethanePayload
+		private request: CasuMessagePayload
 	){
 		super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
 	}
@@ -507,6 +508,22 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     TaskState.changeTaskStatus(state, this.taskId, this.status);
+  }
+
+}
+
+export class PatientMovedLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly taskId: TaskId,
+    readonly patientId: string,
+	readonly location: LOCATION_ENUM) {
+      super(parentEventId, 'PatientMovedLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    changePatientPosition(state, this.patientId, this.location);
   }
 
 }

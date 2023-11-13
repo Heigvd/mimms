@@ -51,11 +51,11 @@ export function endMapAction() {
 export function startMapSelect() {
 	let params;
 	if (Context.action.featureSelection) {
-			params = Context.action.featureSelection;
-		}
-		if (Context.action.geometrySelection) {
-			params = Context.action.geometrySelection;
-		}
+		params = Context.action.featureSelection;
+	}
+	if (Context.action.geometrySelection) {
+		params = Context.action.geometrySelection;
+	}
 
 	clearMapState();
 	const newState = Helpers.cloneDeep(Context.mapState.state);

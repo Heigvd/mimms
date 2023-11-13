@@ -8,7 +8,8 @@ export function getInitialInterfaceState() {
 	return {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
-		methaneInformation: {
+		casuMessage: {
+			messageType: "",
 			major: "",
 			exact: "",
 			incidentType: "",
@@ -37,7 +38,7 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-      releaseResources: {
+			releaseResources: {
 				selectedTaskId: '',
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
@@ -47,14 +48,14 @@ export function getInitialInterfaceState() {
 				medecinJunior: 0,
 				medecinSenior: 0,
 			},
-		  showMethaneModal: false,
-      
 			requestedResources: getEmptyResourceRequest(),
 		},
+		showCasuMessageModal: false,
+		showPatientModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
 	};
-	
+
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
@@ -69,13 +70,13 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 * Helper function, change only key-values give in update object
 */
 export function setInterfaceState(update: object): void {
-const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 
-for (const key in update) {
-if (newState.hasOwnProperty(key)) {
-newState[key] = update[key as keyof typeof update];
-}
-}
+	for (const key in update) {
+		if (newState.hasOwnProperty(key)) {
+			newState[key] = update[key as keyof typeof update];
+		}
+	}
 
-Context.interfaceState.setState(newState);
+	Context.interfaceState.setState(newState);
 }

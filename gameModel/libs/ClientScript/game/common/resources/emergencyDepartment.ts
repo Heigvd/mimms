@@ -17,10 +17,20 @@ export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, Re
 	return containerDefinitions;
 }
 
-export async function loadEmergencyResourceContainers(): Promise<ResourceContainerConfig[]> {
-
-	const containerConfigs: ResourceContainerConfig[]|PromiseLike<ResourceContainerConfig[]> = [];
+export async function loadContainerConfigFile() {
 	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
+	const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(tsv)})`;
+	await APIMethods.runScript(s, {}).then(response => {
+		wlog('script executed', response);
+	});
+}
+
+export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
+
+	const containerConfigs: ResourceContainerConfig[] = [];
+	const tsv = Variable.find(gameModel, 'containers_config').getProperties()['config'];
+	
+	if (!tsv) return containerConfigs;
 	if(!tsv.startsWith('<!DOCTYPE')){
 		const emergencyAmbulance = addContainerDefinition(
 			'Ambulance',
@@ -72,7 +82,6 @@ export async function loadEmergencyResourceContainers(): Promise<ResourceContain
 			[],
 			['PCS-ARRIVED']
 		);
-
 		tsv.split('\n').slice(1).forEach(line => {
 			const l = line.split('\t');
 			if(!l) {return;}

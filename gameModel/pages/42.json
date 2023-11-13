@@ -4,17 +4,486 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "modalTitle",
+            "layoutStyle" : { },
+            "name" : "modalTitle",
+            "style" : {
+              "width" : "100%"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
-                "className" : "modalTitle",
+                "className" : "whiteButton methaneMenuButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>METHANE</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
                 "layoutStyle" : { },
-                "name" : "modalTitle",
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "methane",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "whiteButton methaneMenuButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>MET</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "met",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "whiteButton methaneMenuButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>HANE</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "hane",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "whiteButton methaneMenuButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Demande de ressources<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n Context.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "demandeRessources",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "flexDirection" : "row"
+            },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "methaneButtons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterM",
                 "style" : {
-                  "width" : "100%"
+                  "padding" : "0px"
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+                  "content" : "\"<p>M<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.major = Context.major;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"major\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.major;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterM",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterE",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>E<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.exact = Context.exact;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"exact\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.exact;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterE",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterT",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>T<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.incidentType = Context.incidentType;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"incidentType\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.incidentType;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterT",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterH",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>H<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.hazards = Context.hazards;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"hazards\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.hazards;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterH",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterA",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>A<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.access = Context.access;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"access\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.access;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterA",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "methane-letter",
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterN",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>N<br></p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutClassName" : "methane-letter-input",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.victims = Context.victims;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"victims\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.victims;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterN",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "methane-letter-container",
+                "layoutStyle" : { },
+                "name" : "letterE",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>E<br></p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -23,618 +492,145 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "whiteButton methaneMenuButton",
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>METHANE</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : " Context.methaneSelection.setState({selected: 'METHANE'})",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "methane",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "whiteButton methaneMenuButton",
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>MET</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : " Context.methaneSelection.setState({selected: 'MET'})",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "met",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "whiteButton methaneMenuButton",
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>HANE</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : " Context.methaneSelection.setState({selected: 'HANE'})",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "hane",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "whiteButton methaneMenuButton",
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Demande de ressources<br></p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : " Context.methaneSelection.setState({selected: 'E'})",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "demandeRessources",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "layout" : {
-                  "flexDirection" : "row"
-                },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "methaneButtons",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterM",
-                    "style" : {
-                      "padding" : "0px"
-                    },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>M<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.major = Context.major;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"major\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.major;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterM",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterE",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>E<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.exact = Context.exact;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"exact\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.exact;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.startsWith('MET');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterE",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterT",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>T<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.incidentType = Context.incidentType;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"incidentType\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.incidentType;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.startsWith('MET');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterT",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterH",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>H<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.hazards = Context.hazards;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"hazards\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.hazards;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterH",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterA",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>A<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.access = Context.access;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"access\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.access;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterA",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "methane-letter",
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterN",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>N<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-input",
-                    "layoutStyle" : { },
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.methaneInformation.victims = Context.victims;\nContext.interfaceState.setState(newState);",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"victims\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Context.interfaceState.state.methaneInformation.victims;",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('HANE');",
-                  "language" : "typescript"
-                },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterN",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutClassName" : "methane-letter-container",
-                    "layoutStyle" : { },
-                    "name" : "letterE",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>E<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
                     "children" : [ {
                       "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutStyle" : {
-                              "padding-bottom" : "0px"
-                            },
-                            "onCancel" : { },
-                            "onVariableChange" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "// TODO transalations\nContext.item.type;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"0\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "onCancel" : { },
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources[Context.item.type] = Context.value;\nContext.interfaceState.setState(newState);",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"value\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || 0;",
-                              "language" : "TypeScript"
-                            },
-                            "style" : {
-                              "width" : "100px"
-                            }
-                          },
-                          "type" : "Number input"
-                        } ],
-                        "layout" : { },
                         "layoutStyle" : {
-                          "width" : "200px"
+                          "padding-bottom" : "0px"
                         },
-                        "style" : {
-                          "flex-direction" : "column"
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "// TODO transalations\nContext.item.type;",
+                          "language" : "TypeScript"
                         }
                       },
-                      "type" : "FlexList"
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"0\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources[Context.item.type] = Context.value;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"value\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "\"0\"",
+                          "language" : "TypeScript"
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : {
+                          "width" : "100px"
+                        }
+                      },
+                      "type" : "Number input"
                     } ],
-                    "exposeAs" : "item",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { ResourceContainerTypeArray } from \"./game/common/resources/resourceContainer\";\nResourceContainerTypeArray.map(t => {return {type : t}});",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "type",
                     "layout" : { },
                     "layoutStyle" : {
-                      "margin-top" : "7px"
+                      "width" : "200px"
                     },
                     "style" : {
-                      "flex-wrap" : "wrap",
-                      "max-width" : "700px"
+                      "flex-direction" : "column"
                     }
                   },
-                  "type" : "For each"
+                  "type" : "FlexList"
                 } ],
-                "hideIf" : {
+                "exposeAs" : "item",
+                "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "const selected = Context.methaneSelection.state.selected;\n!selected.endsWith('E');",
+                  "content" : "import { ResourceContainerTypeArray } from \"./game/common/resources/resourceContainer\";\nResourceContainerTypeArray.map(t => {return {type : t}});",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "type",
+                "layout" : { },
+                "layoutStyle" : {
+                  "margin-top" : "7px"
+                },
+                "style" : {
+                  "flex-wrap" : "wrap",
+                  "max-width" : "700px"
+                }
+              },
+              "type" : "For each"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('E');",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterE",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "pink l_button",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.casuMessage.messageType === ''",
                   "language" : "typescript"
                 },
-                "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
-                "name" : "LetterE",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "pink l_button",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import {planMethaneAction} from \"./UIfacade/actionFacade\";\nplanMethaneAction();",
-                        "language" : "TypeScript",
-                        "returnType" : "Promise<unknown> | undefined"
-                      }
-                    },
-                    "name" : "send",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "",
-                "layout" : {
-                  "justifyContent" : "flex-end"
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+                  "language" : "TypeScript"
                 },
-                "layoutClassName" : "",
                 "layoutStyle" : { },
-                "name" : "btnModal",
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { planCasuMessageAction } from \"./UIfacade/actionFacade\";\nplanCasuMessageAction();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "send",
                 "style" : { }
               },
-              "type" : "FlexList"
+              "type" : "Button"
             } ],
+            "className" : "",
             "layout" : {
-              "flexDirection" : "column"
+              "justifyContent" : "flex-end"
             },
+            "layoutClassName" : "",
             "layoutStyle" : { },
+            "name" : "btnModal",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "exposeAs" : "methaneSelection",
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "({selected: ''})",
-          "language" : "TypeScript"
+        "layout" : {
+          "flexDirection" : "column"
         },
         "layoutStyle" : { },
-        "localState" : false,
         "style" : { }
       },
-      "type" : "State"
+      "type" : "FlexList"
     } ],
     "layout" : {
       "flexDirection" : "column"
@@ -644,7 +640,7 @@
       "height" : "100%",
       "overflow" : "auto"
     },
-    "name" : "methaneInput",
+    "name" : "casuMessageInput",
     "style" : { }
   },
   "type" : "FlexList"

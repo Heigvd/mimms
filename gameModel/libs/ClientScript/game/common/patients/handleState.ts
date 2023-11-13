@@ -4,11 +4,18 @@ import { mainSimLogger } from "../../../tools/logger";
 import { AfflictedPathology, RevivedPathology, revivePathology } from "../../../HUMAn/pathology";
 import { getAct, getItem } from "../../../HUMAn/registries";
 import { PatientState } from '../simulationState/patientState';
+import { LOCATION_ENUM } from "../simulationState/locationState";
+import { getPresetByName } from "../../../edition/patientPreset";
+
+const currentPatientPreset = "CERN 12 Mai";
 
 export function loadPatients(): PatientState[] {
 	const env = getEnv();
+	const preset = getPresetByName(currentPatientPreset);
 
 	const humanBodies = getPatientsBodyFactoryParamsArray()
+		// TODO: temporarily filtering hardcoded preset, should be handled in UI
+		.filter(bodyFactoryParamWithId => preset!.patients[bodyFactoryParamWithId.id])
 		.map((bodyFactoryParamWithId) => {
 			const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
 			humanBody.id = bodyFactoryParamWithId.id;
@@ -23,7 +30,7 @@ export function loadPatients(): PatientState[] {
 	mainSimLogger.info('Adding', humanBodies.length, 'patients');
 
 	return humanBodies.flatMap(humanBody => {
-		return { patientId: humanBody.id!, humanBody : humanBody, preTriageResult: undefined, location: undefined };
+		return { patientId: humanBody.id!, humanBody : humanBody, preTriageResult: undefined, location: LOCATION_ENUM.chantier };
 	});
 }
 
