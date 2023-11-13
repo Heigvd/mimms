@@ -1,4 +1,10 @@
 /**
  * Rough indication of locations
  */
-export type LocationEnum = 'chantier' | 'nidDeBlesses' | 'PMA' | 'PC' | 'parcAmbulance';
+export enum LOCATION_ENUM {
+	chantier = 'chantier',
+	nidDeBlesses = 'nidDeBlesses',
+	PMA = 'PMA',
+	PC = 'PC',
+	parcAmbulance = 'parcAmbulance'
+};
