@@ -122,16 +122,17 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 
 	let res: CasuMessagePayload = {messageType: casuMessage.messageType};
 
-	if (casuMessage.messageType === 'MET') {
+	if (casuMessage.messageType.startsWith('MET')) {
 		res.major = casuMessage.major;
 		res.exact = casuMessage.exact;
 		res.incidentType = casuMessage.incidentType;
-	} else if (casuMessage.messageType === 'HANE') {
+	} 
+	if (casuMessage.messageType.endsWith('HANE')) {
 		res.hazards = casuMessage.hazards;
 		res.access = casuMessage.access;
 		res.victims = casuMessage.victims;
-		res.resourceRequest = request;
-	} else if (casuMessage.messageType === 'E') {
+	}
+	if (casuMessage.messageType.endsWith('E')) {
 		res.resourceRequest = request;
 	}
 

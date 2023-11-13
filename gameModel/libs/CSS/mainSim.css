@@ -594,7 +594,7 @@ height: 3em;
 	width: 100%;
 	height: 100%;
 	margin-top: 10px;
-	overflow: visible !important;
+	/*overflow: visible !important;*/
 	/* trouver pourquoi il y a collusion de style*/
 
 }
