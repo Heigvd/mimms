@@ -256,8 +256,10 @@ export class CasuMessageAction extends StartEndAction {
 	//const actor = state.getActorById(this.ownerId)!;
 	// TODO filter when we get a full METHANE message
     //localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, now, this.ownerId, actor.ShortName, this.messageKey))
-	const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
-	localEventManager.queueLocalEvent(dispatchEvent);
+	if(this.casuMessagePayload.resourceRequest){
+		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
+		localEventManager.queueLocalEvent(dispatchEvent);
+	}
   }
 
   // TODO probably nothing
