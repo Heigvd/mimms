@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1699456165698,
+  "createdTime" : 1699878841510,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4716,19 +4716,31 @@
         },
         "name" : "mainSim-resources",
         "properties" : {
+          "acs-mcs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aCS/MCS\"},\"FR\":{\"status\":\"\",\"translation\":\"aCS/MCS\",\"lang\":\"FR\"}},\"version\":0}",
           "ambulancier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier\",\"lang\":\"FR\"}},\"version\":0}",
           "ambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambul.\",\"lang\":\"FR\"}},\"version\":0}",
+          "arrival-in" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"arrival in\"},\"FR\":{\"status\":\"\",\"translation\":\"arrivée dans\",\"lang\":\"FR\"}},\"version\":0}",
+          "emergencyambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"emergency ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance urgence\",\"lang\":\"FR\"}},\"version\":0}",
+          "helicopter" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"helicopter\"},\"FR\":{\"status\":\"\",\"translation\":\"hélicoptère\",\"lang\":\"FR\"}},\"version\":0}",
           "infirmier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"nurse\"},\"FR\":{\"status\":\"\",\"translation\":\"infirmier\",\"lang\":\"FR\"}},\"version\":0}",
           "infirmier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"nurse\"},\"FR\":{\"status\":\"\",\"translation\":\"infirmier\",\"lang\":\"FR\"}},\"version\":0}",
+          "intermediateambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"intermediate ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance intermédiaire\",\"lang\":\"FR\"}},\"version\":0}",
           "medecinjunior" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"junior doctor\"},\"FR\":{\"status\":\"\",\"translation\":\"médecin junior\",\"lang\":\"FR\"}},\"version\":0}",
           "medecinjunior-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"junior doc.\"},\"FR\":{\"status\":\"\",\"translation\":\"méd. junior\",\"lang\":\"FR\"}},\"version\":0}",
           "medecinsenior" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"senior doctor\"},\"FR\":{\"status\":\"\",\"translation\":\"médecin senior\",\"lang\":\"FR\"}},\"version\":0}",
           "medecinsenior-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"senior doc.\"},\"FR\":{\"status\":\"\",\"translation\":\"méd. senior\",\"lang\":\"FR\"}},\"version\":0}",
+          "minutes" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "pcs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pCS\"},\"FR\":{\"status\":\"\",\"translation\":\"pCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "pica" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pICA\"},\"FR\":{\"status\":\"\",\"translation\":\"pICA\",\"lang\":\"FR\"}},\"version\":0}",
+          "pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pMA\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
           "secouriste" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first aider\"},\"FR\":{\"status\":\"\",\"translation\":\"secouriste\",\"lang\":\"FR\"}},\"version\":0}",
           "secouriste-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first aider\"},\"FR\":{\"status\":\"\",\"translation\":\"secouriste\",\"lang\":\"FR\"}},\"version\":0}",
+          "sending" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sending\"},\"FR\":{\"status\":\"\",\"translation\":\"envoi de\",\"lang\":\"FR\"}},\"version\":0}",
           "sendto" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send to\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer à\",\"lang\":\"FR\"}},\"version\":0}",
+          "smur" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sMUR\"},\"FR\":{\"status\":\"\",\"translation\":\"sMUR\",\"lang\":\"FR\"}},\"version\":0}",
           "technicienambulancier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance technician\"},\"FR\":{\"status\":\"\",\"translation\":\"technicien ambulancier\",\"lang\":\"FR\"}},\"version\":0}",
-          "technicienambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. tech.\"},\"FR\":{\"status\":\"\",\"translation\":\"tech. ambul.\",\"lang\":\"FR\"}},\"version\":0}"
+          "technicienambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. tech.\"},\"FR\":{\"status\":\"\",\"translation\":\"tech. ambul.\",\"lang\":\"FR\"}},\"version\":0}",
+          "transferambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"transfer ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance transfert\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:584952:gBmGN5",
         "scopeType" : "GameModelScope",
@@ -4761,6 +4773,7 @@
         },
         "name" : "mainSim-summary",
         "properties" : {
+          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-actions-cat" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cAT\"},\"FR\":{\"status\":\"\",\"translation\":\"cAT\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-actions-openairways" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"open Airways\"},\"FR\":{\"status\":\"\",\"translation\":\"ouvrir voies resp.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6699,7 +6712,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev",
+  "name" : "MIMMS main simulation dev XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

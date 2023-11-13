@@ -7,6 +7,7 @@ let cache : Record<string, SObjectDescriptor> = {};
 /** 
  * category must be an object type
  * key is case insensitive
+ * @param uppercase first letter defaults to true
 */
 export function getTranslation(category: keyof VariableClasses, key: string, upperCaseFirstLetter = true) : string {
 

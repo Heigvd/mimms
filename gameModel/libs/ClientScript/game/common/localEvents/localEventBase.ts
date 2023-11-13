@@ -210,7 +210,7 @@ export class AddActorLocalEvent extends LocalEventBase {
 	const travelAction = new OnTheRoadAction(now, this.travelTime, 'methane-acs-arrived', 'on-the-road', 0, actor.Uid, 0);
 	state.getInternalStateObject().actions.push(travelAction);
 
-	// the resource pool assignation is delayed to the arrival time of the actor
+	// the resource pool creation/assignation is delayed to the arrival time of the actor
 	localEventManager.queueLocalEvent(new ResourceGroupBinding(this.parentEventId, now + this.travelTime, actor.Uid));
   }
 
@@ -328,7 +328,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 	public readonly travelTime: SimDuration,
 	public readonly containerDef: ResourceContainerDefinitionId,
 	public readonly amount: number) {
-		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+		super(parentId, 'ResourceMobilizationEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
@@ -371,7 +371,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	public readonly containerDef: ResourceContainerDefinitionId,
 	public readonly travelTime: SimDuration,
 	public readonly amount: number) {
-		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+		super(parentId, 'ResourcesDepartureLocalEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
@@ -382,14 +382,14 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 		localEventManager.queueLocalEvent(evt);
 	}
 
-	private buildRadioText(amount: number, name: string, time: number): string {
+	private buildRadioText(amount: number, name: TranslationKey, time: number): string {
 		const parts : string []= [];
 		parts.push(getTranslation('mainSim-resources', 'sending'));
 		parts.push(amount + '');
 		parts.push(getTranslation('mainSim-resources', name));
-		parts.push(getTranslation('mainSim-resources', 'arrival-in'));
+		parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
 		parts.push(time + '');
-		parts.push(getTranslation('mainSim-resources', 'minute'));
+		parts.push(getTranslation('mainSim-resources', 'minutes', false));
 		return parts.join(' ');
 	}
 

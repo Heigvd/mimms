@@ -36,7 +36,7 @@ export async function loadEmergencyResourceContainers(): Promise<ResourceContain
 
 		const transfertAmbulance = addContainerDefinition(
 			'Ambulance',
-			"transfertAmbulance",
+			"transferAmbulance",
 			{ 'ambulance': 1, 'technicienAmbulancier': 1, "secouriste": 1 }
 		);
 
@@ -52,7 +52,7 @@ export async function loadEmergencyResourceContainers(): Promise<ResourceContain
 			{ 'ambulancier': 1, "medecinJunior": 1 }
 		);
 
-		const acsMcs = addContainerDefinition('ACS-MCS', 'acs', {}, ['ACS', 'MCS']);
+		const acsMcs = addContainerDefinition('ACS-MCS', 'acs-mcs', {}, ['ACS', 'MCS']);
 		const pma = addContainerDefinition(
 			'PMA',
 			"pma",
