@@ -57,7 +57,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 
 			iconStyle.rotation = rotation;
 			iconStyle.displacement = [0, 0];
-			iconStyle.src = '/maps/mapIcons/arrow-jess.svg';
+			iconStyle.src = '/maps/mapIcons/arrow.svg';
 			iconStyle.scale = .08;
 
 			textStyle.text = properties.accessType;
@@ -78,8 +78,6 @@ function getPointStyle(feature: any): LayerStyleObject {
 		}
 
 		if (icon === Context.mapState.state.selectionState.icon) {
-			iconStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
-
 			// Convert to int to add 1
 			const index = parseInt(name, 10) + 1;
 			// Define textStyle for Icons

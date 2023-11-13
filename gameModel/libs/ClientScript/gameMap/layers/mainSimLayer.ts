@@ -1,4 +1,4 @@
-import { MapFeature, PointFeature } from "../../game/common/events/defineMapObjectEvent";
+import { MapFeature } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
@@ -34,6 +34,7 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 			if (f.geometryType === 'Select') return;
 
 			// If the feature is an arrow add end points for arrow heads
+			// TODO Better validation or templates ?
 			if (f.geometryType === 'MultiLineString') {
 				f.geometry.forEach((segment: PointLikeObject[], j) => {
 					const {end, rotation} = getLineEndAndRotation(segment);

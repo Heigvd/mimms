@@ -116,7 +116,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } });
 	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
 
-	const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration, 'define-accreg-feedback', 
+	const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
 		{ geometrySelection: { 
 			geometryType: 'MultiLineString', 
 			icon: 'right-arrow', 
