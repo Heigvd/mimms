@@ -20,6 +20,9 @@ define-Nest-feedback	The survivor reception center is now defined	Le nid de bles
 define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
 define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
+define-accreg-title	Define access and regress routes	Définir les route d'accès et de régression.
+define-accreg-desc	Define the access and regress routes along that your resources will use.	Définir les route d'accès et de régression par lesquels les moyens engagés accèdent au site.
+define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et de régression du chantier.
 define-sectors-title	Sectorize incident area	Sectoriser la zone de l'incident
 define-sectors-desc	Define the different sectors of the incident site in readiness for prétriage	Sectoriser les zones du chantier en vue du pré-triage
 define-sectors-feedback	You successfully defined sectors of the incident. New prétri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
@@ -38,9 +41,9 @@ send-resources-feedback	You received resources	Vous avez reçu des ressources
 assign-task-title	Assign a task	Assigner une tâche
 assign-task-desc	Assign resources to a task	Assigner des ressources à une tâche
 assign-task-feedback	You assigned resources to a task	Vous avez assigné des ressources à une tâche
-release-task-title	Release resources	Libérer des ressources
-release-task-desc	Release resources from a task	Libère des ressources d'une tâche
-release-task-feedback	You released resources from a task	Vous avez libéré des ressources
+release-task-title	Release resources	Rappeler des ressources
+release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche
+release-task-feedback	You released resources from a task	Vous avez rappelé des ressources
 on-the-road	On the way	En route
 pre-tri-title	Pre tri (?)	Pré tri
 brancardage-title	Brancardage (?)	Brancardage
