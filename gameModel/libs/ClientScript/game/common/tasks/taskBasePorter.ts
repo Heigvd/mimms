@@ -81,21 +81,17 @@ export class PorterTask extends DefaultTask {
       	return;
     }
 	taskLogger.info("Patients not transported before action: " + getNonTransportedPatientsSize(state));
-	taskLogger.info("Current porter groups: ", this.resourcesGroups);
+	taskLogger.debug("Current porter groups: ", this.resourcesGroups);
 
 
 	//1. cleanup instance groups according to new allocated resources information
 	this.cleanupUnallocatedResourcesAndGroups(ResourceState.getAllocatedResourcesAnyKind(state, this.Uid));
 
-	taskLogger.info("Current porter groups after cleanup: ", this.resourcesGroups);
-
 	//2. Group resources not grouped yet
   	this.groupUnallocatedResources(ResourceState.getAllocatedResourcesAnyKind(state, this.Uid));
 
-	taskLogger.info("Current porter groups after grouping: ", this.resourcesGroups);
-
 	//3. move patients
-	//console.log("INSTRUCTED TO MOVE: ", this.instructedToMovePatients);
+	taskLogger.info("Instructed to move: ", this.instructedToMovePatients);
 	this.resourcesGroups.map(resourceGroup => {
 		const assignedToResourcesGroupPatients: string[] = this.getAssignedToResourcesGroupPatientIds();
 		let nextPatient;
@@ -104,7 +100,6 @@ export class PorterTask extends DefaultTask {
 		else
 			nextPatient = getNextNonTransportedPatientByPriority(state, this.instructedToMovePatients.concat(assignedToResourcesGroupPatients));
 
-		//console.log("NEXT PATIENT: ", nextPatient);
 		if (nextPatient) {
 			if (
 				(nextPatient.preTriageResult &&
@@ -117,20 +112,17 @@ export class PorterTask extends DefaultTask {
 				//3.a cannot walk, handle transport
 				//timejump is enough to transport patient, so we just move it and unassign patient
 				if ((resourceGroup.cumulatedUnusedTime + timeJump) >= this.TIME_REQUIRED_FOR_TRANSPORT){
-					//console.log("TRANSPORTING");
 					resourceGroup.cumulatedUnusedTime = (resourceGroup.cumulatedUnusedTime + timeJump) - this.TIME_REQUIRED_FOR_TRANSPORT;
 					nextPatient.location = LOCATION_ENUM.PMA; //TODO: implement better logic
 					resourceGroup.transportingPatientId = undefined;
 				}
 				else {
-					//console.log("ADDING TO GROUP");
 					//timejump is not enough, we cumulate time and assign patient to group
 					resourceGroup.transportingPatientId = nextPatient.patientId
 					resourceGroup.cumulatedUnusedTime += timeJump;
 				}
 			}
 			else {
-				//console.log("CAN WALK");
 				//3.a can walk, instruct to move
 				// Even if resources are removed, action will be completed by patient, just fire an event
 				localEventManager.queueLocalEvent(new PatientMovedLocalEvent(0, state.getSimTime()+this.TIME_REQUIRED_FOR_SELF_TRANSPORT, this.Uid, nextPatient.patientId, LOCATION_ENUM.PMA));
@@ -139,8 +131,6 @@ export class PorterTask extends DefaultTask {
 			}
 		}
 	});
-
-	taskLogger.info("Current porter groups after treatment: ", this.resourcesGroups);
 
 	taskLogger.info("Patients not transported after action: " + getNonTransportedPatientsSize(state));
 	
