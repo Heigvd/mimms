@@ -25,9 +25,10 @@ import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
-import { PreTriageTask } from "./common/tasks/pretriageTask";
-import { PorterTask } from "./common/tasks/porterTask";
+
 import { TaskBase } from "./common/tasks/taskBase";
+import { PorterTask } from "./common/tasks/taskBasePorter";
+import { PreTriageTask } from "./common/tasks/taskBasePretriage";
 
 // TODO see if useRef makes sense (makes persistent to script changes)
 let currentSimulationState : MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());

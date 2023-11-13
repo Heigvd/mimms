@@ -1,3 +1,7 @@
+// -------------------------------------------------------------------------------------------------
+// Brancardage
+// -------------------------------------------------------------------------------------------------
+
 import { taskLogger } from "../../../tools/logger";
 import { getPriorityByCategoryId } from "../../pretri/triage";
 import { Actor } from "../actors/actor";
@@ -92,8 +96,8 @@ export class PorterTask extends DefaultTask {
 
 	//3. move patients
 	//console.log("INSTRUCTED TO MOVE: ", this.instructedToMovePatients);
-	const assignedToResourcesGroupPatients: string[] = this.getAssignedToResourcesGroupPatientIds();
 	this.resourcesGroups.map(resourceGroup => {
+		const assignedToResourcesGroupPatients: string[] = this.getAssignedToResourcesGroupPatientIds();
 		let nextPatient;
 		if (resourceGroup.transportingPatientId)
 			nextPatient = getPatient(state, resourceGroup.transportingPatientId);
