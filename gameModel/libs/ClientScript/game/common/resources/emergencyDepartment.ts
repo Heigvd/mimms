@@ -18,6 +18,9 @@ export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, Re
 	return containerDefinitions;
 }
 
+/**
+ * Call this function when the resource.tsv file is updated (using Client Console)
+ */
 export async function loadContainerConfigFile() {
 	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
 	const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(tsv)})`;
@@ -144,7 +147,7 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 	const now = state.getSimTime();
 	entries(request).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) =>  {
 		// order by time of availability
-		const cs = (containers[typeId] || []).filter(c => c.amount > 0).sort((c) => c.availabilityTime);
+		const cs : ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0).sort((c) => c.availabilityTime);
 		let found = 0;
 		for(let i = 0; i < cs.length && found < requestedAmount; i++){
 			const c = cs[i];
@@ -155,7 +158,7 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 			
 			const departureTime = Math.max(c.availabilityTime, now);
 			const definition = getContainerDef(c.templateId);
-			const evt = new ResourceMobilizationEvent(globalEventId, now, senderId, departureTime, c.travelTime, definition.uid, n);
+			const evt = new ResourceMobilizationEvent(globalEventId, now, senderId, departureTime, c.travelTime, definition.uid, n, c.name);
 			wlog('MOB EVENT *********** ', evt);
 			localEventManager.queueLocalEvent(evt);
 		}
