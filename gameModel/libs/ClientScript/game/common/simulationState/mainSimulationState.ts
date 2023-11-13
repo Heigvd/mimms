@@ -127,7 +127,7 @@ export class MainSimulationState implements IClonable {
   }
 
   public hasFlag(simFlag : SimFlag): boolean {
-	return this.internalState.flags[simFlag]; 
+	return this.internalState.flags[simFlag] || false; 
   }
 
   public getAllActors(): Readonly<Actor[]> {
@@ -201,7 +201,7 @@ interface MainStateObject {
    * Resources containers that can be dispatched by the emergency dept.
    */
   resourceContainers: ResourceContainerConfig[];
-  flags: Record<SimFlag, boolean>;
+  flags: Partial<Record<SimFlag, boolean>>;
 }
 
 // experimental to make an object immutable

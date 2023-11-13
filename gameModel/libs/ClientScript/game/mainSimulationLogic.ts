@@ -72,8 +72,8 @@ function initMainState(): MainSimulationState {
 
 
 	const initialResources = [
-		new Resource('secouriste'),
-		new Resource('secouriste'),
+		new Resource('ambulancier'),
+		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
@@ -81,7 +81,7 @@ function initMainState(): MainSimulationState {
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
-		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),*/
 	];
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
@@ -116,7 +116,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   
   const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
   { geometrySelection: 
-   { 
+   {
     geometryType: 'MultiLineString', 
     icon: 'right-arrow', 
     geometries: 
@@ -125,12 +125,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
         [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
       ]
-   } 
+   }
   });
 
-	const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', { featureSelection: { layerId: 'buildings', featureKey: '@id', featureIds: ['way/301355984', 'way/82683752', 'way/179543646'] } });
-	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } });
-	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
+	const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', { featureSelection: { layerId: 'buildings', featureKey: '@id', featureIds: ['way/301355984', 'way/82683752', 'way/179543646'] } });
+	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } });
+	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
 
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 

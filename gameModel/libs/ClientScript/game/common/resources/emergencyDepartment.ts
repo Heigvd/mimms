@@ -13,6 +13,7 @@ export function getContainerDef(id: ResourceContainerDefinitionId){
 	return containerDefinitions[id];
 }
 
+
 export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> {
 	return containerDefinitions;
 }
