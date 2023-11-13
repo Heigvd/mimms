@@ -4,9 +4,8 @@
 import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
-	MethaneTemplate,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -23,7 +22,7 @@ import { PreTriageTask, TaskBase } from "./common/tasks/taskBase";
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
-import { resetSeedId } from "./common/resources/resourceContainer";
+import { resetSeedId, ResourceContainerConfig } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
 
@@ -38,18 +37,18 @@ let updateCount: number;
 
 // useEffect to force initate simulationState
 Helpers.registerEffect(() => {
-	currentSimulationState = initMainState();
-	stateHistory = [currentSimulationState];
+		currentSimulationState = initMainState();
+		stateHistory = [currentSimulationState];
 
-	actionTemplates = {};
-	processedEvents = {};
+		actionTemplates = {};
+		processedEvents = {};
 
-	updateCount = 0;
+		updateCount = 0;
 
-	mainSimLogger.info('Main simulation initialized', actionTemplates);
-	mainSimLogger.info('Initial state', currentSimulationState);
-
-	recomputeState();
+		mainSimLogger.info('Main simulation initialized', actionTemplates);
+		mainSimLogger.info('Initial state', currentSimulationState);
+		
+		recomputeState();
 })
 
 
@@ -103,49 +102,53 @@ function initMainState(): MainSimulationState {
 
 function initActionTemplates(): Record<string, ActionTemplateBase> {
 
-	// TODO read from Variable
-	// TODO the message might depend on the state, it might a function(state) rather than translation key
-	const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
-	const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
-	const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
-	const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
+  // TODO read from Variable
+  // TODO the message might depend on the state, it might a function(state) rather than translation key
+  const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
+  const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
+  const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
+  const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
 
-	const methane = new MethaneTemplate('methane-title', 'methane-desc', TimeSliceDuration, 'methane-feedback');
+  const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
+  
+  const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
+  { geometrySelection: 
+   { 
+    geometryType: 'MultiLineString', 
+    icon: 'right-arrow', 
+    geometries: 
+      [
+        [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
+        [[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
+        [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
+      ]
+   } 
+  });
 
 	const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', { featureSelection: { layerId: 'buildings', featureKey: '@id', featureIds: ['way/301355984', 'way/82683752', 'way/179543646'] } });
 	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } });
 	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
 
-	const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
-		{ geometrySelection: { 
-			geometryType: 'MultiLineString', 
-			icon: 'right-arrow', 
-			geometries: [
-				[[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
-				[[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
-				[[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
-				] } })
+  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 
-	const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
+  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
+  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
 
-	const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
-	const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
+  const templates: Record<string, ActionTemplateBase> = {};
+  templates[getInfo.getTemplateRef()] = getInfo;
+  templates[getInfo2.getTemplateRef()] = getInfo2;
+  templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
+  templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
+  templates[casuMessage.getTemplateRef()] = casuMessage;
+  templates[placePMA.getTemplateRef()] = placePMA;
+  templates[placePC.getTemplateRef()] = placePC;
+  templates[placeNest.getTemplateRef()] = placeNest;
+ 	templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[sendResources.getTemplateRef()] = sendResources;
+  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
+  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
 
-	const templates: Record<string, ActionTemplateBase> = {};
-	templates[getInfo.getTemplateRef()] = getInfo;
-	templates[getInfo2.getTemplateRef()] = getInfo2;
-	templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
-	templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
-	templates[methane.getTemplateRef()] = methane;
-	templates[placePMA.getTemplateRef()] = placePMA;
-	templates[placePC.getTemplateRef()] = placePC;
-	templates[placeNest.getTemplateRef()] = placeNest;
-	templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
-	templates[sendResources.getTemplateRef()] = sendResources;
-	templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
-	templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
-
-	return templates;
+  return templates;
 }
 
 /**

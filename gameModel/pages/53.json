@@ -6,11 +6,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "n",
+            "name" : "parentID",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-nb');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-parent');",
               "language" : "TypeScript"
             }
           },
@@ -19,11 +19,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "patientID",
+            "name" : "eventType",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-patient-id');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-type');",
               "language" : "TypeScript"
             }
           },
@@ -32,37 +32,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "correction",
+            "name" : "eventTime",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-pretri-result');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "location",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-location');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "actions",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-actions');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-event-time');",
               "language" : "TypeScript"
             }
           },
@@ -74,11 +48,11 @@
                 "children" : [ {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "n",
+                    "name" : "parentID",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "String(Context.patient.n);",
+                      "content" : "String(Context.event.parentId);",
                       "language" : "TypeScript"
                     }
                   },
@@ -86,11 +60,11 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "patientID",
+                    "name" : "eventType",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patient.data.id;",
+                      "content" : "Context.event.type;",
                       "language" : "TypeScript"
                     }
                   },
@@ -99,35 +73,11 @@
                   "props" : {
                     "className" : "answer",
                     "layoutStyle" : { },
-                    "name" : "correction",
+                    "name" : "eventTime",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization?.categoryId);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : "location",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.patient.data.location;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : "effects",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\nContext.patient.data.effects.map((effect: string) => (effect)?getTranslation('mainSim-summary', 'summary-actions-' + effect):\"\").join(\", \");",
+                      "content" : "String(Context.event.time);",
                       "language" : "TypeScript"
                     }
                   },
@@ -145,10 +95,10 @@
               },
               "type" : "FlexList"
             } ],
-            "exposeAs" : "patient",
+            "exposeAs" : "event",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAllPatients } from \"./UIfacade/pretriFacade\";\ngetAllPatients();",
+              "content" : "import { getAllLocalEvents } from \"./UIfacade/debugFacade\";\ngetAllLocalEvents();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",
@@ -166,7 +116,7 @@
           },
           "type" : "For each"
         } ],
-        "className" : "patient-summary--grid-main",
+        "className" : "local-event-summary--grid-main",
         "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
           "className" : "exam-mode",

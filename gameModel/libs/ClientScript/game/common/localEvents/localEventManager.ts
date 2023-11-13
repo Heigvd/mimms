@@ -33,8 +33,7 @@ export class LocalEventManager {
     {
       // we might as well apply event by event and store each single change
       newState = newState.applyEvents(pending);
-
-      this.processedEvents.concat(pending);
+      this.processedEvents = [...this.processedEvents, ...pending];
       pending = this.getPendingEvents(newState.getSimTime());
       safeguard++;
     }

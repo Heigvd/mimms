@@ -1,4 +1,4 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, MethaneTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, CasuMessageTemplate, DefineMapObjectTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
@@ -72,9 +72,9 @@ export function actionClickHandler(id: number, params: any): void {
 	if (canPlanAction()) {
 		if (template instanceof DefineMapObjectTemplate) {
 			startMapAction(params);
-		} else if (template instanceof MethaneTemplate) {
+		} else if (template instanceof CasuMessageTemplate) {
 			const newState = Helpers.cloneDeep(Context.interfaceState.state)
-			newState.showMethaneModal = true;
+			newState.showCasuMessageModal = true;
 			Context.interfaceState.setState(newState);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
@@ -160,8 +160,11 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 }
 
 export function getModalPageNumber(): string {
-	if (Context.interfaceState.state.showMethaneModal) {
+	if (Context.interfaceState.state.showCasuMessageModal) {
 		return "42";
+	}
+	if (Context.interfaceState.state.showPatientModal) {
+		return "57";
 	}
 	return "";
 }

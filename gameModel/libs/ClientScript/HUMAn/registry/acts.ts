@@ -9,6 +9,11 @@ const DFLT_ACTION_DURATION_HIGH = 5;
 let items: Record<string, ItemDefinition> = {};
 let acts: Record<string, ActDefinition> = {};
 
+export const PRETRI_ACTION_ID_OPEN_AIRWAYS = 'openAirways';
+export const PRETRI_ACTION_ID_RECOVERY_POSITION = 'recoveryPosition';
+export const PRETRI_ACTION_ITEM_ID_CAT = 'cat';
+export const PRETRI_ACTION_ITEM_ID_BANDAGE = 'bandage';
+
 function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): void {
 	if(actionDurations[def.id]){
 		// there can be multiple actions related to an item
@@ -52,7 +57,7 @@ export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSe
 	// Airways
 	////////////////////////////////////////
 	registerAct({
-		id: 'recoveryPosition',
+		id: PRETRI_ACTION_ID_RECOVERY_POSITION,
 		priority: 0,
 		action: {
 			type: 'ActionBodyEffect',
@@ -77,7 +82,7 @@ export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSe
 	});
 
 	registerAct({
-		id: 'openAirways',
+		id: PRETRI_ACTION_ID_OPEN_AIRWAYS,
 		priority: 100,
 		action: {
 			type: 'ActionBodyEffect',
@@ -416,7 +421,7 @@ registerItem({
 	// Circulation
 	////////////////////////////////////////
 	registerItem({
-		id: 'cat',
+		id: PRETRI_ACTION_ITEM_ID_CAT,
 		//name: 'CAT',
 		priority: 0,
 		disposable: true,
@@ -457,7 +462,7 @@ registerItem({
 	});
 
 	registerItem({
-		id: 'bandage',
+		id: PRETRI_ACTION_ITEM_ID_BANDAGE,
 		//name: 'Bandage',
 		priority: 200,
 		disposable: true,
@@ -525,61 +530,6 @@ registerItem({
 							venousBleedingReductionFactor: 0.7,
 							arterialBleedingReductionFactor: 0.15,
 							internalBleedingReductionFactor: 0,
-						},
-					},
-				],
-				createActions: [],
-				duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
-			},
-		},
-	});
-
-	registerItem({
-		id: 'israeliBandage',
-		priority: 100,
-		//name: 'Israeli Bandage',
-		disposable: true,
-		actions: {
-			israeli: {
-				type: 'ActionBodyEffect',
-				category: 'C',
-				targetedObject: 'HumanBody',
-				visible: true,
-				blocks: [
-					'LEFT_FOOT',
-					'RIGHT_FOOT',
-					'LEFT_ANKLE',
-					'RIGHT_ANKLE',
-					'LEFT_LEG',
-					'RIGHT_LEG',
-					'LEFT_KNEE',
-					'RIGHT_KNEE',
-					'LEFT_THIGH',
-					'RIGHT_THIGH',
-					'LEFT_HAND',
-					'RIGHT_HAND',
-					'LEFT_WRIST',
-					'RIGHT_WRIST',
-					'LEFT_ELBOW',
-					'RIGHT_ELBOW',
-					'LEFT_ARM',
-					'RIGHT_ARM',
-					'LEFT_SHOULDER',
-					'RIGHT_SHOULDER',
-					'LEFT_FOREARM',
-					'RIGHT_FOREARM',
-					'NECK',
-					'HEAD',
-				],
-				rules: [
-					{
-						id: 'pressureBandage',
-						time: 0,
-						name: 'Packing',
-						variablePatch: {},
-						blockPatch: {
-							venousBleedingReductionFactor: 0.9,
-							arterialBleedingReductionFactor: 0.25,
 						},
 					},
 				],

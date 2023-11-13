@@ -31,6 +31,12 @@ export function getPatientPreset(presetId : string): PatientPreset | null {
 	return parse<PatientPreset>(preset || "");
 }
 
+export function getPresetByName(name: string): PatientPreset | undefined | null {
+	return Object.values(Variable.find(gameModel, patientPresetsVarName).getProperties())
+					.map(presetString => parse<PatientPreset>(presetString || ""))
+					.find(preset => preset!.name === name);
+}
+
 export function getPatientsParamsFromPreset(presetId: string){
 	const preset = getPatientPreset(presetId);
 	const patients = getPatientsBodyFactoryParamsArray();

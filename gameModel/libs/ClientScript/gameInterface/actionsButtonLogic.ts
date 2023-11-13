@@ -1,9 +1,9 @@
-import { MethanePayload } from '../game/common/events/methaneEvent';
+import { CasuMessagePayload } from '../game/common/events/casuMessageEvent';
 import {
 	getActionTemplate,
 	isAssignResourcesToTaskActionTemplate,
 	isDefineMapObjectTemplate,
-	isMethaneActionTemplate,
+	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
 	isSelectMapObjectTemplate,
 	isSendResourcesToActorActionTemplate,
@@ -28,7 +28,6 @@ export function runActionButton() {
 		const actor = Context.interfaceState.state.currentActorUid;
 		const mapState = Context.mapState.state;
 
-	// Does this belong here ?
 
 		// If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
 		if (!canPlanAction()) {
@@ -54,12 +53,12 @@ export function runActionButton() {
 			return
 		}
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-		const sentResources : ResourceTypeAndNumber = {};
+		const sentResources: ResourceTypeAndNumber = {};
 
 		ResourcesArray.forEach(resourceType => {
 			const amount = Context.interfaceState.state.resources.sendResources[resourceType];
-			if(amount){
-				sentResources[resourceType]= amount;
+			if (amount) {
+				sentResources[resourceType] = amount;
 			}
 		});
 
@@ -74,16 +73,16 @@ export function runActionButton() {
 		Context.interfaceState.setState(newState);
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-		const resourcesForAssignation : ResourceTypeAndNumber = {};
+		const resourcesForAssignation: ResourceTypeAndNumber = {};
 
 		ResourcesArray.forEach(resourceType => {
 			const amount = Context.interfaceState.state.resources.assignResources[resourceType];
-			if(amount){
-				resourcesForAssignation[resourceType]= amount;
+			if (amount) {
+				resourcesForAssignation[resourceType] = amount;
 			}
 		});
 
-		params = {task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation};
+		params = { task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation };
 
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
 		newState.resources.assignResources.selectedTaskId = '';
@@ -92,16 +91,16 @@ export function runActionButton() {
 		});
 		Context.interfaceState.setState(newState);
 	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-		const resourcesForRelease : ResourceTypeAndNumber = {};
+		const resourcesForRelease: ResourceTypeAndNumber = {};
 
 		ResourcesArray.forEach(resourceType => {
 			const amount = Context.interfaceState.state.resources.releaseResources[resourceType];
-			if(amount){
-				resourcesForRelease[resourceType]= amount;
+			if (amount) {
+				resourcesForRelease[resourceType] = amount;
 			}
 		});
 
-		params = {task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease};
+		params = { task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease };
 
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
 		newState.resources.releaseResources.selectedTaskId = '';
@@ -109,25 +108,32 @@ export function runActionButton() {
 			newState.resources.releaseResources[resourceType] = 0;
 		});
 		Context.interfaceState.setState(newState);
-	} else if(isMethaneActionTemplate(actionRefUid)){
+	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 
-		params = fetchMethaneRequestValues();
+		params = fetchCasuMessageRequestValues();
 	}
 
 	actionClickHandler(Context.action.Uid, params);
 }
 
-export function fetchMethaneRequestValues(): MethanePayload {
-		const methan = Context.interfaceState.state.methaneInformation;
-		const request = Context.interfaceState.state.resources.requestedResources;
-		const res = {
-			major: methan.major,
-			exact: methan.exact,
-			incidentType: methan.incidentType,
-			hazards: methan.hazards,
-			access: methan.access,
-			victims: methan.victims,
-			resourceRequest: request
-		};
-		return res;
+export function fetchCasuMessageRequestValues(): CasuMessagePayload {
+	const casuMessage = Context.interfaceState.state.casuMessage;
+	const request = Context.interfaceState.state.resources.requestedResources;
+
+	let res: CasuMessagePayload = {messageType: casuMessage.messageType};
+
+	if (casuMessage.messageType === 'MET') {
+		res.major = casuMessage.major;
+		res.exact = casuMessage.exact;
+		res.incidentType = casuMessage.incidentType;
+	} else if (casuMessage.messageType === 'HANE') {
+		res.hazards = casuMessage.hazards;
+		res.access = casuMessage.access;
+		res.victims = casuMessage.victims;
+		res.resourceRequest = request;
+	} else if (casuMessage.messageType === 'E') {
+		res.resourceRequest = request;
+	}
+
+	return res;
 }

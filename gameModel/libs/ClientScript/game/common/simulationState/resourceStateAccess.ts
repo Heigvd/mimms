@@ -126,6 +126,17 @@ export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulati
 }
 
 /**
+ * @returns The resources owned by the given actor and allocated to any task
+ */
+export function getResourcesAllocatedToAnyTaskForActor(state: Readonly<MainSimulationState>, actorId: ActorId): Resource[] {
+	const internalState = state.getInternalStateObject();
+
+	return internalState.resources.filter(res =>
+		res.currentActivity !== null
+		&& isManagedBy(state, res, actorId));
+}
+
+/**
  * @returns The resources of the given kind, owned by the given actor and without current activity
  */
 export function getAvailableResources(state: Readonly<MainSimulationState>, actorId: ActorId, type: ResourceType): Readonly<Resource>[] {

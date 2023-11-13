@@ -6,11 +6,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "n",
+            "name" : "ownerId",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-nb');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-id');",
               "language" : "TypeScript"
             }
           },
@@ -19,11 +19,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "patientID",
+            "name" : "ownerType",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-patient-id');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-type');",
               "language" : "TypeScript"
             }
           },
@@ -32,11 +32,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "correction",
+            "name" : "resourceId",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-pretri-result');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-id');",
               "language" : "TypeScript"
             }
           },
@@ -45,11 +45,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "location",
+            "name" : "resourceType",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-location');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-type');",
               "language" : "TypeScript"
             }
           },
@@ -58,11 +58,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "actions",
+            "name" : "currentActivity",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-actions');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-activity');",
               "language" : "TypeScript"
             }
           },
@@ -73,12 +73,26 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "id" : "ownerId",
                     "layoutStyle" : { },
-                    "name" : "n",
+                    "name" : "ownerId",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "String(Context.patient.n);",
+                      "content" : "String(Context.resourceDebug.ownerId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "id" : "ownerType",
+                    "layoutStyle" : { },
+                    "name" : "ownerType",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.ownerType);",
                       "language" : "TypeScript"
                     }
                   },
@@ -86,11 +100,11 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "patientID",
+                    "name" : "resourceId",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patient.data.id;",
+                      "content" : "String(Context.resourceDebug.resourceId);",
                       "language" : "TypeScript"
                     }
                   },
@@ -99,11 +113,11 @@
                   "props" : {
                     "className" : "answer",
                     "layoutStyle" : { },
-                    "name" : "correction",
+                    "name" : "resourceType",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization?.categoryId);",
+                      "content" : "Context.resourceDebug.resourceType;",
                       "language" : "TypeScript"
                     }
                   },
@@ -111,23 +125,11 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "location",
+                    "name" : "currentActivity",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patient.data.location;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : "effects",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\nContext.patient.data.effects.map((effect: string) => (effect)?getTranslation('mainSim-summary', 'summary-actions-' + effect):\"\").join(\", \");",
+                      "content" : "String(Context.resourceDebug.currentActivity);",
                       "language" : "TypeScript"
                     }
                   },
@@ -145,13 +147,13 @@
               },
               "type" : "FlexList"
             } ],
-            "exposeAs" : "patient",
+            "exposeAs" : "resourceDebug",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAllPatients } from \"./UIfacade/pretriFacade\";\ngetAllPatients();",
+              "content" : "import { getAllResourcesGroup } from \"./UIfacade/debugFacade\";\ngetAllResourcesGroup();",
               "language" : "TypeScript"
             },
-            "itemKey" : "id",
+            "itemKey" : "ownerId",
             "itemsOnly" : false,
             "layout" : {
               "flexDirection" : "column"
@@ -159,14 +161,14 @@
             "layoutStyle" : {
               "display" : "contents"
             },
-            "name" : "patient",
+            "name" : "resourceDebug",
             "style" : {
               "display" : "contents"
             }
           },
           "type" : "For each"
         } ],
-        "className" : "patient-summary--grid-main",
+        "className" : "resource-summary--grid-main",
         "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
           "className" : "exam-mode",

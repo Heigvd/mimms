@@ -56,26 +56,8 @@ export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
 	return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
 }
 
-/**
- * Retrieve the tasks that are performed currently by resources owned by the given actor.
- *
- * @param actorId The actor who can release resource from those tasks
- *
- * @returns array of matching tasks
- */
-export function getOnGoingeTasks(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchOngoingTasks(getCurrentState(), actorId);
-}
-
-/**
- * Retrieve the tasks ongoing currently by resources owned by the given actor.
- *
- * @param actorId The actor who can allocate resource to those tasks
- *
- * @returns array of matching tasks
- */
-export function getOnGoingTasks(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchOngoingTasks(getCurrentState(), actorId);
+export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
+	return TaskState.fetchTasksWithResources(getCurrentState(), actorId);
 }
 
 /**

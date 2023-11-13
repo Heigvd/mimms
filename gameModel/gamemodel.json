@@ -1149,6 +1149,31 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:622602:9ikGSk"
+      },
+      "description" : "",
+      "editorTag" : "containers_config",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:622603:Y9tR2e",
+        "translations" : { }
+      },
+      "name" : "containers_config",
+      "properties" : {
+        "config" : "Type de moyen\tID\tDisponibilité (minutes)\tTrajet\r\nAMB-U\tGE-001\t0\t5\r\nAMB-U\tGE-002\t0\t5\r\nAMB-U\tGE-003\t0\t5\r\nAMB-U\tGE-004\t5\t5\r\nAMB-I\tGE-005\t5\t5\r\nAMB-U\tGE-006\t10\t5\r\nAMB-U\tGE-007\t15\t5\r\nAMB-I\tGE-008\t20\t5\r\nAMB-T\tGE-009\t20\t5\r\nAMB-U\tGE-010\t20\t5\r\nAMB-T\tGE-011\t25\t5\r\nAMB-I\tGE-012\t25\t5\r\nAMB-I\tGE-013\t25\t5\r\nAMB-U\tGE-014\t30\t5\r\nAMB-U\tVD-001\t15\t30\r\nAMB-U\tVD-002\t15\t30\r\nAMB-U\tVD-003\t15\t30\r\nAMB-U\tVD-004\t30\t30\r\nAMB-U\tVD-005\t30\t30\r\nSMUR\tSMUR-001\t5\t5\r\nSMUR\tSMUR-002\t20\t5\r\nSMUR\tSMUR-003\t30\t5\r\nSMUR\tSMUR-004\t50\t5\r\nSMUR\tSMUR-005\t60\t5\r\nHelico\tHeli-001\t0\t5\r\nHelico\tHeli-002\t0\t15\r\nHelico\tHeli-003\t15\t25\r\nHelico\tHeli-004\t40\t30\r\nHelico\tHeli-005\t50\t30\r\nPICA\tPICA-001\t0\t30\r\nPMA\tPMA-001\t0\t60\r\nPC\tPC-001\t0\t10\r\nACS-MCS\tACSMCS-001\t0\t5\n"
+      },
+      "refId" : "ObjectDescriptor:622601:IizusP",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4563,7 +4588,9 @@
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advance time\"},\"FR\":{\"status\":\"\",\"translation\":\"avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
-          "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}"
+          "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
+          "your-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your message\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message\",\"lang\":\"FR\"}},\"version\":0}",
+          "your-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your text\"},\"FR\":{\"status\":\"\",\"translation\":\"votre texte\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:49462:KdFc2a",
         "scopeType" : "GameModelScope",
@@ -4758,11 +4785,24 @@
         },
         "name" : "mainSim-summary",
         "properties" : {
+          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-actions-cat" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cAT\"},\"FR\":{\"status\":\"\",\"translation\":\"cAT\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-actions-openairways" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"open Airways\"},\"FR\":{\"status\":\"\",\"translation\":\"ouvrir voies resp.\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-actions-recoveryposition" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"recovery Position\"},\"FR\":{\"status\":\"\",\"translation\":\"position latérale\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-effects" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-event-parent" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"parent ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du parent\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-event-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event Time\"},\"FR\":{\"status\":\"\",\"translation\":\"temps de l'événement\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-event-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type d'événement\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacement\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-nb" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"n°\"},\"FR\":{\"status\":\"\",\"translation\":\"n°\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-owner-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-owner-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-patient-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "summary-pretri-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"preTri Result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat du pré-tri\",\"lang\":\"FR\"}},\"version\":0}"
+          "summary-pretri-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"preTri Result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat du pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-resource-activity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité de la resource\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-resource-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD de la resource\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-resource-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de la resource\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:582621:U3Go86",
         "scopeType" : "GameModelScope",
@@ -4785,6 +4825,62 @@
       "name" : "mainSim",
       "refId" : "ListDescriptor:49455:3wsqe7",
       "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:622971:2PCqx6"
+      },
+      "editorTag" : "trainer",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:622930:PnE9EA"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:622931:uK61HZ",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:622931:uK61HZ::EN",
+              "status" : "",
+              "translation" : "trainer-interface"
+            }
+          }
+        },
+        "name" : "trainer-interface",
+        "properties" : {
+          "patient-debug" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"button to display patient summary to user\"},\"FR\":{\"status\":\"\",\"translation\":\"bouton d'affichage du résumé des patient pour l'utilisateur\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:622929:2SsbX6",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:622972:HOrnq9",
+        "translations" : { }
+      },
+      "name" : "trainer",
+      "refId" : "ListDescriptor:622970:cq64eO",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -5556,6 +5652,35 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:619025:UlDl2R",
+          "value" : false
+        },
+        "editorTag" : "display_debug_button",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:619026:tTt3Du",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:619026:tTt3Du::EN",
+              "status" : "",
+              "translation" : ""
+            }
+          }
+        },
+        "name" : "display_debug_button",
+        "refId" : "BooleanDescriptor:619024:fvXVu7",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5736,6 +5861,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#88:8WnWmR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/events/casuMessageEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#119:bp6oJR",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6042,6 +6176,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#66:AmE1GG",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/actionsLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:121865:QRQ1PG",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6675,7 +6818,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation - main",
+  "name" : "MIMMS main simulation - dev",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
