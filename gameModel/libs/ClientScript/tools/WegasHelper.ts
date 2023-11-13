@@ -153,7 +153,7 @@ export function whoAmI(): string {
 }
 
 
-let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = whoAmI() ? 'DONE' : 'UNDONE';
+let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = 'UNDONE';
 
 Helpers.registerEffect(() => {
 	instantiationStatus = whoAmI() ? 'DONE' : 'UNDONE';
