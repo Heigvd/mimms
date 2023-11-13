@@ -534,7 +534,9 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "layoutStyle" : { },
+                                        "layoutStyle" : {
+                                          "margin-left" : "8px"
+                                        },
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
