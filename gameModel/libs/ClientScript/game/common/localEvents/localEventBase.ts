@@ -347,8 +347,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
 		localEventManager.queueLocalEvent(dptEvt);
 
-		if(Object.keys(containerDef.resources).length > 0){
-
+		if(Object.keys(containerDef.resources).length > 0 || Object.keys(containerDef.flags).length > 0){
 			// schedule resource arrival event
 			// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
 			const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
@@ -414,7 +413,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 		const containerDef = getContainerDef(this.containerDef);
 		// add flags to state if any
 		if(containerDef.flags){
-			state.addFlags(containerDef.flags);
+			containerDef.flags.forEach(f => state.getInternalStateObject().flags[f] = true);
 		}
 		const actors = sortByHierarchyLevel(state.getAllActors());
 		// find highest hierarchy group
