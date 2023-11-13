@@ -375,7 +375,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "// TODO Better PMA Information page handling\n!Context.mapState.state.selectionState.layerId",
+          "content" : "if (Context.mapState.state.selectionState.layerId) {\n\treturn false;\n}\ntrue;",
           "language" : "typescript"
         },
         "layout" : { },

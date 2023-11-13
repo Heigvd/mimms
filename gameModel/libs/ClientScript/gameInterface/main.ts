@@ -85,7 +85,7 @@ export function actionClickHandler(id: number, params: any): void {
 }
 
 /**
- * Update state whenever user changes action, check if action is SelectMapObject
+ * Update state whenever user changes action
  */
 export function actionChangeHandler() {
 	Context.interfaceState.setState({
@@ -93,6 +93,7 @@ export function actionChangeHandler() {
 		currentActionUid: Context.action.Uid,
 	})
 	endMapAction();
+	// If action is SelectMapObject we begin routine
 	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
 		startMapSelect();
 	}

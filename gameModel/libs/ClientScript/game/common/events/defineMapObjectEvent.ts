@@ -17,15 +17,11 @@ export interface SelectPayload {
 
 export type MapFeature = DefineFeature | SelectFeature;
 
-export type DefineFeature = PointFeature | LineStringFeature | PolygonFeature | MultiPolygonFeature
+export type DefineFeature = PointFeature | MultiPointFeature | LineStringFeature | MultiLineString | PolygonFeature | MultiPolygonFeature
 
 export type InteractionType = 'Select' | 'Define'
 
-export type GeometryType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
-
-export function isGeometryType(str: string) {
-  return ['Point', 'LineString', 'Polygon', 'MultiPolygon'].includes(str);
-};
+export type GeometryType = 'Point' | 'MultiPoint' | 'LineString' | 'MultiLineString' | 'Polygon' | 'MultiPolygon';
 
 interface BaseFeature {
   ownerId: ActorId,
@@ -43,10 +39,20 @@ interface GeometryFeature<T> extends BaseFeature {
 export interface PointFeature extends GeometryFeature<Position> {
   geometryType: 'Point';
   icon?: string;
+  rotation?: number;
+}
+
+export interface MultiPointFeature extends GeometryFeature<Position[]> {
+  geometryType: 'MultiPoint';
+  icon?: string;
 }
 
 export interface LineStringFeature extends GeometryFeature<Position[]> {
   geometryType: 'LineString';
+}
+
+export interface MultiLineString extends GeometryFeature<Position[][]> {
+  geometryType: 'MultiLineString';
 }
 
 export interface PolygonFeature extends GeometryFeature<Position[][]> {

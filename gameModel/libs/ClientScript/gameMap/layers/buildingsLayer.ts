@@ -1,36 +1,62 @@
 import { SelectFeature } from "../../game/common/events/defineMapObjectEvent";
 import { getCurrentState } from "../../game/mainSimulationLogic";
+import { getSimTime } from "../../UIfacade/timeFacade";
 
-// TODO REFACTOR AND IMPROVE
 export function getBuildingsLayer(feature: any, resolution: number) {
-	let style: LayerStyleObject;
+	let buildingStyle: LayerStyleObject = {
+		fill: {
+			type: 'FillStyle',
+			color: "#CCD2D7",
+		},
+		stroke: {
+			type: 'StrokeStyle',
+			color: "#B1BFCD",
+			width: 1,
+			lineCap: 'round',
+			lineJoin: 'round',
+			miterLimit: 10,
+		},
+		text: {
+			type: 'TextStyle',
+			scale: 1.6,
+			fill: {
+				type: 'FillStyle',
+				color: 'white',
+			},
+		}
+	};
+
 	const mapState = Context.mapState.state;
 	const interfaceState = Context.interfaceState.state;
-	style = ({ "fill": { "color": "#CCD2D7", "type": "FillStyle" }, "stroke": { "color": "#B1BFCD", "lineCap": "round", "lineJoin": "round", "miterLimit": 10, "type": "StrokeStyle", "width": 1 } });
-	const selectionFeatures = getCurrentState().getMapLocations().filter(f => f.geometryType === 'Select').flatMap(f => (f as SelectFeature).featureIds);
+	// Filter selectFeature from mapFeatures[] and flatMap it to an array of ids
+	const mapLocations = getCurrentState().getMapLocations()
+	const selectionFeatures = mapLocations.filter(feature => feature.geometryType === 'Select').flatMap(feature => (feature as SelectFeature).featureIds);
 
-	// REDUNDANT
+	// Is a selection action currently being performed ?
 	if (mapState.mapSelect && mapState.selectionState.featureKey) {
+		// We get the index of the current feature from the selectables
 		const index = mapState.selectionState.featureIds.indexOf(feature.get(mapState.selectionState.featureKey)) + 1;
+
+		// The feature is selectable but not the current one
 		if (mapState.selectionState.featureIds.includes(feature.get(mapState.selectionState.featureKey))) {
-			style = (
-				{ "fill": { "color": "#575FCF80", "type": "FillStyle" }, "stroke": { "color": "#B1BFCD", "lineCap": "round", "lineJoin": "round", "miterLimit": 10, "type": "StrokeStyle", "width": 1 }, "text": { "type": "TextStyle", "text": String(index), "fill": {"type": "FillStyle", "color": "white"}, "scale": 1.2} });
+			buildingStyle.fill!.color = "#575FCF80";
+			buildingStyle.text!.text = String(index);
 		}
+
+		// The feature is selectable and is the current one
 		if (mapState.selectionState.featureIds[interfaceState.selectedMapObjectId] === feature.get(mapState.selectionState.featureKey)) {
-			style = ({ "fill": { "color": "#575FCF", "type": "FillStyle" }, "stroke": { "color": "#B1BFCD", "lineCap": "round", "lineJoin": "round", "miterLimit": 10, "type": "StrokeStyle", "width": 2 }, "text": { "type": "TextStyle", "text": String(index), "fill": {"type": "FillStyle", "color": "white"}, "scale": 1.2} });
-
+			buildingStyle.fill!.color = "#575FCF";
+			buildingStyle.text!.text = String(index);
 		}
 	}
 
-	// TODO, featureKey shouldn't be hardcoded
+	// The feature is the planned PMA
 	if (selectionFeatures.includes(feature.get('@id'))) {
-		style = ({ "fill": { "color": "#575FCF", "type": "FillStyle" }, "stroke": { "color": "#B1BFCD", "lineCap": "round", "lineJoin": "round", "miterLimit": 10, "type": "StrokeStyle", "width": 1 }, "text": { "type": "TextStyle", "text": "PMA", "fill": {"type": "FillStyle" ,"color": "white"}, "scale": 1.4} });
+		const selectionFeature = mapLocations.find(mapLocation => mapLocation.geometryType === 'Select' && mapLocation.featureIds === feature.get('@id'));
+		// Check if the PMA is available or not
+		buildingStyle.fill!.color = selectionFeature!.startTimeSec! + selectionFeature!.durationTimeSec! > getSimTime() ? "#575FCF80" : "#575FCF";
+		buildingStyle.text!.text = 'PMA';
 	}
 
-	return style;
+	return buildingStyle;
 }
-
-export function getBuildingSource() {
-	return 'maps/GVA-center/buildings.geojson';
-}
-
