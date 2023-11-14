@@ -23,18 +23,13 @@ define-PMA-feedback	The advanced medical post can now be prepared	Le poste médi
 define-accreg-title	Define access and regress routes	Définir les route d'accès et de régression.
 define-accreg-desc	Define the access and regress routes along that your resources will use.	Définir les route d'accès et de régression par lesquels les moyens engagés accèdent au site.
 define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et de régression du chantier.
-define-sectors-title	Sectorize incident area	Sectoriser la zone de l'incident
-define-sectors-desc	Define the different sectors of the incident site in readiness for prétriage	Sectoriser les zones du chantier en vue du pré-triage
-define-sectors-feedback	You successfully defined sectors of the incident. New prétri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
 casu-message-title	Send message to CASU	Envoyer un message à CASU
 casu-message-title-MET	Send MET	Envoi du MET
 casu-message-title-HANE	Send HANE	Envoi du HANE
 casu-message-title-E	Send E	Envoi du E
 casu-message-title-METHANE	Send METHANE	Envoie du METHANE
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU
-casu-message-feedback	We got your message, the ACS and MCS are their way	Message bien reçu, l'ACS et le MCS sont en route
-methane-acs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
-methane-mcs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
+actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 send-resources-title	Send resources	Envoyer des ressources
 send-resources-desc	Transfer some of your resources to another actor	Transférer certaines de vos ressources à un autre acteur
 send-resources-feedback	You received resources	Vous avez reçu des ressources
@@ -45,5 +40,6 @@ release-task-title	Release resources	Rappeler des ressources
 release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche
 release-task-feedback	You released resources from a task	Vous avez rappelé des ressources
 on-the-road	On the way	En route
-pre-tri-title	Pre tri (?)	Pré tri
-brancardage-title	Brancardage (?)	Brancardage
+pre-tri-title	Pre-triage	Pré-triage
+brancardage-title	Brancardage	Brancardage
+request-resources	Request for resources	Demande de ressources
