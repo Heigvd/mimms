@@ -54,8 +54,9 @@
 
 .resourceCounter {
 	position: absolute;
-	right: .45em;
-	font-size: var(--S_text);
+	right: 0.45em;
+    top: 0.1rem;
+    font-size: var(--SM_text);
 	font-weight: var(--boldWeight);
 	color: var(--interface_BLUE);
 }
