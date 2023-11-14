@@ -1,5 +1,5 @@
 Key	EN	FR
-basic-info-title	Quick situation overview	Bilan d'ambiance
+basic-info-title	Scene examination	Examen de la scène
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation
 basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 
 other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant
@@ -17,12 +17,12 @@ define-PC-feedback	The command post is now ready	Le post de commandement est mai
 define-Nest-title	Define survivor reception center location	Placer le nid de blessés
 define-Nest-desc	Pick a position on the map for the survivor reception center	Définir l'emplacement du nid de blessés sur la carte
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé
-define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
-define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
+define-PMA-title	Decide where to locate the advanced medical post	Décider de l’emplacement du poste médical avancé (PMA)
+define-PMA-desc	Pick a location on the map for the advanced medical post	Décider de l'emplacement du poste médical avancé (PMA) sur la carte
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
-define-accreg-title	Define access and regress routes	Définir les route d'accès et de régression.
-define-accreg-desc	Define the access and regress routes along that your resources will use.	Définir les route d'accès et de régression par lesquels les moyens engagés accèdent au site.
-define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et de régression du chantier.
+define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation.
+define-accreg-desc	Define the access and egress routes along that your resources will use.	Définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.
+define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et d'évacuation du chantier.
 casu-message-title	Send message to CASU	Envoyer un message à CASU
 casu-message-title-MET	Send MET	Envoi du MET
 casu-message-title-HANE	Send HANE	Envoi du HANE
