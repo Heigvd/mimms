@@ -155,24 +155,25 @@
 }
 
 /* Toolbox */
-
+/*
 .ABCDwheelMenu .selected, .shortcuts .selected, .toolbox .selected {
 background: var(--colors-primarycolor);
 border: none;
 
 }
+*/
 
 .tabs{
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
 }
-/* triangle under ABCDWheelMenu */
+/* triangle under ABCDWheelMenu 
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
 	position: relative;
 	}
-
+*/
 /*
 .toolbox .menu:after {
 	content: '';
@@ -190,7 +191,7 @@ border: none;
 */
 
 /* WHEEL menu */
-
+/*
 .ABCDwheelMenu {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
@@ -273,8 +274,9 @@ color: #fff;
 	grid-row: 3;
 	
 }
-
+*/
 /* BUTTON "TALK TO PATIENT" */
+/*
 .ABCDwheelMenu .wheelButton > button.iconOnly { 
 	color: var(--colors-primarycolor);
 	background-color: transparent;
@@ -285,8 +287,8 @@ color: #fff;
 	background-color: #666191;
 	border-color: #666191;
 }
-
-/*BUTTON DRILL PATIENT*/
+*/
+/*BUTTON DRILL PATIENT
 .btnTriage > button{
 	border: solid 3px var(--colors-primarycolor);
 	border-radius: 50px;
@@ -304,13 +306,13 @@ color: #fff;
 .btnTriage > button.selected{
 	color: #fff;
 }
-
-/* SHORTCUTS (DRILL BTN DIV)*/
+*/
+/* SHORTCUTS (DRILL BTN DIV)
 .shortcuts {
 	justify-content: center;
 	
 }
-
+*/
 
 /* actions and mesures buttons */
 .mesActBtn{
@@ -346,7 +348,7 @@ color: #fff;
 .mesActBtn.no-selection>div{
 color: var(--colors-disabledcolor);
 }
-
+/*
 .selectedSubMenuItem  {
 	color:var(--colors-primarycolor);
 	background-color: #fff;
@@ -366,16 +368,16 @@ color: var(--colors-disabledcolor);
 	border-color: #666191;
 	background-color: #666191;
 }
-
+*/
 
 .applyMeasureBtn{
-padding: 10px 25px 10px 25px;
-border-radius: 10px;
-background-color: #924D86;
+padding: 8px 15px;
+border-radius: var(--L_borderRadius);
+background-color: var(--secondaryInterface_400);
 }
 
 .applyMeasureBtn:hover{
-	background-color: #753E6B;
+	background-color: var(--secondaryInterface_200);
 
 }
 

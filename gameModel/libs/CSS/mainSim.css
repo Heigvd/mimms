@@ -110,9 +110,11 @@ html{
 	padding: 15px 20px;
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
+	
 }
  .l_button:hover{
 	background-color:var(--colors-activecolor);
+	text-decoration: none;
 }
 
 
@@ -121,22 +123,25 @@ html{
 
 .pink{
 	background-color: var(--secondaryInterface_400);
+	color: var(--gray_WHITE);
 }
 
 .pink:hover{
 	background-color: var(--secondaryInterface_200);
 	cursor: pointer;
+	text-decoration: none;
 }
 
 /********** WHITE BTN ***************/
 
 .whiteButton{
-	background-color: var(--gray_WHITE);
+	background-color: var(--gray_200);
 	border-radius: var(--L_borderRadius);
+	color: var(--gray_700);
 }
 
 .whiteButton:hover{
-	background-color: var(--gray_200);
+	background-color: var(--gray_300);
 }
 
 
@@ -816,3 +821,81 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+
+
+
+
+/******************************* PRETRI REWAMP ********************/
+
+/************* Patient details ( left top panel) *****************/
+.patientName{
+	font-size: var(--ML_text);
+	font-weight: var(--boldWeight);
+}
+
+.patientState{
+	font-size: var(--M_text);
+	color: var(--gray_700);
+}
+
+.patientSAP{
+text-align: center;
+min-width: 100px;
+color: var(--gray_700);
+font-size: var(--S_text);
+}
+
+
+/*************** ABCDE MENU ****************/
+.menuABC{
+background-color: transparent;
+color: var(--interface_BLUE);
+	
+}
+
+.menuABC .menuABC-button > button.selected{
+	font-weight: var(--boldWeight);
+	background-color: transparent;
+	text-decoration: underline;
+	 
+}
+
+.menuABC .menuABC-button > button.no-selection{
+	 color: var(--gray_400);
+	 background-color: transparent;
+}
+
+
+.menuABC .menuABC-button :hover{
+background-color: transparent;
+color: var(--secondaryInterface_200);
+}
+
+
+
+
+/********************** Action & Measure *******************/
+
+.actionMeasureSelected{
+color: var(--gray_WHITE);
+background-color: var(--interface_BLUE);
+}
+
+
+.actionMeasureSelected:hover{
+	background-color: var(--interface_200);
+}
+/*****BUTTONS NEXT + CORRECTION *****/
+.nextAndCorrection{
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+
+
+
+
+
+
+

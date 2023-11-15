@@ -196,11 +196,11 @@
   }
 
 .afflictedBlock svg:first-child {
-	mix-blend-mode: lighten;
+	mix-blend-mode: hard-light;
 }
 
 .afflictedBlock svg:first-child rect {
-	fill: red;
+	fill: var(--interface_100);
 }
 
  .afflictedBlock.observedBlock svg:first-child{
@@ -208,17 +208,17 @@
  }
 
  .forTreatmentBlock svg:last-child rect {
-	 stroke: grey;
+	 stroke: var(--gray_500);
  }
 
  .forTreatmentBlock.selectedBlock svg:last-child rect{
-	 stroke: var(--colors-primarycolor);
-	 stroke-width: 5px;
+	 stroke: var(--interface_BLUE);
+	 stroke-width: 3px;
 	 transition: 0.2s;
  }
 
  .forTreatmentBlock:not(.selectedBlock):hover svg:last-child rect {
-	 stroke: var(--colors-primarycolor);
+	 stroke:var(--interface_BLUE);
 	 stroke-width: 1px;
 	 cursor: pointer;
 	 transition: 0.2s;
