@@ -8,9 +8,6 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 		case 'Point':
 			style = getPointStyle(feature);
 			break;
-		case 'MultiPoint':
-			style = getPointStyle(feature);
-			break;
 		case 'LineString':
 			style = getLineStringStyle(feature);
 			break;
@@ -32,6 +29,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 	const icon = properties.icon;
 	const name = properties.name;
 	const rotation = properties.rotation;
+	const duration = properties.durationTimeSec;
 
 	if (icon) {
 		const iconStyle: ImageStyleObject = {
@@ -77,7 +75,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			};
 		}
 
-		if (icon === Context.mapState.state.selectionState.icon) {
+		if (icon === Context.mapState.state.selectionState.icon && !duration) {
 			// Convert to int to add 1
 			const index = parseInt(name, 10) + 1;
 			// Define textStyle for Icons
@@ -112,6 +110,7 @@ function getLineStringStyle(feature: any) {
 
 	const properties = feature.getProperties();
 	const name = properties.name;
+	const duration = properties.durationTimeSec;
 
 	const strokeStyle = {
 		type: 'StrokeStyle',
@@ -122,7 +121,7 @@ function getLineStringStyle(feature: any) {
 	};
 
 	// If we're currently performing a selection
-	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) {
+	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect && !duration) {
 		return {};
 	}
 
