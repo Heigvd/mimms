@@ -12,7 +12,7 @@
             },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `methane-transmission`);",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `casu-transmission`);",
               "language" : "TypeScript"
             }
           },
@@ -91,7 +91,7 @@
                 "id" : "",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Demande de ressources<br></p>\"",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-resources');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

@@ -45,11 +45,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Entrée/Sortie séparée:&nbsp\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-separate-road');",
                           "language" : "TypeScript"
                         }
                       },
@@ -67,7 +67,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][0] ? \"Vrai\" : \"Faux\";",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][0] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -98,11 +98,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"De plein pied:&nbsp\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-level-ground');",
                           "language" : "TypeScript"
                         }
                       },
@@ -120,7 +120,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][1] ? \"Vrai\" : \"Faux\";",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][1] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -151,11 +151,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Capacités en personnes:&nbsp\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-capacity');",
                           "language" : "TypeScript"
                         }
                       },
@@ -173,7 +173,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][2])",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][2]) + \" \" + getTranslation('mainSim-resources', 'pca-people').toLowerCase()",
                           "language" : "TypeScript"
                         }
                       },
@@ -204,11 +204,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Securité du bâtiment:&nbsp\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-security');",
                           "language" : "TypeScript"
                         }
                       },
@@ -257,11 +257,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Accès à l'eau:&nbsp\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-water');",
                           "language" : "TypeScript"
                         }
                       },
@@ -279,7 +279,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][4] ? \"Vrai\" : \"Faux\";",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][4] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -310,11 +310,11 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding" : "0"
+                          "padding-right" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"Chauffé:&nbsp;\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'pca-heat');",
                           "language" : "TypeScript"
                         }
                       },
@@ -332,7 +332,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][5] ? \"Vrai\" : \"Faux\";",
+                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][5] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },

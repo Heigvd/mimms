@@ -1,5 +1,5 @@
 Key	EN	FR
-basic-info-title	Quick situation overview	Bilan d'ambiance
+basic-info-title	Scene examination	Examen de la scène
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation
 basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 
 other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant
@@ -17,24 +17,19 @@ define-PC-feedback	The command post is now ready	Le post de commandement est mai
 define-Nest-title	Define survivor reception center location	Placer le nid de blessés
 define-Nest-desc	Pick a position on the map for the survivor reception center	Définir l'emplacement du nid de blessés sur la carte
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé
-define-PMA-title	Define advanced medical post location	Placer le poste médical avancé (PMA)
-define-PMA-desc	Pick a location on the map for the advanced medical post	Définir l'emplacement du poste médical avancé (PMA) sur la carte
+define-PMA-title	Decide where to locate the advanced medical post	Décider de l’emplacement du poste médical avancé (PMA)
+define-PMA-desc	Pick a location on the map for the advanced medical post	Décider de l'emplacement du poste médical avancé (PMA) sur la carte
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
-define-accreg-title	Define access and regress routes	Définir les route d'accès et de régression.
-define-accreg-desc	Define the access and regress routes along that your resources will use.	Définir les route d'accès et de régression par lesquels les moyens engagés accèdent au site.
-define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et de régression du chantier.
-define-sectors-title	Sectorize incident area	Sectoriser la zone de l'incident
-define-sectors-desc	Define the different sectors of the incident site in readiness for prétriage	Sectoriser les zones du chantier en vue du pré-triage
-define-sectors-feedback	You successfully defined sectors of the incident. New prétri tasks are available in the resources section	Vous avez défini les secteurs du chantier. Des nouvelles tâches de prétri sont disponibles dans l'onglet ressources
+define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation.
+define-accreg-desc	Define the access and egress routes along that your resources will use.	Définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.
+define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et d'évacuation du chantier.
 casu-message-title	Send message to CASU	Envoyer un message à CASU
 casu-message-title-MET	Send MET	Envoi du MET
 casu-message-title-HANE	Send HANE	Envoi du HANE
 casu-message-title-E	Send E	Envoi du E
 casu-message-title-METHANE	Send METHANE	Envoie du METHANE
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU
-casu-message-feedback	We got your message, the ACS and MCS are their way	Message bien reçu, l'ACS et le MCS sont en route
-methane-acs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
-methane-mcs-arrived	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
+actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident
 send-resources-title	Send resources	Envoyer des ressources
 send-resources-desc	Transfer some of your resources to another actor	Transférer certaines de vos ressources à un autre acteur
 send-resources-feedback	You received resources	Vous avez reçu des ressources
@@ -45,5 +40,6 @@ release-task-title	Release resources	Rappeler des ressources
 release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche
 release-task-feedback	You released resources from a task	Vous avez rappelé des ressources
 on-the-road	On the way	En route
-pre-tri-title	Pre tri (?)	Pré tri
-brancardage-title	Brancardage (?)	Brancardage
+pre-tri-title	Pre-triage	Pré-triage
+brancardage-title	Brancardage	Brancardage
+request-resources	Request for resources	Demande de ressources
