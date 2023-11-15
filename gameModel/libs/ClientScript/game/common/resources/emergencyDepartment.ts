@@ -1,4 +1,5 @@
 import { entries } from "../../../tools/helper";
+import { resourceLogger } from "../../../tools/logger";
 import { InterventionRole } from "../actors/actor";
 import { ActorId, GlobalEventId, TranslationKey } from "../baseTypes";
 import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
@@ -88,7 +89,10 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 		);
 		tsv.split('\n').slice(1).forEach(line => {
 			const l = line.split('\t');
-			if(!l) {return;}
+			if(!l || l.length !== 4) {
+				resourceLogger.warn('Malformed resource container configuration', l);
+				return;
+			}
 			let definition = null;
 			switch(l[0]) {
 				case 'AMB-U': definition = emergencyAmbulance; break;
@@ -100,18 +104,21 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 				case 'PMA': definition = pma; break;
 				case 'PICA': definition = pica; break;
 				case 'PC': definition = pcSanitaire; break;
-				default: definition = emergencyAmbulance;
+				default:
+					definition = emergencyAmbulance;
+					resourceLogger.warn('malformed resource container configuration', l);
 			}
 			containerConfigs.push({
 				amount: 1,
-				name: l[1],
-				availabilityTime: +l[2] * 60,
+				name: l[1] || 'UNAMED',
+				availabilityTime: (+l[2] * 60) || 0,
 				templateId: definition,
-				travelTime: +l[3] * 60
+				travelTime: (+l[3] * 60) || 60
 			});
 		});
 		
 	}
+	resourceLogger.info('CONTAINER CONFIGS', containerConfigs);
 	return containerConfigs;
 }
 

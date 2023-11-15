@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1700062953420,
+  "createdTime" : 1700070795908,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6865,7 +6865,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation alpha XGO 15.11.2023",
+  "name" : "MIMMS main simulation alpha TEST ETUDIANT 16.11.2023 (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
