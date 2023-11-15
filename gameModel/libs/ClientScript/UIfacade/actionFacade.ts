@@ -113,7 +113,7 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 	return template instanceof AssignTaskToResourcesActionTemplate;
 }
 
-export async function planCasuMessageAction() {
+export async function planCasuMessageAction() : Promise<undefined | IManagedResponse> {
 	const actor = Context.interfaceState.state.currentActorUid;
 	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
 	const params = fetchCasuMessageRequestValues();

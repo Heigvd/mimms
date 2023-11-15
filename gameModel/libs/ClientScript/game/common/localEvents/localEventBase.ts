@@ -223,7 +223,7 @@ export class AddActorLocalEvent extends LocalEventBase {
 export class ResourceGroupBinding extends LocalEventBase {
 
 	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private ownerId: ActorId){
-		super(parentEventId, 'AddActorLocalEvent', timeStamp);
+		super(parentEventId, 'ResourceGroupBinding', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
@@ -240,6 +240,8 @@ export class ResourceGroupBinding extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 export class AddRadioMessageLocalEvent extends LocalEventBase {
+
+  private static UidSeed = 1;
 
   constructor(
     parentId: GlobalEventId,
@@ -261,6 +263,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
       message: msg,
+	  uid : AddRadioMessageLocalEvent.UidSeed++
     })
   }
 
