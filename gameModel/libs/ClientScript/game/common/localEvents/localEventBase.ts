@@ -99,9 +99,9 @@ export class CancelActionLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
       const so = state.getInternalStateObject();
-
-      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid);
-
+	  const now = state.getSimTime();
+      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid && a.startTime == now);
+	
       if (action && action.startTime === this.planTime) {
 		// We remove the action and place it in cancelled actions
         so.actions.splice(so.actions.indexOf(action), 1);

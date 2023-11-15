@@ -218,7 +218,8 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 			break;
 		case 'ActionCancellationEvent': {
 			const payload = event.payload;
-			const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId);
+			const now = getCurrentState().getSimTime();
+			const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId && a.startTime == now);
 			if (!action) {
 				mainSimLogger.error('no action was found with id ', payload.templateId);
 			} else {
