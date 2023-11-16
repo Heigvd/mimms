@@ -208,7 +208,7 @@ export class AddActorLocalEvent extends LocalEventBase {
 	state.getInternalStateObject().actors.push(actor);
 
 	const now = state.getSimTime();
-	const travelAction = new OnTheRoadAction(now, this.travelTime, 'methane-acs-arrived', 'on-the-road', 0, actor.Uid, 0);
+	const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
 	state.getInternalStateObject().actions.push(travelAction);
 
 	// the resource pool creation/assignation is delayed to the arrival time of the actor
