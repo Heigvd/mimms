@@ -1671,6 +1671,13 @@ function processEvent(event: FullEvent<EventPayload>, toBeProcessedEvents?: Full
 			break;
 		case 'HumanMeasureResult':
 			break;
+		case 'ActionCancellationEvent':
+		case 'ActionCreationEvent':
+		case 'ResourceAllocationEvent':
+		case 'ResourceReleaseEvent':
+		case 'TimeForwardEvent':
+			worldLogger.info('Ignoring event of type (new sim)', eType);
+			break;
 		default:
 			unreachable(eType);
 	}

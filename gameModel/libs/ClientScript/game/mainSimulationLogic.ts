@@ -12,7 +12,7 @@ import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { PointFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
@@ -21,7 +21,7 @@ import { MainSimulationState } from "./common/simulationState/mainSimulationStat
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
-import { resetSeedId, ResourceContainerConfig } from "./common/resources/resourceContainer";
+import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
 import { TaskBase } from "./common/tasks/taskBase";
@@ -148,7 +148,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
- 	templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
@@ -249,7 +249,11 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 		}
 			break;
 		default:
-			mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
+			if(isLegacyGlobalEvent(event)){
+				mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
+			}else {
+				mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
+			}
 			break;
 	}
 
@@ -361,7 +365,7 @@ export function getCurrentState(): Readonly<MainSimulationState> {
 }
 
 export function recomputeState() {
-	wlog('Reinitialize state');
+	mainSimLogger.info('Reinitialize state');
 	processedEvents = {};
 
 	Actor.resetIdSeed();
@@ -370,15 +374,14 @@ export function recomputeState() {
 	Resource.resetIdSeed();
 	resetSeedId();
 
-	// TODO see if useRef makes sense (makes persistent to script changes)
-	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-	stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+	currentSimulationState = initMainState();
+	stateHistory = [currentSimulationState];
 
-	actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+	actionTemplates = initActionTemplates();
 
 	updateCount = 0;
-
-	wlog('reset done');
+	
+	mainSimLogger.info('reset done');
 	runUpdateLoop();
 }
 
