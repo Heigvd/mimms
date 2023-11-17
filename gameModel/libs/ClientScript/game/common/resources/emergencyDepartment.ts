@@ -154,7 +154,8 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 	const now = state.getSimTime();
 	entries(request).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) =>  {
 		// order by time of availability
-		const cs : ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0).sort((c) => c.availabilityTime);
+		const cs : ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
+		cs.sort((a,b) => a.availabilityTime - b.availabilityTime);
 		let found = 0;
 		for(let i = 0; i < cs.length && found < requestedAmount; i++){
 			const c = cs[i];
