@@ -4,12 +4,14 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	
 }
 
+/*
 .navButton {
 	background-color: transparent;
 	color: var(--colors-primarycolor);
 	border-radius: 50px;
 	font-weight: bold;
 }
+
 .navButton:hover {
 	text-decoration: underline;
 	background-color: #fff;
@@ -18,7 +20,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	background-color: transparent;
 	color: var(--colors-disabledcolor);
 }
-
+*/
 .noPadding {
 	padding: 0;
 }
@@ -44,7 +46,7 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	margin-bottom: 05px;
 	font-weight: 600;
 }
-
+/*
 .GeneralText{
 font-size: 1rem;
 }
@@ -53,7 +55,9 @@ font-size: 1rem;
 	padding: 0px;
 	min-width:1fr;
 }
+*/
 
+/* is it used??*/
 .colBG{
 	background-color: var(--colors-secondarybackgroundcolor);
 	padding:40px;

@@ -1,10 +1,9 @@
 /* GENERAL */
 .patientConsole .title_container {
 	padding: 5px 10px;
-	background: var(--colors-backgroundcolor);
 }
 
-
+/*
 .zoomMedicalCarePage .title {
 	font-weight: bold;
 	color: var(--colors-darktextcolor);
@@ -16,13 +15,19 @@
 }
 */
 .titlesConsoles{
-	font-weight: bold;
-	color: var(--colors-darktextcolor);
-	font-size: 20px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-size: var(--ML_text);
 	margin-bottom: 10px;
 	margin-Top: 10px;
 }
 
+.actionMesuresTitle{
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-size: var(--M_text);
+}
+/*
 .patientConsole .column {
 	padding: 0;
 	border: 1px solid var(--colors-primarycolor);
@@ -31,7 +36,7 @@
 	width: 33.3%;
 	min-width: 300px;
 	flex-grow: 1;
-}
+}*/
 
 .lastResult div .log_container{
 	color: #313131;
@@ -41,7 +46,7 @@
 	align-items: baseline;
 	
 }
-
+/* ??? is it used*/
 @keyframes popping{
 	0%{
 		color: #924D86;
@@ -57,7 +62,7 @@
 		
 	}
 }
-
+/*
 .responsiveButtons .selected,
 .patientConsole .selected {
 	background-color: var(--colors-activecolor);
@@ -67,7 +72,7 @@
 .patientConsole .no-selection {
 	background-color: var(--colors-disabledcolor);
 	pointer-events: none;
-}
+}*/
 
 /* CONSOLE */
 .patientConsole .console .log_container{
@@ -106,22 +111,25 @@
 	margin: 5px 0 0 0;
 }
 
-/* Block details */
+/* Block details  --- infos on the left*/
 .patientConsole .block-details .block-title {
-	border-bottom: 1px solid var(--colors-primarycolor);
-	font-weight: bolder;
-	padding: 3px 0px 5px 10px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_200);
+	font-size: var(--L_text);
+	padding: 3px 0px 8px 10px;
 
 }
 
 .patientConsole .block-details .block-subtitle {
-	font-weight: bolder;
+	font-weight: var(--boldWeight);
+	font-size: var(--M_text);
 	padding: 5px 0px 5px 10px;
 }
 
 .patientConsole .block-details .block-entry {
+	font-size: var(--M_text);
 	padding-left:10px;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 }
 
 .patientConsole .block-details .block-entry-title {
@@ -132,6 +140,7 @@
 	font-weight: 400;
 }
 
+/*
 .generalConsole{
 	background-color: var(--colors-hovercolor);
 	border-radius: 15px;
@@ -139,20 +148,20 @@
 	min-height: 100px;
 	max-height: 180px;
 	font-size: .7rem;
-}
-
+}*/
 
 /* VISUAL DETAILS */
+
 
 .patientConsole .visualDetail_elem p {
 	margin-top: 15px;
 	margin-bottom: 0px;
-	text-align: center;
-	font-size: 16px;
 }
+
 .patientConsole .visualDetail_elem img {
 	width: 60px;
 }
+
 
 /* Toolbox */
 /*
@@ -162,12 +171,12 @@ border: none;
 
 }
 */
-
+/*
 .tabs{
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
-}
+}*/
 /* triangle under ABCDWheelMenu 
 .toolbox .menu {
 	background-color: var(--colors-headercolor);
@@ -315,6 +324,7 @@ color: #fff;
 */
 
 /* actions and mesures buttons */
+/*
 .mesActBtn{
 	color:var(--colors-primarycolor);
 	background-color: #fff;
@@ -348,7 +358,7 @@ color: #fff;
 .mesActBtn.no-selection>div{
 color: var(--colors-disabledcolor);
 }
-/*
+
 .selectedSubMenuItem  {
 	color:var(--colors-primarycolor);
 	background-color: #fff;
@@ -381,7 +391,7 @@ background-color: var(--secondaryInterface_400);
 
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE --Shall we kee all that? */
 @media screen and (max-width: 720px) {
   .mobile-slider {
     overflow-x: auto;
@@ -399,28 +409,36 @@ background-color: var(--secondaryInterface_400);
 	flex-grow: 1;
 	font-size: 14px;
 }
+
+
 .patientConsole .mobile-zoom--details{
 	height: 80px;
 	margin: 5px;
 }
+
+
 .patientConsole .shadowMan > div {
 	transform: scale(.75);
 	transform-origin: 0 0;
 	position: absolute;
 }
 .patientConsole .shadowMan {
-	height: 300px;
+	height: 00px;
 	padding: 0;
 }
+
+
 .patientConsole .patient-console {
-	 /*height: 80px; 
-	max-height: 80px;*/
+	 height: 80px; 
+	max-height: 80px;
 	 padding: 5px;
 	 margin: 5px;
  }
+ 
  .patientConsole .wegas-btn {
 	 font-size: 14px;
 	
  }
-}
 
+
+}

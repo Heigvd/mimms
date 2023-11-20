@@ -239,10 +239,10 @@ html{
 
 
 /************************** Actions panel (upper-left) *********************************/
-/****** PANEL ******/
+/****** PANEL ******
 .leftPanel-container {
 	left: 0;
-	pointer-events: auto; /* voir si none ou auto*/
+	pointer-events: auto; 
 	overflow-y: auto ;
 	
 	
@@ -255,9 +255,10 @@ html{
 	 	
 }
 
+*/
 
 /*******  Menu: action / resources *******/
-/* menuLeftPanel    btnActionRessource*/
+/* menuLeftPanel    btnActionRessource
 .menuLeftPanel{
 	background-color:transparent;
 	color: var(--gray_BLACK);
@@ -277,7 +278,7 @@ html{
 color: var(--colors-primarycolor);
 	font-weight: var(--boldWeight);
 }
-
+*/
 /******* ACTIONS ELEMENTS *******/
 
 .actions-container{
@@ -374,6 +375,7 @@ background: var(--secondaryInterface_400);
 	font-size: 1.6em;
 	margin: auto;
 }
+
 
 /*** Title + description of an assignable task ***/ 
 

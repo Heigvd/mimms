@@ -86,7 +86,7 @@ interface PatientZoomState {
 	/** Id of the selected mainmenu */
 	selectedMenu: string | undefined;
 	/** Id of the selected sub-menu */
-	selectedSubMenu: string | undefined;
+	//selectedSubMenu: string | undefined; ici
 	/** selected action */
 	selectedAction: WheelAction | undefined;
 	selectedBlock: string | undefined;
@@ -102,7 +102,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		selectedAction: undefined,
 		selectedPanel: undefined,
 		selectedMenu: undefined,
-		selectedSubMenu: undefined,
+		// selectedSubMenu: undefined, ici
 		availableBlocks: [],
 		selectedBlock: undefined,
 		//logs: [],
