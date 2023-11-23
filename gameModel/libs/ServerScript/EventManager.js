@@ -39,6 +39,30 @@ var EventManager = ((function () {
 		lastEventI.setValue(newEvent.getId());
 	}
 
+	/**
+	 * New implementation using new EventBox dedicated type
+	 */
+	function sendNewEvent(payload, time, player) {
+		lock();
+		var thePlayer = player || self;
+		var realTime = getEventTime(time, thePlayer);
+
+		var events = Variable.find(gameModel, 'newEvents');
+		var instance = events.getInstance(thePlayer);
+
+		var event = {
+			time: realTime,
+			payload: payload,
+		}
+
+		instance.sendEvent(JSON.stringify(event));
+		// Make sure newEvent got an Id
+		// hack: commit request to force state machine evaluation
+		//       This will flush all pending changes to DB
+		//       newEvent got an ID
+		RequestManager.commit();
+	}
+
 	function getEventTime(time, player) {
 		if (time > 0) {
 			return time;
@@ -134,7 +158,6 @@ var EventManager = ((function () {
 		return id;
 	}
 
-
 	function instantiateCharacter(profileId, bagId) {
 		lock();
 		var charactersDesc = Variable.find(gameModel, 'characters');
@@ -183,6 +206,9 @@ var EventManager = ((function () {
 		runScenario: runScenario,
 		postEvent: function (payload, time) {
 			sendEvent(payload, time);
+		},
+		postNewEvent:  function(payload, time) {
+			sendNewEvent(payload, time)
 		},
 	};
 })());

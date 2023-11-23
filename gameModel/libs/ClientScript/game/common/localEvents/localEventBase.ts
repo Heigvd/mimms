@@ -55,7 +55,8 @@ export abstract class LocalEventBase implements LocalEvent{
 /**
  * @param e1 
  * @param e2 
- * @returns true if e1 precedes e2
+ * @returns true if e1 precedes e2, ordering by timestamps (trigger time) 
+ * if equal creation order (eventCounter) is used instead
  */
 export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boolean {
   if(e1.simTimeStamp === e2.simTimeStamp){
