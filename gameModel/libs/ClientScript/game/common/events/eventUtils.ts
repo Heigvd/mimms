@@ -22,13 +22,17 @@ export interface FullEvent<T extends EventPayload> {
 type EventBoxImpl = 'LEGACY' | 'NEWEVENTBOX';
 
 /*
-Toggle this value to use the old implementation or new event box implementation 
-If this value is changed, the game needs to be restarted! */
-const eventImpl : EventBoxImpl = 'NEWEVENTBOX';
+Toggle this value to use the old implementation or the new event box implementation 
+If this value is changed:
+- Close the simulation windows (main sim, etc.)
+- Restart the game
+- Reload the page
+*/
+export const eventBoxImplementation : EventBoxImpl = 'LEGACY';
 
 
 export function getSendEventServerScript(payload: EventPayload, time?: number) {
-	const verb = eventImpl === 'NEWEVENTBOX' ? 'postNewEvent' : 'postEvent';
+	const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'postNewEvent' : 'postEvent';
 	return `EventManager.${verb}(${JSON.stringify(payload)}${time != null ? `, ${time}` : ''});`;
 }
 
@@ -43,7 +47,7 @@ export function sendEvents(payloads: EventPayload[]) : Promise<IManagedResponse>
 
 export function getAllEvents<P extends EventPayload>(): FullEvent<P>[] {
 
-	switch(eventImpl){
+	switch(eventBoxImplementation){
 		case "LEGACY":
 			return getAllEventsLegacy<P>();
 		case 'NEWEVENTBOX':

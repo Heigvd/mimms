@@ -158,7 +158,7 @@ var EventManager = ((function () {
 		return id;
 	}
 
-	function instantiateCharacter(profileId, bagId) {
+	function instantiateCharacter(profileId, bagId, useEventBox) {
 		lock();
 		var charactersDesc = Variable.find(gameModel, 'characters');
 		var strProfile = charactersDesc.getProperty(profileId);
@@ -185,7 +185,7 @@ var EventManager = ((function () {
 			charactersDesc.getInstance().setProperty(id, jsonParam);
 
 			if (bagId) {
-				var givBagPayload = {
+				var giveBagPayload = {
 					emitterPlayerId: self.getId(),
 					emitterCharacterId: id,
 					type: 'GiveBag',
@@ -193,7 +193,11 @@ var EventManager = ((function () {
 					targetId: id,
 					bagId: bagId,
 				}
-				sendEvent(givBagPayload)
+				if(useEventBox){
+					sendNewEvent(giveBagPayload)
+				}else{
+					sendEvent(giveBagPayload);
+				}
 			}
 
 			return id;
@@ -202,7 +206,12 @@ var EventManager = ((function () {
 	}
 
 	return {
-		instantiateCharacter: instantiateCharacter,
+		instantiateCharacter: function (profileId, bagId) {
+			instantiateCharacter(profileId, bagId, false);
+		},
+		instantiateCharacterNew: function (profileId, bagId) {
+			instantiateCharacter(profileId, bagId, true);
+		},
 		runScenario: runScenario,
 		postEvent: function (payload, time) {
 			sendEvent(payload, time);
