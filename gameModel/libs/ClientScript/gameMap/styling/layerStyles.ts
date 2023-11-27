@@ -34,7 +34,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 	if (icon) {
 		const iconStyle: ImageStyleObject = {
 			type: 'IconStyle',
-			achor: [0.5, 0.5],
+			anchor: [0.5, 0.5],
 			displacement: [0, 300],
 			anchorXUnits: 'fraction',
 			anchorYUnits: 'fraction',
