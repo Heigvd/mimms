@@ -10,6 +10,7 @@ import { checkUnreachable } from "./helper";
 import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/legacy/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
 import { HumanTreatmentEvent, PathologyEvent } from "../game/common/events/eventTypes";
+import { eventBoxImplementation } from "../game/common/events/eventUtils";
 
 
 export function parse<T>(meta: string): T | null {
@@ -169,8 +170,9 @@ export async function instantiateWhoAmI(force: boolean = false) : Promise<string
 
 		instantiationStatus = 'ONGOING';
 		const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
+		const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
 		const response = await APIMethods.runScript(
-			`EventManager.instantiateCharacter(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
+			`EventManager.${verb}(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
 			{});
 		const entity = response.updatedEntities[0];
 
@@ -195,26 +197,6 @@ export function getCurrentPatientBodyParam(): BodyFactoryParam | undefined {
 	const patientId = getCurrentPatientId();
 	return getBodyParam(patientId);
 }
-
-/*
-interface PathologyEvent {
-	time: number;
-	blocks: BlockName[];
-	event: {
-		type: 'HumanPathology',
-		pathologyId: string;
-	}
-}
-
-interface ItemActionEvent {
-	time: number;
-	blocks: BlockName[];
-	event: {
-		type: 'ItemActionOnHuman',
-		itemId: string;
-		actionId: string;
-	}
-}*/
 
 type CleanEvent<T extends TargetedEvent> = Omit<
 	T,

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1700122252561,
+  "createdTime" : 1700735226365,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3637,6 +3637,36 @@
     "editorTag" : "events",
     "isolation" : "OPEN",
     "items" : [ {
+      "@class" : "EventInboxDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "EventInboxInstance",
+        "events" : [ ],
+        "lastEventRefId" : null,
+        "refId" : "EventInboxInstance:205071:4Irsih"
+      },
+      "editorTag" : "newEvents",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:205072:1M2oYS",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:205072:1M2oYS::EN",
+            "status" : "",
+            "translation" : "newEvents"
+          }
+        }
+      },
+      "name" : "newEvents",
+      "refId" : "EventInboxDescriptor:205070:tu8VIV",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
       "@class" : "InboxDescriptor",
       "broadcastScope" : "TeamScope",
       "capped" : false,
@@ -6865,7 +6895,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation alpha TEST ETUDIANT 16.11.2023 (4)",
+  "name" : "MIMMS main simulation XGO dev",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
