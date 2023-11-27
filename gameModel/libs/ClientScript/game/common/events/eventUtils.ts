@@ -28,7 +28,7 @@ If this value is changed:
 - Restart the game
 - Reload the page
 */
-export const eventBoxImplementation : EventBoxImpl = 'LEGACY';
+export const eventBoxImplementation : EventBoxImpl = 'NEWEVENTBOX';
 
 
 export function getSendEventServerScript(payload: EventPayload, time?: number) {
