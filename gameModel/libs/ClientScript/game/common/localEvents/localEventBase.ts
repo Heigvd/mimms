@@ -55,7 +55,8 @@ export abstract class LocalEventBase implements LocalEvent{
 /**
  * @param e1 
  * @param e2 
- * @returns true if e1 precedes e2
+ * @returns true if e1 precedes e2, ordering by timestamps (trigger time) 
+ * if equal creation order (eventCounter) is used instead
  */
 export function compareLocalEvents(e1 : LocalEventBase, e2: LocalEventBase): boolean {
   if(e1.simTimeStamp === e2.simTimeStamp){
@@ -99,9 +100,9 @@ export class CancelActionLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
       const so = state.getInternalStateObject();
-
-      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid);
-
+	  const now = state.getSimTime();
+      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid && a.startTime == now);
+	
       if (action && action.startTime === this.planTime) {
 		// We remove the action and place it in cancelled actions
         so.actions.splice(so.actions.indexOf(action), 1);
@@ -208,10 +209,10 @@ export class AddActorLocalEvent extends LocalEventBase {
 	state.getInternalStateObject().actors.push(actor);
 
 	const now = state.getSimTime();
-	const travelAction = new OnTheRoadAction(now, this.travelTime, 'methane-acs-arrived', 'on-the-road', 0, actor.Uid, 0);
+	const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
 	state.getInternalStateObject().actions.push(travelAction);
 
-	// the resource pool assignation is delayed to the arrival time of the actor
+	// the resource pool creation/assignation is delayed to the arrival time of the actor
 	localEventManager.queueLocalEvent(new ResourceGroupBinding(this.parentEventId, now + this.travelTime, actor.Uid));
   }
 
@@ -223,7 +224,7 @@ export class AddActorLocalEvent extends LocalEventBase {
 export class ResourceGroupBinding extends LocalEventBase {
 
 	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private ownerId: ActorId){
-		super(parentEventId, 'AddActorLocalEvent', timeStamp);
+		super(parentEventId, 'ResourceGroupBinding', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
@@ -240,6 +241,8 @@ export class ResourceGroupBinding extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 export class AddRadioMessageLocalEvent extends LocalEventBase {
+
+  private static UidSeed = 1;
 
   constructor(
     parentId: GlobalEventId,
@@ -261,6 +264,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
       message: msg,
+	  uid : AddRadioMessageLocalEvent.UidSeed++
     })
   }
 
@@ -312,7 +316,9 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		resolveResourceRequest(this.parentEventId, this.request.resourceRequest, this.actorUid, state);
+		if(this.request.resourceRequest){
+			resolveResourceRequest(this.parentEventId, this.request.resourceRequest, this.actorUid, state);
+		}
 	}
 
 }
@@ -328,8 +334,9 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 	public readonly departureTime: SimTime,
 	public readonly travelTime: SimDuration,
 	public readonly containerDef: ResourceContainerDefinitionId,
-	public readonly amount: number) {
-		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+	public readonly amount: number,
+	public readonly configName: string) {
+		super(parentId, 'ResourceMobilizationEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
@@ -345,13 +352,16 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 		});
 
 		// schedule messages when the emergency center has new ressources that are sent
-		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount);
+		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount, this.configName);
 		localEventManager.queueLocalEvent(dptEvt);
 
-		// schedule resource arrival event
-		// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
-		const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
-		localEventManager.queueLocalEvent(evt);
+		if(Object.keys(containerDef.resources).length > 0 || Object.keys(containerDef.flags).length > 0){
+			// schedule resource arrival event
+			// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
+			const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
+			localEventManager.queueLocalEvent(evt);
+		}
+
 	}
 
 }
@@ -368,26 +378,30 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	public readonly senderId: ActorId,
 	public readonly containerDef: ResourceContainerDefinitionId,
 	public readonly travelTime: SimDuration,
-	public readonly amount: number) {
-		super(parentId, 'RessourcesArrivalEvent', timeStamp);
+	public readonly amount: number,
+	public readonly configName: string
+	) {
+		super(parentId, 'ResourcesDepartureLocalEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		const c = getContainerDef(this.containerDef);
+		
 		const t = Math.round(this.travelTime / 60);
-		const msg = this.buildRadioText(this.amount, c.name, t);
+		const msg = this.buildRadioText(t);
 		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
 		localEventManager.queueLocalEvent(evt);
 	}
 
-	private buildRadioText(amount: number, name: string, time: number): string {
+	private buildRadioText(time: number): string {
+		const c = getContainerDef(this.containerDef);
 		const parts : string []= [];
 		parts.push(getTranslation('mainSim-resources', 'sending'));
-		parts.push(amount + '');
-		parts.push(getTranslation('mainSim-resources', name));
-		parts.push(getTranslation('mainSim-resources', 'arrival-in'));
+		//parts.push(this.amount + '');
+		parts.push(this.configName);// Specific name (e.g. AMB002)
+		parts.push('(' + getTranslation('mainSim-resources', c.name) + ')');// type
+		parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
 		parts.push(time + '');
-		parts.push(getTranslation('mainSim-resources', 'minute'));
+		parts.push(getTranslation('mainSim-resources', 'minutes', false));
 		return parts.join(' ');
 	}
 
@@ -409,6 +423,10 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 	applyStateUpdate(state: MainSimulationState): void {
 
 		const containerDef = getContainerDef(this.containerDef);
+		// add flags to state if any
+		if(containerDef.flags){
+			containerDef.flags.forEach(f => state.getInternalStateObject().flags[f] = true);
+		}
 		const actors = sortByHierarchyLevel(state.getAllActors());
 		// find highest hierarchy group
 		let resourceGroup : ResourceGroup | undefined = undefined;

@@ -21,6 +21,8 @@ export const ResourceContainerTypeArray = [
 
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
+export type SimFlag = 'PCS-ARRIVED'
+
 /**
  * Describes the content of one container that can be requested by an actor to the emergency departement
  */
@@ -30,14 +32,17 @@ export interface ResourceContainerDefinition {
 	 * Unique identifier
 	 */
 	uid: ResourceContainerDefinitionId;
+
 	/**
 	 * Displayed name
 	 */
 	name: TranslationKey;
+
 	/**
 	 * List of resources that will be sent
 	 */
 	resources : Partial<Record<ResourceType, number>>;
+
 	/**
 	 * List of actors that will be sent
 	 */
@@ -46,7 +51,12 @@ export interface ResourceContainerDefinition {
 	/**
 	 * Associated resource type
 	 */
-	type : ResourceContainerType
+	type : ResourceContainerType,
+
+	/**
+	 * Flags that are raised (added to the state) when an instance of this container arrives on site
+	 */
+	flags : SimFlag[]
 }
 
 let idProvider = 2000;
@@ -59,14 +69,16 @@ export function buildContainerDefinition(
 	rtype: ResourceContainerType, 
 	name: TranslationKey, 
 	resources: Partial<Record<ResourceType, number>>, 
-	roles: InterventionRole[] = [])
+	roles: InterventionRole[] = [],
+	flags: SimFlag[] = [])
 	: ResourceContainerDefinition {
 	return {
 		type : rtype,
 		uid : idProvider++,
-		roles : roles,
+		roles : roles || [],
 		name : name,
-		resources : resources,
+		resources : resources || {},
+		flags: flags || []
 	}
 }
 

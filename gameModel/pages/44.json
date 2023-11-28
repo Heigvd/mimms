@@ -15,19 +15,6 @@
       "type" : "Image"
     }, {
       "props" : {
-        "layoutStyle" : {
-          "textAlign" : "center"
-        },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `press-start`);",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
         "className" : "l_button pink",
         "impactVariable" : {
           "impact" : {

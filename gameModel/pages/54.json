@@ -44,7 +44,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.sendResources.selectedActorId;",
+              "content" : "import { getOtherValidActor } from \"./UIfacade/actorFacade\";\nconst otherActor = getOtherValidActor(Context) + '';\nContext.interfaceState.state.resources.sendResources.selectedActorId = otherActor;\notherActor;",
               "language" : "TypeScript"
             },
             "style" : { }

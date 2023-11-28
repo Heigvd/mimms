@@ -243,3 +243,28 @@ export interface TimeForwardEvent extends BaseEvent, TimedPayload {
 	 */
 	timeJump: SimDuration;
 }
+
+export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
+	switch(event.payload.type){
+		case 'Teleport':
+		case 'FollowPath':
+		case 'HumanPathology':
+		case 'HumanTreatment':
+		case 'HumanMeasure':
+		case 'Categorize':
+		case 'HumanLogMessage':
+		case 'DirectCommunication':
+		case 'RadioCommunication':
+		case 'RadioChannelUpdate':
+		case 'RadioCreation':
+		case 'PhoneCommunication':
+		case 'PhoneCreation':
+		case 'GiveBag':
+		case 'CancelAction':
+		case 'Freeze':
+		case 'Aging':
+		case 'HumanMeasureResult':
+			return true;
+	}
+	return false;
+}

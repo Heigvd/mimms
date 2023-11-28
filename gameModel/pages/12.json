@@ -705,7 +705,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
               "language" : "TypeScript"
             }
           },
@@ -1019,7 +1019,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/logic/drill\";\nimport { getCategorizedHumans } from \"./game/logic/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
               "language" : "TypeScript"
             }
           },
@@ -1032,7 +1032,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentSimulationTime } from \"./game/logic/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
               "language" : "TypeScript"
             }
           },
@@ -1056,7 +1056,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\n I18n.toString(Variable.find(gameModel,'finished_custom_text'))",
+              "content" : "\n I18n.toString(Variable.find(gameModel,'finished_custom_text'))",
               "language" : "TypeScript"
             }
           },

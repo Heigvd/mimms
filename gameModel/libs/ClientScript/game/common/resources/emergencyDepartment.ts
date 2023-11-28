@@ -1,10 +1,11 @@
 import { entries } from "../../../tools/helper";
+import { resourceLogger } from "../../../tools/logger";
 import { InterventionRole } from "../actors/actor";
 import { ActorId, GlobalEventId, TranslationKey } from "../baseTypes";
 import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType } from "./resourceContainer";
+import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType, SimFlag } from "./resourceContainer";
 import { ResourceType } from "./resourceType";
 
 const containerDefinitions : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
@@ -13,10 +14,14 @@ export function getContainerDef(id: ResourceContainerDefinitionId){
 	return containerDefinitions[id];
 }
 
+
 export function getAllContainerDefs() : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> {
 	return containerDefinitions;
 }
 
+/**
+ * Call this function when the resource.tsv file is updated (using Client Console)
+ */
 export async function loadContainerConfigFile() {
 	const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
 	const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(tsv)})`;
@@ -46,7 +51,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 
 		const transfertAmbulance = addContainerDefinition(
 			'Ambulance',
-			"transfertAmbulance",
+			"transferAmbulance",
 			{ 'ambulance': 1, 'technicienAmbulancier': 1, "secouriste": 1 }
 		);
 
@@ -62,7 +67,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 			{ 'ambulancier': 1, "medecinJunior": 1 }
 		);
 
-		const acsMcs = addContainerDefinition('ACS-MCS', 'acs', {}, ['ACS', 'MCS']);
+		const acsMcs = addContainerDefinition('ACS-MCS', 'acs-mcs', {}, ['ACS', 'MCS']);
 		const pma = addContainerDefinition(
 			'PMA',
 			"pma",
@@ -78,11 +83,16 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 		const pcSanitaire = addContainerDefinition(
 			'PCS',
 			"pcs",
-			{ }
+			{},
+			[],
+			['PCS-ARRIVED']
 		);
 		tsv.split('\n').slice(1).forEach(line => {
 			const l = line.split('\t');
-			if(!l) {return;}
+			if(!l || l.length !== 4) {
+				resourceLogger.warn('Malformed resource container configuration', l);
+				return;
+			}
 			let definition = null;
 			switch(l[0]) {
 				case 'AMB-U': definition = emergencyAmbulance; break;
@@ -94,18 +104,21 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 				case 'PMA': definition = pma; break;
 				case 'PICA': definition = pica; break;
 				case 'PC': definition = pcSanitaire; break;
-				default: definition = emergencyAmbulance;
+				default:
+					definition = emergencyAmbulance;
+					resourceLogger.warn('malformed resource container configuration', l);
 			}
 			containerConfigs.push({
 				amount: 1,
-				name: l[1],
-				availabilityTime: +l[2] * 60,
+				name: l[1] || 'UNAMED',
+				availabilityTime: (+l[2] * 60) || 0,
 				templateId: definition,
-				travelTime: +l[3] * 60
+				travelTime: (+l[3] * 60) || 60
 			});
 		});
 		
 	}
+	resourceLogger.info('CONTAINER CONFIGS', containerConfigs);
 	return containerConfigs;
 }
 
@@ -114,9 +127,10 @@ function addContainerDefinition (
 	name: TranslationKey,
 	resources: Partial<Record<ResourceType, number>>, 
 	roles: InterventionRole[] = [],
+	flags: SimFlag[] = []
 ): ResourceContainerDefinitionId 
 {
-	const c = buildContainerDefinition(type, name, resources, roles);
+	const c = buildContainerDefinition(type, name, resources, roles, flags);
 	containerDefinitions[c.uid] = c;
 	return c.uid;
 }
@@ -140,7 +154,8 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 	const now = state.getSimTime();
 	entries(request).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) =>  {
 		// order by time of availability
-		const cs = (containers[typeId] || []).filter(c => c.amount > 0).sort((c) => c.availabilityTime);
+		const cs : ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
+		cs.sort((a,b) => a.availabilityTime - b.availabilityTime);
 		let found = 0;
 		for(let i = 0; i < cs.length && found < requestedAmount; i++){
 			const c = cs[i];
@@ -151,7 +166,7 @@ export function resolveResourceRequest(globalEventId: GlobalEventId,
 			
 			const departureTime = Math.max(c.availabilityTime, now);
 			const definition = getContainerDef(c.templateId);
-			const evt = new ResourceMobilizationEvent(globalEventId, now, senderId, departureTime, c.travelTime, definition.uid, n);
+			const evt = new ResourceMobilizationEvent(globalEventId, now, senderId, departureTime, c.travelTime, definition.uid, n, c.name);
 			wlog('MOB EVENT *********** ', evt);
 			localEventManager.queueLocalEvent(evt);
 		}

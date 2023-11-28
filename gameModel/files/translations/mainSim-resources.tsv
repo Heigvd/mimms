@@ -12,3 +12,24 @@ medecinJunior-short	Junior doc.	Méd. junior
 medecinSenior	Senior doctor	Médecin senior
 medecinSenior-short	Senior doc.	Méd. senior
 sendTo	Send to	Envoyer à
+sending	Sending	Envoi de 
+arrival-in	Arrival in	Arrivée dans
+minutes	minute(s)	minute(s)
+emergencyAmbulance	Emergency ambulance	Ambulance urgence
+intermediateAmbulance	Intermediate ambulance	Ambulance intermédiaire
+transferAmbulance	Transfer ambulance	Ambulance transfert
+helicopter	Helicopter	Hélicoptère
+smur	SMUR	SMUR
+pma	PMA	PMA
+pica	PICA	PICA
+pcs	PCS	PCS
+acs-mcs	ACS/MCS	ACS/MCS
+pca-separate-road	Separate entry/exit:	Entrée/Sortie séparée:
+pca-true	Yes	Oui
+pca-false	No	Non
+pca-level-ground	On the same level:	De plein pied:
+pca-capacity	Capacity:	Capacité:
+pca-security	Building security:	Securité du bâtiment:
+pca-water	Access to water:	Accès à l'eau:
+pca-heat	Heated:	Chauffé:
+pca-people	people	personnes

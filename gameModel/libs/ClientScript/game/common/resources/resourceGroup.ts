@@ -1,4 +1,5 @@
-import { Actor } from "../actors/actor";
+import { keys } from "../../../tools/helper";
+import { Actor, InterventionRole } from "../actors/actor";
 import { ActorId, ResourceId } from "../baseTypes";
 import { IClonable } from "../interfaces";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -34,6 +35,10 @@ export class ResourceGroup implements IClonable{
 		return this.resources[resource.Uid];
 	}
 
+	public hasRole(state : MainSimulationState, role: InterventionRole): boolean {
+		return keys(this.owners).some(actId => state.getActorById(+actId)?.Role === role);
+	}
+
 	clone(): this {
 		const rg = new ResourceGroup();
 		rg.owners = {...this.owners};
@@ -49,16 +54,44 @@ export function isManagedBy(state : Readonly<MainSimulationState>, resource: Res
 }
 
 /**
- * Fetches the resource group in the state if existing.
- * Else it creates a new one and adds it to the state
+ * Defines the roles that share ressources together
+ * TODO that might live in another place
+ */
+const resourceGroupClusters : InterventionRole[][] = [['ACS', 'MCS']];
+
+/**
+ * Fetches the resource group corresponding to the actor in the state if existing.
+ * Else creates a new one and adds it to the state
  */
 export function getOrCreateResourceGroup(state: MainSimulationState, actorId: ActorId) : ResourceGroup {
 
+	// search existing	
 	let group = state.getResourceGroupByActorId(actorId);
-	if(!group){
 
-		group = new ResourceGroup().addOwner(actorId);
-		state.getInternalStateObject().resourceGroups.push(group)
+	if(!group){
+		// check wether another actor shares the same group
+		const actor = state.getActorById(actorId);
+		const role = actor!.Role;
+		const cluster = resourceGroupClusters.find(cl => cl.find(r => r === role));
+		if(cluster){
+			// search for existing resource groups held by the other bound roles
+			const otherRoles = cluster.filter(r => r !== role);
+			for(let i = 0; i < otherRoles.length; i++){
+				const r = otherRoles[i];
+				group = state.getResourceGroupByRole(r);
+				if(group){
+					group.addOwner(actorId);
+					break;
+				}
+			}
+
+		}
+		
+		if(!group) {
+			group = new ResourceGroup().addOwner(actorId);
+			state.getInternalStateObject().resourceGroups.push(group)
+		}
+
 	}
 
 	return group;

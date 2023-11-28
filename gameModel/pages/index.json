@@ -425,7 +425,7 @@
         "id" : "49",
         "name" : "mainSimulationSetupEnv",
         "scenaristPage" : null,
-        "trainerPage" : null
+        "trainerPage" : true
       } ],
       "name" : "mainSimulation pages"
     } ],

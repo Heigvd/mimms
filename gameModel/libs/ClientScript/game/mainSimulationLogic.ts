@@ -12,7 +12,7 @@ import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { PointFeature } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
@@ -21,24 +21,22 @@ import { MainSimulationState } from "./common/simulationState/mainSimulationStat
 import * as TaskLogic from "./common/tasks/taskLogic";
 import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
-import { resetSeedId, ResourceContainerConfig } from "./common/resources/resourceContainer";
+import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
 import { ResourceGroup } from "./common/resources/resourceGroup";
-
 import { TaskBase } from "./common/tasks/taskBase";
 import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
 
-// TODO see if useRef makes sense (makes persistent to script changes)
-let currentSimulationState: MainSimulationState;//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-let stateHistory: MainSimulationState[];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
 
-let actionTemplates: Record<string, ActionTemplateBase>;//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
-let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
+let currentSimulationState : MainSimulationState;
+let stateHistory : MainSimulationState[];
+
+let actionTemplates :Record<string, ActionTemplateBase>;
+let processedEvents :Record<string, FullEvent<TimedEventPayload>>;
 
 let updateCount: number;
 
-// useEffect to force initate simulationState
 Helpers.registerEffect(() => {
 		currentSimulationState = initMainState();
 		stateHistory = [currentSimulationState];
@@ -74,8 +72,8 @@ function initMainState(): MainSimulationState {
 
 
 	const initialResources = [
-		new Resource('secouriste'),
-		new Resource('secouriste'),
+		new Resource('ambulancier'),
+		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
@@ -83,12 +81,12 @@ function initMainState(): MainSimulationState {
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
 		new Resource('medecinJunior'),
-		new Resource('medecinJunior'),
+		new Resource('medecinJunior'),*/
 	];
 
 	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
 	initialResources.forEach(r => testGroup.addResource(r));
-	
+
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
@@ -98,8 +96,9 @@ function initMainState(): MainSimulationState {
     tasks: [taskPretri, taskPorter],
     radioMessages: [],
     resources: initialResources,
-	  resourceContainers: loadEmergencyResourceContainers(),
-	  resourceGroups: [testGroup]
+    resourceContainers: loadEmergencyResourceContainers(),
+    resourceGroups: [testGroup],
+    flags: {}
   }, 0, 0);
 
 }
@@ -117,21 +116,23 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   
   const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
   { geometrySelection: 
-   { 
+   {
     geometryType: 'MultiLineString', 
-    icon: 'right-arrow', 
+    icon: 'right-arrow',
+	name: 'Accreg', 
     geometries: 
       [
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
         [[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
         [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
       ]
-   } 
+   }
   });
 
-	const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration, 'define-PMA-feedback', { featureSelection: { layerId: 'buildings', featureKey: '@id', featureIds: ['way/301355984', 'way/82683752', 'way/179543646'] } });
-	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } });
-	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
+	const placePMA = new SelectMapObjectTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', { featureSelection: { layerId: 'buildings', featureKey: '@id', featureIds: ['way/301355984', 'way/82683752', 'way/179543646'] } });
+	const placePC = new SelectMapObjectTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', { geometrySelection: { geometryType: 'Point', icon: 'PC', name: 'PC', geometries: [[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]] } },
+	false, ['PCS-ARRIVED']);
+	const placeNest = new SelectMapObjectTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', { geometrySelection: { geometryType: 'Point', icon: 'Nest', name: 'Nest', geometries: [[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]] } });
 
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 
@@ -147,7 +148,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
- 	templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
@@ -217,7 +218,8 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 			break;
 		case 'ActionCancellationEvent': {
 			const payload = event.payload;
-			const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId);
+			const now = getCurrentState().getSimTime();
+			const action = getCurrentState().getAllActions().find(a => a.getTemplateId() === payload.templateId && a.ownerId === payload.actorId && a.startTime == now);
 			if (!action) {
 				mainSimLogger.error('no action was found with id ', payload.templateId);
 			} else {
@@ -247,7 +249,11 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 		}
 			break;
 		default:
-			mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
+			if(isLegacyGlobalEvent(event)){
+				mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
+			}else {
+				mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
+			}
 			break;
 	}
 
@@ -359,7 +365,7 @@ export function getCurrentState(): Readonly<MainSimulationState> {
 }
 
 export function recomputeState() {
-	wlog('Reinitialize state');
+	mainSimLogger.info('Reinitialize state');
 	processedEvents = {};
 
 	Actor.resetIdSeed();
@@ -368,15 +374,14 @@ export function recomputeState() {
 	Resource.resetIdSeed();
 	resetSeedId();
 
-	// TODO see if useRef makes sense (makes persistent to script changes)
-	currentSimulationState = initMainState();//Helpers.useRef<MainSimulationState>('current-state', initMainState());
-	stateHistory = [currentSimulationState];//Helpers.useRef<MainSimulationState[]>('state-history', [currentSimulationState.current]);
+	currentSimulationState = initMainState();
+	stateHistory = [currentSimulationState];
 
-	actionTemplates = initActionTemplates();//Helpers.useRef<Record<string, ActionTemplateBase<ActionBase, EventPayload>>>('action-templates', initActionTemplates());
+	actionTemplates = initActionTemplates();
 
 	updateCount = 0;
-
-	wlog('reset done');
+	
+	mainSimLogger.info('reset done');
 	runUpdateLoop();
 }
 

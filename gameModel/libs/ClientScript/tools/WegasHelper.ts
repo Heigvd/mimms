@@ -1,5 +1,5 @@
 import { TargetedEvent } from "../game/common/events/baseEvent";
-import { getSkillDefinition, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
+import { getSkillActId, getSkillDefinition, getSkillItemActionId, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
 import { Point } from "../map/point2D";
 import { BodyFactoryParam, Environnment } from "../HUMAn/human";
 import { logger } from "./logger";
@@ -10,6 +10,8 @@ import { checkUnreachable } from "./helper";
 import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/legacy/gameMaster";
 import { getActTranslation, getItemActionTranslation } from "./translation";
 import { HumanTreatmentEvent, PathologyEvent } from "../game/common/events/eventTypes";
+import { eventBoxImplementation } from "../game/common/events/eventUtils";
+
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -153,7 +155,7 @@ export function whoAmI(): string {
 }
 
 
-let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = whoAmI() ? 'DONE' : 'UNDONE';
+let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = 'UNDONE';
 
 Helpers.registerEffect(() => {
 	instantiationStatus = whoAmI() ? 'DONE' : 'UNDONE';
@@ -168,8 +170,9 @@ export async function instantiateWhoAmI(force: boolean = false) : Promise<string
 
 		instantiationStatus = 'ONGOING';
 		const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
+		const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
 		const response = await APIMethods.runScript(
-			`EventManager.instantiateCharacter(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
+			`EventManager.${verb}(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
 			{});
 		const entity = response.updatedEntities[0];
 
@@ -194,26 +197,6 @@ export function getCurrentPatientBodyParam(): BodyFactoryParam | undefined {
 	const patientId = getCurrentPatientId();
 	return getBodyParam(patientId);
 }
-
-/*
-interface PathologyEvent {
-	time: number;
-	blocks: BlockName[];
-	event: {
-		type: 'HumanPathology',
-		pathologyId: string;
-	}
-}
-
-interface ItemActionEvent {
-	time: number;
-	blocks: BlockName[];
-	event: {
-		type: 'ItemActionOnHuman',
-		itemId: string;
-		actionId: string;
-	}
-}*/
 
 type CleanEvent<T extends TargetedEvent> = Omit<
 	T,
@@ -508,13 +491,13 @@ export function getHumanSkillLevelForItemAction(
 	itemId: string,
 	actionId: string,
 ): SkillLevel | undefined {
-	const key = `item::${itemId}::${actionId}`;
+	const key = getSkillItemActionId(itemId, actionId);
 	const skills = getHumanSkillDefinition(humanId);
 	return skills.actions && skills.actions[key];
 }
 
 export function getHumanSkillLevelForAct(humanId: string, actId: string) {
-	const key = `act::${actId}`;
+	const key = getSkillActId(actId);
 	const skills = getHumanSkillDefinition(humanId);
 	return skills.actions && skills.actions[key];
 }

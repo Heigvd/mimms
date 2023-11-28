@@ -99,7 +99,7 @@ function createGridSegment(
 	children?: string,
 ): string {
 	return (`
-		<div style="
+		<div title="${title ? title : ''}" style="
 			grid-row-start:${rowStart};
 			grid-row-end:${rowEnd};
 			grid-column-start:${columnStart};
