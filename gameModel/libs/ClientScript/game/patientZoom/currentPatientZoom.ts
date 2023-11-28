@@ -15,6 +15,8 @@ import { getBloodRatio } from "../../HUMAn/physiologicalModel";
 import { SkillLevel } from "../../edition/GameModelerHelper";
 import { ConsoleLog } from "../pretri/consoleLog";
 
+const logger = Helpers.getLogger("pretriage");
+
 /////////////////////////////////
 // The Wheel
 /////////////////////////////////
@@ -86,7 +88,7 @@ interface PatientZoomState {
 	/** Id of the selected mainmenu */
 	selectedMenu: string | undefined;
 	/** Id of the selected sub-menu */
-	//selectedSubMenu: string | undefined; ici
+	selectedSubMenu: string | undefined;
 	/** selected action */
 	selectedAction: WheelAction | undefined;
 	selectedBlock: string | undefined;
@@ -102,7 +104,7 @@ export function getInitialPatientZoomState(): PatientZoomState {
 		selectedAction: undefined,
 		selectedPanel: undefined,
 		selectedMenu: undefined,
-		// selectedSubMenu: undefined, ici
+		selectedSubMenu: undefined,
 		availableBlocks: [],
 		selectedBlock: undefined,
 		//logs: [],
@@ -433,16 +435,18 @@ export function getWheelSubmenuTitle(state: PatientZoomState): string {
 	return '';
 }
 
-export function getSubWheelSubmenu(state: PatientZoomState): WheelAction[] {
+export function getSubWheelSubmenu(state: PatientZoomState, subMenu: string): WheelAction[] {
 	const wheel = getWheel();
 	const subWheel = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
+
+	logger.info(state);
 
 	if (subWheel == null) {
 		return [];
 	}
 
 	const menu = subWheel.items.find(
-		item => item.type === 'WheelMenuItem' && item.id === state.selectedSubMenu,
+		item => item.type === 'WheelMenuItem' && item.id === subMenu,
 	);
 
 	if (menu != null) {
@@ -1018,11 +1022,11 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 	return [];
 }
 
-export function shortMotricityFormatter(value: MotricityValue) : string {
-	switch (value){
+export function shortMotricityFormatter(value: MotricityValue): string {
+	switch (value) {
 		case 'move':
 			return getTranslation("human-general", 'yes');
-		case'do_not_move':
+		case 'do_not_move':
 		default:
 			return getTranslation("human-general", 'no');
 	}
@@ -1171,13 +1175,13 @@ export function getPatientMostRecentConsoleLog(): string {
  */
 function selectCategory(category: string, state: PatientZoomState, setState: SetZoomState): PatientZoomState {
 
-  const newState: PatientZoomState = {
-    ...state,
-    selectedCategory: category,
-  };
+	const newState: PatientZoomState = {
+		...state,
+		selectedCategory: category,
+	};
 
-  setState(newState);
-  return newState;
+	setState(newState);
+	return newState;
 }
 
 /**
@@ -1205,9 +1209,9 @@ async function validateCategory(state: PatientZoomState): Promise<unknown> {
 }
 
 export async function selectAndValidateCategory(
-  category: string,
-  setState: SetZoomState,
-  state: PatientZoomState
+	category: string,
+	setState: SetZoomState,
+	state: PatientZoomState
 ): Promise<unknown> {
 	const newState = selectCategory(category, state, setState);
 	return validateCategory(newState);
@@ -1389,17 +1393,17 @@ export function getCurrentPatientAutoTriage() {
  * Returns the time needed to perform the action in seconds
  */
 export function getSelectedActionDuration(selectedAction: WheelAction,
- actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): number {
+	actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): number {
 	const action = resolveAction<HumanAction>(selectedAction, actionType);
-	let skillLevel : SkillLevel | undefined;
-	if(action){
-		if(selectedAction.type === 'WheelAct'){
+	let skillLevel: SkillLevel | undefined;
+	if (action) {
+		if (selectedAction.type === 'WheelAct') {
 			skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
-		}else {
+		} else {
 			skillLevel = getHumanSkillLevelForItemAction(whoAmI(), selectedAction.itemActionId.itemId, selectedAction.itemActionId.actionId);
 		}
-		
-		if(skillLevel){
+
+		if (skillLevel) {
 			return action.duration[skillLevel];
 		}
 	}

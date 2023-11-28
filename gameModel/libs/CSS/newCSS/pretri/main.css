@@ -1,0 +1,6 @@
+.greyPanel{
+	background: var(--gray_WHITE);
+  	border-radius: var(--S_borderRadius);
+}
+
+.greyPanel-container{}

@@ -21,31 +21,8 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	color: var(--colors-disabledcolor);
 }
 */
-.noPadding {
-	padding: 0;
-}
 
-.noPadMargingParagraph>p{
-	padding: 0px;
-	margin: 0px;
-}
-.noPaddingMarging{
-	padding: 0px;
-	margin: 0px;
-	max-height: 50px;
-}
 
-.h2title{
-	font-size: 1.4rem;
-	margin: 10px 0px 10px 0px;
-	font-weight: 600;
-}
-
-.h1title{
-	font-size: 1.8rem;
-	margin-bottom: 05px;
-	font-weight: 600;
-}
 /*
 .GeneralText{
 font-size: 1rem;

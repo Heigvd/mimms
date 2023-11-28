@@ -1,0 +1,177 @@
+/*********** COLORS ***********/
+
+:root {
+    --blue_0: #DBF5FE;
+    --blue_100: #B7ECFD;
+    --blue_200: #6FD9FB;
+    --blue: #4BCFFA;
+    --blue_500: #3CAACE;
+    --blue_800: #1F6075;
+
+    --yellow_0: #FFF2DA;
+    --yellow_100: #FFE6B6;
+    --yellow_200: #FFCD6D;
+    --yellow: #FFC048;
+    --yellow_500: #D29E3A;
+    --yellow_700: #79591D;
+
+    --orange_0: #FDE8DF;
+    --orange_100: #FCD1BF;
+    --orange_200: #F9A380;
+    --orange: #F78C60;
+    --orange_500: #CF734D;
+    --orange_700: #7E4128;
+
+    --green_0: #E7EEE3;
+    --green_100: #CFDDC8;
+    --green_200: #A0BC91;
+    --green: #88AB75;
+    --green_500: #6D895E;
+    --green_700: #36442F;
+
+    --secondaryInterface_0: #FFCCE1;
+    --secondaryInterface_100: #FE99C3;
+    --secondaryInterface_200: #FD3388;
+    --secondaryInterface_400: #FD006A;
+    --secondaryInterface_500: #BF004E;
+    --secondaryInterface_700: #65002A;
+
+	--interface_0: #DDDFF5;
+    --interface_100: #BCBFEC;
+    --interface_200: #797FD9;
+    --interface_BLUE: #575FCF;
+    --interface_700: #232653;
+
+	--gray_WHITE: #F6F7F9;
+    --gray_200: #D9DDE1;
+    --gray_300: #CCD2D7;
+    --gray_400: #B3BBC3;
+    --gray_500: #808E9B;
+    --gray_700: #485460;
+    --gray_BLACK: #1E272E;
+
+}
+
+
+/*********** GENERAL STYLES ***********/
+html{
+	--XS_borderRadius: 10px;
+	--S_borderRadius: 15px;
+	--L_borderRadius: 50px;
+
+	--XS_text: 10px;
+	--S_text: 12px;
+	--SM_text: 14px;
+	--M_text: 16px;
+	--ML_text: 20px;
+	--L_text: 24px;
+
+	--regularWeight: 400;
+	--boldWeight: 700;
+
+}
+
+.noDisplay{
+	display: none;
+}
+
+
+.noPadding {
+	padding: 0;
+}
+
+.noPadMargingParagraph>p{
+	padding: 0px;
+	margin: 0px;
+}
+.noPaddingMarging{
+	padding: 0px;
+	margin: 0px;
+	max-height: 50px;
+}
+
+/*********** TEXTS ***********/
+
+.h2title{
+	font-size: 1.4rem;
+	margin: 10px 0px 10px 0px;
+	font-weight: var(--boldWeight);
+}
+
+.h1title{
+	font-size: 1.8rem;
+	margin-bottom: 05px;
+	font-weight: var(--boldWeight);
+}
+
+
+
+/*********** BUTTONS ***********/
+/** S **/
+.s_button{
+	background-color: var(--colors-primarycolor);
+	border-radius: var(--L_borderRadius);
+	padding: 8px 15px;
+	font-size: var(--SM_text);
+	font-weight: var(--boldWeight);
+}
+
+ .s_button:hover{
+	background-color:var(--colors-activecolor);
+}
+
+
+
+
+/** L **/ 
+
+.l_button{
+	background-color: var(--colors-primarycolor);
+	border-radius: var(--L_borderRadius);
+	padding: 15px 20px;
+	font-size: var(--M_text);
+	font-weight: var(--boldWeight);
+	
+}
+ .l_button:hover{
+	background-color:var(--colors-activecolor);
+	text-decoration: none;
+}
+
+
+/** PINK **/
+/* Assign the pink class to every action button of the interface */
+
+.pink{
+	background-color: var(--secondaryInterface_400);
+	color: var(--gray_WHITE);
+}
+
+.pink:hover{
+	background-color: var(--secondaryInterface_200);
+	cursor: pointer;
+	text-decoration: none;
+}
+
+/********** WHITE  ***************/
+/*to do rename whiteButton to white */
+.whiteButton{
+	background-color: var(--gray_200);
+	border-radius: var(--L_borderRadius);
+	color: var(--gray_700);
+}
+
+.whiteButton:hover{
+	background-color: var(--gray_300);
+}
+
+/*_____________________________________________ à trier  _____________________________________________*/
+
+.interface-container{
+	pointer-events: none;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
