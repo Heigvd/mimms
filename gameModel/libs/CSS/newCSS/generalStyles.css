@@ -92,18 +92,28 @@ html{
 
 /*********** TEXTS ***********/
 
-.h2title{
-	font-size: 1.4rem;
-	margin: 10px 0px 10px 0px;
-	font-weight: var(--boldWeight);
-}
+
 
 .h1title{
 	font-size: 1.8rem;
 	margin-bottom: 05px;
 	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
 }
 
+.h2title{
+	font-size: 1.4rem;
+	margin: 10px 0px 10px 0px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+}
+
+.h3title{
+	font-size: 1rem;
+	margin-bottom: 05px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+}
 
 
 /*********** BUTTONS ***********/

@@ -615,7 +615,7 @@
                                   "className" : "no-selection",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "!Context.wheelItem.items.some(item => item.items.length > 0 );",
+                                    "content" : "!Context.wheelItem.items.some(item => item?.items?.length > 0 );",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -754,7 +754,7 @@
                                   "className" : "no-selection",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.menuItem.items.length === 0;",
+                                    "content" : "Context.menuItem?.items?.length === 0;",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -850,7 +850,7 @@
                                   "className" : "no-selection",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.menuItem.items.length === 0;",
+                                    "content" : "Context.menuItem?.items?.length === 0;",
                                     "language" : "typescript"
                                   }
                                 } ],
