@@ -77,10 +77,4 @@ export class PreTriageTask extends DefaultTask {
 		}
   }
 
-  override clone(): this { 
-    const clone = new PreTriageTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.feedbackAtEnd);
-    clone.status = this.status;
-    return clone as this;
-  }
-
 }

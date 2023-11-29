@@ -2,7 +2,6 @@ import { taskLogger } from "../../../tools/logger";
 import { getTranslation } from "../../../tools/translation";
 import { Actor } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
-import { IClonable } from "../interfaces";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as TaskState from "../simulationState/taskStateAccess";
 
@@ -17,7 +16,7 @@ export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 
 /**
  * Base class for a task
  */
-export abstract class TaskBase implements IClonable {
+export abstract class TaskBase {
 
   private static IdSeed = 1000;
   public readonly Uid: TaskId;
@@ -95,7 +94,6 @@ export abstract class TaskBase implements IClonable {
   /** Update the state */
   public abstract update(state: Readonly<MainSimulationState>, timeJump: number): void;
 
-  public abstract clone(): this;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -247,12 +245,6 @@ export class PreTriageTask extends DefaultTask {
 		}
   }
 
-  override clone(): this { 
-    const clone = new PreTriageTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.feedbackAtEnd);
-    clone.status = this.status;
-    return clone as this;
-  }
-
 }
 
 export class PorterTask extends DefaultTask {
@@ -394,12 +386,6 @@ export class PorterTask extends DefaultTask {
 			});
 		}
 		
-  }
-
-  override clone(): this { 
-    const clone = new PorterTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.feedbackAtEnd);
-    clone.status = this.status;
-    return clone as this;
   }
 
 }*/

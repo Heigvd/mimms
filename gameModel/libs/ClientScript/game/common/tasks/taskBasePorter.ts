@@ -148,10 +148,4 @@ export class PorterTask extends DefaultTask {
 		
   }
 
-  override clone(): this { 
-    const clone = new PorterTask(this.title, this.description, this.nbMinResources, this.nbMaxResources, this.feedbackAtEnd);
-    clone.status = this.status;
-    return clone as this;
-  }
-
 }

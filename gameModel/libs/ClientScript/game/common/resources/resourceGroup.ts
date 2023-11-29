@@ -1,7 +1,6 @@
 import { keys } from "../../../tools/helper";
-import { Actor, InterventionRole } from "../actors/actor";
+import { InterventionRole } from "../actors/actor";
 import { ActorId, ResourceId } from "../baseTypes";
-import { IClonable } from "../interfaces";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { Resource } from "./resource";
 
@@ -9,7 +8,7 @@ import { Resource } from "./resource";
  * A resource group is a set of resources 
  * that is owned by one or more actors of the simulation
  */
-export class ResourceGroup implements IClonable{
+export class ResourceGroup {
 
 	private owners : Record<ActorId, boolean> = {};
 	private resources : Record<ResourceId, boolean> = {};
@@ -28,22 +27,15 @@ export class ResourceGroup implements IClonable{
 	}
 
 	public hasOwner(actorId: ActorId): boolean {
-		return this.owners[actorId];
+		return this.owners[actorId] || false;
 	}
 
 	public hasResource(resource: Resource) : boolean {
-		return this.resources[resource.Uid];
+		return this.resources[resource.Uid] || false;
 	}
 
 	public hasRole(state : MainSimulationState, role: InterventionRole): boolean {
 		return keys(this.owners).some(actId => state.getActorById(+actId)?.Role === role);
-	}
-
-	clone(): this {
-		const rg = new ResourceGroup();
-		rg.owners = {...this.owners};
-		rg.resources = {...this.resources};
-		return rg as this;
 	}
 
 }
@@ -86,7 +78,7 @@ export function getOrCreateResourceGroup(state: MainSimulationState, actorId: Ac
 			}
 
 		}
-		
+
 		if(!group) {
 			group = new ResourceGroup().addOwner(actorId);
 			state.getInternalStateObject().resourceGroups.push(group)

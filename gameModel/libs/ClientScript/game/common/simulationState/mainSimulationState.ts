@@ -8,7 +8,7 @@ import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
-import { ResourceContainerConfig, ResourceContainerDefinitionId, ResourceContainerType, SimFlag } from "../resources/resourceContainer";
+import { ResourceContainerConfig, ResourceContainerType, SimFlag } from "../resources/resourceContainer";
 import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 import { PatientState } from "./patientState";
@@ -36,24 +36,7 @@ export class MainSimulationState implements IClonable {
   }
 
   clone(): this {
-    return new MainSimulationState(this.deepCloneState(), this.simulationTimeSec, this.baseEventId) as this;
-  }
-
-  private deepCloneState(): MainStateObject {
-
-    return {
-      actions : this.internalState.actions.map((act) => act.clone()),
-      cancelledActions : this.internalState.cancelledActions.map((act) => act.clone()),
-      actors : [...this.internalState.actors],
-      mapLocations: [...this.internalState.mapLocations],
-      patients: Helpers.cloneDeep(this.internalState.patients),
-      tasks : [...this.internalState.tasks],
-      radioMessages : [...this.internalState.radioMessages],
-      resources : [...this.internalState.resources],
-	  resourceContainers: Helpers.cloneDeep(this.internalState.resourceContainers),
-	  resourceGroups: Helpers.cloneDeep(this.internalState.resourceGroups),
-	  flags: Helpers.cloneDeep(this.internalState.flags)
-    }
+    return new MainSimulationState(Helpers.cloneDeep(this.internalState), this.simulationTimeSec, this.baseEventId) as this;
   }
 
   /**
