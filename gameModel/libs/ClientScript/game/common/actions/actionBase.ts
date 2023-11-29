@@ -1,6 +1,5 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { MapFeature, SelectFeature } from "../events/defineMapObjectEvent";
-import { IClonable } from "../interfaces";
 import {
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
@@ -22,7 +21,7 @@ export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Complete
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
-export abstract class ActionBase implements IClonable{
+export abstract class ActionBase {
 
   protected static slogger = Helpers.getLogger("actions-logger");
 
@@ -41,8 +40,6 @@ export abstract class ActionBase implements IClonable{
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }
-
-  abstract clone(): this;
 
   /**
    * Will update the given status
@@ -184,12 +181,6 @@ export class GetInformationAction extends StartEndAction {
       return;
   }
 
-  override clone(): this {
-    const clone = new GetInformationAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
-    clone.status = this.status;
-    return clone as this;
-  }
-
 }
 
 export class OnTheRoadAction extends StartEndAction {
@@ -219,12 +210,6 @@ export class OnTheRoadAction extends StartEndAction {
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
-  }
-
-  override clone(): this {
-    const clone = new OnTheRoadAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId);
-    clone.status = this.status;
-    return clone as this;
   }
 
 }
@@ -261,12 +246,6 @@ export class CasuMessageAction extends StartEndAction {
 
   protected cancelInternal(state: MainSimulationState): void {
     return;
-  }
-
-  clone(): this {
-    const clone = new CasuMessageAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.casuMessagePayload);
-    clone.status = this.status;
-    return clone as this;
   }
 
   getTitle(): string {
@@ -316,21 +295,6 @@ export class DefineMapObjectAction extends StartEndAction {
 	localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
   }
 
-  clone(): this {
-    const clone = new DefineMapObjectAction(
-        this.startTime,
-        this.durationSec,
-        this.actionNameKey,
-        this.messageKey,
-        this.eventId,
-        this.ownerId,
-        this.feature,
-        this.templateId
-    );
-    clone.status = this.status;
-    return clone as this;
-    
-  }
 }
 
 export class SelectMapObjectAction extends StartEndAction {
@@ -391,21 +355,6 @@ export class SelectMapObjectAction extends StartEndAction {
     localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
   }
 
-  clone(): this {
-      const clone = new SelectMapObjectAction(
-        this.startTime,
-        this.durationSec,
-        this.actionNameKey,
-        this.messageKey,
-        this.eventId,
-        this.ownerId,
-        this.featureKey,
-        this.featureId,
-        this.templateId,
-      );
-      clone.status = this.status;
-      return clone as this;
-  }
 }
 
 /**
@@ -457,11 +406,6 @@ export class SendResourcesToActorAction extends StartEndAction {
     return;
   }
 
-  override clone(): this {
-    const clone = new SendResourcesToActorAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.receiverActor, this.sentResources);
-    clone.status = this.status;
-    return clone as this;
-  }
 }
 
 /**
@@ -513,11 +457,6 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     return;
   }
 
-  override clone(): this {
-    const clone = new AssignTaskToResourcesAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.task, this.assignedResources);
-    clone.status = this.status;
-    return clone as this;
-  }
 }
 
 /**
@@ -578,10 +517,5 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     return;
   }
 
-  override clone(): this {
-    const clone = new ReleaseResourcesFromTaskAction(this.startTime, this.durationSec, this.messageKey, this.actionNameKey, this.eventId, this.ownerId, this.templateId, this.task, this.releasedResources);
-    clone.status = this.status;
-    return clone as this;
-  }
 }
 

@@ -39,13 +39,6 @@ export class ResourceGroup implements IClonable{
 		return keys(this.owners).some(actId => state.getActorById(+actId)?.Role === role);
 	}
 
-	clone(): this {
-		const rg = new ResourceGroup();
-		rg.owners = {...this.owners};
-		rg.resources = {...this.resources};
-		return rg as this;
-	}
-
 }
 
 export function isManagedBy(state : Readonly<MainSimulationState>, resource: Resource, actorId: ActorId) {
