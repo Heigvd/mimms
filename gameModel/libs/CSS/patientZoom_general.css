@@ -22,11 +22,7 @@
 	margin-Top: 10px;
 }
 
-.actionMesuresTitle{
-	font-weight: var(--boldWeight);
-	color: var(--gray_BLACK);
-	font-size: var(--M_text);
-}
+
 /*
 .patientConsole .column {
 	padding: 0;
@@ -111,34 +107,10 @@
 	margin: 5px 0 0 0;
 }
 
-/* Block details  --- infos on the left*/
-.patientConsole .block-details .block-title {
-	font-weight: var(--boldWeight);
-	color: var(--gray_200);
-	font-size: var(--L_text);
-	padding: 3px 0px 8px 10px;
 
-}
 
-.patientConsole .block-details .block-subtitle {
-	font-weight: var(--boldWeight);
-	font-size: var(--M_text);
-	padding: 5px 0px 5px 10px;
-}
 
-.patientConsole .block-details .block-entry {
-	font-size: var(--M_text);
-	padding-left:10px;
-	padding-bottom: 10px;
-}
 
-.patientConsole .block-details .block-entry-title {
-	font-weight: 400;
-}
-
-.patientConsole .block-details .block-entry-value {
-	font-weight: 400;
-}
 
 /*
 .generalConsole{

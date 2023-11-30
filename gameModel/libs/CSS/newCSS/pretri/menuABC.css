@@ -1,0 +1,44 @@
+/* This stylsheet should only contain CSS linked to the ABCmenu */
+
+
+/*************** ABCDE MENU ****************/
+.menuABC{
+color: var(--interface_BLUE);
+	
+}
+
+.menuABC-button{
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+
+.menuABC .menuABC-button > button.selected{
+	font-weight: var(--boldWeight);
+	background-color: var(--interface_BLUE);
+	color: var(--gray_WHITE);
+	 
+}
+
+.menuABC .menuABC-button > button{
+	font-weight: var(--boldWeight);
+	background-color:var(--gray_300);
+	color: var(--green_700);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px;
+	padding:  8px 15px 8px 15px;
+	margin-bottom: 0px;
+}
+
+.menuABC .menuABC-button > button.no-selection{
+	 color: var(--gray_400);
+	 background-color: var(--gray_200);
+}
+
+.menuABC .menuABC-button > button.no-selection:hover{
+	background-color: var(--gray_200);
+}
+
+.menuABC .menuABC-button > button:hover{
+
+background-color: var(--interface_200);
+}

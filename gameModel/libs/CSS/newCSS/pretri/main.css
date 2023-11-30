@@ -4,3 +4,17 @@
 }
 
 .greyPanel-container{}
+
+/**** SPECIFICS BUTTONS ****/
+.actionMeasure-button * div {
+white-space: nowrap;
+min-width: 8rem;
+}
+
+
+
+/*** SPECIFICS CUSTOMIZATION*/
+
+.actionTitle{
+padding-left: 1rem;
+}

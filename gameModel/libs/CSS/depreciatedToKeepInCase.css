@@ -1,0 +1,25 @@
+/* This CSS contains currently depreciated classes that may come back one day */
+
+/* Texts related to Shadow man */
+
+/* Block details  --- infos on the left
+
+This class is unused in the current design
+
+.patientConsole .block-details .block-title {
+	font-weight: var(--boldWeight);
+	color: var(--gray_200);
+	font-size: var(--L_text);
+	padding: 3px 0px 8px 10px;
+}
+*/
+
+/* these 
+.patientConsole .block-details .block-entry-title {
+	font-weight: 400;
+}
+
+.patientConsole .block-details .block-entry-value {
+	font-weight: 400;
+}
+*/

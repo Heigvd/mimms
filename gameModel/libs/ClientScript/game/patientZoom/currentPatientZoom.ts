@@ -323,7 +323,7 @@ function getABCDEWheel(): Wheel {
 		},
 		Z: {
 			id: 'zMenu',
-			label: '',
+			label: 'PARLER',
 			icon: 'comments',
 			items: getWheelMenuItems(bag.Z),
 			type: 'WheelMenu',
@@ -651,7 +651,7 @@ function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClass
 	if (translationVar) {
 		title = getTranslation(translationVar, title, true);
 	}
-	return `<div class='block-title'>${title}</div>`;
+	return `<!-- <div class='block-title'>${title}</div> -->`;
 }
 
 function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
@@ -664,7 +664,7 @@ function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClass
 		title = getTranslation(translationVar, title);
 	}
 	return `<div class='block-entry'>
-		<span class='block-entry-title'>${title}${value ? ':' : ''}</span>
+		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
 		<span class='block-entry-value'>${value || ''}</span>
 	</div>`;
 }

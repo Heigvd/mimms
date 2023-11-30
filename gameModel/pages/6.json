@@ -569,11 +569,12 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "h2title actionTitle",
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Actions<br></p>\"",
+                          "content" : "\"Actions\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -619,7 +620,6 @@
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "icon" : "ad",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
@@ -654,7 +654,7 @@
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "name" : "main menu items",
+                            "name" : "ABCDE - PARLER",
                             "style" : { }
                           },
                           "type" : "For each"
@@ -672,17 +672,12 @@
                                     "language" : "JavaScript"
                                   }
                                 } ],
-                                "icon" : {
-                                  "@class" : "Script",
-                                  "content" : "Context.wheelItem.icon;",
-                                  "language" : "typescript"
-                                },
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
                                   "language" : "JavaScript"
                                 },
-                                "layoutClassName" : "btnTriage",
+                                "layoutClassName" : "menuABC-button",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -695,7 +690,7 @@
                               },
                               "type" : "Button"
                             } ],
-                            "className" : "shortcuts",
+                            "className" : "menuABC",
                             "exposeAs" : "wheelItem",
                             "getItemsFn" : {
                               "@class" : "Script",
@@ -708,14 +703,14 @@
                               "flexWrap" : "wrap"
                             },
                             "layoutStyle" : { },
-                            "name" : "shortcuts",
+                            "name" : "TRIER",
                             "style" : { }
                           },
                           "type" : "For each"
                         } ],
                         "className" : "",
                         "layout" : {
-                          "flexDirection" : "column"
+                          "flexDirection" : "row"
                         },
                         "layoutClassName" : "",
                         "layoutStyle" : { },
@@ -725,22 +720,26 @@
                       "type" : "FlexList"
                     }, {
                       "props" : {
+                        "children" : [ ],
+                        "className" : "theLine",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "border-bottom" : "solid 1px pink",
+                          "justify-content" : "center",
+                          "max-width" : "80%"
+                        },
+                        "name" : "theLine",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
                         "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Mesure - hardwritten<br></p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : " s_button whiteButton measure",
+                                "className" : " s_button whiteButton actionMeasure-button",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
                                   "className" : "selected",
@@ -794,7 +793,8 @@
                             "itemKey" : "id",
                             "itemsOnly" : false,
                             "layout" : {
-                              "flexWrap" : "nowrap"
+                              "flexWrap" : "wrap",
+                              "justifyContent" : "space-between"
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : {
@@ -823,20 +823,9 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Actions - hardwritten<br></p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : " s_button  whiteButton",
+                                "className" : " s_button  whiteButton actionMeasure-button",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
                                   "className" : "selected",
@@ -890,7 +879,8 @@
                             "itemKey" : "id",
                             "itemsOnly" : false,
                             "layout" : {
-                              "flexWrap" : "nowrap"
+                              "flexWrap" : "wrap",
+                              "justifyContent" : "space-between"
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : {

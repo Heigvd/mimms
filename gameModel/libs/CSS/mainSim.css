@@ -712,39 +712,10 @@ font-size: var(--S_text);
 }
 
 
-/*************** ABCDE MENU ****************/
-.menuABC{
-background-color: transparent;
-color: var(--interface_BLUE);
-	
-}
-
-.menuABC .menuABC-button > button.selected{
-	font-weight: var(--boldWeight);
-	background-color: transparent;
-	text-decoration: underline;
-	 
-}
-
-.menuABC .menuABC-button > button.no-selection{
-	 color: var(--gray_400);
-	 background-color: transparent;
-}
-
-
-.menuABC .menuABC-button :hover{
-background-color: transparent;
-color: var(--secondaryInterface_200);
-}
-
-/* WHY???*/ 
-.measure * button.selected{
-	color: pink;
-}
 
 
 /********************** Action & Measure *******************/
-
+/*
 .actionMeasureSelected{
 color: var(--gray_WHITE);
 background-color: var(--interface_BLUE);
@@ -754,6 +725,7 @@ background-color: var(--interface_BLUE);
 .actionMeasureSelected:hover{
 	background-color: var(--interface_200);
 }
+*/
 /*****BUTTONS NEXT + CORRECTION *****/
 .nextAndCorrection{
 	padding-left: 1rem;
