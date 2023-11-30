@@ -67,8 +67,8 @@ function initMainState(): MainSimulationState {
 		icon: 'mainAccident',
 	}
 
-  const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'Pretriage task completed!');
-  const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'Porters task completed!');
+  const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
+  const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
 
 
 	const initialResources = [

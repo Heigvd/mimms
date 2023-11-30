@@ -14,6 +14,7 @@ import { getNextNonPreTriagedPatient, getNonPreTriagedPatientsSize, getPreTriage
 import { DefaultTask } from "./taskBase";
 import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
+import { getTranslation } from "../../../tools/translation";
 
 /**
  * Default behaviour of a task
@@ -72,7 +73,7 @@ export class PreTriageTask extends DefaultTask {
 
 			// FIXME See to whom and from whom
 			state.getAllActors().forEach(actor => {
-				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd + "\n" + result));
+				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) + "\n" + result, true));
 			});
 		}
   }
