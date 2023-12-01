@@ -187,60 +187,6 @@
                             "style" : { }
                           },
                           "type" : "FlexList"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "patientTitle",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "",
-                            "layout" : { },
-                            "layoutClassName" : "",
-                            "layoutStyle" : {
-                              "alignItems" : "center",
-                              "border" : "solid 1px blue",
-                              "justifyContent" : "center"
-                            },
-                            "name" : "bloodyPatient",
-                            "style" : {
-                              "textAlign" : "center",
-                              "width" : "30%"
-                            },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getVisualOverview } from './game/patientZoom/graphics';\ngetVisualOverview();",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "flexWrap" : "wrap",
-                              "padding" : "15px"
-                            },
-                            "name" : "visual infos",
-                            "style" : {
-                              "flexGrow" : "1",
-                              "textAlign" : "center"
-                            },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getVisualDetails } from './game/patientZoom/graphics';\ngetVisualDetails();",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
                         }, {
                           "props" : {
                             "children" : [ {
@@ -273,7 +219,7 @@
                             } ],
                             "layout" : {
                               "alignItems" : "center",
-                              "flexDirection" : "column"
+                              "flexDirection" : "row"
                             },
                             "layoutStyle" : { },
                             "name" : "categoryAndID",
@@ -283,24 +229,82 @@
                           },
                           "type" : "FlexList"
                         } ],
+                        "className" : "greyPanel",
+                        "flexGrow" : 1,
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "information-container",
+                        "layoutStyle" : { },
+                        "name" : "patientTitle",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "justifyContent" : "center",
+                              "min-height" : "100px",
+                              "min-width" : "100px"
+                            },
+                            "name" : "bloodyPatient",
+                            "style" : {
+                              "min-width" : "10rem",
+                              "textAlign" : "center"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getVisualOverview } from './game/patientZoom/graphics';\ngetVisualOverview();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "flexWrap" : "wrap",
+                              "padding" : "15px"
+                            },
+                            "name" : "visual infos",
+                            "style" : {
+                              "flexGrow" : "1",
+                              "textAlign" : "center"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getVisualDetails } from './game/patientZoom/graphics';\ngetVisualDetails();",
+                              "language" : "JavaScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "greyPanel",
                         "layout" : {
                           "alignItems" : "center",
-                          "justifyContent" : "center"
+                          "flexDirection" : "row",
+                          "justifyContent" : "space-around"
                         },
-                        "layoutStyle" : { },
-                        "name" : "faceAndID",
-                        "style" : {
-                          "gap" : "2rem",
-                          "margin" : "auto"
-                        }
+                        "layoutClassName" : "information-container",
+                        "layoutStyle" : {
+                          "gap" : "2rem"
+                        },
+                        "name" : "faceAndBloodyPatient",
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "headerPanels",
+                    "className" : "",
+                    "flexShrink" : 1,
                     "layout" : {
                       "alignContent" : "space-between"
                     },
-                    "layoutClassName" : "headerPanels-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "detailsPanel",
                     "style" : { }
@@ -543,7 +547,7 @@
                     "layout" : {
                       "justifyContent" : "space-between"
                     },
-                    "layoutClassName" : "noPadding noMargin",
+                    "layoutClassName" : "headerPanels-container",
                     "layoutStyle" : { },
                     "name" : "patient",
                     "style" : { }
@@ -602,134 +606,144 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "menuABC",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "selected",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
-                                    "language" : "JavaScript"
-                                  }
-                                }, {
-                                  "applyOn" : "Inside",
-                                  "className" : "no-selection",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "!Context.wheelItem.items.some(item => item?.items?.length > 0 );",
-                                    "language" : "typescript"
-                                  }
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "menuABC",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "selected",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
+                                        "language" : "JavaScript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
+                                      "className" : "no-selection",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "!Context.wheelItem.items.some(item => item?.items?.length > 0 );",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutClassName" : "menuABC-button",
+                                    "layoutStyle" : {
+                                      "justifyContent" : "center"
+                                    },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { selectWheelMainMenu } from './game/patientZoom/currentPatientZoom';\n\nselectWheelMainMenu(Context.wheelItem.id, Context.patientConsole.setState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
                                 } ],
-                                "label" : {
+                                "className" : "menuABC noPadding noMargin",
+                                "exposeAs" : "wheelItem",
+                                "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
-                                  "language" : "JavaScript"
+                                  "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().mainMenu;",
+                                  "language" : "TypeScript"
                                 },
-                                "layoutClassName" : "menuABC-button",
-                                "layoutStyle" : {
-                                  "justifyContent" : "center"
+                                "itemKey" : "id",
+                                "itemsOnly" : false,
+                                "layout" : {
+                                  "flexWrap" : "wrap"
                                 },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { selectWheelMainMenu } from './game/patientZoom/currentPatientZoom';\n\nselectWheelMainMenu(Context.wheelItem.id, Context.patientConsole.setState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "ABCDE - PARLER",
                                 "style" : { }
                               },
-                              "type" : "Button"
+                              "type" : "For each"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : " menuABC",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "selected",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.wheelItem.type === 'ExtraPanel' \n\t&& Context.wheelItem.id === Context.patientConsole.state.selectedPanel;",
+                                        "language" : "JavaScript"
+                                      }
+                                    } ],
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutClassName" : "menuABC-button",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "Script",
+                                        "content" : "import { selectWheelItem } from './game/patientZoom/currentPatientZoom';\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "menuABC noPadding noMargin",
+                                "exposeAs" : "wheelItem",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().shortcuts;",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "itemsOnly" : false,
+                                "layout" : {
+                                  "flexWrap" : "wrap"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "TRIER",
+                                "style" : { }
+                              },
+                              "type" : "For each"
                             } ],
-                            "className" : "menuABC",
-                            "exposeAs" : "wheelItem",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().mainMenu;",
-                              "language" : "TypeScript"
-                            },
-                            "itemKey" : "id",
-                            "itemsOnly" : false,
-                            "layout" : {
-                              "flexWrap" : "wrap"
-                            },
-                            "layoutClassName" : "",
+                            "className" : "noPadding noMargin",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
-                            "name" : "ABCDE - PARLER",
+                            "name" : "MenuButtons",
                             "style" : { }
                           },
-                          "type" : "For each"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "s_button",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "selected",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.wheelItem.type === 'ExtraPanel' \n\t&& Context.wheelItem.id === Context.patientConsole.state.selectedPanel;",
-                                    "language" : "JavaScript"
-                                  }
-                                } ],
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutClassName" : "menuABC-button",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "Script",
-                                    "content" : "import { selectWheelItem } from './game/patientZoom/currentPatientZoom';\n\nselectWheelItem(Context.wheelItem, Context.patientConsole.setState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "menuABC",
-                            "exposeAs" : "wheelItem",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getWheel } from './game/patientZoom/currentPatientZoom';\ngetWheel().shortcuts;",
-                              "language" : "TypeScript"
+                            "children" : [ ],
+                            "className" : "theLine noPadding noMargin",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : {
+                              "" : ""
                             },
-                            "itemKey" : "id",
-                            "itemsOnly" : false,
-                            "layout" : {
-                              "flexWrap" : "wrap"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "TRIER",
+                            "name" : "theLine",
                             "style" : { }
                           },
-                          "type" : "For each"
+                          "type" : "FlexList"
                         } ],
                         "className" : "",
                         "layout" : {
-                          "flexDirection" : "row"
+                          "flexDirection" : "column"
                         },
-                        "layoutClassName" : "",
+                        "layoutClassName" : "ABCDETT_Menu-container",
                         "layoutStyle" : { },
                         "name" : "ABCDE-TT menu",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ ],
-                        "className" : "theLine",
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : {
-                          "border-bottom" : "solid 1px pink",
-                          "justify-content" : "center",
-                          "max-width" : "80%"
-                        },
-                        "name" : "theLine",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -794,7 +808,7 @@
                             "itemsOnly" : false,
                             "layout" : {
                               "flexWrap" : "wrap",
-                              "justifyContent" : "space-between"
+                              "justifyContent" : "flex-start"
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : {
@@ -813,7 +827,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "tabs",
+                        "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "mesures",
                         "style" : { }
@@ -880,7 +894,7 @@
                             "itemsOnly" : false,
                             "layout" : {
                               "flexWrap" : "wrap",
-                              "justifyContent" : "space-between"
+                              "justifyContent" : "flex-start"
                             },
                             "layoutClassName" : "",
                             "layoutStyle" : {
@@ -899,7 +913,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "tabs",
+                        "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "actions",
                         "style" : { }
@@ -1026,6 +1040,7 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
+                                    "alignSelf" : "flex-end",
                                     "className" : "applyMeasureBtn",
                                     "disableIf" : {
                                       "@class" : "Script",
@@ -1183,6 +1198,7 @@
                                   "type" : "Text"
                                 }, {
                                   "props" : {
+                                    "alignSelf" : "flex-end",
                                     "className" : "applyMeasureBtn",
                                     "disableIf" : {
                                       "@class" : "Script",
@@ -1352,9 +1368,9 @@
                         "children" : [ {
                           "props" : {
                             "className" : "",
-                            "layoutClassName" : "titlesConsoles",
+                            "layoutClassName" : "h2title",
                             "layoutStyle" : { },
-                            "name" : "ResActionEnCours",
+                            "name" : "HistoryConsoleTitle",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
@@ -1367,7 +1383,7 @@
                           "props" : {
                             "className" : "",
                             "id" : "",
-                            "layoutClassName" : "lastResult ",
+                            "layoutClassName" : "lastResult",
                             "layoutStyle" : { },
                             "name" : "resultConsole",
                             "style" : {
@@ -1398,7 +1414,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "greyPanel-container",
+                    "layoutClassName" : "rightPanel-container",
                     "layoutStyle" : { },
                     "name" : "rightPanel",
                     "style" : { }
@@ -1757,9 +1773,9 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "",
                 "layoutStyle" : {
-                  "width" : "60%"
+                  "width" : "60vw"
                 },
                 "name" : "Right",
                 "style" : {

@@ -1,0 +1,14 @@
+/* Result of action or measure in the history console*/
+.lastResult div .log_container{
+	color: var(--gray_BLACK);
+    animation: popping 1s linear;
+	padding-left: 10px;
+	margin:10px;
+	align-items: baseline;
+	font-size: var(--M_text);
+	
+}
+
+.time{
+	color: magenta;
+}

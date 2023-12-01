@@ -3,8 +3,13 @@
   	border-radius: var(--S_borderRadius);
 }
 
-.greyPanel-container{}
+.greyPanel-container{
+	
+}
 
+.rightPanel-container{
+min-height: 70vh
+}
 /**** SPECIFICS BUTTONS ****/
 .actionMeasure-button * div {
 white-space: nowrap;

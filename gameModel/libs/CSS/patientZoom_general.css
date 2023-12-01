@@ -1,9 +1,9 @@
-/* GENERAL */
+/* GENERAL 
 .patientConsole .title_container {
 	padding: 5px 10px;
 }
 
-/*
+
 .zoomMedicalCarePage .title {
 	font-weight: bold;
 	color: var(--colors-darktextcolor);
@@ -13,7 +13,7 @@
 .patientConsole .title_container .subtitle {
 	color: var(--colors-lighttextcolor);
 }
-*/
+
 .titlesConsoles{
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
@@ -22,7 +22,7 @@
 	margin-Top: 10px;
 }
 
-
+*/
 /*
 .patientConsole .column {
 	padding: 0;
@@ -34,14 +34,8 @@
 	flex-grow: 1;
 }*/
 
-.lastResult div .log_container{
-	color: #313131;
-    animation: popping 1s linear;
-	padding-left: 10px;;
-	border-radius: 15px;
-	align-items: baseline;
-	
-}
+
+
 /* ??? is it used*/
 @keyframes popping{
 	0%{
@@ -71,12 +65,17 @@
 }*/
 
 /* CONSOLE */
+
+
+
+
 .patientConsole .console .log_container{
 	margin: 3px;
 	display: flex;
 }
 .patientConsole .console .log_container .time{
-	color: var(--colors-primarycolor);
+	color: darkpink;
+
 	margin: 5px 10px 5px 0;
 }
 
@@ -84,7 +83,7 @@
 .patientConsole .console .log_container .msr_list{
 	margin: 3px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	gap: 5px;
 	
 }
@@ -106,10 +105,6 @@
 .patientConsole .console .log_container .message div{
 	margin: 5px 0 0 0;
 }
-
-
-
-
 
 
 /*

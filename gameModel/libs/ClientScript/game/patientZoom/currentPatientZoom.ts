@@ -1137,7 +1137,7 @@ function formatLog(log: ConsoleLog): string {
 	const formattedTime = toHoursMinutesSecondsIso(log.time);
 	const time = `<span class='time'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
-		return `<div class='log_container'>${time} <span class='message'>${log.message}</span></div>`;
+		return `<div class='log_container'>${time} <div class='message'> ${log.message}</div></div>`;
 	} else if (log.type === 'MeasureLog') {
 		const lines = log.metrics.map(metric => {
 			const r = formatMetric(metric.metric, metric.value);

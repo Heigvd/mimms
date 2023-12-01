@@ -704,12 +704,7 @@ input[type=number] {
 	color: var(--gray_700);
 }
 
-.patientSAP{
-text-align: center;
-min-width: 100px;
-color: var(--gray_700);
-font-size: var(--S_text);
-}
+
 
 
 
