@@ -1,14 +1,43 @@
+
+
 /* Result of action or measure in the history console*/
 .lastResult div .log_container{
 	color: var(--gray_BLACK);
-    animation: popping 1s linear;
-	padding-left: 10px;
-	margin:10px;
+	background-color:transparent;
+	padding: 10px;
+	margin:5px;
 	align-items: baseline;
 	font-size: var(--M_text);
-	
+	border-radius: var(--XS_borderRadius) ;
+	}
+
+.lastResult {
+	max-height: 40vh;
+	overflow-y: scroll;
 }
 
-.time{
-	color: magenta;
+.consoleTime{
+	font-weight: var(--boldWeight);
+}
+
+
+/* Animation for latest result */
+
+@keyframes example {
+ 	0% {
+	background-color: rgba(var(--interface_200), .01 );
+	}
+  	50% {
+	background-color: var(--interface_100);
+	}
+
+	100% {
+	background-color: rgba(var(--interface_200), .2 );
+	}
+}
+
+
+.lastResult div .log_container:first-child{
+animation-name: example;
+animation-duration: 3s;
 }

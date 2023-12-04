@@ -547,7 +547,7 @@
                     "layout" : {
                       "justifyContent" : "space-between"
                     },
-                    "layoutClassName" : "headerPanels-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "patient",
                     "style" : { }
@@ -759,8 +759,8 @@
                                   "className" : "selected",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.menuItem.id === Context.patientConsole.state.selectedSubMenu;",
-                                    "language" : "JavaScript"
+                                    "content" : "Context.patientConsole.state.selectedAction != null && Context.patientConsole.state.selectedAction.id === Context.menuItem.id;",
+                                    "language" : "typescript"
                                   }
                                 }, {
                                   "applyOn" : "Inside",
@@ -845,8 +845,8 @@
                                   "className" : "selected",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "Context.menuItem.id === Context.patientConsole.state.selectedSubMenu;",
-                                    "language" : "JavaScript"
+                                    "content" : "Context.patientConsole.state.selectedAction != null && Context.patientConsole.state.selectedAction.id === Context.menuItem.id;",
+                                    "language" : "typescript"
                                   }
                                 }, {
                                   "applyOn" : "Inside",
@@ -1795,7 +1795,8 @@
             "layoutClassName" : "patientConsole",
             "layoutStyle" : {
               "height" : "fit-content",
-              "padding" : "0"
+              "padding" : "0",
+              "width" : "100%"
             },
             "name" : "THE GAME",
             "style" : { }

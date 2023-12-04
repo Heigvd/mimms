@@ -1135,7 +1135,7 @@ export function getMainIndication(): string {
 function formatLog(log: ConsoleLog): string {
 
 	const formattedTime = toHoursMinutesSecondsIso(log.time);
-	const time = `<span class='time'>${formattedTime}</span>`;
+	const time = `<span class='consoleTime'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
 		return `<div class='log_container'>${time} <div class='message'> ${log.message}</div></div>`;
 	} else if (log.type === 'MeasureLog') {

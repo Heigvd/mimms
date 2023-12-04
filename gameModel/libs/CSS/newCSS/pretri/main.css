@@ -8,7 +8,8 @@
 }
 
 .rightPanel-container{
-min-height: 70vh
+min-height: 70vh;
+max-height: 100vh;
 }
 /**** SPECIFICS BUTTONS ****/
 .actionMeasure-button * div {
@@ -16,7 +17,14 @@ white-space: nowrap;
 min-width: 8rem;
 }
 
+.actionMeasure-button.selected{
+	background-color: var(--interface_BLUE);
+	color: var(--gray_WHITE);
+}
 
+.actionMeasure-button.selected:hover{
+	background-color: var(--interface_200);
+}
 
 /*** SPECIFICS CUSTOMIZATION*/
 

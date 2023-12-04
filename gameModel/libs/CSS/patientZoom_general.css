@@ -73,11 +73,12 @@
 	margin: 3px;
 	display: flex;
 }
+/*
 .patientConsole .console .log_container .time{
 	color: darkpink;
 
 	margin: 5px 10px 5px 0;
-}
+}*/
 
 
 .patientConsole .console .log_container .msr_list{

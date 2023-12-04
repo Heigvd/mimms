@@ -553,6 +553,7 @@ height: 3em;
 	background: var(--interface-bg);
 }
 
+/** Cette classe collisionne avec une classe du pretri générée lors d'un nouveau log dans "history" */
 .time {
 	width: fit-content;
 	text-align: center;
