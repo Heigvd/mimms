@@ -8,11 +8,14 @@
 }
 
 
+
+/* SAP */
 .patientSAP{
 text-align: center;
 min-width: 100px;
 color: var(--gray_700);
 font-size: var(--M_text);
 }
+
 
 

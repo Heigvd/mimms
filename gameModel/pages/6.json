@@ -151,7 +151,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "patientName",
+                                "className" : "h2title",
                                 "layoutStyle" : { },
                                 "name" : "Nom",
                                 "style" : { },
@@ -164,7 +164,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "patientState",
+                                "className" : "simpleText",
                                 "layoutStyle" : { },
                                 "name" : "etat",
                                 "style" : { },

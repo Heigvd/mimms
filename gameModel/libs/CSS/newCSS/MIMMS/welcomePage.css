@@ -1,0 +1,14 @@
+/************************* WELCOME PAGE  **********************/
+.welcomeLogo-container{
+	width: 40em;
+	height: auto;
+	margin-bottom: 3em;
+	margin-top: 5em;
+}
+
+.welcomeText{
+	color:var(--gray_700);
+	font-size: var(--L_text);
+	margin-bottom: 2em;
+	line-height: normal;
+}

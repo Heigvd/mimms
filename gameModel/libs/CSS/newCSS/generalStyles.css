@@ -1,6 +1,9 @@
 /* This stylsheet should only contain global CSS used both in MIMMS and Drill pretri
 
-We try to follow the BEM naming logic such as described here: https://getbem.com/naming/
+We use a naming convention with a similar mind as BEM method.
+Any class about a container shall end with "-container"
+If there's a class for a component container's it's name is similar to the container's one (whitout the "-container")
+We have modifying classes such as 
 
 This stylesheet should contain:
 - colors variable
@@ -111,7 +114,7 @@ html{
 
 .h1title{
 	font-size: var(--L_text);
-	margin-bottom: 05px;
+	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
 }
@@ -125,11 +128,15 @@ html{
 
 .h3title{
 	font-size: var(--M_text);
-	margin-bottom: 05px;
+	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
 }
 
+.simpleText{
+	font-size: var(--M_text);
+	color: var(--gray_700);
+}
 
 /*********** BUTTONS ***********/
 /** S **/

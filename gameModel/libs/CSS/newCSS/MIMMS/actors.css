@@ -1,0 +1,40 @@
+
+.timeline-actors {
+	border-right: 1px solid var(--gray_200);	
+}
+
+
+.actor {
+	height: 2em;
+    width: 4em;
+    background: var(--interface_0);
+	color: var(--interface_700);
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--L_borderRadius);
+	font-size: var(--M_text);
+	font-weight: var(--boldWeight);
+	padding: 15px 5px 15px 5px;
+	animation: popping 1s linear;
+	
+}
+
+.actor.current {
+	background: var(--interface_0);
+	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
+}
+
+.actor:hover{
+	background:var(--interface_100);
+	cursor: pointer;
+	
+}
+
+.actor:focus:hover{
+	background:var(--interface_100);
+	cursor: pointer;
+}
+
+.actor_button{
+	padding-top: 2em;
+}
