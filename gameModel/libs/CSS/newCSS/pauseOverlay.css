@@ -1,0 +1,23 @@
+.global-pause-overlay {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background-color: #fffa;
+}
+
+.global-pause-overlay > svg {
+	position: absolute;
+	width: 50% !important;
+	height: 50%;
+	top: 25%;
+	left: 25%;
+	color: red;
+	margin: auto;
+	opacity: 0.75;
+	z-index: 999;
+}
+
+.global-pause-overlay > svg > path {
+	stroke: black;
+	stroke-width: 5px;
+}

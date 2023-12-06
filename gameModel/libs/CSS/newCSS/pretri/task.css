@@ -1,0 +1,25 @@
+.taskName{
+	color: var(--gray_BLACK);
+	font-size: var(--SM_text);	
+}
+
+.taskName:first-letter {
+    text-transform: uppercase;
+}
+
+.taskDescription{
+	font-size: var(--S_text);
+	color: var(--gray_BLACK);
+	max-width: 18em;
+}
+
+
+.taskActiveHeader{
+	font-weight: var(--boldWeight);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
+}
+
+.taskStatus{
+font-size: var(--XS_text);
+color: var(--gray_700);
+}

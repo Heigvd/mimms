@@ -1,0 +1,87 @@
+/****************************** METHANE ***************************/
+.methaneInput-container{
+	background-color: var(--gray_200);
+}
+
+.jodit{
+	color: VAR(--gray_500);
+}
+
+.methaneBtn-container{
+	margin-top: 1em;}
+
+.cancelBtn{
+	color: var(--gray_700);
+	background-color: var(--gray_200);
+}
+
+.cancelBtn:hover{
+	color: var(--gray_700);
+	background-color: var(--gray_300);
+}
+
+
+.sysOk{
+	color: var(--green);
+}
+.sysFail{
+	color: var(--orange);
+}
+
+.modal-methane-container {
+	max-width: 700px;
+} 
+
+
+.modalTitle{
+font-weight: var(--boldWeight);
+	font-size: var(--M_text);
+}
+
+.methaneMenuButton > *{
+font-size: var(--S_text);
+color: var(--gray_BLACK);
+font-weight: var(--boldWeight);
+}
+
+
+.methaneMenuButton:focus{
+	background-color: var(--interface_BLUE);
+	
+}
+
+.methaneMenuButton:focus > *{
+	color: var(--gray_WHITE);
+}
+
+
+.E-ressources-container{
+	flex-wrap: wrap;
+	flex-basis: 33%;
+	}
+
+.methane-letter-container{
+	font-weight: var(--boldWeight);
+	color: var(--interface_BLUE);
+	}
+
+.methane-letter-container > .methane-letter > p {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	width: 11px;
+}
+
+.methane-letter-input {
+	padding-left: 15px;
+	width: 100%;
+}
+
+.anE-ressource-container{
+	width: 20em;
+}
+
+.E-container-container{
+height: 3em;
+}

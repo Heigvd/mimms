@@ -1,10 +1,7 @@
-.greyPanel{
-	background: var(--gray_WHITE);
-  	border-radius: var(--S_borderRadius);
-}
-
-.greyPanel-container{
-	
+/*****BUTTONS NEXT + CORRECTION *****/
+.nextAndCorrection{
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .rightPanel-container{

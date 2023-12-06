@@ -1041,7 +1041,7 @@
                                 "children" : [ {
                                   "props" : {
                                     "alignSelf" : "flex-end",
-                                    "className" : "applyMeasureBtn",
+                                    "className" : "pink s_button",
                                     "disableIf" : {
                                       "@class" : "Script",
                                       "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
@@ -1199,7 +1199,7 @@
                                 }, {
                                   "props" : {
                                     "alignSelf" : "flex-end",
-                                    "className" : "applyMeasureBtn",
+                                    "className" : "pink s_button",
                                     "disableIf" : {
                                       "@class" : "Script",
                                       "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",

@@ -1,0 +1,41 @@
+
+
+
+
+.patientConsole .tagSystemCategories.sacco {
+	flex-direction: row  !important /* override inline style */;
+	flex-wrap: wrap;
+}
+
+.patientConsole .tagSystemCategories.sacco > div {
+	display: block;
+}
+
+
+.patientConsole .tagSystemCategories.sacco .tagCategory{
+	width: 50px;
+}
+
+.patientConsole .tagSystemCategories {
+	margin-top: 15px;
+}
+.patientConsole .tagCategory {
+	padding: 8px;
+	margin-top: 15px;
+	text-align: center;
+	font-weight: bolder;
+	border: 3px solid transparent ;
+	border-radius: 50px;
+	transition-duration: 0.1s;
+	transition-property: border-color;
+	background-color: white ;
+}
+
+.patientConsole .tagCategory.clickable {
+	cursor: pointer;
+}
+
+.patientConsole .tagCategory.current {
+	border: 3px solid  #302C54;	
+}
+

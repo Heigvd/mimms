@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1701861139009,
+  "createdTime" : 1701880211102,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6690,28 +6690,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "demographics",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:24113753:rf8orI",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "depreciatedToKeepInCase",
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1429:g9uHri",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "drill_summary",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:26548340:jwzml9",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6726,28 +6708,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "likert",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:24060901:IMT4Wb",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "mainSim",
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:447318:MtktUj",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "mainSim_resources",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:584951:gXgaJx",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6798,6 +6762,33 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/METHANE",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1355:nlcYSo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/notifications",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1354:HOGAbD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/ressources",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1383:9LZWli",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/timeline",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6816,10 +6807,64 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/pathologyEditor",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1427:1I5EH0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/pauseOverlay",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1379:er0yNi",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/pretri/bodyPicto",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1438:pTyrY0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/pretri/correction",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1409:Lv7QTr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/pretri/detailsPanel",
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1473:dgautJ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/pretri/drill",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1439:xnvZ0z",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/pretri/drillSummary",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1440:8lZPZ9",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6861,55 +6906,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "pathologyEditor",
+    "contentKey" : "newCSS/pretri/task",
     "contentType" : "text/css",
     "libraryType" : "CSS",
-    "refId" : "GameModelContent:24069290:9AMKs1",
+    "refId" : "GameModelContent:1410:6nHQle",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "patientZoom",
+    "contentKey" : "newCSS/pretri/welcomePage",
     "contentType" : "text/css",
     "libraryType" : "CSS",
-    "refId" : "GameModelContent:24047318:v37hFN",
+    "refId" : "GameModelContent:1373:DkYJEL",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "patientZoom_general",
+    "contentKey" : "newCSS/setupTrainer",
     "contentType" : "text/css",
     "libraryType" : "CSS",
-    "refId" : "GameModelContent:55844:8AkZhd",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "qr",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:24098786:vFqUJl",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "setupTrainer",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:62358:Qf2X8r",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "the_map",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:24047319:znunT3",
+    "refId" : "GameModelContent:1428:qbw8yH",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7012,7 +7030,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "pretri_jess_0512",
+  "name" : "MIMMSPretri-css-rewamp",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

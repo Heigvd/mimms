@@ -25,7 +25,7 @@
 
 
 
-/** TIMELINE ITEM **/
+/***********************TIMELINE ITEM ***********************/
 .timeline-grid {
 	row-gap: 15px;
 	padding: 0 10px 5px 10px;
@@ -87,7 +87,7 @@
 }
 
 
-/** TIME MARKER**/
+/*********************** TIME MARKER***********************/
 .marker {
 	display: flex;
 	justify-content: center;
@@ -114,7 +114,7 @@
 	z-index: 4;
 }
 
-/** NEXT BUTTON **/
+/*********************** NEXT BUTTON ***********************/
 .next-container{
 z-index: 4;
 position: absolute;
@@ -122,3 +122,29 @@ top: -1.6em;
 right: 2em;
 overflow: visible;
 }
+
+.nextActionBtn > * {
+    /* margin: 0.5em; */
+    height: 2.5em;
+    width: 4.5em;
+    border-radius: 25px;
+    /* align-content: flex-end; */
+    font-weight: var(--boldWeight);
+    color: var(--gray_WHITE);
+    background: var(--secondaryInterface_400);
+}
+
+.nextActionBtn:hover > *{
+	background: var(--secondaryInterface_200);
+	cursor: pointer;
+}
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
+	margin: auto;
+}
+
+
+
+
+
+

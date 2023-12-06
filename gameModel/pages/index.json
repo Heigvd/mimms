@@ -18,12 +18,6 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "11",
-        "name" : "humanMap",
-        "scenaristPage" : false,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
         "scenaristPage" : true,
@@ -376,12 +370,6 @@
           "trainerPage" : null
         } ],
         "name" : "resources"
-      }, {
-        "@class" : "Page",
-        "id" : "47",
-        "name" : "gamePage",
-        "scenaristPage" : null,
-        "trainerPage" : null
       }, {
         "@class" : "Folder",
         "items" : [ {

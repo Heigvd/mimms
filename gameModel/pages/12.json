@@ -546,7 +546,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
-                    "className" : "startButton",
+                    "className" : "pink l_button",
                     "label" : {
                       "@class" : "Script",
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'start');",
@@ -561,17 +561,15 @@
                       }
                     },
                     "name" : "start",
-                    "style" : {
-                      "marginTop" : "50px"
-                    }
+                    "style" : { }
                   },
                   "type" : "Button"
                 } ],
-                "className" : "colBG",
+                "className" : "greyPanel",
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "welcomeColumn",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "name" : "colLeft",
                 "style" : { }
@@ -645,11 +643,11 @@
                   },
                   "type" : "Image"
                 } ],
-                "className" : "colBG",
+                "className" : "greyPanel",
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "welcomeColumn",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "name" : "colRight",
                 "style" : { }
@@ -661,7 +659,7 @@
             "layoutClassName" : "",
             "layoutStyle" : { },
             "style" : {
-              "gap" : "50px"
+              "gap" : "20px"
             }
           },
           "type" : "FlexList"

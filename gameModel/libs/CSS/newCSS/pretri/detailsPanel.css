@@ -17,5 +17,32 @@ color: var(--gray_700);
 font-size: var(--M_text);
 }
 
+/* Drill Card (the label put on a patient: p3 to dead) */
+.cat_card {
+	height: 100%;
+	width: 100%;
+}
+.cat_card.undefined {
+	background: transparent;
+}
 
+/* Pain smiley background 
+/!\ this class seems to be used in graphic.ts but is it really?
+*/
+.coloration_pain {
+	border-radius: 50%;
+	border: 1px solid black;
+	margin: auto;
+}
+
+/* SMILEY (ancient name: visual details) */
+
+.patientConsole .visualDetail_elem p {
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+
+.patientConsole .visualDetail_elem img {
+	width: 60px;
+}
 

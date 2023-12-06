@@ -1,0 +1,77 @@
+
+/******* ACTIONS ELEMENTS *******/
+
+.actions-container{
+	margin:0px;
+	padding: 0px;
+	/*ANIMATION TO BE DEFINED*/
+	animation-duration: 2s ease-out;
+}
+
+.action-container.not-planned{
+	opacity: 50%;
+}
+
+.actionHeader{
+	background-color: var(--gray_200);
+	padding: 5px 10px ;
+	border-radius: var(--S_borderRadius);
+	font-size: var(--SM_text);
+	cursor: pointer;
+}
+
+.actionHeaderActive{
+		font-weight: var(--boldWeight);
+		border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
+
+}
+
+.actionHeader > div{
+	padding: 0px;
+	margin: 0px;
+	align-items: center;
+	color: var(--gray_BLACK);
+}
+
+.actionName:first-letter {
+    text-transform: uppercase;
+}
+
+.actionInfo{
+	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
+	background-color: var(--gray_200);
+	padding: 0px 10px;
+	font-size: var(--S_text);
+	
+}
+
+.actionInfo p{
+	margin: 5px 0px 0px 0px;
+	padding-bottom: 15px;
+	color: var(--gray_BLACK);
+	
+}
+
+
+.aDescriptionAction{
+	min-width: 20em;
+	max-width: 30em;
+}
+
+/** Play btn **/
+.playActionBtn > *{
+margin: .5em;
+padding: .5em;
+height: 2em;
+width: 2em;
+border-radius: 50%;
+/*align-content: flex-end; */
+font-weight: var(--boldWeight);
+color: var(--gray_WHITE);
+background: var(--secondaryInterface_400);
+}
+
+.playActionBtn:hover > *{
+	background: var(--secondaryInterface_200);
+	cursor: pointer;
+}
