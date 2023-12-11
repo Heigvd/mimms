@@ -312,7 +312,7 @@
             "className" : "",
             "ifCondition" : {
               "@class" : "Script",
-              "content" : "import { getDrillStatus } from './game/legacy/drill';\ngetDrillStatus() === 'completed_review' || getDrillStatus() === 'ongoing';",
+              "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() === 'completed_review' || getDrillStatus() === 'ongoing';",
               "language" : "typescript"
             },
             "layoutClassName" : "",

@@ -1,0 +1,100 @@
+	/* This stylsheet should only contain CSS linked to the shadow man and the related blocks 
+	- shadowMan itself
+	- blocks 
+	- styling of information linked to the shadowMan such as texts like "burn, 20%"
+
+	*/
+
+
+	/**** Texts related to shadowMan ****/
+
+
+	.patientConsole .block-details .block-subtitle {
+		font-weight: var(--boldWeight);
+		font-size: var(--M_text);
+		padding: 5px 0px 5px 10px;
+	}
+
+	.patientConsole .block-details .block-entry {
+		font-size: var(--M_text);
+		padding-left:10px;
+		padding-bottom: 10px;
+	}
+
+	/***** Blocks colors gestion *****/
+
+
+	.observe .block:not(.forTreatmentBlock, .afflictedBlock) {
+		position: absolute;
+		fill: none;
+		stroke: var(--gray_500);
+		stroke-dasharray:  "2 2";
+		pointer-events: none;
+	}
+	.observe .block:not(.forTreatmentBlock, .afflictedBlock) svg {
+		position: absolute;
+	}
+
+
+	.forTreatmentBlock,
+	.afflictedBlock {
+		position: absolute;
+		fill: none;
+		stroke: none;
+		pointer-events: none;
+	}
+
+	.forTreatmentBlock svg,
+	.afflictedBlock svg {
+		position: absolute;
+	}
+
+	.afflictedBlock rect, 
+	.forTreatmentBlock rect {
+		pointer-events: all;
+	}
+
+	.afflictedBlock {
+		cursor: pointer;
+	}
+
+
+	.afflictedBlock svg:first-child {
+
+		mix-blend-mode: hard-light;
+	}
+
+
+	.afflictedBlock svg:first-child rect {
+		fill: var(--orange_100);
+	}
+
+
+	/* afflicted block for wich we display textual information*/
+	.afflictedBlock.observedBlock svg:first-child{
+		
+		mix-blend-mode: color;
+	
+	}
+
+
+	/*selection blocks -> the ones that can be selected */
+	.forTreatmentBlock svg:last-child rect {
+		stroke: var(--interface_BLUE);
+	}
+
+
+	/*selection blocks -> the selected one */
+	.forTreatmentBlock.selectedBlock svg:last-child rect{
+		stroke:var(--secondaryInterface_400);
+		stroke-width: 4px;
+		transition: 0.2s;
+	}
+
+	/*selection blocks -> the ones that can be selected while beeing hovered */
+	.forTreatmentBlock:not(.selectedBlock):hover svg:last-child rect {
+		stroke: var(--interface_BLUE);
+		stroke-width: 4px;
+		cursor: pointer;
+		transition: 0.2s;
+	}

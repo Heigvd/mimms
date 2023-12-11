@@ -1,0 +1,68 @@
+/**************************** RADIO CSS (upper-right) ************************************/
+.radio-container {
+	right: 0;
+	pointer-events: auto;
+	min-width: 17em;
+	max-width: 20%;
+	overflow: hidden;
+}
+
+.aMessage{
+		border-radius: var(--S_borderRadius);
+		padding: 0px;
+		margin: 0px;
+
+}
+
+.aMessage-animation {
+	animation: popping 1s linear;
+}
+
+
+.radioContent-container{
+	font-size: var(--S_text);
+	color: var(--gray_BLACK);			
+}
+
+
+.sender-container{
+	font-weight: var(--boldWeight);
+	margin-bottom: 0px ;
+	padding-bottom: 0px;
+}
+
+.aMessage-container{
+	padding-top: 0px;
+	background-color: var(--gray_200);
+	
+}
+
+.sender-role{
+	border-radius: var(--S_borderRadius);
+	margin: .3em;
+	padding: 4px;
+
+}
+/**** COLOR MANAGEMENT MSG RADIO
+.sender-role[data-sender-role="MCS"] {
+  background-color: var(--yellow_0);
+}
+
+.sender-role[data-sender-role="ACS"] {
+  background-color: var(--orange_0);
+}
+
+.sender-role[data-sender-role="AL"] {
+  background-color:var(--blue_0);
+}
+*/
+
+.sender{
+		font-weight: var(--boldWeight);
+
+}
+
+.noRadio{
+	margin:5px;
+	padding:5px;
+}

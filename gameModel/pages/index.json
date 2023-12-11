@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "43",
+  "defaultPageId" : "5",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
@@ -15,12 +15,6 @@
         "id" : "40",
         "name" : "demographics",
         "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "11",
-        "name" : "humanMap",
-        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -376,12 +370,6 @@
           "trainerPage" : null
         } ],
         "name" : "resources"
-      }, {
-        "@class" : "Page",
-        "id" : "47",
-        "name" : "gamePage",
-        "scenaristPage" : null,
-        "trainerPage" : null
       }, {
         "@class" : "Folder",
         "items" : [ {

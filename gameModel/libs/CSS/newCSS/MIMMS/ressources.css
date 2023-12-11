@@ -169,3 +169,13 @@ cursor: pointer;
 	font-size: var(--L_text);
 	color: var(--interface_BLUE);
 }
+
+.greyRessources > *{
+	color: var(--gray_300);
+	border-color: var(--gray_300);
+	
+}
+
+.resourceCounter.greyRessources{
+		color: var(--gray_300);
+}

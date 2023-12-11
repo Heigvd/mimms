@@ -1,0 +1,30 @@
+/*****BUTTONS NEXT + CORRECTION *****/
+.nextAndCorrection{
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.rightPanel-container{
+min-height: 70vh;
+max-height: 100vh;
+}
+/**** SPECIFICS BUTTONS ****/
+.actionMeasure-button * div {
+white-space: nowrap;
+min-width: 8rem;
+}
+
+.actionMeasure-button.selected{
+	background-color: var(--interface_BLUE);
+	color: var(--gray_WHITE);
+}
+
+.actionMeasure-button.selected:hover{
+	background-color: var(--interface_200);
+}
+
+/*** SPECIFICS CUSTOMIZATION*/
+
+.actionTitle{
+padding-left: 1rem;
+}
