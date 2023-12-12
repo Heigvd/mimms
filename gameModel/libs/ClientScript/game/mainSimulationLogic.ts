@@ -94,6 +94,7 @@ function initMainState(): MainSimulationState {
     mapLocations: [mainAccident],
     patients: loadPatients(),
     tasks: [taskPretri, taskPorter],
+	newRadioMessages: [],
     radioMessages: [],
     resources: initialResources,
     resourceContainers: loadEmergencyResourceContainers(),

@@ -15,3 +15,18 @@ export function getAllRadioMessages(): RadioMessage[] {
 export function getAvailableRadioMessages(id: number): RadioMessage[] {
 	return getAllRadioMessages().filter(m => m.recipientId === id);
 }
+
+
+/**
+ * All radio messages currently in state
+ */
+export function getAllNewRadioMessages(): RadioMessage[] {
+	return getCurrentState().getRadioNewMessages();
+}
+
+/**
+ * Get radio messages for given Uid
+ */
+export function getAvailableNewRadioMessages(id: number): RadioMessage[] {
+	return getAllNewRadioMessages().filter(m => m.recipientId === id);
+}
