@@ -1,0 +1,47 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.item.message;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ]
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableNewRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableNewRadioMessages(Context.interfaceState.state.currentActorUid);",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column-reverse"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

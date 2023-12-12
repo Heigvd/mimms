@@ -1,9 +1,9 @@
 /********************** HEADER PANEL *********************************************/
 .headerPanels-container {
-	width: 100%;
+	width: 50%;
 	height: auto;
 	top: 0px;
-	left: 0;
+	left: 550px;
 	padding: 1rem; 
 	pointer-events: auto; /* voir si none ou auto*/
 }
@@ -25,7 +25,7 @@
 .generalPanels-container {
   width: auto;
   height: auto;
-  top: 142px;
+  top: 0px;
   padding: 1rem; 
   
 
@@ -62,6 +62,7 @@
 	}
 
 .panel-title {
+	min-height: 68px;
 	white-space: nowrap;
 	text-align: center;
 	color: var(--gray_WHITE);
@@ -70,12 +71,9 @@
 	font-weight: var(--boldWeight);
 	font-size: var(--ML_text);
 	border-top-left-radius: var(--S_borderRadius);
-	border-top-right-radius:var(--S_borderRadius);
 }
 
 .panel-title-header {
-	border-bottom-left-radius: var(--S_borderRadius);
-	border-top-right-radius: 0;
 	display: flex;
     align-items: center;
     justify-content: center;

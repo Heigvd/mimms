@@ -54,6 +54,7 @@ export function getInitialInterfaceState() {
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
+		selectedPanel: 'actions',
 	};
 
 }
