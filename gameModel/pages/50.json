@@ -1,0 +1,25 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "'Button'",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

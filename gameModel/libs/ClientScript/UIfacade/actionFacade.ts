@@ -21,6 +21,7 @@ import {
 	buildAndLaunchActionCancellation,
 	buildAndLaunchActionFromTemplate,
 	fetchAvailableActions,
+	getCasuAction,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
 import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
@@ -114,8 +115,9 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 }
 
 export async function planCasuMessageAction() : Promise<undefined | IManagedResponse> {
+	const actTpls = getCasuAction();
 	const actor = Context.interfaceState.state.currentActorUid;
-	const actTpl = getActionTemplate(Context.interfaceState.state.currentActionUid);
+	const actTpl = actTpls ? actTpls[0] : undefined;
 	const params = fetchCasuMessageRequestValues();
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
 	newState.showCasuMessageModal = false;

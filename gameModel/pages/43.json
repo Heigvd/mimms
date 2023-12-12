@@ -183,11 +183,23 @@
                                       "type" : "Text"
                                     }, {
                                       "props" : {
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "\"<p>Actions</p>\"",
-                                          "language" : "TypeScript"
-                                        },
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel == 'actions';",
+                                            "language" : "typescript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "not-active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel != 'actions';",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
@@ -196,27 +208,49 @@
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "style" : { }
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>Actions</p>\"",
+                                          "language" : "TypeScript"
+                                        }
                                       },
-                                      "type" : "Button"
+                                      "type" : "Text"
                                     }, {
                                       "props" : {
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "\"<p>Radios</p>\"",
-                                          "language" : "TypeScript"
-                                        },
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel == 'radios';",
+                                            "language" : "typescript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "not-active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel != 'radios';",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'radios';\nContext.interfaceState.setState(newState);\n",
+                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'radios';\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "style" : { }
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>Radio</p>\"",
+                                          "language" : "TypeScript"
+                                        }
                                       },
-                                      "type" : "Button"
+                                      "type" : "Text"
                                     } ],
                                     "layout" : { },
                                     "layoutStyle" : {
@@ -227,78 +261,10 @@
                                   "type" : "FlexList"
                                 }, {
                                   "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "menuLeftPanel",
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "menuLeftPanel-selected",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.selectedPanel.state.selected === 'actions'",
-                                            "language" : "typescript"
-                                          }
-                                        } ],
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'actions')}</p>`",
-                                          "language" : "TypeScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : " Context.selectedPanel.setState({selected: 'actions'})",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "Button"
-                                    }, {
-                                      "props" : {
-                                        "className" : "menuLeftPanel",
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "menuLeftPanel-selected",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.selectedPanel.state.selected === 'resources'",
-                                            "language" : "typescript"
-                                          }
-                                        } ],
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'resources')}</p>`",
-                                          "language" : "TypeScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : " Context.selectedPanel.setState({selected: 'resources'})",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "Button"
-                                    } ],
-                                    "layout" : {
-                                      "flexDirection" : "row"
-                                    },
-                                    "layoutClassName" : "noDisplay",
-                                    "layoutStyle" : { },
-                                    "name" : "menu",
-                                    "style" : { }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tdefault: page = '46';\n}\npage;",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tdefault: page = '45';\n}\npage;",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },

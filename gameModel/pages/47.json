@@ -1,0 +1,90 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "emitter-text-header-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.item.emitter;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "emitter-text-body-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "wlog(Context.item);\nContext.item.message;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "radio-message-others tri-right left-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.uid != Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid, true);",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column-reverse"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"42\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "casuPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : {
+      "heigth" : "700px"
+    }
+  },
+  "type" : "FlexList"
+}

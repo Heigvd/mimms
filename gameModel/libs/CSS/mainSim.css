@@ -80,20 +80,21 @@
     font-size: 2.5em;
 }
 
+.leftPanel-container {
+	max-width: 486px;
+}
 
 
-/*
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover 
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden 
+    margin: 0;
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox 
+    -moz-appearance:textfield;
 }
-*/
+
 
 
 

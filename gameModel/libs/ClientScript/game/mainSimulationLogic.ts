@@ -280,6 +280,11 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 	}
 }
 
+export function getCasuAction(): ActionTemplateBase[] {
+	return Object.values(actionTemplates).filter(at => at.getTitle() == 'Send message to CASU');
+}
+
+
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);
 }

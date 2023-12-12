@@ -494,21 +494,6 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : {
-                          "padding-bottom" : "0px"
-                        },
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "// TODO transalations\nContext.item.type;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"0\"",
@@ -539,17 +524,36 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "width" : "100px"
+                          "min-width" : "0px",
+                          "width" : "30px"
                         }
                       },
                       "type" : "Number input"
+                    }, {
+                      "props" : {
+                        "className" : "methane-input-label",
+                        "layoutStyle" : {
+                          "padding-bottom" : "0px",
+                          "padding-top" : "0px",
+                          "width" : "84px"
+                        },
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "// TODO transalations\nContext.item.type;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
                     "layout" : { },
                     "layoutStyle" : {
-                      "width" : "200px"
+                      "width" : "120px"
                     },
                     "style" : {
-                      "flex-direction" : "column"
+                      "flex-direction" : "row"
                     }
                   },
                   "type" : "FlexList"

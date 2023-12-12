@@ -415,11 +415,27 @@
         "scenaristPage" : null,
         "trainerPage" : true
       }, {
-        "@class" : "Page",
-        "id" : "11",
-        "name" : "radio",
-        "scenaristPage" : null,
-        "trainerPage" : null
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "11",
+          "name" : "radio",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "47",
+          "name" : "channel_G682",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "50",
+          "name" : "channel_D418",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "radio_page"
       } ],
       "name" : "mainSimulation pages"
     } ],

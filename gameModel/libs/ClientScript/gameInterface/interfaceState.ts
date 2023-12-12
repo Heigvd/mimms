@@ -55,6 +55,7 @@ export function getInitialInterfaceState() {
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
 		selectedPanel: 'actions',
+		channel: 'G682',
 	};
 
 }
