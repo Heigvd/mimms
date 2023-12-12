@@ -6,5 +6,6 @@ export interface RadioMessage {
   timeStamp: Readonly<SimTime>,
   emitter: Readonly<string>,
   message: Readonly<string>,
-  uid: number
+  uid: number,
+  isRadioMessage: boolean,
 }

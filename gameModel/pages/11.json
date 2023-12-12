@@ -22,7 +22,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableNewRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableNewRadioMessages(Context.interfaceState.state.currentActorUid);",
+          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableNewgetAvailableRadioMessagesRadioMessages(Context.interfaceState.state.currentActorUid, true);",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",

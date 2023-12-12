@@ -165,13 +165,6 @@ export class MainSimulationState implements IClonable {
   public getRadioMessages(): RadioMessage[] {
 	  return this.internalState.radioMessages;
   }
-
-  /**
-   * @returns An array of all radio messages
-   */
-  public getRadioNewMessages(): RadioMessage[] {
-	  return this.internalState.newRadioMessages;
-  }
 }
 
 interface MainStateObject {
@@ -184,7 +177,6 @@ interface MainStateObject {
   mapLocations: MapFeature[];
   patients: PatientState[];
   actors : Actor[];
-  newRadioMessages: RadioMessage[];
   radioMessages: RadioMessage[];
   resources: Resource[];
   resourceGroups: ResourceGroup[];

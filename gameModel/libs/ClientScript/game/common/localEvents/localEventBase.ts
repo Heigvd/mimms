@@ -261,23 +261,16 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 	  const msg = this.omitTranslation ? this.message 
 		  : getTranslation('mainSim-actions-tasks', this.message);
 
-      if (this.isRadioMessage) {
-        state.getInternalStateObject().newRadioMessages.push({
-          recipientId: this.recipient,
-          timeStamp: this.simTimeStamp,
-          emitter: this.emitter,
-          message: msg,
-          uid : AddRadioMessageLocalEvent.UidSeed++
-        })
-      } else {
-        state.getInternalStateObject().radioMessages.push({
-          recipientId: this.recipient,
-          timeStamp: this.simTimeStamp,
-          emitter: this.emitter,
-          message: msg,
-          uid : AddRadioMessageLocalEvent.UidSeed++
-        })
-      }
+
+      state.getInternalStateObject().radioMessages.push({
+        recipientId: this.recipient,
+        timeStamp: this.simTimeStamp,
+        emitter: this.emitter,
+        message: msg,
+        uid : AddRadioMessageLocalEvent.UidSeed++,
+        isRadioMessage: this.isRadioMessage
+      })
+
     
   }
 
