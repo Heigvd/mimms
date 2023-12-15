@@ -3,10 +3,15 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
-
+ /************ PANELS ****************/
 .rightPanel-container{
 min-height: 70vh;
 max-height: 100vh;
+}
+
+
+.LeftPanel-container{
+	width: 40vw;
 }
 /**** SPECIFICS BUTTONS ****/
 .actionMeasure-button * div {

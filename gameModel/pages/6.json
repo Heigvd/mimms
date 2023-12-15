@@ -180,9 +180,7 @@
                               "alignContent" : "flex-end",
                               "flexDirection" : "column"
                             },
-                            "layoutStyle" : {
-                              "flexGrow" : "1"
-                            },
+                            "layoutStyle" : { },
                             "name" : "nameAndState",
                             "style" : { }
                           },
@@ -217,10 +215,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "id" : "categoryAndID",
                             "layout" : {
-                              "alignItems" : "center",
-                              "flexDirection" : "row"
+                              "alignItems" : "center"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "categoryAndID",
                             "style" : {
@@ -230,7 +229,6 @@
                           "type" : "FlexList"
                         } ],
                         "className" : "greyPanel",
-                        "flexGrow" : 1,
                         "layout" : {
                           "flexDirection" : "column"
                         },
@@ -244,19 +242,12 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "",
+                            "className" : "bloodyPatient",
                             "layout" : { },
-                            "layoutClassName" : "",
-                            "layoutStyle" : {
-                              "justifyContent" : "center",
-                              "min-height" : "100px",
-                              "min-width" : "100px"
-                            },
+                            "layoutClassName" : "bloodyPatient-container",
+                            "layoutStyle" : { },
                             "name" : "bloodyPatient",
-                            "style" : {
-                              "min-width" : "10rem",
-                              "textAlign" : "center"
-                            },
+                            "style" : { },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getVisualOverview } from './game/patientZoom/graphics';\ngetVisualOverview();",
@@ -266,16 +257,12 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "className" : "",
                             "layout" : { },
-                            "layoutStyle" : {
-                              "flexWrap" : "wrap",
-                              "padding" : "15px"
-                            },
-                            "name" : "visual infos",
-                            "style" : {
-                              "flexGrow" : "1",
-                              "textAlign" : "center"
-                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "painSmiley",
+                            "style" : { },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getVisualDetails } from './game/patientZoom/graphics';\ngetVisualDetails();",
@@ -284,27 +271,20 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "greyPanel",
-                        "layout" : {
-                          "alignItems" : "center",
-                          "flexDirection" : "row",
-                          "justifyContent" : "space-around"
-                        },
-                        "layoutClassName" : "information-container",
-                        "layoutStyle" : {
-                          "gap" : "2rem"
-                        },
+                        "className" : "greyPanel faceAndBloodyPatient",
+                        "layout" : { },
+                        "layoutClassName" : "information-container faceAndBloodyPatient-container",
+                        "layoutStyle" : { },
                         "name" : "faceAndBloodyPatient",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
                     "className" : "",
-                    "flexShrink" : 1,
                     "layout" : {
                       "alignContent" : "space-between"
                     },
-                    "layoutClassName" : "",
+                    "layoutClassName" : "leftPanel-container",
                     "layoutStyle" : { },
                     "name" : "detailsPanel",
                     "style" : { }
@@ -557,14 +537,10 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : {
-                  "width" : "40%"
-                },
+                "layoutClassName" : "westSide-container",
+                "layoutStyle" : { },
                 "name" : "Left",
-                "style" : {
-                  "height" : "100%"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             }, {
@@ -1773,18 +1749,14 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "",
-                "layoutStyle" : {
-                  "width" : "60vw"
-                },
+                "layoutClassName" : "eastSide-container",
+                "layoutStyle" : { },
                 "name" : "Right",
-                "style" : {
-                  "height" : "100%"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             } ],
-            "className" : "",
+            "className" : "theGame",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\"&&\nContext.patientConsole?.state == null;",
@@ -1792,13 +1764,9 @@
             },
             "id" : "",
             "layout" : { },
-            "layoutClassName" : "patientConsole",
-            "layoutStyle" : {
-              "height" : "fit-content",
-              "padding" : "0",
-              "width" : "100%"
-            },
-            "name" : "THE GAME",
+            "layoutClassName" : " theGame-container",
+            "layoutStyle" : { },
+            "name" : "THE GAME // class= patientConsole",
             "style" : { }
           },
           "type" : "FlexList"

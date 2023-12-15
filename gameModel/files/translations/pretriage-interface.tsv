@@ -60,3 +60,16 @@ pendingAction	pending action	Action en cours
 still	still	encore	
 secToWait	seconds	secondes	
 tooLateToCancel	too late to cancel	trop tard pour annuler	
+history	history	historique	
+duration	duration	durée	
+hours	hours	heure(s)	
+minutes	minute(s)	minute(s)	
+seconds	second(s)	seconde(s)	
+last-result	last result	dernier résultat	
+pain-scale	pain scale	échelle de douleur	
+explanation-title	explanations	Explications	
+temporality	game temporality	temporalité dans le jeu	
+welcome	Welcome in Drill pre-tri	Bienvenue dans drill pré-tri	
+context	This module is meant to train on pretriage algorithms. Your goal is to perform pretriage on a serie of patients with a specific algorithm. The patients evolve in real time. You can measure their vital parameters and apply treatments.	Ce module de drill va vous permettre de vous entraîner aux algorithmes de pré-triage. Votre objectif est de prétrier une série de patients en utilisant un algorithme spécifique. L’état des patients évolue en temps réel. Vous pouvez mesurer leurs constantes vitales et appliquer les traitements que vous jugez appropriés.	
+temporality-explanation	Time flows normally second by second. Each measure or treatment has a time cost, when you decide to apply one, time jumps forward by the amount of time of the selected action.	Le temps s’écoule normalement seconde par seconde. Chaque mesure ou traitement a une durée, lorsque vous l’effectuez, le temps “saute” en avant d’une durée équivalente.	
+time	time	temps	

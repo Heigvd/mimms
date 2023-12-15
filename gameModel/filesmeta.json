@@ -523,7 +523,7 @@
   },
   "/translations/pretriage-interface.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },

@@ -72,6 +72,10 @@ This stylesheet should contain:
 
 
 /*********** GENERAL STYLES ***********/
+
+/*** PETITS ECRANS ***/
+
+
 html{
 	--XS_borderRadius: 10px;
 	--S_borderRadius: 15px;
@@ -86,6 +90,10 @@ html{
 
 	--regularWeight: 400;
 	--boldWeight: 700;
+	--mainFont: Arial, Helvetica, sans-serif;
+
+	--smallScreen: 1199px;
+	--middleScreen:1200px;
 
 }
 
@@ -110,13 +118,50 @@ html{
 
 /*********** TEXTS ***********/
 
+@media screen and (max-width: 1199px){
+	
+.h1title{
+	font-size: var(--ML_text);
+	margin-bottom: 5px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
 
+.h2title{
+	font-size: var(--M_text) ;
+	margin: 10px 0px 10px 0px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
+
+.h3title{
+	font-size: var(--SM_text);
+	margin-bottom: 5px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
+/* DIRTY RALEWAY DEBUG - @import url(https://fonts.googleapis.com/css?family=Roboto); */
+.simpleText{
+	font-size: var(--SM_text);
+	color: var(--gray_700);
+	font-family: var(--mainFont);
+	/* font-family: 'Roboto'; */
+}
+}
+
+/*** GROS ECRANS ***/
+
+@media screen and (min-width:1200px){
 
 .h1title{
 	font-size: var(--L_text);
 	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
 
 .h2title{
@@ -124,6 +169,7 @@ html{
 	margin: 10px 0px 10px 0px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
 
 .h3title{
@@ -131,12 +177,17 @@ html{
 	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
-
+/* DIRTY RALEWAY DEBUG - @import url(https://fonts.googleapis.com/css?family=Roboto); */
 .simpleText{
 	font-size: var(--M_text);
 	color: var(--gray_700);
+	font-family: var(--mainFont);
+	/* font-family: 'Roboto'; */
 }
+}
+
 
 /*********** BUTTONS ***********/
 /** S **/

@@ -357,8 +357,10 @@ export function getVisualDetails(): string {
 		if (overview) {
 			const painPath = getPainIcon(human.state.vitals.pain, overview);
 			const painURL = Helpers.getFilePath(painPath);
-			const labelP = getTranslation('pretriage-interface', 'face');
-			output.push(`<div class='visualDetail_elem'><img max-width="48px" max-height="48px"; src='${painURL}' class="coloration_pain" style='display: block; background-color: ${getSkinColoration(overview.colorful, overview.cyanosis)}'><p>${labelP}</p></div>`);
+			output.push(`<div class='visualDetail_elem'><img  src='${painURL}' class="coloration_pain" style='display: block; background-color: ${getSkinColoration(overview.colorful, overview.cyanosis)}'></div>`);
+			//const labelP = getTranslation('pretriage-interface', 'face'); 
+			//FACE LABEL (was inside the visualDetails_elem div) - <p>${labelP}</p>
+
 			// DEPRECATED - Triangle cursor
 			// const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
 			// const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;

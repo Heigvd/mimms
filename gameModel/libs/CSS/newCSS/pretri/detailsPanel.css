@@ -1,14 +1,4 @@
 
-/* the 2 boxes containing ID, SAP, Face and small body */
-.information-container{
-	width: 10vw;
-	max-width: 28vw;
-	margin: .1rem;
-	
-}
-
-
-
 /* SAP */
 .patientSAP{
 text-align: center;
@@ -26,23 +16,18 @@ font-size: var(--M_text);
 	background: transparent;
 }
 
-/* Pain smiley background 
-/!\ this class seems to be used in graphic.ts but is it really?
-*/
-.coloration_pain {
-	border-radius: 50%;
-	border: 1px solid black;
-	margin: auto;
+/*** PETITS ECRANS ***/
+@media screen and (max-width:1199px){
+	.categoryAndID{
+	flex-direction: column;
+	}
 }
 
-/* SMILEY (ancient name: visual details) */
+/*** GROS ECRANS ***/
 
-.patientConsole .visualDetail_elem p {
-	margin-top: 15px;
-	margin-bottom: 0px;
+@media screen and (min-width:1200px){
+	.categoryAndID{
+	flex-direction: row;
 }
-
-.patientConsole .visualDetail_elem img {
-	width: 60px;
 }
 

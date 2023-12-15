@@ -1,0 +1,33 @@
+.bloodyPatient-container{
+	justify-content: center;
+}
+
+.bloodyPatient{
+	width: 50%;
+	min-width: 10em;
+	max-width: 100%;
+	text-align: center;
+	padding: 0px;
+}
+
+/*** PETITS ECRANS ***/
+@media screen and (max-width: 1199px){
+	.bloodyPatient{
+		border: 3px solid orange;
+		width: 50%;
+		min-width: 8em;
+		max-width: 100%;
+	}
+}
+
+/*** Gros écrans ***/
+
+@media screen and (min-width: 1200px){
+	.bloodyPatient{
+		width: 50%;
+		min-width: 10em;
+		max-width: 100%;
+		border: 3px solid orangered;
+		text-align: center;
+	}
+}
