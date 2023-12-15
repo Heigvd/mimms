@@ -13,9 +13,15 @@ import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 
 
-export function runActionButton() {
+export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
+	if (action != undefined) {
+		Context.action = action
+	}
+	
 	const actionRefUid = Context.action.Uid;
 
 	let params = {};
@@ -109,7 +115,6 @@ export function runActionButton() {
 		});
 		Context.interfaceState.setState(newState);
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
-
 		params = fetchCasuMessageRequestValues();
 	}
 
@@ -137,4 +142,17 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	}
 
 	return res;
+}
+
+export function fetchRadioMessageRequestValues(channel: string): RadioMessagePayload {
+	let res: RadioMessagePayload;
+	if (channel == 'D418')
+		res = {channel: channel, message: Context.interfaceState.state.channelText.d418, actorId: Context.interfaceState.state.currentActorUid};
+	else
+		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
+	return res;
+}
+
+function getActorById(currentActorUid: any) {
+throw new Error('Function not implemented.');
 }

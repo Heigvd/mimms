@@ -14,6 +14,7 @@ import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
+import { RadioMessagePayload } from "../events/radioMessageEvent";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -519,3 +520,34 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
 
 }
 
+export class SendRadioMessageAction extends StartEndAction {
+
+  constructor (
+	  startTimeSec: SimTime,
+	  durationSeconds: SimDuration,
+	  messageKey: TranslationKey,
+	  actionNameKey: TranslationKey,
+	  eventId: GlobalEventId,
+	  ownerId: ActorId,
+	  uuidTemplate: ActionTemplateId,
+	  private radioMessagePayload: RadioMessagePayload
+	  ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event SendRadioMessageAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendRadioMessageAction');
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName, this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
+  }
+
+}

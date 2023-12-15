@@ -72,10 +72,6 @@ export function actionClickHandler(id: number, params: any): void {
 	if (canPlanAction()) {
 		if (template instanceof DefineMapObjectTemplate) {
 			startMapAction(params);
-		} else if (template instanceof CasuMessageTemplate) {
-			const newState = Helpers.cloneDeep(Context.interfaceState.state)
-			newState.showCasuMessageModal = true;
-			Context.interfaceState.setState(newState);
 		} else {
 			planAction(template.getTemplateRef(), uid, params);
 		}

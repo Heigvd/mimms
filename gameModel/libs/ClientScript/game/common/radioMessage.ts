@@ -8,4 +8,5 @@ export interface RadioMessage {
   message: Readonly<string>,
   uid: number,
   isRadioMessage: boolean,
+  channel: string | undefined,
 }

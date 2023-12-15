@@ -2,15 +2,162 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "label" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "emitter-text-header-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.item.emitter;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "emitter-text-body-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "wlog(Context.item);\nContext.item.message;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "radio-message-others tri-right left-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "radio-message-myself tri-right right-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.channel != 'D418';",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
           "@class" : "Script",
-          "content" : "'Button'",
+          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid, true);",
           "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column-reverse"
         },
         "layoutStyle" : { },
         "style" : { }
       },
-      "type" : "Button"
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : {
+                  "width" : "100%"
+                },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.d418 = Context.d418;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"d418\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "language" : "TypeScript"
+                },
+                "rows" : 2,
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.channelText.d418;",
+                  "language" : "TypeScript"
+                },
+                "style" : {
+                  "border" : "none",
+                  "height" : "100px",
+                  "resize" : "none",
+                  "width" : "100%"
+                }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "className" : "pink l_button",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "'Button'",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : {
+                  "bottom" : "5px",
+                  "right" : "5px"
+                },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { sendRadioMessage } from \"./UIfacade/radioFacade\";\n\nsendRadioMessage('D418');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "onAbsoluteClick" : { },
+            "style" : {
+              "height" : "200px",
+              "width" : "100%"
+            }
+          },
+          "type" : "AbsoluteLayout"
+        } ],
+        "layout" : { },
+        "layoutStyle" : {
+          "background-color" : "white",
+          "border" : "1px solid black",
+          "border-radius" : "15px",
+          "height" : "180px"
+        },
+        "style" : { }
+      },
+      "type" : "FlexList"
     } ],
     "layout" : {
       "flexDirection" : "column"

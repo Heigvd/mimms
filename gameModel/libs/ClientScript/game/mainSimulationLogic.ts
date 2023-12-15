@@ -5,7 +5,7 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate, SendRadioMessage,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -113,6 +113,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
 
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
+  const radioMessage = new SendRadioMessage('radio-message-title', 'radio-message-desc', TimeSliceDuration, 'radio-message-feedback');
   
   const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
   { geometrySelection: 
@@ -145,6 +146,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
   templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
   templates[casuMessage.getTemplateRef()] = casuMessage;
+  templates[radioMessage.getTemplateRef()] = radioMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
@@ -282,6 +284,10 @@ export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
 
 export function getCasuAction(): ActionTemplateBase[] {
 	return Object.values(actionTemplates).filter(at => at.getTitle() == 'Send message to CASU');
+}
+
+export function getRadioAction(): ActionTemplateBase[] {
+	return Object.values(actionTemplates).filter(at => at.getTitle() == 'SendRadioMessageTemplateTitle');
 }
 
 

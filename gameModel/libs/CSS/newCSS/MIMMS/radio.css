@@ -16,6 +16,17 @@
 }
 
 
+.radio-message-myself {
+	margin: 10px;
+	left: 60px;
+  	display: inline-block;
+  	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: var(--interface_0);
+	border-radius: 15px;
+}
+
 .radio-message-others {
 	margin: 10px;
 	left: 0px;
@@ -51,6 +62,19 @@
 	bottom: auto;
 	border: 22px solid;
 	border-color: var(--gray_150) transparent transparent transparent;
+}
+
+.tri-right.right-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: auto;
+	right: -20px;
+  top: 0px;
+	bottom: auto;
+	border: 20px solid;
+	border-color: var(--interface_0) transparent transparent transparent;
 }
 
 .emitter-text-header-layout {

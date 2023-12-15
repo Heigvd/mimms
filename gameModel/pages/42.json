@@ -607,9 +607,8 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { planCasuMessageAction } from \"./UIfacade/actionFacade\";\nplanCasuMessageAction();",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown> | undefined"
+                    "content" : "import { getCasuAction } from \"./game/mainSimulationLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst test =  getCasuAction();\nrunActionButton(test[0]);",
+                    "language" : "TypeScript"
                   }
                 },
                 "name" : "send",

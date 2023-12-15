@@ -14,7 +14,7 @@ import {
   DefineMapObjectAction,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction, SendRadioMessageAction,
 } from './actionBase';
 import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -24,6 +24,7 @@ import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 import { SimFlag } from "../resources/resourceContainer";
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
+import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -596,3 +597,44 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<Rel
 
 }
 
+export class SendRadioMessage extends StartEndTemplate {
+
+  constructor(title: TranslationKey, description: TranslationKey, 
+    duration: SimDuration, message: TranslationKey,
+	replayable = false, flags: SimFlag[]=[]) {
+    super(title, description, duration, message, replayable, flags);
+  }
+
+  protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new SendRadioMessageAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, payload.radioMessagePayload);
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: RadioMessagePayload): RadioMessageActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec : this.duration,
+	  radioMessagePayload : params
+    }
+  }
+
+
+  public getTemplateRef(): TemplateRef {
+    return 'SendRadioMessageTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+	return'SendRadioMessageTemplateDescription';
+  }
+
+  public getTitle(): string {
+    return 'SendRadioMessageTemplateTitle';
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+
+}

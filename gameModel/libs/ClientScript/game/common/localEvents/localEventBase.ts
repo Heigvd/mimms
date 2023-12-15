@@ -250,6 +250,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     public readonly recipient: ActorId, 
     public readonly emitter: TranslationKey,
     public readonly message: TranslationKey,
+	public readonly channel: string | undefined = undefined,
     public readonly isRadioMessage: boolean = false,
 	  private readonly omitTranslation: boolean = false)
   {
@@ -268,7 +269,8 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
         emitter: this.emitter,
         message: msg,
         uid : AddRadioMessageLocalEvent.UidSeed++,
-        isRadioMessage: this.isRadioMessage
+        isRadioMessage: this.isRadioMessage,
+		channel: this.channel
       })
 
     
@@ -394,7 +396,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 		
 		const t = Math.round(this.travelTime / 60);
 		const msg = this.buildRadioText(t);
-		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true, true);
+		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, 'G682',true, true);
 		localEventManager.queueLocalEvent(evt);
 	}
 

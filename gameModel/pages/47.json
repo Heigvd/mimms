@@ -38,6 +38,11 @@
                 "language" : "typescript"
               }
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.channel != 'G682';",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
