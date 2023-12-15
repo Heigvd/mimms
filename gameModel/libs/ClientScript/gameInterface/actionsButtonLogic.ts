@@ -148,11 +148,10 @@ export function fetchRadioMessageRequestValues(channel: string): RadioMessagePay
 	let res: RadioMessagePayload;
 	if (channel == 'D418')
 		res = {channel: channel, message: Context.interfaceState.state.channelText.d418, actorId: Context.interfaceState.state.currentActorUid};
-	else
+	else if (channel == 'D912')
+		res = {channel: channel, message: Context.interfaceState.state.channelText.d912, actorId: Context.interfaceState.state.currentActorUid};
+	else {
 		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
+	}
 	return res;
-}
-
-function getActorById(currentActorUid: any) {
-throw new Error('Function not implemented.');
 }

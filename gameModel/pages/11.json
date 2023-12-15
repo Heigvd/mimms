@@ -151,7 +151,7 @@
         "id" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "Context.interfaceState.state.channel == 'G682' ? \"47\" : \"50\";",
+          "content" : "let page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase 'G682': page = '47'; break;\n\tcase 'D418': page = '50'; break;\n\tcase 'D424': page = '63'; break;\n\tcase 'D912': page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
           "language" : "typescript"
         },
         "layoutStyle" : { },

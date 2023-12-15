@@ -48,7 +48,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.channel != 'D418';",
+              "content" : "Context.item.channel != 'D424';",
               "language" : "typescript"
             },
             "layout" : {
@@ -80,86 +80,37 @@
       "type" : "For each"
     }, {
       "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"56\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "pageLoaderRessources",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.d418 = Context.d418;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"d418\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "rows" : 2,
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.channelText.d418;",
-                  "language" : "TypeScript"
-                },
-                "style" : {
-                  "border" : "none",
-                  "height" : "100px",
-                  "resize" : "none",
-                  "width" : "100%"
-                }
-              },
-              "type" : "String input"
-            }, {
-              "props" : {
-                "className" : "pink l_button",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "'Button'",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : {
-                  "bottom" : "5px",
-                  "right" : "5px"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { sendRadioMessage } from \"./UIfacade/radioFacade\";\n\nsendRadioMessage('D418');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
-            } ],
-            "layoutStyle" : {
-              "width" : "100%"
+            "className" : "pink l_button",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+              "language" : "TypeScript"
             },
-            "onAbsoluteClick" : { },
-            "style" : {
-              "height" : "200px",
-              "width" : "100%"
-            }
+            "layoutStyle" : { },
+            "name" : "send",
+            "style" : { }
           },
-          "type" : "AbsoluteLayout"
+          "type" : "Button"
         } ],
-        "layout" : { },
-        "layoutStyle" : {
-          "background-color" : "white",
-          "border" : "1px solid black",
-          "border-radius" : "15px",
-          "height" : "180px"
+        "layout" : {
+          "justifyContent" : "flex-end"
         },
+        "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"

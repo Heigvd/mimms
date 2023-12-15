@@ -26,6 +26,7 @@ export async function sendRadioMessage(channel: string) {
 	const params = fetchRadioMessageRequestValues(channel);
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
 	newState.channelText.d418 = '';
+	newState.channelText.d912 = '';
 	Context.interfaceState.setState(newState);
 	return await planAction(actTpl!.getTemplateRef(), actor!, params);
 }

@@ -58,6 +58,7 @@ export function getInitialInterfaceState() {
 		channel: 'G682',
 		channelText: {
 			d418: '',
+			d912: '',
 		}
 	};
 
