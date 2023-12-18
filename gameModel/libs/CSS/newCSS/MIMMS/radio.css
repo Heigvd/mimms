@@ -94,3 +94,13 @@
 	letter-spacing: 0em;
 	text-align: left;
 }
+
+.chevron-icon {
+	display: flex;
+	align-items: flex-end;
+	height: 42px;
+}
+
+.rotate{
+   transform: rotate(180deg);
+}

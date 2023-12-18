@@ -113,7 +113,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
 
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
-  const radioMessage = new SendRadioMessage('radio-message-title', 'radio-message-desc', TimeSliceDuration, 'radio-message-feedback');
+  const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
   
   const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
   { geometrySelection: 

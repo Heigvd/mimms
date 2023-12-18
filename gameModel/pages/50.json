@@ -124,7 +124,7 @@
                 "className" : "pink l_button",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "'Button'",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : {

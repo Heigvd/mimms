@@ -107,6 +107,31 @@
                 "style" : { }
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "rotate",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.interfaceState.state.casuMessage.messageType != '';",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "chevron-up",
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nif (!newState.isCasuOpen) {\n\tnewState.casuMessage.messageType = '';\n}\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Icon"
             } ],
             "layout" : {
               "flexDirection" : "row"
@@ -600,7 +625,7 @@
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
@@ -617,6 +642,11 @@
               "type" : "Button"
             } ],
             "className" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.casuMessage.messageType == '';",
+              "language" : "typescript"
+            },
             "layout" : {
               "justifyContent" : "flex-end"
             },

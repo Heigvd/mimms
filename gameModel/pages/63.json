@@ -98,7 +98,7 @@
             "className" : "pink l_button",
             "label" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-request-one-minute`);",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -107,6 +107,11 @@
           },
           "type" : "Button"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.isReleaseResourceOpen;",
+          "language" : "typescript"
+        },
         "layout" : {
           "justifyContent" : "flex-end"
         },
