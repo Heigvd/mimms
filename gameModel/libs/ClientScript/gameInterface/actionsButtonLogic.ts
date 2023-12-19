@@ -8,6 +8,7 @@ import {
 	isSelectMapObjectTemplate,
 	isSendResourcesToActorActionTemplate,
 	planAction,
+isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
@@ -116,9 +117,15 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 		Context.interfaceState.setState(newState);
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 		params = fetchCasuMessageRequestValues();
+	} else if (isRadioActionTemplate(actionRefUid)) {
+		params = fetchRadioMessageRequestValues('D418');
+		const newState = Helpers.cloneDeep(Context.interfaceState.state)
+		newState.channelText.d418 = '';
+		newState.channelText.d912 = '';
+		Context.interfaceState.setState(newState);
 	}
 
-	actionClickHandler(Context.action.Uid, params);
+	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
 export function fetchCasuMessageRequestValues(): CasuMessagePayload {

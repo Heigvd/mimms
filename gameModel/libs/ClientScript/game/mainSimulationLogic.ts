@@ -27,6 +27,7 @@ import { ResourceGroup } from "./common/resources/resourceGroup";
 import { TaskBase } from "./common/tasks/taskBase";
 import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
+import { ActionType } from "./common/actionType";
 
 
 let currentSimulationState : MainSimulationState;
@@ -272,24 +273,15 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 	}
 }
 
-export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
+export function fetchAvailableActions(actorId: ActorId, actionType: ActionType = ActionType.ACTION): ActionTemplateBase[] {
 	const actor = currentSimulationState.getActorById(actorId);
 	if (actor) {
-		return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor));
+		return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor) && at.isInCategory(actionType));
 	} else {
 		mainSimLogger.warn('Actor not found. id = ', actorId);
 		return [];
 	}
 }
-
-export function getCasuAction(): ActionTemplateBase[] {
-	return Object.values(actionTemplates).filter(at => at.getTitle() == 'Send message to CASU');
-}
-
-export function getRadioAction(): ActionTemplateBase[] {
-	return Object.values(actionTemplates).filter(at => at.getTitle() == 'SendRadioMessageTemplateTitle');
-}
-
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
 	return Object.values(actionTemplates);

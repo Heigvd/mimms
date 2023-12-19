@@ -425,7 +425,7 @@
                                 },
                                 "layoutClassName" : "radio-container generalPanels-container",
                                 "layoutStyle" : { },
-                                "name" : "radio",
+                                "name" : "notifications",
                                 "style" : {
                                   "width" : "100%"
                                 }

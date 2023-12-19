@@ -1,4 +1,5 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, CasuMessageTemplate, DefineMapObjectTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionType } from "../game/common/actionType";
 import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
@@ -64,9 +65,8 @@ export function isPlannedAction(id: number) {
 /**
  * Handle when an action is planned
  */
-export function actionClickHandler(id: number, params: any): void {
-
-	const template = getActionTemplate(id)!;
+export function actionClickHandler(id: number, actionType: ActionType, params: any): void {
+	const template = getActionTemplate(id, actionType)!;
 	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {

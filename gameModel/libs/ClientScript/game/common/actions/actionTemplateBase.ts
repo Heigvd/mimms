@@ -25,6 +25,7 @@ import { ResourceFunction } from '../resources/resourceFunction';
 import { SimFlag } from "../resources/resourceContainer";
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
+import { ActionType } from "../actionType";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
@@ -46,8 +47,9 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
   public constructor(
 	protected readonly title: TranslationKey, 
 	protected readonly description: TranslationKey, 
-	public replayable: boolean = false, 
-	private flags: SimFlag[]=[]) 
+	public replayable: boolean = false,
+	private flags: SimFlag[]=[],
+  protected readonly category: ActionType = ActionType.ACTION)
   {
 	this.Uid = ActionTemplateBase.IdSeed++;
   }
@@ -84,6 +86,9 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 	return this.flagWiseAvailable(state) && this.canPlayAgain(state);
   }
 
+  public isInCategory(category: ActionType) : boolean {
+	  return category === this.category;
+  }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
 	if(!this.flags || this.flags.length == 0)
@@ -149,8 +154,8 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
 
 
   constructor(title: TranslationKey, description: TranslationKey,
-     duration: SimDuration,  message: TranslationKey, replayable = false, flags: SimFlag[]=[]) {
-    super(title, description, replayable, flags);
+     duration: SimDuration,  message: TranslationKey, replayable = false, flags: SimFlag[]=[], category: ActionType = ActionType.ACTION) {
+    super(title, description, replayable, flags, category);
     this.duration = duration;
     this.message = message;
   }
@@ -251,7 +256,7 @@ export class CasuMessageTemplate extends ActionTemplateBase<CasuMessageAction, C
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
-    super(title, description, true);
+    super(title, description, true, [], ActionType.G682);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -559,7 +564,7 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<Rel
     message: TranslationKey,
 	replayable = true, flags: SimFlag[]=[]
   ) {
-    super(title, description, duration, message, replayable, flags);
+    super(title, description, duration, message, replayable, flags, ActionType.D424);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -601,8 +606,8 @@ export class SendRadioMessage extends StartEndTemplate {
 
   constructor(title: TranslationKey, description: TranslationKey, 
     duration: SimDuration, message: TranslationKey,
-	replayable = false, flags: SimFlag[]=[]) {
-    super(title, description, duration, message, replayable, flags);
+	replayable = true, flags: SimFlag[]=[]) {
+    super(title, description, duration, message, replayable, flags, ActionType.RADIO);
   }
 
   protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {

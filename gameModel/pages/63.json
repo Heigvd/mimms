@@ -102,6 +102,13 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst test =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.D424);\nrunActionButton(test[0]);",
+                "language" : "TypeScript"
+              }
+            },
             "name" : "send",
             "style" : { }
           },

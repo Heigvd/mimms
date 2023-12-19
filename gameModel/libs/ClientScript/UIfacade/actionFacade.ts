@@ -13,6 +13,7 @@ import {
 	DefineMapObjectTemplate,
 	ReleaseResourcesFromTaskActionTemplate,
 	SelectMapObjectTemplate,
+	SendRadioMessage,
 	SendResourcesToActorActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
@@ -21,10 +22,10 @@ import {
 	buildAndLaunchActionCancellation,
 	buildAndLaunchActionFromTemplate,
 	fetchAvailableActions,
-	getCasuAction,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
 import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
+import { ActionType } from "../game/common/actionType";
 
 const logger = Helpers.getLogger('mainSim-interface');
 
@@ -55,8 +56,8 @@ export async function cancelAction(selectedActor: ActorId, templateId: TemplateI
  * @param actorId
  * @returns a list of actions that the current actor can undertake
  */
-export function getAvailableActions(actorId : ActorId): ActionTemplateBase[] {
-  return fetchAvailableActions(actorId);
+export function getAvailableActions(actorId : ActorId, actionType: ActionType = ActionType.ACTION): ActionTemplateBase[] {
+  return fetchAvailableActions(actorId, actionType);
 }
 
 /**
@@ -73,8 +74,8 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
 /**
  * @returns Template of given action Uid
  */
-export function getActionTemplate(id: number): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
-	return getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+export function getActionTemplate(id: number, actionType: ActionType = ActionType.ACTION): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
+	return getAvailableActions(Context.interfaceState.state.currentActorUid, actionType).find(t => t.Uid === id);
 }
 
 /**
@@ -94,8 +95,16 @@ export function isSelectMapObjectTemplate(id: number) {
  * @param id Uid of given action
  */
 export function isCasuMessageActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682).find(t => t.Uid === id);
 	return template instanceof CasuMessageTemplate;
+}
+
+/**
+ * @param id Uid of given action
+ */
+export function isRadioActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RADIO).find(t => t.Uid === id);
+	return template instanceof SendRadioMessage;
 }
 
 /**
@@ -114,19 +123,6 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 	return template instanceof AssignTaskToResourcesActionTemplate;
 }
 
-export async function planCasuMessageAction() : Promise<undefined | IManagedResponse> {
-	const actTpls = getCasuAction();
-	const actor = Context.interfaceState.state.currentActorUid;
-	const actTpl = actTpls ? actTpls[0] : undefined;
-	const params = fetchCasuMessageRequestValues();
-	const newState = Helpers.cloneDeep(Context.interfaceState.state)
-	newState.showCasuMessageModal = false;
-	// Reset all casuMessage fields
-	Object.keys(newState.casuMessage).forEach(key => newState.casuMessage[key] = '');
-	newState.resources.requestedResources = getEmptyResourceRequest();
-	Context.interfaceState.setState(newState);
-	return await planAction(actTpl!.getTemplateRef(), actor!, params);
-}
 /**
  * @param id Uid of given action template
  */

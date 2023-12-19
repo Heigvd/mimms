@@ -124,7 +124,7 @@
                 "className" : "pink l_button",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RADIO);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : {
@@ -134,7 +134,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { sendRadioMessage } from \"./UIfacade/radioFacade\";\n\nsendRadioMessage('D418');",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RADIO);\nrunActionButton(action[0]);",
                     "language" : "TypeScript"
                   }
                 },

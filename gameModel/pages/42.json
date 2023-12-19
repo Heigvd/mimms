@@ -625,14 +625,14 @@
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { getCasuAction } from \"./game/mainSimulationLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst test =  getCasuAction();\nrunActionButton(test[0]);",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682);\nrunActionButton(action[0]);",
                     "language" : "TypeScript"
                   }
                 },
