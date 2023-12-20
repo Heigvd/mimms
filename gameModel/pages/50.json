@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "wlog(Context.item);\nContext.item.message;",
+                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
                   "language" : "TypeScript"
                 }
               },
@@ -142,6 +142,11 @@
               },
               "type" : "Button"
             } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+              "language" : "typescript"
+            },
             "layoutStyle" : {
               "width" : "100%"
             },

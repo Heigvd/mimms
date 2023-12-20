@@ -18,13 +18,25 @@
 
 .radio-message-myself {
 	margin: 10px;
-	left: 60px;
+	left: 120px;
   	display: inline-block;
   	position: relative;
 	width: 200px;
 	height: auto;
 	background-color: var(--interface_0);
 	border-radius: 15px;
+}
+
+.radio-message-casu-myself {
+	margin: 10px;
+	left: 160px;
+  	display: inline-block;
+  	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: var(--interface_0);
+	border-radius: 15px;
+	flex: none;
 }
 
 .radio-message-others {

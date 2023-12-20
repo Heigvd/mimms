@@ -16,6 +16,7 @@ import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 
 
 export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
@@ -117,6 +118,18 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 		Context.interfaceState.setState(newState);
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 		params = fetchCasuMessageRequestValues();
+		const newState = Helpers.cloneDeep(Context.interfaceState.state)
+		newState.resources.requestedResources = getEmptyResourceRequest();
+		newState.casuMessage = {
+			messageType: "",
+			major: "",
+			exact: "",
+			incidentType: "",
+			hazards: "",
+			access: "",
+			victims: "",
+		};
+		Context.interfaceState.setState(newState);
 	} else if (isRadioActionTemplate(actionRefUid)) {
 		params = fetchRadioMessageRequestValues('D418');
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)

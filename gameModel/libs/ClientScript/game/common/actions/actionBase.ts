@@ -15,6 +15,7 @@ import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType
 import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
+import { entries } from "../../../tools/helper";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -230,6 +231,37 @@ export class CasuMessageAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
+  private computeCasuMessage(message: CasuMessagePayload): string {
+	  let casuMessage = '';
+	  if (message.major) {
+		  casuMessage += `M : ${message.major} \n`;
+	  }
+	  if (message.exact) {
+		  casuMessage += `E : ${message.exact} \n`;
+	  }
+	  if (message.incidentType) {
+		  casuMessage += `T : ${message.incidentType} \n`;
+	  }
+	  if (message.hazards) {
+		  casuMessage += `H : ${message.hazards} \n`;
+	  }
+	  if (message.access) {
+		  casuMessage += `A : ${message.access} \n`;
+	  }
+	  if (message.victims) {
+		  casuMessage += `N : ${message.victims} \n`;
+	  }
+	  if (message.resourceRequest) {
+		  let requestResource = 'E : ';
+		  entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
+				casuMessage += `${typeId}: ${requestedAmount} \n`;
+		  })
+		  casuMessage += requestResource;
+	  }
+
+	  return casuMessage;
+  }
+
   protected dispatchInitEvents(state: MainSimulationState): void {
     //likely nothing to do
     this.logger.info('start event CasuMessageAction');
@@ -239,6 +271,7 @@ export class CasuMessageAction extends StartEndAction {
     this.logger.info('end event CasuMessageAction');
 	const now = state.getSimTime();
 	// TODO filter when we get a full METHANE message
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), 'G682', true, true));
 	if(this.casuMessagePayload.resourceRequest){
 		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
 		localEventManager.queueLocalEvent(dispatchEvent);

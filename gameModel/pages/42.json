@@ -620,7 +620,7 @@
                 "className" : "pink l_button",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.messageType === ''",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
                   "language" : "typescript"
                 },
                 "label" : {

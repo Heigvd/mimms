@@ -127,7 +127,7 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
  * @param id Uid of given action template
  */
 export function isReleaseResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.D424).find(t => t.Uid === id);
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
 

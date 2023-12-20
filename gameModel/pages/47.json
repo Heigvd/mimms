@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "wlog(Context.item);\nContext.item.message;",
+                  "content" : "wlog(Context.item);\n`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
                   "language" : "TypeScript"
                 }
               },
@@ -34,7 +34,15 @@
               "className" : "radio-message-others tri-right left-top",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.item.uid != Context.interfaceState.state.currentActorUid;",
+                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-casu-myself tri-right right-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
             } ],
@@ -59,14 +67,22 @@
         },
         "itemKey" : "uid",
         "layout" : {
-          "flexDirection" : "column-reverse"
+          "flexDirection" : "column"
         },
         "layoutStyle" : { },
-        "style" : { }
+        "style" : {
+          "max-height" : "350px",
+          "overflow-y" : "auto"
+        }
       },
       "type" : "For each"
     }, {
       "props" : {
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+          "language" : "typescript"
+        },
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",

@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "wlog(Context.item);\nContext.item.message;",
+                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
                   "language" : "TypeScript"
                 }
               },
@@ -142,7 +142,13 @@
               },
               "type" : "Button"
             } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "true",
+              "language" : "typescript"
+            },
             "layoutStyle" : {
+              "margin-right" : "5px",
               "width" : "100%"
             },
             "onAbsoluteClick" : { },
@@ -171,7 +177,8 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
