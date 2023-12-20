@@ -27,7 +27,7 @@ interface Timeline {
 export function buildTimelineObject(): Timeline[] {
 	const timelines: any = [];
 
-	const actors = getAllActors();
+	const actors = getAllActors().filter(actor => actor.Role != 'CASU');
 	const actions = getAllActions();
 
 	for (const actor of actors) {

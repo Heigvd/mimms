@@ -1,7 +1,7 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
 
-export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA'
+export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU'
 
 /**
  * Defines ascendance in leadership
@@ -17,6 +17,7 @@ const hierarchyLevels : Record<InterventionRole, AuthorityLevel> = {
 	LEADPMA: 10,
 	EVASAN:20,
 	AL : 30,
+	CASU : 40
 } as const;
 
 /**

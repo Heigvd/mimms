@@ -273,7 +273,7 @@ export class CasuMessageAction extends StartEndAction {
 	// TODO filter when we get a full METHANE message
 	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), 'G682', true, true));
 	if(this.casuMessagePayload.resourceRequest){
-		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
+		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId, this.casuMessagePayload);
 		localEventManager.queueLocalEvent(dispatchEvent);
 	}
   }

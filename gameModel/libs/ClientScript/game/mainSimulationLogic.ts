@@ -59,6 +59,7 @@ function initMainState(): MainSimulationState {
 	// TODO read all simulation parameters to build start state and initilize the whole simulation
 
 	const testAL = new Actor('AL');
+	const testCASU = new Actor('CASU');
 
 	const mainAccident: PointFeature = {
 		ownerId: 0,
@@ -91,7 +92,7 @@ function initMainState(): MainSimulationState {
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
-    actors: [testAL],
+    actors: [testAL, testCASU],
     mapLocations: [mainAccident],
     patients: loadPatients(),
     tasks: [taskPretri, taskPorter],

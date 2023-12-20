@@ -385,10 +385,11 @@
                                         "exposeAs" : "actor",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors();",
+                                          "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "Uid",
+                                        "itemsOnly" : false,
                                         "layout" : {
                                           "alignItems" : "center",
                                           "flexDirection" : "column",
