@@ -9,7 +9,7 @@
               "className" : "active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel == 'G682';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
                 "language" : "typescript"
               }
             }, {
@@ -17,7 +17,7 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel != 'G682';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.CASU_RADIO;",
                 "language" : "typescript"
               }
             } ],
@@ -30,7 +30,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channel = 'G682';\nContext.interfaceState.setState(newState);",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.CASU_RADIO);",
                 "language" : "TypeScript"
               }
             },
@@ -44,7 +44,7 @@
               "className" : "active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel == 'D418';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
                 "language" : "typescript"
               }
             }, {
@@ -52,7 +52,7 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel != 'D418';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.ACTORS_RADIO;",
                 "language" : "typescript"
               }
             } ],
@@ -65,7 +65,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channel = 'D418';\nContext.interfaceState.setState(newState);",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.ACTORS_RADIO);",
                 "language" : "TypeScript"
               }
             },
@@ -79,7 +79,7 @@
               "className" : "active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel == 'D424';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
                 "language" : "typescript"
               }
             }, {
@@ -87,7 +87,7 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel != 'D424';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.RESOURCES_RADIO;",
                 "language" : "typescript"
               }
             } ],
@@ -100,7 +100,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channel = 'D424';\nContext.interfaceState.setState(newState);",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.RESOURCES_RADIO);",
                 "language" : "TypeScript"
               }
             },
@@ -114,7 +114,7 @@
               "className" : "active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel == 'D912';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",
                 "language" : "typescript"
               }
             }, {
@@ -122,7 +122,7 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel != 'D912';",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.EVASAN_RADIO;",
                 "language" : "typescript"
               }
             } ],
@@ -135,7 +135,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channel = 'D912';\nContext.interfaceState.setState(newState);",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.EVASAN_RADIO);",
                 "language" : "TypeScript"
               }
             },
@@ -151,7 +151,7 @@
         "id" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "let page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase 'G682': page = '47'; break;\n\tcase 'D418': page = '50'; break;\n\tcase 'D424': page = '63'; break;\n\tcase 'D912': page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
           "language" : "typescript"
         },
         "layoutStyle" : { },

@@ -234,27 +234,27 @@ export class CasuMessageAction extends StartEndAction {
   private computeCasuMessage(message: CasuMessagePayload): string {
 	  let casuMessage = '';
 	  if (message.major) {
-		  casuMessage += `M : ${message.major} \n`;
+		  casuMessage += `M - ${message.major} \n`;
 	  }
 	  if (message.exact) {
-		  casuMessage += `E : ${message.exact} \n`;
+		  casuMessage += `E - ${message.exact} \n`;
 	  }
 	  if (message.incidentType) {
-		  casuMessage += `T : ${message.incidentType} \n`;
+		  casuMessage += `T - ${message.incidentType} \n`;
 	  }
 	  if (message.hazards) {
-		  casuMessage += `H : ${message.hazards} \n`;
+		  casuMessage += `H - ${message.hazards} \n`;
 	  }
 	  if (message.access) {
-		  casuMessage += `A : ${message.access} \n`;
+		  casuMessage += `A - ${message.access} \n`;
 	  }
 	  if (message.victims) {
-		  casuMessage += `N : ${message.victims} \n`;
+		  casuMessage += `N - ${message.victims} \n`;
 	  }
 	  if (message.resourceRequest) {
-		  let requestResource = 'E : ';
+		  let requestResource = 'E - ';
 		  entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
-				casuMessage += `${typeId}: ${requestedAmount} \n`;
+				requestResource += `${typeId}: ${requestedAmount} \n`;
 		  })
 		  casuMessage += requestResource;
 	  }

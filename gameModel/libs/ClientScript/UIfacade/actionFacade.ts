@@ -4,7 +4,6 @@
  * put minimal logic in here
  */
 
-import { fetchCasuMessageRequestValues } from "../gameInterface/actionsButtonLogic";
 import { ActionBase } from "../game/common/actions/actionBase";
 import {
 	ActionTemplateBase,
@@ -24,7 +23,6 @@ import {
 	fetchAvailableActions,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
-import { getEmptyResourceRequest } from "../gameInterface/interfaceState";
 import { ActionType } from "../game/common/actionType";
 
 const logger = Helpers.getLogger('mainSim-interface');

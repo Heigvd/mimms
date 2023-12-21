@@ -256,7 +256,7 @@ export class CasuMessageTemplate extends ActionTemplateBase<CasuMessageAction, C
 
   constructor(title: TranslationKey, description: TranslationKey, 
     readonly duration: SimDuration, readonly message: TranslationKey) {
-    super(title, description, true, [], ActionType.G682);
+    super(title, description, true, [], ActionType.CASU_RADIO);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -607,7 +607,7 @@ export class SendRadioMessage extends StartEndTemplate {
   constructor(title: TranslationKey, description: TranslationKey, 
     duration: SimDuration, message: TranslationKey,
 	replayable = true, flags: SimFlag[]=[]) {
-    super(title, description, duration, message, replayable, flags, ActionType.RADIO);
+    super(title, description, duration, message, replayable, flags, ActionType.ACTORS_RADIO);
   }
 
   protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {
