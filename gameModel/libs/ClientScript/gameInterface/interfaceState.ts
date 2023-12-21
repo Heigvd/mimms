@@ -57,6 +57,7 @@ export function getInitialInterfaceState() {
 		channel: 'G682',
 		channelText: {
 			actors: '',
+			evasam: ''
 		},
 		isReleaseResourceOpen: false,
 	};

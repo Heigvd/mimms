@@ -167,7 +167,7 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 export function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
 	let res: RadioMessagePayload;
 	if (channel == ActionType.ACTORS_RADIO)
-		res = {channel: channel, message: Context.interfaceState.state.channelText.d418, actorId: Context.interfaceState.state.currentActorUid};
+		res = {channel: channel, message: Context.interfaceState.state.channelText.actors, actorId: Context.interfaceState.state.currentActorUid};
 	else {
 		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
 	}
