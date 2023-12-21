@@ -17,6 +17,7 @@ import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
+import { ActionType } from '../game/common/actionType';
 
 
 export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
@@ -131,10 +132,9 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 		};
 		Context.interfaceState.setState(newState);
 	} else if (isRadioActionTemplate(actionRefUid)) {
-		params = fetchRadioMessageRequestValues('D418');
+		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.channelText.d418 = '';
-		newState.channelText.d912 = '';
+		newState.channelText.actors = '';
 		Context.interfaceState.setState(newState);
 	}
 
@@ -164,12 +164,10 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	return res;
 }
 
-export function fetchRadioMessageRequestValues(channel: string): RadioMessagePayload {
+export function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
 	let res: RadioMessagePayload;
-	if (channel == 'D418')
+	if (channel == ActionType.ACTORS_RADIO)
 		res = {channel: channel, message: Context.interfaceState.state.channelText.d418, actorId: Context.interfaceState.state.currentActorUid};
-	else if (channel == 'D912')
-		res = {channel: channel, message: Context.interfaceState.state.channelText.d912, actorId: Context.interfaceState.state.currentActorUid};
 	else {
 		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
 	}

@@ -48,7 +48,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.channel != 'D424';",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.RESOURCES_RADIO;",
               "language" : "typescript"
             },
             "layout" : {

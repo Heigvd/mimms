@@ -1,3 +1,4 @@
+import { ActionType } from "./actionType";
 import { ActorId, SimTime } from "./baseTypes";
 
 // immutable
@@ -8,5 +9,5 @@ export interface RadioMessage {
   message: Readonly<string>,
   uid: number,
   isRadioMessage: boolean,
-  channel: string | undefined,
+  channel: ActionType | undefined,
 }

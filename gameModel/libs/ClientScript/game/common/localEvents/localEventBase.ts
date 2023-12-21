@@ -19,6 +19,7 @@ import { entries } from "../../../tools/helper";
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { ActionType } from "../actionType";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -250,7 +251,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     public readonly recipient: ActorId, 
     public readonly emitter: TranslationKey,
     public readonly message: TranslationKey,
-	public readonly channel: string | undefined = undefined,
+	public readonly channel: ActionType | undefined = undefined,
     public readonly isRadioMessage: boolean = false,
 	  private readonly omitTranslation: boolean = false)
   {
@@ -270,7 +271,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
         message: msg,
         uid : AddRadioMessageLocalEvent.UidSeed++,
         isRadioMessage: this.isRadioMessage,
-		channel: this.channel
+		    channel: this.channel
       })
 
     

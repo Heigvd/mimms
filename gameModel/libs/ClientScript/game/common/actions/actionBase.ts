@@ -16,6 +16,7 @@ import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
+import { ActionType } from "../actionType";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -271,7 +272,7 @@ export class CasuMessageAction extends StartEndAction {
     this.logger.info('end event CasuMessageAction');
 	const now = state.getSimTime();
 	// TODO filter when we get a full METHANE message
-	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), 'G682', true, true));
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), ActionType.CASU_RADIO, true, true));
 	if(this.casuMessagePayload.resourceRequest){
 		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId, this.casuMessagePayload);
 		localEventManager.queueLocalEvent(dispatchEvent);

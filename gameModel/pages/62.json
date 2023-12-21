@@ -48,7 +48,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.channel != 'D912';",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.EVASAN_RADIO;",
               "language" : "typescript"
             },
             "layout" : {

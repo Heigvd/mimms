@@ -56,8 +56,7 @@ export function getInitialInterfaceState() {
 		selectedPanel: 'actions',
 		channel: 'G682',
 		channelText: {
-			d418: '',
-			d912: '',
+			actors: '',
 		},
 		isReleaseResourceOpen: false,
 	};
