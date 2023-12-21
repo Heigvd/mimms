@@ -25,7 +25,7 @@ const hierarchyLevels : Record<InterventionRole, AuthorityLevel> = {
  * The first element has the highest leadership level
  */
 export function sortByHierarchyLevel(actors : Readonly<Actor[]>){
-	return [...actors].sort((a, b) => hierarchyLevels[a.Role] - hierarchyLevels[b.Role]);
+  return [...actors].sort((a, b) => hierarchyLevels[a.Role] - hierarchyLevels[b.Role]).filter(actor => actor.Role != 'CASU');
 }
 
 export class Actor{

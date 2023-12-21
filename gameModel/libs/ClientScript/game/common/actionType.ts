@@ -1,6 +1,7 @@
 export enum ActionType {
     "ACTION",
-    "RADIO",
-	"G682",
-	"D424"
+	"CASU_RADIO",
+	"ACTORS_RADIO",
+    "RESOURCES_RADIO",
+    "EVASAN_RADIO"
 }

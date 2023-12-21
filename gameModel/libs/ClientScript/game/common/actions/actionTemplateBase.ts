@@ -564,7 +564,7 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<Rel
     message: TranslationKey,
 	replayable = true, flags: SimFlag[]=[]
   ) {
-    super(title, description, duration, message, replayable, flags, ActionType.D424);
+    super(title, description, duration, message, replayable, flags, ActionType.RESOURCES_RADIO);
   }
 
   public getTemplateRef(): TemplateRef {

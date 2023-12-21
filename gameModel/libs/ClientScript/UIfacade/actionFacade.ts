@@ -95,7 +95,7 @@ export function isSelectMapObjectTemplate(id: number) {
  * @param id Uid of given action
  */
 export function isCasuMessageActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.G682).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO).find(t => t.Uid === id);
 	return template instanceof CasuMessageTemplate;
 }
 
@@ -103,7 +103,7 @@ export function isCasuMessageActionTemplate(id: number) {
  * @param id Uid of given action
  */
 export function isRadioActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RADIO).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO).find(t => t.Uid === id);
 	return template instanceof SendRadioMessage;
 }
 
@@ -127,7 +127,7 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
  * @param id Uid of given action template
  */
 export function isReleaseResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.D424).find(t => t.Uid === id);
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO).find(t => t.Uid === id);
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
 
