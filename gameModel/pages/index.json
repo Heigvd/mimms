@@ -5,7 +5,7 @@
     "items" : [ {
       "@class" : "Page",
       "id" : "5",
-      "name" : "main page",
+      "name" : "pretriMainPage",
       "scenaristPage" : true,
       "trainerPage" : null
     }, {

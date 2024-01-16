@@ -3,10 +3,16 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
-
+ /************ PANELS ****************/
 .rightPanel-container{
-min-height: 70vh;
-max-height: 100vh;
+min-height: 10vh;
+max-height: 50vh;
+}
+
+
+.LeftPanel-container{
+	width: 40vw;
+	max-height: 90vh;
 }
 /**** SPECIFICS BUTTONS ****/
 .actionMeasure-button * div {
@@ -19,12 +25,31 @@ min-width: 8rem;
 	color: var(--gray_WHITE);
 }
 
+
 .actionMeasure-button.selected:hover{
 	background-color: var(--interface_200);
 }
+
 
 /*** SPECIFICS CUSTOMIZATION*/
 
 .actionTitle{
 padding-left: 1rem;
+}
+
+
+.fullSize{
+	width: 100%;
+	height: 100%;
+}
+
+
+/****** DRILL PRETRI PAGE ******/
+.drillPretriPage-container{
+  grid-auto-columns:1fr;
+  display: grid;
+  grid-auto-flow:column;
+  height: 100%;
+  margin:auto;
+  width: 100%;
 }

@@ -1,0 +1,39 @@
+
+/* SAP */
+.patientSAP{
+text-align: center;
+min-width: 100px;
+color: var(--gray_700);
+font-size: var(--M_text);
+}
+
+/* Drill Card (the label put on a patient: p3 to dead) */
+.cat_card {
+	width: 2em;
+}
+.cat_card.undefined {
+	background: transparent;
+}
+
+/*** SMALL SCREEN ***/
+@media screen and (max-width:1199px){
+	.categoryAndID{
+	flex-direction: column;
+	}
+
+	.patientSAP{
+		text-align: center;
+		color: var(--gray_700);
+		font-size: var(--S_text);
+}
+
+}
+
+/*** BIG SCREEN ***/
+
+@media screen and (min-width:1200px){
+	.categoryAndID{
+	flex-direction: row;
+	}
+}
+

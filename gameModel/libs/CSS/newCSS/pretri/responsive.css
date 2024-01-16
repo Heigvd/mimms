@@ -1,0 +1,83 @@
+@media screen and (min-width: 1200px){
+	.theGame-container{
+		width: 95vw;
+		height: 90vh;
+		padding: 0px;
+		margin: auto;
+	}
+
+	.theGame{
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.westSide-container{
+		width: 40%;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.eastSide-container{
+		width: 60%;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.leftPanel-container{
+		padding: 0px;
+		margin: 0px;
+		flex-basis: auto;
+		
+	}
+
+	
+	.information-container{
+		flex-basis: auto;
+		flex-grow:1;
+		flex-shrink: 1;
+	}
+	
+}
+
+/*** SMALL SCREENS ***/
+@media screen and (max-width: 1199px){
+/* The general container for both sides */
+	.westSide-container{
+		width: 50%;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.eastSide-container{
+		width: 50%;
+		padding: 0px;
+		margin: 0px;
+	}
+	
+
+
+	.information-container{
+		flex-basis: auto;
+		flex-grow:1;
+		flex-shrink: 1;	
+	}
+
+
+	.leftPanel-container{
+		padding: 0px;
+		margin: 0px;
+	}
+}
+
+/*** GINORMOUS SCREENS ***/
+@media screen and (min-width: 2500px){
+	.theGame-container{
+		width: 75vw;
+		height: 90vh;
+		padding: 0px;
+	}
+
+	.fullSize{
+		width: 75vw;
+	}
+}

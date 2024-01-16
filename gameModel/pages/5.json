@@ -82,8 +82,9 @@
                           },
                           "type" : "Button"
                         } ],
+                        "className" : "noPadding noMargin",
                         "layout" : { },
-                        "layoutClassName" : "mainpage-timebanner",
+                        "layoutClassName" : "mainpage-timebanner noPadding noMargin",
                         "layoutStyle" : { },
                         "name" : "Time banner",
                         "style" : { }
@@ -91,6 +92,7 @@
                       "type" : "FlexList"
                     }, {
                       "props" : {
+                        "className" : "noPadding",
                         "exposePageSizeAs" : "",
                         "id" : "",
                         "initialSelectedPageId" : {
@@ -98,9 +100,8 @@
                           "content" : "import { getGamePageId } from './game/legacy/gameMaster';\ngetGamePageId()",
                           "language" : "TypeScript"
                         },
-                        "layoutStyle" : {
-                          "height" : "100%"
-                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
                         "name" : "gamePageLoader",
                         "style" : { }
                       },
@@ -144,7 +145,7 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "paused-overlay",
+                        "className" : "paused-overlay noPadding noMargin",
                         "hideIf" : {
                           "@class" : "Script",
                           "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n!isDrillMode() ||  Variable.find(gameModel, 'running_global').getValue(self);",
@@ -155,31 +156,31 @@
                           "flexDirection" : "column",
                           "justifyContent" : "center"
                         },
-                        "layoutClassName" : "global-pause-overlay",
+                        "layoutClassName" : "global-pause-overlay noPadding noMargin",
                         "layoutStyle" : { },
                         "name" : "pause-screen",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "fullSize",
+                    "className" : "fullSize noPadding noMargin",
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "fullSize",
+                    "layoutClassName" : "fullSize noPadding noMargin",
                     "layoutStyle" : { },
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "",
+                "className" : "noPadding noMargin",
                 "exposeAs" : "worldTime",
                 "initialState" : {
                   "@class" : "Script",
                   "content" : "({time: 0});",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "fullSize",
+                "layoutClassName" : "fullSize noPadding noMargin",
                 "layoutStyle" : { },
                 "localState" : true,
                 "name" : "TimeManager",
@@ -210,28 +211,26 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "",
+        "className" : "noPadding noMargin",
         "id" : "ifID",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getTimeMode } from './game/legacy/gameMaster';\ngetTimeMode() === 'LIVE_WORLD';",
           "language" : "JavaScript"
         },
-        "layoutClassName" : "fullSize",
+        "layoutClassName" : "fullSize noPadding noMargin",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "If Else"
     } ],
-    "className" : "fullSize",
+    "className" : "fullSize noPadding ",
     "id" : "rootPage",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "fullSize",
-    "layoutStyle" : {
-      "overflow" : "auto"
-    },
+    "layoutClassName" : "fullSize noPadding rootPage",
+    "layoutStyle" : { },
     "localState" : false,
     "style" : { }
   },

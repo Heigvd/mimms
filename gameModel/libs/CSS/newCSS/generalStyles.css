@@ -73,6 +73,10 @@ This stylesheet should contain:
 
 
 /*********** GENERAL STYLES ***********/
+
+/*** PETITS ECRANS ***/
+
+
 html{
 	--XS_borderRadius: 10px;
 	--S_borderRadius: 15px;
@@ -87,7 +91,11 @@ html{
 
 	--regularWeight: 400;
 	--boldWeight: 700;
+	--mainFont: Arial, Helvetica, sans-serif;
 
+	--smallScreen: 1199px;
+	--middleScreen:1200px;
+	font-family: var(--mainFont); /*fix for typography bug*/
 }
 
 .noDisplay{
@@ -109,22 +117,63 @@ html{
 	max-height: 50px;
 }
 
+.noTopBotPadding{
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
 /*********** TEXTS ***********/
+/*** SMALL SCREENS ***/
+@media screen and (max-width: 1199px){
+	
+.h1title{
+	font-size: var(--ML_text);
+	margin-bottom: 5px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
 
+.h2title{
+	font-size: var(--M_text) ;
+	margin: 3px 0px 3px 0px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
 
+.h3title{
+	font-size: var(--SM_text);
+	margin-bottom: 5px;
+	font-weight: var(--boldWeight);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+}
+
+.simpleText{
+	font-size: var(--SM_text);
+	color: var(--gray_700);
+	font-family: var(--mainFont);
+}
+}
+
+/*** BIG SCREENS ***/
+@media screen and (min-width:1200px){
 
 .h1title{
 	font-size: var(--L_text);
 	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
 
 .h2title{
 	font-size: var(--ML_text) ;
-	margin: 10px 0px 10px 0px;
+	margin: 10px 0px 5px 0px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
 
 .h3title{
@@ -132,42 +181,51 @@ html{
 	margin-bottom: 5px;
 	font-weight: var(--boldWeight);
 	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
 }
 
+/* DIRTY RALEWAY DEBUG - @import url(https://fonts.googleapis.com/css?family=Roboto); */
 .simpleText{
 	font-size: var(--M_text);
 	color: var(--gray_700);
+	font-family: var(--mainFont);
+	/* font-family: 'Roboto'; */
+}
 }
 
+
 /*********** BUTTONS ***********/
+/*** BIG SCREENS ***/
+@media screen and (min-width:1200px){
 /** S **/
 .s_button{
-	background-color: var(--colors-primarycolor);
+	background-color: var(--interface_BLUE);
 	border-radius: var(--L_borderRadius);
 	padding: 8px 15px;
 	font-size: var(--SM_text);
 	font-weight: var(--boldWeight);
+	font-family: var(--mainFont)
 }
 
  .s_button:hover{
-	background-color:var(--colors-activecolor);
+	background-color:var(--interface_200);
+	
 }
-
-
 
 
 /** L **/ 
 
 .l_button{
-	background-color: var(--colors-primarycolor);
+	background-color: green;
 	border-radius: var(--L_borderRadius);
 	padding: 15px 20px;
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
+	font-family: var(--mainFont)
 	
 }
  .l_button:hover{
-	background-color:var(--colors-activecolor);
+	background-color:var(--interface_200);
 	text-decoration: none;
 }
 
@@ -201,11 +259,107 @@ html{
 	background-color: var(--gray_200);
 	border-radius: var(--L_borderRadius);
 	color: var(--gray_700);
+	
 }
 
 .whiteButton:hover{
 	background-color: var(--gray_300);
 }
+
+.disabled.whiteButton{
+	color:var(--gray_500);
+	
+}
+
+.disabled.whiteButton:hover{
+	background-color: var(--gray_300);
+	color: var(--gray_500);
+	cursor: not-allowed;
+}
+}
+
+@media screen and (max-width: 1199px){
+	.s_button{
+	background-color: var(--interface_BLUE);
+	border-radius: var(--L_borderRadius);
+	padding: 6px 6px;
+	font-size: var(--S_text);
+	font-weight: var(--boldWeight);
+	font-family: var(--mainFont)
+}
+
+ .s_button:hover{
+	background-color:var(--interface_200);
+	
+}
+
+
+
+
+/** L **/ 
+
+.l_button{
+	background-color: var(--interface_BLUE);
+	border-radius: var(--L_borderRadius);
+	padding: 15px 20px;
+	font-size: var(--SM_text);
+	font-weight: var(--boldWeight);
+	font-family: var(--mainFont)
+	
+}
+ .l_button:hover{
+	background-color:var(--interface_200);
+	text-decoration: none;
+}
+
+
+/** PINK **/
+/* Assign the pink class to every action button of the interface */
+
+.pink{
+	background-color: var(--secondaryInterface_400);
+	color: var(--gray_WHITE);
+}
+
+.pink:hover{
+	background-color: var(--secondaryInterface_200);
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.disabled.pink{
+	color:var(--gray_500);
+}
+
+.disabled.pink:hover{
+	background-color: var(--gray_300);
+	color: var(--gray_500);
+	cursor: not-allowed;
+}
+/********** WHITE  ***************/
+.whiteButton{
+	background-color: var(--gray_200);
+	border-radius: var(--L_borderRadius);
+	color: var(--gray_700);
+	
+}
+
+.whiteButton:hover{
+	background-color: var(--gray_300);
+}
+
+.disabled.whiteButton{
+	color:var(--gray_500);
+	
+}
+
+.disabled.whiteButton:hover{
+	background-color: var(--gray_300);
+	color: var(--gray_500);
+	cursor: not-allowed;
+}
+}
+
 
 /**************************** PANELS ************************/
 .greyPanel{
@@ -213,16 +367,13 @@ html{
   	border-radius: var(--S_borderRadius);
 }
 
-.greyPanel-container{
-	
-}
 
 /** drop default margin if a wegas-brn only contains one p */
 button.wegas-btn > div > div > p:first-child:last-child {
 	margin : 0;
 }
 
-/*_____________________________________________ à trier  _____________________________________________*/
+/**************************** OTHERS ************************/
 
 .interface-container{
 	pointer-events: none;
@@ -231,4 +382,9 @@ button.wegas-btn > div > div > p:first-child:last-child {
 	height: 100%;
 	position: absolute;
 }
+
+.rootPage{
+	margin: auto;
+}
+
 
