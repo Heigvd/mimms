@@ -1,0 +1,111 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "emitter-text-header-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.item.emitter;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "emitter-text-body-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "wlog(Context.item);\n`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "radio-message-others tri-right left-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-casu-myself tri-right right-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.CASU_RADIO;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages()",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : {
+          "max-height" : "350px",
+          "overflow-y" : "auto"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+          "language" : "typescript"
+        },
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"42\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "casuPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : {
+      "heigth" : "700px"
+    }
+  },
+  "type" : "FlexList"
+}

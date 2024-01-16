@@ -1,0 +1,118 @@
+.active-channel {
+	width: 68px;
+	height: 33px;
+	padding: 8px 15px 8px 15px;
+	border-radius: 50px;
+	background-color: var(--interface_BLUE);
+}
+
+.not-active-channel {
+	width: 68px;
+	height: 33px;
+	padding: 8px 15px 8px 15px;
+	border-radius: 50px;
+	background-color: var(--gray_150);
+	color: var(--gray_300);
+}
+
+
+.radio-message-myself {
+	margin: 10px;
+	left: 120px;
+  	display: inline-block;
+  	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: var(--interface_0);
+	border-radius: 15px;
+}
+
+.radio-message-casu-myself {
+	margin: 10px;
+	left: 160px;
+  	display: inline-block;
+  	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: var(--interface_0);
+	border-radius: 15px;
+	flex: none;
+}
+
+.radio-message-others {
+	margin: 10px;
+	left: 5px;
+  	display: inline-block;
+  	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: var(--gray_150);
+	border-radius: 15px;
+}
+
+/* Right triangle placed top left flush. */
+.tri-right.border.left-top:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  	left: -40px;
+	right: auto;
+  	top: -8px;
+	bottom: auto;
+	border: 32px solid;
+	border-color: #666 transparent transparent transparent;
+}
+.tri-right.left-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  	left: -20px;
+	right: auto;
+  	top: 0px;
+	bottom: auto;
+	border: 22px solid;
+	border-color: var(--gray_150) transparent transparent transparent;
+}
+
+.tri-right.right-top:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: auto;
+	right: -20px;
+  top: 0px;
+	bottom: auto;
+	border: 20px solid;
+	border-color: var(--interface_0) transparent transparent transparent;
+}
+
+.emitter-text-header-layout {
+	font-family: Inter;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 17px;
+	letter-spacing: 0em;
+	text-align: left;
+}
+
+.emitter-text-body-layout {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 15px;
+	letter-spacing: 0em;
+	text-align: left;
+}
+
+.chevron-icon {
+	display: flex;
+	align-items: flex-end;
+	height: 42px;
+}
+
+.rotate{
+   transform: rotate(180deg);
+}

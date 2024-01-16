@@ -107,6 +107,31 @@
                 "style" : { }
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "rotate",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.interfaceState.state.casuMessage.messageType != '';",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "chevron-up",
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nif (!newState.isCasuOpen) {\n\tnewState.casuMessage.messageType = '';\n}\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Icon"
             } ],
             "layout" : {
               "flexDirection" : "row"
@@ -494,21 +519,6 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : {
-                          "padding-bottom" : "0px"
-                        },
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "// TODO transalations\nContext.item.type;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"0\"",
@@ -539,17 +549,36 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "width" : "100px"
+                          "min-width" : "0px",
+                          "width" : "30px"
                         }
                       },
                       "type" : "Number input"
+                    }, {
+                      "props" : {
+                        "className" : "methane-input-label",
+                        "layoutStyle" : {
+                          "padding-bottom" : "0px",
+                          "padding-top" : "0px",
+                          "width" : "84px"
+                        },
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "// TODO transalations\nContext.item.type;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
                     "layout" : { },
                     "layoutStyle" : {
-                      "width" : "200px"
+                      "width" : "120px"
                     },
                     "style" : {
-                      "flex-direction" : "column"
+                      "flex-direction" : "row"
                     }
                   },
                   "type" : "FlexList"
@@ -591,21 +620,20 @@
                 "className" : "pink l_button",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.messageType === ''",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send`);",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { planCasuMessageAction } from \"./UIfacade/actionFacade\";\nplanCasuMessageAction();",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown> | undefined"
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nrunActionButton(action[0]);",
+                    "language" : "TypeScript"
                   }
                 },
                 "name" : "send",
@@ -614,6 +642,11 @@
               "type" : "Button"
             } ],
             "className" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.casuMessage.messageType == '';",
+              "language" : "typescript"
+            },
             "layout" : {
               "justifyContent" : "flex-end"
             },

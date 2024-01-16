@@ -19,6 +19,7 @@ import { entries } from "../../../tools/helper";
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { ActionType } from "../actionType";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -250,22 +251,30 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     public readonly recipient: ActorId, 
     public readonly emitter: TranslationKey,
     public readonly message: TranslationKey,
-	private readonly omitTranslation: boolean = false)
+	public readonly channel: ActionType | undefined = undefined,
+    public readonly isRadioMessage: boolean = false,
+	  private readonly omitTranslation: boolean = false)
   {
       super(parentId, 'AddLogMessageLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
 	
-	const msg = this.omitTranslation ? this.message 
-		: getTranslation('mainSim-actions-tasks', this.message);
-    state.getInternalStateObject().radioMessages.push({
-      recipientId: this.recipient,
-      timeStamp: this.simTimeStamp,
-      emitter: this.emitter,
-      message: msg,
-	  uid : AddRadioMessageLocalEvent.UidSeed++
-    })
+	  const msg = this.omitTranslation ? this.message 
+		  : getTranslation('mainSim-actions-tasks', this.message);
+
+
+      state.getInternalStateObject().radioMessages.push({
+        recipientId: this.recipient,
+        timeStamp: this.simTimeStamp,
+        emitter: this.emitter,
+        message: msg,
+        uid : AddRadioMessageLocalEvent.UidSeed++,
+        isRadioMessage: this.isRadioMessage,
+		    channel: this.channel
+      })
+
+    
   }
 
 }
@@ -388,7 +397,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 		
 		const t = Math.round(this.travelTime / 60);
 		const msg = this.buildRadioText(t);
-		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, true);
+		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, 'G682',true, true);
 		localEventManager.queueLocalEvent(evt);
 	}
 

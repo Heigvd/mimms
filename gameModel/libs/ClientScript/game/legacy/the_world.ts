@@ -1238,7 +1238,8 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 					delayAction(event.time + duration, resolvedAction, event, resultEvent);
 				} else {
 					if(duration > 0){
-						fastForward(duration);
+						// fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
+						// fastForward(duration);
 					}
 					doMeasure(event.time, source, action as ActionBodyMeasure, event, resultEvent);
 				}
@@ -1459,7 +1460,8 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					delayAction(event.time + duration, resolvedAction, event, undefined);
 				} else {
 					if(duration > 0){
-						fastForward(duration);
+						// fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
+						// fastForward(duration);
 					}
 					doTreatment(event.time, resolvedAction, event);
 				}

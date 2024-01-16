@@ -1,0 +1,173 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "not-active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.CASU_RADIO;",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>G682</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.CASU_RADIO);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "not-active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.ACTORS_RADIO;",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>D418</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.ACTORS_RADIO);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "not-active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.RESOURCES_RADIO;",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>D424</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.RESOURCES_RADIO);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "not-active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.EVASAN_RADIO;",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>D912</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.EVASAN_RADIO);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ]
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "id" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "channelPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

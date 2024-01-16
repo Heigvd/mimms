@@ -5,7 +5,7 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, CasuMessageTemplate, SendRadioMessage,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -27,6 +27,7 @@ import { ResourceGroup } from "./common/resources/resourceGroup";
 import { TaskBase } from "./common/tasks/taskBase";
 import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
+import { ActionType } from "./common/actionType";
 
 
 let currentSimulationState : MainSimulationState;
@@ -58,6 +59,7 @@ function initMainState(): MainSimulationState {
 	// TODO read all simulation parameters to build start state and initilize the whole simulation
 
 	const testAL = new Actor('AL');
+	const testCASU = new Actor('CASU');
 
 	const mainAccident: PointFeature = {
 		ownerId: 0,
@@ -90,7 +92,7 @@ function initMainState(): MainSimulationState {
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
-    actors: [testAL],
+    actors: [testAL, testCASU],
     mapLocations: [mainAccident],
     patients: loadPatients(),
     tasks: [taskPretri, taskPorter],
@@ -113,6 +115,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const getFireFighterInfos = new GetInformationTemplate('basic-info-firefighter-title', 'basic-info-firefighter-desc', TimeSliceDuration, 'basic-info-firefighter-feedback');
 
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
+  const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
   
   const placeAccessRegress = new SelectMapObjectTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', 
   { geometrySelection: 
@@ -145,6 +148,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
   templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
   templates[casuMessage.getTemplateRef()] = casuMessage;
+  templates[radioMessage.getTemplateRef()] = radioMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
@@ -270,10 +274,10 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 	}
 }
 
-export function fetchAvailableActions(actorId: ActorId): ActionTemplateBase[] {
+export function fetchAvailableActions(actorId: ActorId, actionType: ActionType = ActionType.ACTION): ActionTemplateBase[] {
 	const actor = currentSimulationState.getActorById(actorId);
 	if (actor) {
-		return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor));
+		return Object.values(actionTemplates).filter(at => at.isAvailable(currentSimulationState, actor) && at.isInCategory(actionType));
 	} else {
 		mainSimLogger.warn('Actor not found. id = ', actorId);
 		return [];

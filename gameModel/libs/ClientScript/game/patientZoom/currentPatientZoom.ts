@@ -4,8 +4,8 @@ import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, Motr
 import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getMyInventory, Inventory } from "../legacy/the_world";
-import { getCurrentSimulationTime } from "../legacy/TimeManager";
+import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../legacy/the_world";
+import { fastForward, getCurrentSimulationTime } from "../legacy/TimeManager";
 import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../pretri/triage";
 import { getOverview, HumanOverview } from "./graphics";
 import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
@@ -608,6 +608,15 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Pr
 					type: 'itemAction' as const,
 					...measure.itemActionId,
 				};
+
+		// fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
+		const {emitterCharacterId} = initEmitterIds();
+		const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+		if (skillLevel) {
+			const duration = action.duration[skillLevel!];
+			fastForward(duration);
+		}
+
 		return sendEvent({
 			...initEmitterIds(),
 			type: 'HumanMeasure',
@@ -633,6 +642,15 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 					type: 'itemAction' as const,
 					...treatment.itemActionId,
 				};
+
+		// fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
+		const {emitterCharacterId} = initEmitterIds();
+		const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+		if (skillLevel) {
+			const duration = action.duration[skillLevel!];
+			fastForward(duration);
+		}
+
 		sendEvent({
 			...initEmitterIds(),
 			type: 'HumanTreatment',

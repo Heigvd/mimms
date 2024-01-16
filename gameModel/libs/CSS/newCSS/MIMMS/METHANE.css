@@ -85,3 +85,10 @@ font-weight: var(--boldWeight);
 .E-container-container{
 height: 3em;
 }
+
+.methane-input-label {
+	font-size: 14px;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
