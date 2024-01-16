@@ -323,7 +323,7 @@ function getABCDEWheel(): Wheel {
 		},
 		Z: {
 			id: 'zMenu',
-			label: 'PARLER',
+			label: getTranslation('pretriage-interface', 'talk'),
 			icon: 'comments',
 			items: getWheelMenuItems(bag.Z),
 			type: 'WheelMenu',
@@ -335,7 +335,7 @@ function getABCDEWheel(): Wheel {
 		shortcuts: [
 			{
 				type: 'ExtraPanel',
-				label: 'Triage',
+				label: getTranslation('pretriage-interface', 'sort'),
 				icon: 'sort-numeric-down',
 				id: 'triage',
 			},
@@ -1137,7 +1137,7 @@ function formatLog(log: ConsoleLog): string {
 	const formattedTime = toHoursMinutesSecondsIso(log.time);
 	const time = `<span class='consoleTime'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
-		return `<div class='log_container'>${time} <div class='message'> ${log.message}</div></div>`;
+		return `<div class='log_container'>${time} <div class='message'>${log.message}</div></div>`;
 	} else if (log.type === 'MeasureLog') {
 		const lines = log.metrics.map(metric => {
 			const r = formatMetric(metric.metric, metric.value);

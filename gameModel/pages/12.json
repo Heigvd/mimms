@@ -64,7 +64,6 @@
             },
             "layoutClassName" : "",
             "layoutStyle" : {
-              "marginTop" : "15px",
               "padding" : "0"
             },
             "name" : "toolbar",
@@ -565,7 +564,7 @@
                   },
                   "type" : "Button"
                 } ],
-                "className" : "greyPanel",
+                "className" : "greyPanel welcomeColumns",
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -643,7 +642,7 @@
                   },
                   "type" : "Image"
                 } ],
-                "className" : "greyPanel",
+                "className" : "greyPanel welcomeColumns",
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -1079,15 +1078,9 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "  grid-auto-columns" : "1fr",
-      " display" : "grid",
-      "grid-auto-flow" : "column",
-      "height" : "100%",
-      "margin" : "auto",
-      "maxWidth" : "1500px",
-      "width" : "100%"
-    },
+    "layoutClassName" : "drillPretriPage-container",
+    "layoutStyle" : { },
+    "name" : "drillPretriPage",
     "style" : { }
   },
   "type" : "FlexList"

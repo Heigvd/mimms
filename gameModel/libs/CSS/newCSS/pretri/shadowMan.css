@@ -7,18 +7,35 @@
 
 
 	/**** Texts related to shadowMan ****/
-
-
-	.patientConsole .block-details .block-subtitle {
+	.block-subtitle {
 		font-weight: var(--boldWeight);
 		font-size: var(--M_text);
 		padding: 5px 0px 5px 10px;
 	}
 
-	.patientConsole .block-details .block-entry {
+	.block-entry-title {
 		font-size: var(--M_text);
 		padding-left:10px;
 		padding-bottom: 10px;
+
+	}
+
+
+
+	/*** RESPONSIVE for texts related to shadowMan ***/
+		@media screen and (max-width: 1199px){
+		.block-subtitle {
+			font-weight: var(--boldWeight);
+			font-size: var(--SM_text);
+			padding: 5px 0px 5px 10px;
+		}
+
+		.block-entry-title {
+			font-size: var(--SM_text);
+			padding-left:10px;
+			padding-bottom: 10px;
+
+		}
 	}
 
 	/***** Blocks colors gestion *****/
@@ -30,9 +47,11 @@
 		stroke: var(--gray_500);
 		stroke-dasharray:  "2 2";
 		pointer-events: none;
+		/*z-index: 1;*/
 	}
 	.observe .block:not(.forTreatmentBlock, .afflictedBlock) svg {
 		position: absolute;
+		/*z-index: 1;*/
 	}
 
 
@@ -42,25 +61,29 @@
 		fill: none;
 		stroke: none;
 		pointer-events: none;
+		/*z-index: 1;*/
 	}
 
 	.forTreatmentBlock svg,
 	.afflictedBlock svg {
 		position: absolute;
+		/*z-index: 1;*/
 	}
 
 	.afflictedBlock rect, 
 	.forTreatmentBlock rect {
 		pointer-events: all;
+		/*z-index: 1;*/
 	}
 
 	.afflictedBlock {
 		cursor: pointer;
+		/*z-index: 1;*/
 	}
 
 
 	.afflictedBlock svg:first-child {
-
+		/*mix-blend-mode: lighten; --> was on legacy code but does not work now for unknown reasons*/
 		mix-blend-mode: hard-light;
 	}
 
@@ -72,15 +95,15 @@
 
 	/* afflicted block for wich we display textual information*/
 	.afflictedBlock.observedBlock svg:first-child{
-		
 		mix-blend-mode: color;
-	
 	}
 
 
 	/*selection blocks -> the ones that can be selected */
 	.forTreatmentBlock svg:last-child rect {
 		stroke: var(--interface_BLUE);
+		position: relative;
+		z-index: 1;
 	}
 
 
@@ -89,6 +112,8 @@
 		stroke:var(--secondaryInterface_400);
 		stroke-width: 4px;
 		transition: 0.2s;
+		position: relative;
+		z-index: 2;
 	}
 
 	/*selection blocks -> the ones that can be selected while beeing hovered */
@@ -97,4 +122,6 @@
 		stroke-width: 4px;
 		cursor: pointer;
 		transition: 0.2s;
+		position: relative;
+		z-index: 1;
 	}

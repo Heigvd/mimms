@@ -4,8 +4,9 @@
 /*************** ABCDE MENU ****************/
 /* Container de tout le menu*/
 .ABCDETT_Menu-container{
-margin-left: 1rem;
-margin-right: 1rem;
+margin-left: .9rem;
+margin-right: .9rem;
+margin-top: 10px;
 }
 
 
@@ -62,4 +63,30 @@ background-color: var(--interface_200);
 
 .theLine{
 border-bottom: solid 3px var(--interface_BLUE);
+}
+
+
+@media screen and (min-width: 1200px){}
+
+@media screen and (max-width: 1199px){
+
+	.ABCDETT_Menu-container{
+		flex-wrap: nowrap;
+	}
+
+	.ABCDETT_Menu-container .menuABC-button > button{
+		padding:  6px 15px 6px 15px;
+		flex-wrap: nowrap;
+		
+	}
+
+	.menuABC-button{
+		padding:   0px 2px  0px 0px; 
+		
+	}
+
+	.menuABC{
+flex-wrap: nowrap;
+
+	}
 }

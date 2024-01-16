@@ -9,25 +9,31 @@ font-size: var(--M_text);
 
 /* Drill Card (the label put on a patient: p3 to dead) */
 .cat_card {
-	height: 100%;
-	width: 100%;
+	width: 2em;
 }
 .cat_card.undefined {
 	background: transparent;
 }
 
-/*** PETITS ECRANS ***/
+/*** SMALL SCREEN ***/
 @media screen and (max-width:1199px){
 	.categoryAndID{
 	flex-direction: column;
 	}
+
+	.patientSAP{
+		text-align: center;
+		color: var(--gray_700);
+		font-size: var(--S_text);
 }
 
-/*** GROS ECRANS ***/
+}
+
+/*** BIG SCREEN ***/
 
 @media screen and (min-width:1200px){
 	.categoryAndID{
 	flex-direction: row;
-}
+	}
 }
 

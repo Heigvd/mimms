@@ -1,74 +1,41 @@
-
-/*** PETITS ECRANS ***/
-@media screen and (max-width: var(--smallScreen)){
-	
-}
-
-/*** GROS ECRANS ***/
-
-@media screen and (min-width:var(--middleScreen)){
-
-}
-
-
 @media screen and (min-width: 1200px){
 	.theGame-container{
-		width: 100vw;
+		width: 95vw;
 		height: 90vh;
 		padding: 0px;
-		margin: 0px;
-		border: 3px solid blue;
+		margin: auto;
 	}
+
 	.theGame{
 		padding: 0px;
 		margin: 0px;
-		border: 3px solid pink;
 	}
 
 	.westSide-container{
 		width: 40%;
 		padding: 0px;
 		margin: 0px;
-		border: 1px solid magenta;
 	}
 
 	.eastSide-container{
 		width: 60%;
 		padding: 0px;
 		margin: 0px;
-		border: 3px solid olive;
 	}
 
 	.leftPanel-container{
 		padding: 0px;
 		margin: 0px;
-		border: 3px solid lightskyblue;
 		flex-basis: auto;
 		
 	}
 
 	
 	.information-container{
-		background-color: chartreuse;
 		flex-basis: auto;
 		flex-grow:1;
 		flex-shrink: 1;
 	}
-	
-
-	.faceAndBloodyPatient-container{
-		border: 3px solid firebrick;
-		
-		
-	}
-
-	.faceAndBloodyPatient{
-		align-items: center;
-		justify-content: space-around;
-	}
-
-
-	
 	
 }
 
@@ -76,39 +43,41 @@
 @media screen and (max-width: 1199px){
 /* The general container for both sides */
 	.westSide-container{
-		width: 40%;
+		width: 50%;
 		padding: 0px;
 		margin: 0px;
-		border: 1px solid mediumspringgreen;
 	}
 
 	.eastSide-container{
-		width: 60%;
+		width: 50%;
 		padding: 0px;
 		margin: 0px;
-		border: 3px solid gold;
 	}
 	
 
-	/* Left and containers */
-	.faceAndBloodyPatient-container{
-		display: flex;
-		/*flex-direction: column!important;*/
-		border: 3px solid darkcyan;
-	}
 
 	.information-container{
-	background-color: chartreuse;
-	flex-basis: auto;
-	flex-grow:1;
-	flex-shrink: 1;	
+		flex-basis: auto;
+		flex-grow:1;
+		flex-shrink: 1;	
 	}
 
 
 	.leftPanel-container{
 		padding: 0px;
 		margin: 0px;
-		border: 3px solid orange;
-		
+	}
+}
+
+/*** GINORMOUS SCREENS ***/
+@media screen and (min-width: 2500px){
+	.theGame-container{
+		width: 75vw;
+		height: 90vh;
+		padding: 0px;
+	}
+
+	.fullSize{
+		width: 75vw;
 	}
 }

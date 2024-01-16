@@ -1,9 +1,28 @@
+/* DRILL BUTTONS */ 
+.tagCategory{
+	padding: 8px;
+	border-radius: var(--L_borderRadius);
+	text-align: center;
+	font-weight: var(--boldWeight);
+	cursor: pointer;
+}
+.tagCategory:hover{
+	outline: 3px solid var(--gray_BLACK);
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 
 
+.tagCategory.current{
+	outline: 3px solid var(--gray_BLACK);
+}
+
+/*
 
 
 .patientConsole .tagSystemCategories.sacco {
-	flex-direction: row  !important /* override inline style */;
+	flex-direction: row  !important ;
 	flex-wrap: wrap;
 }
 
@@ -38,4 +57,4 @@
 .patientConsole .tagCategory.current {
 	border: 3px solid  #302C54;	
 }
-
+*/

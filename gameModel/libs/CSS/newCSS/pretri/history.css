@@ -4,17 +4,25 @@
 .lastResult div .log_container{
 	color: var(--gray_BLACK);
 	background-color:transparent;
-	padding: 10px;
-	margin:5px;
+	padding: 0px 10px;
+	margin-bottom: .8rem;
 	align-items: baseline;
 	font-size: var(--M_text);
 	border-radius: var(--XS_borderRadius) ;
+	
 	}
 
 .lastResult {
 	max-height: 40vh;
-	overflow-y: scroll;
+	overflow: auto;	
 }
+
+.resultConsole{
+margin-left: 1rem;
+}
+
+
+
 
 .consoleTime{
 	font-weight: var(--boldWeight);
@@ -40,4 +48,14 @@
 .lastResult div .log_container:first-child{
 animation-name: example;
 animation-duration: 3s;
+}
+
+
+/*** Responsive ***/
+@media screen and (max-width: 1199px){
+	.lastResult div .log_container{
+		font-size: var(--SM_text);
+		padding:  0px;
+		margin:  5px  0px 0px 5px;
+	}
 }

@@ -23,3 +23,19 @@
 font-size: var(--XS_text);
 color: var(--gray_700);
 }
+
+@media screen and (min-width: 1200px){
+.selectBodyPartTxt{
+	font-size: var(--SM_text);
+	color: var(--gray_BLACK);
+	font-family: var(--mainFont);
+	font-weight: var(--boldWeight);
+	padding-right: .8rem;
+}
+}
+
+@media screen and (max-width: 1199px){
+	.selectBodyPartTxt{
+	font-size: var(--S_text);
+}
+}
