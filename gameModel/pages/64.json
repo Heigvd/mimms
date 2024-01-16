@@ -1,0 +1,133 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "sender",
+                        "layoutClassName" : "radioContent-container sender-container",
+                        "layoutStyle" : { },
+                        "name" : "Sender",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getNotificationTime } from \"./gameInterface/main\";\ngetNotificationTime(Context.item.timeStamp);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "message",
+                        "layoutClassName" : "radioContent-container message-container",
+                        "layoutStyle" : { },
+                        "name" : "Message",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "Context.item.message;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "aMessage",
+                    "computedAttributes" : [ {
+                      "attrName" : "sender-role",
+                      "attrValue" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.emitter;",
+                        "language" : "TypeScript"
+                      }
+                    } ],
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "aMessage-animation",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { RadioMessage } from \"./game/common/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "aMessage-container sender-role",
+                    "layoutStyle" : { },
+                    "name" : "aMessage",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "allDisplay-container s_margin",
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column-reverse"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "width" : "100%"
+                },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ]
+          },
+          "type" : "PlayerIf"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "radioMessage-container",
+                "layoutStyle" : { },
+                "style" : {
+                  "margin" : "5px",
+                  "padding" : "5px"
+                },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'no-notifications')}</p>`",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ]
+          },
+          "type" : "PlayerElse"
+        } ],
+        "className" : "tomato",
+        "ifCondition" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid).length > 0;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : {
+          "overflow" : "none"
+        },
+        "style" : { }
+      },
+      "type" : "If Else"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

@@ -14,6 +14,9 @@ import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
+import { RadioMessagePayload } from "../events/radioMessageEvent";
+import { entries } from "../../../tools/helper";
+import { ActionType } from "../actionType";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -229,6 +232,37 @@ export class CasuMessageAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
+  private computeCasuMessage(message: CasuMessagePayload): string {
+	  let casuMessage = '';
+	  if (message.major) {
+		  casuMessage += `M - ${message.major} \n`;
+	  }
+	  if (message.exact) {
+		  casuMessage += `E - ${message.exact} \n`;
+	  }
+	  if (message.incidentType) {
+		  casuMessage += `T - ${message.incidentType} \n`;
+	  }
+	  if (message.hazards) {
+		  casuMessage += `H - ${message.hazards} \n`;
+	  }
+	  if (message.access) {
+		  casuMessage += `A - ${message.access} \n`;
+	  }
+	  if (message.victims) {
+		  casuMessage += `N - ${message.victims} \n`;
+	  }
+	  if (message.resourceRequest) {
+		  let requestResource = 'E - ';
+		  entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
+				requestResource += `${typeId}: ${requestedAmount} \n`;
+		  })
+		  casuMessage += requestResource;
+	  }
+
+	  return casuMessage;
+  }
+
   protected dispatchInitEvents(state: MainSimulationState): void {
     //likely nothing to do
     this.logger.info('start event CasuMessageAction');
@@ -238,8 +272,9 @@ export class CasuMessageAction extends StartEndAction {
     this.logger.info('end event CasuMessageAction');
 	const now = state.getSimTime();
 	// TODO filter when we get a full METHANE message
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), ActionType.CASU_RADIO, true, true));
 	if(this.casuMessagePayload.resourceRequest){
-		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, this.ownerId, this.casuMessagePayload);
+		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId, this.casuMessagePayload);
 		localEventManager.queueLocalEvent(dispatchEvent);
 	}
   }
@@ -519,3 +554,34 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
 
 }
 
+export class SendRadioMessageAction extends StartEndAction {
+
+  constructor (
+	  startTimeSec: SimTime,
+	  durationSeconds: SimDuration,
+	  messageKey: TranslationKey,
+	  actionNameKey: TranslationKey,
+	  eventId: GlobalEventId,
+	  ownerId: ActorId,
+	  uuidTemplate: ActionTemplateId,
+	  private radioMessagePayload: RadioMessagePayload
+	  ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event SendRadioMessageAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendRadioMessageAction');
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName || '', this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
+  }
+
+}

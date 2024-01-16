@@ -8,14 +8,23 @@ import {
 	isSelectMapObjectTemplate,
 	isSendResourcesToActorActionTemplate,
 	planAction,
+isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
+import { ActionType } from '../game/common/actionType';
 
 
-export function runActionButton() {
+export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
+	if (action != undefined) {
+		Context.action = action
+	}
+	
 	const actionRefUid = Context.action.Uid;
 
 	let params = {};
@@ -109,11 +118,27 @@ export function runActionButton() {
 		});
 		Context.interfaceState.setState(newState);
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
-
 		params = fetchCasuMessageRequestValues();
+		const newState = Helpers.cloneDeep(Context.interfaceState.state)
+		newState.resources.requestedResources = getEmptyResourceRequest();
+		newState.casuMessage = {
+			messageType: "",
+			major: "",
+			exact: "",
+			incidentType: "",
+			hazards: "",
+			access: "",
+			victims: "",
+		};
+		Context.interfaceState.setState(newState);
+	} else if (isRadioActionTemplate(actionRefUid)) {
+		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
+		const newState = Helpers.cloneDeep(Context.interfaceState.state)
+		newState.channelText.actors = '';
+		Context.interfaceState.setState(newState);
 	}
 
-	actionClickHandler(Context.action.Uid, params);
+	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
 export function fetchCasuMessageRequestValues(): CasuMessagePayload {
@@ -136,5 +161,15 @@ export function fetchCasuMessageRequestValues(): CasuMessagePayload {
 		res.resourceRequest = request;
 	}
 
+	return res;
+}
+
+export function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
+	let res: RadioMessagePayload;
+	if (channel == ActionType.ACTORS_RADIO)
+		res = {channel: channel, message: Context.interfaceState.state.channelText.actors, actorId: Context.interfaceState.state.currentActorUid};
+	else {
+		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
+	}
 	return res;
 }

@@ -241,20 +241,7 @@ body {
 
 .patient-modal-view {
 	height: 100%;
-}
-
-.patient-summary--grid-main {
-	grid-template-columns: repeat(5, 1fr);
-}
-
-.resource-summary--grid-main {
-	grid-template-columns: repeat(5, 1fr);
-}
-
-.local-event-summary--grid-main {
-	grid-template-columns: repeat(3, 1fr);
 }*/
-
 
 
 /* Toolbox */

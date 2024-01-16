@@ -21,3 +21,6 @@ methane-ok	Your METHANE was sent succeffully	Votre message a bien été transmis
 start-time	Scenario start time :	Heure de début du scénario:
 your-message	Your message	Votre message
 your-text	Your text	Votre texte
+radio	radio	radio
+send-one-minute	Send (1 min)	Envoyer (1 min)
+send-request-one-minute	Send request (1 min)	Envoyer la demande (1 min)

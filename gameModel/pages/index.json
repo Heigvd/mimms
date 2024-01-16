@@ -414,6 +414,46 @@
         "name" : "mainSimulationSetupEnv",
         "scenaristPage" : null,
         "trainerPage" : true
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "11",
+          "name" : "radio",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "47",
+          "name" : "channel_CASU_RADIO",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "50",
+          "name" : "channel_ ACTORS_RADIO",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "62",
+          "name" : "channel_ EVASAN_RADIO",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "63",
+          "name" : "channel_ RESSOURCES_RADIO",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "radio_page"
+      }, {
+        "@class" : "Page",
+        "id" : "64",
+        "name" : "notifications",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

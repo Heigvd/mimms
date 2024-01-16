@@ -4,6 +4,65 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-actions-tasks', 'release-task-title')}</p>`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "name" : "",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>1 minutes</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "rotate",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.interfaceState.state.isReleaseResourceOpen;",
+                "language" : "typescript"
+              }
+            } ],
+            "icon" : "chevron-down",
+            "layoutClassName" : "chevron-icon",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.isReleaseResourceOpen = !newState.isReleaseResourceOpen;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Icon"
+        } ],
+        "layout" : { },
+        "layoutStyle" : {
+          "height" : "40px",
+          "width" : "100%"
+        },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
             "choices" : {
               "@class" : "Script",
               "content" : "import { getTasksWithResources } from \"./UIfacade/resourceTaskFacade\";\n\ngetTasksWithResources(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
@@ -33,6 +92,11 @@
           },
           "type" : "Select input"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.isReleaseResourceOpen;",
+          "language" : "typescript"
+        },
         "layout" : {
           "alignContent" : "stretch",
           "alignItems" : "center"
@@ -113,6 +177,11 @@
           "@class" : "Script",
           "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
           "language" : "TypeScript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.isReleaseResourceOpen;",
+          "language" : "typescript"
         },
         "itemKey" : "enum",
         "layout" : { },

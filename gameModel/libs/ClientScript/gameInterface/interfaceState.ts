@@ -50,10 +50,16 @@ export function getInitialInterfaceState() {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
-		showCasuMessageModal: false,
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		selectedMapObject: '',
+		selectedPanel: 'actions',
+		channel: 'G682',
+		channelText: {
+			actors: '',
+			evasam: ''
+		},
+		isReleaseResourceOpen: false,
 	};
 
 }

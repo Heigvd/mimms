@@ -45,3 +45,6 @@ brancardage-title	Brancardage	Brancardage
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
+send-radio-title	Sends radio message	Envoie message radio	
+send-radio-desc	Sends a radio message	Envoie un message radio	
+send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
