@@ -335,7 +335,7 @@ function getABCDEWheel(): Wheel {
 		shortcuts: [
 			{
 				type: 'ExtraPanel',
-				label: getTranslation('pretriage-interface', 'sort'),
+				label: getTranslation('pretriage-interface', 'triage'),
 				icon: 'sort-numeric-down',
 				id: 'triage',
 			},

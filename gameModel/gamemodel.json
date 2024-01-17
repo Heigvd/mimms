@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1705394624476,
+  "createdTime" : 1705485997538,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7089,7 +7089,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "pretriResponsive_jess_08-01-24",
+  "name" : "MIMMS main simulation dev 16.1.2024 + pretri v3",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -7097,7 +7097,7 @@
     "cssUri" : "",
     "freeForAll" : true,
     "guestAllowed" : false,
-    "iconUri" : "ICON_dark-purple_magic_fa",
+    "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,
     "pagesUri" : "",
     "refId" : "GameModelProperties",
