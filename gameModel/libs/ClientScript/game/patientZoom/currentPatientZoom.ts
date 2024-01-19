@@ -1,7 +1,6 @@
 import { initEmitterIds } from "../common/events/baseEvent";
 import { sendEvent } from "../common/events/eventUtils";
 import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue, readKey } from "../../HUMAn/human";
-import { logger } from "../../tools/logger";
 import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
 import { getAct, getItem, getPathology } from "../../HUMAn/registries";
 import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../legacy/the_world";
@@ -497,6 +496,7 @@ export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
 		return item.items.length > 0;
 	});
 
+
 	// select first action if any
 	const action = subMenu?.items[0];
 
@@ -507,7 +507,7 @@ export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
 			selectedMenu: menuId,
 			selectedSubMenu: subMenu?.id,
 			selectedAction: action,
-		}, action);
+		}, undefined); // Undefined to avoid selecting first action
 	});
 }
 

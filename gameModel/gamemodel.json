@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1705485997538,
+  "createdTime" : 1705658547322,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7089,7 +7089,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main simulation dev 16.1.2024 + pretri v3",
+  "name" : "MIMMS Pré-tri V3.0 (Mikk)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
