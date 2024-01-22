@@ -1,7 +1,7 @@
 import { HumanBody } from '../../../HUMAn/human';
-import { getCategoryIdsByPriorityOrder, getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
+import { getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
 import { MainSimulationState } from './mainSimulationState';
-import { Location, PatientId, TaskId } from '../baseTypes';
+import { Location, PatientId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
 

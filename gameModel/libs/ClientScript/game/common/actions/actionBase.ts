@@ -108,7 +108,7 @@ export abstract class StartEndAction extends ActionBase {
   ){
     super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
-	  this.actionNameKey = actionNameKey;
+    this.actionNameKey = actionNameKey;
     this.messageKey = messageKey;
   }
 
@@ -158,14 +158,14 @@ export abstract class StartEndAction extends ActionBase {
 export class GetInformationAction extends StartEndAction {
 
   constructor (
-	  startTimeSec: SimTime,
-	  durationSeconds: SimDuration,
-	  messageKey: TranslationKey,
-	  actionNameKey: TranslationKey,
-	  eventId: GlobalEventId,
-	  ownerId: ActorId,
-	  uuidTemplate: ActionTemplateId
-	  ){
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId
+    ){
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
@@ -233,34 +233,34 @@ export class CasuMessageAction extends StartEndAction {
   }
 
   private computeCasuMessage(message: CasuMessagePayload): string {
-	  let casuMessage = '';
-	  if (message.major) {
-		  casuMessage += `M - ${message.major} \n`;
-	  }
-	  if (message.exact) {
-		  casuMessage += `E - ${message.exact} \n`;
-	  }
-	  if (message.incidentType) {
-		  casuMessage += `T - ${message.incidentType} \n`;
-	  }
-	  if (message.hazards) {
-		  casuMessage += `H - ${message.hazards} \n`;
-	  }
-	  if (message.access) {
-		  casuMessage += `A - ${message.access} \n`;
-	  }
-	  if (message.victims) {
-		  casuMessage += `N - ${message.victims} \n`;
-	  }
-	  if (message.resourceRequest) {
-		  let requestResource = 'E - ';
-		  entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
-				requestResource += `${typeId}: ${requestedAmount} \n`;
-		  })
-		  casuMessage += requestResource;
-	  }
+    let casuMessage = '';
+    if (message.major) {
+      casuMessage += `M - ${message.major} \n`;
+    }
+    if (message.exact) {
+      casuMessage += `E - ${message.exact} \n`;
+    }
+    if (message.incidentType) {
+      casuMessage += `T - ${message.incidentType} \n`;
+    }
+    if (message.hazards) {
+      casuMessage += `H - ${message.hazards} \n`;
+    }
+    if (message.access) {
+      casuMessage += `A - ${message.access} \n`;
+    }
+    if (message.victims) {
+      casuMessage += `N - ${message.victims} \n`;
+    }
+    if (message.resourceRequest) {
+      let requestResource = 'E - ';
+      entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
+        requestResource += `${typeId}: ${requestedAmount} \n`;
+      })
+      casuMessage += requestResource;
+    }
 
-	  return casuMessage;
+    return casuMessage;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -283,8 +283,8 @@ export class CasuMessageAction extends StartEndAction {
     return;
   }
 
-  getTitle(): string {
-	  return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+  public override getTitle(): string {
+    return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
   }
   
 }
@@ -299,19 +299,18 @@ export class DefineMapObjectAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime, 
     durationSeconds: SimDuration,
-	  actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     eventId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
     uuidTemplate: ActionTemplateId
   ) { 
-      super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-      this.feature = feature;
-	    this.feature.startTimeSec = this.startTime;
-      this.feature.durationTimeSec = this.durationSec;
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    this.feature = feature;
+    this.feature.startTimeSec = this.startTime;
+    this.feature.durationTimeSec = this.durationSec;
   }
-
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
@@ -327,7 +326,7 @@ export class DefineMapObjectAction extends StartEndAction {
 
   // TODO remove corresponding mapFeature
   protected cancelInternal(state: MainSimulationState): void {
-	localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
   }
 
 }
@@ -362,7 +361,7 @@ export class SelectMapObjectAction extends StartEndAction {
       geometryType: 'Select',
       featureKey: this.featureKey,
       featureIds: this.featureId,
-	    startTimeSec: this.startTime,
+      startTimeSec: this.startTime,
       durationTimeSec: this.durationSec,
     }
 
@@ -377,13 +376,13 @@ export class SelectMapObjectAction extends StartEndAction {
 
   protected cancelInternal(state: MainSimulationState): void {
     // TODO maybe store in class similar to DefineMapObject
-	  const selectFeature: SelectFeature = {
+    const selectFeature: SelectFeature = {
       ownerId: this.ownerId,
       name: this.actionNameKey,
       geometryType: 'Select',
       featureKey: this.featureKey,
       featureIds: this.featureId,
-	  startTimeSec: this.startTime,
+      startTimeSec: this.startTime,
       durationTimeSec: this.durationSec,
     }
 
@@ -396,7 +395,6 @@ export class SelectMapObjectAction extends StartEndAction {
  * Action to send resources to an actor
  */
 export class SendResourcesToActorAction extends StartEndAction {
-  public readonly messageKey: TranslationKey;
 
   public readonly receiverActor: ActorId;
 
@@ -413,7 +411,6 @@ export class SendResourcesToActorAction extends StartEndAction {
     receiverActor: ActorId,
     sentResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
     this.receiverActor = receiverActor;
     this.sentResources = sentResources;
   }
@@ -447,7 +444,6 @@ export class SendResourcesToActorAction extends StartEndAction {
  * Action to assign a task to resources
  */
 export class AssignTaskToResourcesAction extends StartEndAction {
-  public readonly messageKey: TranslationKey;
 
   public readonly task: ResourceFunction;
 
@@ -462,9 +458,9 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    assignedResources: ResourceTypeAndNumber) {
-	super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
+    assignedResources: ResourceTypeAndNumber) 
+  {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.task = task;
     this.assignedResources = assignedResources;
   }
@@ -498,7 +494,6 @@ export class AssignTaskToResourcesAction extends StartEndAction {
  * Action to assign a task to resources
  */
 export class ReleaseResourcesFromTaskAction extends StartEndAction {
-  public readonly messageKey: TranslationKey;
 
   public readonly task: ResourceFunction;
 
@@ -515,7 +510,6 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     task: ResourceFunction,
     releasedResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.messageKey = messageKey;
     this.task = task;
     this.releasedResources = releasedResources;
   }
@@ -557,15 +551,16 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
 export class SendRadioMessageAction extends StartEndAction {
 
   constructor (
-	  startTimeSec: SimTime,
-	  durationSeconds: SimDuration,
-	  messageKey: TranslationKey,
-	  actionNameKey: TranslationKey,
-	  eventId: GlobalEventId,
-	  ownerId: ActorId,
-	  uuidTemplate: ActionTemplateId,
-	  private radioMessagePayload: RadioMessagePayload
-	  ){
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private radioMessagePayload: RadioMessagePayload
+    )
+  {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
@@ -576,12 +571,12 @@ export class SendRadioMessageAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendRadioMessageAction');
-	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName || '', this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName || '', this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
-      return;
+    return;
   }
 
 }
