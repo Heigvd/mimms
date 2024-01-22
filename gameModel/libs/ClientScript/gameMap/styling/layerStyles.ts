@@ -1,28 +1,35 @@
+
+/**
+ * Generate layer style according to geometry type
+ * 
+ * @params feature for which to generate style
+ * @returns LayerStyleObject corresponding style
+ */
 export function getLayerStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
 	const geometryType = properties.type;
-	let style;
 
 	switch (geometryType) {
 		case 'Point':
-			style = getPointStyle(feature);
-			break;
+			return getPointStyle(feature);
 		case 'LineString':
-			style = getLineStringStyle(feature);
-			break;
+			return getLineStringStyle(feature);
 		case 'MultiLineString':
-			style = getLineStringStyle(feature);
-			break;
+			return getLineStringStyle(feature);
 		case 'MultiPolygon':
-			style = getMultiPolygonStyle(feature);
-			break;
+			return getMultiPolygonStyle(feature);
+		default:
+			return {};
 	}
-
-	return style;
 }
 
-// TODO Eliminated a lot of redundancy, should have distinct getIconStyle and getArrowStyle functions
+/**
+ * Generate style for points
+ * 
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated point style
+ */
 function getPointStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
@@ -50,9 +57,6 @@ function getPointStyle(feature: any): LayerStyleObject {
 		// Arrow-heads are the only icon to be rotated
 		if (rotation) {
 
-			// If selection action and not currently selected return invisible
-			if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) return {};
-
 			iconStyle.rotation = rotation;
 			iconStyle.displacement = [0, 0];
 			iconStyle.src = '/maps/mapIcons/arrow.svg';
@@ -73,17 +77,27 @@ function getPointStyle(feature: any): LayerStyleObject {
 				lineCap: 'round',
 				lineJoin: 'round',
 			};
+
+			// If selection action and not currently selected
+			if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) {
+				iconStyle.opacity = .5;
+				textStyle.text = '';
+			}
 		}
 
 		if (icon === Context.mapState.state.selectionState.icon && !duration) {
 			// Convert to int to add 1
 			const index = parseInt(name, 10) + 1;
+			// Is this feature currently selected ?
+			const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
 			// Define textStyle for Icons
 			textStyle.text = String(index);
 			textStyle.offsetX = .5;
 			textStyle.offsetY = -18;
 			textStyle.scale = 1.6;
-			textStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
+			// If point is not currently selected, we give it half opacity
+			textStyle.opacity = isSelected ? 1 : .5;
+			iconStyle.opacity = isSelected ? 1 : .5;
 			textStyle.fill = {
 				type: 'FillStyle',
 				color: 'white',
@@ -106,13 +120,19 @@ function getPointStyle(feature: any): LayerStyleObject {
 
 }
 
-function getLineStringStyle(feature: any) {
+/**
+ * Generate style for line string
+ * 
+ * @params feature for which to generate style
+ * @returns 
+ */
+function getLineStringStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
 	const name = properties.name;
 	const duration = properties.durationTimeSec;
 
-	const strokeStyle = {
+	const strokeStyle: StrokeStyleObject = {
 		type: 'StrokeStyle',
 		color: '#575FCF',
 		width: 6,
@@ -122,13 +142,19 @@ function getLineStringStyle(feature: any) {
 
 	// If we're currently performing a selection
 	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect && !duration) {
-		return {};
+		strokeStyle.color = '#575FCF80';
 	}
 
-	return { stroke: strokeStyle }
+	return { stroke: strokeStyle };
 }
 
-function getMultiPolygonStyle(feature: any): any {
+/**
+ * Generate style for multi polygons
+ * 
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated multi polygon style
+ */
+function getMultiPolygonStyle(feature: any): LayerStyleObject {
 	const properties = feature.getProperties();
 
 	const fill: FillStyleObject = {

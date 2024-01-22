@@ -1,6 +1,6 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, CasuMessageTemplate, DefineMapObjectTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActionType } from "../game/common/actionType";
-import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
+import { endMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
@@ -70,11 +70,7 @@ export function actionClickHandler(id: number, actionType: ActionType, params: a
 	const uid = Context.interfaceState.state.currentActorUid;
 
 	if (canPlanAction()) {
-		if (template instanceof DefineMapObjectTemplate) {
-			startMapAction(params);
-		} else {
-			planAction(template.getTemplateRef(), uid, params);
-		}
+		planAction(template.getTemplateRef(), uid, params);
 	} else if (isPlannedAction(id)) {
 		cancelAction(uid, id);
 	}
@@ -93,15 +89,6 @@ export function actionChangeHandler() {
 	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
 		startMapSelect();
 	}
-}
-
-export function planMapAction() {
-	const actorUid = Context.interfaceState.state.currentActorUid;
-	const template = getActionTemplate(Context.interfaceState.state.currentActionUid);
-	const tmpFeature = Context.mapState.state.tmpFeature;
-
-	planAction(template!.getTemplateRef(), actorUid, tmpFeature);
-	endMapAction();
 }
 
 /**
@@ -135,8 +122,8 @@ export function getNotificationTime(notificationTime: number) {
  * Return given time in HH:MM format
  */
 export function formatTime(dateTime: Date) {
-	let splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
-	let result = splitted.join(':');
+	const splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
+	const result = splitted.join(':');
 
 	return result;
 }
