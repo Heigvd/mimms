@@ -1,14 +1,11 @@
 import { CasuMessagePayload } from '../game/common/events/casuMessageEvent';
 import {
-	getActionTemplate,
 	isAssignResourcesToTaskActionTemplate,
-	isDefineMapObjectTemplate,
 	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
 	isSelectMapObjectTemplate,
 	isSendResourcesToActorActionTemplate,
-	planAction,
-isRadioActionTemplate,
+	isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
@@ -19,157 +16,225 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 
-
+/**
+ * Performs logic whenever a template is initiated in interface
+ * 
+ * @params ActionTemplateBase action being launched
+ */
 export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
 	if (action != undefined) {
 		Context.action = action
 	}
-	
+
 	const actionRefUid = Context.action.Uid;
 
 	let params = {};
 
-	if (isDefineMapObjectTemplate(actionRefUid)) {
-		params = Context.action.featureDescription.geometryType;
-	} else if (isSelectMapObjectTemplate(actionRefUid)) {
-
-		const ref = getActionTemplate(Context.interfaceState.state.currentActionUid)!.getTemplateRef();
-		const actor = Context.interfaceState.state.currentActorUid;
-		const mapState = Context.mapState.state;
-
-
+	if (isSelectMapObjectTemplate(actionRefUid)) {
 		// If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
 		if (!canPlanAction()) {
 			startMapSelect();
 		} else {
-			let tmpFeature;
-			if (mapState.selectionState.geometryType) {
-				tmpFeature = {
-					geometryType: mapState.selectionState.geometryType,
-					feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
-				}
-			}
-
-			if (mapState.selectionState.layerId) {
-				tmpFeature = {
-					featureKey: mapState.selectionState.featureKey,
-					featureId: mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId]
-				}
-			}
-
-			planAction(ref, actor, tmpFeature);
+			params = fetchSelectMapObjectValues()!;
 			clearMapState();
-			return
 		}
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-		const sentResources: ResourceTypeAndNumber = {};
 
-		ResourcesArray.forEach(resourceType => {
-			const amount = Context.interfaceState.state.resources.sendResources[resourceType];
-			if (amount) {
-				sentResources[resourceType] = amount;
-			}
-		});
-
-		params = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
-
-		// once we took the inputs, reset the internal state
-		const newState = Helpers.cloneDeep(Context.interfaceState.state);
-		newState.resources.sendResources.selectedActorId = getAllActors()[0]!.Uid;
-		ResourcesArray.forEach(resourceType => {
-			newState.resources.sendResources[resourceType] = 0;
-		});
-		Context.interfaceState.setState(newState);
+		params = fetchSendResourcesValues();
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-		const resourcesForAssignation: ResourceTypeAndNumber = {};
 
-		ResourcesArray.forEach(resourceType => {
-			const amount = Context.interfaceState.state.resources.assignResources[resourceType];
-			if (amount) {
-				resourcesForAssignation[resourceType] = amount;
-			}
-		});
+		params = fetchAssignResourceValues();
 
-		params = { task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation };
-
-		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.resources.assignResources.selectedTaskId = '';
-		ResourcesArray.forEach(resourceType => {
-			newState.resources.assignResources[resourceType] = 0;
-		});
-		Context.interfaceState.setState(newState);
 	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-		const resourcesForRelease: ResourceTypeAndNumber = {};
 
-		ResourcesArray.forEach(resourceType => {
-			const amount = Context.interfaceState.state.resources.releaseResources[resourceType];
-			if (amount) {
-				resourcesForRelease[resourceType] = amount;
-			}
-		});
+		params = fetchReleaseResourceValues();
 
-		params = { task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease };
-
-		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.resources.releaseResources.selectedTaskId = '';
-		ResourcesArray.forEach(resourceType => {
-			newState.resources.releaseResources[resourceType] = 0;
-		});
-		Context.interfaceState.setState(newState);
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
+
 		params = fetchCasuMessageRequestValues();
-		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.resources.requestedResources = getEmptyResourceRequest();
-		newState.casuMessage = {
-			messageType: "",
-			major: "",
-			exact: "",
-			incidentType: "",
-			hazards: "",
-			access: "",
-			victims: "",
-		};
-		Context.interfaceState.setState(newState);
+
 	} else if (isRadioActionTemplate(actionRefUid)) {
+
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.channelText.actors = '';
-		Context.interfaceState.setState(newState);
+
 	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
-export function fetchCasuMessageRequestValues(): CasuMessagePayload {
+
+/**
+ * Generate a SelectMapObjectPayload from interface state
+ * 
+ * @returns SelectMapObjectPayload
+ */
+function fetchSelectMapObjectValues() { // TODO Add type
+
+	const mapState = Context.mapState.state;
+
+
+	let tmpFeature;
+	if (mapState.selectionState.geometryType) {
+		tmpFeature = {
+			geometryType: mapState.selectionState.geometryType,
+			feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
+		}
+	}
+
+	if (mapState.selectionState.layerId) {
+		tmpFeature = {
+			featureKey: mapState.selectionState.featureKey,
+			featureId: mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId]
+		}
+	}
+
+	return tmpFeature;
+}
+
+/**
+ * Generate a SendResourcesPayload from interface state
+ * 
+ * @returns SendResourcesPayload
+ */
+function fetchSendResourcesValues() { // TODO Add Type
+	const sentResources: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.sendResources[resourceType];
+		if (amount) {
+			sentResources[resourceType] = amount;
+		}
+	});
+
+	const payload = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	newState.resources.sendResources.selectedActorId = getAllActors()[0]!.Uid;
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.sendResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+
+	return payload;
+}
+
+/**
+ * Generate a AssignResourcePayload from interface state
+ * 
+ * @returns AssignResourcePayload
+ */
+function fetchAssignResourceValues() { // TODO Add Type
+	const resourcesForAssignation: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.assignResources[resourceType];
+		if (amount) {
+			resourcesForAssignation[resourceType] = amount;
+		}
+	});
+
+	const payload = { task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation };
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.resources.assignResources.selectedTaskId = '';
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.assignResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+
+	return payload;
+}
+
+/**
+ * Generate a ReleaseResourcePayload from interface state
+ * 
+ * @returns ReleaseResourcePayload
+ */
+function fetchReleaseResourceValues() {
+	const resourcesForRelease: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.releaseResources[resourceType];
+		if (amount) {
+			resourcesForRelease[resourceType] = amount;
+		}
+	});
+
+	const payload = { task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease };
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.resources.releaseResources.selectedTaskId = '';
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.releaseResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+
+	return payload;
+}
+
+/**
+ * Generate a CasuMessagePayload from interface state
+ * 
+ * @returns CasuMessagePayload
+ */
+function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	const casuMessage = Context.interfaceState.state.casuMessage;
 	const request = Context.interfaceState.state.resources.requestedResources;
 
-	let res: CasuMessagePayload = {messageType: casuMessage.messageType};
+	let payload: CasuMessagePayload = { messageType: casuMessage.messageType };
 
 	if (casuMessage.messageType.startsWith('MET')) {
-		res.major = casuMessage.major;
-		res.exact = casuMessage.exact;
-		res.incidentType = casuMessage.incidentType;
-	} 
+		payload.major = casuMessage.major;
+		payload.exact = casuMessage.exact;
+		payload.incidentType = casuMessage.incidentType;
+	}
 	if (casuMessage.messageType.endsWith('HANE')) {
-		res.hazards = casuMessage.hazards;
-		res.access = casuMessage.access;
-		res.victims = casuMessage.victims;
+		payload.hazards = casuMessage.hazards;
+		payload.access = casuMessage.access;
+		payload.victims = casuMessage.victims;
 	}
 	if (casuMessage.messageType.endsWith('E')) {
-		res.resourceRequest = request;
+		payload.resourceRequest = request;
 	}
 
-	return res;
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.resources.requestedResources = getEmptyResourceRequest();
+	newState.casuMessage = {
+		messageType: "",
+		major: "",
+		exact: "",
+		incidentType: "",
+		hazards: "",
+		access: "",
+		victims: "",
+	};
+	Context.interfaceState.setState(newState);
+
+	return payload;
 }
 
-export function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
+/**
+ * Generate a RadioMessagePayload from interface state
+ * 
+ * @returns RadioMessagePayload
+ */
+function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
 	let res: RadioMessagePayload;
 	if (channel == ActionType.ACTORS_RADIO)
-		res = {channel: channel, message: Context.interfaceState.state.channelText.actors, actorId: Context.interfaceState.state.currentActorUid};
+		res = { channel: channel, message: Context.interfaceState.state.channelText.actors, actorId: Context.interfaceState.state.currentActorUid };
 	else {
-		res = {channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid};
+		res = { channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid };
 	}
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.channelText.actors = '';
+	Context.interfaceState.setState(newState);
+
 	return res;
 }

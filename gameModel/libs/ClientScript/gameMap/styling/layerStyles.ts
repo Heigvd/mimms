@@ -95,7 +95,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			textStyle.offsetX = .5;
 			textStyle.offsetY = -18;
 			textStyle.scale = 1.6;
-			// If point is not currently selected, we give it half opacity
+			// If point is currently selected, we give it half opacity
 			textStyle.opacity = isSelected ? 1 : .5;
 			iconStyle.opacity = isSelected ? 1 : .5;
 			textStyle.fill = {
