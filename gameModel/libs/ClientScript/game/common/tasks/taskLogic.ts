@@ -18,7 +18,7 @@ import { ResourceType } from '../resources/resourceType';
 export function createResourceAllocationLocalEvent(globalEvent: FullEvent<ResourceAllocationEvent>, state: MainSimulationState): LocalEventBase | undefined{
   taskLogger.info("resources allocation asked " + JSON.stringify(globalEvent.payload));
 
-  let effectiveNb = findEffectiveNbResourcesToAllocate(state,
+  const effectiveNb = findEffectiveNbResourcesToAllocate(state,
     globalEvent.payload.taskId, globalEvent.payload.actorId, globalEvent.payload.resourceType, globalEvent.payload.nbResources);
 
   taskLogger.debug("resources allocation given " + effectiveNb);
@@ -32,16 +32,16 @@ export function createResourceAllocationLocalEvent(globalEvent: FullEvent<Resour
  * how many maximum resources are useful for the task.
  */
 function findEffectiveNbResourcesToAllocate(state: Readonly<MainSimulationState>,
-	taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
+  taskId: TaskId, actorId: ActorId, type: ResourceType, nbRequested: number): number {
 
-    if (TaskState.isTaskAlive(state, taskId)) {
-      const nbAvailable: number = ResourceState.getResourcesAvailable(state, actorId, type).length;
-      const taskNbStillMissingResources = TaskState.getNbResourcesStillUsefulForTask(state, taskId, type);
-      const nbFeasible = Math.min(nbRequested, nbAvailable, taskNbStillMissingResources);
-      return nbFeasible;
-    } 
+  if (TaskState.isTaskAlive(state, taskId)) {
+    const nbAvailable: number = ResourceState.getResourcesAvailable(state, actorId, type).length;
+    const taskNbStillMissingResources = TaskState.getNbResourcesStillUsefulForTask(state, taskId, type);
+    const nbFeasible = Math.min(nbRequested, nbAvailable, taskNbStillMissingResources);
+    return nbFeasible;
+  }
 
-	return 0;
+  return 0;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ function findEffectiveNbResourcesToAllocate(state: Readonly<MainSimulationState>
 export function createResourceReleaseLocalEvent(globalEvent: FullEvent<ResourceReleaseEvent>, state: MainSimulationState): LocalEventBase | undefined {
   taskLogger.debug("resources release asked " + globalEvent.payload.nbResources);
 
-  let effectiveNb = findEffectiveNbResourcesToRelease(state,
+  const effectiveNb = findEffectiveNbResourcesToRelease(state,
     globalEvent.payload.taskId, globalEvent.payload.actorId, globalEvent.payload.resourceType, Math.abs(globalEvent.payload.nbResources));
 
   taskLogger.debug("resources release given " + effectiveNb);

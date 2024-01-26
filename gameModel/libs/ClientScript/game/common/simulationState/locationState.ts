@@ -7,4 +7,4 @@ export enum LOCATION_ENUM {
 	PMA = 'PMA',
 	PC = 'PC',
 	parcAmbulance = 'parcAmbulance'
-};
+}

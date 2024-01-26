@@ -248,6 +248,11 @@
                                           "@class" : "Script",
                                           "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'radio')}</p>`",
                                           "language" : "TypeScript"
+                                        },
+                                        "unreadCount" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
+                                          "language" : "TypeScript"
                                         }
                                       },
                                       "type" : "Text"

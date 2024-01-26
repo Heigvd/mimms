@@ -334,6 +334,11 @@
                                   "margin" : "10px"
                                 },
                                 "name" : "human",
+                                "onPointerOver" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ ],
+                                  "content" : "import { observeBlock } from \"./game/patientZoom/currentPatientZoom\";\nobserveBlock(undefined, Context.patientConsole.setState);\nreturn"
+                                },
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",

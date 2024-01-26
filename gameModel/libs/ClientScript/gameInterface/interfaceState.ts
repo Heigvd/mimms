@@ -1,3 +1,4 @@
+import { ActionType } from '../game/common/actionType';
 import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
@@ -100,7 +101,8 @@ export function getInitialInterfaceState(): InterfaceState {
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',
 		selectedPanel: 'actions',
-		channel: 'G682',
+		channel: ActionType.CASU_RADIO,
+		updatedChannelMessagesAt: 0,
 		channelText: {
 			actors: '',
 			evasam: ''
