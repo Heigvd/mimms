@@ -100,18 +100,18 @@ export class CancelActionLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-      const so = state.getInternalStateObject();
-	  const now = state.getSimTime();
-      const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid && a.startTime == now);
-	
-      if (action && action.startTime === this.planTime) {
-		// We remove the action and place it in cancelled actions
-        so.actions.splice(so.actions.indexOf(action), 1);
-        so.cancelledActions.push(action);
-        action.cancel(state);
-      } else {
-        // err.log
-      }
+    const so = state.getInternalStateObject();
+    const now = state.getSimTime();
+    const action = so.actions.find(a => a.getTemplateId() === this.templateId && a.ownerId === this.actorUid && a.startTime == now);
+
+    if (action && action.startTime === this.planTime) {
+    // We remove the action and place it in cancelled actions
+      so.actions.splice(so.actions.indexOf(action), 1);
+      so.cancelledActions.push(action);
+      action.cancel(state);
+    } else {
+      // err.log
+    }
 
   }
 }
@@ -251,28 +251,27 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     public readonly recipient: ActorId, 
     public readonly emitter: TranslationKey,
     public readonly message: TranslationKey,
-	public readonly channel: ActionType | undefined = undefined,
+    public readonly channel: ActionType | undefined = undefined,
     public readonly isRadioMessage: boolean = false,
-	  private readonly omitTranslation: boolean = false)
+    private readonly omitTranslation: boolean = false)
   {
       super(parentId, 'AddLogMessageLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
 	
-	  const msg = this.omitTranslation ? this.message 
-		  : getTranslation('mainSim-actions-tasks', this.message);
+    const msg = this.omitTranslation ? this.message 
+      : getTranslation('mainSim-actions-tasks', this.message);
 
-      state.getInternalStateObject().radioMessages.push({
-        recipientId: this.recipient,
-        timeStamp: this.simTimeStamp,
-        emitter: this.emitter,
-        message: msg,
-        uid : AddRadioMessageLocalEvent.UidSeed++,
-        isRadioMessage: this.isRadioMessage,
-		    channel: this.channel
-      })
-
+    state.getInternalStateObject().radioMessages.push({
+      recipientId: this.recipient,
+      timeStamp: this.simTimeStamp,
+      emitter: this.emitter,
+      message: msg,
+      uid : AddRadioMessageLocalEvent.UidSeed++,
+      isRadioMessage: this.isRadioMessage,
+      channel: this.channel
+    })
     
   }
 
@@ -289,10 +288,10 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
  */
 export class TransferResourcesLocalEvent extends LocalEventBase {
   constructor(parentId: GlobalEventId,
-              timeStamp: SimTime,
-              public readonly senderActor: ActorId,
-              public readonly receiverActor: ActorId,
-              public readonly sentResources: ResourceTypeAndNumber,
+    timeStamp: SimTime,
+    public readonly senderActor: ActorId,
+    public readonly receiverActor: ActorId,
+    public readonly sentResources: ResourceTypeAndNumber,
   ) {
     super(parentId, 'TransferResourcesLocalEvent', timeStamp);
   }
@@ -316,7 +315,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 
 	constructor(
 		parentEventId: GlobalEventId,
-    	timeStamp: SimTime,
+    timeStamp: SimTime,
 		private actorUid: ActorId,
 		private request: CasuMessagePayload
 	){

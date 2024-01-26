@@ -83,20 +83,20 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    */
   public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
   {
-	return this.flagWiseAvailable(state) && this.canPlayAgain(state);
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state);
   }
 
   public isInCategory(category: ActionType) : boolean {
-	  return category === this.category;
+    return category === this.category;
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
-	if(!this.flags || this.flags.length == 0)
-	{
-	  return true;
-	}
+    if(!this.flags || this.flags.length == 0)
+    {
+      return true;
+    }
 
-	return this.flags.some(f => state.hasFlag(f));
+    return this.flags.some(f => state.hasFlag(f));
   }
 
   /**
@@ -130,12 +130,12 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * If replayable returns true, else returns true if the action has not yet been planned and started
    */
   protected canPlayAgain(state: Readonly<MainSimulationState>): boolean {
-	if(this.replayable){
-	  return true;
-	}
+    if(this.replayable){
+      return true;
+    }
 
-	const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
-	//either action has not been played or it is planned but can still be cancelled
+    const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
+    //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
   }
 
@@ -152,7 +152,6 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
   public readonly duration: SimDuration;
   public readonly message: TranslationKey;
 
-
   constructor(title: TranslationKey, description: TranslationKey,
      duration: SimDuration,  message: TranslationKey, replayable = false, flags: SimFlag[]=[], category: ActionType = ActionType.ACTION) {
     super(title, description, replayable, flags, category);
@@ -160,33 +159,7 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
     this.message = message;
   }
 
-  /**
-   * a deterministic unique identifier for this template
-   */
-  public abstract getTemplateRef(): TemplateRef;
-
-  /**
-   * Build an instance from an incoming global event
-   */
-  protected abstract createActionFromEvent(event: FullEvent<EventT>): ActionT;
-
-  /**
-   * Generate an event to be broadcasted
-   * @param timeStamp current time
-   * @param initiator the actor that initiates this action and will be its owner
-   */
-  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
-
-  /**
-   * @returns A translation to a short description of the action
-   */
-  public abstract getDescription(): TranslationKey;
-  /**
-   * @returns A translation to the title of the action
-   */
-  public abstract getTitle(): TranslationKey;
-
-  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
+  protected override initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
     return {
       ...initBaseEvent(actorId),
       type: 'ActionCreationEvent',
@@ -199,16 +172,10 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
    * Generate a local event to create an action from a broadcasted global event
    * @param globalEvent the broadcasted event
    */
-  public buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
+  public override buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
     const action = this.createActionFromEvent(globalEvent);
     return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
   }
-
-  /**
-   * @return true if the action should be created in the timeline right away, 
-   * false if some other interaction should take place in between
-   */
-  public abstract planActionEventOnFirstClick(): boolean;
 
 }
 
@@ -274,7 +241,7 @@ export class CasuMessageTemplate extends ActionTemplateBase<CasuMessageAction, C
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
-	  casuMessagePayload : params
+      casuMessagePayload : params
     }
   }
   
@@ -303,7 +270,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
       geometryType: GeometryType,
       name: string,
       icon?: string,
-	  feature?: DefineFeature,
+      feature?: DefineFeature,
     },
 	replayable = false, flags: SimFlag[]=[]
   ) {
@@ -313,7 +280,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
   public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: FeaturePayload): DefineMapObjectEvent {
     
   const feature = {
-	  ownerId: initiator.Uid,
+    ownerId: initiator.Uid,
     geometryType: this.featureDescription.geometryType,
     name: this.featureDescription.name,
     geometry: this.featureDescription.feature?.geometry || payload.feature,
@@ -352,7 +319,7 @@ export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAct
 
 }
 
-export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
+export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
 
   
   public readonly geometrySelection?: {
@@ -388,7 +355,7 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload | FeaturePayload): SelectMapObjectEvent | DefineMapObjectEvent {
 
-    if (this.geometrySelection) {
+    if (this.geometrySelection){
 
 		const feature = {
 			ownerId: initiator.Uid,
@@ -418,12 +385,12 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
   }
 
   protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>): SelectMapObjectAction | DefineMapObjectAction {
-	  const payload = event.payload;
-	  const ownerId = payload.emitterCharacterId as ActorId;
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
 
-	  if (this.geometrySelection) {
-		  return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
-	  }
+    if (this.geometrySelection) {
+      return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
+    }
 
       return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureSelection!.featureKey, (payload as SelectMapObjectEvent).featureId, this.Uid)
   }
@@ -471,7 +438,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+  public override isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return super.isAvailable(state, actor) && state.getInternalStateObject().resourceGroups.length > 1;
   }
 
@@ -621,7 +588,7 @@ export class SendRadioMessage extends StartEndTemplate {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec : this.duration,
-	  radioMessagePayload : params
+      radioMessagePayload : params
     }
   }
 
