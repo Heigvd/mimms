@@ -1,10 +1,57 @@
+import { ActionType } from '../game/common/actionType';
 import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { getAllActors } from '../UIfacade/actorFacade';
 
-export function getInitialInterfaceState() {
+export interface InterfaceState {
+	currentActorUid: number;
+	currentActionUid: number;
+	showPatientModal: boolean;
+	selectedPanel: 'actions' | 'radios' | 'notification';
+	selectedMapObjectId: string;
+	channel: string;
+	channelText: {
+		actors: string;
+		evasam: string;
+	};
+	isReleaseResourceOpen: boolean;
+	casuMessage: CasuMessage;
+	resources: {
+		sendResources: {
+			selectedActorId: number;
+		} & Resources;
+		assignResources: {
+			selectedTaskId: string,
+		} & Resources;
+		releaseResources: {
+			selectedTaskId: string,
+		} & Resources;
+		requestedResources: Partial<Record<"ACS-MCS" | "Ambulance" | "SMUR" | "PMA" | "PICA" | "PCS" | "Helicopter", number>>;
+	}
+}
+
+interface CasuMessage {
+	messageType: string,
+	major: string,
+	exact: string,
+	incidentType: string,
+	hazards: string,
+	access: string, 
+	victims: string,
+}
+
+interface Resources {
+	secouriste: number;
+	technicienAmbulancier: number;
+	ambulancier: number;
+	infirmier: number;
+	medecinJunior: number;
+	medecinSenior: number;
+}
+
+export function getInitialInterfaceState(): InterfaceState {
 	return {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
@@ -52,9 +99,10 @@ export function getInitialInterfaceState() {
 		},
 		showPatientModal: false,
 		selectedMapObjectId: '0',
-		selectedMapObject: '',
+		// selectedMapObject: '',
 		selectedPanel: 'actions',
-		channel: 'G682',
+		channel: ActionType.CASU_RADIO,
+		updatedChannelMessagesAt: 0,
 		channelText: {
 			actors: '',
 			evasam: ''

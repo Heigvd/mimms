@@ -30,11 +30,17 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.CASU_RADIO);",
-                "language" : "TypeScript"
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.CASU_RADIO);\nupdateReadMessages(ActionType.CASU_RADIO, getAvailableRadioMessagesForChannel(ActionType.CASU_RADIO).length);",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { }
+            "style" : { },
+            "unreadCount" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.CASU_RADIO);",
+              "language" : "TypeScript"
+            }
           },
           "type" : "Button"
         }, {
@@ -65,11 +71,17 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.ACTORS_RADIO);",
-                "language" : "TypeScript"
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.ACTORS_RADIO);\nupdateReadMessages(ActionType.ACTORS_RADIO, getAvailableRadioMessagesForChannel(ActionType.ACTORS_RADIO).length);",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { }
+            "style" : { },
+            "unreadCount" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.ACTORS_RADIO);",
+              "language" : "TypeScript"
+            }
           },
           "type" : "Button"
         }, {
@@ -100,11 +112,17 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.RESOURCES_RADIO);",
-                "language" : "TypeScript"
+                "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.RESOURCES_RADIO);\nupdateReadMessages(ActionType.RESOURCES_RADIO, getAvailableRadioMessagesForChannel(ActionType.RESOURCES_RADIO).length);",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { }
+            "style" : { },
+            "unreadCount" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.RESOURCES_RADIO);",
+              "language" : "TypeScript"
+            }
           },
           "type" : "Button"
         }, {
@@ -135,11 +153,17 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { setChannelType } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.EVASAN_RADIO);",
-                "language" : "TypeScript"
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.EVASAN_RADIO);\nupdateReadMessages(ActionType.EVASAN_RADIO, getAvailableRadioMessagesForChannel(ActionType.EVASAN_RADIO).length);",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { }
+            "style" : { },
+            "unreadCount" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.EVASAN_RADIO);",
+              "language" : "TypeScript"
+            }
           },
           "type" : "Button"
         } ]

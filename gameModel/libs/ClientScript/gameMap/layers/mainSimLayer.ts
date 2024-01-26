@@ -4,6 +4,17 @@ import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
 import { getSimTime } from "../../UIfacade/timeFacade";
 
+/************
+*
+*  Helpers & Tools
+*
+************/
+
+/**
+ * Filter for available layer generation
+ * 
+ * @params MapFeature features
+ */
 function filterAvailable(feature: MapFeature) {
 	if (feature.startTimeSec !== undefined && feature.durationTimeSec !== undefined) {
 		return feature.startTimeSec + feature.durationTimeSec <= getSimTime();
@@ -12,6 +23,11 @@ function filterAvailable(feature: MapFeature) {
 	return true;
 }
 
+/**
+ * Filter for unavailable layer generation
+ * 
+ * @params MapFeature features
+ */
 function filterUnavailable(feature: MapFeature) {
 	if (feature.startTimeSec !== undefined && feature.durationTimeSec !== undefined) {
 		return feature.startTimeSec + feature.durationTimeSec >= getSimTime();
@@ -21,7 +37,30 @@ function filterUnavailable(feature: MapFeature) {
 }
 
 /**
+ * Returns a the end point and rotation for a given line segment
+ * 
+ * @param segment PointLikeObject of segment
+ * 
+ * @returns End point and rotation of segment
+ */ 
+export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLikeObject, rotation: number} {
+	const start = segment[0];
+	const end = segment[1];
+
+	const dx = end[0] - start[0];
+	const dy = end[1] - start[1];
+	const rotation = Math.atan2(dy, dx);
+
+	return {end, rotation};
+}
+
+/**
  * Creates a layer with the given features and name
+ * 
+ * @params features MapFeature[]
+ * @params name string
+ * 
+ * @returns FeatureCollection
  */
 function getLayer(features: MapFeature[], name: string): FeatureCollection {
 	const layer = getEmptyFeatureCollection();
@@ -84,8 +123,16 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 	return layer;
 }
 
+/******************************
+*
+*  MainSim Layers Generation
+*
+******************************/
+
 /**
  * Creates layer with all available features (completed actions)
+ * 
+ * @returns FeatureCollection Layer of available features
  */
 export function getAvailableLayer() {
 	const features = getCurrentState().getMapLocations();
@@ -105,46 +152,12 @@ export function getUnavailableLayer() {
 }
 
 /**
- * Creates a layer from tmpFeature
- * This layer displays the temporary feature defined by the user during a DefineMapObjectAction
- */
-export function getTmpLayer() {
-	const feature = Context.mapState.state.tmpFeature;
-	let formattedFeature: MapFeature[] = [];
-
-
-	if (feature) {
-		formattedFeature.push({
-			ownerId: Context.interfaceState.state.currentActorUid,
-			geometryType: feature.geometryType,
-			geometry: feature.feature,
-			name: 'tmpFeature'
-		});
-
-		if (feature.geometryType === 'LineString') {
-			feature.feature.forEach((point: PointLikeObject) => {
-				formattedFeature.push({
-					ownerId: Context.interfaceState.state.currentActorUid,
-					geometryType: 'Point',
-					geometry: point,
-					name: 'tmpFeaturePoint'
-				})
-			})
-		};
-	}
-
-
-
-	return getLayer(formattedFeature, 'TmpLayer')
-}
-
-/**
  * Creates a layer from Selection payload
  * This layer displays the available selection when performing a SelectMapObjectAction
  */
 export function getSelectionLayer() {
 	const selection = Context.mapState.state.selectionState;
-	let selectionFeatures: MapFeature[] = [];
+	const selectionFeatures: MapFeature[] = [];
 
 	if (selection.geometryType) {
 		selection.geometries.forEach((geometry: any, i: number) => {
@@ -160,18 +173,6 @@ export function getSelectionLayer() {
 	};
 
 	return getLayer(selectionFeatures, 'SelectionLayer');
-}
-
-// Returns a the end point and rotation for a given line segment
-export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLikeObject, rotation: number} {
-	const start = segment[0];
-	const end = segment[1];
-
-	const dx = end[0] - start[0];
-	const dy = end[1] - start[1];
-	const rotation = Math.atan2(dy, dx);
-
-	return {end, rotation};
 }
 
 

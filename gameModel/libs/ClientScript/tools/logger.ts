@@ -21,6 +21,7 @@ export const extraLogger = Helpers.getLogger("human.extra");
 export const preTriageLogger = Helpers.getLogger("pretriage");
 export const localEventManagerLogger = Helpers.getLogger("local.event.manager");
 export const mainSimInterfaceLogger = Helpers.getLogger("mainSim.interface");
+export const mainSimMapLogger = Helpers.getLogger("mainSim.map");
 localEventManagerLogger.setLevel('INFO');
 export const mainSimLogger = Helpers.getLogger('main.simulation.logic');
 export const mainSimStateLogger = Helpers.getLogger('main.simulation.state');

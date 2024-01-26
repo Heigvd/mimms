@@ -23,10 +23,10 @@ import { ActionType } from "../actionType";
 export class PreTriageTask extends DefaultTask {
 
   public constructor(
-    readonly title: TranslationKey,
-    readonly description: TranslationKey,
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number,
+    title: TranslationKey,
+    description: TranslationKey,
+    nbMinResources: number,
+    nbMaxResources: number,
     //readonly zone: string, // TODO see how represent it
     readonly feedbackAtEnd : TranslationKey,
   ) {
@@ -42,7 +42,7 @@ export class PreTriageTask extends DefaultTask {
     // check if we have the capacity to do something
     if (!TaskState.hasEnoughResources(state, this)) {
 		taskLogger.info("Not enough resources!");
-      	return;
+			return;
     }
 		taskLogger.info("Patients not pretriaged before action: " + getNonPreTriagedPatientsSize(state));
 		const RESOURCE_EFFICACITY = 1;
