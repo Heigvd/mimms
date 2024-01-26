@@ -29,7 +29,7 @@ export function getAvailableRadioMessages(id: number, shouldBeRadioMessage: bool
 /**
  * Get radio messages for given channel
  */
-export function getAvailableRadioMessagesForChannel(channel: ActionType|undefined): RadioMessage[] {
+export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioMessage[] {
 	return getAllChanneledRadioMessages().filter(m => m.channel === channel);
 }
 
@@ -45,14 +45,14 @@ export function setChannelType(channel: ActionType) {
 /**
  * Update variable containing all radio messages that are read, by channel. Variable is readRadioMessagesByChannel
  */
-export function updateReadMessages(channel: ActionType|undefined, amount: number = 1) : Promise<IManagedResponse>|undefined {
+export function updateReadMessages(channel: ActionType, amount: number = 1) : Promise<IManagedResponse>|undefined {
 	return APIMethods.runScript(`Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${channel}','${amount}');`, {});
 }
 
 /**
  * Get not read radio messages, by channel
  */
-export function getUnreadMessages(channel: ActionType|undefined) : number {
+export function getUnreadMessages(channel: ActionType) : number {
 	return getAvailableRadioMessagesForChannel(channel).length - +Variable.find(gameModel,'readRadioMessagesByChannel').getInstance(self).getProperties()[channel!];
 }
 
@@ -77,7 +77,7 @@ export function getAllUnreadMessagesCountBullet() : number|undefined {
 //hack, if ui is already displaying a channel, then we have to update immediately the count of read messages
 //but it is refreshed multiple times, so try to limit the amount of concurrent requests to the server with boolean global variable
 let updatingReadChannelRadioMessages = false;
-export function getUnreadMessagesCountBullet(channel: ActionType|undefined) : number|undefined {
+export function getUnreadMessagesCountBullet(channel: ActionType) : number|undefined {
 	const unreadMsgs = getUnreadMessages(channel);
 	if (Context.interfaceState.state.channel !== channel) {
 		return unreadMsgs > 0 ? unreadMsgs : undefined;
