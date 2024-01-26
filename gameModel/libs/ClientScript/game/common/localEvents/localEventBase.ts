@@ -263,7 +263,6 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 	  const msg = this.omitTranslation ? this.message 
 		  : getTranslation('mainSim-actions-tasks', this.message);
 
-
       state.getInternalStateObject().radioMessages.push({
         recipientId: this.recipient,
         timeStamp: this.simTimeStamp,
@@ -397,7 +396,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
 		
 		const t = Math.round(this.travelTime / 60);
 		const msg = this.buildRadioText(t);
-		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, 'G682',true, true);
+		const evt = new AddRadioMessageLocalEvent(this.parentEventId, this.simTimeStamp, this.senderId, 'CASU', msg, ActionType.CASU_RADIO,true, true);
 		localEventManager.queueLocalEvent(evt);
 	}
 

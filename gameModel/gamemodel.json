@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1705394624476,
+  "createdTime" : 1706260873134,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5754,6 +5754,42 @@
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : {
+            "ACTORS_RADIO" : "0",
+            "CASU_RADIO" : "0",
+            "EVASAN_RADIO" : "0",
+            "RESOURCES_RADIO" : "0"
+          },
+          "refId" : "ObjectInstance:128841:CZFLIG"
+        },
+        "description" : "",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:128842:MuwYJB",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:128842:MuwYJB::EN",
+              "status" : "",
+              "translation" : "readRadioMessagesByChannel"
+            }
+          }
+        },
+        "name" : "readRadioMessagesByChannel",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:128840:WGPACq",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -6375,6 +6411,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:75985:LIppZ4",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/selectedPanel",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:129172:DyK6JJ",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7089,7 +7134,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "pretriResponsive_jess_08-01-24",
+  "name" : "MIMMS main simulation 16.01.24",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
