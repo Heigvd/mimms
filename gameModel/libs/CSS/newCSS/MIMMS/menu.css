@@ -1,0 +1,25 @@
+/******************************************** MENU ITEMS ********************************************/
+
+.active-selected-item {
+	font-family: Inter;
+	font-size: var(--M_text);
+	font-weight: var(--boldWeight);
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+	color: var(--interface_BLUE);
+	margin-left: 20px;
+}
+
+.not-active-selected-item {
+	font-family: Inter;
+	font-size: var(--M_text);
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+	color: var(--gray_BLACK);
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+

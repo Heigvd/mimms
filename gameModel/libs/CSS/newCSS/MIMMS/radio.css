@@ -4,6 +4,7 @@
 	padding: 8px 15px 8px 15px;
 	border-radius: 50px;
 	background-color: var(--interface_BLUE);
+	font-weight: var(--boldWeight);
 }
 
 .not-active-channel {
@@ -11,8 +12,17 @@
 	height: 33px;
 	padding: 8px 15px 8px 15px;
 	border-radius: 50px;
-	background-color: var(--gray_150);
-	color: var(--gray_300);
+	 background-color: var(--gray_150);
+	color: var(--interface_700);
+}
+
+.not-active-channel:hover{
+		background-color: var(--gray_200);
+}
+
+.active-channel:hover{
+		background-color: var(--interface_200);
+		
 }
 
 
@@ -81,9 +91,9 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-  left: auto;
+  	left: auto;
 	right: -20px;
-  top: 0px;
+  	top: 0px;
 	bottom: auto;
 	border: 20px solid;
 	border-color: var(--interface_0) transparent transparent transparent;
@@ -92,19 +102,26 @@
 .emitter-text-header-layout {
 	font-family: Inter;
 	font-size: 14px;
-	font-weight: 700;
+	font-weight: var(--boldWeight);
 	line-height: 17px;
 	letter-spacing: 0em;
 	text-align: left;
+	margin-left: 15px;
+	margin-top: 10px;
 }
 
 .emitter-text-body-layout {
 	font-family: Inter;
 	font-size: 12px;
-	font-weight: 400;
 	line-height: 15px;
 	letter-spacing: 0em;
 	text-align: left;
+	margin-left: 15px;
+	
+}
+
+.emitter-text-body-layout>p{
+	margin-top: 0px;
 }
 
 .chevron-icon {
@@ -115,4 +132,14 @@
 
 .rotate{
    transform: rotate(180deg);
+}
+
+
+/*** Free message input for D418 chanel ***/
+
+.freeMessageInput-container{
+	border: 1px solid black;
+	border-radius: var(--S_borderRadius);
+	height: 10rem;
+	background-color: white;
 }

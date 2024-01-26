@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.item.emitter;",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n\n getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },

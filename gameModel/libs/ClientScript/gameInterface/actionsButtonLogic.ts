@@ -57,7 +57,6 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	} else if (isRadioActionTemplate(actionRefUid)) {
 
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-
 	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
