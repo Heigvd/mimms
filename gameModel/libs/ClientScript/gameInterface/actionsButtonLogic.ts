@@ -134,7 +134,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	} else if (isRadioActionTemplate(actionRefUid)) {
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
 		const newState = Helpers.cloneDeep(Context.interfaceState.state)
-		newState.channelText.actors = '';
+		//newState.channelText.actors = '';
 		Context.interfaceState.setState(newState);
 	}
 

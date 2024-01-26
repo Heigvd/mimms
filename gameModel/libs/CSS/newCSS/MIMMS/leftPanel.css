@@ -1,0 +1,15 @@
+
+.role-container{
+	width: 6rem;
+	background: var(--interface_BLUE);
+	font-weight: var(--boldWeight);
+	font-size: var(--ML_text);
+	color: var(--gray_WHITE);
+	border-top-left-radius: var(--S_borderRadius);
+	white-space: nowrap;
+}
+
+
+.role{
+	margin: auto;
+}

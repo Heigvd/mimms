@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.item.emitter;",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -105,6 +105,11 @@
                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
                   "language" : "TypeScript"
                 },
+                "readOnlyIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
+                  "language" : "typescript"
+                },
                 "rows" : 2,
                 "script" : {
                   "@class" : "Script",
@@ -159,12 +164,8 @@
           "type" : "AbsoluteLayout"
         } ],
         "layout" : { },
-        "layoutStyle" : {
-          "background-color" : "white",
-          "border" : "1px solid black",
-          "border-radius" : "15px",
-          "height" : "180px"
-        },
+        "layoutClassName" : "freeMessageInput-container",
+        "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"

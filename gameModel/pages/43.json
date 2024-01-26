@@ -167,13 +167,10 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "panel-title panel-title-header",
-                                        "layoutStyle" : {
-                                          "padding" : "0px"
-                                        },
-                                        "style" : {
-                                          "width" : "82px"
-                                        },
+                                        "className" : "role",
+                                        "layoutClassName" : "role-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
@@ -308,7 +305,7 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "leftPanel generalPanels",
+                                "className" : "greyPanel leftPanel generalPanels",
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
