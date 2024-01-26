@@ -77,14 +77,24 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 
   /**
    * Determines if the action can be launched given the current state of the game and the actor being played
+   * To add more conditions, override the isAvailableCustom custom function
    * @param state the current game state
    * @param actor currently selected actor
+   * @see isAvailableCustom function
    * @returns true if the player can trigger this action
    */
   public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
   {
-    return this.flagWiseAvailable(state) && this.canPlayAgain(state);
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor);
   }
+
+  /**
+   * Override adds additional conditions for this template action availability
+   * @param state 
+   * @param actor 
+   * @see isAvailable
+   */
+  protected abstract isAvailableCustom(state : Readonly<MainSimulationState>, actor : Readonly<Actor>) : boolean;
 
   public isInCategory(category: ActionType) : boolean {
     return category === this.category;
@@ -159,22 +169,9 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
     this.message = message;
   }
 
-  protected override initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
-    return {
-      ...initBaseEvent(actorId),
-      type: 'ActionCreationEvent',
-      templateRef: this.getTemplateRef(),
-      triggerTime : timeStamp,
-    }
-  }
-
-  /**
-   * Generate a local event to create an action from a broadcasted global event
-   * @param globalEvent the broadcasted event
-   */
-  public override buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
-    const action = this.createActionFromEvent(globalEvent);
-    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
+  /** Default implementation : no custom conditions */
+  protected override isAvailableCustom(state : Readonly<MainSimulationState>, actor : Readonly<Actor>) : boolean{
+    return true;
   }
 
 }
@@ -219,11 +216,11 @@ export class GetInformationTemplate extends StartEndTemplate {
 
 }
 
-export class CasuMessageTemplate extends ActionTemplateBase<CasuMessageAction, CasuMessageActionEvent, CasuMessagePayload> {
+export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, CasuMessageActionEvent, CasuMessagePayload> {
 
   constructor(title: TranslationKey, description: TranslationKey, 
-    readonly duration: SimDuration, readonly message: TranslationKey) {
-    super(title, description, true, [], ActionType.CASU_RADIO);
+    duration: SimDuration, message: TranslationKey) {
+    super(title, description, duration, message, true, [], ActionType.CASU_RADIO);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -412,7 +409,8 @@ export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAct
 export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };
 
 /**
- * Action template to create an action to request resources from an actor
+ * Action template to create an action to send resources to an actor
+ * XGO 25.01.2024 : Has to be replaced by SendToPosition(symbolic position)
  */
 export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
 
@@ -438,8 +436,9 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  public override isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return super.isAvailable(state, actor) && state.getInternalStateObject().resourceGroups.length > 1;
+  // XGO 25.01.2024 : Will be availble if more than a single symbolic position is available
+  public override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    return state.getInternalStateObject().resourceGroups.length > 1;
   }
 
   public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToActorActionInput): ResourceSendingToActorEvent {
@@ -468,7 +467,7 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
 export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber };
 
 /**
- * Action template to create an action to request resources from an actor
+ * Action template to create an action to assign a function/task to ressources
  */
 export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
 

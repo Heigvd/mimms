@@ -1,4 +1,4 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, CasuMessageTemplate, DefineMapObjectTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
+import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, DefineMapObjectTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActionType } from "../game/common/actionType";
 import { endMapAction, startMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
