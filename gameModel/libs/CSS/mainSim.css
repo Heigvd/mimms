@@ -80,10 +80,11 @@
     font-size: 2.5em;
 }
 
+/* Conflicts with pretri class 
 .leftPanel-container {
 	max-width: 486px;
 }
-
+*/
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
