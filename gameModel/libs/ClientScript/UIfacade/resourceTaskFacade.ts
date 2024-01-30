@@ -41,7 +41,10 @@ export function getResourceFunction(): ResourceFunction[] {
  *
  * @returns The number of matching resources
  */
-export function countUnoccupiedResources(ownerActorId: ActorId, resourceType: ResourceType): number {
+export function countUnoccupiedResources(
+	ownerActorId: ActorId,
+	resourceType: ResourceType,
+): number {
 	return ResourceState.getUnoccupiedResources(getCurrentState(), ownerActorId, resourceType).length;
 }
 
@@ -68,7 +71,7 @@ export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
  * @return the number of matching resources
  */
 export function countAvailableResources(actorId: ActorId, resourceType: ResourceType): number {
-  return ResourceState.getAvailableResources(getCurrentState(), actorId, resourceType).length;
+	return ResourceState.getAvailableResources(getCurrentState(), actorId, resourceType).length;
 }
 
 /**
@@ -99,7 +102,12 @@ export function countAllocatedResources(taskId: TaskId, resourceType: ResourceTy
  *
  * @returns The promise of a response from the server
  */
-export async function allocateResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function allocateResource(
+	taskId: TaskId,
+	actorId: ActorId,
+	resourceType: ResourceType,
+	nbResources: number,
+): Promise<IManagedResponse | undefined> {
 	return await buildAndLaunchResourceAllocation(taskId, actorId, resourceType, nbResources);
 }
 
@@ -113,6 +121,11 @@ export async function allocateResource(taskId: TaskId, actorId: ActorId, resourc
  *
  * @returns The promise of a response from the server
  */
-export async function releaseResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
+export async function releaseResource(
+	taskId: TaskId,
+	actorId: ActorId,
+	resourceType: ResourceType,
+	nbResources: number,
+): Promise<IManagedResponse | undefined> {
 	return await buildAndLaunchResourceRelease(taskId, actorId, resourceType, nbResources);
 }

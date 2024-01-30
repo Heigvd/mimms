@@ -24,11 +24,7 @@ import {
 	RevivedPathology,
 	revivePathology,
 } from '../../HUMAn/pathology';
-import {
-	getAct,
-	getItem,
-	getPathology,
-} from '../../HUMAn/registries';
+import { getAct, getItem, getPathology } from '../../HUMAn/registries';
 import { fastForward, getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
@@ -53,11 +49,7 @@ import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
 import { Categorization } from '../pretri/triage';
-import {
-	getFogType,
-	infiniteBags,
-	isInterfaceDisabled,
-} from './gameMaster';
+import { getFogType, infiniteBags, isInterfaceDisabled } from './gameMaster';
 import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
@@ -66,16 +58,36 @@ import {
 	getItemTranslation,
 	getTranslation,
 } from '../../tools/translation';
-import { AgingEvent, CancelActionEvent, CategorizeEvent, DelayedAction, DirectCommunicationEvent, EventPayload, EventType, FollowPathEvent, FreezeEvent, GiveBagEvent, HumanLogMessageEvent, HumanMeasureEvent, HumanMeasureResultEvent, HumanTreatmentEvent, PathologyEvent, PhoneCommunicationEvent, PhoneCreationEvent, RadioChannelUpdateEvent, RadioCommunicationEvent, RadioCreationEvent, TeleportEvent } from '../common/events/eventTypes';
+import {
+	AgingEvent,
+	CancelActionEvent,
+	CategorizeEvent,
+	DelayedAction,
+	DirectCommunicationEvent,
+	EventPayload,
+	EventType,
+	FollowPathEvent,
+	FreezeEvent,
+	GiveBagEvent,
+	HumanLogMessageEvent,
+	HumanMeasureEvent,
+	HumanMeasureResultEvent,
+	HumanTreatmentEvent,
+	PathologyEvent,
+	PhoneCommunicationEvent,
+	PhoneCreationEvent,
+	RadioChannelUpdateEvent,
+	RadioCommunicationEvent,
+	RadioCreationEvent,
+	TeleportEvent,
+} from '../common/events/eventTypes';
 import { Location, LocationState, PositionAtTime } from '../../map/locationTypes';
 import { MeasureMetric } from '../../HUMAn/registry/acts';
 import { ConsoleLog, MeasureLog, TreatmentLog } from '../pretri/consoleLog';
 
-
 ///////////////////////////////////////////////////////////////////////////
 // Typings
 ///////////////////////////////////////////////////////////////////////////
-
 
 export interface HumanHealth {
 	pathologies: RevivedPathology[];
@@ -130,7 +142,6 @@ export function findNextTargetedEvent(
 	return futureEvents.sort(compareEvent)[0];
 }
 
-
 /**
  * NONE: update everything, all the time
  * SIGHT: update only if visible (TODO: find the smarter way to compute position)
@@ -140,14 +151,14 @@ export type FogType = 'NONE' | 'SIGHT' | 'FULL';
 
 export type ActionSource =
 	| {
-		type: 'act';
-		actId: string;
-	}
+			type: 'act';
+			actId: string;
+	  }
 	| {
-		type: 'itemAction';
-		itemId: string;
-		actionId: string;
-	};
+			type: 'itemAction';
+			itemId: string;
+			actionId: string;
+	  };
 
 interface Snapshot<T> {
 	time: number;
@@ -155,8 +166,6 @@ interface Snapshot<T> {
 }
 
 type Snapshots<T> = Record<string, Snapshot<T>[]>;
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 // State & config
@@ -441,7 +450,7 @@ function rebuildState(time: number, env: Environnment) {
 
 		if (humanS.mostRecent != null && humanS.mostRecent.time < time) {
 			//const humanState = Helpers.cloneDeep(humanS.mostRecent.state);
-			extraLogger.log("Human ", oKey);
+			extraLogger.log('Human ', oKey);
 			const newState = computeHumanState(humanS.mostRecent.state, time, env);
 
 			humanSnapshots[oKey]!.splice(humanS.mostRecentIndex + 1, 0, {
@@ -558,7 +567,6 @@ current.direction = undefined;
 	//}
 }
 
-
 /**
  * Get all humanState, bybpassing the line of sight !
  */
@@ -566,11 +574,15 @@ export function getAllHuman_omniscient() {
 	const time = getCurrentSimulationTime();
 	const entries = Object.entries(humanSnapshots);
 	return entries.reduce<Record<string, HumanState>>((acc, [key, snapshots]) => {
-		const [_, humanId] = key.split("::");
-		const { mostRecent } = getMostRecentSnapshot(humanSnapshots, {
-			objectType: 'Human',
-			objectId: humanId!,
-		}, time);
+		const [_, humanId] = key.split('::');
+		const { mostRecent } = getMostRecentSnapshot(
+			humanSnapshots,
+			{
+				objectType: 'Human',
+				objectId: humanId!,
+			},
+			time,
+		);
 		if (mostRecent) {
 			acc[humanId!] = mostRecent.state;
 		}
@@ -817,7 +829,6 @@ export function getHealth(humanId: string) {
 	return healths[humanId] || { effects: [], pathologies: [] };
 }
 
-
 function processPathologyEvent(event: FullEvent<PathologyEvent>) {
 	const pathology = getPathology(event.payload.pathologyId);
 
@@ -934,7 +945,6 @@ function readMetrics(metrics: BodyStateKeys[], body: BodyState): MeasureMetric[]
 	});
 }
 
-
 function doMeasure(
 	time: number,
 	_source: ItemDefinition | ActDefinition,
@@ -966,7 +976,7 @@ function doMeasure(
 	if (rEvent) {
 		rEvent.result = values;
 		rEvent.status = 'success';
-		
+
 		sendEvent(rEvent);
 	}
 
@@ -1103,7 +1113,11 @@ export function getResolvedActionDisplayName(action: ResolvedAction): string {
 	return action.label;
 }
 
-function getActionDisplay(action: ResolvedAction, objectId: ObjectId, time: number): DelayedAction['display'] {
+function getActionDisplay(
+	action: ResolvedAction,
+	objectId: ObjectId,
+	time: number,
+): DelayedAction['display'] {
 	if (action.action.type === 'ActionBodyMeasure') {
 		const metrics = action.action.metricName;
 		const metric = metrics[0];
@@ -1117,7 +1131,7 @@ function getActionDisplay(action: ResolvedAction, objectId: ObjectId, time: numb
 					if (result[0] != null && typeof result[0].value === 'number') {
 						return {
 							pulse_perMin: result[0].value,
-						}
+						};
 					}
 				}
 			}
@@ -1138,8 +1152,12 @@ function delayAction(
 		dueDate,
 		action,
 		event,
-		display: getActionDisplay(action, {objectType: 'Human', objectId: event.payload.targetId}, event.time),
-		resultEvent
+		display: getActionDisplay(
+			action,
+			{ objectType: 'Human', objectId: event.payload.targetId },
+			event.time,
+		),
+		resultEvent,
 	};
 	const start = getTranslation('pretriage-interface', 'start');
 	addLogMessage(
@@ -1162,7 +1180,10 @@ export function getHumanSkillLevelForAction(
 	}
 }
 
-function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProcessedEvents?: FullEvent<EventPayload>[]) {
+function processHumanMeasureEvent(
+	event: FullEvent<HumanMeasureEvent>,
+	toBeProcessedEvents?: FullEvent<EventPayload>[],
+) {
 	const resolvedAction = resolveAction(event.payload);
 
 	if (resolvedAction != null) {
@@ -1170,28 +1191,28 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 
 		let resultEvent: HumanMeasureResultEvent | undefined = undefined;
 		// initialize result event only if current player was the sender
-		if(me == event.payload.emitterPlayerId)
-		{
+		if (me == event.payload.emitterPlayerId) {
 			// check that the event has not been emitted already
 
 			// TODO is that robust to multiple clients ?
 			// what if both emit it at the same time ?
-			const emitted = toBeProcessedEvents && 
-				toBeProcessedEvents.findIndex(e => 
-				e.payload.type === 'HumanMeasureResult' 
-				&& e.payload.sourceEventId === event.id) > -1;
-			
-			if(!emitted){
+			const emitted =
+				toBeProcessedEvents &&
+				toBeProcessedEvents.findIndex(
+					e => e.payload.type === 'HumanMeasureResult' && e.payload.sourceEventId === event.id,
+				) > -1;
+
+			if (!emitted) {
 				resultEvent = {
-					type : 'HumanMeasureResult',
-					targetType : 'Human',
-					sourceEventId : event.id,
+					type: 'HumanMeasureResult',
+					targetType: 'Human',
+					sourceEventId: event.id,
 					targetId: event.payload.targetId,
 					emitterCharacterId: event.payload.emitterCharacterId,
-					emitterPlayerId : me,
-					status : 'unknown',
-					duration : 0
-				}
+					emitterPlayerId: me,
+					status: 'unknown',
+					duration: 0,
+				};
 			}
 		}
 
@@ -1230,14 +1251,14 @@ function processHumanMeasureEvent(event: FullEvent<HumanMeasureEvent>, toBeProce
 			);
 			if (skillLevel) {
 				const duration = action.duration[skillLevel];
-				if(resultEvent){
+				if (resultEvent) {
 					resultEvent.duration = duration;
 				}
 				if (duration > 0 && !event.payload.timeJump) {
 					// emit an event if timejump is deactivated
 					delayAction(event.time + duration, resolvedAction, event, resultEvent);
 				} else {
-					if(duration > 0){
+					if (duration > 0) {
 						// fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
 						// fastForward(duration);
 					}
@@ -1450,7 +1471,9 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 				event.payload.emitterCharacterId.toString(),
 				event.payload.source,
 			);
-			const patientOnItselfAct = event.payload.emitterCharacterId === event.payload.targetId && !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
+			const patientOnItselfAct =
+				event.payload.emitterCharacterId === event.payload.targetId &&
+				!!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
 			if (patientOnItselfAct) {
 				doTreatment(event.time, resolvedAction, event);
 			} else if (skillLevel) {
@@ -1459,7 +1482,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
 					// delay event
 					delayAction(event.time + duration, resolvedAction, event, undefined);
 				} else {
-					if(duration > 0){
+					if (duration > 0) {
 						// fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
 						// fastForward(duration);
 					}
@@ -1614,7 +1637,10 @@ function processFreezeEvent(event: FullEvent<FreezeEvent>) {
 	});
 }
 
-function processEvent(event: FullEvent<EventPayload>, toBeProcessedEvents?: FullEvent<EventPayload>[]) {
+function processEvent(
+	event: FullEvent<EventPayload>,
+	toBeProcessedEvents?: FullEvent<EventPayload>[],
+) {
 	worldLogger.debug('ProcessEvent: ', event);
 
 	const eType = event.payload.type;
@@ -1748,8 +1774,8 @@ export function getCategorizedHumans() {
 
 export function getHuman(id: string):
 	| (HumanBody & {
-		category: Categorization | undefined;
-	})
+			category: Categorization | undefined;
+	  })
 	| undefined {
 	const human = worldState.humans[`Human::${id}`];
 	const meta = humanMetas[id];

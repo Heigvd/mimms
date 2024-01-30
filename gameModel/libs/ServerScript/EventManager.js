@@ -2,13 +2,12 @@
 /**
  * Server-side event manager
  */
-var EventManager = ((function () {
-
+var EventManager = (function () {
 	function lock(player) {
 		var thePlayer = player || self;
 		// !!!!!!!!!!!!!! Do NOT load events before locking !!!!!!!!!!!!!!!!!
 
-		RequestManager.lock("NewEvent-" + thePlayer.getTeamId());
+		RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
 	}
 
 	function sendEvent(payload, time, player) {
@@ -25,7 +24,7 @@ var EventManager = ((function () {
 		var event = {
 			time: realTime,
 			payload: payload,
-		}
+		};
 
 		var newEvent = instance.sendMessage(thePlayer.getName(), '' + lastId, JSON.stringify(event));
 		// print ("NewEvent ID" + newEvent.getId());
@@ -53,7 +52,7 @@ var EventManager = ((function () {
 		var event = {
 			time: realTime,
 			payload: payload,
-		}
+		};
 
 		instance.sendEvent(JSON.stringify(event));
 		// Make sure newEvent got an Id
@@ -72,20 +71,23 @@ var EventManager = ((function () {
 		}
 	}
 
-
 	function getParsedPatients() {
 		var list = [];
 
-		Variable.find(gameModel, 'patients').getProperties().entrySet().stream().forEach(function (entry) {
-			var patientId = entry.getKey();
-			var raw = entry.getValue();
-			var data = JSON.parse(raw);
+		Variable.find(gameModel, 'patients')
+			.getProperties()
+			.entrySet()
+			.stream()
+			.forEach(function (entry) {
+				var patientId = entry.getKey();
+				var raw = entry.getValue();
+				var data = JSON.parse(raw);
 
-			list.push({
-				id: patientId,
-				data: data
-			})
-		});
+				list.push({
+					id: patientId,
+					data: data,
+				});
+			});
 
 		return list;
 	}
@@ -108,10 +110,10 @@ var EventManager = ((function () {
 		lock();
 		var thePlayer = player || self;
 
-		var alreadyDone = Variable.find(gameModel, "scenarioRevived").getValue(thePlayer);
+		var alreadyDone = Variable.find(gameModel, 'scenarioRevived').getValue(thePlayer);
 		if (!alreadyDone) {
 			var emitter = {
-				emitterCharacterId: "",
+				emitterCharacterId: '',
 				emitterPlayerId: thePlayer.getId(),
 			};
 			var patients = getParsedPatients();
@@ -125,17 +127,16 @@ var EventManager = ((function () {
 						sendEvent(payload, event.time, thePlayer);
 					}
 				}
-
 			}
 
-			Variable.find(gameModel, "scenarioRevived").setValue(thePlayer, true);
+			Variable.find(gameModel, 'scenarioRevived').setValue(thePlayer, true);
 		}
 	}
 
-	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	function generateRandomId(length) {
-		var id = "";
+		var id = '';
 
 		for (var i = 0; i < length; i++) {
 			id += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -145,15 +146,15 @@ var EventManager = ((function () {
 	}
 
 	function generateUniqueId() {
-		var existing = Variable.find(gameModel, "characters").getInstance(self).getProperties();
+		var existing = Variable.find(gameModel, 'characters').getInstance(self).getProperties();
 		var name = generateRandomId(3);
 		var counter = 0;
-		var id = 'char-' + name
+		var id = 'char-' + name;
 
-        // make sure to avoid collisions by appending numeric suffix
+		// make sure to avoid collisions by appending numeric suffix
 		while (existing.containsKey(id)) {
 			counter++;
-			id = 'char-' + name + "-" + counter;
+			id = 'char-' + name + '-' + counter;
 		}
 		return id;
 	}
@@ -165,7 +166,7 @@ var EventManager = ((function () {
 
 		if (strProfile) {
 			var profile = JSON.parse(strProfile);
-			var skillId = profile.skillId
+			var skillId = profile.skillId;
 
 			var bodyFactoryParam = {
 				age: 30,
@@ -175,13 +176,13 @@ var EventManager = ((function () {
 				lungDepth: 1,
 				scriptedEvents: [],
 				description: '',
-				skillId: skillId
+				skillId: skillId,
 			};
 			var id = generateUniqueId();
 			var jsonParam = JSON.stringify(bodyFactoryParam);
 
 			// persist data and set whoiAmI
-			Variable.find(gameModel, "whoAmI").setValue(self, id);
+			Variable.find(gameModel, 'whoAmI').setValue(self, id);
 			charactersDesc.getInstance().setProperty(id, jsonParam);
 
 			if (bagId) {
@@ -192,10 +193,10 @@ var EventManager = ((function () {
 					targetType: 'Human',
 					targetId: id,
 					bagId: bagId,
-				}
-				if(useEventBox){
-					sendNewEvent(giveBagPayload)
-				}else{
+				};
+				if (useEventBox) {
+					sendNewEvent(giveBagPayload);
+				} else {
 					sendEvent(giveBagPayload);
 				}
 			}
@@ -216,8 +217,8 @@ var EventManager = ((function () {
 		postEvent: function (payload, time) {
 			sendEvent(payload, time);
 		},
-		postNewEvent:  function(payload, time) {
-			sendNewEvent(payload, time)
+		postNewEvent: function (payload, time) {
+			sendNewEvent(payload, time);
 		},
 	};
-})());
+})();

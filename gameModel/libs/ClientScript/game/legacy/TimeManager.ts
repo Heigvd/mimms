@@ -1,8 +1,7 @@
-import { isRealLifeGame } from "./gameMaster";
-import { syncWorld } from "./the_world";
+import { isRealLifeGame } from './gameMaster';
+import { syncWorld } from './the_world';
 
-const timeLogger = Helpers.getLogger("TimeManager");
-
+const timeLogger = Helpers.getLogger('TimeManager');
 
 const KEEPALIVE_TICK_S = 30; // 10 sec
 
@@ -11,7 +10,6 @@ const KEEPALIVE_DELAY_S = 60; // 30 sec
 // diff between server time and client time
 let delta_epoch: number | undefined = undefined;
 let currentTime_s = 0;
-
 
 type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'REPLAY' | 'IDLE' | 'REPLAY_DONE';
 
@@ -24,7 +22,7 @@ function initDelta_epoch() {
 	const currentLocalTime_epoch = new Date().getTime();
 	APIMethods.getServerTime().then(curentServerTime_epoch => {
 		delta_epoch = curentServerTime_epoch - currentLocalTime_epoch;
-		timeLogger.log("Sync time with server", { delta_epoch });
+		timeLogger.log('Sync time with server', { delta_epoch });
 		updateInSimCurrentTime();
 		setWorldTimeState({ time: currentTime_s });
 	});
@@ -42,7 +40,7 @@ function computeEpochSimTime(epoch: number): number {
 		const currentInSim_s = inSim_ref + (epoch - epoch_ref + delta_epoch) / 1000;
 		//wlog("TIME: ", { inSim_ref, epoch, epoch_ref, delta_epoch });
 		if (currentInSim_s < 0) {
-			timeLogger.error("Negative Simulation Time!!!");
+			timeLogger.error('Negative Simulation Time!!!');
 			return 0;
 		}
 		return Math.floor(currentInSim_s);
@@ -54,7 +52,6 @@ function computeEpochSimTime(epoch: number): number {
 function computeRawSimulationTime(): number {
 	return computeEpochSimTime(new Date().getTime());
 }
-
 
 function getTimeStatus(): TimeStatus {
 	const inSimRef = Variable.find(gameModel, 'inSim_ref').getValue(self);
@@ -79,26 +76,25 @@ function getTimeStatus(): TimeStatus {
 				// in replay mode, auto stop if limit has been reached
 				const replayUpTo = Variable.find(gameModel, 'upTo_inSim_ref').getValue(self);
 				if (currentRawSimTime < replayUpTo) {
-					timeLogger.debug("Replay : ", currentRawSimTime);
+					timeLogger.debug('Replay : ', currentRawSimTime);
 					return {
 						mode: 'REPLAY',
 						currentTime: currentRawSimTime,
 					};
 				} else {
-					timeLogger.debug("Replay limit reached : ", replayUpTo);
+					timeLogger.debug('Replay limit reached : ', replayUpTo);
 					return {
 						mode: 'REPLAY_DONE',
-						currentTime: replayUpTo
+						currentTime: replayUpTo,
 					};
 				}
 			} else {
-
-				const keepalive = Variable.find(gameModel, "keepalive").getValue(self);
+				const keepalive = Variable.find(gameModel, 'keepalive').getValue(self);
 
 				const delta = currentRawSimTime - keepalive;
 
 				if (delta < KEEPALIVE_DELAY_S) {
-					timeLogger.debug("Keepalive is valid ", currentRawSimTime);
+					timeLogger.debug('Keepalive is valid ', currentRawSimTime);
 					return {
 						mode: 'RUNNING',
 						currentTime: currentRawSimTime,
@@ -108,7 +104,7 @@ function getTimeStatus(): TimeStatus {
 					return {
 						mode: 'IDLE',
 						currentTime: keepalive + KEEPALIVE_DELAY_S,
-					}
+					};
 				}
 			}
 		} else {
@@ -144,50 +140,47 @@ interface TimeState {
 
 type WorldTimeSetter = (s: TimeState | ((old: TimeState) => TimeState)) => void;
 
-let setWorldTimeState: WorldTimeSetter = () => { };
+let setWorldTimeState: WorldTimeSetter = () => {};
 
 export function getWorldTime(): TimeState {
 	return Context.worldTime?.state || { time: 0 };
 }
 
 const timerRef: {
-	intervalId: number | undefined
-} = { intervalId: undefined }
-
+	intervalId: number | undefined;
+} = { intervalId: undefined };
 
 function stopInterval() {
 	if (timerRef.intervalId) {
-		wlog("Clear Interval");
+		wlog('Clear Interval');
 		clearInterval(timerRef.intervalId);
 		timerRef.intervalId = undefined;
 	}
 }
 
 Helpers.registerEffect(() => {
-	return stopInterval
+	return stopInterval;
 });
 
-
 /**
- * Running or replay ? 
+ * Running or replay ?
  */
 export function isRunning(): boolean {
 	const status = getTimeStatus();
 	return status.mode === 'REPLAY' || status.mode === 'RUNNING';
 }
 
-
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 	setWorldTimeState = setTime;
 	if (isRunning()) {
-		timeLogger.info("Time Machine: is running", new Date().toLocaleString());
+		timeLogger.info('Time Machine: is running', new Date().toLocaleString());
 		updateInSimCurrentTime();
 		if (timerRef.intervalId == null) {
-			timeLogger.info("Init World interval interval");
+			timeLogger.info('Init World interval interval');
 			timerRef.intervalId = setInterval(() => {
-				timeLogger.info("Tick");
+				timeLogger.info('Tick');
 				if (!isRunning()) {
-					timeLogger.info("No longer running");
+					timeLogger.info('No longer running');
 					stopInterval();
 				}
 				updateInSimCurrentTime();
@@ -195,19 +188,19 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 
 				const ka = Variable.find(gameModel, 'keepalive').getValue(self);
 				if (currentTime_s > ka + KEEPALIVE_TICK_S) {
-					timeLogger.warn("KeepAlive", {currentTime_s, ka, KEEPALIVE_TICK_S});
-					APIMethods.runScript("TimeManager.keepalive()", {});
+					timeLogger.warn('KeepAlive', { currentTime_s, ka, KEEPALIVE_TICK_S });
+					APIMethods.runScript('TimeManager.keepalive()', {});
 				}
 
-				timeLogger.info("Time Machine: tick to ", currentTime_s);
+				timeLogger.info('Time Machine: tick to ', currentTime_s);
 				setWorldTimeState({ time: currentTime_s });
 			}, 1000);
 		}
 	} else {
-		timeLogger.info("Time Machine: is not running: ", new Date().toLocaleString());
+		timeLogger.info('Time Machine: is not running: ', new Date().toLocaleString());
 
 		if (getTimeStatus().mode === 'IDLE') {
-			timeLogger.warn("Player is back in town! Should revive !");
+			timeLogger.warn('Player is back in town! Should revive !');
 		}
 
 		updateInSimCurrentTime();
@@ -227,8 +220,3 @@ export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {
 export function fastForward(durationSeconds: number) {
 	APIMethods.runScript(`TimeManager.fastForward(${durationSeconds})`, {});
 }
-
-
-
-
-

@@ -1,20 +1,61 @@
-import { initEmitterIds } from "../common/events/baseEvent";
-import { sendEvent } from "../common/events/eventUtils";
-import { Block, BlockName, BodyEffect, BodyState, BodyStateKeys, HumanBody, MotricityValue, readKey } from "../../HUMAn/human";
-import { ABCDECategory, ActDefinition, ActionBodyEffect, ActionBodyMeasure, HumanAction, ModuleDefinition, PathologyDefinition } from "../../HUMAn/pathology";
-import { getAct, getItem, getPathology } from "../../HUMAn/registries";
-import { getCurrentPatientBody, getCurrentPatientId, getHealth, getHuman, getHumanConsole, getHumanSkillLevelForAction, getMyInventory, Inventory } from "../legacy/the_world";
-import { fastForward, getCurrentSimulationTime } from "../legacy/TimeManager";
-import { categoryToHtml, doAutomaticTriage, getCategory, getTagSystem, resultToHtmlObject } from "../pretri/triage";
-import { getOverview, HumanOverview } from "./graphics";
-import { getActTranslation, getItemActionTranslation, getTranslation } from "../../tools/translation";
-import { getHumanSkillLevelForAct, getHumanSkillLevelForItemAction, getMySkillDefinition, whoAmI } from "../../tools/WegasHelper";
-import { toHoursMinutesSecondsIso } from "../../tools/helper";
-import { getBloodRatio } from "../../HUMAn/physiologicalModel";
-import { SkillLevel } from "../../edition/GameModelerHelper";
-import { ConsoleLog } from "../pretri/consoleLog";
+import { initEmitterIds } from '../common/events/baseEvent';
+import { sendEvent } from '../common/events/eventUtils';
+import {
+	Block,
+	BlockName,
+	BodyEffect,
+	BodyState,
+	BodyStateKeys,
+	HumanBody,
+	MotricityValue,
+	readKey,
+} from '../../HUMAn/human';
+import {
+	ABCDECategory,
+	ActDefinition,
+	ActionBodyEffect,
+	ActionBodyMeasure,
+	HumanAction,
+	ModuleDefinition,
+	PathologyDefinition,
+} from '../../HUMAn/pathology';
+import { getAct, getItem, getPathology } from '../../HUMAn/registries';
+import {
+	getCurrentPatientBody,
+	getCurrentPatientId,
+	getHealth,
+	getHuman,
+	getHumanConsole,
+	getHumanSkillLevelForAction,
+	getMyInventory,
+	Inventory,
+} from '../legacy/the_world';
+import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
+import {
+	categoryToHtml,
+	doAutomaticTriage,
+	getCategory,
+	getTagSystem,
+	resultToHtmlObject,
+} from '../pretri/triage';
+import { getOverview, HumanOverview } from './graphics';
+import {
+	getActTranslation,
+	getItemActionTranslation,
+	getTranslation,
+} from '../../tools/translation';
+import {
+	getHumanSkillLevelForAct,
+	getHumanSkillLevelForItemAction,
+	getMySkillDefinition,
+	whoAmI,
+} from '../../tools/WegasHelper';
+import { toHoursMinutesSecondsIso } from '../../tools/helper';
+import { getBloodRatio } from '../../HUMAn/physiologicalModel';
+import { SkillLevel } from '../../edition/GameModelerHelper';
+import { ConsoleLog } from '../pretri/consoleLog';
 
-const logger = Helpers.getLogger("pretriage");
+const logger = Helpers.getLogger('pretriage');
 
 /////////////////////////////////
 // The Wheel
@@ -25,7 +66,6 @@ interface BaseItem {
 	label: string;
 	icon?: string;
 }
-
 
 interface WithActionType {
 	actionType: HumanAction['type'];
@@ -95,7 +135,7 @@ interface PatientZoomState {
 	availableBlocks: string[];
 	selectedCategory: string | undefined;
 	// responsive display
-	selectedColumn: "first" | 'second' | 'third';
+	selectedColumn: 'first' | 'second' | 'third';
 }
 
 export function getInitialPatientZoomState(): PatientZoomState {
@@ -160,9 +200,7 @@ export function isColumnSelected({ state }: FullState, colId: PatientZoomState['
 	return state.selectedColumn === colId;
 }
 
-
 //////////////////////////////////////////////
-
 
 export function keepStateAlive({ state, setState }: FullState) {
 	const ePatient = getCurrentPatientId();
@@ -174,7 +212,6 @@ export function keepStateAlive({ state, setState }: FullState) {
 		});
 	}
 }
-
 
 function getActionIcon(action: HumanAction): string {
 	if (action.type === 'ActionBodyEffect') {
@@ -214,7 +251,6 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
 }
 
 function getWheelActionFromActs(acts: ActDefinition[]): WheelAction[] {
-
 	return acts.map(act => {
 		return {
 			type: 'WheelAct',
@@ -278,9 +314,9 @@ function getABCDEWheel(): Wheel {
 
 	[...itemActions, ...actActions].forEach(action => {
 		if (action.actionType === 'ActionBodyEffect') {
-			bag[action.actionCategory].treatments.push({ ...action, /*icon: 'syringe'*/ });
+			bag[action.actionCategory].treatments.push({ ...action /*icon: 'syringe'*/ });
 		} else if (action.actionType === 'ActionBodyMeasure') {
-			bag[action.actionCategory].measures.push({ ...action, /*icon: 'ruler'*/ });
+			bag[action.actionCategory].measures.push({ ...action /*icon: 'ruler'*/ });
 		}
 	});
 
@@ -444,9 +480,7 @@ export function getSubWheelSubmenu(state: PatientZoomState, subMenu: string): Wh
 		return [];
 	}
 
-	const menu = subWheel.items.find(
-		item => item.type === 'WheelMenuItem' && item.id === subMenu,
-	);
+	const menu = subWheel.items.find(item => item.type === 'WheelMenuItem' && item.id === subMenu);
 
 	if (menu != null) {
 		return (menu as WheelMenuItem).items;
@@ -457,7 +491,6 @@ export function getSubWheelSubmenu(state: PatientZoomState, subMenu: string): Wh
 /////////////////////////////////
 // The Wheel Selectors
 /////////////////////////////////
-
 
 /**
  * compute state to reflect action selection
@@ -485,9 +518,7 @@ function internalSelectAction(state: PatientZoomState, action?: WheelAction): Pa
 	}
 }
 
-
 export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
-
 	const wheel = getWheel();
 	const selectedMenu = wheel.mainMenu.find(sub => sub.id === menuId);
 
@@ -496,25 +527,25 @@ export function selectWheelMainMenu(menuId: string, setState: SetZoomState) {
 		return item.items.length > 0;
 	});
 
-
 	// select first action if any
 	const action = subMenu?.items[0];
 
 	setState(state => {
-		return internalSelectAction({
-			...state,
-			selectedPanel: undefined,
-			selectedMenu: menuId,
-			selectedSubMenu: subMenu?.id,
-			selectedAction: action,
-		}, undefined); // Undefined to avoid selecting first action
+		return internalSelectAction(
+			{
+				...state,
+				selectedPanel: undefined,
+				selectedMenu: menuId,
+				selectedSubMenu: subMenu?.id,
+				selectedAction: action,
+			},
+			undefined,
+		); // Undefined to avoid selecting first action
 	});
 }
 
 export function selectSubMenu(subMenuId: string, setState: SetZoomState) {
-
 	setState(state => {
-
 		const wheel = getWheel();
 		const selectedMenu = wheel.mainMenu.find(sub => sub.id === state.selectedMenu);
 
@@ -526,12 +557,15 @@ export function selectSubMenu(subMenuId: string, setState: SetZoomState) {
 		// select first action if any
 		const action = subMenu?.items[0];
 
-		return internalSelectAction({
-			...state,
-			selectedPanel: undefined,
-			selectedSubMenu: subMenuId,
-			selectedAction: action,
-		}, action);
+		return internalSelectAction(
+			{
+				...state,
+				selectedPanel: undefined,
+				selectedSubMenu: subMenuId,
+				selectedAction: action,
+			},
+			action,
+		);
 	});
 }
 
@@ -595,22 +629,25 @@ function resolveAction<T extends HumanAction>(
 	}
 }
 
-export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Promise<IManagedResponse> | undefined {
+export function doWheelMeasure(
+	measure: WheelAction,
+	setState: SetZoomState,
+): Promise<IManagedResponse> | undefined {
 	const action = resolveAction<ActionBodyMeasure>(measure, 'ActionBodyMeasure');
 	if (action != null) {
 		const source =
 			measure.type === 'WheelAct'
 				? {
-					type: 'act' as const,
-					actId: measure.id,
-				}
+						type: 'act' as const,
+						actId: measure.id,
+				  }
 				: {
-					type: 'itemAction' as const,
-					...measure.itemActionId,
-				};
+						type: 'itemAction' as const,
+						...measure.itemActionId,
+				  };
 
 		// fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-		const {emitterCharacterId} = initEmitterIds();
+		const { emitterCharacterId } = initEmitterIds();
 		const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
 		if (skillLevel) {
 			const duration = action.duration[skillLevel!];
@@ -623,7 +660,7 @@ export function doWheelMeasure(measure: WheelAction, setState: SetZoomState): Pr
 			targetType: 'Human',
 			targetId: Context.patientConsole.state.currentPatient,
 			source: source,
-			timeJump: true
+			timeJump: true,
 		});
 	}
 }
@@ -635,16 +672,16 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 		const source =
 			treatment.type === 'WheelAct'
 				? {
-					type: 'act' as const,
-					actId: treatment.id,
-				}
+						type: 'act' as const,
+						actId: treatment.id,
+				  }
 				: {
-					type: 'itemAction' as const,
-					...treatment.itemActionId,
-				};
+						type: 'itemAction' as const,
+						...treatment.itemActionId,
+				  };
 
 		// fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-		const {emitterCharacterId} = initEmitterIds();
+		const { emitterCharacterId } = initEmitterIds();
 		const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
 		if (skillLevel) {
 			const duration = action.duration[skillLevel!];
@@ -658,11 +695,10 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
 			targetId: Context.patientConsole.state.currentPatient,
 			source: source,
 			blocks: block ? [block] : [],
-			timeJump: true
+			timeJump: true,
 		});
 	}
 }
-
 
 function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClasses): string {
 	let title = titleArg;
@@ -676,7 +712,11 @@ function formatBlockSubTitle(title: string, translationVar: keyof VariableClasse
 	return `<div class='block-subtitle'>${getTranslation(translationVar, title)}</div>`;
 }
 
-function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClasses, value?: string): string {
+function formatBlockEntry(
+	titleArg: string,
+	translationVar?: keyof VariableClasses,
+	value?: string,
+): string {
 	let title = titleArg;
 	if (translationVar) {
 		title = getTranslation(translationVar, title);
@@ -687,7 +727,11 @@ function formatBlockEntry(titleArg: string, translationVar?: keyof VariableClass
 	</div>`;
 }
 
-function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDetails: boolean = false): string[] {
+function getBlockDetails(
+	block: Block | undefined,
+	bodyState: BodyState,
+	fullDetails: boolean = false,
+): string[] {
 	const output: string[] = [];
 	if (block) {
 		output.push(formatBlockTitle(block.name, 'human-blocks'));
@@ -700,9 +744,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 		if (block.params.totalExtLosses_ml ?? 0 > 0) {
 			output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
 
-
 			if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
-
 				if (block.params.arterialLosses_mlPerMin ?? 0 > 0) {
 					output.push(formatBlockEntry('bleedsArterial', 'human-general'));
 				}
@@ -720,7 +762,7 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 						formatBlockEntry(
 							'current flow',
 							'human-pathology',
-							`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`
+							`${block.params.extLossesFlow_mlPerMin!.toFixed(2)} mL/min`,
 						),
 					);
 				}
@@ -728,24 +770,42 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 				output.push(formatBlockEntry('bleedsNoLonger', 'human-general'));
 			}
 			if (fullDetails) {
-				output.push(formatBlockEntry('Total', 'human-pathology', `${block.params.totalExtLosses_ml!.toFixed(2)} mL`));
+				output.push(
+					formatBlockEntry(
+						'Total',
+						'human-pathology',
+						`${block.params.totalExtLosses_ml!.toFixed(2)} mL`,
+					),
+				);
 			}
 		}
 
 		if (block.params.salineSolutionInput_mLperMin || block.params.bloodInput_mLperMin) {
 			output.push(formatBlockSubTitle('Venous Catheter', 'human-pathology'));
 			if (block.params.salineSolutionInput_mLperMin! > 0) {
-				output.push(formatBlockEntry('NaCl', undefined, `${block.params.salineSolutionInput_mLperMin!.toFixed(2)} mL/min`));
+				output.push(
+					formatBlockEntry(
+						'NaCl',
+						undefined,
+						`${block.params.salineSolutionInput_mLperMin!.toFixed(2)} mL/min`,
+					),
+				);
 			}
 
 			if (block.params.bloodInput_mLperMin! > 0) {
-				output.push(formatBlockEntry('Blood', 'human-pathology', `${block.params.bloodInput_mLperMin!.toFixed(2)} mL/min`));
+				output.push(
+					formatBlockEntry(
+						'Blood',
+						'human-pathology',
+						`${block.params.bloodInput_mLperMin!.toFixed(2)} mL/min`,
+					),
+				);
 			}
 		}
 
 		if (block.params.broken) {
 			output.push(formatBlockSubTitle('Fracture', 'human-pathology'));
-			output.push(formatBlockEntry("fracture-" + block.params.broken, 'human-pathology'));
+			output.push(formatBlockEntry('fracture-' + block.params.broken, 'human-pathology'));
 		}
 
 		if (fullDetails && block.params.nervousSystemBroken) {
@@ -759,7 +819,13 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 		if (block.params.burnedPercent! > 0) {
 			output.push(formatBlockSubTitle('Burn', 'human-pathology'));
 			output.push(formatBlockEntry('Degree', 'human-pathology', block.params.burnLevel || '1'));
-			output.push(formatBlockEntry('Surface', 'human-pathology', percentFormatter(block.params.burnedPercent)));
+			output.push(
+				formatBlockEntry(
+					'Surface',
+					'human-pathology',
+					percentFormatter(block.params.burnedPercent),
+				),
+			);
 		}
 
 		if (block.params.internalPressure === 'DRAIN') {
@@ -773,10 +839,16 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 					title = true;
 					output.push(formatBlockSubTitle('Upper Airways', 'human-pathology'));
 				}
-			}
+			};
 			if ((block.params.airResistance ?? 0) > 0) {
 				printTitle();
-				output.push(formatBlockEntry("Obstruction", 'human-pathology', `${percentFormatter(block.params.airResistance!)}`));
+				output.push(
+					formatBlockEntry(
+						'Obstruction',
+						'human-pathology',
+						`${percentFormatter(block.params.airResistance!)}`,
+					),
+				);
 			}
 
 			if (block.params.intubated) {
@@ -784,10 +856,9 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 				output.push(formatBlockSubTitle('Intubated', 'human-pathology'));
 			}
 
-
 			if (block.params.fiO2 != null && block.params.fiO2 !== 'freshAir') {
 				printTitle();
-				output.push(formatBlockEntry("FiO2", undefined, `${percentFormatter(block.params.fiO2)}`));
+				output.push(formatBlockEntry('FiO2', undefined, `${percentFormatter(block.params.fiO2)}`));
 			}
 
 			if (block.name === 'HEAD' && bodyState.variables.positivePressure) {
@@ -795,10 +866,9 @@ function getBlockDetails(block: Block | undefined, bodyState: BodyState, fullDet
 				let posP = getTranslation('human-general', 'Positive Pressure');
 
 				if (bodyState.variables.positivePressure === 'aborted') {
-					posP += ": " + getTranslation('human-general', 'aborted');
+					posP += ': ' + getTranslation('human-general', 'aborted');
 				}
 				output.push(formatBlockEntry(posP));
-
 			}
 		}
 	}
@@ -858,15 +928,17 @@ export function getBlockDetail(observedBlock: string, fullDetails: boolean = fal
 			output.push(...getBlockDetails(block, human.state, fullDetails));
 
 			if (data.effects.length > 0) {
-				output.push(formatBlockSubTitle("Treatments", 'pretriage-interface'));
+				output.push(formatBlockSubTitle('Treatments', 'pretriage-interface'));
 				output.push(
-					...data.effects.map(e => {
-						if (e.source.type === 'act') {
-							return getActTranslation(e.source);
-						} else {
-							return getItemActionTranslation(e.source, e.actionId);
-						}
-					}).map(e => formatBlockEntry(e))
+					...data.effects
+						.map(e => {
+							if (e.source.type === 'act') {
+								return getActTranslation(e.source);
+							} else {
+								return getItemActionTranslation(e.source, e.actionId);
+							}
+						})
+						.map(e => formatBlockEntry(e)),
 				);
 			}
 		} else {
@@ -882,7 +954,7 @@ function percentFormatter(value: unknown): string {
 		return (value * 100).toFixed() + ' %';
 	} else {
 		//wlog('Value is not a number (PERCENT formatter)');
-		return getTranslation('pretriage-interface', "unmeasurable");
+		return getTranslation('pretriage-interface', 'unmeasurable');
 	}
 }
 
@@ -891,7 +963,7 @@ function intFormatter(value: unknown): string {
 		return value.toFixed();
 	} else {
 		//wlog('Value is not a number (int formatter)');
-		return getTranslation('pretriage-interface', "unmeasurable");
+		return getTranslation('pretriage-interface', 'unmeasurable');
 	}
 }
 
@@ -900,7 +972,7 @@ function twoDecimalFormatter(value: unknown): string {
 		return value.toFixed(2);
 	} else {
 		//wlog('Value is not a number (.2 formatter)');
-		return getTranslation('pretriage-interface', "unmeasurable");
+		return getTranslation('pretriage-interface', 'unmeasurable');
 	}
 }
 
@@ -909,7 +981,7 @@ function oneDecimalFormatter(value: unknown): string {
 		return value.toFixed(1);
 	} else {
 		//wlog('Value is not a number (.1 formatter)');
-		return getTranslation('pretriage-interface', "unmeasurable");
+		return getTranslation('pretriage-interface', 'unmeasurable');
 	}
 }
 
@@ -918,35 +990,33 @@ function motricityFormatter(value: unknown): string {
 		case 'move':
 		case 'do_not_move':
 		case 'no_response':
-			return getTranslation("human-general", value, true)
+			return getTranslation('human-general', value, true);
 	}
-	return getTranslation('pretriage-interface', "unmeasurable");
+	return getTranslation('pretriage-interface', 'unmeasurable');
 }
-
 
 function canWalkFormatter(value: unknown): string {
 	switch (value) {
 		case 'no_response':
-			return getTranslation("human-general", 'no_response', true)
+			return getTranslation('human-general', 'no_response', true);
 		case true:
-			return getTranslation("human-general", "yes", true)
+			return getTranslation('human-general', 'yes', true);
 		case false:
-			return getTranslation("human-general", "no", true)
+			return getTranslation('human-general', 'no', true);
 	}
-	return getTranslation('pretriage-interface', "unmeasurable");
+	return getTranslation('pretriage-interface', 'unmeasurable');
 }
-
 
 function painFormatter(value: unknown): string {
 	if (typeof value === 'number') {
-		return intFormatter(value) + " / 10";
+		return intFormatter(value) + ' / 10';
 	} else {
-		return getTranslation("human-general", 'no_response', true);
+		return getTranslation('human-general', 'no_response', true);
 	}
 }
 
 export function formatMetric(metric: BodyStateKeys, value: unknown): [string, string] {
-	const metricName = getTranslation("human-general", metric, true);
+	const metricName = getTranslation('human-general', metric, true);
 	switch (metric) {
 		case 'vitals.motricity.leftArm':
 			return [metricName, motricityFormatter(value)];
@@ -966,47 +1036,50 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
 			return [metricName, String(value)];
 		case 'vitals.canWalk':
 		case 'vitals.canWalk_internal':
-			return [getTranslation("human-general", "vitals.canWalk", true), canWalkFormatter(value)];
+			return [getTranslation('human-general', 'vitals.canWalk', true), canWalkFormatter(value)];
 		case 'vitals.visiblePain':
 			return [metricName, painFormatter(value)];
 		case 'vitals.cardiacArrest':
-			return [metricName, value || 0 > 0 ? getTranslation("human-general", "yes", true) : getTranslation("human-general", "no", true)];
+			return [
+				metricName,
+				value || 0 > 0
+					? getTranslation('human-general', 'yes', true)
+					: getTranslation('human-general', 'no', true),
+			];
 		case 'vitals.cardio.MAP':
-			return [metricName, intFormatter(value) + " mmHg"];
+			return [metricName, intFormatter(value) + ' mmHg'];
 		case 'vitals.cardio.hr':
-			return [metricName, intFormatter(value) + "/min"];
+			return [metricName, intFormatter(value) + '/min'];
 		case 'vitals.respiration.SaO2':
 			return [metricName, percentFormatter(value)];
 		case 'vitals.respiration.SpO2':
 			return [metricName, percentFormatter(value)];
 		case 'vitals.respiration.rr':
-			return [metricName, intFormatter(value) + "/min"];
+			return [metricName, intFormatter(value) + '/min'];
 		case 'vitals.capillaryRefillTime_s':
 			return [metricName, twoDecimalFormatter(value)];
 		case 'vitals.respiration.PaO2':
-			return [metricName, oneDecimalFormatter(value) + " mmHg"];
+			return [metricName, oneDecimalFormatter(value) + ' mmHg'];
 		case 'vitals.respiration.PaCO2':
-			return [metricName, oneDecimalFormatter(value) + " mmHg"];
+			return [metricName, oneDecimalFormatter(value) + ' mmHg'];
 		case 'vitals.respiration.tidalVolume_L':
-			return [metricName, intFormatter((value as number) * 1000) + " mL"];
+			return [metricName, intFormatter((value as number) * 1000) + ' mL'];
 		case 'vitals.respiration.alveolarVolume_L':
-			return [metricName, intFormatter((value as number) * 1000) + " mL"];
+			return [metricName, intFormatter((value as number) * 1000) + ' mL'];
 		case 'vitals.cardio.totalVolume_mL':
-			return [metricName, twoDecimalFormatter((value as number) / 1000) + " L"];
+			return [metricName, twoDecimalFormatter((value as number) / 1000) + ' L'];
 		case 'vitals.cardio.endSystolicVolume_mL':
-			return [metricName, intFormatter(value) + " mL"];
+			return [metricName, intFormatter(value) + ' mL'];
 		case 'vitals.cardio.strokeVolume_mL':
-			return [metricName, intFormatter(value) + " mL"];
+			return [metricName, intFormatter(value) + ' mL'];
 		case 'vitals.brain.ICP_mmHg':
-			return [metricName, intFormatter(value) + " mmHg"];
+			return [metricName, intFormatter(value) + ' mmHg'];
 	}
 
 	return [String(metric), String(value)];
 }
 
-
-export function getMainVitals(): { label: string, value: string, id: string }[] {
-
+export function getMainVitals(): { label: string; value: string; id: string }[] {
 	const human = getCurrentPatientBody();
 	if (human) {
 		const bodyState: BodyState = human.state;
@@ -1025,7 +1098,7 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 				id: vital as string,
 				label: data[0],
 				value: data[1],
-			}
+			};
 		});
 
 		vitals.push({
@@ -1043,23 +1116,19 @@ export function getMainVitals(): { label: string, value: string, id: string }[] 
 export function shortMotricityFormatter(value: MotricityValue): string {
 	switch (value) {
 		case 'move':
-			return getTranslation("human-general", 'yes');
+			return getTranslation('human-general', 'yes');
 		case 'do_not_move':
 		default:
-			return getTranslation("human-general", 'no');
+			return getTranslation('human-general', 'no');
 	}
 }
 
-export function getSecondaryVitals(): { label: string, value: string, id: string }[] {
-
+export function getSecondaryVitals(): { label: string; value: string; id: string }[] {
 	const human = getCurrentPatientBody();
 	if (human) {
 		const bodyState: BodyState = human.state;
 
-		const keys: BodyStateKeys[] = [
-			'vitals.cardio.MAP',
-			'vitals.respiration.SpO2',
-		];
+		const keys: BodyStateKeys[] = ['vitals.cardio.MAP', 'vitals.respiration.SpO2'];
 
 		const vitals = keys.map(vital => {
 			const value = readKey(bodyState, vital);
@@ -1068,7 +1137,7 @@ export function getSecondaryVitals(): { label: string, value: string, id: string
 				id: vital as string,
 				label: data[0],
 				value: data[1],
-			}
+			};
 		});
 
 		vitals.push({
@@ -1081,8 +1150,12 @@ export function getSecondaryVitals(): { label: string, value: string, id: string
 			id: 'motricity',
 			label: getTranslation('human-general', 'motricity'),
 			value: `
-			${getTranslation('human-general', 'motricity.arms')}: ${shortMotricityFormatter(human.state.vitals.motricity.leftArm)}/${shortMotricityFormatter(human.state.vitals.motricity.rightArm)}<br />
-			${getTranslation('human-general', 'motricity.legs')}: ${shortMotricityFormatter(human.state.vitals.motricity.leftLeg)}/${shortMotricityFormatter(human.state.vitals.motricity.rightLeg)}`,
+			${getTranslation('human-general', 'motricity.arms')}: ${shortMotricityFormatter(
+				human.state.vitals.motricity.leftArm,
+			)}/${shortMotricityFormatter(human.state.vitals.motricity.rightArm)}<br />
+			${getTranslation('human-general', 'motricity.legs')}: ${shortMotricityFormatter(
+				human.state.vitals.motricity.leftLeg,
+			)}/${shortMotricityFormatter(human.state.vitals.motricity.rightLeg)}`,
 		});
 
 		return vitals;
@@ -1090,35 +1163,35 @@ export function getSecondaryVitals(): { label: string, value: string, id: string
 	return [];
 }
 
-export function getPains(): { label: string, value: string }[] {
-
+export function getPains(): { label: string; value: string }[] {
 	const human = getCurrentPatientBody();
 	if (human) {
 		const bodyState: BodyState = human.state;
 
-		const output: { label: string, value: number }[] = [];
+		const output: { label: string; value: number }[] = [];
 
 		bodyState.blocks.forEach(block => {
 			if ((block.params.pain ?? 0) > 0) {
 				output.push({
 					label: getTranslation('human-blocks', block.name),
 					value: block.params.pain!,
-				})
+				});
 			}
 		});
-		return output.sort((a, b) => {
-			return b.value - a.value;
-		}).map(entry => ({
-			id: entry.label,
-			label: entry.label,
-			value: `${entry.value}/10`,
-		}))
+		return output
+			.sort((a, b) => {
+				return b.value - a.value;
+			})
+			.map(entry => ({
+				id: entry.label,
+				label: entry.label,
+				value: `${entry.value}/10`,
+			}));
 	}
 	return [];
 }
 
 export function getPain(): string {
-
 	const human = getCurrentPatientBody();
 
 	if (human) {
@@ -1129,29 +1202,25 @@ export function getPain(): string {
 	return '';
 }
 
-
 export function getMainIndication(): string {
-
 	const human = getCurrentPatientBody();
 	if (human) {
 		if (human.state.vitals.cardiacArrest) {
-			return getTranslation("human-general", 'you-are-dead');
+			return getTranslation('human-general', 'you-are-dead');
 		}
 		const gcs = human.state.vitals.glasgow.total;
 		if (gcs < 11) {
-			return getTranslation("human-general", 'you-are-unconscious');
+			return getTranslation('human-general', 'you-are-unconscious');
 		} else if (gcs < 14) {
-			return getTranslation("human-general", 'you-are-dizzy');
+			return getTranslation('human-general', 'you-are-dizzy');
 		} else {
-			return getTranslation("human-general", 'you-are-conscious');
+			return getTranslation('human-general', 'you-are-conscious');
 		}
 	}
 	return 'N/A';
 }
 
-
 function formatLog(log: ConsoleLog): string {
-
 	const formattedTime = toHoursMinutesSecondsIso(log.time);
 	const time = `<span class='consoleTime'>${formattedTime}</span>`;
 	if (log.type === 'MessageLog') {
@@ -1161,7 +1230,7 @@ function formatLog(log: ConsoleLog): string {
 			const r = formatMetric(metric.metric, metric.value);
 			return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
 		});
-		return `<div class='log_container'>${time} <div class='msr_list'>${lines.join("")}</div></div>`;
+		return `<div class='log_container'>${time} <div class='msr_list'>${lines.join('')}</div></div>`;
 	} else if (log.type === 'TreatmentLog') {
 		return `<div class='log_container'>${time} <div class='msr_list'>${log.message}</div></div>`;
 	}
@@ -1174,7 +1243,6 @@ export function getPatientConsole(): string {
 	const console = getHumanConsole(id);
 	return console.reverse().map(formatLog).join('');
 }
-
 
 export function getPatientMostRecentConsoleLog(): string {
 	const id = getCurrentPatientId();
@@ -1191,8 +1259,11 @@ export function getPatientMostRecentConsoleLog(): string {
 /**
  * local UI state change
  */
-function selectCategory(category: string, state: PatientZoomState, setState: SetZoomState): PatientZoomState {
-
+function selectCategory(
+	category: string,
+	state: PatientZoomState,
+	setState: SetZoomState,
+): PatientZoomState {
 	const newState: PatientZoomState = {
 		...state,
 		selectedCategory: category,
@@ -1209,8 +1280,8 @@ async function validateCategory(state: PatientZoomState): Promise<unknown> {
 	const system = getTagSystem();
 	const resolved = getCategory(state.selectedCategory);
 	const autoTriage = doAutomaticTriage()!;
-	logger.log("Resolved category: ", resolved);
-	logger.log("CurrentPatient: ", state.currentPatient);
+	logger.log('Resolved category: ', resolved);
+	logger.log('CurrentPatient: ', state.currentPatient);
 	if (resolved != null && state.currentPatient) {
 		return sendEvent({
 			...initEmitterIds(),
@@ -1229,7 +1300,7 @@ async function validateCategory(state: PatientZoomState): Promise<unknown> {
 export async function selectAndValidateCategory(
 	category: string,
 	setState: SetZoomState,
-	state: PatientZoomState
+	state: PatientZoomState,
 ): Promise<unknown> {
 	const newState = selectCategory(category, state, setState);
 	return validateCategory(newState);
@@ -1285,7 +1356,10 @@ function getAlertness(overview: HumanOverview): string {
 
 function getBreathingOverview(overview: HumanOverview): string {
 	let breathing = 'respiration looks normal';
-	if (overview.rr === 0 || overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15) {
+	if (
+		overview.rr === 0 ||
+		(overview.gcs.total < 10 && overview.tidalVolume_L < 0.6 && overview.rr < 15)
+	) {
 		// coma + low respiration
 		breathing = 'no apparent breathing';
 	} else if (overview.tidalVolume_L > 1 && overview.rr > 25) {
@@ -1302,7 +1376,6 @@ function getBreathingOverview(overview: HumanOverview): string {
 }
 
 function addBleedingDescription(output: string[], ho: HumanOverview): void {
-
 	let minor = ho.arterialBloodLosses_mlPerMin > 0 || ho.venousBloodLosses_mlPerMin > 0;
 
 	if (ho.arterialBloodLosses_mlPerMin) {
@@ -1318,7 +1391,6 @@ function addBleedingDescription(output: string[], ho: HumanOverview): void {
 	if (minor) {
 		output.push(getTranslation('human-general', 'bleedsMinor'));
 	}
-
 }
 
 export function getHumanVisualInfos(): string {
@@ -1402,23 +1474,28 @@ export function getCurrentPatientAutoTriage() {
 
 	return {
 		autoTriage: resultToHtmlObject(human.category.autoTriage),
-		givenAnswer: categoryToHtml(human.category.category)
+		givenAnswer: categoryToHtml(human.category.category),
 	};
 }
-
 
 /**
  * Returns the time needed to perform the action in seconds
  */
-export function getSelectedActionDuration(selectedAction: WheelAction,
-	actionType: 'ActionBodyEffect' | 'ActionBodyMeasure'): number {
+export function getSelectedActionDuration(
+	selectedAction: WheelAction,
+	actionType: 'ActionBodyEffect' | 'ActionBodyMeasure',
+): number {
 	const action = resolveAction<HumanAction>(selectedAction, actionType);
 	let skillLevel: SkillLevel | undefined;
 	if (action) {
 		if (selectedAction.type === 'WheelAct') {
 			skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
 		} else {
-			skillLevel = getHumanSkillLevelForItemAction(whoAmI(), selectedAction.itemActionId.itemId, selectedAction.itemActionId.actionId);
+			skillLevel = getHumanSkillLevelForItemAction(
+				whoAmI(),
+				selectedAction.itemActionId.itemId,
+				selectedAction.itemActionId.actionId,
+			);
 		}
 
 		if (skillLevel) {

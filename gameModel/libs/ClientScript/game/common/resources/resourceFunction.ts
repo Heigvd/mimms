@@ -14,7 +14,7 @@ export const ResourceFunctionArray = [
 	'MedecinFront',
 	'MedecinPMA',
 	'MedecinTransport',
-	'Chauffeur'
+	'Chauffeur',
 ] as const;
 
 // infer type from array

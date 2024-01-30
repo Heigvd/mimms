@@ -1,17 +1,19 @@
 /**
  * Server-side time manager
  */
-var MimmsHelper = ((function () {
-
+var MimmsHelper = (function () {
 	function isDrillMode() {
 		return gameModel.getProperties().getFreeForAll();
 	}
 
 	function isRealLifeGame() {
-		return isDrillMode() === false && Variable.find(gameModel, 'multiplayerMode').getValue(self) === 'REAL_LIFE';
+		return (
+			isDrillMode() === false &&
+			Variable.find(gameModel, 'multiplayerMode').getValue(self) === 'REAL_LIFE'
+		);
 	}
 
-	function getDrillType(){
+	function getDrillType() {
 		return Variable.find(gameModel, 'drillType').getValue(self);
 	}
 
@@ -30,14 +32,15 @@ var MimmsHelper = ((function () {
 	}
 
 	function charactersInfo() {
-
-		var allCharactersByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "characters"));
+		var allCharactersByTeamId = Variable.getInstancesByKeyId(
+			Variable.find(gameModel, 'characters'),
+		);
 		return allCharactersByTeamId;
 	}
 
 	// TODO better metric, see issue https://github.com/Heigvd/mimms/issues/59
 	function simRefs() {
-		return Variable.getInstancesByKeyId(Variable.find(gameModel, "inSim_ref"));
+		return Variable.getInstancesByKeyId(Variable.find(gameModel, 'inSim_ref'));
 	}
 
 	return {
@@ -46,8 +49,7 @@ var MimmsHelper = ((function () {
 		isRealLifeGame: isRealLifeGame,
 		shouldRunScenarioOnFirstStart: shouldRunScenarioOnFirstStart,
 		getPlayers: getPlayers,
-		charactersInfo : charactersInfo,
-		getEndTimes: simRefs
-
-	}
-})());
+		charactersInfo: charactersInfo,
+		getEndTimes: simRefs,
+	};
+})();

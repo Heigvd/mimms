@@ -8,8 +8,8 @@ import {
 	isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
-import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
-import { actionClickHandler, canPlanAction } from "../gameInterface/main";
+import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
+import { actionClickHandler, canPlanAction } from '../gameInterface/main';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
@@ -18,12 +18,12 @@ import { ActionType } from '../game/common/actionType';
 
 /**
  * Performs logic whenever a template is initiated in interface
- * 
+ *
  * @params ActionTemplateBase action being launched
  */
 export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
 	if (action != undefined) {
-		Context.action = action
+		Context.action = action;
 	}
 
 	const actionRefUid = Context.action.Uid;
@@ -39,53 +39,44 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			clearMapState();
 		}
 	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-
 		params = fetchSendResourcesValues();
-
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-
 		params = fetchAssignResourceValues();
-
 	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-
 		params = fetchReleaseResourceValues();
-
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
-
 		params = fetchCasuMessageRequestValues();
-
 	} else if (isRadioActionTemplate(actionRefUid)) {
-
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
 	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
-
 /**
  * Generate a SelectMapObjectPayload from interface state
- * 
+ *
  * @returns SelectMapObjectPayload
  */
-function fetchSelectMapObjectValues() { // TODO Add type
+function fetchSelectMapObjectValues() {
+	// TODO Add type
 
 	const mapState = Context.mapState.state;
-
 
 	let tmpFeature;
 	if (mapState.selectionState.geometryType) {
 		tmpFeature = {
 			geometryType: mapState.selectionState.geometryType,
-			feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
-		}
+			feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId],
+		};
 	}
 
 	if (mapState.selectionState.layerId) {
 		tmpFeature = {
 			featureKey: mapState.selectionState.featureKey,
-			featureId: mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId]
-		}
+			featureId:
+				mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId],
+		};
 	}
 
 	return tmpFeature;
@@ -93,10 +84,11 @@ function fetchSelectMapObjectValues() { // TODO Add type
 
 /**
  * Generate a SendResourcesPayload from interface state
- * 
+ *
  * @returns SendResourcesPayload
  */
-function fetchSendResourcesValues() { // TODO Add Type
+function fetchSendResourcesValues() {
+	// TODO Add Type
 	const sentResources: ResourceTypeAndNumber = {};
 
 	ResourcesArray.forEach(resourceType => {
@@ -106,7 +98,10 @@ function fetchSendResourcesValues() { // TODO Add Type
 		}
 	});
 
-	const payload = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
+	const payload = {
+		receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId,
+		sentResources,
+	};
 
 	// Reset interfaceState
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -121,10 +116,11 @@ function fetchSendResourcesValues() { // TODO Add Type
 
 /**
  * Generate a AssignResourcePayload from interface state
- * 
+ *
  * @returns AssignResourcePayload
  */
-function fetchAssignResourceValues() { // TODO Add Type
+function fetchAssignResourceValues() {
+	// TODO Add Type
 	const resourcesForAssignation: ResourceTypeAndNumber = {};
 
 	ResourcesArray.forEach(resourceType => {
@@ -134,10 +130,13 @@ function fetchAssignResourceValues() { // TODO Add Type
 		}
 	});
 
-	const payload = { task: Context.interfaceState.state.resources.assignResources.selectedTaskId, assignedResources: resourcesForAssignation };
+	const payload = {
+		task: Context.interfaceState.state.resources.assignResources.selectedTaskId,
+		assignedResources: resourcesForAssignation,
+	};
 
 	// Reset interfaceState
-	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 	newState.resources.assignResources.selectedTaskId = '';
 	ResourcesArray.forEach(resourceType => {
 		newState.resources.assignResources[resourceType] = 0;
@@ -149,7 +148,7 @@ function fetchAssignResourceValues() { // TODO Add Type
 
 /**
  * Generate a ReleaseResourcePayload from interface state
- * 
+ *
  * @returns ReleaseResourcePayload
  */
 function fetchReleaseResourceValues() {
@@ -162,10 +161,13 @@ function fetchReleaseResourceValues() {
 		}
 	});
 
-	const payload = { task: Context.interfaceState.state.resources.releaseResources.selectedTaskId, releasedResources: resourcesForRelease };
+	const payload = {
+		task: Context.interfaceState.state.resources.releaseResources.selectedTaskId,
+		releasedResources: resourcesForRelease,
+	};
 
 	// Reset interfaceState
-	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 	newState.resources.releaseResources.selectedTaskId = '';
 	ResourcesArray.forEach(resourceType => {
 		newState.resources.releaseResources[resourceType] = 0;
@@ -177,7 +179,7 @@ function fetchReleaseResourceValues() {
 
 /**
  * Generate a CasuMessagePayload from interface state
- * 
+ *
  * @returns CasuMessagePayload
  */
 function fetchCasuMessageRequestValues(): CasuMessagePayload {
@@ -201,16 +203,16 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	}
 
 	// Reset interfaceState
-	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 	newState.resources.requestedResources = getEmptyResourceRequest();
 	newState.casuMessage = {
-		messageType: "",
-		major: "",
-		exact: "",
-		incidentType: "",
-		hazards: "",
-		access: "",
-		victims: "",
+		messageType: '',
+		major: '',
+		exact: '',
+		incidentType: '',
+		hazards: '',
+		access: '',
+		victims: '',
 	};
 	Context.interfaceState.setState(newState);
 
@@ -219,19 +221,23 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 
 /**
  * Generate a RadioMessagePayload from interface state
- * 
+ *
  * @returns RadioMessagePayload
  */
 function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
 	let res: RadioMessagePayload;
 	if (channel == ActionType.ACTORS_RADIO)
-		res = { channel: channel, message: Context.interfaceState.state.channelText.actors, actorId: Context.interfaceState.state.currentActorUid };
+		res = {
+			channel: channel,
+			message: Context.interfaceState.state.channelText.actors,
+			actorId: Context.interfaceState.state.currentActorUid,
+		};
 	else {
 		res = { channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid };
 	}
 
 	// Reset interfaceState
-	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 	newState.channelText.actors = '';
 	Context.interfaceState.setState(newState);
 

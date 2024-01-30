@@ -1,11 +1,22 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectMapObjectTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
-import { ActionType } from "../game/common/actionType";
-import { endMapAction, startMapSelect } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
-import { getSimTime } from "../UIfacade/timeFacade";
+import {
+	ActionTemplateBase,
+	AssignTaskToResourcesActionTemplate,
+	ReleaseResourcesFromTaskActionTemplate,
+	SelectMapObjectTemplate,
+	SendResourcesToActorActionTemplate,
+} from '../game/common/actions/actionTemplateBase';
+import { ActionType } from '../game/common/actionType';
+import { endMapAction, startMapSelect } from '../gameMap/main';
+import {
+	cancelAction,
+	getActionTemplate,
+	getAllActions,
+	isSelectMapObjectTemplate,
+	planAction,
+} from '../UIfacade/actionFacade';
+import { getSimTime } from '../UIfacade/timeFacade';
 
-
-type gameStateStatus = "NOT_INITIATED" | "RUNNING" | "PAUSED";
+type gameStateStatus = 'NOT_INITIATED' | 'RUNNING' | 'PAUSED';
 
 /**
  * Get the current gameStateStatus
@@ -16,7 +27,7 @@ export function getGameStateStatus(): gameStateStatus {
 
 /**
  * Can current actor plan a new action
- * 
+ *
  * @returns boolean whether an action can be planned by current actor
  */
 export function canPlanAction(): boolean {
@@ -38,7 +49,7 @@ export function canPlanAction(): boolean {
 
 /**
  * Is the given actionUid the currently planned action by the current actor ?
- * 
+ *
  * @params number uid of the action
  * @returns boolean whether action uid is currently planned one
  */
@@ -58,7 +69,7 @@ export function isPlannedAction(id: number) {
 
 /**
  * Handle when an action is planned
- * 
+ *
  * @params number uid of the action
  * @params ActionType actionType of the action
  * @params any payload the action creation
@@ -81,7 +92,7 @@ export function actionChangeHandler() {
 	Context.interfaceState.setState({
 		...Context.interfaceState.state,
 		currentActionUid: Context.action.Uid,
-	})
+	});
 	endMapAction();
 	// If action is SelectMapObject we begin routine
 	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
@@ -91,7 +102,7 @@ export function actionChangeHandler() {
 
 /**
  * Return Date object with start time
- * 
+ *
  * @return Date timeStamp for simulation start time
  */
 export function getStartTime(): Date {
@@ -110,7 +121,7 @@ export function getStartTime(): Date {
 
 /**
  * Get notification time in HH:MM format
- * 
+ *
  * @params notificationTime number
  * @returns string Notification time adjusted to sim time
  */
@@ -123,7 +134,7 @@ export function getNotificationTime(notificationTime: number): string {
 
 /**
  * Return given dateTime in HH:MM format
- * 
+ *
  * @params dateTime Date
  * @returns string dateTime in HH:MM format
  */
@@ -136,36 +147,35 @@ export function formatTime(dateTime: Date): string {
 
 /**
  * Return action params panel associated with currently selected template
- * 
+ *
  * @params ActionTemplateBase
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 	if (Context.action instanceof SendResourcesToActorActionTemplate) {
-		return "54";
+		return '54';
 	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
-		return "55";
+		return '55';
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
-		return "56";
+		return '56';
 	} else if (Context.action instanceof SelectMapObjectTemplate) {
-		return "48";
+		return '48';
 	}
 
-	return "";
+	return '';
 }
 
 /**
  * Return modal associated with current state
- * 
+ *
  * @returns string Page number to be displayed in page loader
  */
 export function getModalPageNumber(): string {
 	if (Context.interfaceState.state.showCasuMessageModal) {
-		return "42";
+		return '42';
 	}
 	if (Context.interfaceState.state.showPatientModal) {
-		return "57";
+		return '57';
 	}
-	return "";
+	return '';
 }
-

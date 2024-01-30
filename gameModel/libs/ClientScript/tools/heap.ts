@@ -1,12 +1,11 @@
 /**
- * Heap data structure. 
+ * Heap data structure.
  * insertion in log(N)
  * extract "first" element with regard to a provided comparison function. log(N) complexity
  */
 export class Heap<T> {
-
-	readonly compFunc: ((a: T, b: T) => boolean);
-	data : T[];
+	readonly compFunc: (a: T, b: T) => boolean;
+	data: T[];
 
 	/**
 	 * @param function that returns true when element A should precede element B
@@ -14,13 +13,12 @@ export class Heap<T> {
 	 *
 	 * for all values in the heap
 	 */
-	constructor(comparison: ((a: T, b: T) => boolean)){
-		this.compFunc = function (x: T, y :T) {
-
-			if(x === undefined || y === undefined){
+	constructor(comparison: (a: T, b: T) => boolean) {
+		this.compFunc = function (x: T, y: T) {
+			if (x === undefined || y === undefined) {
 				return true; // heap is consistent
-			}else{
-				return comparison(x,y);
+			} else {
+				return comparison(x, y);
 			}
 		};
 
@@ -33,9 +31,9 @@ export class Heap<T> {
 	 * for any other element X in the heap
 	 */
 	peek(): T | undefined {
-		if(this.data[0]){
+		if (this.data[0]) {
 			return this.data[0];
-		}else {
+		} else {
 			return undefined;
 		}
 	}
@@ -46,12 +44,12 @@ export class Heap<T> {
 	 * log(N) complexity
 	 */
 	extract(): T | undefined {
-		if(this.data.length < 1) return undefined;
+		if (this.data.length < 1) return undefined;
 
-		const res : T = this.data[0]!;
+		const res: T = this.data[0]!;
 		const last = this.data.pop()!;
 
-		if(this.data.length > 0){
+		if (this.data.length > 0) {
 			this.data[0] = last;
 			this.heapDown(0);
 		}
@@ -64,10 +62,10 @@ export class Heap<T> {
 	 */
 	insert(t: T): void {
 		const length = this.data.push(t);
-		this.heapUp(length-1);
+		this.heapUp(length - 1);
 	}
 
-	isEmpty(): boolean{
+	isEmpty(): boolean {
 		return this.data.length < 1;
 	}
 
@@ -75,56 +73,54 @@ export class Heap<T> {
 		return this.data.length;
 	}
 
-	clear(){
+	clear() {
 		this.data = [];
 	}
 
-	private heapDown(idx : number){
-		if(idx >= this.data.length - 1)
-			return; // we reached the end of the heap
+	private heapDown(idx: number) {
+		if (idx >= this.data.length - 1) return; // we reached the end of the heap
 
 		const [left, right] = this.getChildren(idx);
 		let candidate = -1;
 
-		if(this.exists(left)){
-			if(this.exists(right)){
-				candidate = this.compFunc(this.data[left]!, this.data[right]!) ? left: right;
-			}else {
+		if (this.exists(left)) {
+			if (this.exists(right)) {
+				candidate = this.compFunc(this.data[left]!, this.data[right]!) ? left : right;
+			} else {
 				candidate = left;
 			}
 		} // if left doesn't exist, right does not exist by heap construction
 
-		if(candidate > 0){
-			if(!this.compFunc(this.data[idx]!, this.data[candidate]!)){
+		if (candidate > 0) {
+			if (!this.compFunc(this.data[idx]!, this.data[candidate]!)) {
 				this.swap(idx, candidate);
 				this.heapDown(candidate);
 			}
 		}
 	}
 
-	private heapUp(idx: number){
-		if(idx <= 0)
-			return;
+	private heapUp(idx: number) {
+		if (idx <= 0) return;
 
 		const p = this.getParent(idx);
-		if(!this.compFunc(this.data[p]!, this.data[idx]!)){
+		if (!this.compFunc(this.data[p]!, this.data[idx]!)) {
 			this.swap(idx, p);
 			this.heapUp(p);
 		}
 	}
 
-	private swap(i: number, j: number){
+	private swap(i: number, j: number) {
 		const tmp = this.data[i]!;
 		this.data[i] = this.data[j]!;
 		this.data[j] = tmp;
 	}
 
 	private getChildren(idx: number): [number, number] {
-		return [idx*2+1, idx*2+2];
+		return [idx * 2 + 1, idx * 2 + 2];
 	}
 
 	private getParent(idx: number): number {
-		return (idx-1)>>1;
+		return (idx - 1) >> 1;
 	}
 
 	private exists(idx: number): boolean {

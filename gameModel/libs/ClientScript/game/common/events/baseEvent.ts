@@ -1,5 +1,5 @@
-import { whoAmI } from "../../../tools/WegasHelper";
-import { ActorId } from "../baseTypes";
+import { whoAmI } from '../../../tools/WegasHelper';
+import { ActorId } from '../baseTypes';
 
 export interface BaseEvent {
 	type: string;
@@ -9,27 +9,25 @@ export interface BaseEvent {
 
 /**
  * Legacy use initBaseEvent instead
- * @returns an initialized base event 
+ * @returns an initialized base event
  */
 export function initEmitterIds() {
 	return {
-		type: "",
+		type: '',
 		emitterCharacterId: whoAmI(),
 		emitterPlayerId: String(self.getId()),
-	}
+	};
 }
 
-export function initBaseEvent(emitterActorId: ActorId){
+export function initBaseEvent(emitterActorId: ActorId) {
 	return {
-		type: "",
+		type: '',
 		emitterCharacterId: emitterActorId,
 		emitterPlayerId: String(self.getId()),
-	}
+	};
 }
 
 export interface TargetedEvent extends BaseEvent {
 	targetType: 'Human';
 	targetId: string;
 }
-
-

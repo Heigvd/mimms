@@ -33,8 +33,7 @@ export interface DataDef<T extends MatrixKey> {
 }
 
 interface DataDefChange {
-
-	enableCreation : boolean;
+	enableCreation: boolean;
 
 	createdEntryDefaultLabel?: string;
 
@@ -42,9 +41,8 @@ interface DataDefChange {
 	/**
 	 * HACK: onChange Callback register as ref (Helpers.useRef(THE_NAME, () => ))
 	 */
-	callbackRefName : string;
+	callbackRefName: string;
 }
-
 
 /**
  * Display as checkboxes
@@ -94,7 +92,7 @@ export type EnhancedCellData<T extends CellData> =
 	| {
 			label: string;
 			value: T;
-    };
+	  };
 
 export interface MatrixConfig<X extends MatrixKey, Y extends MatrixKey, Data extends CellData> {
 	x: DataDef<X>[];
@@ -331,7 +329,7 @@ export function updateValue(value: unknown) {
 export function updateXColumn(id?: MatrixKey, label?: string) {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 
-	if(config.dataDefChangeColumn){
+	if (config.dataDefChangeColumn) {
 		const onChange = Helpers.useRef(
 			config.dataDefChangeColumn.callbackRefName,
 			(x: DataDef<MatrixKey> | undefined) => {},
@@ -339,64 +337,53 @@ export function updateXColumn(id?: MatrixKey, label?: string) {
 		//wlog('OnChange: ', Context.column, Context.line, value);
 		const l = label || config.dataDefChangeColumn.createdEntryDefaultLabel || 'new';
 
-		onChange.current({label: l, id: id || makeUid()});
+		onChange.current({ label: l, id: id || makeUid() });
 		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 	}
-	
 }
 
 function makeUid(): MatrixKey {
-	return Math.floor(Math.random()*10000000000);
+	return Math.floor(Math.random() * 10000000000);
 }
 
 export function updateYRow(id?: MatrixKey, label?: string) {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 
-	if(config.dataDefChangeRow){
+	if (config.dataDefChangeRow) {
 		const onChange = Helpers.useRef(
 			config.dataDefChangeRow.callbackRefName,
 			(y: DataDef<MatrixKey>) => {},
 		);
 		const l = label || config.dataDefChangeRow.createdEntryDefaultLabel || 'new';
-		onChange.current({label: l, id: id || makeUid()});
+		onChange.current({ label: l, id: id || makeUid() });
 		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 	}
-	
 }
 
-export function removeColumn(id: MatrixKey){
-
+export function removeColumn(id: MatrixKey) {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
-	if(config.dataDefRemoveColumn){
-		const removeX = Helpers.useRef(
-			config.dataDefRemoveColumn,
-			(id: MatrixKey) => {},
-		);
+	if (config.dataDefRemoveColumn) {
+		const removeX = Helpers.useRef(config.dataDefRemoveColumn, (id: MatrixKey) => {});
 		removeX.current(id);
 		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 	}
 }
 
-export function removeRow(id: MatrixKey){
-
+export function removeRow(id: MatrixKey) {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
-	if(config.dataDefRemoveRow){
-		const removeY = Helpers.useRef(
-			config.dataDefRemoveRow,
-			(id: MatrixKey) => {},
-		);
+	if (config.dataDefRemoveRow) {
+		const removeY = Helpers.useRef(config.dataDefRemoveRow, (id: MatrixKey) => {});
 		removeY.current(id);
 		setMatrixState(s => ({ ...s, toggle: !s.toggle }));
 	}
-
 }
 
-export function getAddColumnButtonLabel(): string{
+export function getAddColumnButtonLabel(): string {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 	return config.dataDefChangeColumn?.addEntryButtonLabel || 'Add Column';
 }
 
-export function getAddRowButtonLabel(): string{
+export function getAddRowButtonLabel(): string {
 	const config: MatrixConfig<MatrixKey, MatrixKey, boolean> = Context.matrixConfig;
 	return config.dataDefChangeRow?.addEntryButtonLabel || 'Add Row';
 }
@@ -445,9 +432,8 @@ const testMatrix: Record<number, Record<number, CellData>> = {
 		0: true,
 		1: true,
 		2: false,
-		3: true
+		3: true,
 	},
-
 };
 
 const onChangeRef = Helpers.useRef(
@@ -466,74 +452,60 @@ onChangeRef.current = (x: DataDef<number>, y: DataDef<number>, newData: CellData
     );*/
 };
 
-const onRowChangeRef = Helpers.useRef(
-	'testMatrixOnRowChangeRef',
-	(y: DataDef<number>) => {},
-);
+const onRowChangeRef = Helpers.useRef('testMatrixOnRowChangeRef', (y: DataDef<number>) => {});
 
 let lastId = 100;
 
-const defaultLabel = 'New entry'
+const defaultLabel = 'New entry';
 
 onRowChangeRef.current = (y: DataDef<number>) => {
-
 	// search existing
-	const elem = testMatrixData.x.find((e) => e.id === y.id);
-	if(elem){ // update it
+	const elem = testMatrixData.x.find(e => e.id === y.id);
+	if (elem) {
+		// update it
 		elem.label = y.label || defaultLabel;
-	}else{
+	} else {
 		y.id = lastId++;
 		y.label = y.label || defaultLabel;
 		testMatrixData.y.push(y);
 	}
-}
+};
 
-const onColumnChangeRef = Helpers.useRef(
-	'testMatrixOnColumnChangeRef',
-	(y: DataDef<number>) => {},
-);
+const onColumnChangeRef = Helpers.useRef('testMatrixOnColumnChangeRef', (y: DataDef<number>) => {});
 
 onColumnChangeRef.current = (x: DataDef<number>) => {
-
 	// search existing
-	const elem = testMatrixData.x.find((e) => e.id === x.id);
-	if(elem){ // update it
+	const elem = testMatrixData.x.find(e => e.id === x.id);
+	if (elem) {
+		// update it
 		elem.label = x.label || '';
-	}else{
+	} else {
 		x.id = lastId++;
 		x.label = x.label || defaultLabel;
 		testMatrixData.x.push(x);
 	}
-}
+};
 
-const onColumnDeleteRef = Helpers.useRef(
-	'testRemoveX',
-	(id: number) => {}
-)
+const onColumnDeleteRef = Helpers.useRef('testRemoveX', (id: number) => {});
 
-onColumnDeleteRef.current = (xid : number) => {
-	
-	const i = testMatrixData.x.findIndex((e)=> e.id == xid);
-	if(i > -1){
-		testMatrixData.x.splice(i,1);
-		wlog('deleted ', i, xid)
+onColumnDeleteRef.current = (xid: number) => {
+	const i = testMatrixData.x.findIndex(e => e.id == xid);
+	if (i > -1) {
+		testMatrixData.x.splice(i, 1);
+		wlog('deleted ', i, xid);
 	}
-}
+};
 
-const onRowDeleteRef = Helpers.useRef(
-	'testRemoveY',
-	(id: number) => {}
-)
+const onRowDeleteRef = Helpers.useRef('testRemoveY', (id: number) => {});
 
-onRowDeleteRef.current = (xid : number) => {
-	
-	const i = testMatrixData.y.findIndex((e)=> e.id == xid);
-	if(i > -1){
-		testMatrixData.y.splice(i,1);
-		wlog('deleted ', i, xid)
+onRowDeleteRef.current = (xid: number) => {
+	const i = testMatrixData.y.findIndex(e => e.id == xid);
+	if (i > -1) {
+		testMatrixData.y.splice(i, 1);
+		wlog('deleted ', i, xid);
 	}
-}
- 
+};
+
 const testMatrixData = {
 	x: [
 		{ label: 'x 1st', id: 0 },
@@ -546,10 +518,9 @@ const testMatrixData = {
 		{ label: 'y 2e', id: 1 },
 		{ label: 'y 3e', id: 2 },
 	],
-}
+};
 
-
-export function testMatrixConfig() : MatrixConfig<number, number, CellData> { 
+export function testMatrixConfig(): MatrixConfig<number, number, CellData> {
 	return {
 		...testMatrixData,
 		data: testMatrix,
@@ -569,17 +540,16 @@ export function testMatrixConfig() : MatrixConfig<number, number, CellData> {
 			},
 		],
 		onChangeRefName: 'testMatrixOnChange',
-		dataDefChangeColumn : {
+		dataDefChangeColumn: {
 			enableCreation: true,
-			createdEntryDefaultLabel : 'New column',
-			callbackRefName: "testMatrixOnColumnChangeRef"
+			createdEntryDefaultLabel: 'New column',
+			callbackRefName: 'testMatrixOnColumnChangeRef',
 		},
-		dataDefChangeRow : {
+		dataDefChangeRow: {
 			enableCreation: false,
-			callbackRefName: "testMatrixOnRowChangeRef"
+			callbackRefName: 'testMatrixOnRowChangeRef',
 		},
-		dataDefRemoveColumn : "testRemoveX",
-		dataDefRemoveRow : "testRemoveY",
-
+		dataDefRemoveColumn: 'testRemoveX',
+		dataDefRemoveRow: 'testRemoveY',
 	};
 }

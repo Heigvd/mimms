@@ -112,29 +112,42 @@ function extractMetric(
 	outputCardio: { [key: string]: [number, number][] },
 	outputOther: { [key: string]: [number, number][] },
 ) {
-
 	pushMetric('SaO2', time, body.vitals.respiration.SaO2 * 100, outputResp);
 	pushMetric('SpO2', time, body.vitals.respiration.SpO2 * 100, outputResp);
 	pushMetric('CaO2 [mL/L]', time, body.vitals.respiration.CaO2, outputResp);
 
-	pushComposedMetric('PaO2 [mmHg]', time, {
-		'PaO2': body.vitals.respiration.PaO2,
-		'PaCO2': body.vitals.respiration.PaCO2,
-	}, outputResp);
+	pushComposedMetric(
+		'PaO2 [mmHg]',
+		time,
+		{
+			PaO2: body.vitals.respiration.PaO2,
+			PaCO2: body.vitals.respiration.PaCO2,
+		},
+		outputResp,
+	);
 
-	pushComposedMetric('DO2', time, {
-		"DO2Sys [mL/min]": body.vitals.cardio.DO2Sys,
-		"VO2 [mL/min]": body.vitals.cardio.vo2_mLperMin,
-	}, outputResp);
+	pushComposedMetric(
+		'DO2',
+		time,
+		{
+			'DO2Sys [mL/min]': body.vitals.cardio.DO2Sys,
+			'VO2 [mL/min]': body.vitals.cardio.vo2_mLperMin,
+		},
+		outputResp,
+	);
 	pushMetric('DO2Brain [mL/min]', time, body.vitals.brain.DO2, outputResp);
 
 	pushMetric('RR', time, body.vitals.respiration.rr, outputResp);
 
-	pushComposedMetric('Respiration volumes', time, {
-		'tidal': body.vitals.respiration.tidalVolume_L,
-		'alv.': body.vitals.respiration.alveolarVolume_L,
-	}, outputResp);
-
+	pushComposedMetric(
+		'Respiration volumes',
+		time,
+		{
+			tidal: body.vitals.respiration.tidalVolume_L,
+			'alv.': body.vitals.respiration.alveolarVolume_L,
+		},
+		outputResp,
+	);
 
 	const ip_left = body.blocks.get('THORAX_LEFT')!.params.internalPressure;
 	const ip_right = body.blocks.get('THORAX_RIGHT')!.params.internalPressure;
@@ -154,35 +167,40 @@ function extractMetric(
 	pushMetric('1 - HR', time, body.vitals.cardio.hr, outputCardio);
 	pushMetric('2 - MAP', time, body.vitals.cardio.MAP, outputCardio);
 
-	pushBloodBlockMetrics("9001 - ", body.blocks.get('MEDIASTINUM')!, time, outputCardio);
-	pushBloodBlockMetrics("9002 - ", body.blocks.get('NECK')!, time, outputCardio);
-	pushBloodBlockMetrics("9003 - ", body.blocks.get('HEAD')!, time, outputCardio);
-	pushBloodBlockMetrics("9004 - ", body.blocks.get('BRAIN')!, time, outputCardio);
-	pushBloodBlockMetrics("9100 - ", body.blocks.get('ABDOMEN')!, time, outputCardio);
-	pushBloodBlockMetrics("9110 - ", body.blocks.get('PELVIS')!, time, outputCardio);
+	pushBloodBlockMetrics('9001 - ', body.blocks.get('MEDIASTINUM')!, time, outputCardio);
+	pushBloodBlockMetrics('9002 - ', body.blocks.get('NECK')!, time, outputCardio);
+	pushBloodBlockMetrics('9003 - ', body.blocks.get('HEAD')!, time, outputCardio);
+	pushBloodBlockMetrics('9004 - ', body.blocks.get('BRAIN')!, time, outputCardio);
+	pushBloodBlockMetrics('9100 - ', body.blocks.get('ABDOMEN')!, time, outputCardio);
+	pushBloodBlockMetrics('9110 - ', body.blocks.get('PELVIS')!, time, outputCardio);
 
-	pushBloodBlockMetrics("9021 - ", body.blocks.get('LEFT_SHOULDER')!, time, outputCardio);
-	pushBloodBlockMetrics("9022 - ", body.blocks.get('LEFT_ARM')!, time, outputCardio);
-	pushBloodBlockMetrics("9023 - ", body.blocks.get('LEFT_FOREARM')!, time, outputCardio);
-	pushBloodBlockMetrics("9024 - ", body.blocks.get('LEFT_HAND')!, time, outputCardio);
+	pushBloodBlockMetrics('9021 - ', body.blocks.get('LEFT_SHOULDER')!, time, outputCardio);
+	pushBloodBlockMetrics('9022 - ', body.blocks.get('LEFT_ARM')!, time, outputCardio);
+	pushBloodBlockMetrics('9023 - ', body.blocks.get('LEFT_FOREARM')!, time, outputCardio);
+	pushBloodBlockMetrics('9024 - ', body.blocks.get('LEFT_HAND')!, time, outputCardio);
 
-	pushBloodBlockMetrics("9121 - ", body.blocks.get('LEFT_THIGH')!, time, outputCardio);
-	pushBloodBlockMetrics("9122 - ", body.blocks.get('LEFT_LEG')!, time, outputCardio);
-	pushBloodBlockMetrics("9123 - ", body.blocks.get('LEFT_FOOT')!, time, outputCardio);
+	pushBloodBlockMetrics('9121 - ', body.blocks.get('LEFT_THIGH')!, time, outputCardio);
+	pushBloodBlockMetrics('9122 - ', body.blocks.get('LEFT_LEG')!, time, outputCardio);
+	pushBloodBlockMetrics('9123 - ', body.blocks.get('LEFT_FOOT')!, time, outputCardio);
 
-	pushBloodBlockMetrics("9031 - ", body.blocks.get('RIGHT_SHOULDER')!, time, outputCardio);
-	pushBloodBlockMetrics("9032 - ", body.blocks.get('RIGHT_ARM')!, time, outputCardio);
-	pushBloodBlockMetrics("9033 - ", body.blocks.get('RIGHT_FOREARM')!, time, outputCardio);
-	pushBloodBlockMetrics("9034- ", body.blocks.get('RIGHT_HAND')!, time, outputCardio);
+	pushBloodBlockMetrics('9031 - ', body.blocks.get('RIGHT_SHOULDER')!, time, outputCardio);
+	pushBloodBlockMetrics('9032 - ', body.blocks.get('RIGHT_ARM')!, time, outputCardio);
+	pushBloodBlockMetrics('9033 - ', body.blocks.get('RIGHT_FOREARM')!, time, outputCardio);
+	pushBloodBlockMetrics('9034- ', body.blocks.get('RIGHT_HAND')!, time, outputCardio);
 
-	pushBloodBlockMetrics("9131 - ", body.blocks.get('RIGHT_THIGH')!, time, outputCardio);
-	pushBloodBlockMetrics("9132 - ", body.blocks.get('RIGHT_LEG')!, time, outputCardio);
-	pushBloodBlockMetrics("9133 - ", body.blocks.get('RIGHT_FOOT')!, time, outputCardio);
+	pushBloodBlockMetrics('9131 - ', body.blocks.get('RIGHT_THIGH')!, time, outputCardio);
+	pushBloodBlockMetrics('9132 - ', body.blocks.get('RIGHT_LEG')!, time, outputCardio);
+	pushBloodBlockMetrics('9133 - ', body.blocks.get('RIGHT_FOOT')!, time, outputCardio);
 
-	pushComposedMetric('Intercranial', time, {
-		ICP: body.vitals.brain.ICP_mmHg,
-		mass: body.variables.intercranialMass
-	}, outputOther);
+	pushComposedMetric(
+		'Intercranial',
+		time,
+		{
+			ICP: body.vitals.brain.ICP_mmHg,
+			mass: body.variables.intercranialMass,
+		},
+		outputOther,
+	);
 
 	//pushMetric("Blood", time, body.vitals.cardio.totalVolume_mL, output);
 	//pushMetric("Water", time, body.vitals.cardio.totalVolumeOfWater_mL, output);
@@ -331,7 +349,9 @@ function internal_run(
 				if (act) {
 					if (act.action.type === 'ActionBodyEffect') {
 						logger.info('Do Act: ', { time: event.time, act });
-						effects.push(doActionOnHumanBody(act, act.action, 'default', event.blocks, event.time)!);
+						effects.push(
+							doActionOnHumanBody(act, act.action, 'default', event.blocks, event.time)!,
+						);
 					} else {
 						logger.info('Ignore measure');
 					}
@@ -342,7 +362,9 @@ function internal_run(
 				if (action != null) {
 					if (action.type === 'ActionBodyEffect') {
 						logger.info('Apply Item: ', { time: event.time, item, action });
-						effects.push(doActionOnHumanBody(item!, action, event.source.actionId, event.blocks, event.time)!);
+						effects.push(
+							doActionOnHumanBody(item!, action, event.source.actionId, event.blocks, event.time)!,
+						);
 					} else {
 						logger.info('Ignore measure');
 					}
@@ -548,23 +570,31 @@ export function run_likert(patientId: string) {
 	return { data: clean, cardiacArrest: cardiacArrest };
 }
 
-
 export function batch() {
-	const patientId = "patient-1";
+	const patientId = 'patient-1';
 
 	const blocks: BlockName[] = [
-		"HEAD",
-		"NECK",
-		"THORAX_LEFT",
-		"LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
-		"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
+		'HEAD',
+		'NECK',
+		'THORAX_LEFT',
+		'LEFT_SHOULDER',
+		'LEFT_ARM',
+		'LEFT_ELBOW',
+		'LEFT_FOREARM',
+		'LEFT_WRIST',
+		'LEFT_HAND',
+		'LEFT_THIGH',
+		'LEFT_KNEE',
+		'LEFT_LEG',
+		'LEFT_ANKLE',
+		'LEFT_FOOT',
 	];
 
 	const allData: string[][] = [];
 	const headers: string[] = ['block'];
 
 	for (let arg = 0; arg <= 0.1; arg += 0.01) {
-		headers.push("" + arg);
+		headers.push('' + arg);
 	}
 	allData.push(headers);
 
@@ -572,34 +602,31 @@ export function batch() {
 		const data: string[] = [block];
 
 		for (let arg = 0; arg <= 0.1; arg += 0.01) {
-
 			const scenario: TestScenario = {
 				description: '',
-				events: [{
-					type: 'HumanPathology',
-					time: 1,
-					pathologyId: 'catastrophic_vh',
-					afflictedBlocks: [block],
-					modulesArguments: [{
-						type: "HemorrhageArgs",
-						bleedingFactor: arg,
-						instantaneousBloodLoss: undefined,
-					}
-					]
-				}]
+				events: [
+					{
+						type: 'HumanPathology',
+						time: 1,
+						pathologyId: 'catastrophic_vh',
+						afflictedBlocks: [block],
+						modulesArguments: [
+							{
+								type: 'HemorrhageArgs',
+								bleedingFactor: arg,
+								instantaneousBloodLoss: undefined,
+							},
+						],
+					},
+				],
 			};
 
-			const body = internal_run(
-				patientId,
-				fourHours,
-				() => { },
-				scenario,
-			);
+			const body = internal_run(patientId, fourHours, () => {}, scenario);
 
 			data.push(`${body.state.vitals.cardiacArrest || 'alive'}`);
 		}
 		allData.push(data);
 	});
 
-	Helpers.downloadDataAsFile("run.csv", allData.map(line => line.join(", ")).join("\n"));
+	Helpers.downloadDataAsFile('run.csv', allData.map(line => line.join(', ')).join('\n'));
 }

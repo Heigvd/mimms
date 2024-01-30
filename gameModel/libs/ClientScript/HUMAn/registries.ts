@@ -25,7 +25,6 @@ let model: SympSystem = {};
 
 let initialized = false;
 
-
 export function getPathology(id: string): PathologyDefinition | undefined {
 	init();
 	return pathologies[id];
@@ -47,7 +46,6 @@ export function getPathologiesMap(): Record<string, string> {
 	}, {});
 }
 
-
 export function getItem(id: string): ItemDefinition | undefined {
 	init();
 	return items[id];
@@ -60,7 +58,6 @@ export function getItems(): { id: string; item: ItemDefinition }[] {
 		item: item,
 	}));
 }
-
 
 export function getAct(id?: string): ActDefinition | undefined {
 	if (!id) {
@@ -130,5 +127,4 @@ function init() {
 	////////////////////////////////////////
 
 	initItemAndActs(items, acts);
-	
 }

@@ -1,6 +1,6 @@
-import { getDrillStatus } from "../pretri/drill";
-import { FogType } from "./the_world";
-import { getRunningMode } from "./TimeManager";
+import { getDrillStatus } from '../pretri/drill';
+import { FogType } from './the_world';
+import { getRunningMode } from './TimeManager';
 
 type DrillType = 'PRE-TRIAGE' | 'PRE-TRIAGE_ON_MAP' | 'LIKERT';
 
@@ -16,7 +16,7 @@ export function getMultiplayerMode(): MutliplayerMode {
 
 type RealLifeRole = 'HEALTH_SQUAD' | 'PATIENT' | 'NONE' | 'OBSERVER';
 
-export function getRealLifeRole() : RealLifeRole {
+export function getRealLifeRole(): RealLifeRole {
 	return Variable.find(gameModel, 'realLifeRole').getValue(self) as RealLifeRole;
 }
 
@@ -24,34 +24,33 @@ export function isDrillMode(): boolean {
 	return gameModel.getProperties().getFreeForAll();
 }
 
-export function isRealLifeGame() : boolean {
-	if (isDrillMode()){
+export function isRealLifeGame(): boolean {
+	if (isDrillMode()) {
 		return false;
 	}
 	return getMultiplayerMode() === 'REAL_LIFE';
 }
 
-export function getTimeMode(): "LIVE_WORLD" | 'STATIC' {
+export function getTimeMode(): 'LIVE_WORLD' | 'STATIC' {
 	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'LIKERT':
-				return "STATIC";
+				return 'STATIC';
 		}
 	}
 
 	return 'LIVE_WORLD';
 }
 
-
 export function getGamePageId() {
 	if (isDrillMode()) {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
-				return "12";
+				return '12';
 			case 'PRE-TRIAGE_ON_MAP':
-				return "11";
+				return '11';
 			case 'LIKERT':
 				return '26';
 		}
@@ -61,7 +60,7 @@ export function getGamePageId() {
 		switch (mode) {
 			case 'SOFTWARE':
 				// always on map
-				return "11";
+				return '11';
 			case 'REAL_LIFE': {
 				const role = getRealLifeRole();
 				switch (role) {
@@ -72,7 +71,7 @@ export function getGamePageId() {
 						// squad page
 						return '32';
 					case 'OBSERVER':
-						return '39'
+						return '39';
 					default:
 						// scan your QR code page
 						return '33';
@@ -81,7 +80,7 @@ export function getGamePageId() {
 		}
 	}
 
-	return "404";
+	return '404';
 }
 
 /**
@@ -125,7 +124,7 @@ export function getDefaultBag(): string | undefined {
 		// DRILL / individually
 		switch (getDrillType()) {
 			case 'PRE-TRIAGE':
-				return Variable.find(gameModel, "bagType").getValue(self);
+				return Variable.find(gameModel, 'bagType').getValue(self);
 		}
 	}
 
@@ -141,7 +140,7 @@ export function getFogType(): FogType {
 				return 'NONE';
 			case 'PRE-TRIAGE_ON_MAP':
 				// On map -> only visible humans are visible
-				return "SIGHT";
+				return 'SIGHT';
 		}
 	} else {
 		// multiplayers game
@@ -149,7 +148,7 @@ export function getFogType(): FogType {
 		switch (mode) {
 			case 'SOFTWARE':
 				// on map -> line of sight
-				return "SIGHT";
+				return 'SIGHT';
 			case 'REAL_LIFE': {
 				const role = getRealLifeRole();
 				switch (role) {
@@ -168,10 +167,8 @@ export function getFogType(): FogType {
 		}
 	}
 
-	return "SIGHT";
+	return 'SIGHT';
 }
-
-
 
 export function isInterfaceDisabled(): boolean {
 	const timeMode = getRunningMode();

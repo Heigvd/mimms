@@ -1,16 +1,30 @@
-
 /**
  * Pathology editor
  */
 
-import { checkUnreachable, Range } from "../tools/helper";
-import { BlockName, BodyFactoryParam } from "../HUMAn/human";
-import { AfflictedPathology, airwaysResistanceArgKeys, burnArgKeys, hemorrhageArgKeys, intercraniaArgKeys, ModuleMeta, painArgKeys, pneumothoraxArgKeys, prettyPrinterAfflictedPathology, tamponadeArgKeys } from "../HUMAn/pathology";
-import { buildScriptedPathologyPayload, buildScriptedTreatmentPayload, getAvailableTreatmentFromValue, getHumanGenerator } from "./patientGeneration";
-import { getPathology } from "../HUMAn/registries";
-import { getBodyParam, getCurrentPatientId } from "../tools/WegasHelper";
-import { ScriptedEvent } from "../game/common/events/eventTypes";
-
+import { checkUnreachable, Range } from '../tools/helper';
+import { BlockName, BodyFactoryParam } from '../HUMAn/human';
+import {
+	AfflictedPathology,
+	airwaysResistanceArgKeys,
+	burnArgKeys,
+	hemorrhageArgKeys,
+	intercraniaArgKeys,
+	ModuleMeta,
+	painArgKeys,
+	pneumothoraxArgKeys,
+	prettyPrinterAfflictedPathology,
+	tamponadeArgKeys,
+} from '../HUMAn/pathology';
+import {
+	buildScriptedPathologyPayload,
+	buildScriptedTreatmentPayload,
+	getAvailableTreatmentFromValue,
+	getHumanGenerator,
+} from './patientGeneration';
+import { getPathology } from '../HUMAn/registries';
+import { getBodyParam, getCurrentPatientId } from '../tools/WegasHelper';
+import { ScriptedEvent } from '../game/common/events/eventTypes';
 
 interface PathologyEditorContext {
 	id: number;
@@ -19,8 +33,8 @@ interface PathologyEditorContext {
 	description: string;
 	modules: {
 		id: number;
-		block: BlockName,
-		meta: ModuleMeta
+		block: BlockName;
+		meta: ModuleMeta;
 	}[];
 	presets: BlockName[][][] | undefined;
 	preset: number | undefined;
@@ -51,7 +65,7 @@ function getConfigFromAfflictedPathology(
 ): PathologyEditorContext {
 	const definition = getPathology(ap.pathologyId);
 	if (definition == null) {
-		throw new Error("Pathology does not exist");
+		throw new Error('Pathology does not exist');
 	}
 
 	const mods = definition.modules.map((mDef, i) => {
@@ -63,8 +77,8 @@ function getConfigFromAfflictedPathology(
 			meta: {
 				config: mDef,
 				args: mArgs,
-			} as ModuleMeta // TODO typecheck !!!
-		}
+			} as ModuleMeta, // TODO typecheck !!!
+		};
 	});
 	let preset: number | undefined = undefined;
 
@@ -97,8 +111,9 @@ function getConfigFromAfflictedPathology(
 	};
 }
 
-
-export function getPatientPathologyConfigs(patientId: string): PathologyEditorContext[] | undefined {
+export function getPatientPathologyConfigs(
+	patientId: string,
+): PathologyEditorContext[] | undefined {
 	//patientGenerationLogger.warn(patientId)
 	const param = getBodyParam(patientId);
 	if (param == null) {
@@ -129,7 +144,7 @@ export function prettyPrintScript(script: ScriptedEvent[] = []): string {
 				} else if (event.payload.type === 'Teleport') {
 					return '';
 				} else {
-					checkUnreachable(event.payload)
+					checkUnreachable(event.payload);
 				}
 			})
 			.join('<br />');
@@ -138,16 +153,17 @@ export function prettyPrintScript(script: ScriptedEvent[] = []): string {
 	return 'Patient is healthy';
 }
 
-
 /**
  * persist patient
  */
 function persistPatient(patientId: string, param: BodyFactoryParam) {
-	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(JSON.stringify(param))})`
+	const script = `Variable.find(gameModel, "patients").setProperty('${patientId}', ${JSON.stringify(
+		JSON.stringify(param),
+	)})`;
 	APIMethods.runScript(script, {});
 }
 
-export function generateDescription(patientId: string, param: BodyFactoryParam){
+export function generateDescription(patientId: string, param: BodyFactoryParam) {
 	param.description = prettyPrintScript(param.scriptedEvents);
 	persistPatient(patientId, param);
 }
@@ -157,16 +173,26 @@ export function saveDescription(patientId: string, param: BodyFactoryParam, desc
 	persistPatient(patientId, param);
 }
 
-export function removeScriptedEvent(patientId: string, param: BodyFactoryParam, eventIndex: number) {
+export function removeScriptedEvent(
+	patientId: string,
+	param: BodyFactoryParam,
+	eventIndex: number,
+) {
 	if (param.scriptedEvents) {
 		param.scriptedEvents.splice(eventIndex, 1);
 		persistPatient(patientId, param);
 	} else {
-		wlog("Unable to remove scripted event");
+		wlog('Unable to remove scripted event');
 	}
 }
 
-export function changePathology(patientId: string, param: BodyFactoryParam, pathologyIndex: number, pathologyId: string, time: number) {
+export function changePathology(
+	patientId: string,
+	param: BodyFactoryParam,
+	pathologyIndex: number,
+	pathologyId: string,
+	time: number,
+) {
 	const p = buildScriptedPathologyPayload(pathologyId, time);
 
 	(param.scriptedEvents || []).splice(pathologyIndex, 1, p);
@@ -174,7 +200,12 @@ export function changePathology(patientId: string, param: BodyFactoryParam, path
 	persistPatient(patientId, param);
 }
 
-export function inoculate(patientId: string, param: BodyFactoryParam, pathologyId: string, time: number) {
+export function inoculate(
+	patientId: string,
+	param: BodyFactoryParam,
+	pathologyId: string,
+	time: number,
+) {
 	const p = buildScriptedPathologyPayload(pathologyId, time);
 
 	if (param.scriptedEvents == null) {
@@ -190,15 +221,18 @@ export function inoculateRandom(patientId: string, param: BodyFactoryParam, time
 	persistPatient(patientId, param);
 }
 
-
 export function addRandomTreatment(patientId: string, param: BodyFactoryParam, time: number) {
 	getHumanGenerator().addTreatments(param, 1, time);
 	persistPatient(patientId, param);
 }
 
-
-export function changeTreatment(patientId: string, param: BodyFactoryParam, tIndex: number, newTreatment: string, time: number) {
-
+export function changeTreatment(
+	patientId: string,
+	param: BodyFactoryParam,
+	tIndex: number,
+	newTreatment: string,
+	time: number,
+) {
 	const treatment = getAvailableTreatmentFromValue(newTreatment);
 
 	if (treatment) {
@@ -211,7 +245,6 @@ export function changeTreatment(patientId: string, param: BodyFactoryParam, tInd
 		persistPatient(patientId, param);
 	}
 }
-
 
 function updatePatientPathology(patientId: string, newAp: AfflictedPathology) {
 	const param = getBodyParam(patientId);
@@ -253,19 +286,20 @@ export function getArgumentKeys(mod: ModuleMeta): Readonly<string[]> {
 	}
 }
 
-
 export function getModuleArguments(moduleMeta: ModuleMeta) {
 	return getArgumentKeys(moduleMeta).flatMap(key => {
 		// @ts-ignore: check typings
 		const aConfig: Range | undefined = moduleMeta.config[key];
 		if (aConfig) {
-			return [{
-				id: key,
-				min: aConfig.min,
-				max: aConfig.max,
-				// @ts-ignore: check typings
-				value: moduleMeta.args[key] as number ?? aConfig.min,
-			}];
+			return [
+				{
+					id: key,
+					min: aConfig.min,
+					max: aConfig.max,
+					// @ts-ignore: check typings
+					value: (moduleMeta.args[key] as number) ?? aConfig.min,
+				},
+			];
 		} else {
 			return [];
 		}
@@ -293,26 +327,22 @@ export function getBlockChoices() {
 	}));
 }
 
-
-
 export function updateModuleBlock(blockName: BlockName) {
 	const context = getPathologyEditorContext();
 
 	const moduleIndex = Context.module.id;
 
 	const ap = context.afflictedPathology;
-	ap.afflictedBlocks[moduleIndex] = blockName
+	ap.afflictedBlocks[moduleIndex] = blockName;
 
 	updatePatientPathology(context.patientId, ap);
 }
-
 
 export function updateModuleArg(value: number) {
 	const context = getPathologyEditorContext();
 
 	const moduleIndex = Context.module.id;
 	const key = Context.moduleArg.id;
-
 
 	const ap = context.afflictedPathology;
 

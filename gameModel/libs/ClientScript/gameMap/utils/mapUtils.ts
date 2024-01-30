@@ -1,7 +1,7 @@
-import { FeatureCollection } from "../../gameMap/types/featureTypes";
-import { Point } from "../../map/point2D";
+import { FeatureCollection } from '../../gameMap/types/featureTypes';
+import { Point } from '../../map/point2D';
 
-/** 
+/**
  * Convert Point to PointLikeObject
  * @param {Point} point Point to be converted
  */
@@ -9,12 +9,12 @@ export function pointToPointLike(point: Point): PointLikeObject {
 	return [point.x, point.y];
 }
 
-/** 
+/**
  * Convert PointLikeObject to Point
  * @param {PointLikeObject} point PointLikeObject to be converted
  */
 export function pointLikeToPoint(point: PointLikeObject): Point {
-	return {x: point[0], y: point[1]};
+	return { x: point[0], y: point[1] };
 }
 
 /**
@@ -27,5 +27,5 @@ export function getEmptyFeatureCollection(name?: string): FeatureCollection {
 		name: `${name}`,
 		crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::2056' } },
 		features: [],
-	}
+	};
 }

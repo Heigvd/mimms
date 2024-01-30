@@ -1,4 +1,4 @@
-import { Point } from "./point2D";
+import { Point } from './point2D';
 
 export type Location = Point & {
 	mapId: string;

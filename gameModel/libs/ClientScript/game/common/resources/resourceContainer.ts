@@ -1,12 +1,12 @@
-import { InterventionRole } from "../actors/actor";
-import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { ResourceType } from "./resourceType";
+import { InterventionRole } from '../actors/actor';
+import { SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import { ResourceType } from './resourceType';
 
 export type ResourceContainerDefinitionId = number;
 
 // TODO might be configurable in a far future
 /**
- * Corresponds to the type of containers that 
+ * Corresponds to the type of containers that
  * a player can request
  */
 export const ResourceContainerTypeArray = [
@@ -16,18 +16,17 @@ export const ResourceContainerTypeArray = [
 	'PMA',
 	'PICA',
 	'PCS',
-	'Helicopter'
+	'Helicopter',
 ] as const;
 
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
-export type SimFlag = 'PCS-ARRIVED'
+export type SimFlag = 'PCS-ARRIVED';
 
 /**
  * Describes the content of one container that can be requested by an actor to the emergency departement
  */
 export interface ResourceContainerDefinition {
-	
 	/**
 	 * Unique identifier
 	 */
@@ -41,7 +40,7 @@ export interface ResourceContainerDefinition {
 	/**
 	 * List of resources that will be sent
 	 */
-	resources : Partial<Record<ResourceType, number>>;
+	resources: Partial<Record<ResourceType, number>>;
 
 	/**
 	 * List of actors that will be sent
@@ -51,12 +50,12 @@ export interface ResourceContainerDefinition {
 	/**
 	 * Associated resource type
 	 */
-	type : ResourceContainerType,
+	type: ResourceContainerType;
 
 	/**
 	 * Flags that are raised (added to the state) when an instance of this container arrives on site
 	 */
-	flags : SimFlag[]
+	flags: SimFlag[];
 }
 
 let idProvider = 2000;
@@ -65,29 +64,28 @@ export function resetSeedId() {
 	idProvider = 2000;
 }
 
-export function buildContainerDefinition( 
-	rtype: ResourceContainerType, 
-	name: TranslationKey, 
-	resources: Partial<Record<ResourceType, number>>, 
+export function buildContainerDefinition(
+	rtype: ResourceContainerType,
+	name: TranslationKey,
+	resources: Partial<Record<ResourceType, number>>,
 	roles: InterventionRole[] = [],
-	flags: SimFlag[] = [])
-	: ResourceContainerDefinition {
+	flags: SimFlag[] = [],
+): ResourceContainerDefinition {
 	return {
-		type : rtype,
-		uid : idProvider++,
-		roles : roles || [],
-		name : name,
-		resources : resources || {},
-		flags: flags || []
-	}
+		type: rtype,
+		uid: idProvider++,
+		roles: roles || [],
+		name: name,
+		resources: resources || {},
+		flags: flags || [],
+	};
 }
 
 /**
  * Describes the availability and amount of a given container
  */
 export interface ResourceContainerConfig {
-
-	templateId : ResourceContainerDefinitionId;
+	templateId: ResourceContainerDefinitionId;
 
 	// TODO might be a function (more flexibility)
 	// or keep it a time value for easier configuration ?
@@ -95,7 +93,7 @@ export interface ResourceContainerConfig {
 	/**
 	 * When the resource starts to be available during the game
 	 */
-	availabilityTime : SimTime;
+	availabilityTime: SimTime;
 
 	/**
 	 * Once requested, time required to get on site
@@ -108,5 +106,4 @@ export interface ResourceContainerConfig {
 	amount: number;
 
 	name: string;
-
 }

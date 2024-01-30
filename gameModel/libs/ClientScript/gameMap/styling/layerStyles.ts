@@ -1,12 +1,10 @@
-
 /**
  * Generate layer style according to geometry type
- * 
+ *
  * @params feature for which to generate style
  * @returns LayerStyleObject corresponding style
  */
 export function getLayerStyle(feature: any): LayerStyleObject {
-
 	const properties = feature.getProperties();
 	const geometryType = properties.type;
 
@@ -26,12 +24,11 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 
 /**
  * Generate style for points
- * 
+ *
  * @params feature for which to generate style
  * @returns LayerStyleObject generated point style
  */
 function getPointStyle(feature: any): LayerStyleObject {
-
 	const properties = feature.getProperties();
 	const icon = properties.icon;
 	const name = properties.name;
@@ -46,24 +43,23 @@ function getPointStyle(feature: any): LayerStyleObject {
 			anchorXUnits: 'fraction',
 			anchorYUnits: 'fraction',
 			src: `/maps/mapIcons/${icon}.svg`,
-			scale: .1,
+			scale: 0.1,
 			opacity: 1,
-		}
+		};
 
 		const textStyle: TextStyleObject = {
-			type: 'TextStyle'
+			type: 'TextStyle',
 		};
 
 		// Arrow-heads are the only icon to be rotated
 		if (rotation) {
-
 			iconStyle.rotation = rotation;
 			iconStyle.displacement = [0, 0];
 			iconStyle.src = '/maps/mapIcons/arrow.svg';
-			iconStyle.scale = .08;
+			iconStyle.scale = 0.08;
 
 			textStyle.text = properties.accessType;
-			textStyle.offsetX = .5;
+			textStyle.offsetX = 0.5;
 			textStyle.offsetY = -18;
 			textStyle.scale = 1.6;
 			textStyle.fill = {
@@ -79,8 +75,11 @@ function getPointStyle(feature: any): LayerStyleObject {
 			};
 
 			// If selection action and not currently selected
-			if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) {
-				iconStyle.opacity = .5;
+			if (
+				!(name === Context.interfaceState.state.selectedMapObjectId) &&
+				Context.mapState.state.mapSelect
+			) {
+				iconStyle.opacity = 0.5;
 				textStyle.text = '';
 			}
 		}
@@ -92,12 +91,12 @@ function getPointStyle(feature: any): LayerStyleObject {
 			const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
 			// Define textStyle for Icons
 			textStyle.text = String(index);
-			textStyle.offsetX = .5;
+			textStyle.offsetX = 0.5;
 			textStyle.offsetY = -18;
 			textStyle.scale = 1.6;
 			// If point is currently selected, we give it half opacity
-			textStyle.opacity = isSelected ? 1 : .5;
-			iconStyle.opacity = isSelected ? 1 : .5;
+			textStyle.opacity = isSelected ? 1 : 0.5;
+			iconStyle.opacity = isSelected ? 1 : 0.5;
 			textStyle.fill = {
 				type: 'FillStyle',
 				color: 'white',
@@ -113,21 +112,19 @@ function getPointStyle(feature: any): LayerStyleObject {
 		fill: {
 			type: 'FillStyle',
 			color: 'red',
-		}
+		},
 	};
 
-	return { image: circleStyle }
-
+	return { image: circleStyle };
 }
 
 /**
  * Generate style for line string
- * 
+ *
  * @params feature for which to generate style
- * @returns 
+ * @returns
  */
 function getLineStringStyle(feature: any): LayerStyleObject {
-
 	const properties = feature.getProperties();
 	const name = properties.name;
 	const duration = properties.durationTimeSec;
@@ -141,7 +138,11 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 	};
 
 	// If we're currently performing a selection
-	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect && !duration) {
+	if (
+		!(name === Context.interfaceState.state.selectedMapObjectId) &&
+		Context.mapState.state.mapSelect &&
+		!duration
+	) {
 		strokeStyle.color = '#575FCF80';
 	}
 
@@ -150,7 +151,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 
 /**
  * Generate style for multi polygons
- * 
+ *
  * @params feature for which to generate style
  * @returns LayerStyleObject generated multi polygon style
  */
@@ -168,13 +169,13 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 		lineCap: 'round',
 		lineJoin: 'round',
 		width: 5,
-	}
+	};
 
 	const text: TextStyleObject = {
 		type: 'TextStyle',
 		text: properties.name || 'No name',
 		textAlign: 'center',
-	}
+	};
 
 	return { fill, stroke, text };
 }

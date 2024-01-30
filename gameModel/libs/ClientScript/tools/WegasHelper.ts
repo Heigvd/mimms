@@ -1,17 +1,31 @@
-import { TargetedEvent } from "../game/common/events/baseEvent";
-import { getSkillActId, getSkillDefinition, getSkillItemActionId, SkillDefinition, SkillLevel } from "../edition/GameModelerHelper";
-import { Point } from "../map/point2D";
-import { BodyFactoryParam, Environnment } from "../HUMAn/human";
-import { logger } from "./logger";
-import { getCompensationModel, getOverdriveModel, getSystemModel } from "../HUMAn/physiologicalModel";
+import { TargetedEvent } from '../game/common/events/baseEvent';
+import {
+	getSkillActId,
+	getSkillDefinition,
+	getSkillItemActionId,
+	SkillDefinition,
+	SkillLevel,
+} from '../edition/GameModelerHelper';
+import { Point } from '../map/point2D';
+import { BodyFactoryParam, Environnment } from '../HUMAn/human';
+import { logger } from './logger';
+import {
+	getCompensationModel,
+	getOverdriveModel,
+	getSystemModel,
+} from '../HUMAn/physiologicalModel';
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
-import { BagDefinition } from "../game/legacy/the_world";
-import { checkUnreachable } from "./helper";
-import { getDefaultBag, getDrillType, isDrillMode, shouldProvideDefaultBag } from "../game/legacy/gameMaster";
-import { getActTranslation, getItemActionTranslation } from "./translation";
-import { HumanTreatmentEvent, PathologyEvent } from "../game/common/events/eventTypes";
-import { eventBoxImplementation } from "../game/common/events/eventUtils";
-
+import { BagDefinition } from '../game/legacy/the_world';
+import { checkUnreachable } from './helper';
+import {
+	getDefaultBag,
+	getDrillType,
+	isDrillMode,
+	shouldProvideDefaultBag,
+} from '../game/legacy/gameMaster';
+import { getActTranslation, getItemActionTranslation } from './translation';
+import { HumanTreatmentEvent, PathologyEvent } from '../game/common/events/eventTypes';
+import { eventBoxImplementation } from '../game/common/events/eventUtils';
 
 export function parse<T>(meta: string): T | null {
 	try {
@@ -52,14 +66,14 @@ function loadVitalsSeries(vdName: string): Graph[] {
 
 		const data = Array.isArray(parsed)
 			? // 1 serie: array xy tuple [[x,y], ..., [x,y]]
-			[{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
+			  [{ label: key, points: (parsed as RawPoints).map(([x, y]) => ({ x, y })) }]
 			: // many series:  {"serie1":[[x,y], ..., [x,y], "serie2":[[x,y], ..., [x,y]}
-			Object.entries(parsed).map(([k, v]) => {
-				return {
-					label: k,
-					points: (v as RawPoints).map(([x, y]) => ({ x, y })),
-				};
-			});
+			  Object.entries(parsed).map(([k, v]) => {
+					return {
+						label: k,
+						points: (v as RawPoints).map(([x, y]) => ({ x, y })),
+					};
+			  });
 
 		return {
 			id: key,
@@ -126,13 +140,13 @@ export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
  * Should whoAmI being instantated automatically?
  * Based on game settings,
  */
-function shouldInstantiateWhoAmI() : boolean {
-	if (isDrillMode()){
+function shouldInstantiateWhoAmI(): boolean {
+	if (isDrillMode()) {
 		const drillType = getDrillType();
-		switch (drillType){
+		switch (drillType) {
 			case 'PRE-TRIAGE':
 			case 'PRE-TRIAGE_ON_MAP':
-			return true;
+				return true;
 			case 'LIKERT':
 				return false;
 		}
@@ -141,7 +155,7 @@ function shouldInstantiateWhoAmI() : boolean {
 		// RealLife with QR Code: player scan the profile code
 		// software simulation: exact behaviour to be defined
 		// either the player will choose its profile itself
-        // either the trainer will choose for it
+		// either the trainer will choose for it
 		return false;
 	}
 }
@@ -154,26 +168,29 @@ export function whoAmI(): string {
 	return id;
 }
 
-
-let instantiationStatus : 'UNDONE' | 'ONGOING' | 'DONE' = 'UNDONE';
+let instantiationStatus: 'UNDONE' | 'ONGOING' | 'DONE' = 'UNDONE';
 
 Helpers.registerEffect(() => {
 	instantiationStatus = whoAmI() ? 'DONE' : 'UNDONE';
 	return () => {
 		instantiationStatus = 'UNDONE';
-	}
+	};
 });
 
-export async function instantiateWhoAmI(force: boolean = false) : Promise<string> {
-	if (instantiationStatus === 'UNDONE' || force){
+export async function instantiateWhoAmI(force: boolean = false): Promise<string> {
+	if (instantiationStatus === 'UNDONE' || force) {
 		const defaultBag = shouldProvideDefaultBag() ? getDefaultBag() : '';
 
 		instantiationStatus = 'ONGOING';
 		const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
-		const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
+		const verb =
+			eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
 		const response = await APIMethods.runScript(
-			`EventManager.${verb}(${JSON.stringify(profileId)} ${defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''})`,
-			{});
+			`EventManager.${verb}(${JSON.stringify(profileId)} ${
+				defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''
+			})`,
+			{},
+		);
 		const entity = response.updatedEntities[0];
 
 		if (typeof entity === 'string') {
@@ -186,8 +203,6 @@ export async function instantiateWhoAmI(force: boolean = false) : Promise<string
 	// to avoid infinite recusion, avoid calling whoAmI()!
 	return Variable.find(gameModel, 'whoAmI').getValue(self);
 }
-
-
 
 export function getCurrentPatientId(): string {
 	return Variable.find(gameModel, 'currentPatient').getValue(self);
@@ -284,13 +299,13 @@ export function getPatientsBodyFactoryParamsArray() {
 			return { id: id, meta: meta };
 		})
 		.sort((a, b) => {
-			return alphaNumericSort(a.id, b.id)
+			return alphaNumericSort(a.id, b.id);
 		});
 }
 
 export interface CharacterProfile {
 	skillId: string;
-	description:'',
+	description: '';
 }
 
 export function getCharacterProfiles() {
@@ -303,7 +318,7 @@ export function getCharacterProfilesArray() {
 			return { id: id, profile: profile };
 		})
 		.sort((a, b) => {
-			return alphaNumericSort(a.id, b.id)
+			return alphaNumericSort(a.id, b.id);
 		});
 }
 
@@ -313,7 +328,7 @@ export function getCharacterProfilesAsChoices() {
 			return { label: profile.description || id, value: id };
 		})
 		.sort((a, b) => {
-			return alphaNumericSort(a.label, b.label)
+			return alphaNumericSort(a.label, b.label);
 		});
 }
 
@@ -364,7 +379,7 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
 		: `${id} ${skill} (${param.sex}; ${param.age} years; ${param.height_cm}cm; ${param.bmi} (BMI); 2^${param.lungDepth} lungs) ${ps}`;
 }
 
-export function sortChoicesByLabel(choices: { label: string, value: string }[]) {
+export function sortChoicesByLabel(choices: { label: string; value: string }[]) {
 	return [...choices].sort((a, b) => alphaNumericSort(a.label, b.label));
 }
 

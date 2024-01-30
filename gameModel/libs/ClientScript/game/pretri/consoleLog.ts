@@ -1,4 +1,4 @@
-import { MeasureMetric } from "../../HUMAn/registry/acts";
+import { MeasureMetric } from '../../HUMAn/registry/acts';
 
 interface BaseLog {
 	time: number;

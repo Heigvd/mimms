@@ -23,7 +23,7 @@ export function isThereAnythingToSave() {
 function syncUI() {
 	Context.likertSaveState.setState({ somethingToSave: true });
 	setMatrixState(state => {
-		return { ...state, toggle: !state.toggle }
+		return { ...state, toggle: !state.toggle };
 	});
 	//saveData();
 }
@@ -39,7 +39,6 @@ export async function selectPatient(patientId: string) {
 	);
 }
 
-
 export async function gotoValidatePage() {
 	await saveData();
 	return APIMethods.runScript(
@@ -49,10 +48,7 @@ export async function gotoValidatePage() {
 	);
 }
 
-
-
 /** PAGE STATE */
-
 
 interface LikertState {
 	data: 'NOT_INITIALIZED' | 'INITIALIZING' | 'INITIALIZED';
@@ -75,7 +71,7 @@ export function setLikertState(state: LikertState | ((state: LikertState) => Lik
 function shouldShowDemographicPage(): boolean {
 	if (!Variable.find(gameModel, 'collectDemographicData').getValue(self)) {
 		// do not show demographic page ever
-		return false
+		return false;
 	}
 
 	if (Variable.find(gameModel, 'demographicsValidated').getValue(self)) {
@@ -89,7 +85,7 @@ function shouldShowDemographicPage(): boolean {
 export function getLikertPage(): string {
 	const status = getDrillStatus();
 	if (status === 'not_started') {
-		return "22";
+		return '22';
 	}
 	const shouldShowDemographic = shouldShowDemographicPage();
 
@@ -98,13 +94,13 @@ export function getLikertPage(): string {
 		setLikertState({ data: 'INITIALIZING' });
 		initAllPatients();
 		// display demographic page while loading data
-		return shouldShowDemographic ? "40" : "27";
+		return shouldShowDemographic ? '40' : '27';
 	} else if (state.data === 'INITIALIZING') {
 		// display demographic page while loading data
-		return shouldShowDemographic ? "40" : "27";
+		return shouldShowDemographic ? '40' : '27';
 	} else {
 		if (shouldShowDemographic) {
-			return "40";
+			return '40';
 		}
 
 		switch (status) {
@@ -116,14 +112,8 @@ export function getLikertPage(): string {
 				return '23';
 		}
 	}
-	return "404";
+	return '404';
 }
-
-
-
-
-
-
 
 export async function nextUndonePatient() {
 	const allIds = getSortedPatientIds();
@@ -165,7 +155,6 @@ export function prettyPrintCurrentPatientInfos() {
 	const param = getCurrentPatientBodyParam();
 	let title = '';
 
-
 	if (param) {
 		const { meta } = computeMetas(param);
 
@@ -180,13 +169,10 @@ export function prettyPrintCurrentPatientInfos() {
 	return `${title}`;
 }
 
-
-
 export function prettyPrintCurrentPatientScript(): string {
 	const param = getCurrentPatientBodyParam();
 	return param?.description || '';
 }
-
 
 type TimeId = string;
 type KeyId = string;
@@ -296,7 +282,7 @@ const lickerCellDef: CellDef[] = [
 
 type LikertMatrixCell = undefined | LikertLevel;
 
-const currentData: Record<string, { data: LikertData, cardiacArrest: number | undefined }> = {};
+const currentData: Record<string, { data: LikertData; cardiacArrest: number | undefined }> = {};
 
 type Matrix = Record<TimeId, Record<KeyId, EnhancedCellData<LikertMatrixCell>>>;
 
@@ -333,7 +319,7 @@ function getPersistedData(patientId: string): PersistedMatrix {
 		return {
 			clinical: {},
 			physio: {},
-			comments: ''
+			comments: '',
 		};
 	}
 }
@@ -427,9 +413,7 @@ export function isPatientDone(patientId: string): boolean {
 	const liveData = getPatientData(patientId);
 	const persistedData = convertData(liveData);
 
-	if (countCell(persistedData.clinical) < 30
-		|| countCell(persistedData.physio) < 30
-	) {
+	if (countCell(persistedData.clinical) < 30 || countCell(persistedData.physio) < 30) {
 		return false;
 	}
 
@@ -464,17 +448,14 @@ export function getPatientMenu(): MenuItem[] {
 }
 
 function getPatientData(patientId: string, force: boolean = false): Data {
-
 	if (currentData[patientId] == null || force) {
-		wlog("RUN MODEL FOR PATIENT ", patientId);
+		wlog('RUN MODEL FOR PATIENT ', patientId);
 		currentData[patientId] = run_likert(patientId);
 	}
 	const patientData = currentData[patientId]!;
 	const data = getPersistedData(patientId);
 
 	if (clinicalMatrix[patientId] == null || force) {
-
-
 		clinicalMatrix[patientId] = {};
 		const clKeys = Object.keys(patientData.data.clinical) as ClKeys[];
 		const times = Object.keys(patientData.data.clinical[clKeys[0]!]);
@@ -525,9 +506,11 @@ function getCurrentPatientData(force: boolean = false): Data {
 export function getCurrentPatientFinalState(): string {
 	const cardiacArrest = getCurrentPatientData().cardiacArrest;
 	if (cardiacArrest /* > 0*/) {
-		return `${getTranslation('general-likert', 'died-after')} ${formatSecond(cardiacArrest)}</strong>`;
+		return `${getTranslation('general-likert', 'died-after')} ${formatSecond(
+			cardiacArrest,
+		)}</strong>`;
 	} else {
-		return getTranslation('general-likert', 'still-alive')
+		return getTranslation('general-likert', 'still-alive');
 	}
 }
 
@@ -537,10 +520,8 @@ export function initAllPatients() {
 		const allIds = getSortedPatientIds();
 		allIds.forEach(pId => getPatientData(pId));
 		state.setState({ data: 'INITIALIZED' });
-	}, 500)
+	}, 500);
 }
-
-
 
 function formatSecond(time: number) {
 	if (time <= 0) {
@@ -562,14 +543,13 @@ function formatSecond(time: number) {
 	}
 }
 
-
 /************************************* Clinical Matrix Config ********************************************/
 
 const ClinicalLikertOnChangeRefName = 'clinicalOnChange';
 
 const onClinicalChangeRef = Helpers.useRef<LikertOnChangeFn>(
 	ClinicalLikertOnChangeRefName,
-	() => { },
+	() => {},
 );
 
 onClinicalChangeRef.current = (x, y, newData) => {
@@ -611,7 +591,7 @@ export function getClinicalMatrix(): MatrixConfig<TimeId, KeyId, LikertMatrixCel
 
 const PhysioLikertOnChangeRefName = 'physioOnChange';
 
-const onPhysioChangeRef = Helpers.useRef<LikertOnChangeFn>(PhysioLikertOnChangeRefName, () => { });
+const onPhysioChangeRef = Helpers.useRef<LikertOnChangeFn>(PhysioLikertOnChangeRefName, () => {});
 
 onPhysioChangeRef.current = (x, y, newData) => {
 	const timeId = x.id;
@@ -648,7 +628,6 @@ export function getPhysioMatrix(): MatrixConfig<TimeId, KeyId, LikertMatrixCell>
 	};
 }
 
-
 /*************** Comments ****************/
 export function getCurrentPatientComments(): string {
 	const data = getCurrentPatientData();
@@ -660,7 +639,6 @@ export function saveCurrentPatientComments(newComments: string) {
 	comments[id] = newComments;
 	syncUI();
 }
-
 
 /*************** Persistance **************/
 
@@ -683,7 +661,6 @@ export async function saveData() {
 	}
 }
 
-
 type TeamId = string;
 type PatientId = string;
 type TimeRef = string;
@@ -692,31 +669,35 @@ type Value = number;
 //
 type RawData = Record<
 	TeamId,
-	Record<PatientId, {
-		clinical: Record<TimeRef, Record<MetricName, Value>>;
-		physio: Record<TimeRef, Record<MetricName, Value>>;
-		comments: string;
-	}>
+	Record<
+		PatientId,
+		{
+			clinical: Record<TimeRef, Record<MetricName, Value>>;
+			physio: Record<TimeRef, Record<MetricName, Value>>;
+			comments: string;
+		}
+	>
 >;
 
 const demographicVariables = [
-	"gender",
-	"age",
-	"fmh",
-	"fmhInternalMedicine",
-	"fmhAnesthesiology",
-	"fmhIntensiveMedicine",
-	"fmhOther",
-	"fmhOtherDetails",
-	"afc",
-	"afcIntraHosp",
-	"afcExtraHosp",
-	"ySinceDiploma",
-	"yPreHospXp"] as const;
+	'gender',
+	'age',
+	'fmh',
+	'fmhInternalMedicine',
+	'fmhAnesthesiology',
+	'fmhIntensiveMedicine',
+	'fmhOther',
+	'fmhOtherDetails',
+	'afc',
+	'afcIntraHosp',
+	'afcExtraHosp',
+	'ySinceDiploma',
+	'yPreHospXp',
+] as const;
 
 type DemoKey = typeof demographicVariables[number];
 
-type RawDemographics = Record<DemoKey, string | number | boolean>
+type RawDemographics = Record<DemoKey, string | number | boolean>;
 
 interface RawFullData {
 	data: RawData;
@@ -726,7 +707,7 @@ interface RawFullData {
 function formatCsvCell(data: unknown): string {
 	// wlog("Format ", data);
 	const str = String(data);
-	if (str.indexOf(",") >= 0 || str.indexOf("\n") >= 0 || str.indexOf("\r") >= 0) {
+	if (str.indexOf(',') >= 0 || str.indexOf('\n') >= 0 || str.indexOf('\r') >= 0) {
 		return `"${str.replace(/"/g, '""')}"`;
 	} else {
 		return str;
@@ -737,14 +718,15 @@ function formatCsvLine(...cells: unknown[]) {
 	return cells.map(cell => formatCsvCell(cell)).join(', ');
 }
 
-const mTypes = ["clinical", "physio"] as const;
+const mTypes = ['clinical', 'physio'] as const;
 
-function pushValue(allData: Record<string, Record<number, string>>,
+function pushValue(
+	allData: Record<string, Record<number, string>>,
 	expertId: number,
 	patientId: string,
 	time: string | undefined,
 	metricName: string,
-	value: string
+	value: string,
 ) {
 	const colName = `p-${patientId}_${time != null ? `t${time}` : ''}-${metricName}`;
 	allData[colName] = allData[colName] || {};
@@ -752,10 +734,9 @@ function pushValue(allData: Record<string, Record<number, string>>,
 }
 
 export async function getAllLikertData() {
-
 	const result = await APIMethods.runScript('getLickerData();', {});
 	const fullData = result.updatedEntities[0] as RawFullData;
-	wlog("FullData: ", fullData);
+	wlog('FullData: ', fullData);
 	const data = fullData.data;
 	const csv: string[] = [];
 
@@ -764,7 +745,7 @@ export async function getAllLikertData() {
 	// Collect all data
 	const experts: number[] = [];
 	//                     metric name    expert  value
-	const allData: Record<string, Record<number, string>> = {}
+	const allData: Record<string, Record<number, string>> = {};
 
 	const expertToTeamIdMap: Record<number, string> = {};
 
@@ -788,22 +769,22 @@ export async function getAllLikertData() {
 
 	const keys = Object.keys(allData).sort();
 	// print header
-	csv.push(formatCsvLine("expert", ...demographicVariables, ...keys));
+	csv.push(formatCsvLine('expert', ...demographicVariables, ...keys));
 	for (const expertId of experts) {
-		csv.push(formatCsvLine(
-			expertId,
-			...demographicVariables.map(dKey => fullData.demographics[expertToTeamIdMap[expertId]][dKey]),
-			...keys.map(key => allData[key]![expertId] || '')));
+		csv.push(
+			formatCsvLine(
+				expertId,
+				...demographicVariables.map(
+					dKey => fullData.demographics[expertToTeamIdMap[expertId]][dKey],
+				),
+				...keys.map(key => allData[key]![expertId] || ''),
+			),
+		);
 	}
 
 	const txt = csv.join('\n');
 	Helpers.downloadDataAsFile('likert.csv', txt);
 }
-
-
-
-
-
 
 /**
  * Read-only data

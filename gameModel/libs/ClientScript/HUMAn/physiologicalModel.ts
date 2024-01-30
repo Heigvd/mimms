@@ -42,7 +42,6 @@ export const gambateMax = 15;
 const DEATHLY_MAP = 35;
 const DEATHLY_HR = 30;
 
-
 function computeGambateScore(bodyState: BodyState, meta: HumanMeta, durationInMin: number) {
 	let score = 0;
 
@@ -60,7 +59,7 @@ function computeGambateScore(bodyState: BodyState, meta: HumanMeta, durationInMi
 
 	if (bodyState.vitals.cardio.MAP < DEATHLY_MAP) {
 		score += (DEATHLY_MAP - bodyState.vitals.cardio.MAP) / 100;
-		logger.log('Critical MAP ', bodyState.vitals.cardio.MAP , ' => ', score);
+		logger.log('Critical MAP ', bodyState.vitals.cardio.MAP, ' => ', score);
 	}
 
 	if (bodyState.vitals.respiration.SaO2 < 0.7) {
@@ -75,19 +74,16 @@ function computeGambateScore(bodyState: BodyState, meta: HumanMeta, durationInMi
  * Dead bodies don't bleed
  */
 function deadBodiesDoNotBleed(bodyState: BodyState) {
-
 	bodyState.vitals.cardio.extLossesFlow_mlPerMin = 0;
 	bodyState.vitals.cardio.extVenousLossesFlow_mlPerMin = 0;
 	bodyState.vitals.cardio.extArterialLossesFlow_mlPerMin = 0;
 
 	bodyState.blocks.forEach(block => {
-
 		block.params.arterialLosses_mlPerMin = 0;
 		block.params.venousLosses_mlPerMin = 0;
 		block.params.extLossesFlow_mlPerMin = 0;
 	});
 }
-
 
 function getDo2Brain_100g(state: BodyState, meta: HumanMeta) {
 	const DO2 = state.vitals.brain.DO2;
@@ -111,7 +107,7 @@ export function detectCardiacArrest(bodyState: BodyState, meta: HumanMeta, durat
 		bodyState.vitals.cardio.MAP < DEATHLY_MAP ||
 		//bodyState.vitals.respiration.rr < 4 ||
 		bodyState.vitals.respiration.SaO2 < 0.7 ||
-		do2_100g < 1.6 // 
+		do2_100g < 1.6 //
 	) {
 		if (bodyState.vitals.gambateBar > 0) {
 			bodyState.vitals.gambateBar -= computeGambateScore(bodyState, meta, durationInMin);
@@ -374,8 +370,8 @@ function computeEffectiveVolumesPerUnit(
 
 	const alvVolume_L = body.vitals.respiration.tidalVolume_L * body.vitals.respiration.rr;
 	const effectiveAlvVolume_L = Math.min(alvVolume_L, meta.maximumVoluntaryVentilation_L);
-	const effectiveTidalVolume_L = body.vitals.respiration.rr > 0 ?
-		effectiveAlvVolume_L / body.vitals.respiration.rr : 0;
+	const effectiveTidalVolume_L =
+		body.vitals.respiration.rr > 0 ? effectiveAlvVolume_L / body.vitals.respiration.rr : 0;
 
 	const idealTotalVolume_L = normalize(
 		effectiveTidalVolume_L - meta.deadSpace_L,
@@ -496,7 +492,7 @@ const painModel: Point[] = [
 	{ x: 1, y: 0 },
 	{ x: 3, y: 0 },
 	{ x: 10, y: 0.35 },
-]
+];
 
 function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
 	const positionEffort = getEffortLevel(bodyState);
@@ -560,16 +556,17 @@ export function compute(
 	const edv_th = 120;
 	const edv_th_max = 160;
 
-	/** 
+	/**
 	 * Contractility boost
 	 */
 	const esvModel: Point[] = [
-		{ x: 0, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.max, },
-		{ x: 1, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.min, }
+		{ x: 0, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.max },
+		{ x: 1, y: meta.bounds.vitals.cardio.endSystolicVolume_mL.min },
 	];
 
 	body.vitals.cardio.endSystolicVolume_mL = interpolate(
-		body.vitals.cardio.contractilityBoost, esvModel
+		body.vitals.cardio.contractilityBoost,
+		esvModel,
 	);
 
 	const esv = body.vitals.cardio.endSystolicVolume_mL;
@@ -577,7 +574,7 @@ export function compute(
 	const deltaMin = esv - edv_th;
 	const deltaMax = edv_th_max - edv_th;
 
-    /////////////////////////
+	/////////////////////////
 	// Δedv = f(blood_volume)
 	/////////////////////////
 
@@ -591,12 +588,12 @@ export function compute(
 		{ x: 1.2, y: deltaMax - 5 },
 		{ x: 1.3, y: deltaMax },
 	];
-    
+
 	const bloodVolumeRatio = bloodVolume_mL / meta.initialBloodVolume_mL;
 
 	const edvDelta_bloodVolume = interpolate(bloodVolumeRatio, edvVolDelta_model);
 
-    ////////////////////////////////
+	////////////////////////////////
 	// Δedv = f(pericardial_volume)
 	////////////////////////////////
 	const pericardialDelta_model: Point[] = [
@@ -615,17 +612,15 @@ export function compute(
 	// https://www.sfmu.org/upload/70_formation/02_eformation/02_congres/Urgences/urgences2014/donnees/pdf/059.pdf
 	const edv_tamponade_delta = interpolate(body.variables.pericardial_ml, pericardialDelta_model);
 
-
-    ////////////////////////////////
+	////////////////////////////////
 	// Δedv = f(venous resistance)
 	////////////////////////////////
 	const venousResistance_model: Point[] = [
 		{ x: 30, y: 0 },
 		{ x: 100, y: 15 },
 	];
-	
-	const edv_vrr = interpolate(body.variables.paraOrthoLevel,venousResistance_model);
 
+	const edv_vrr = interpolate(body.variables.paraOrthoLevel, venousResistance_model);
 
 	//////////////////////////////////////
 	// Δedv = f(thorax internal pressure)
@@ -656,20 +651,19 @@ export function compute(
 		bloodVolume: {
 			bloodVolumeRatio,
 			edvDelta_bloodVolume,
-			edv_tamponade_delta
+			edv_tamponade_delta,
 		},
 		tamponade: {
 			pericardial_ml: body.variables.pericardial_ml,
-			edv_tamponade_delta
+			edv_tamponade_delta,
 		},
-		pleuralCavity:
-		{
+		pleuralCavity: {
 			itp,
-			edv_pno_delta
+			edv_pno_delta,
 		},
 		venousReturn: {
-			edv_vrr
-		}
+			edv_vrr,
+		},
 	});
 
 	// Quick fix to limit maximum MAP to 200
@@ -1244,7 +1238,7 @@ function convertToGCS(avg: number): Glasgow['total'] {
 		return 15;
 	}
 
-	if (avg < 4){
+	if (avg < 4) {
 		return 3;
 	}
 
@@ -1426,9 +1420,12 @@ function computeVitals(
 			'(',
 			duration_min,
 			'[s])',
-        );
+		);
 
-		let newValue = interpolate(value.t4Nerve != null && !t4Fine ?  value.t4Nerve : level, value.points);
+		let newValue = interpolate(
+			value.t4Nerve != null && !t4Fine ? value.t4Nerve : level,
+			value.points,
+		);
 
 		const bounds = readKey<Bound>(meta.bounds, key);
 		if (bounds != null) {
@@ -1455,125 +1452,157 @@ const icp_model: Point[] = [
 	{ x: 50, y: 1 },
 ];
 
-
 export function getOverdriveModel(): Compensation {
 	const max = 1;
-	const overdrive : Compensation = {
-		"vitals.respiration.tidalVolume_L": {
-			"points": [{
-				"x": 0,
-				"y": 0.2
-			}, {
-				"x": 0.1,
-				"y": 0.2
-			}, {
-				"x": max,
-				"y": 0.2
-			}]
+	const overdrive: Compensation = {
+		'vitals.respiration.tidalVolume_L': {
+			points: [
+				{
+					x: 0,
+					y: 0.2,
+				},
+				{
+					x: 0.1,
+					y: 0.2,
+				},
+				{
+					x: max,
+					y: 0.2,
+				},
+			],
 		},
-		"vitals.cardio.hr": {
-			"points": [{
-				"x": 0,
-				"y": 0.5
-			}, {
-				"x": max,
-				"y": 0.0
-			}],
-			"t4Nerve": 0
+		'vitals.cardio.hr': {
+			points: [
+				{
+					x: 0,
+					y: 0.5,
+				},
+				{
+					x: max,
+					y: 0.0,
+				},
+			],
+			t4Nerve: 0,
 		},
-		"vitals.cardio.contractilityBoost": {
-			"points": [{
-				"x": 0,
-				"y": 0
-			}, {
-				"x": max,
-				"y": 1
-			}],
-			"t4Nerve": 0
+		'vitals.cardio.contractilityBoost': {
+			points: [
+				{
+					x: 0,
+					y: 0,
+				},
+				{
+					x: max,
+					y: 1,
+				},
+			],
+			t4Nerve: 0,
 		},
-		"vitals.cardio.Ra_mmHgMinPerL": {
-			"points": [{
-				"x": 0,
-				"y": 13
-			}, {
-				"x": 0.5,
-				"y": 30
-			}],
-			"t4Nerve": 0
+		'vitals.cardio.Ra_mmHgMinPerL': {
+			points: [
+				{
+					x: 0,
+					y: 13,
+				},
+				{
+					x: 0.5,
+					y: 30,
+				},
+			],
+			t4Nerve: 0,
 		},
-		"vitals.respiration.rr": {
-			"points": [{
-				"x": 0,
-				"y": 0.3
-			}, {
-				"x": max,
-				"y": 0.3
-			}]
+		'vitals.respiration.rr': {
+			points: [
+				{
+					x: 0,
+					y: 0.3,
+				},
+				{
+					x: max,
+					y: 0.3,
+				},
+			],
 		},
 	};
 	return overdrive;
 }
 
-
 export function getCompensationModel(): Compensation {
 	const model: Compensation = {
-		"vitals.respiration.tidalVolume_L": {
-			"points": [{
-				"x": 0,
-				"y": 0
-			}, {
-				"x": 20,
-				"y": 0.1
-			}, {
-				"x": 100,
-				"y": 1
-			}],
+		'vitals.respiration.tidalVolume_L': {
+			points: [
+				{
+					x: 0,
+					y: 0,
+				},
+				{
+					x: 20,
+					y: 0.1,
+				},
+				{
+					x: 100,
+					y: 1,
+				},
+			],
 			t4Nerve: 40,
 		},
-		"vitals.cardio.hr": {
-			"points": [{
-				"x": 0,
-				"y": 0
-			}, {
-				"x": 100,
-				"y": 1
-			}],
-			"t4Nerve": 20
+		'vitals.cardio.hr': {
+			points: [
+				{
+					x: 0,
+					y: 0,
+				},
+				{
+					x: 100,
+					y: 1,
+				},
+			],
+			t4Nerve: 20,
 		},
-		"vitals.cardio.contractilityBoost": {
-			"points": [{
-				"x": 0,
-				"y": 0
-			}, {
-				"x": 100,
-				"y": 1
-			}],
-			"t4Nerve": 20
+		'vitals.cardio.contractilityBoost': {
+			points: [
+				{
+					x: 0,
+					y: 0,
+				},
+				{
+					x: 100,
+					y: 1,
+				},
+			],
+			t4Nerve: 20,
 		},
-		"vitals.cardio.Ra_mmHgMinPerL": {
-			"points": [{
-				"x": 0,
-				"y": 11
-			}, {
-				"x": 100,
-				"y": 20
-			}],
-			"t4Nerve": 20
+		'vitals.cardio.Ra_mmHgMinPerL': {
+			points: [
+				{
+					x: 0,
+					y: 11,
+				},
+				{
+					x: 100,
+					y: 20,
+				},
+			],
+			t4Nerve: 20,
 		},
-		"vitals.respiration.rr": {
-			"points": [{
-				"x": 0,
-				"y": 0.2
-			}, {
-				"x": 30,
-				"y": 0.3
-			}, {
-				"x": 40,
-				"y": 0.7
-			}, {
-				"x": 100,
-				"y": 1
-			}],
+		'vitals.respiration.rr': {
+			points: [
+				{
+					x: 0,
+					y: 0.2,
+				},
+				{
+					x: 30,
+					y: 0.3,
+				},
+				{
+					x: 40,
+					y: 0.7,
+				},
+				{
+					x: 100,
+					y: 1,
+				},
+			],
 			t4Nerve: 40,
 		},
 	};
@@ -1582,20 +1611,38 @@ export function getCompensationModel(): Compensation {
 
 export function getSystemModel(): SympSystem {
 	const sympathetic: SympSystem = {
-		"vitals.cardio.MAP": [{ "x": 0, "y": 100 }, { "x": 40, "y": 35 }, { "x": 70, "y": 0 }, { "x": 90, "y": 0 }, { "x": 180, "y": 0 }, { "x": 200, "y": 0 }],
-		"vitals.cardio.DO2Sys": [{ "x": 0, "y": 100 }, { "x": 850, "y": 0 }, { "x": 1100, "y": 0 }, { "x": 2000, "y": 0 }],
-		"vitals.brain.ICP_mmHg": [
-			{ "x": 5, "y": 0 },
-			{ "x": 10, "y": 0 },
-			{ "x": 15, "y": 30 },
-			{ "x": 20, "y": 100 },
+		'vitals.cardio.MAP': [
+			{ x: 0, y: 100 },
+			{ x: 40, y: 35 },
+			{ x: 70, y: 0 },
+			{ x: 90, y: 0 },
+			{ x: 180, y: 0 },
+			{ x: 200, y: 0 },
 		],
-		"vitals.respiration.PaO2": [{ "x": 0, "y": 100 }, { "y": 100, "x": 0 }, { "x": 50, "y": 50 }, { "x": 70, "y": 20 }, { "y": 5, "x": 80 }, { "x": 90, "y": 0 }]
+		'vitals.cardio.DO2Sys': [
+			{ x: 0, y: 100 },
+			{ x: 850, y: 0 },
+			{ x: 1100, y: 0 },
+			{ x: 2000, y: 0 },
+		],
+		'vitals.brain.ICP_mmHg': [
+			{ x: 5, y: 0 },
+			{ x: 10, y: 0 },
+			{ x: 15, y: 30 },
+			{ x: 20, y: 100 },
+		],
+		'vitals.respiration.PaO2': [
+			{ x: 0, y: 100 },
+			{ y: 100, x: 0 },
+			{ x: 50, y: 50 },
+			{ x: 70, y: 20 },
+			{ y: 5, x: 80 },
+			{ x: 90, y: 0 },
+		],
 	};
 
 	return sympathetic;
 }
-
 
 /**
  * Update some vitals according to current orthosympathetic kevel
@@ -1622,7 +1669,7 @@ export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration
 	const sympValues = computeVitals(level, compensation!, state, meta, duration_min, t4Fine);
 
 	const overdriveLevel = interpolate(state.vitals.brain.ICP_mmHg, icp_model);
-// logger.warn("Overdrive: ", overdriveLevel);
+	// logger.warn("Overdrive: ", overdriveLevel);
 	if (overdriveLevel > 0) {
 		compLogger.info('Overdrive: ', { ICP: state.vitals.brain.ICP_mmHg, overdriveLevel });
 		const overdriveModel = getOverdriveModel();
@@ -1761,7 +1808,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 
 	// first, human may move if legs motricity is fine
 	if (motricity.leftLeg === 'move' && motricity.rightLeg === 'move') {
-		canWalk = 'maybe'
+		canWalk = 'maybe';
 	} else {
 		canWalk = 'no';
 	}
@@ -1776,7 +1823,7 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 	}
 
 	if (canWalk !== 'obviously_not') {
-		extraLogger.log("Can Walk => check others");
+		extraLogger.log('Can Walk => check others');
 		// nervous system indicates human can move
 		// check other constraints
 		// human.state.blocks.get("C1-C4");
@@ -1834,27 +1881,27 @@ function inferWalkBreathAndMotrocity(human: HumanBody) {
 				},
 			);
 			if (!ok) {
-				extraLogger.log("Can not walk! Fracture");
+				extraLogger.log('Can not walk! Fracture');
 				canWalk = 'obviously_not';
 			}
 		}
 	}
 
-	extraLogger.log("Walk: ", { canWalk, obeyOrders });
-	if (canWalk === 'obviously_not') { 
+	extraLogger.log('Walk: ', { canWalk, obeyOrders });
+	if (canWalk === 'obviously_not') {
 		// physically impossible
 		human.state.vitals.canWalk = false;
 		human.state.vitals.canWalk_internal = false;
-	} else if (obeyOrders) { 
+	} else if (obeyOrders) {
 		// we can ask the person
 		human.state.vitals.canWalk_internal = canWalk === 'maybe';
 		human.state.vitals.canWalk = human.state.vitals.canWalk_internal;
 	} else {
 		human.state.vitals.canWalk_internal = canWalk === 'maybe';
-		if(human.state.variables.bodyPosition === 'STANDING'){
+		if (human.state.variables.bodyPosition === 'STANDING') {
 			// if standing => suppose yes, even if not responding (5.5.2023)
 			human.state.vitals.canWalk = true;
-		}else{
+		} else {
 			human.state.vitals.canWalk = 'no_response';
 		}
 	}

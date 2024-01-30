@@ -1,13 +1,13 @@
-import { BlockName } from "../../../HUMAn/human";
-import { AfflictedPathology } from "../../../HUMAn/pathology";
-import { MeasureMetric } from "../../../HUMAn/registry/acts";
-import { Location } from "../../../map/locationTypes";
-import { BaseEvent, TargetedEvent } from "./baseEvent";
-import { Channel, Phone, Radio } from "../../legacy/communication";
-import { FullEvent } from "./eventUtils";
-import { ActionSource, ResolvedAction } from "../../legacy/the_world";
-import { Categorization } from "../../pretri/triage";
-import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
+import { BlockName } from '../../../HUMAn/human';
+import { AfflictedPathology } from '../../../HUMAn/pathology';
+import { MeasureMetric } from '../../../HUMAn/registry/acts';
+import { Location } from '../../../map/locationTypes';
+import { BaseEvent, TargetedEvent } from './baseEvent';
+import { Channel, Phone, Radio } from '../../legacy/communication';
+import { FullEvent } from './eventUtils';
+import { ActionSource, ResolvedAction } from '../../legacy/the_world';
+import { Categorization } from '../../pretri/triage';
+import { ActorId, SimDuration, SimTime, TaskId, TemplateId, TemplateRef } from '../baseTypes';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 
@@ -41,9 +41,11 @@ export interface DelayedAction {
 	action: ResolvedAction;
 	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
 	resultEvent: HumanMeasureResultEvent | undefined;
-	display: {
-		pulse_perMin?: number;
-	} | undefined;
+	display:
+		| {
+				pulse_perMin?: number;
+		  }
+		| undefined;
 }
 
 export interface HumanMeasureEvent extends TargetedEvent {
@@ -106,41 +108,41 @@ export interface AgingEvent extends TargetedEvent {
 // Communication events
 export type CommunicationEvent = BaseEvent & {
 	message: string;
-	sender: string;//player id
-}
+	sender: string; //player id
+};
 
 export type DirectCommunicationEvent = CommunicationEvent & {
 	type: 'DirectCommunication';
-}
+};
 ///// RADIO EVENTS /////////////////////////
 export type RadioChannelUpdateEvent = BaseEvent & {
-	type: "RadioChannelUpdate";
+	type: 'RadioChannelUpdate';
 	targetRadio: number;
-	newChannel: Channel
-}
+	newChannel: Channel;
+};
 
 export type RadioCreationEvent = BaseEvent & {
 	type: 'RadioCreation';
-	radioTemplate : Radio;
+	radioTemplate: Radio;
 	//ownerId: string //the guy who will have it (TODO might be some other entity)
-}
+};
 
 export type RadioCommunicationEvent = CommunicationEvent & {
 	type: 'RadioCommunication';
-	senderRadioId: number ; //radio sending the message
-}
+	senderRadioId: number; //radio sending the message
+};
 
 //// PHONE EVENTS ////////////////
 export type PhoneCommunicationEvent = CommunicationEvent & {
 	type: 'PhoneCommunication';
 	senderPhoneId: number;
 	recipientPhoneId: number;
-}
+};
 
 export type PhoneCreationEvent = BaseEvent & {
-	type : 'PhoneCreation';
-	phoneTemplate : Phone;
-}
+	type: 'PhoneCreation';
+	phoneTemplate: Phone;
+};
 
 export type EventPayload =
 	| FollowPathEvent
@@ -178,7 +180,7 @@ interface TimedPayload {
 	/**
 	 * Simulation time at which the event has to take effect
 	 */
-	triggerTime: SimTime
+	triggerTime: SimTime;
 }
 
 export type TimedEventPayload = TimedPayload & EventPayload;
@@ -204,7 +206,6 @@ export interface ResourceSendingToActorEvent extends ActionCreationEvent {
 	receiverActor: ActorId;
 	sentResources: ResourceTypeAndNumber;
 }
-
 
 export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
@@ -245,7 +246,7 @@ export interface TimeForwardEvent extends BaseEvent, TimedPayload {
 }
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
-	switch(event.payload.type){
+	switch (event.payload.type) {
 		case 'Teleport':
 		case 'FollowPath':
 		case 'HumanPathology':

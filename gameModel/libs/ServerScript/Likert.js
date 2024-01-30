@@ -1,4 +1,3 @@
-
 var demographics = [
 	'gender',
 	'age',
@@ -13,7 +12,7 @@ var demographics = [
 	'afcExtraHosp',
 	'ySinceDiploma',
 	'yPreHospXp',
-]
+];
 
 function shouldExtract(owner) {
 	if (gameModel.getType().toString() === 'PLAY') {
@@ -33,8 +32,7 @@ function shouldExtract(owner) {
 
 function getLickerData() {
 	var result = {};
-	var instancesMap = Variable.getInstances(Variable.find(gameModel, "likert"));
-
+	var instancesMap = Variable.getInstances(Variable.find(gameModel, 'likert'));
 
 	instancesMap.entrySet().forEach(function (entry) {
 		if (shouldExtract(entry.getKey())) {
@@ -66,8 +64,5 @@ function getLickerData() {
 		});
 	}
 
-
-
 	return { data: result, demographics: demo };
 }
-

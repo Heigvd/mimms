@@ -2,17 +2,20 @@
 /**
  * Server-side time manager
  */
-var TimeManager = ((function () {
-
-
+var TimeManager = (function () {
 	function runForAllTeams(fn) {
-		self.getGame().getTeams().stream().map(function (team) {
-			return team.getAnyLivePlayer();
-		}).forEach(function (player) {
-			if (player) {
-				fn(player);
-			}
-		});
+		self
+			.getGame()
+			.getTeams()
+			.stream()
+			.map(function (team) {
+				return team.getAnyLivePlayer();
+			})
+			.forEach(function (player) {
+				if (player) {
+					fn(player);
+				}
+			});
 	}
 
 	var KEEPALIVE_DELAY_S = 30; // 30 seconds
@@ -61,7 +64,7 @@ var TimeManager = ((function () {
 					}
 				}
 
-				var keepalive = Variable.find(gameModel, "keepalive").getValue(thePlayer);
+				var keepalive = Variable.find(gameModel, 'keepalive').getValue(thePlayer);
 
 				var delta = currentRawSimTime - keepalive;
 
@@ -90,15 +93,15 @@ var TimeManager = ((function () {
 			Variable.find(gameModel, 'epoch_ref').setValue(thePlayer, currentEpoch);
 			Variable.find(gameModel, 'inSim_ref').setValue(thePlayer, currentInSim);
 			Variable.find(gameModel, 'running').setValue(thePlayer, true);
-			Variable.find(gameModel, "keepalive").setValue(thePlayer, currentInSim);
+			Variable.find(gameModel, 'keepalive').setValue(thePlayer, currentInSim);
 		},
 		/**
 		 * The team stops the simulation
 		 */
 		pause: function (player) {
 			var thePlayer = player || self;
-			var currentInSim = computeEffectiveSimulationTime(player)
-			print("Time: ", currentInSim);
+			var currentInSim = computeEffectiveSimulationTime(player);
+			print('Time: ', currentInSim);
 			Variable.find(gameModel, 'running').setValue(thePlayer, false);
 			Variable.find(gameModel, 'inSim_ref').setValue(thePlayer, currentInSim);
 		},
@@ -173,7 +176,7 @@ var TimeManager = ((function () {
 		keepalive: function (player) {
 			var thePlayer = player || self;
 			var currentInSim = computeEffectiveSimulationTime(thePlayer);
-			Variable.find(gameModel, "keepalive").setValue(thePlayer, currentInSim);
+			Variable.find(gameModel, 'keepalive').setValue(thePlayer, currentInSim);
 		},
 
 		getCurrentTime: function (player) {
@@ -181,19 +184,19 @@ var TimeManager = ((function () {
 		},
 		/**
 		 * value: human-friendly duration (number + unit).
-		 * eg. 
+		 * eg.
 		 *   - "1" means 1 sec
 		 *   - "1s" means 1 sec
 		 * 	 - "1m" means 1 min
 		 *   - "1h" means 1 hour
 		 *   - "1d" means 1 day
-		 * 
+		 *
 		 */
 		fastForward: function (value, player) {
 			var thePlayer = player || self;
 			var isInReplay = Variable.find(gameModel, 'replay').getValue(thePlayer);
 			if (isInReplay) {
-				print("Cannot fast forward while in replay mode");
+				print('Cannot fast forward while in replay mode');
 				return;
 			}
 			var parse = /^(\d+)([smhd])?$/;
@@ -201,7 +204,7 @@ var TimeManager = ((function () {
 			if (parsed) {
 				if (parsed.length > 1) {
 					var number = +parsed[1];
-					print(number)
+					print(number);
 					var unit = parsed[2];
 					switch (unit) {
 						case 'd':
@@ -221,11 +224,11 @@ var TimeManager = ((function () {
 						Variable.find(gameModel, 'inSim_ref').add(thePlayer, number);
 						Variable.find(gameModel, 'keepalive').add(thePlayer, number);
 					} else {
-						throw "Please do not go backward";
+						throw 'Please do not go backward';
 					}
 				}
 			} else {
-				throw "Unparseable value" + value;
+				throw 'Unparseable value' + value;
 			}
 		},
 		globalFastForward: function (value) {
@@ -234,4 +237,4 @@ var TimeManager = ((function () {
 			});
 		},
 	};
-})());
+})();

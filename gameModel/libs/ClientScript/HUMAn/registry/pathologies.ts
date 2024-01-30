@@ -1,31 +1,50 @@
-import { allBlocks, extBlocks, NervousBlock, simpleFractureBonesBlocks } from "../../HUMAn/human";
-import { buildPathology, PathologyDefinition } from "../../HUMAn/pathology";
+import { allBlocks, extBlocks, NervousBlock, simpleFractureBonesBlocks } from '../../HUMAn/human';
+import { buildPathology, PathologyDefinition } from '../../HUMAn/pathology';
 
 let initialized = false;
 
-let pathologies : Record<string, PathologyDefinition> = {};
+let pathologies: Record<string, PathologyDefinition> = {};
 
 function registerPathology(def: PathologyDefinition): void {
 	pathologies[def.id] = def;
 }
 
-export function getPathologyDefinitionById(id: string){
+export function getPathologyDefinitionById(id: string) {
 	return pathologies[id];
 }
 
-export function initPathologies(pathologySet : Record<string, PathologyDefinition>){
+export function initPathologies(pathologySet: Record<string, PathologyDefinition>) {
 	wlog('init pathologies');
-	if(initialized){
+	if (initialized) {
 		return;
 	}
 	pathologies = pathologySet;
 	initialized = true;
 
-	const limbs: NervousBlock[] =
-		["LEFT_SHOULDER", "LEFT_ARM", "LEFT_ELBOW", "LEFT_FOREARM", "LEFT_WRIST", "LEFT_HAND",
-	"RIGHT_SHOULDER", "RIGHT_ARM", "RIGHT_ELBOW", "RIGHT_FOREARM", "RIGHT_WRIST", "RIGHT_HAND",
-	"LEFT_THIGH", "LEFT_KNEE", "LEFT_LEG", "LEFT_ANKLE", "LEFT_FOOT",
-	"RIGHT_THIGH", "RIGHT_KNEE", "RIGHT_LEG", "RIGHT_ANKLE", "RIGHT_FOOT"]
+	const limbs: NervousBlock[] = [
+		'LEFT_SHOULDER',
+		'LEFT_ARM',
+		'LEFT_ELBOW',
+		'LEFT_FOREARM',
+		'LEFT_WRIST',
+		'LEFT_HAND',
+		'RIGHT_SHOULDER',
+		'RIGHT_ARM',
+		'RIGHT_ELBOW',
+		'RIGHT_FOREARM',
+		'RIGHT_WRIST',
+		'RIGHT_HAND',
+		'LEFT_THIGH',
+		'LEFT_KNEE',
+		'LEFT_LEG',
+		'LEFT_ANKLE',
+		'LEFT_FOOT',
+		'RIGHT_THIGH',
+		'RIGHT_KNEE',
+		'RIGHT_LEG',
+		'RIGHT_ANKLE',
+		'RIGHT_FOOT',
+	];
 
 	registerPathology(
 		buildPathology(
@@ -33,7 +52,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'catastrophic_ah',
 				name: 'catastrophic arterial hemorrhage (thigh, neck)',
 				blockSelectionMode: 'any',
-				severity: 'dead'
+				severity: 'dead',
 			},
 			[
 				{
@@ -41,11 +60,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'arterial',
 					bleedingFactor: { min: 0.25, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_THIGH',
-						'RIGHT_THIGH',
-						'NECK'
-					],
+					blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
 				},
 			],
 		),
@@ -57,7 +72,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'catastrophic_ah__2',
 				name: 'catastrophic arterial hemorrhage (leg)',
 				blockSelectionMode: 'any',
-				severity: 'dead'
+				severity: 'dead',
 			},
 			[
 				{
@@ -65,10 +80,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'arterial',
 					bleedingFactor: { min: 0.85, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_LEG',
-						'RIGHT_LEG',
-					],
+					blocks: ['LEFT_LEG', 'RIGHT_LEG'],
 				},
 			],
 		),
@@ -80,7 +92,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'severe_ah',
 				name: 'severe arterial hemorrhage (thigh)',
 				blockSelectionMode: 'any',
-				severity: 'immediate'
+				severity: 'immediate',
 			},
 			[
 				{
@@ -88,11 +100,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'arterial',
 					bleedingFactor: { min: 0.08, max: 0.25 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_THIGH',
-						'RIGHT_THIGH',
-						'NECK'
-					],
+					blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
 				},
 			],
 		),
@@ -104,7 +112,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'severe_ah__2',
 				name: 'severe arterial hemorrhage (leg)',
 				blockSelectionMode: 'any',
-				severity: 'immediate'
+				severity: 'immediate',
 			},
 			[
 				{
@@ -112,10 +120,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'arterial',
 					bleedingFactor: { min: 0.17, max: 0.85 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_LEG',
-						'RIGHT_LEG',
-					],
+					blocks: ['LEFT_LEG', 'RIGHT_LEG'],
 				},
 			],
 		),
@@ -135,15 +140,11 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'arterial',
 					bleedingFactor: { min: 0.06, max: 0.3 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_ARM',
-						'RIGHT_ARM',
-					],
+					blocks: ['LEFT_ARM', 'RIGHT_ARM'],
 				},
 			],
 		),
 	);
-
 
 	/*registerPathology(
 		buildPathology(
@@ -165,14 +166,13 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 		),
 	);*/
 
-
 	registerPathology(
 		buildPathology(
 			{
 				id: 'catastrophic_vh_neck',
 				name: 'catastrophic venous hemorrhage (neck)',
 				blockSelectionMode: 'any',
-				severity: 'dead'
+				severity: 'dead',
 			},
 			[
 				{
@@ -180,14 +180,11 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.2, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'NECK',
-					],
+					blocks: ['NECK'],
 				},
 			],
 		),
 	);
-
 
 	// Venous
 	registerPathology(
@@ -196,7 +193,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'catastrophic_vh',
 				name: 'catastrophic venous hemorrhage (thigh)',
 				blockSelectionMode: 'any',
-				severity: 'dead'
+				severity: 'dead',
 			},
 			[
 				{
@@ -204,16 +201,11 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.4, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_THIGH',
-						'RIGHT_THIGH',
-					],
+					blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
 				},
 			],
 		),
 	);
-
-
 
 	registerPathology(
 		buildPathology(
@@ -221,7 +213,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'catastrophic_vh__2',
 				name: 'catastrophic venous hemorrhage (leg)',
 				blockSelectionMode: 'any',
-				severity: 'dead'
+				severity: 'dead',
 			},
 			[
 				{
@@ -229,10 +221,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.7, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_LEG',
-						'RIGHT_LEG',
-					],
+					blocks: ['LEFT_LEG', 'RIGHT_LEG'],
 				},
 			],
 		),
@@ -244,7 +233,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'severe_vh',
 				name: 'severe venous hemorrhage (thigh)',
 				blockSelectionMode: 'any',
-				severity: 'immediate'
+				severity: 'immediate',
 			},
 			[
 				{
@@ -252,10 +241,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.08, max: 0.24 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_THIGH',
-						'RIGHT_THIGH',
-					],
+					blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
 				},
 			],
 		),
@@ -267,7 +253,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				id: 'severe_vh__2',
 				name: 'severe venous hemorrhage (leg)',
 				blockSelectionMode: 'any',
-				severity: 'immediate'
+				severity: 'immediate',
 			},
 			[
 				{
@@ -275,10 +261,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.2, max: 0.7 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_LEG',
-						'RIGHT_LEG',
-					],
+					blocks: ['LEFT_LEG', 'RIGHT_LEG'],
 				},
 			],
 		),
@@ -298,10 +281,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.2, max: 1 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_ARM',
-						'RIGHT_ARM',
-					],
+					blocks: ['LEFT_ARM', 'RIGHT_ARM'],
 				},
 			],
 		),
@@ -321,10 +301,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.06, max: 0.2 },
 					instantaneousBloodLoss: undefined,
-					blocks: [
-						'LEFT_ARM',
-						'RIGHT_ARM',
-					],
+					blocks: ['LEFT_ARM', 'RIGHT_ARM'],
 				},
 			],
 		),
@@ -364,7 +341,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 					subtype: 'venous',
 					bleedingFactor: { min: 0.0001, max: 0.01 },
 					instantaneousBloodLoss: undefined,
-					blocks: ["HEAD"],
+					blocks: ['HEAD'],
 				},
 			],
 		),
@@ -570,7 +547,7 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 		),
 	);
 
-/*
+	/*
 	registerPathology(
 		buildPathology(
 			{
@@ -644,12 +621,12 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 			[
 				{
 					type: 'Hematoma',
-					blocks: [...extBlocks, "C1-C4", "C5-C7", "T1-T4", "T5-L4",],
+					blocks: [...extBlocks, 'C1-C4', 'C5-C7', 'T1-T4', 'T5-L4'],
 				},
 				{
 					type: 'Pain',
-					blocks: [...extBlocks, "C1-C4", "C5-C7", "T1-T4", "T5-L4",],
-					pain: {min: 1, max: 10},
+					blocks: [...extBlocks, 'C1-C4', 'C5-C7', 'T1-T4', 'T5-L4'],
+					pain: { min: 1, max: 10 },
 				},
 			],
 		),
@@ -822,71 +799,89 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 		),
 	);
 
-	registerPathology(buildPathology({
-		id: 'fracture_simple',
-		severity: 'non_urgent',
-		name: 'fracture non-displaced',
-		blockSelectionMode: 'same',
-	}, [
-		{
-			type: 'Fracture',
-			blocks: [...simpleFractureBonesBlocks],
-			fractureType: 'nonDisplaced',
-		},
-		{
-			type: 'Hemorrhage',
-			subtype: 'internal',
-			blocks: [...simpleFractureBonesBlocks],
-			bleedingFactor: {
-				min: 0, max: 0.5
+	registerPathology(
+		buildPathology(
+			{
+				id: 'fracture_simple',
+				severity: 'non_urgent',
+				name: 'fracture non-displaced',
+				blockSelectionMode: 'same',
 			},
-			instantaneousBloodLoss: undefined,
-		}
-	]));
+			[
+				{
+					type: 'Fracture',
+					blocks: [...simpleFractureBonesBlocks],
+					fractureType: 'nonDisplaced',
+				},
+				{
+					type: 'Hemorrhage',
+					subtype: 'internal',
+					blocks: [...simpleFractureBonesBlocks],
+					bleedingFactor: {
+						min: 0,
+						max: 0.5,
+					},
+					instantaneousBloodLoss: undefined,
+				},
+			],
+		),
+	);
 
-	registerPathology(buildPathology({
-		id: 'fracture_displaced',
-		name: 'fracture displaced',
-		severity: 'non_urgent',
-		blockSelectionMode: 'same',
-	}, [
-		{
-			type: 'Fracture',
-			blocks: [...simpleFractureBonesBlocks],
-			fractureType: 'displaced',
-		},
-		{
-			type: 'Hemorrhage',
-			subtype: 'internal',
-			blocks: [...simpleFractureBonesBlocks],
-			bleedingFactor: {
-				min: 0.5, max: 1
+	registerPathology(
+		buildPathology(
+			{
+				id: 'fracture_displaced',
+				name: 'fracture displaced',
+				severity: 'non_urgent',
+				blockSelectionMode: 'same',
 			},
-			instantaneousBloodLoss: undefined,
-		}
-	]));
+			[
+				{
+					type: 'Fracture',
+					blocks: [...simpleFractureBonesBlocks],
+					fractureType: 'displaced',
+				},
+				{
+					type: 'Hemorrhage',
+					subtype: 'internal',
+					blocks: [...simpleFractureBonesBlocks],
+					bleedingFactor: {
+						min: 0.5,
+						max: 1,
+					},
+					instantaneousBloodLoss: undefined,
+				},
+			],
+		),
+	);
 
-	registerPathology(buildPathology({
-		id: 'fracture_open',
-		severity: 'non_urgent',
-		name: 'fracture open & displaced',
-		blockSelectionMode: 'same',
-	}, [
-		{
-			type: 'Fracture',
-			blocks: [...simpleFractureBonesBlocks],
-			fractureType: 'open',
-		},
-		{
-			type: 'Hemorrhage',
-			subtype: 'venous',
-			blocks: [...simpleFractureBonesBlocks],
-			bleedingFactor: {
-				min: 0, max: 1
+	registerPathology(
+		buildPathology(
+			{
+				id: 'fracture_open',
+				severity: 'non_urgent',
+				name: 'fracture open & displaced',
+				blockSelectionMode: 'same',
 			},
-			instantaneousBloodLoss: undefined,
-		}
-	]));
+			[
+				{
+					type: 'Fracture',
+					blocks: [...simpleFractureBonesBlocks],
+					fractureType: 'open',
+				},
+				{
+					type: 'Hemorrhage',
+					subtype: 'venous',
+					blocks: [...simpleFractureBonesBlocks],
+					bleedingFactor: {
+						min: 0,
+						max: 1,
+					},
+					instantaneousBloodLoss: undefined,
+				},
+			],
+		),
+	);
 
 	registerPathology(
 		buildPathology(
@@ -900,11 +895,9 @@ export function initPathologies(pathologySet : Record<string, PathologyDefinitio
 				{
 					type: 'Pain',
 					blocks: [...allBlocks],
-					pain: {min: 1, max: 10}
+					pain: { min: 1, max: 10 },
 				},
 			],
 		),
 	);
 }
-
-

@@ -1,9 +1,8 @@
-import { Heap } from "../tools/heap";
-import { Segment } from "./point2D";
-import { DiscreteExtent, ObstacleType } from "./layersData";
-import { pathFindingLogger } from "../tools/logger";
-import { Point, add, equalsStrict, sub, lengthSquared } from "./point2D";
-
+import { Heap } from '../tools/heap';
+import { Segment } from './point2D';
+import { DiscreteExtent, ObstacleType } from './layersData';
+import { pathFindingLogger } from '../tools/logger';
+import { Point, add, equalsStrict, sub, lengthSquared } from './point2D';
 
 /**
  * Class that implement a Node (or Vertex) for a pathfinding grid
@@ -107,7 +106,6 @@ class Node {
 	public setIsOnOpenList(isOnOpenList: boolean): void {
 		this.isOnOpenList = isOnOpenList;
 	}
-
 }
 
 interface GridProps {
@@ -167,8 +165,8 @@ export class Grid {
 		return this.nodeCount;
 	}
 
-	public resetExistingNodes(){
-		for(const n of this.nodeCache){
+	public resetExistingNodes() {
+		for (const n of this.nodeCache) {
 			n.setIsOnClosedList(false);
 			n.setIsOnOpenList(false);
 			n.setParent(undefined);
@@ -180,15 +178,14 @@ export class Grid {
 	 * Return a specific node.
 	 */
 	public getNodeAt(position: Point, debug: boolean = false): Node | undefined {
-
 		let node: Node | undefined = undefined;
 
 		if (this.isOnTheGrid(position)) {
-			if (debug) pathFindingLogger.debug('position', position)
+			if (debug) pathFindingLogger.debug('position', position);
 			if (this.gridNodes[position.y]) {
 				node = this.gridNodes[position.y]![position.x]!;
 			} else {
-				this.gridNodes[position.y] = []
+				this.gridNodes[position.y] = [];
 			}
 			if (!node) {
 				if (debug) pathFindingLogger.debug('creating node at', position);
@@ -197,15 +194,14 @@ export class Grid {
 				//this.nodeCache.push(node);
 				this.gridNodes[position.y]![position.x] = node;
 			}
-		}
-		else if (debug) {
-			pathFindingLogger.debug("Position outside of the grid ", position, this.width, this.height);
+		} else if (debug) {
+			pathFindingLogger.debug('Position outside of the grid ', position, this.width, this.height);
 		}
 
 		return node;
 	}
 
-	private nodeCache : Node[] = [];
+	private nodeCache: Node[] = [];
 
 	private createNodeAt(p: Point): Node {
 		this.nodeCount++;
@@ -213,7 +209,11 @@ export class Grid {
 	}
 
 	public nodeExists(p: Point): boolean {
-		return this.isOnTheGrid(p) && this.gridNodes[p.y] != null && (this.gridNodes[p.y]![p.x] ? true : false)
+		return (
+			this.isOnTheGrid(p) &&
+			this.gridNodes[p.y] != null &&
+			(this.gridNodes[p.y]![p.x] ? true : false)
+		);
 	}
 
 	/**
@@ -222,13 +222,13 @@ export class Grid {
 	public isWalkableAt(p: Point): boolean {
 		return this.isWalkableAtXY(p.x, p.y);
 	}
-	
+
 	/**
-	 * Warning : this function is performance critical, 
+	 * Warning : this function is performance critical,
 	 * it is often called more than 1000'000 times for each search
 	 */
 	public isWalkableAtXY(x: number, y: number): boolean {
-		if (!this.isOnTheGridXY(x,y)) {
+		if (!this.isOnTheGridXY(x, y)) {
 			return false;
 		}
 		return this.obstacleMatrix[y]![x]! < this.obstacleDensityThreshold;
@@ -248,38 +248,35 @@ export class Grid {
 	 */
 	public isOnTheGrid(position: Point): boolean {
 		return (
-			position.x >= 0 &&
-			position.x < this.width &&
-			position.y >= 0 &&
-			position.y < this.height
+			position.x >= 0 && position.x < this.width && position.y >= 0 && position.y < this.height
 		);
 	}
 
 	public isOnTheGridXY(x: number, y: number): boolean {
-		return (
-			x >= 0 &&
-			x < this.width &&
-			y >= 0 &&
-			y < this.height
-		);
+		return x >= 0 && x < this.width && y >= 0 && y < this.height;
 	}
 
-	public getCandidateNodes(current: Node, goal: Node, diagonalAllowed: boolean, useJumpPointSearch: boolean): Node[] {
+	public getCandidateNodes(
+		current: Node,
+		goal: Node,
+		diagonalAllowed: boolean,
+		useJumpPointSearch: boolean,
+	): Node[] {
 		if (useJumpPointSearch) {
-			if (!diagonalAllowed) throw new Error('Jump search requires diagonals to be allowed. Either deactivate jump search or enable diagonals.')
+			if (!diagonalAllowed)
+				throw new Error(
+					'Jump search requires diagonals to be allowed. Either deactivate jump search or enable diagonals.',
+				);
 			return this.getJumpNodes(current, goal);
 		} else {
-			return this.getSurroundingNodes(current.position, diagonalAllowed)
+			return this.getSurroundingNodes(current.position, diagonalAllowed);
 		}
 	}
 
 	/**
 	 * Get direct surrounding nodes.
 	 */
-	private getSurroundingNodes(
-		currentPosition: Point,
-		diagnonalMovementAllowed: boolean
-	): Node[] {
+	private getSurroundingNodes(currentPosition: Point, diagnonalMovementAllowed: boolean): Node[] {
 		const surroundingNodes: Node[] = [];
 
 		for (let y = currentPosition.y - 1; y <= currentPosition.y + 1; y++) {
@@ -303,9 +300,7 @@ export class Grid {
 	/**
 	 * Search candidates neighbors for the jump point search algorithm
 	 */
-	private getNaturalNeighbors(
-		current: Node,
-	): Point[] {
+	private getNaturalNeighbors(current: Node): Point[] {
 		const neighbors: Point[] = [];
 
 		const parent = current.getParent();
@@ -323,32 +318,33 @@ export class Grid {
 		const dy = (y - py) / Math.max(Math.abs(y - py), 1);
 
 		// search horizontally/vertically
-		if(dx === 0 || dy === 0){
+		if (dx === 0 || dy === 0) {
 			if (this.isWalkableAtXY(x + dx, y + dy)) {
-				neighbors.push({ x: x + dx, y: y + dy })
-			}
-			// turning points
-			if (!this.isWalkableAtXY(x + dy, y - dx )) {
-				neighbors.push({ x: x + dy + dx, y: y - dx + dy })
-			}
-			if (!this.isWalkableAtXY( x - dy, y + dx)) {
-				neighbors.push({ x: x - dy + dx, y: y + dx + dy })
-			}
-		} else { // search diagonally
-			if (this.isWalkableAtXY(x,y + dy )) {
-				neighbors.push({ x, y: y + dy });
-			}
-			if (this.isWalkableAtXY( x + dx, y )) {
-				neighbors.push({ x: x + dx, y });
-			}
-			if (this.isWalkableAtXY( x + dx, y + dy)) {
 				neighbors.push({ x: x + dx, y: y + dy });
 			}
 			// turning points
-			if (!this.isWalkableAtXY( x - dx, y )) {
+			if (!this.isWalkableAtXY(x + dy, y - dx)) {
+				neighbors.push({ x: x + dy + dx, y: y - dx + dy });
+			}
+			if (!this.isWalkableAtXY(x - dy, y + dx)) {
+				neighbors.push({ x: x - dy + dx, y: y + dx + dy });
+			}
+		} else {
+			// search diagonally
+			if (this.isWalkableAtXY(x, y + dy)) {
+				neighbors.push({ x, y: y + dy });
+			}
+			if (this.isWalkableAtXY(x + dx, y)) {
+				neighbors.push({ x: x + dx, y });
+			}
+			if (this.isWalkableAtXY(x + dx, y + dy)) {
+				neighbors.push({ x: x + dx, y: y + dy });
+			}
+			// turning points
+			if (!this.isWalkableAtXY(x - dx, y)) {
 				neighbors.push({ x: x - dx, y: y + dy });
 			}
-			if (!this.isWalkableAtXY( x, y - dy )) {
+			if (!this.isWalkableAtXY(x, y - dy)) {
 				neighbors.push({ x: x + dx, y: y - dy });
 			}
 		}
@@ -362,9 +358,8 @@ export class Grid {
 	 * https://harablog.wordpress.com/2011/09/07/jump-point-search/
 	 */
 	private getJumpNodes(current: Node, goal: Node): Node[] {
-
-		if (!current.getParent()) // start node case
-		{
+		if (!current.getParent()) {
+			// start node case
 			return this.getSurroundingNodes(current.position, true);
 		}
 
@@ -373,7 +368,6 @@ export class Grid {
 		const naturalNeighbors = this.getNaturalNeighbors(current);
 
 		for (let i = 0; i < naturalNeighbors.length; i++) {
-
 			const n = naturalNeighbors[i]!;
 			const dir = sub(n, current.position);
 			const jumpPos = this.jump(current.position, dir, goal.position);
@@ -389,21 +383,21 @@ export class Grid {
 	}
 
 	private jump(pos: Point, dir: Point, goal: Point): Point | undefined {
-
 		if (!this.isWalkableAtXY(pos.x + dir.x, pos.y + dir.y)) {
 			return undefined;
 		}
 
-		const next = {x: pos.x + dir.x, y : pos.y + dir.y};
+		const next = { x: pos.x + dir.x, y: pos.y + dir.y };
 
 		if (next.x === goal.x && next.y === goal.y) {
 			return next;
 		}
 
-		if(this.hasForcedNeighbors(next, dir)){
+		if (this.hasForcedNeighbors(next, dir)) {
 			return next;
 		}
-		if (dir.x != 0 && dir.y != 0) {// diagonal case
+		if (dir.x != 0 && dir.y != 0) {
+			// diagonal case
 			// search for points of interest along vertical or horizontal directions
 			if (this.jump(next, { x: dir.x, y: 0 }, goal) || this.jump(next, { x: 0, y: dir.y }, goal)) {
 				return next;
@@ -414,36 +408,42 @@ export class Grid {
 
 	/**
 	 * See jump point search algorithm for definition of forced neighbor
-	 * Warning : this function is performance critical, 
+	 * Warning : this function is performance critical,
 	 * it is often called more than 1000'000 times for each search
 	 */
 	private hasForcedNeighbors(pos: Point, dir: Point): boolean {
-
 		// commented lines are left for code readability
 		// but manually inlined
-		if (dir.x === 0 || dir.y === 0) { // cardinal direction case
+		if (dir.x === 0 || dir.y === 0) {
+			// cardinal direction case
 			//blocked on the left when looking in dir direction
 			//const left = { x: pos.x + dir.y, y: pos.y - dir.x }
 			//const leftDiag = add(left, dir);
-			if (!this.isWalkableAtXY(pos.x + dir.y, pos.y - dir.x) 
-				&& this.isWalkableAtXY(pos.x + dir.y + dir.x, pos.y - dir.x + dir.y)) {
+			if (
+				!this.isWalkableAtXY(pos.x + dir.y, pos.y - dir.x) &&
+				this.isWalkableAtXY(pos.x + dir.y + dir.x, pos.y - dir.x + dir.y)
+			) {
 				return true;
 			}
 			// block on the right when looking in dir direction
 			//const right = { x: pos.x - dir.y, y: pos.y + dir.x }
 			//const rightDiag = add(right, dir);
-			if (!this.isWalkableAtXY(pos.x - dir.y, pos.y + dir.x) 
-				&& this.isWalkableAtXY(pos.x - dir.y + dir.x, pos.y + dir.x + dir.y)) {
+			if (
+				!this.isWalkableAtXY(pos.x - dir.y, pos.y + dir.x) &&
+				this.isWalkableAtXY(pos.x - dir.y + dir.x, pos.y + dir.x + dir.y)
+			) {
 				return true;
 			}
-
-		} else { // diagonals case
+		} else {
+			// diagonals case
 			// case horizontal: suppose blocking node is an horizontal neighbor
 			//const blockH = { x: pos.x - dir.x, y: pos.y };
 			//const freeH = { x: blockH.x, y: blockH.y + dir.y };
 
-			if (!this.isWalkableAtXY(pos.x - dir.x, pos.y) 
-				&& this.isWalkableAtXY(pos.x - dir.x, pos.y + dir.y)) {
+			if (
+				!this.isWalkableAtXY(pos.x - dir.x, pos.y) &&
+				this.isWalkableAtXY(pos.x - dir.x, pos.y + dir.y)
+			) {
 				return true;
 			}
 
@@ -451,32 +451,26 @@ export class Grid {
 			//const blockV = { x: pos.x, y: pos.y - dir.y };
 			//const freeV = { x: blockV.x + dir.x, y: blockV.y };
 
-			if (!this.isWalkableAtXY(pos.x, pos.y - dir.y) 
-				&& this.isWalkableAtXY(pos.x + dir.x, pos.y - dir.y)) {
+			if (
+				!this.isWalkableAtXY(pos.x, pos.y - dir.y) &&
+				this.isWalkableAtXY(pos.x + dir.x, pos.y - dir.y)
+			) {
 				return true;
 			}
-
 		}
 		return false;
 	}
-
 }
-
 
 /**
  * Heuristics that can be used to calculate distances
  */
-type Heuristic =
-	| 'Manhattan'
-	| 'Euclidean'
-	| 'EuclideanSq'
-	| 'Chebyshev'
-	| 'Octile';
+type Heuristic = 'Manhattan' | 'Euclidean' | 'EuclideanSq' | 'Chebyshev' | 'Octile';
 
 /**
  * Algorithms that can be used for path finding
  */
-export type Algorithm = "AStar" | "AStarSmooth" | "ThetaStar";
+export type Algorithm = 'AStar' | 'AStarSmooth' | 'ThetaStar';
 
 export interface PathFinderProps {
 	grid: GridProps;
@@ -527,8 +521,8 @@ export class PathFinder {
 	public readonly heuristic: Heuristic;
 
 	readonly useJumpPointSearch: boolean;
-	
-	readonly nodeCoverageLimit: number
+
+	readonly nodeCoverageLimit: number;
 
 	/**
 	 * Stop condition.
@@ -595,39 +589,43 @@ export class PathFinder {
 	 * Find path by visiting the graph
 	 */
 	private _findPath(startPosition: Point, endPosition: Point, algorithm: Algorithm): Point[] {
-
 		// Select vertex updater function
 		let updateVertexFN: (s0: Node, s1: Node) => void;
 		switch (algorithm) {
-			case "AStar":
-			case "AStarSmooth":
+			case 'AStar':
+			case 'AStarSmooth':
 				updateVertexFN = this.AStartUpdateVertex.bind(this);
 				break;
-			case "ThetaStar":
+			case 'ThetaStar':
 			default:
 				updateVertexFN = this.ThetaStarUpdateVertex.bind(this);
 		}
 
-        // eslint-disable-next-line no-console
+		// eslint-disable-next-line no-console
 		console.time('Path search');
 		// Reset lists
 		this.openList.clear();
 		this.counter = 0;
 
-		pathFindingLogger.info('******',startPosition);
+		pathFindingLogger.info('******', startPosition);
 		pathFindingLogger.info('******', endPosition);
 
 		const startNode = this.grid.getNodeAt(startPosition, true);
 		const endNode = this.grid.getNodeAt(endPosition);
 
-
 		// Break if start and/or end position is/are not walkable
-		if (startNode == null || endNode == null ||
+		if (
+			startNode == null ||
+			endNode == null ||
 			!this.grid.isWalkableAt(endPosition) ||
 			!this.grid.isWalkableAt(startPosition)
 		) {
 			// Path could not be created because the start and/or end position is/are not walkable.
-			pathFindingLogger.warn('Path could not be created because the start and/or end position is/are not walkable.',startPosition, endPosition);
+			pathFindingLogger.warn(
+				'Path could not be created because the start and/or end position is/are not walkable.',
+				startPosition,
+				endPosition,
+			);
 			return [startPosition];
 		}
 
@@ -640,27 +638,28 @@ export class PathFinder {
 		pathFindingLogger.info('node count before', this.grid.getNodeCount());
 
 		// As long the open list is not empty, continue searching a path
-		while (!this.openList.isEmpty()
-			&& performance.now() < timeLimit
-			&& this.counter < this.nodeCoverageLimit) {
-
+		while (
+			!this.openList.isEmpty() &&
+			performance.now() < timeLimit &&
+			this.counter < this.nodeCoverageLimit
+		) {
 			//get node with minimum f value
 			const currentNode = this.openList.extract();
 			currentNode.setIsOnOpenList(false);
 
 			currentNode.setIsOnClosedList(true);
-			
+
 			// for debug ordering
 			currentNode.counter = ++this.counter;
 			// End of path is reached
 			if (currentNode === endNode) {
-                // eslint-disable-next-line no-console
+				// eslint-disable-next-line no-console
 				console.timeEnd('Path search');
 
 				let path = this.backtrace(endNode);
 				pathFindingLogger.info('Explored nodes', this.counter);
 				pathFindingLogger.info('Node count end', this.grid.getNodeCount());
-				if (algorithm === "AStarSmooth") {
+				if (algorithm === 'AStarSmooth') {
 					path = this.smoothPath(path, this.useJumpPointSearch, true);
 				}
 				return path;
@@ -671,7 +670,7 @@ export class PathFinder {
 				currentNode,
 				endNode,
 				this.diagonalAllowed,
-				this.useJumpPointSearch
+				this.useJumpPointSearch,
 			);
 
 			// Loop through all the neighbors
@@ -685,11 +684,7 @@ export class PathFinder {
 				if (neighbor.getHValue() == null) {
 					//compute H value
 					neighbor.setHValue(
-						this.calculateHeuristicDistance(
-							this.heuristic,
-							neighbor.position,
-							endNode.position,
-						)
+						this.calculateHeuristicDistance(this.heuristic, neighbor.position, endNode.position),
 					);
 				}
 
@@ -698,10 +693,10 @@ export class PathFinder {
 		}
 
 		// failed to find a path
-		pathFindingLogger.debug('time',performance.now() < timeLimit);
-		pathFindingLogger.debug('time',performance.now(), timeLimit);
+		pathFindingLogger.debug('time', performance.now() < timeLimit);
+		pathFindingLogger.debug('time', performance.now(), timeLimit);
 		pathFindingLogger.debug('coverage', this.counter < this.nodeCoverageLimit);
-		pathFindingLogger.debug('coverage < ', this.counter , this.nodeCoverageLimit);
+		pathFindingLogger.debug('coverage < ', this.counter, this.nodeCoverageLimit);
 
 		// Path could not be created
 		pathFindingLogger.warn('Path could not be created, sorry -_-');
@@ -709,14 +704,11 @@ export class PathFinder {
 		return [startPosition];
 	}
 
-
 	/**
 	 * Compute the path from the Node and return a path of points.
 	 * Get parents recursively until the start of the path
 	 */
-	private backtrace(
-		node: Node,
-	): Point[] {
+	private backtrace(node: Node): Point[] {
 		// Init empty path
 		const path: Point[] = [];
 
@@ -738,7 +730,6 @@ export class PathFinder {
 	 * Check if there is an obstacle between two points
 	 */
 	private gridLOS(start: Point, end: Point): boolean {
-
 		let x0 = start.x;
 		let y0 = start.y;
 		const x1 = end.x;
@@ -750,16 +741,16 @@ export class PathFinder {
 		let sY = 1;
 
 		if (dY < 0) {
-			dY = -dY
+			dY = -dY;
 			sY = -1;
 		}
 		if (dX < 0) {
-			dX = -dX
+			dX = -dX;
 			sX = -1;
 		}
 		const testNode = (point: Point): boolean => {
 			return this.grid.isWalkableAt(point);
-		}
+		};
 
 		if (dX >= dY) {
 			// how many x cells for one vertical cell ?
@@ -769,7 +760,7 @@ export class PathFinder {
 			let cDx = pDx == Infinity ? 0 : pDx / 2;
 
 			while (x0 !== x1) {
-				const diff = Math.abs(cDx - pDx - 0.5)
+				const diff = Math.abs(cDx - pDx - 0.5);
 
 				if (diff > 0.00001 && !testNode({ x: x0, y: y0 })) {
 					return false;
@@ -786,14 +777,12 @@ export class PathFinder {
 					if (!testNode({ x: x0, y: y0 })) {
 						return false;
 					}
-
 				}
 				// Move to next column
 				cDx += 1;
 				x0 += sX;
 			}
-		}
-		else {
+		} else {
 			// how many y cells for one h cell ?
 			const pDy = dY / dX;
 
@@ -801,7 +790,7 @@ export class PathFinder {
 			let cDy = pDy == Infinity ? 0 : pDy / 2;
 
 			while (y0 !== y1) {
-				const diff = Math.abs(cDy - pDy - 0.5)
+				const diff = Math.abs(cDy - pDy - 0.5);
 
 				if (diff > 0.0001 && !testNode({ x: x0, y: y0 })) {
 					return false;
@@ -836,27 +825,25 @@ export class PathFinder {
 			return path;
 		}
 
-		let resampledPath : Point[] = [];
+		let resampledPath: Point[] = [];
 
-		if(resamplePath){
-		//build a path that has no jump (only 1 distance moves)
+		if (resamplePath) {
+			//build a path that has no jump (only 1 distance moves)
 			resampledPath.push(path[0]!);
-			for (let i = 0; i < path.length - 1; ++i) 
-			{
+			for (let i = 0; i < path.length - 1; ++i) {
 				const curr = path[i]!;
-				const next = path[i+1]!;
+				const next = path[i + 1]!;
 				const dir = sub(next, curr);
 				dir.x = dir.x / Math.max(Math.abs(dir.x), 1);
 				dir.y = dir.y / Math.max(Math.abs(dir.y), 1);
 
 				let movingPoint = curr;
-				do{
+				do {
 					movingPoint = add(movingPoint, dir);
 					resampledPath.push(movingPoint);
-				}while(!equalsStrict(movingPoint, next));
+				} while (!equalsStrict(movingPoint, next));
 			}
-
-		}else{
+		} else {
 			resampledPath = path;
 		}
 
@@ -873,16 +860,15 @@ export class PathFinder {
 
 		smoothedPath.push(resampledPath[resampledPath.length - 1]!);
 
-		if(multipleSmoothings){
+		if (multipleSmoothings) {
 			let previousLength = path.length;
-			
-			while(smoothedPath.length !== previousLength){
+
+			while (smoothedPath.length !== previousLength) {
 				previousLength = smoothedPath.length;
 				smoothedPath = this.smoothPath(smoothedPath, false, false);
 			}
-
 		}
-		
+
 		return smoothedPath;
 	}
 
@@ -892,10 +878,22 @@ export class PathFinder {
 	 * If no path is found, the path will be a single point, which contains
 	 * the startWorldPosition
 	 */
-	public findPath(startWorldPosition: Point, endWorldPosition: Point, algorithm: Algorithm): Point[] {
+	public findPath(
+		startWorldPosition: Point,
+		endWorldPosition: Point,
+		algorithm: Algorithm,
+	): Point[] {
 		// Translate into grid points
-		const startPosition = PathFinder.worldPointToGridPoint(startWorldPosition, this.cellSize, this.offsetPoint)
-		const endPosition = PathFinder.worldPointToGridPoint(endWorldPosition, this.cellSize, this.offsetPoint)
+		const startPosition = PathFinder.worldPointToGridPoint(
+			startWorldPosition,
+			this.cellSize,
+			this.offsetPoint,
+		);
+		const endPosition = PathFinder.worldPointToGridPoint(
+			endWorldPosition,
+			this.cellSize,
+			this.offsetPoint,
+		);
 
 		// Compute path
 		const path = this._findPath(startPosition, endPosition, algorithm);
@@ -915,68 +913,79 @@ export class PathFinder {
 	 * the trajectory goes out of the current cell with the same direction as it
 	 * would if it was moving from the center of the cell
 	 */
-	private toWorldPath(path: Point[], worldStart: Point, localStart: Point, worldEnd: Point, localEnd: Point): Point[] {
-
-		if(path.length < 2){
+	private toWorldPath(
+		path: Point[],
+		worldStart: Point,
+		localStart: Point,
+		worldEnd: Point,
+		localEnd: Point,
+	): Point[] {
+		if (path.length < 2) {
 			return [worldStart];
 		}
-		const worldPath = path.map(point => PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint));
+		const worldPath = path.map(point =>
+			PathFinder.gridPointToWorldPoint(point, this.cellSize, this.offsetPoint),
+		);
 
 		const startIntermediate = this.intersectSegmentWithContour(worldPath, 0, 1, localStart);
 
 		const l = worldPath.length;
 
 		const correctedPath = [worldStart];
-		if(startIntermediate){
+		if (startIntermediate) {
 			correctedPath.push(startIntermediate);
-		}else{
+		} else {
 			correctedPath.push(worldPath[0]!);
 		}
-		correctedPath.push(...worldPath.slice(1, l-1));
+		correctedPath.push(...worldPath.slice(1, l - 1));
 
-		const endIntermediate = this.intersectSegmentWithContour(worldPath, l-1, l-2, localEnd);
+		const endIntermediate = this.intersectSegmentWithContour(worldPath, l - 1, l - 2, localEnd);
 
-		if(endIntermediate){
-			if(startIntermediate == undefined || !equalsStrict(startIntermediate, endIntermediate)){
+		if (endIntermediate) {
+			if (startIntermediate == undefined || !equalsStrict(startIntermediate, endIntermediate)) {
 				correctedPath.push(endIntermediate);
 			}
-		}else{
-			correctedPath.push(worldPath[l-1]!);
+		} else {
+			correctedPath.push(worldPath[l - 1]!);
 		}
 		correctedPath.push(worldEnd);
 		return correctedPath;
-
 	}
 
-	private intersectSegmentWithContour(path: Point[], startIdx: number, endIdx: number, contourCenter: Point): Point | undefined {
-            const pStart = path[startIdx];
-            const pEnd = path[endIdx];
+	private intersectSegmentWithContour(
+		path: Point[],
+		startIdx: number,
+		endIdx: number,
+		contourCenter: Point,
+	): Point | undefined {
+		const pStart = path[startIdx];
+		const pEnd = path[endIdx];
 
-            if (pStart == null || pEnd == null){
-                return undefined;
-            }
+		if (pStart == null || pEnd == null) {
+			return undefined;
+		}
 
-			if(equalsStrict(pStart, pEnd)){
-				return undefined;
-			}
-			const firstPathSegment : Segment = [pStart, pEnd];
-			const contour = this.getCellContour(contourCenter);
+		if (equalsStrict(pStart, pEnd)) {
+			return undefined;
+		}
+		const firstPathSegment: Segment = [pStart, pEnd];
+		const contour = this.getCellContour(contourCenter);
 
-			let intersection: Point | undefined = undefined;
-			let i = 0;
-			do{
-				const seg: Segment = [contour[i]!, contour[i+1]!]
-				intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
-				i++;
-			}while(intersection == undefined && i < contour.length-1);
+		let intersection: Point | undefined = undefined;
+		let i = 0;
+		do {
+			const seg: Segment = [contour[i]!, contour[i + 1]!];
+			intersection = PathFinder.getSegmentIntersection(seg, firstPathSegment);
+			i++;
+		} while (intersection == undefined && i < contour.length - 1);
 
-			if(!intersection) {
-				pathFindingLogger.warn('this is impooooosssible. There should be an intersection');
-				pathFindingLogger.warn(contour);
-				pathFindingLogger.warn(firstPathSegment);
-			}
-			pathFindingLogger.debug('path beginning', intersection, path.slice(1));
-			return intersection;
+		if (!intersection) {
+			pathFindingLogger.warn('this is impooooosssible. There should be an intersection');
+			pathFindingLogger.warn(contour);
+			pathFindingLogger.warn(firstPathSegment);
+		}
+		pathFindingLogger.debug('path beginning', intersection, path.slice(1));
+		return intersection;
 	}
 
 	private getCellContour(localStart: Point): Point[] {
@@ -984,56 +993,65 @@ export class PathFinder {
 			localStart.x,
 			localStart.y,
 			localStart.x + 1,
-			localStart.y + 1
+			localStart.y + 1,
 		);
-		return extent.contourWorld(this.cellSize, this.offsetPoint).map((p) => {return {x : p[0]!, y : p[1]!}});
-
+		return extent.contourWorld(this.cellSize, this.offsetPoint).map(p => {
+			return { x: p[0]!, y: p[1]! };
+		});
 	}
 
 	/**
 	 * Segment intersection including segment extremities
 	 */
-	private static getSegmentIntersection(s1: Segment, s2: Segment, debug: boolean = false): Point | undefined {
-		const p0 = s1[0], p1 = s1[1],
-			p2 = s2[0], p3 = s2[1];
+	private static getSegmentIntersection(
+		s1: Segment,
+		s2: Segment,
+		debug: boolean = false,
+	): Point | undefined {
+		const p0 = s1[0],
+			p1 = s1[1],
+			p2 = s2[0],
+			p3 = s2[1];
 
-		const s10_x = p1.x - p0.x, s10_y = p1.y - p0.y,
-			s32_x = p3.x - p2.x, s32_y = p3.y - p2.y;
+		const s10_x = p1.x - p0.x,
+			s10_y = p1.y - p0.y,
+			s32_x = p3.x - p2.x,
+			s32_y = p3.y - p2.y;
 
-		const denom = s10_x * s32_y - s32_x * s10_y
+		const denom = s10_x * s32_y - s32_x * s10_y;
 
-		if (denom == 0){
-			if(debug) pathFindingLogger.debug('collinear', denom)
-			return undefined // collinear
+		if (denom == 0) {
+			if (debug) pathFindingLogger.debug('collinear', denom);
+			return undefined; // collinear
 		}
 
 		const s02_x = p0.x - p2.x,
-			s02_y = p0.y - p2.y
-		const s_numer = s10_x * s02_y - s10_y * s02_x
-		if (s_numer != 0 && (s_numer < 0 == denom > 0)) {
-			if(debug) pathFindingLogger.debug('s numer < 0', s_numer, denom);
+			s02_y = p0.y - p2.y;
+		const s_numer = s10_x * s02_y - s10_y * s02_x;
+		if (s_numer != 0 && s_numer < 0 == denom > 0) {
+			if (debug) pathFindingLogger.debug('s numer < 0', s_numer, denom);
 			// no collision: s < 0
-			return undefined
+			return undefined;
 		}
 
-		const t_numer = s32_x * s02_y - s32_y * s02_x
-		if (t_numer != 0 && (t_numer < 0 == denom > 0)) {
-			if(debug) pathFindingLogger.debug('t numer < 0', t_numer, denom);
+		const t_numer = s32_x * s02_y - s32_y * s02_x;
+		if (t_numer != 0 && t_numer < 0 == denom > 0) {
+			if (debug) pathFindingLogger.debug('t numer < 0', t_numer, denom);
 			// no collision: t < 0
-			return undefined
+			return undefined;
 		}
 
 		if (s_numer > denom == denom > 0 || t_numer > denom == denom > 0) {
-			if(debug) pathFindingLogger.debug('s', s_numer, denom);
-			if(debug) pathFindingLogger.debug('t', t_numer, denom);
+			if (debug) pathFindingLogger.debug('s', s_numer, denom);
+			if (debug) pathFindingLogger.debug('t', t_numer, denom);
 
 			// no collision: s or t > 1
 			return undefined;
 		}
 		// collision detected
-		const t = t_numer / denom
+		const t = t_numer / denom;
 
-		return { x: p0.x + (t * s10_x), y: p0.y + (t * s10_y) }
+		return { x: p0.x + t * s10_x, y: p0.y + t * s10_y };
 	}
 
 	/**
@@ -1044,14 +1062,11 @@ export class PathFinder {
 	 */
 	private UpdateVertex(currentNode: Node, neighbor: Node, distance: number) {
 		// Calculate the g value of the neighbor
-		const nextGValue = currentNode.getGValue() + distance
+		const nextGValue = currentNode.getGValue() + distance;
 
 		// Is the neighbor not on open list OR
 		// can it be reached with lower g value from current position
-		if (
-			!neighbor.getIsOnOpenList() ||
-			nextGValue < neighbor.getGValue()
-		) {
+		if (!neighbor.getIsOnOpenList() || nextGValue < neighbor.getGValue()) {
 			neighbor.setGValue(nextGValue);
 			neighbor.setParent(currentNode);
 
@@ -1076,7 +1091,6 @@ export class PathFinder {
 		const dy = Math.abs(current.position.y - neighbor.position.y);
 
 		return dx + dy - this.octileVal * Math.min(dx, dy);
-
 	}
 
 	/**
@@ -1087,7 +1101,6 @@ export class PathFinder {
 		const dy = Math.abs(current.position.y - target.position.y);
 		return Math.sqrt(dx * dx + dy * dy);
 	}
-
 
 	/**
 	 * AStar Update vertex algorithm implementation
@@ -1103,18 +1116,20 @@ export class PathFinder {
 		const currentParent = currentNode.getParent();
 		//test if possible to bypass current node
 		if (currentParent != null && this.gridLOS(currentParent.position, neighbor.position)) {
-			this.UpdateVertex(currentParent, neighbor, this.ComputeEuclidianDistance(currentParent, neighbor))
-		}
-		else {
+			this.UpdateVertex(
+				currentParent,
+				neighbor,
+				this.ComputeEuclidianDistance(currentParent, neighbor),
+			);
+		} else {
 			this.UpdateVertex(currentNode, neighbor, this.ComputeNeighborDistance(currentNode, neighbor));
 		}
 	}
 
-
 	/* find all points loacated at exactlly nCells from the given center.
-   * Diagonals allowed, diag counts as 1 cell
-   */
-	private findPointsAtDistance(center: Point, nCells: number, addFunc : (p : Point) => void) {
+	 * Diagonals allowed, diag counts as 1 cell
+	 */
+	private findPointsAtDistance(center: Point, nCells: number, addFunc: (p: Point) => void) {
 		if (nCells === 0) {
 			return [center];
 		}
@@ -1162,18 +1177,19 @@ export class PathFinder {
 		}
 	}*/
 
-    // @ts-ignore
-	private findClosestWalkablePoint(gridPoint: Point, maxDist: number): Point{
-
+	// @ts-ignore
+	private findClosestWalkablePoint(gridPoint: Point, maxDist: number): Point {
 		let d = 1;
-		const h = new Heap<Point>((a,b) => lengthSquared(sub(a, gridPoint)) < lengthSquared(sub(b, gridPoint)));
+		const h = new Heap<Point>(
+			(a, b) => lengthSquared(sub(a, gridPoint)) < lengthSquared(sub(b, gridPoint)),
+		);
 
-		while(d < maxDist){
-			this.findPointsAtDistance(gridPoint, d, (p => h.insert(p)));
+		while (d < maxDist) {
+			this.findPointsAtDistance(gridPoint, d, p => h.insert(p));
 
-			while(!h.isEmpty()){
+			while (!h.isEmpty()) {
 				const p = h.extract();
-				if(this.grid.isWalkableAt(p)){
+				if (this.grid.isWalkableAt(p)) {
 					return p;
 				}
 			}
@@ -1181,36 +1197,26 @@ export class PathFinder {
 		}
 
 		return gridPoint;
-
 	}
 
 	// Static methods
 	/**
 	 * Translate grid coordinate to world coordinate
 	 */
-	public static gridPointToWorldPoint(
-		cell: Point,
-		cellSize: number,
-		offsetPoint: Point,
-	): Point {
+	public static gridPointToWorldPoint(cell: Point, cellSize: number, offsetPoint: Point): Point {
 		return {
 			x: cell.x * cellSize + offsetPoint.x + cellSize / 2,
-			y: cell.y * cellSize + offsetPoint.y + cellSize / 2
-		}
+			y: cell.y * cellSize + offsetPoint.y + cellSize / 2,
+		};
 	}
 
 	/**
 	 * Translate world coordinate to grid coordinate
 	 */
-	public static worldPointToGridPoint(
-		point: Point,
-		cellSize: number,
-		offsetPoint: Point,
-	): Point {
+	public static worldPointToGridPoint(point: Point, cellSize: number, offsetPoint: Point): Point {
 		return {
 			x: Math.floor((point.x - offsetPoint.x) / cellSize),
 			y: Math.floor((point.y - offsetPoint.y) / cellSize),
-		}
+		};
 	}
-
 }

@@ -1,7 +1,6 @@
-import { getEnv, getSortedPatientIds } from "../../tools/WegasHelper";
-import { getAllHuman_omniscient, getHealth, getHumanMeta } from "../legacy/the_world";
-import { doAutomaticTriage_internal, PreTriageData } from "./triage";
-
+import { getEnv, getSortedPatientIds } from '../../tools/WegasHelper';
+import { getAllHuman_omniscient, getHealth, getHumanMeta } from '../legacy/the_world';
+import { doAutomaticTriage_internal, PreTriageData } from './triage';
 
 interface PatientOverview {
 	id: string;
@@ -21,17 +20,19 @@ export function getPatientsOverview(): PatientOverview[] {
 		if (state) {
 			const meta = getHumanMeta(id);
 			const health = getHealth(id);
-			const preTriageData : PreTriageData | undefined = meta ? {
-				human: {
-					state: state.bodyState,
-					meta: meta,
-				},
-				actions: [],
-				health: health,
-				env: env,
-				// do not even try to use any console !
-				console: [],
-			} : undefined;
+			const preTriageData: PreTriageData | undefined = meta
+				? {
+						human: {
+							state: state.bodyState,
+							meta: meta,
+						},
+						actions: [],
+						health: health,
+						env: env,
+						// do not even try to use any console !
+						console: [],
+				  }
+				: undefined;
 
 			const liveResult = preTriageData ? doAutomaticTriage_internal(preTriageData) : undefined;
 

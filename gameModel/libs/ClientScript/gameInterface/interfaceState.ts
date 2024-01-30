@@ -23,23 +23,25 @@ export interface InterfaceState {
 			selectedActorId: number;
 		} & Resources;
 		assignResources: {
-			selectedTaskId: string,
+			selectedTaskId: string;
 		} & Resources;
 		releaseResources: {
-			selectedTaskId: string,
+			selectedTaskId: string;
 		} & Resources;
-		requestedResources: Partial<Record<"ACS-MCS" | "Ambulance" | "SMUR" | "PMA" | "PICA" | "PCS" | "Helicopter", number>>;
-	}
+		requestedResources: Partial<
+			Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
+		>;
+	};
 }
 
 interface CasuMessage {
-	messageType: string,
-	major: string,
-	exact: string,
-	incidentType: string,
-	hazards: string,
-	access: string, 
-	victims: string,
+	messageType: string;
+	major: string;
+	exact: string;
+	incidentType: string;
+	hazards: string;
+	access: string;
+	victims: string;
 }
 
 interface Resources {
@@ -56,13 +58,13 @@ export function getInitialInterfaceState(): InterfaceState {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
 		casuMessage: {
-			messageType: "",
-			major: "",
-			exact: "",
-			incidentType: "",
-			hazards: "",
-			access: "",
-			victims: "",
+			messageType: '',
+			major: '',
+			exact: '',
+			incidentType: '',
+			hazards: '',
+			access: '',
+			victims: '',
 		},
 		resources: {
 			sendResources: {
@@ -105,11 +107,10 @@ export function getInitialInterfaceState(): InterfaceState {
 		updatedChannelMessagesAt: 0,
 		channelText: {
 			actors: '',
-			evasam: ''
+			evasam: '',
 		},
 		isReleaseResourceOpen: false,
 	};
-
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
@@ -121,8 +122,8 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 }
 
 /**
-* Helper function, change only key-values give in update object
-*/
+ * Helper function, change only key-values give in update object
+ */
 export function setInterfaceState(update: object): void {
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 

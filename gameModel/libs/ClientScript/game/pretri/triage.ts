@@ -32,7 +32,12 @@ export interface Categorization {
 }
 
 type TriageFunction<T extends string> =
-	| ((data: PreTriageData, console: ConsoleLog[], applyPretriageActions: boolean, simTime: number) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
+	| ((
+			data: PreTriageData,
+			console: ConsoleLog[],
+			applyPretriageActions: boolean,
+			simTime: number,
+	  ) => Omit<PreTriageResult<T>, 'severity' | 'vitals'>)
 	| undefined;
 
 const SECONDARY_TRIAGE = 'sec_triage';
@@ -105,12 +110,11 @@ const redTag = '#B73D3C';
 const orangeTag = '#FFBD60';
 const blueTag = '#4CA9FF';
 
-
 const sapSystem: TagSystem<SAP_CATEGORY> = {
 	categories: [
 		{
 			id: NON_URGENT,
-			bgColor: orangeTag, 
+			bgColor: orangeTag,
 			name: 'SAP',
 			color: 'white',
 			shouldBeHandledBy: 'ES',
@@ -490,11 +494,13 @@ export function getTagSystemCategories(): TagSystem<string> {
 
 export function getCategoryIdsByPriorityOrder(): string[] {
 	const tagSystem = getTagSystemCategories();
-	return tagSystem.categories.sort((a, b) => a.priority < b.priority ? 1 : a.priority > b.priority ? -1 : 0).map(category => category.id);
+	return tagSystem.categories
+		.sort((a, b) => (a.priority < b.priority ? 1 : a.priority > b.priority ? -1 : 0))
+		.map(category => category.id);
 }
 
 export function getPriorityByCategoryId(categoryId: string): number {
-	return getTagSystemCategories().categories.find(category => category.id === categoryId)!.priority
+	return getTagSystemCategories().categories.find(category => category.id === categoryId)!.priority;
 }
 
 type PreTriageAction = string;
@@ -801,7 +807,12 @@ const doCareFlightPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console)
 	}
 };
 
-const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (data, console, applyPretriageActions: boolean = false, simTime: number = 0) => {
+const doSieveNaruPreTriage: TriageFunction<STANDARD_CATEGORY> = (
+	data,
+	console,
+	applyPretriageActions: boolean = false,
+	simTime: number = 0,
+) => {
 	const { actions } = data;
 
 	if (detectMassiveHemorrhage(data)) {
@@ -1238,7 +1249,6 @@ const doSwissPreTriage: TriageFunction<SAP2020_CATEGORY> = (data, console) => {
 };
 
 export function doAutomaticTriage(): PreTriageResult<string> | undefined {
-
 	const human = getCurrentPatientBody();
 	const health = getCurrentPatientHealth();
 
@@ -1266,7 +1276,11 @@ export function doAutomaticTriage(): PreTriageResult<string> | undefined {
 	return doAutomaticTriage_internal(data);
 }
 
-export function doAutomaticTriage_internal(data: PreTriageData, applyPretriageActions: boolean = false, simTime: number = 0): PreTriageResult<string> | undefined {
+export function doAutomaticTriage_internal(
+	data: PreTriageData,
+	applyPretriageActions: boolean = false,
+	simTime: number = 0,
+): PreTriageResult<string> | undefined {
 	const tagSystem = getTagSystem();
 
 	let triageFunction: TriageFunction<string> = undefined;
@@ -1397,7 +1411,6 @@ export function doAutomaticTriageAndLogToConsole() {
  * Html formated pre-triage category
  */
 export function categoryToHtml(categoryId: string | undefined): string {
-
 	if (!categoryId) {
 		return `<div class='tagCategory notCategorized'></div>`;
 	}
@@ -1465,8 +1478,10 @@ export function resultToHtmlObject(result: PreTriageResult<string>) {
 
 	if (result.explanations.length > 0) {
 		explanationsOutput.push('<ul>');
-		explanationsOutput.push(...result.explanations
-			.map(exp => `<li>${getTranslation('pretriage-explanations', exp)}</li>`)
+		explanationsOutput.push(
+			...result.explanations.map(
+				exp => `<li>${getTranslation('pretriage-explanations', exp)}</li>`,
+			),
 			//.map(exp => `<li>${explanations[exp]}</li>`)
 		);
 		explanationsOutput.push('</ul>');

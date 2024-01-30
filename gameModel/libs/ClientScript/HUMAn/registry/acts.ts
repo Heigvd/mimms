@@ -1,6 +1,6 @@
-import { ActDefinition, ItemDefinition } from "../../HUMAn/pathology";
-import { registryLogger } from "../../tools/logger";
-import { BodyStateKeys } from "../human";
+import { ActDefinition, ItemDefinition } from '../../HUMAn/pathology';
+import { registryLogger } from '../../tools/logger';
+import { BodyStateKeys } from '../human';
 
 let initialized = false;
 
@@ -15,25 +15,25 @@ export const PRETRI_ACTION_ITEM_ID_CAT = 'cat';
 export const PRETRI_ACTION_ITEM_ID_BANDAGE = 'bandage';
 
 function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): void {
-	if(actionDurations[def.id]){
+	if (actionDurations[def.id]) {
 		// there can be multiple actions related to an item
 		// for the following lines assume a single action and sets its duration
 		Object.values(def.actions).forEach(elmt => {
-			if(elmt && elmt.duration){
+			if (elmt && elmt.duration) {
 				elmt.duration = JSON.parse(actionDurations[def.id]);
 			}
-		})
-	}else{
-		registryLogger.info('using default duration for',def.id);
+		});
+	} else {
+		registryLogger.info('using default duration for', def.id);
 	}
 	items[def.id] = { ...def, type: 'item', translationGroup: 'human-items' };
 }
 
 function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
-	if(actionDurations[def.id]){
+	if (actionDurations[def.id]) {
 		def.action.duration = JSON.parse(actionDurations[def.id]);
-	}else{
-		registryLogger.info('using default duration for',def.id);
+	} else {
+		registryLogger.info('using default duration for', def.id);
 	}
 	acts[def.id] = { ...def, type: 'act', translationGroup: 'human-actions' };
 }
@@ -45,9 +45,11 @@ export type MeasureMetric = {
 	value: unknown;
 };
 
-export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSet: Record<string, ActDefinition>){
-	
-	if(initialized){
+export function initItemAndActs(
+	itemsSet: Record<string, ItemDefinition>,
+	actsSet: Record<string, ActDefinition>,
+) {
+	if (initialized) {
 		return;
 	}
 
@@ -401,7 +403,7 @@ export function initItemAndActs(itemsSet: Record<string, ItemDefinition>, actsSe
 		},
 	});
 
-registerItem({
+	registerItem({
 		id: 'oxymeter',
 		//name: 'Pulse Oxymeter',
 		priority: 100,
@@ -416,7 +418,6 @@ registerItem({
 			},
 		},
 	});
-
 
 	// Circulation
 	////////////////////////////////////////
@@ -538,7 +539,6 @@ registerItem({
 			},
 		},
 	});
-
 
 	registerItem({
 		id: 'TranexamicAcid_1000',
@@ -771,7 +771,7 @@ registerItem({
 	////////////////////////////////////////
 	registerAct({
 		id: 'canYouWalk',
-		priority:0,
+		priority: 0,
 		//name: 'Can you walk?',
 		action: {
 			type: 'ActionBodyMeasure',
@@ -848,7 +848,6 @@ registerItem({
 			duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
 		},
 	});
-
 
 	registerAct({
 		id: 'supineDecubitus',

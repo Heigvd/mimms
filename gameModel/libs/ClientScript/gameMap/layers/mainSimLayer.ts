@@ -1,18 +1,18 @@
-import { MapFeature } from "../../game/common/events/defineMapObjectEvent";
-import { FeatureCollection } from "../../gameMap/types/featureTypes";
-import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
-import { getCurrentState } from "../../UIfacade/debugFacade";
-import { getSimTime } from "../../UIfacade/timeFacade";
+import { MapFeature } from '../../game/common/events/defineMapObjectEvent';
+import { FeatureCollection } from '../../gameMap/types/featureTypes';
+import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
+import { getCurrentState } from '../../UIfacade/debugFacade';
+import { getSimTime } from '../../UIfacade/timeFacade';
 
 /************
-*
-*  Helpers & Tools
-*
-************/
+ *
+ *  Helpers & Tools
+ *
+ ************/
 
 /**
  * Filter for available layer generation
- * 
+ *
  * @params MapFeature features
  */
 function filterAvailable(feature: MapFeature) {
@@ -25,7 +25,7 @@ function filterAvailable(feature: MapFeature) {
 
 /**
  * Filter for unavailable layer generation
- * 
+ *
  * @params MapFeature features
  */
 function filterUnavailable(feature: MapFeature) {
@@ -38,12 +38,15 @@ function filterUnavailable(feature: MapFeature) {
 
 /**
  * Returns a the end point and rotation for a given line segment
- * 
+ *
  * @param segment PointLikeObject of segment
- * 
+ *
  * @returns End point and rotation of segment
- */ 
-export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLikeObject, rotation: number} {
+ */
+export function getLineEndAndRotation(segment: PointLikeObject[]): {
+	end: PointLikeObject;
+	rotation: number;
+} {
 	const start = segment[0];
 	const end = segment[1];
 
@@ -51,15 +54,15 @@ export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLi
 	const dy = end[1] - start[1];
 	const rotation = Math.atan2(dy, dx);
 
-	return {end, rotation};
+	return { end, rotation };
 }
 
 /**
  * Creates a layer with the given features and name
- * 
+ *
  * @params features MapFeature[]
  * @params name string
- * 
+ *
  * @returns FeatureCollection
  */
 function getLayer(features: MapFeature[], name: string): FeatureCollection {
@@ -67,7 +70,6 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 	layer.name = name;
 
 	if (features.length > 0) {
-
 		features.forEach((f, i) => {
 			// If the feature is a building selection (geometryType: Select) we skip it
 			if (f.geometryType === 'Select') return;
@@ -76,7 +78,7 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 			// TODO Better validation or templates ?
 			if (f.geometryType === 'MultiLineString') {
 				f.geometry.forEach((segment: PointLikeObject[], j) => {
-					const {end, rotation} = getLineEndAndRotation(segment);
+					const { end, rotation } = getLineEndAndRotation(segment);
 
 					const feature: any = {
 						type: 'Feature',
@@ -92,11 +94,11 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 							startTimeSec: f.startTimeSec,
 							durationTimeSec: f.durationTimeSec,
 							accessType: j === 0 ? 'Access' : 'Regress',
-						}
+						},
 					};
 
-					layer.features.push(feature)
-				})
+					layer.features.push(feature);
+				});
 			}
 
 			// Add the feature
@@ -114,31 +116,30 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
 					startTimeSec: f.startTimeSec,
 					durationTimeSec: f.durationTimeSec,
 				},
-			}
+			};
 			layer.features.push(feature);
-
-		})
+		});
 	}
 
 	return layer;
 }
 
 /******************************
-*
-*  MainSim Layers Generation
-*
-******************************/
+ *
+ *  MainSim Layers Generation
+ *
+ ******************************/
 
 /**
  * Creates layer with all available features (completed actions)
- * 
+ *
  * @returns FeatureCollection Layer of available features
  */
 export function getAvailableLayer() {
 	const features = getCurrentState().getMapLocations();
 	const unavailable = features.filter(filterAvailable);
 
-	return getLayer(unavailable, 'AvailableLayer')
+	return getLayer(unavailable, 'AvailableLayer');
 }
 
 /**
@@ -148,7 +149,7 @@ export function getUnavailableLayer() {
 	const features = getCurrentState().getMapLocations();
 	const unavailable = features.filter(filterUnavailable);
 
-	return getLayer(unavailable, 'UnavailableLayer')
+	return getLayer(unavailable, 'UnavailableLayer');
 }
 
 /**
@@ -168,17 +169,8 @@ export function getSelectionLayer() {
 				name: String(i),
 				icon: selection.icon ?? undefined,
 			});
-		})
-
-	};
+		});
+	}
 
 	return getLayer(selectionFeatures, 'SelectionLayer');
 }
-
-
-
-
-
-
-
-
