@@ -1,34 +1,36 @@
-import { group } from "../../../tools/groupBy";
-import { ActionBase } from "../actions/actionBase";
-import { Actor, InterventionRole } from "../actors/actor";
-import { ActorId, SimDuration, SimTime } from "../baseTypes";
-import { MapFeature } from "../events/defineMapObjectEvent";
-import { IClonable } from "../interfaces";
-import { LocalEventBase } from "../localEvents/localEventBase";
-import { RadioMessage } from "../radioMessage";
-import { getAllContainerDefs } from "../resources/emergencyDepartment";
-import { Resource } from "../resources/resource";
-import { ResourceContainerConfig, ResourceContainerType, SimFlag } from "../resources/resourceContainer";
-import { ResourceGroup } from "../resources/resourceGroup";
-import { TaskBase } from "../tasks/taskBase";
-import { PatientState } from "./patientState";
-
+import { group } from '../../../tools/groupBy';
+import { ActionBase } from '../actions/actionBase';
+import { Actor, InterventionRole } from '../actors/actor';
+import { ActorId, SimDuration, SimTime } from '../baseTypes';
+import { MapFeature } from '../events/defineMapObjectEvent';
+import { IClonable } from '../interfaces';
+import { LocalEventBase } from '../localEvents/localEventBase';
+import { RadioMessage } from '../radioMessage';
+import { getAllContainerDefs } from '../resources/emergencyDepartment';
+import { Resource } from '../resources/resource';
+import {
+  ResourceContainerConfig,
+  ResourceContainerType,
+  SimFlag,
+} from '../resources/resourceContainer';
+import { ResourceGroup } from '../resources/resourceGroup';
+import { TaskBase } from '../tasks/taskBase';
+import { PatientState } from './patientState';
 
 export class MainSimulationState implements IClonable {
-
   private static stateCounter = 0;
 
   private readonly internalState: MainStateObject;
   /**
    * Simulated time in seconds
    */
-  private simulationTimeSec : number;
+  private simulationTimeSec: number;
 
   public readonly stateCount;
 
   public readonly baseEventId;
 
-  public constructor(state : MainStateObject, simTime: number, baseEventId: number){
+  public constructor(state: MainStateObject, simTime: number, baseEventId: number) {
     this.internalState = state;
     this.simulationTimeSec = simTime;
     this.baseEventId = baseEventId;
@@ -36,7 +38,11 @@ export class MainSimulationState implements IClonable {
   }
 
   clone(): this {
-    return new MainSimulationState(Helpers.cloneDeep(this.internalState), this.simulationTimeSec, this.baseEventId) as this;
+    return new MainSimulationState(
+      Helpers.cloneDeep(this.internalState),
+      this.simulationTimeSec,
+      this.baseEventId,
+    ) as this;
   }
 
   /**
@@ -46,12 +52,11 @@ export class MainSimulationState implements IClonable {
    * @returns a new state
    */
   public applyEvents(events: LocalEventBase[]): MainSimulationState {
-    
     const newState = this.clone();
 
-    events.forEach(ev => { 
+    events.forEach(ev => {
       ev.applyStateUpdate(newState);
-    })
+    });
 
     // TODO is that too much ?
     // Object.freeze(newState.internalState);
@@ -72,9 +77,9 @@ export class MainSimulationState implements IClonable {
    * @returns a deep readonly main state object
    */
   public getImmutableStateObject(): Immutable<MainStateObject> {
-    const imm : Immutable<MainStateObject>= {
-      ...this.internalState
-    }
+    const imm: Immutable<MainStateObject> = {
+      ...this.internalState,
+    };
     // const so = this.internalState;
     // so.actions[0]!.test.a = 2
     // so.actions.push()
@@ -88,41 +93,43 @@ export class MainSimulationState implements IClonable {
   /**
    * Get map of containers
    */
-  public getResourceContainersByType() : Record<ResourceContainerType, ResourceContainerConfig[]>{
-	const defs = getAllContainerDefs();
-	return group(this.internalState.resourceContainers, (c =>  defs[c.templateId].type));
+  public getResourceContainersByType(): Record<ResourceContainerType, ResourceContainerConfig[]> {
+    const defs = getAllContainerDefs();
+    return group(this.internalState.resourceContainers, c => defs[c.templateId].type);
   }
 
   /**
    * Only use when applying events
    * @param jump jump in seconds
    */
-  public incrementSimulationTime(jump :SimDuration): void {
+  public incrementSimulationTime(jump: SimDuration): void {
     this.simulationTimeSec += jump;
   }
 
   /************ IMMUTABLE GETTERS ***************/
-  public getSimTime(): SimTime {return this.simulationTimeSec;}
+  public getSimTime(): SimTime {
+    return this.simulationTimeSec;
+  }
 
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
-	// don't do ===, typescript seems to play tricks between string and number with records
+    // don't do ===, typescript seems to play tricks between string and number with records
     return this.internalState.actors.find(a => a.Uid == actorId);
   }
 
-  public hasFlag(simFlag : SimFlag): boolean {
-	return this.internalState.flags[simFlag] || false; 
+  public hasFlag(simFlag: SimFlag): boolean {
+    return this.internalState.flags[simFlag] || false;
   }
 
   public getAllActors(): Readonly<Actor[]> {
     return this.internalState.actors;
   }
 
-  public getAllActions(): Readonly<ActionBase[]>{
+  public getAllActions(): Readonly<ActionBase[]> {
     return this.internalState.actions;
   }
 
   public getAllCancelledActions(): Readonly<ActionBase[]> {
-	  return this.internalState.cancelledActions;
+    return this.internalState.cancelledActions;
   }
 
   /**
@@ -132,22 +139,22 @@ export class MainSimulationState implements IClonable {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
 
-  public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined{
-	  return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
+  public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined {
+    return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
   }
 
   /**
    * If multiple matches, returns the first match
    */
-  public getResourceGroupByRole(role: InterventionRole): ResourceGroup | undefined{
-	  return this.internalState.resourceGroups.find(g => g.hasRole(this, role));
+  public getResourceGroupByRole(role: InterventionRole): ResourceGroup | undefined {
+    return this.internalState.resourceGroups.find(g => g.hasRole(this, role));
   }
 
   /**
    * @returns An array of all map locations
    */
   public getMapLocations(): MapFeature[] {
-	  return this.internalState.mapLocations;
+    return this.internalState.mapLocations;
   }
 
   /**
@@ -155,15 +162,20 @@ export class MainSimulationState implements IClonable {
    */
   public areZonesAlreadyDefined(): boolean {
     // TODO make it stronger when zones, PMA, PC, ... are more thant just places
-    return this.internalState.mapLocations.filter(loc => loc.name === 'Triage Zone'
-      && (((loc.startTimeSec || 0) + (loc.durationTimeSec || 0)) <= this.simulationTimeSec)).length > 0;
+    return (
+      this.internalState.mapLocations.filter(
+        loc =>
+          loc.name === 'Triage Zone' &&
+          (loc.startTimeSec || 0) + (loc.durationTimeSec || 0) <= this.simulationTimeSec,
+      ).length > 0
+    );
   }
 
   /**
    * @returns An array of all radio messages
    */
   public getRadioMessages(): RadioMessage[] {
-	  return this.internalState.radioMessages;
+    return this.internalState.radioMessages;
   }
 }
 
@@ -176,7 +188,7 @@ interface MainStateObject {
   tasks: TaskBase[];
   mapLocations: MapFeature[];
   patients: PatientState[];
-  actors : Actor[];
+  actors: Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];
   resourceGroups: ResourceGroup[];
@@ -189,5 +201,5 @@ interface MainStateObject {
 
 // experimental to make an object immutable
 type Immutable<T> = {
-  readonly [K in keyof T ]: Immutable<T[K]>
-}
+  readonly [K in keyof T]: Immutable<T[K]>;
+};

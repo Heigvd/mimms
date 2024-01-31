@@ -1,8 +1,8 @@
-import { mainSimStateLogger, taskLogger } from "../../../tools/logger";
-import { ActorId, TaskId } from "../baseTypes";
-import { TaskBase, TaskStatus } from "../tasks/taskBase";
-import { MainSimulationState } from "./mainSimulationState";
-import * as ResourceState from "./resourceStateAccess";
+import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { ActorId, TaskId } from '../baseTypes';
+import { TaskBase, TaskStatus } from '../tasks/taskBase';
+import { MainSimulationState } from './mainSimulationState';
+import * as ResourceState from './resourceStateAccess';
 import { ResourceType } from '../resources/resourceType';
 
 // -------------------------------------------------------------------------------------------------
@@ -24,7 +24,10 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
  * @returns The tasks that can be handled by the actor regarding the current state.
  * (= the tasks to which the actor can allocate resources)
  */
-export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+export function fetchAvailableTasks(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
     return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
@@ -34,10 +37,15 @@ export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorI
   }
 }
 
-export function fetchTasksWithResources(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+export function fetchTasksWithResources(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+): Readonly<TaskBase>[] {
   const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
   const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-  return Object.values(getAllTasks(state)).filter(ta => tasksIdWhereResources.find(taskId => taskId == ta.Uid));
+  return Object.values(getAllTasks(state)).filter(ta =>
+    tasksIdWhereResources.find(taskId => taskId == ta.Uid),
+  );
 }
 
 /**
@@ -53,7 +61,11 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
 /**
  * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
  */
-export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
+export function getNbResourcesStillUsefulForTask(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId,
+  type: ResourceType,
+): number {
   const task = internallyGetTask(state, taskId);
 
   // TODO pro type
@@ -66,7 +78,9 @@ export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationS
  */
 export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
   // TODO for each type
-  return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources();
+  return (
+    ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources()
+  );
 }
 
 /**
@@ -78,11 +92,11 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
   const matchingTasks = internalState.tasks.filter(ta => ta.Uid === taskId);
 
   if (matchingTasks.length === 0 || matchingTasks[0] == null) {
-    mainSimStateLogger.error("No task matches id : " + taskId);
+    mainSimStateLogger.error('No task matches id : ' + taskId);
   }
 
   if (matchingTasks.length > 1) {
-    mainSimStateLogger.error("Error in data : there must not be 2 tasks with same id : " + taskId);
+    mainSimStateLogger.error('Error in data : there must not be 2 tasks with same id : ' + taskId);
   }
 
   return matchingTasks[0]!;
@@ -97,7 +111,11 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
 /**
  * Change the status of a task
  */
-export function changeTaskStatus(state: MainSimulationState, taskId: TaskId, status: TaskStatus): void {
+export function changeTaskStatus(
+  state: MainSimulationState,
+  taskId: TaskId,
+  status: TaskStatus,
+): void {
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);

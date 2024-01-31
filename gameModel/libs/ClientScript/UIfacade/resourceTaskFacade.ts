@@ -7,9 +7,9 @@
 import { ActorId, TaskId } from '../game/common/baseTypes';
 import { TaskBase } from '../game/common/tasks/taskBase';
 import {
-	buildAndLaunchResourceAllocation,
-	buildAndLaunchResourceRelease,
-	getCurrentState,
+  buildAndLaunchResourceAllocation,
+  buildAndLaunchResourceRelease,
+  getCurrentState,
 } from '../game/mainSimulationLogic';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
@@ -26,11 +26,11 @@ import { ResourceFunction, ResourceFunctionArray } from '../game/common/resource
  * @returns All the human resources types
  */
 export function getHumanResourceTypes(): ResourceType[] {
-	return HumanResourceTypeArray;
+  return HumanResourceTypeArray;
 }
 
 export function getResourceFunction(): ResourceFunction[] {
-	return ResourceFunctionArray;
+  return ResourceFunctionArray;
 }
 
 /**
@@ -41,8 +41,11 @@ export function getResourceFunction(): ResourceFunction[] {
  *
  * @returns The number of matching resources
  */
-export function countUnoccupiedResources(ownerActorId: ActorId, resourceType: ResourceType): number {
-	return ResourceState.getUnoccupiedResources(getCurrentState(), ownerActorId, resourceType).length;
+export function countUnoccupiedResources(
+  ownerActorId: ActorId,
+  resourceType: ResourceType,
+): number {
+  return ResourceState.getUnoccupiedResources(getCurrentState(), ownerActorId, resourceType).length;
 }
 
 /**
@@ -53,11 +56,11 @@ export function countUnoccupiedResources(ownerActorId: ActorId, resourceType: Re
  * @returns array of matching tasks
  */
 export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
+  return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
 }
 
 export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchTasksWithResources(getCurrentState(), actorId);
+  return TaskState.fetchTasksWithResources(getCurrentState(), actorId);
 }
 
 /**
@@ -80,7 +83,7 @@ export function countAvailableResources(actorId: ActorId, resourceType: Resource
  * @returns the number of matching resources
  */
 export function countAllocatedResources(taskId: TaskId, resourceType: ResourceType): number {
-	return ResourceState.getAllocatedResources(getCurrentState(), taskId, resourceType).length;
+  return ResourceState.getAllocatedResources(getCurrentState(), taskId, resourceType).length;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -99,8 +102,13 @@ export function countAllocatedResources(taskId: TaskId, resourceType: ResourceTy
  *
  * @returns The promise of a response from the server
  */
-export async function allocateResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchResourceAllocation(taskId, actorId, resourceType, nbResources);
+export async function allocateResource(
+  taskId: TaskId,
+  actorId: ActorId,
+  resourceType: ResourceType,
+  nbResources: number,
+): Promise<IManagedResponse | undefined> {
+  return await buildAndLaunchResourceAllocation(taskId, actorId, resourceType, nbResources);
 }
 
 /**
@@ -113,6 +121,11 @@ export async function allocateResource(taskId: TaskId, actorId: ActorId, resourc
  *
  * @returns The promise of a response from the server
  */
-export async function releaseResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchResourceRelease(taskId, actorId, resourceType, nbResources);
+export async function releaseResource(
+  taskId: TaskId,
+  actorId: ActorId,
+  resourceType: ResourceType,
+  nbResources: number,
+): Promise<IManagedResponse | undefined> {
+  return await buildAndLaunchResourceRelease(taskId, actorId, resourceType, nbResources);
 }

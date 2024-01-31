@@ -5,9 +5,9 @@ import { BagDefinition } from '../game/legacy/the_world';
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
 import { compare } from '../tools/helper';
 import {
-	getActTranslation,
-	getItemActionTranslation,
-	getItemTranslation,
+  getActTranslation,
+  getItemActionTranslation,
+  getItemTranslation,
 } from '../tools/translation';
 
 //const observableVitals = [
@@ -20,14 +20,14 @@ import {
 //];
 
 function extractAllKeys(obj: object, currentKey: string, list: string[]) {
-	Object.entries(obj).forEach(([k, v]) => {
-		const key = `${currentKey ? `${currentKey}.` : ''}${k}`;
-		if (v instanceof Object) {
-			extractAllKeys(v, key, list);
-		} else {
-			list.push(key);
-		}
-	});
+  Object.entries(obj).forEach(([k, v]) => {
+    const key = `${currentKey ? `${currentKey}.` : ''}${k}`;
+    if (v instanceof Object) {
+      extractAllKeys(v, key, list);
+    } else {
+      list.push(key);
+    }
+  });
 }
 
 /**
@@ -39,17 +39,17 @@ function extractAllKeys(obj: object, currentKey: string, list: string[]) {
  */
 // ts-unused-exports:disable-next-line
 export function extractVitalKeys() {
-	// Instantiate a body
-	const env = getEnv();
-	const meta = defaultMeta;
-	const initialBody = createHumanBody(meta!, env);
+  // Instantiate a body
+  const env = getEnv();
+  const meta = defaultMeta;
+  const initialBody = createHumanBody(meta!, env);
 
-	const vitals = initialBody.state.vitals;
+  const vitals = initialBody.state.vitals;
 
-	const list: string[] = [];
-	extractAllKeys(vitals, '', list);
+  const list: string[] = [];
+  extractAllKeys(vitals, '', list);
 
-	return list.map(key => ({ label: key, key }));
+  return list.map(key => ({ label: key, key }));
 }
 
 /**
@@ -61,38 +61,38 @@ export function extractVitalKeys() {
  */
 // ts-unused-exports:disable-next-line
 export function extractBlockChoices() {
-	// Instantiate a body
-	const env = getEnv();
-	const meta = defaultMeta;
-	const initialBody = createHumanBody(meta, env);
+  // Instantiate a body
+  const env = getEnv();
+  const meta = defaultMeta;
+  const initialBody = createHumanBody(meta, env);
 
-	const choices: { label: string; value: string }[] = [];
-	initialBody.state.blocks.forEach(b => {
-		choices.push({
-			label: b.name,
-			value: b.name,
-		});
-	});
-	return choices;
+  const choices: { label: string; value: string }[] = [];
+  initialBody.state.blocks.forEach(b => {
+    choices.push({
+      label: b.name,
+      value: b.name,
+    });
+  });
+  return choices;
 }
 
 export function getBlocksSelector() {
-	const blockChoices = extractBlockChoices();
-	return {
-		type: 'array',
-		required: true,
-		view: {
-			label: 'Block(s)',
-			layout: 'longInline',
-		},
-		items: {
-			type: 'string',
-			view: {
-				type: 'select',
-				choices: blockChoices,
-			},
-		},
-	};
+  const blockChoices = extractBlockChoices();
+  return {
+    type: 'array',
+    required: true,
+    view: {
+      label: 'Block(s)',
+      layout: 'longInline',
+    },
+    items: {
+      type: 'string',
+      view: {
+        type: 'select',
+        choices: blockChoices,
+      },
+    },
+  };
 }
 
 /**
@@ -111,84 +111,84 @@ const BagOnChangeRefName = 'bagDefOnChange';
 const onChangeRef = Helpers.useRef<BagOnChangeFn>(BagOnChangeRefName, () => {});
 
 onChangeRef.current = (x, y, newData) => {
-	const bagId = x.id;
-	const itemId = y.id;
+  const bagId = x.id;
+  const itemId = y.id;
 
-	const def = getBagDefinition(bagId) || { name: '', items: {} };
+  const def = getBagDefinition(bagId) || { name: '', items: {} };
 
-	if (newData != null) {
-		def.items[itemId] = newData;
-	} else {
-		delete def.items[itemId];
-	}
+  if (newData != null) {
+    def.items[itemId] = newData;
+  } else {
+    delete def.items[itemId];
+  }
 
-	const script = `Variable.find(gameModel, "bagsDefinitions").setProperty('${bagId}', ${JSON.stringify(
-		JSON.stringify(def),
-	)})`;
+  const script = `Variable.find(gameModel, "bagsDefinitions").setProperty('${bagId}', ${JSON.stringify(
+    JSON.stringify(def),
+  )})`;
 
-	APIMethods.runScript(script, {});
+  APIMethods.runScript(script, {});
 };
 
 function getBagsDefinitions() {
-	return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
+  return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
 }
 
 export function getBagsDefinitionsAsChoices() {
-	const bags = getBagsDefinitions();
-	return Object.entries(bags).map(([bagId, bagDef]) => ({
-		label: bagDef.name,
-		value: bagId,
-	}));
+  const bags = getBagsDefinitions();
+  return Object.entries(bags).map(([bagId, bagDef]) => ({
+    label: bagDef.name,
+    value: bagId,
+  }));
 }
 
 export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> {
-	const items = getItems()
-		.map(item => ({
-			label: getItemTranslation(item.item),
-			id: item.id,
-		}))
-		.sort((a, b) => {
-			return a.label.localeCompare(b.label);
-		});
-	const bags = getBagsDefinitions();
+  const items = getItems()
+    .map(item => ({
+      label: getItemTranslation(item.item),
+      id: item.id,
+    }))
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label);
+    });
+  const bags = getBagsDefinitions();
 
-	const matrix: Record<ItemId, Record<BagId, BagMatrixCell>> = {};
+  const matrix: Record<ItemId, Record<BagId, BagMatrixCell>> = {};
 
-	Object.entries(bags).forEach(([bagId, bagDef]) => {
-		matrix[bagId] = {};
-		Object.entries(bagDef.items).forEach(([itemId, data]) => {
-			matrix[bagId]![itemId] = data;
-		});
-	});
+  Object.entries(bags).forEach(([bagId, bagDef]) => {
+    matrix[bagId] = {};
+    Object.entries(bagDef.items).forEach(([itemId, data]) => {
+      matrix[bagId]![itemId] = data;
+    });
+  });
 
-	return {
-		y: items,
-		x: Object.entries(bags)
-			.sort(([, a], [, b]) => compare(a.name, b.name))
-			.map(([bagId, bag]) => ({
-				id: bagId,
-				label: bag?.name || 'no name',
-			})),
-		data: matrix,
-		cellDef: [
-			{
-				type: 'enum',
-				label: 'none',
-				values: [undefined],
-			},
-			{
-				type: 'number',
-				label: 'limited',
-				min: 1,
-			},
-			{
-				type: 'enum',
-				label: 'unlimited',
-				values: ['infinity'],
-			},
-		],
-		onChangeRefName: BagOnChangeRefName,
-	};
+  return {
+    y: items,
+    x: Object.entries(bags)
+      .sort(([, a], [, b]) => compare(a.name, b.name))
+      .map(([bagId, bag]) => ({
+        id: bagId,
+        label: bag?.name || 'no name',
+      })),
+    data: matrix,
+    cellDef: [
+      {
+        type: 'enum',
+        label: 'none',
+        values: [undefined],
+      },
+      {
+        type: 'number',
+        label: 'limited',
+        min: 1,
+      },
+      {
+        type: 'enum',
+        label: 'unlimited',
+        values: ['infinity'],
+      },
+    ],
+    onChangeRefName: BagOnChangeRefName,
+  };
 }
 
 /**
@@ -201,109 +201,109 @@ type PathologyId = string;
 type SituationMatrixCell = undefined | boolean;
 
 type SituationOnChangeFn = (
-	x: DataDef<SituationId>,
-	y: DataDef<PathologyId>,
-	value: SituationMatrixCell,
+  x: DataDef<SituationId>,
+  y: DataDef<PathologyId>,
+  value: SituationMatrixCell,
 ) => void;
 
 const SituationOnChangeRefName = 'situDefOnChange';
 
 const onSituationChangeRef = Helpers.useRef<SituationOnChangeFn>(
-	SituationOnChangeRefName,
-	() => {},
+  SituationOnChangeRefName,
+  () => {},
 );
 
 interface SituationDefinition {
-	name?: string;
-	pathologies?: Record<PathologyId, boolean>;
+  name?: string;
+  pathologies?: Record<PathologyId, boolean>;
 }
 
 export function getSituationDefinition(situId: string) {
-	const sdef = Variable.find(gameModel, 'situationsDefinitions').getProperties()[situId];
-	return parse<SituationDefinition>(sdef || '');
+  const sdef = Variable.find(gameModel, 'situationsDefinitions').getProperties()[situId];
+  return parse<SituationDefinition>(sdef || '');
 }
 
 onSituationChangeRef.current = (x, y, newData) => {
-	const situationId = x.id;
-	const pathologyId = y.id;
+  const situationId = x.id;
+  const pathologyId = y.id;
 
-	const def = getSituationDefinition(situationId) || { name: '', pathologies: {} };
+  const def = getSituationDefinition(situationId) || { name: '', pathologies: {} };
 
-	if (newData) {
-		if (def.pathologies == null) {
-			def.pathologies = {};
-		}
-		def.pathologies[pathologyId] = true;
-	} else {
-		if (def.pathologies) {
-			delete def.pathologies[pathologyId];
-		}
-	}
+  if (newData) {
+    if (def.pathologies == null) {
+      def.pathologies = {};
+    }
+    def.pathologies[pathologyId] = true;
+  } else {
+    if (def.pathologies) {
+      delete def.pathologies[pathologyId];
+    }
+  }
 
-	const script = `Variable.find(gameModel, "situationsDefinitions").setProperty('${situationId}',
+  const script = `Variable.find(gameModel, "situationsDefinitions").setProperty('${situationId}',
 		 ${JSON.stringify(JSON.stringify(def))});`;
 
-	APIMethods.runScript(script, {});
+  APIMethods.runScript(script, {});
 };
 
 function getSituationsDefinitions() {
-	return parseObjectDescriptor<SituationDefinition>(
-		Variable.find(gameModel, 'situationsDefinitions'),
-	);
+  return parseObjectDescriptor<SituationDefinition>(
+    Variable.find(gameModel, 'situationsDefinitions'),
+  );
 }
 
 export function getSituationsDefinitionsAsChoices() {
-	const situations = getSituationsDefinitions();
-	const choices = Object.entries(situations).map(([situId, situDef]) => ({
-		label: situDef.name,
-		value: situId,
-	}));
-	choices.unshift({
-		label: 'all',
-		value: '',
-	});
-	return choices;
+  const situations = getSituationsDefinitions();
+  const choices = Object.entries(situations).map(([situId, situDef]) => ({
+    label: situDef.name,
+    value: situId,
+  }));
+  choices.unshift({
+    label: 'all',
+    value: '',
+  });
+  return choices;
 }
 
 export function getSituationsDefsMatrix(): MatrixConfig<
-	SituationId,
-	PathologyId,
-	SituationMatrixCell
+  SituationId,
+  PathologyId,
+  SituationMatrixCell
 > {
-	const pathologies = getPathologies().sort((a, b) => {
-		return a.label.localeCompare(b.label);
-	});
-	const situations = getSituationsDefinitions();
+  const pathologies = getPathologies().sort((a, b) => {
+    return a.label.localeCompare(b.label);
+  });
+  const situations = getSituationsDefinitions();
 
-	const matrix: Record<SituationId, Record<PathologyId, SituationMatrixCell>> = {};
+  const matrix: Record<SituationId, Record<PathologyId, SituationMatrixCell>> = {};
 
-	Object.entries(situations).forEach(([situId, situDef]) => {
-		matrix[situId] = {};
-		Object.keys(situDef.pathologies || {}).forEach(pathoId => {
-			matrix[situId]![pathoId] = true;
-		});
-	});
+  Object.entries(situations).forEach(([situId, situDef]) => {
+    matrix[situId] = {};
+    Object.keys(situDef.pathologies || {}).forEach(pathoId => {
+      matrix[situId]![pathoId] = true;
+    });
+  });
 
-	return {
-		y: pathologies.map(item => ({
-			label: item.label,
-			id: item.value,
-		})),
-		x: Object.entries(situations)
-			.sort(([, a], [, b]) => compare(a.name, b.name))
-			.map(([situId, situ]) => ({
-				id: situId,
-				label: situ?.name || 'no name',
-			})),
-		data: matrix,
-		cellDef: [
-			{
-				type: 'boolean',
-				label: '',
-			},
-		],
-		onChangeRefName: SituationOnChangeRefName,
-	};
+  return {
+    y: pathologies.map(item => ({
+      label: item.label,
+      id: item.value,
+    })),
+    x: Object.entries(situations)
+      .sort(([, a], [, b]) => compare(a.name, b.name))
+      .map(([situId, situ]) => ({
+        id: situId,
+        label: situ?.name || 'no name',
+      })),
+    data: matrix,
+    cellDef: [
+      {
+        type: 'boolean',
+        label: '',
+      },
+    ],
+    onChangeRefName: SituationOnChangeRefName,
+  };
 }
 
 /**
@@ -327,132 +327,132 @@ const SkillOnChangeRefName = 'skillDefOnChange';
 const onSkillChangeRef = Helpers.useRef<SkillOnChangeFn>(SkillOnChangeRefName, () => {});
 
 export interface SkillDefinition {
-	name?: string;
-	actions?: Record<ActionId, SkillLevel>;
+  name?: string;
+  actions?: Record<ActionId, SkillLevel>;
 }
 
 const noSkill: SkillDefinition = {
-	name: 'unskilled',
-	actions: {},
+  name: 'unskilled',
+  actions: {},
 };
 
 export function getSkillDefinition(skillId?: string): SkillDefinition {
-	if (!skillId) {
-		return noSkill;
-	}
+  if (!skillId) {
+    return noSkill;
+  }
 
-	const sdef = Variable.find(gameModel, 'skillsDefinitions').getProperties()[skillId];
-	return parse<SkillDefinition>(sdef || '') || noSkill;
+  const sdef = Variable.find(gameModel, 'skillsDefinitions').getProperties()[skillId];
+  return parse<SkillDefinition>(sdef || '') || noSkill;
 }
 
 onSkillChangeRef.current = (x, y, newData) => {
-	const skillId = x.id;
-	const actionId = y.id;
+  const skillId = x.id;
+  const actionId = y.id;
 
-	const def = getSkillDefinition(skillId);
+  const def = getSkillDefinition(skillId);
 
-	if (newData) {
-		if (def.actions == null) {
-			def.actions = {};
-		}
-		def.actions[actionId] = newData;
-	} else {
-		if (def.actions) {
-			delete def.actions[actionId];
-		}
-	}
+  if (newData) {
+    if (def.actions == null) {
+      def.actions = {};
+    }
+    def.actions[actionId] = newData;
+  } else {
+    if (def.actions) {
+      delete def.actions[actionId];
+    }
+  }
 
-	const script = `Variable.find(gameModel, "skillsDefinitions").setProperty('${skillId}',
+  const script = `Variable.find(gameModel, "skillsDefinitions").setProperty('${skillId}',
 		 ${JSON.stringify(JSON.stringify(def))});`;
 
-	APIMethods.runScript(script, {});
+  APIMethods.runScript(script, {});
 };
 
 function getSkillsDefinitions() {
-	return parseObjectDescriptor<SkillDefinition>(Variable.find(gameModel, 'skillsDefinitions'));
+  return parseObjectDescriptor<SkillDefinition>(Variable.find(gameModel, 'skillsDefinitions'));
 }
 
 export function getSkillsDefinitionsAsChoices() {
-	const situations = getSkillsDefinitions();
-	const choices = Object.entries(situations).map(([situId, situDef]) => ({
-		label: situDef.name || situId,
-		value: situId,
-	}));
-	choices.push({
-		label: 'none',
-		value: '',
-	});
-	return choices;
+  const situations = getSkillsDefinitions();
+  const choices = Object.entries(situations).map(([situId, situDef]) => ({
+    label: situDef.name || situId,
+    value: situId,
+  }));
+  choices.push({
+    label: 'none',
+    value: '',
+  });
+  return choices;
 }
 
 export function getSkillActId(actId: string) {
-	return `act::${actId}`;
+  return `act::${actId}`;
 }
 
 export function getSkillItemActionId(itemId: string, actionId: string) {
-	return `item::${itemId}::${actionId}`;
+  return `item::${itemId}::${actionId}`;
 }
 
 export function getSkillsDefsMatrix(): MatrixConfig<SkillId, ActionId, SkillMatrixCell> {
-	const actActions = getActs()
-		.map(act => ({
-			label: `Act ${getActTranslation(act)}`,
-			id: getSkillActId(act.id),
-		}))
-		.sort((a, b) => {
-			return a.label.localeCompare(b.label);
-		});
+  const actActions = getActs()
+    .map(act => ({
+      label: `Act ${getActTranslation(act)}`,
+      id: getSkillActId(act.id),
+    }))
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label);
+    });
 
-	const itemActions = getItems()
-		.flatMap(item => {
-			return Object.entries(item.item.actions).map(([actionId, action], i, entries) => {
-				return {
-					label: getItemActionTranslation(item.item, actionId),
-					id: getSkillItemActionId(item.id, actionId),
-				};
-			});
-		})
-		.sort((a, b) => {
-			return a.label.localeCompare(b.label);
-		});
+  const itemActions = getItems()
+    .flatMap(item => {
+      return Object.entries(item.item.actions).map(([actionId, action], i, entries) => {
+        return {
+          label: getItemActionTranslation(item.item, actionId),
+          id: getSkillItemActionId(item.id, actionId),
+        };
+      });
+    })
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label);
+    });
 
-	const skills = getSkillsDefinitions();
+  const skills = getSkillsDefinitions();
 
-	const matrix: Record<SkillId, Record<ActionId, SkillMatrixCell>> = {};
+  const matrix: Record<SkillId, Record<ActionId, SkillMatrixCell>> = {};
 
-	Object.entries(skills).forEach(([skillDef, situDef]) => {
-		matrix[skillDef] = {};
-		Object.entries(situDef.actions || {}).forEach(([actionId, value]) => {
-			matrix[skillDef]![actionId] = value;
-		});
-	});
+  Object.entries(skills).forEach(([skillDef, situDef]) => {
+    matrix[skillDef] = {};
+    Object.entries(situDef.actions || {}).forEach(([actionId, value]) => {
+      matrix[skillDef]![actionId] = value;
+    });
+  });
 
-	return {
-		y: [...actActions, ...itemActions],
-		x: Object.entries(skills)
-			.sort(([, a], [, b]) => compare(a.name, b.name))
-			.map(([situId, situ]) => ({
-				id: situId,
-				label: situ?.name || 'no name',
-			})),
-		data: matrix,
-		cellDef: [
-			{
-				type: 'enum',
-				label: 'no',
-				values: [undefined],
-			},
-			{
-				type: 'enum',
-				label: 'low',
-				values: ['low_skill'],
-			},
-			{
-				type: 'enum',
-				label: 'high',
-				values: ['high_skill'],
-			},
-		],
-		onChangeRefName: SkillOnChangeRefName,
-	};
+  return {
+    y: [...actActions, ...itemActions],
+    x: Object.entries(skills)
+      .sort(([, a], [, b]) => compare(a.name, b.name))
+      .map(([situId, situ]) => ({
+        id: situId,
+        label: situ?.name || 'no name',
+      })),
+    data: matrix,
+    cellDef: [
+      {
+        type: 'enum',
+        label: 'no',
+        values: [undefined],
+      },
+      {
+        type: 'enum',
+        label: 'low',
+        values: ['low_skill'],
+      },
+      {
+        type: 'enum',
+        label: 'high',
+        values: ['high_skill'],
+      },
+    ],
+    onChangeRefName: SkillOnChangeRefName,
+  };
 }
