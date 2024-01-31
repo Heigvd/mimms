@@ -15,161 +15,161 @@ import { ResourceFunction } from '../resources/resourceFunction';
  * Walk, drive, fly to destination
  */
 export interface FollowPathEvent extends TargetedEvent {
-	type: 'FollowPath';
-	from: Location;
-	destination: Location;
+  type: 'FollowPath';
+  from: Location;
+  destination: Location;
 }
 
 /** Aka teleportation */
 export interface TeleportEvent extends TargetedEvent {
-	type: 'Teleport';
-	location: Location;
+  type: 'Teleport';
+  location: Location;
 }
 
 export interface PathologyEvent extends TargetedEvent, AfflictedPathology {
-	type: 'HumanPathology';
+  type: 'HumanPathology';
 }
 
 export interface HumanLogMessageEvent extends TargetedEvent {
-	type: 'HumanLogMessage';
-	message: string;
+  type: 'HumanLogMessage';
+  message: string;
 }
 
 export interface DelayedAction {
-	id: number;
-	dueDate: number;
-	action: ResolvedAction;
-	event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
-	resultEvent: HumanMeasureResultEvent | undefined;
-	display:
-		| {
-				pulse_perMin?: number;
-		  }
-		| undefined;
+  id: number;
+  dueDate: number;
+  action: ResolvedAction;
+  event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
+  resultEvent: HumanMeasureResultEvent | undefined;
+  display:
+    | {
+        pulse_perMin?: number;
+      }
+    | undefined;
 }
 
 export interface HumanMeasureEvent extends TargetedEvent {
-	type: 'HumanMeasure';
-	timeJump: boolean;
-	source: ActionSource;
+  type: 'HumanMeasure';
+  timeJump: boolean;
+  source: ActionSource;
 }
 
 export type MeasureResultStatus =
-	| 'success'
-	| 'failed_missing_object'
-	| 'failed_missing_skill'
-	| 'cancelled'
-	| 'unknown';
+  | 'success'
+  | 'failed_missing_object'
+  | 'failed_missing_skill'
+  | 'cancelled'
+  | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
-	type: 'HumanMeasureResult';
-	sourceEventId: number;
-	status: MeasureResultStatus;
-	result?: MeasureMetric[];
-	duration: number;
+  type: 'HumanMeasureResult';
+  sourceEventId: number;
+  status: MeasureResultStatus;
+  result?: MeasureMetric[];
+  duration: number;
 }
 
 export interface HumanTreatmentEvent extends TargetedEvent {
-	type: 'HumanTreatment';
-	timeJump: boolean;
-	source: ActionSource;
-	blocks: BlockName[];
+  type: 'HumanTreatment';
+  timeJump: boolean;
+  source: ActionSource;
+  blocks: BlockName[];
 }
 
 export interface CancelActionEvent {
-	type: 'CancelAction';
-	eventId: number;
+  type: 'CancelAction';
+  eventId: number;
 }
 
 export interface CategorizeEvent extends TargetedEvent, Categorization {
-	type: 'Categorize';
+  type: 'Categorize';
 }
 
 export interface GiveBagEvent extends TargetedEvent {
-	type: 'GiveBag';
-	bagId: string;
+  type: 'GiveBag';
+  bagId: string;
 }
 
 export interface FreezeEvent extends TargetedEvent {
-	type: 'Freeze';
-	mode: 'freeze' | 'unfreeze';
+  type: 'Freeze';
+  mode: 'freeze' | 'unfreeze';
 }
 
 export interface ScriptedEvent {
-	time: number;
-	payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
+  time: number;
+  payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
 }
 
 export interface AgingEvent extends TargetedEvent {
-	type: 'Aging';
-	deltaSeconds: number;
+  type: 'Aging';
+  deltaSeconds: number;
 }
 
 // Communication events
 export type CommunicationEvent = BaseEvent & {
-	message: string;
-	sender: string; //player id
+  message: string;
+  sender: string; //player id
 };
 
 export type DirectCommunicationEvent = CommunicationEvent & {
-	type: 'DirectCommunication';
+  type: 'DirectCommunication';
 };
 ///// RADIO EVENTS /////////////////////////
 export type RadioChannelUpdateEvent = BaseEvent & {
-	type: 'RadioChannelUpdate';
-	targetRadio: number;
-	newChannel: Channel;
+  type: 'RadioChannelUpdate';
+  targetRadio: number;
+  newChannel: Channel;
 };
 
 export type RadioCreationEvent = BaseEvent & {
-	type: 'RadioCreation';
-	radioTemplate: Radio;
-	//ownerId: string //the guy who will have it (TODO might be some other entity)
+  type: 'RadioCreation';
+  radioTemplate: Radio;
+  //ownerId: string //the guy who will have it (TODO might be some other entity)
 };
 
 export type RadioCommunicationEvent = CommunicationEvent & {
-	type: 'RadioCommunication';
-	senderRadioId: number; //radio sending the message
+  type: 'RadioCommunication';
+  senderRadioId: number; //radio sending the message
 };
 
 //// PHONE EVENTS ////////////////
 export type PhoneCommunicationEvent = CommunicationEvent & {
-	type: 'PhoneCommunication';
-	senderPhoneId: number;
-	recipientPhoneId: number;
+  type: 'PhoneCommunication';
+  senderPhoneId: number;
+  recipientPhoneId: number;
 };
 
 export type PhoneCreationEvent = BaseEvent & {
-	type: 'PhoneCreation';
-	phoneTemplate: Phone;
+  type: 'PhoneCreation';
+  phoneTemplate: Phone;
 };
 
 export type EventPayload =
-	| FollowPathEvent
-	| TeleportEvent
-	| PathologyEvent
-	| HumanTreatmentEvent
-	| HumanMeasureEvent
-	| HumanMeasureResultEvent
-	| HumanLogMessageEvent
-	| CategorizeEvent
-	| DirectCommunicationEvent
-	| RadioCommunicationEvent
-	| RadioChannelUpdateEvent
-	| RadioCreationEvent
-	| PhoneCommunicationEvent
-	| PhoneCreationEvent
-	| GiveBagEvent
-	| CancelActionEvent
-	| FreezeEvent
-	| AgingEvent
-	// NEW EVENTS
-	| TimeForwardEvent
-	| ActionCreationEvent
-	| ActionCancellationEvent
-	| ResourceSendingToActorEvent
-	| ResourceAllocationEvent
-	| ResourceReleaseEvent;
+  | FollowPathEvent
+  | TeleportEvent
+  | PathologyEvent
+  | HumanTreatmentEvent
+  | HumanMeasureEvent
+  | HumanMeasureResultEvent
+  | HumanLogMessageEvent
+  | CategorizeEvent
+  | DirectCommunicationEvent
+  | RadioCommunicationEvent
+  | RadioChannelUpdateEvent
+  | RadioCreationEvent
+  | PhoneCommunicationEvent
+  | PhoneCreationEvent
+  | GiveBagEvent
+  | CancelActionEvent
+  | FreezeEvent
+  | AgingEvent
+  // NEW EVENTS
+  | TimeForwardEvent
+  | ActionCreationEvent
+  | ActionCancellationEvent
+  | ResourceSendingToActorEvent
+  | ResourceAllocationEvent
+  | ResourceReleaseEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -177,95 +177,95 @@ export type EventType = EventPayload['type'];
 /// NEW EVENTS FOR MAIN SIMULATION
 /////////////////////////////////////////////////
 interface TimedPayload {
-	/**
-	 * Simulation time at which the event has to take effect
-	 */
-	triggerTime: SimTime;
+  /**
+   * Simulation time at which the event has to take effect
+   */
+  triggerTime: SimTime;
 }
 
 export type TimedEventPayload = TimedPayload & EventPayload;
 
 export interface ActionCreationEvent extends BaseEvent, TimedPayload {
-	type: 'ActionCreationEvent';
-	templateRef: TemplateRef;
+  type: 'ActionCreationEvent';
+  templateRef: TemplateRef;
 }
 
 export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
-	type: 'ActionCancellationEvent';
-	templateId: TemplateId;
-	actorId: ActorId;
-	timeStamp: SimTime;
+  type: 'ActionCancellationEvent';
+  templateId: TemplateId;
+  actorId: ActorId;
+  timeStamp: SimTime;
 }
 
 export interface StandardActionEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
+  durationSec: SimDuration;
 }
 
 export interface ResourceSendingToActorEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	receiverActor: ActorId;
-	sentResources: ResourceTypeAndNumber;
+  durationSec: SimDuration;
+  receiverActor: ActorId;
+  sentResources: ResourceTypeAndNumber;
 }
 
 export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	task: ResourceFunction;
-	assignedResources: ResourceTypeAndNumber;
+  durationSec: SimDuration;
+  task: ResourceFunction;
+  assignedResources: ResourceTypeAndNumber;
 }
 
 export interface ResourceTaskReleaseEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	task: ResourceFunction;
-	releasedResources: ResourceTypeAndNumber;
+  durationSec: SimDuration;
+  task: ResourceFunction;
+  releasedResources: ResourceTypeAndNumber;
 }
 
 // soon deprecated
 export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceAllocationEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
+  type: 'ResourceAllocationEvent';
+  taskId: TaskId;
+  actorId: ActorId;
+  resourceType: ResourceType;
+  nbResources: number;
 }
 
 // soon deprecated
 export interface ResourceReleaseEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceReleaseEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
+  type: 'ResourceReleaseEvent';
+  taskId: TaskId;
+  actorId: ActorId;
+  resourceType: ResourceType;
+  nbResources: number;
 }
 
 export interface TimeForwardEvent extends BaseEvent, TimedPayload {
-	type: 'TimeForwardEvent';
-	/**
-	 * The time duration to jump forward
-	 */
-	timeJump: SimDuration;
+  type: 'TimeForwardEvent';
+  /**
+   * The time duration to jump forward
+   */
+  timeJump: SimDuration;
 }
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
-	switch (event.payload.type) {
-		case 'Teleport':
-		case 'FollowPath':
-		case 'HumanPathology':
-		case 'HumanTreatment':
-		case 'HumanMeasure':
-		case 'Categorize':
-		case 'HumanLogMessage':
-		case 'DirectCommunication':
-		case 'RadioCommunication':
-		case 'RadioChannelUpdate':
-		case 'RadioCreation':
-		case 'PhoneCommunication':
-		case 'PhoneCreation':
-		case 'GiveBag':
-		case 'CancelAction':
-		case 'Freeze':
-		case 'Aging':
-		case 'HumanMeasureResult':
-			return true;
-	}
-	return false;
+  switch (event.payload.type) {
+    case 'Teleport':
+    case 'FollowPath':
+    case 'HumanPathology':
+    case 'HumanTreatment':
+    case 'HumanMeasure':
+    case 'Categorize':
+    case 'HumanLogMessage':
+    case 'DirectCommunication':
+    case 'RadioCommunication':
+    case 'RadioChannelUpdate':
+    case 'RadioCreation':
+    case 'PhoneCommunication':
+    case 'PhoneCreation':
+    case 'GiveBag':
+    case 'CancelAction':
+    case 'Freeze':
+    case 'Aging':
+    case 'HumanMeasureResult':
+      return true;
+  }
+  return false;
 }

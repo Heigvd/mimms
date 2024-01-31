@@ -4,5 +4,5 @@
  * all mutable (non readonly) class field should be cloned
  */
 export interface IClonable {
-	clone(): this;
+  clone(): this;
 }

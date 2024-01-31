@@ -10,12 +10,12 @@ export const MaterialResourceTypeArray = ['ambulance', 'helicopter', 'PMA'] as c
 export type MaterialResourceType = typeof MaterialResourceTypeArray[number];
 
 export const HumanResourceTypeArray = [
-	'secouriste',
-	'technicienAmbulancier',
-	'ambulancier',
-	'infirmier',
-	'medecinJunior',
-	'medecinSenior',
+  'secouriste',
+  'technicienAmbulancier',
+  'ambulancier',
+  'infirmier',
+  'medecinJunior',
+  'medecinSenior',
 ] as const;
 
 export type HumanResourceType = typeof HumanResourceTypeArray[number];

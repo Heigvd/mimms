@@ -5,15 +5,15 @@
  * @returns a record grouped by ids
  */
 export function group<K extends number | string | symbol, V>(
-	array: Readonly<V[]>,
-	getGroupId: (elem: V) => K,
+  array: Readonly<V[]>,
+  getGroupId: (elem: V) => K,
 ): Record<K, V[]> {
-	return array.reduce<Record<K, V[]>>((map, elem) => {
-		const id = getGroupId(elem);
-		if (!map[id]) {
-			map[id] = [];
-		}
-		map[id]!.push(elem);
-		return map;
-	}, {} as Record<K, V[]>);
+  return array.reduce<Record<K, V[]>>((map, elem) => {
+    const id = getGroupId(elem);
+    if (!map[id]) {
+      map[id] = [];
+    }
+    map[id]!.push(elem);
+    return map;
+  }, {} as Record<K, V[]>);
 }

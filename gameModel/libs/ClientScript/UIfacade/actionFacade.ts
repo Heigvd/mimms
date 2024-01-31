@@ -6,22 +6,22 @@
 
 import { ActionBase } from '../game/common/actions/actionBase';
 import {
-	ActionTemplateBase,
-	AssignTaskToResourcesActionTemplate,
-	CasuMessageTemplate,
-	DefineMapObjectTemplate,
-	ReleaseResourcesFromTaskActionTemplate,
-	SelectMapObjectTemplate,
-	SendRadioMessage,
-	SendResourcesToActorActionTemplate,
+  ActionTemplateBase,
+  AssignTaskToResourcesActionTemplate,
+  CasuMessageTemplate,
+  DefineMapObjectTemplate,
+  ReleaseResourcesFromTaskActionTemplate,
+  SelectMapObjectTemplate,
+  SendRadioMessage,
+  SendResourcesToActorActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
 import { ActionCreationEvent } from '../game/common/events/eventTypes';
 import {
-	buildAndLaunchActionCancellation,
-	buildAndLaunchActionFromTemplate,
-	fetchAvailableActions,
-	getCurrentState,
+  buildAndLaunchActionCancellation,
+  buildAndLaunchActionFromTemplate,
+  fetchAvailableActions,
+  getCurrentState,
 } from '../game/mainSimulationLogic';
 import { ActionType } from '../game/common/actionType';
 
@@ -36,11 +36,11 @@ const logger = Helpers.getLogger('mainSim-interface');
  * @returns a promise
  */
 export async function planAction(
-	actionTemplateId: TemplateRef,
-	selectedActor: ActorId,
-	params?: any,
+  actionTemplateId: TemplateRef,
+  selectedActor: ActorId,
+  params?: any,
 ): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, params);
+  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, params);
 }
 
 // TODO Maybe ensure only owning actor can cancel actions
@@ -51,10 +51,10 @@ export async function planAction(
  * @returns
  */
 export async function cancelAction(
-	selectedActor: ActorId,
-	templateId: TemplateId,
+  selectedActor: ActorId,
+  templateId: TemplateId,
 ): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchActionCancellation(selectedActor, templateId);
+  return await buildAndLaunchActionCancellation(selectedActor, templateId);
 }
 
 /**
@@ -62,101 +62,101 @@ export async function cancelAction(
  * @returns a list of actions that the current actor can undertake
  */
 export function getAvailableActions(
-	actorId: ActorId,
-	actionType: ActionType = ActionType.ACTION,
+  actorId: ActorId,
+  actionType: ActionType = ActionType.ACTION,
 ): ActionTemplateBase[] {
-	return fetchAvailableActions(actorId, actionType);
+  return fetchAvailableActions(actorId, actionType);
 }
 
 /**
  * @returns All the actions that have been planned
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
-	return getCurrentState().getActionsByActorIds();
+  return getCurrentState().getActionsByActorIds();
 }
 
 export function getAllCancelledActions(): Readonly<ActionBase[]> {
-	return getCurrentState().getAllCancelledActions();
+  return getCurrentState().getAllCancelledActions();
 }
 
 /**
  * @returns Template of given action Uid
  */
 export function getActionTemplate(
-	id: number,
-	actionType: ActionType = ActionType.ACTION,
+  id: number,
+  actionType: ActionType = ActionType.ACTION,
 ): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
-	return getAvailableActions(Context.interfaceState.state.currentActorUid, actionType).find(
-		t => t.Uid === id,
-	);
+  return getAvailableActions(Context.interfaceState.state.currentActorUid, actionType).find(
+    t => t.Uid === id,
+  );
 }
 
 /**
  * @param id Uid of given action
  */
 export function isDefineMapObjectTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-		t => t.Uid === id,
-	);
-	return template instanceof DefineMapObjectTemplate;
+  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
+    t => t.Uid === id,
+  );
+  return template instanceof DefineMapObjectTemplate;
 }
 
 export function isSelectMapObjectTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-		t => t.Uid === id,
-	);
-	return template instanceof SelectMapObjectTemplate;
+  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
+    t => t.Uid === id,
+  );
+  return template instanceof SelectMapObjectTemplate;
 }
 
 /**
  * @param id Uid of given action
  */
 export function isCasuMessageActionTemplate(id: number) {
-	const template = getAvailableActions(
-		Context.interfaceState.state.currentActorUid,
-		ActionType.CASU_RADIO,
-	).find(t => t.Uid === id);
-	return template instanceof CasuMessageTemplate;
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.CASU_RADIO,
+  ).find(t => t.Uid === id);
+  return template instanceof CasuMessageTemplate;
 }
 
 /**
  * @param id Uid of given action
  */
 export function isRadioActionTemplate(id: number) {
-	const template = getAvailableActions(
-		Context.interfaceState.state.currentActorUid,
-		ActionType.ACTORS_RADIO,
-	).find(t => t.Uid === id);
-	return template instanceof SendRadioMessage;
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.ACTORS_RADIO,
+  ).find(t => t.Uid === id);
+  return template instanceof SendRadioMessage;
 }
 
 /**
  * @param id Uid of given action template
  */
 export function isSendResourcesToActorActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-		t => t.Uid === id,
-	);
-	return template instanceof SendResourcesToActorActionTemplate;
+  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
+    t => t.Uid === id,
+  );
+  return template instanceof SendResourcesToActorActionTemplate;
 }
 
 /**
  * @param id Uid of given action template
  */
 export function isAssignResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-		t => t.Uid === id,
-	);
-	return template instanceof AssignTaskToResourcesActionTemplate;
+  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
+    t => t.Uid === id,
+  );
+  return template instanceof AssignTaskToResourcesActionTemplate;
 }
 
 /**
  * @param id Uid of given action template
  */
 export function isReleaseResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(
-		Context.interfaceState.state.currentActorUid,
-		ActionType.RESOURCES_RADIO,
-	).find(t => t.Uid === id);
-	return template instanceof ReleaseResourcesFromTaskActionTemplate;
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.RESOURCES_RADIO,
+  ).find(t => t.Uid === id);
+  return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }

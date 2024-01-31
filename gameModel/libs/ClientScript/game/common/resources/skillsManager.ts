@@ -15,49 +15,49 @@ import { Resource } from './resource';
 export type SkillLevel = 'no_skill' | 'low_skill' | 'high_skill';
 
 export function getSkillForPretriage(resource: Resource): SkillLevel {
-	switch (resource.type) {
-		case 'technicienAmbulancier':
-		case 'ambulancier':
-		case 'infirmier':
-		case 'medecinJunior':
-		case 'medecinSenior':
-			return 'high_skill';
-		case 'secouriste':
-		case 'ambulance':
-		case 'helicopter':
-			return 'no_skill';
-	}
+  switch (resource.type) {
+    case 'technicienAmbulancier':
+    case 'ambulancier':
+    case 'infirmier':
+    case 'medecinJunior':
+    case 'medecinSenior':
+      return 'high_skill';
+    case 'secouriste':
+    case 'ambulance':
+    case 'helicopter':
+      return 'no_skill';
+  }
 }
 
 export function getSkillForTriage(resource: Resource): SkillLevel {
-	switch (resource.type) {
-		case 'ambulancier':
-		case 'infirmier':
-		case 'medecinJunior':
-		case 'medecinSenior':
-			return 'high_skill';
-		case 'technicienAmbulancier':
-			return 'low_skill';
-		case 'secouriste':
-		case 'ambulance':
-		case 'helicopter':
-			return 'no_skill';
-	}
+  switch (resource.type) {
+    case 'ambulancier':
+    case 'infirmier':
+    case 'medecinJunior':
+    case 'medecinSenior':
+      return 'high_skill';
+    case 'technicienAmbulancier':
+      return 'low_skill';
+    case 'secouriste':
+    case 'ambulance':
+    case 'helicopter':
+      return 'no_skill';
+  }
 }
 
 export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
-	switch (resource.type) {
-		case 'technicienAmbulancier':
-		case 'ambulancier':
-		case 'infirmier':
-			return 'high_skill';
-		case 'secouriste':
-		case 'medecinJunior':
-		case 'medecinSenior':
-		case 'ambulance':
-		case 'helicopter':
-			return 'no_skill';
-	}
+  switch (resource.type) {
+    case 'technicienAmbulancier':
+    case 'ambulancier':
+    case 'infirmier':
+      return 'high_skill';
+    case 'secouriste':
+    case 'medecinJunior':
+    case 'medecinSenior':
+    case 'ambulance':
+    case 'helicopter':
+      return 'no_skill';
+  }
 }
 
 // export function getSkillXXX(resource: Resource): SkillLevel {

@@ -15,9 +15,9 @@ import { ResourceType } from '../resources/resourceType';
  * @returns All the tasks (no filter)
  */
 export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<TaskBase>[] {
-	const internalState = state.getInternalStateObject();
+  const internalState = state.getInternalStateObject();
 
-	return internalState.tasks;
+  return internalState.tasks;
 }
 
 /**
@@ -25,27 +25,27 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
  * (= the tasks to which the actor can allocate resources)
  */
 export function fetchAvailableTasks(
-	state: Readonly<MainSimulationState>,
-	actorId: ActorId,
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
 ): Readonly<TaskBase>[] {
-	const actor = state.getActorById(actorId);
-	if (actor) {
-		return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
-	} else {
-		taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
-		return [];
-	}
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
+  } else {
+    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
+    return [];
+  }
 }
 
 export function fetchTasksWithResources(
-	state: Readonly<MainSimulationState>,
-	actorId: ActorId,
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
 ): Readonly<TaskBase>[] {
-	const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
-	const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-	return Object.values(getAllTasks(state)).filter(ta =>
-		tasksIdWhereResources.find(taskId => taskId == ta.Uid),
-	);
+  const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
+  const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
+  return Object.values(getAllTasks(state)).filter(ta =>
+    tasksIdWhereResources.find(taskId => taskId == ta.Uid),
+  );
 }
 
 /**
@@ -53,53 +53,53 @@ export function fetchTasksWithResources(
  * The final status are 'Cancelled' and 'Completed'
  */
 export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId): boolean {
-	const task = internallyGetTask(state, taskId);
+  const task = internallyGetTask(state, taskId);
 
-	return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
+  return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
 }
 
 /**
  * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
  */
 export function getNbResourcesStillUsefulForTask(
-	state: Readonly<MainSimulationState>,
-	taskId: TaskId,
-	type: ResourceType,
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId,
+  type: ResourceType,
 ): number {
-	const task = internallyGetTask(state, taskId);
+  const task = internallyGetTask(state, taskId);
 
-	// TODO pro type
+  // TODO pro type
 
-	return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
+  return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
 }
 
 /**
  * @returns Whether the allocated resources are enough to perform the task
  */
 export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
-	// TODO for each type
-	return (
-		ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources()
-	);
+  // TODO for each type
+  return (
+    ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources()
+  );
 }
 
 /**
  * @returns The task matching the Uid. Previously check that it is unique.
  */
 function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId): TaskBase {
-	const internalState = state.getInternalStateObject();
+  const internalState = state.getInternalStateObject();
 
-	const matchingTasks = internalState.tasks.filter(ta => ta.Uid === taskId);
+  const matchingTasks = internalState.tasks.filter(ta => ta.Uid === taskId);
 
-	if (matchingTasks.length === 0 || matchingTasks[0] == null) {
-		mainSimStateLogger.error('No task matches id : ' + taskId);
-	}
+  if (matchingTasks.length === 0 || matchingTasks[0] == null) {
+    mainSimStateLogger.error('No task matches id : ' + taskId);
+  }
 
-	if (matchingTasks.length > 1) {
-		mainSimStateLogger.error('Error in data : there must not be 2 tasks with same id : ' + taskId);
-	}
+  if (matchingTasks.length > 1) {
+    mainSimStateLogger.error('Error in data : there must not be 2 tasks with same id : ' + taskId);
+  }
 
-	return matchingTasks[0]!;
+  return matchingTasks[0]!;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -112,11 +112,11 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
  * Change the status of a task
  */
 export function changeTaskStatus(
-	state: MainSimulationState,
-	taskId: TaskId,
-	status: TaskStatus,
+  state: MainSimulationState,
+  taskId: TaskId,
+  status: TaskStatus,
 ): void {
-	const task = internallyGetTask(state, taskId);
+  const task = internallyGetTask(state, taskId);
 
-	task.setStatus(status);
+  task.setStatus(status);
 }

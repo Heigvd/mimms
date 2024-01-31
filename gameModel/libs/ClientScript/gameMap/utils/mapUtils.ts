@@ -6,7 +6,7 @@ import { Point } from '../../map/point2D';
  * @param {Point} point Point to be converted
  */
 export function pointToPointLike(point: Point): PointLikeObject {
-	return [point.x, point.y];
+  return [point.x, point.y];
 }
 
 /**
@@ -14,7 +14,7 @@ export function pointToPointLike(point: Point): PointLikeObject {
  * @param {PointLikeObject} point PointLikeObject to be converted
  */
 export function pointLikeToPoint(point: PointLikeObject): Point {
-	return { x: point[0], y: point[1] };
+  return { x: point[0], y: point[1] };
 }
 
 /**
@@ -22,10 +22,10 @@ export function pointLikeToPoint(point: PointLikeObject): Point {
  * @param {string} [name] Name for the featureCollection
  */
 export function getEmptyFeatureCollection(name?: string): FeatureCollection {
-	return {
-		type: 'FeatureCollection',
-		name: `${name}`,
-		crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::2056' } },
-		features: [],
-	};
+  return {
+    type: 'FeatureCollection',
+    name: `${name}`,
+    crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::2056' } },
+    features: [],
+  };
 }
