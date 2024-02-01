@@ -1,71 +1,67 @@
-import { getAfflictedBlocks } from './currentPatientZoom';
-import { interpolate, normalize } from '../../tools/helper';
-import { Point } from '../../map/point2D';
-import { BlockName, BodyPosition, Glasgow, HumanBody } from '../../HUMAn/human';
-import { getCurrentPatientBody, getHuman } from '../legacy/the_world';
-import { Categorization, Category, getCategory } from '../pretri/triage';
-import { convertMeterToMapUnit } from '../../map/layersData';
+import { getAfflictedBlocks } from "./currentPatientZoom";
+import { interpolate, normalize } from "../../tools/helper";
+import { Point } from "../../map/point2D";
+import { BlockName, BodyPosition, Glasgow, HumanBody } from "../../HUMAn/human";
+import { getCurrentPatientBody, getHuman } from "../legacy/the_world";
+import { Categorization, Category, getCategory } from "../pretri/triage";
+import { convertMeterToMapUnit } from "../../map/layersData";
+import { getTranslation } from "../../tools/translation";
 
 export interface HumanOverview {
-  height_cm: number;
-  gcs: Glasgow;
-  position: BodyPosition;
-  colorful: number;
-  cyanosis: boolean;
-  looksDead: boolean;
-  totalExternalBloodLosses_ml: number;
-  venousBloodLosses_mlPerMin: number;
-  arterialBloodLosses_mlPerMin: number;
-  category: Category<string> | undefined;
-  rr: number;
-  tidalVolume_L: number;
+	height_cm: number;
+	gcs: Glasgow,
+	position: BodyPosition;
+	colorful: number;
+	cyanosis: boolean;
+	looksDead: boolean;
+	totalExternalBloodLosses_ml: number;
+	venousBloodLosses_mlPerMin: number;
+	arterialBloodLosses_mlPerMin: number;
+	category: Category<string> | undefined;
+	rr: number;
+	tidalVolume_L: number;
 }
 
 /**
  * Category Card SVG
  */
-function getCategoryCardSvg(
-  category: Category<string> | undefined,
-  x: number | string = 0,
-  y: number | string = 0,
-  size: number | string = 4,
-): string {
-  return `<svg width="${size}" height="${size}"  style="max-height:100%; max-width:100%;" stroke-width="3.5%" viewBox="-10 -10 150 150" fill="none" x=${x} y=${y} xmlns="http://www.w3.org/2000/svg">
+function getCategoryCardSvg(category: Category<string> | undefined, x: number | string = 0, y: number|string = 0, size: number|string = 4): string {
+		return `<svg width="${size}" height="${size}"  style="max-height:100%; max-width:100%;" stroke-width="3.5%" viewBox="-10 -10 150 150" fill="none" x=${x} y=${y} xmlns="http://www.w3.org/2000/svg">
 <path d="M0.5 64.0144V12.1875C0.5 5.73259 5.73259 0.5 12.1875 0.5H64.0144C67.1141 0.500016 70.0868 1.73139 72.2786 3.92322L126.077 57.7214C130.641 62.2856 130.641 69.6858 126.077 74.25L74.25 126.077C69.6858 130.641 62.2856 130.641 57.7214 126.077L3.92322 72.2786C1.73139 70.0868 0.500016 67.1141 0.5 64.0144ZM28.4375 15.75C21.4303 15.75 15.75 21.4303 15.75 28.4375C15.75 35.4447 21.4303 41.125 28.4375 41.125C35.4447 41.125 41.125 35.4447 41.125 28.4375C41.125 21.4303 35.4447 15.75 28.4375 15.75Z" fill="${category?.bgColor}"/>
-</svg>`;
+</svg>`
 }
 
 interface PictoConfig {
-  className: string;
-  bloodRatio: number;
+	className: string;
+	bloodRatio: number
 }
 
 function getPicoClassNames(overview: HumanOverview): PictoConfig {
-  const classes: string[] = [];
+	const classes: string[] = [];
 
-  const bloodRatio = normalize(overview.totalExternalBloodLosses_ml / 500, { max: 1 });
-  if (overview.totalExternalBloodLosses_ml > 0) {
-    classes.push('blood');
-  }
+	const bloodRatio = normalize(overview.totalExternalBloodLosses_ml / 500, { max: 1 });
+	if (overview.totalExternalBloodLosses_ml > 0) {
+		classes.push("blood");
+	}
 
-  return {
-    className: classes.join(' '),
-    bloodRatio: bloodRatio,
-  };
+	return {
+		className: classes.join(" "),
+		bloodRatio: bloodRatio,
+	};
 }
 
 interface PictoOptions {
-  height_px: number;
-  classes: string;
-  bloodStyle: string;
-  category: Category<string> | undefined;
-  offset: boolean;
+	height_px: number;
+	classes: string;
+	bloodStyle: string;
+	category: Category<string> | undefined;
+	offset: boolean;
 }
 
 function getStanding({ height_px, classes, bloodStyle, category, offset }: PictoOptions) {
-  const left = offset ? -0.51 * height_px : 0;
-  const top = offset ? -0.97 * height_px : 0;
-  return `<svg style="position: relative; left: ${left}px; top:${top}px;  max-height:100%; max-width:100%;" class="body_picto ${classes}"  max-height="100%" max-width="100%" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
+	const left = offset ? -0.51 * height_px : 0;
+	const top = offset ? -0.97 * height_px : 0;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px;  max-height:100%; max-width:100%;" class="body_picto ${classes}"  max-height="100%" max-width="100%" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
     			<path style="${bloodStyle} transform-origin:50% 97%;" class="blood" d="M294,541.15s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
 				fill="#d11c1c"/>
 				<g>
@@ -81,10 +77,11 @@ function getStanding({ height_px, classes, bloodStyle, category, offset }: Picto
 </svg>`;
 }
 
+
 function getSitting({ height_px, classes, bloodStyle, category, offset }: PictoOptions) {
-  const left = offset ? -0.635 * height_px : 0;
-  const top = offset ? -0.6 * height_px : 0;
-  return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
+	const left = offset ? -0.635 * height_px : 0;
+	const top = offset ? -0.6 * height_px : 0;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
     <path style="${bloodStyle}; transform-origin:65% 65%;" class="blood" d="M297.97,400.21s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
 fill="#d11c1c"/>
 	<g class="sitting_position">	
@@ -106,9 +103,9 @@ fill="#d11c1c"/>
 }
 
 function getSupineDecubitus({ height_px, classes, bloodStyle, category, offset }: PictoOptions) {
-  const left = offset ? -0.44 * height_px : 0;
-  const top = offset ? -0.5 * height_px : 0;
-  return `<svg style="position: relative;left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}"   viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
+	const left = offset ? -0.44 * height_px : 0;
+	const top = offset ? -0.5 * height_px : 0;
+	return `<svg style="position: relative;left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}"   viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
     <path style="${bloodStyle}; transform-origin:50% 60%;" class="blood" d="M253.59,335.59s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
 fill= "#d11c1c"/>
 <path d="M581.61,295.92c-.01-2.06-.54-4.73-1.92-6.04-.54-.51-1.18-.76-1.89-.76h-.18c-1.83,.12-2.97,1.87-4,3.66-4,7.02-8.49,14.35-13.96,20.02,0,.01-.01,.01-.03,.03-4.77,4.97-10.28,8.66-16.87,9.79l-1.05,.18c-4.38,.74-9.33,1.59-13.67,1.78l-12.58,.3c-.26-.04-25.19-3.8-35.68-5.8-7.43-1.42-15-2.74-22.33-4.01-5.32-.93-10.82-1.88-16.22-2.87-5.42-.99-11.71-2.17-17.82-3.53-3.4-.74-6.77-1.78-10.04-2.77-4.05-1.23-8.23-2.51-12.47-3.27-4.44-.8-10.32-1.83-16.31-2.73-15.05-2.26-28.6-3.82-41.45-4.74-6.94-.5-12.64-.73-17.81-.73h-.93c-8.3,.05-17.38,1.12-26.17,2.16-9.93,1.18-20.2,2.4-29.32,2.12-3.49-.1-4.94-.88-6.61-1.75-1.37-.72-2.91-1.53-5.92-2.05-.03,0-.05-.04-.05-.08,.01-.03,.05-.05,.08-.05,3.02,.52,4.57,1.35,5.95,2.06,1.66,.88,3.1,1.63,6.56,1.74,9.11,.27,19.38-.94,29.31-2.12,8.79-1.03,17.89-2.1,26.18-2.16h.93c5.19,0,10.88,.24,17.82,.73,12.84,.93,26.39,2.48,41.46,4.74,5.98,.9,11.85,1.93,16.31,2.73,4.23,.77,8.43,2.04,12.48,3.27,3.27,.99,6.64,2.03,10.02,2.78,6.12,1.36,12.4,2.52,17.81,3.51,5.41,.99,10.91,1.95,16.23,2.87,7.32,1.27,14.9,2.59,22.33,4.01,10.48,2,35.42,5.76,35.67,5.8l12.57-.3c4.33-.18,9.28-1.03,13.64-1.78l1.05-.17c6.53-1.12,12.03-4.8,16.8-9.72h0c-.2-6.89,1.29-12.13,4.66-16.53,3.38-4.4,5.53-12.75,5.11-19.87-.12-2.03-.68-5.44-3.11-5.44-.5,0-1.23,.95-2,2.23-.77,1.27-1.58,2.86-2.23,4.13-.6,1.16-1.06,2.08-1.32,2.43-3.35,4.52-6.18,7.5-8.92,10.37-2.74,2.87-5.58,5.85-8.91,10.36-3.76,5.1-7.96,10.17-14.26,11.42-7.11,1.42-14.44,.88-21.55,.34-4.52-.34-9.06-.68-13.58-1.02-3.62-.27-7.3-.5-10.86-.71-8.85-.54-17.98-1.1-26.93-2.46-11.25-1.72-29.7-7.34-41.92-11.07-1.1-.34-2.16-.67-3.15-.97-3.75-1.14-6.66-1.45-9.73-1.79-2.77-.31-5.64-.63-9.17-1.61-24.57-6.78-44.23-6.27-66.98-5.67-3.11,.08-6.32,.17-9.59,.24-4.08-.04-6.94,.22-9.96,.5-3.36,.31-7.15,.67-13.34,.67h-.2c-3.21,0-7.07-.37-11.54-.78-8.65-.82-19.42-1.84-30.48-.55-5.45,.64-10.37,1.39-15.13,2.12-6.13,.93-11.92,1.82-17.56,2.22-16.03,1.16-25.07,1.02-25.17,1.02-5.33,.85-13.34,.5-18.23-.8-2-.52-3.4-1.05-4.64-1.5-1.91-.71-3.57-1.32-6.7-1.72-7.25-.93-15.72-.14-23.86,2.21-4.52,1.31-8.95,3.88-13.24,6.36-2.78,1.61-5.66,3.28-8.48,4.55-4.02,1.8-8.45,2.34-12.74,2.86l-4.05,.48c-.67,.08-1.32,.12-1.83-.21-.81-.54-.81-1.7-.72-2.64,.25-2.76,.05-4.98-.16-7.34-.1-1.2-.21-2.43-.27-3.79-.01-.34-.03-.69-.03-1.06-.05-2.44-.13-5.49-2.3-6.85-.76-.47-1.66-.55-2.67-.6-1.23-.05-2.42-.14-3.58-.22-4.22-.3-8.21-.57-12.19,.41-.03,0-.05-.01-.07-.04-.2-.37-.37-.74-.52-1.12-.18-.43-.38-.89-.63-1.32l-.05-.08c-.57-1.01-1.23-2.13-2.34-2.13-.08,0-.16,0-.24,.01-.57,.08-1.57,.68-2.09,1.01l-.08,.04c-1.08,.67-2.21,1.49-3.31,2.3-1.1,.81-2.23,1.65-3.32,2.3l-.84,.38h-.01c-1.92,.3-3.7,.26-5.41,.21-2.77-.07-5.38-.13-8.11,1.25-5.46,2.74-12.83,7.43-16.96,14.14-5.19,8.43-6.59,23.21-3.11,32.95,2.99,8.4,11.26,15.27,20.57,17.12,12.49,2.46,25.96-2.57,32.76-12.24,.67-.94,1.18-1.92,1.67-2.86,1.19-2.27,2.31-4.42,5.2-5.27,2.1-.61,3.82-.63,5.46-.65,1.69-.01,3.4-.04,5.51-.69,.74-2.85,2.03-5.03,3.99-6.78,2.76-2.46,6.95-4.17,12.84-5.24,.03,0,.07,.03,.08,.05,0,.04-.03,.08-.05,.08-12.05,2.17-15.46,6.89-16.73,11.9,.01,0,.03,.01,.03,.03,.01,.03-.01,.07-.05,.08-.13,.5-.24,1.01-.33,1.5-1.36,7.68,2.78,14.66,5.38,18.14,1.58,2.12,4.09,3.23,6.52,4.3,.55,.25,1.12,.5,1.67,.76,2.6,1.22,8.7,2.57,11.54,2.87,4.19,.46,6.89,.88,9.5,1.27,3.48,.52,6.47,.98,12.07,1.41,.29,.04,28.75,4.27,34.03,4.27,4.57,0,46.41-3.72,51.64-4.48,6.27-.91,14.2-.69,17.72-.34,1.37,.14,4.73,1.16,8.27,2.25,4.17,1.27,8.47,2.57,9.96,2.57,2.89,0,5.53-1.49,8.58-3.21,.73-.42,1.5-.85,2.29-1.27,.98-.52,1.92-.98,2.85-1.41,2.51-1.2,4.87-2.34,7.03-4.47,.59-.57,1.08-1.2,1.5-1.89,0-.01,.01-.03,.01-.04,.47-.78,.84-1.66,1.14-2.69,.1-.35,.25-.77,.41-1.2,.64-1.8,1.42-4.06,.4-5.14-1.45-1.53-2.98-1.48-8.3-.5-2.16,.41-4.48,2-6.73,3.53-1.19,.82-2.33,1.59-3.37,2.14-.6,.31-1.18,.63-1.74,.94-3.72,2.06-6.66,3.7-9.76,.31l-.67-.68h-.01c-.65-1.61,.22-3.38,1.42-4.33,1.07-.84,2.51-1.29,4.52-1.45,.54-.04,1.07-.07,1.59-.08,1.05-.04,2.13-.08,3.18-.29,1.02-.2,2.87-.77,3.87-2.31-4.02-.64-8.11-.89-12.18-.73-2.69,.1-6.21,.39-9.41,1.76-1.45,.63-2.82,1.46-4.16,2.27-.61,.37-1.24,.76-1.88,1.11l-2.38,1.2h-.03c-6.59,.64-13.16,.31-21.98-1.08-10.52-1.66-30.71-1.29-38.31-1.15-1.33,.03-2.3,.04-2.82,.04-.88,0-2.46-.52-4.56-1.36-2.09-.84-4.69-2.01-7.59-3.32-6.01-2.69-13.48-6.05-20.34-8.22-1.32-.43-3.62-1.01-6.05-1.62-3.95-.99-8.43-2.12-10.54-3.01-.04-.01-.05-.05-.04-.08,.01-.04,.05-.05,.09-.04,2.1,.89,6.57,2.01,10.52,3.01,2.44,.6,4.74,1.19,6.06,1.61,6.86,2.18,14.35,5.54,20.36,8.23,5.79,2.61,10.37,4.66,12.1,4.66,.52,0,1.48-.01,2.82-.04,7.6-.14,27.81-.51,38.34,1.15,8.79,1.4,15.35,1.72,21.94,1.08l2.37-1.18c.63-.37,1.25-.74,1.87-1.12,1.33-.81,2.7-1.65,4.17-2.27,3.23-1.39,6.74-1.67,9.46-1.78,4.1-.16,8.23,.09,12.3,.74,.03,0,.04,.01,.05,.04,0,.01,0,.04-.01,.07-.99,1.65-2.94,2.25-4,2.46-1.06,.21-2.14,.25-3.2,.29-.51,.03-1.06,.04-1.58,.08-1.99,.14-3.41,.6-4.46,1.42-1.16,.9-2.01,2.61-1.38,4.14l.67,.67c3.02,3.31,5.92,1.7,9.59-.34,.56-.3,1.14-.63,1.74-.94,1.05-.55,2.17-1.32,3.37-2.13,2.26-1.54,4.59-3.14,6.77-3.55,5.38-.99,6.94-1.03,8.41,.54,1.08,1.14,.27,3.42-.38,5.27-.14,.43-.29,.85-.39,1.2-.29,.99-.65,1.84-1.08,2.61,23.39-2.29,47.86-5.15,68.43-10.52,1.32-.34,2.64-.69,3.97-1.05,10.74-2.86,21.85-5.81,33.05-5.23,5.04,.27,10.17,2.27,16.66,4.8,11.32,4.4,26.71,10.39,51.59,10.39,.77,0,1.57,0,2.37-.01,5.03-.08,13.94-1.29,24.25-2.72,10.3-1.41,21.96-3.02,31.58-3.67h4.59c4.74,0,14.19,2.42,17.68,5,1.01,.74,1.89,1.49,2.76,2.21,2.29,1.91,4.27,3.57,7.4,4.51,4.16,1.24,9.71,.31,11.82-3.84,1.37-2.72,.85-5.7,.3-8.86-.37-2.1-.74-4.27-.52-6.36,.48-4.39,3.54-7.81,6.48-11.12,1.59-1.78,3.23-3.62,4.48-5.61,4.17-6.64,4.1-15.22,4.06-22.11Zm-511.3,21.51c-3.37,1.01-5.61,4.29-7.4,6.91-2.03,2.95-4.29,5.91-7.66,6.7-.51,.12-1.03,.18-1.54,.18-2.95,0-5.84-1.88-6.9-4.68-1.24-3.29,.29-7.3,3.38-8.95,.04-.01,.08,0,.09,.03,.01,.04,0,.08-.03,.09-2.99,1.59-4.52,5.61-3.33,8.78,1.2,3.18,4.99,5.2,8.3,4.42,3.32-.78,5.57-3.71,7.58-6.65,1.8-2.64,4.05-5.93,7.46-6.96,.04-.01,.08,.01,.09,.05,0,.03-.01,.07-.05,.08Z" 
@@ -119,11 +116,11 @@ style="stroke:#fff; stroke-miterlimit:10;"/>
 }
 
 function getProneDecubitus({ height_px, classes, bloodStyle, category, offset }: PictoOptions) {
-  const left = offset ? -0.44 * height_px : 0;
-  const top = offset ? -0.55 * height_px : 0;
-  return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
+	const left = offset ? -0.44 * height_px : 0;
+	const top = offset ? -0.55 * height_px : 0;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}" viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
     <g class="ventral_position">
-        <path style="${bloodStyle}  transform-origin:50% 60%;" class="blood" d="M220.99,346.22s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
+        <path style="${bloodStyle}  transform-origin:50% 60%;" class="blood"d="M220.99,346.22s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
 		fill="#d11c1c"/>
 		<g>
 		<path d="M106.03,348.7c-1.16,1.29-3.81,3.22-5.4,3.92-1.92,.85-3.93,1.56-5.92,2.23-4,1.35-8.08,2.41-12.23,3.2-6.67,1.26-13.48,1.8-20.27,1.59-7.52-.23-15.36-3.2-21.98-6.66-4.72-2.47-9.09-5.82-12.04-10.26-6.19-9.31-5.52-22.59-.78-32.38,2.07-4.28,5.18-8.03,9.24-10.55,10.46-6.52,24.53-5.31,34.52,1.34,.99,.66,2.12,1.23,3.45,1.72-.28,.09-.56,.23-.85,.37-2.24,1.11-2.11,3.65-1.74,5.73,0,.03,.03,.05,.07,.05,.04-.01,.07-.04,.05-.08-.36-2.03-.49-4.51,1.67-5.58,.34-.17,.66-.31,1.01-.44,1.01-.33,1.99-.38,2.98-.15,1.19,.29,2.37,.84,3.5,1.64,.32,.21,.62,.45,.95,.73,1.55,1.31,2.96,3.05,4.27,5.29,.69,1.18,1.07,2.33,1.45,3.45,.62,1.83,1.21,3.57,3.01,4.95,1.01,.77,2.19,1.19,3.33,1.6,.29,.09,.57,.2,.85,.31,1.96,.74,3.45,1.8,4.68,3.36,.78,.99,1.46,2.1,2.1,3.16,.15,.24,.29,.48,.44,.72,2.27,3.69,4.19,7.07,5.27,11.02,.85,3.14,.97,6.85-1.62,9.72Z" 
@@ -140,10 +137,10 @@ function getProneDecubitus({ height_px, classes, bloodStyle, category, offset }:
 </svg>`;
 }
 
-function getRecoveryPosition({ height_px, classes, bloodStyle, category, offset }: PictoOptions) {
-  const left = offset ? -0.5 * height_px : 0;
-  const top = offset ? -0.5 * height_px : 0;
-  return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}"  viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
+function getRecoveryPosition({ height_px, classes, bloodStyle, category, offset}: PictoOptions) {
+	const left = offset ? -0.5 * height_px : 0;
+	const top = offset ? -0.5 * height_px : 0;
+	return `<svg style="position: relative; left: ${left}px; top:${top}px; max-height:100%; max-width:100%;" class="body_picto ${classes}"  viewBox="0 0 600 600" fill="black" xmlns="http://www.w3.org/2000/svg">
     <g class="pls_position">
         <path style="${bloodStyle} transform-origin:50% 40%;" class="blood" d="M233.9,342.9s-30.72-2.98-38.99,0c-8.27,2.98-37.81,12.18-33.09,21.37,4.73,9.19,38.99,15.76,48.45,15.76s21.27,14.44,37.81,14.44,52.66-10.5,69.46-11.82c16.8-1.31,54.93-6.94,54.18-14.63-.75-7.69-22.57-17.33-37.66-16.45-15.09,.88-21.46-10.34-36.59-8.67-15.13,1.67-45.82,1.17-63.58,0Z" 
 fill="#d11c1c"/>
@@ -164,188 +161,177 @@ stroke="#fff" stroke-miterlimit="10"/>
 	</svg>`;
 }
 
+
 function getPainIcon(pain: number, overview: HumanOverview): string {
-  if (overview.looksDead || overview.gcs.total < 7) {
-    return '/patient/pain/pain_svg/unconscious_dead.svg';
-  }
+	if (overview.looksDead || overview.gcs.total < 7) {
+		return "/patient/pain/pain_svg/unconscious_dead.svg";
+	}
 
-  let painLevel: string;
+	let painLevel : string;
 
-  if (pain <= 2) {
-    painLevel = 'no';
-  } else if (pain <= 4) {
-    painLevel = 'low';
-  } else if (pain <= 6) {
-    painLevel = 'medium';
-  } else if (pain <= 8) {
-    painLevel = 'high';
-  } else {
-    painLevel = 'horrible';
-  }
+	if (pain <= 2) {
+		painLevel = 'no';
+	} else if (pain <= 4) {
+		painLevel = 'low';
+	} else if (pain <= 6) {
+		painLevel = 'medium';
+	} else if (pain <= 8) {
+		painLevel = 'high';
+	} else {
+		painLevel = 'horrible';
+	}
 
-  let consciousness;
+	let consciousness;
 
-  const glasgow = overview.gcs.total;
+	const glasgow = overview.gcs.total;
 
-  if (glasgow < 11) {
-    consciousness = 'HS_conscious';
-  } else if (glasgow < 14) {
-    consciousness = 'confused';
-  } else {
-    consciousness = 'alert';
-  }
+	if (glasgow < 11) { 
+		consciousness = 'HS_conscious';
+	}else if(glasgow < 14){
+		consciousness = 'confused';
+	}else {
+		consciousness = 'alert';
+	}
 
-  return '/patient/pain/pain_svg/' + consciousness + '_' + painLevel + 'Pain.svg';
+	return "/patient/pain/pain_svg/" + consciousness + '_' + painLevel + 'Pain.svg';
 }
 
 function convertMeterToPixel(m: number, resolution: number) {
-  return convertMeterToMapUnit(m) / resolution;
+	return convertMeterToMapUnit(m) / resolution;
 }
 
-function getBodyPicto(
-  overview: HumanOverview,
-  resolution: number = 0.05,
-  offset: boolean = true,
-): string {
-  const { className: classes, bloodRatio } = getPicoClassNames(overview);
+function getBodyPicto(overview: HumanOverview, resolution: number = 0.05, offset: boolean = true): string {
+	const { className: classes, bloodRatio } = getPicoClassNames(overview);
 
-  const bloodStyle = `transform: scale(${bloodRatio});`;
+	const bloodStyle = `transform: scale(${bloodRatio});`;
 
-  const height_px = convertMeterToPixel(overview.height_cm / 100, resolution);
+	const height_px = convertMeterToPixel(overview.height_cm / 100, resolution);
 
-  const options: PictoOptions = {
-    height_px: Math.max(height_px, 20),
-    classes,
-    bloodStyle,
-    category: overview.category,
-    offset,
-  };
+	const options: PictoOptions = { height_px: Math.max(height_px, 20), classes, bloodStyle, category: overview.category, offset };
 
-  switch (overview.position) {
-    case 'STANDING':
-      return getStanding(options);
-    case 'SITTING':
-      return getSitting(options);
-    case 'SUPINE_DECUBITUS':
-      return getSupineDecubitus(options);
-    case 'PRONE_DECUBITUS':
-      return getProneDecubitus(options);
-    case 'RECOVERY':
-      return getRecoveryPosition(options);
-  }
+	switch (overview.position) {
+		case 'STANDING':
+			return getStanding(options);
+		case 'SITTING':
+			return getSitting(options);
+		case 'SUPINE_DECUBITUS':
+			return getSupineDecubitus(options);
+		case 'PRONE_DECUBITUS':
+			return getProneDecubitus(options);
+		case 'RECOVERY':
+			return getRecoveryPosition(options);
+	}
 }
+
 
 export function getBodyPictoOffset(humanId: string): [number, number] {
-  switch (getHumanPosition(humanId)) {
-    case 'STANDING':
-      return [0, 0];
-    case 'SITTING':
-      return [40, 20];
-    case 'SUPINE_DECUBITUS':
-      return [0, 0];
-    case 'PRONE_DECUBITUS':
-      return [0, 0];
-    case 'RECOVERY':
-      return [0, 0];
-  }
+	switch (getHumanPosition(humanId)) {
+		case 'STANDING':
+			return [0, 0];
+		case 'SITTING':
+			return [40, 20];
+		case 'SUPINE_DECUBITUS':
+			return [0, 0];
+		case 'PRONE_DECUBITUS':
+			return [0, 0];
+		case 'RECOVERY':
+			return [0, 0];
+	}
 }
+
 
 const colorfulModel: Point[] = [
-  { x: 0.6, y: 0 },
-  { x: 0.85, y: 1 },
-];
+	{ x: 0.6, y: 0 },
+	{ x: 0.85, y: 1 }
+]
+
 
 function getColorful(human: HumanBody) {
-  const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
+	const bloodRatio = human.state.vitals.cardio.totalVolume_mL / human.meta.initialBloodVolume_mL;
 
-  return interpolate(bloodRatio, colorfulModel);
+	return interpolate(bloodRatio, colorfulModel);
 }
 
-export function getOverview(
-  human: HumanBody & { category: Categorization | undefined },
-): HumanOverview {
-  const looksDead = (human.state.vitals.cardiacArrest ?? 0) > 0;
 
-  const category = getCategory(human.category?.category);
+export function getOverview(human: (HumanBody & { category: Categorization | undefined })): HumanOverview {
 
-  return {
-    height_cm: human.meta.height_cm,
-    gcs: human.state.vitals.glasgow,
-    position: human.state.variables.bodyPosition,
-    colorful: looksDead ? 0 : getColorful(human),
-    cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
-    looksDead: looksDead,
-    totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
-    arterialBloodLosses_mlPerMin: human.state.vitals.cardio.extArterialLossesFlow_mlPerMin,
-    venousBloodLosses_mlPerMin: human.state.vitals.cardio.extVenousLossesFlow_mlPerMin,
-    category: category?.category,
-    rr: human.state.vitals.respiration.rr,
-    tidalVolume_L: human.state.vitals.respiration.tidalVolume_L,
-  };
+	const looksDead = (human.state.vitals.cardiacArrest ?? 0) > 0;
+
+	const category = getCategory(human.category?.category);
+
+	return {
+		height_cm: human.meta.height_cm,
+		gcs: human.state.vitals.glasgow,
+		position: human.state.variables.bodyPosition,
+		colorful: looksDead ? 0 : getColorful(human),
+		cyanosis: human.state.vitals.respiration.SaO2 < 0.85,
+		looksDead: looksDead,
+		totalExternalBloodLosses_ml: human.state.vitals.cardio.totalExtLosses_ml,
+		arterialBloodLosses_mlPerMin: human.state.vitals.cardio.extArterialLossesFlow_mlPerMin,
+		venousBloodLosses_mlPerMin: human.state.vitals.cardio.extVenousLossesFlow_mlPerMin,
+		category: category?.category,
+		rr: human.state.vitals.respiration.rr,
+		tidalVolume_L: human.state.vitals.respiration.tidalVolume_L,
+	};
 }
 
 export function getHumanPosition(humanId: string): BodyPosition {
-  const human = getHuman(humanId);
-  if (human != null) {
-    return human.state.variables.bodyPosition;
-  } else {
-    return 'STANDING';
-  }
+	const human = getHuman(humanId);
+	if (human != null) {
+		return human.state.variables.bodyPosition;
+	} else {
+		return 'STANDING';
+	}
 }
 
+
 export function getCategoryCard(): string {
-  const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
-  const output: string[] = [''];
+	const output: string[] = [''];
 
-  const human = getHuman(id);
-  if (human != null) {
-    const overview = getOverview(human);
-    if (overview) {
-      output.push(
-        `<div class='cat_card ${overview.category}'>${getCategoryCardSvg(
-          overview.category,
-          0,
-          0,
-          64,
-        )}</div>`,
-      );
-    }
-  } else {
-    //output.push("<em>Error [patient not found]</em>");
-  }
-  return output.join('');
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			output.push(`<div class='cat_card ${overview.category}'>${getCategoryCardSvg(overview.category, 0, 0, 64)}</div>`);
+		}
+	} else {
+		//output.push("<em>Error [patient not found]</em>");
+	}
+	return output.join("");
 }
 
 export function getVisualOverview(): string {
-  const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
+	const id = I18n.toString(Variable.find(gameModel, 'currentPatient'));
 
-  const output: string[] = [''];
+	const output: string[] = [''];
 
-  const human = getHuman(id);
-  if (human != null) {
-    const overview = getOverview(human);
-    if (overview) {
-      output.push(`<div>${getBodyPicto(overview, 0.005, false)}</div>`);
-    }
-  } else {
-    output.push('<em>Loading...</em>');
-    //output.push("<em>Error [patient not found]</em>");
-  }
-  return output.join('');
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			output.push(`<div>${getBodyPicto(overview, 0.005, false)}</div>`);
+		}
+	} else {
+		output.push('<em>Loading...</em>');
+		//output.push("<em>Error [patient not found]</em>");
+	}
+	return output.join("");
 }
 
 export function getVisualOverviewForHumanId(id: string, resolution: number = 0.05): string {
-  const output: string[] = [];
 
-  const human = getHuman(id);
-  if (human != null) {
-    const overview = getOverview(human);
-    if (overview) {
-      output.push(getBodyPicto(overview, resolution));
-    }
-  }
-  return output.join('');
+	const output: string[] = [];
+
+	const human = getHuman(id);
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			output.push(getBodyPicto(overview, resolution));
+		}
+	}
+	return output.join("");
 }
 
 /*
@@ -362,174 +348,175 @@ function getCyanosisPos(cyanosis: boolean, pallor: number): number {
 */
 
 export function getVisualDetails(): string {
-  const output: string[] = [];
 
-  const human = getCurrentPatientBody();
-  if (human != null) {
-    const overview = getOverview(human);
-    if (overview) {
-      const painPath = getPainIcon(human.state.vitals.pain, overview);
-      const painURL = Helpers.getFilePath(painPath);
-      output.push(
-        `<div class='visualDetail_elem'><img  src='${painURL}' class="coloration_pain" style='display: block; background-color: ${getSkinColoration(
-          overview.colorful,
-          overview.cyanosis,
-        )}'></div>`,
-      );
-      //const labelP = getTranslation('pretriage-interface', 'face');
-      //FACE LABEL (was inside the visualDetails_elem div) - <p>${labelP}</p>
+	const output: string[] = [];
 
-      // DEPRECATED - Triangle cursor
-      // const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
-      // const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
-      // const labelC = getTranslation('pretriage-interface', 'coloration');
-      //output.push(`<div class='visualDetail_elem'><p>${labelC}</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
-    }
-  }
-  return output.join('');
+	const human = getCurrentPatientBody();
+	if (human != null) {
+		const overview = getOverview(human);
+		if (overview) {
+			const painPath = getPainIcon(human.state.vitals.pain, overview);
+			const painURL = Helpers.getFilePath(painPath);
+			output.push(`<div class='visualDetail_elem'><img  src='${painURL}' class="coloration_pain" style='display: block; background-color: ${getSkinColoration(overview.colorful, overview.cyanosis)}'></div>`);
+			//const labelP = getTranslation('pretriage-interface', 'face'); 
+			//FACE LABEL (was inside the visualDetails_elem div) - <p>${labelP}</p>
+
+			// DEPRECATED - Triangle cursor
+			// const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
+			// const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
+			// const labelC = getTranslation('pretriage-interface', 'coloration'); 
+			//output.push(`<div class='visualDetail_elem'><p>${labelC}</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
+		}
+	}
+	return output.join("");
 }
 
 function getSkinColoration(colorful: number, cyanosis: boolean): string {
-  const palorThreshold = 0.725;
-  let color;
+	const palorThreshold = .725;
+	let color;
 
-  // Threshold
-  colorful < palorThreshold ? (color = '#FFFFFF') : '';
-  cyanosis ? (color = '#6675FE') : (color = '#D36180');
+	// Threshold
+	colorful < palorThreshold ? color = '#FFFFFF' : "";
+	cyanosis ? color = "#6675FE" : color = "#D36180";
 
-  return color;
+	return color;
 }
 
-export function getShadowMan() {
-  // <svg width="482" height="649" viewBox="0 0 482 649" fill="none" xmlns="http://www.w3.org/2000/svg">
-  //<path d="M386.415 324.936C383.439 323.051 379.766 321.025 373.387 314.006C369.56 309.816 364.264 306.883 358.697 304.962C357.692 304.613 356.609 304.299 355.72 303.705C353.903 302.518 353.594 300.073 353.091 298.222C352.589 296.407 352.202 294.521 351.661 292.705C350.579 289.038 349.573 283.207 349.573 273.464C349.573 250.382 344.316 230.442 341.532 225.065C338.749 219.687 336.971 215.566 333.723 193.741C330.437 171.916 336.739 175.513 333.723 149.148C330.708 122.783 308.286 118.139 298.235 116.043C288.183 113.948 267.656 106.301 263.674 103.542C261.702 102.18 261.393 83.3008 261.586 76.7009C264.64 72.4406 266.225 66.8184 267.346 61.9296C267.81 62.4883 268.815 63.501 269.743 63.5708C270.98 63.6407 272.836 60.1137 273.377 58.1931C273.957 56.2725 274.73 49.7773 273.841 47.3329C272.99 44.8885 270.942 46.8091 270.284 47.752C270.052 48.1012 269.55 48.4154 269.009 48.6948C269.202 45.4821 269.357 42.2695 269.898 39.0917C270.903 32.8061 270.439 26.7649 268.081 20.6887C263.132 7.94285 243.687 7.06984 241.02 7C238.314 7.06984 218.907 7.94285 213.92 20.7586C211.562 26.8347 211.098 32.8759 212.103 39.1616C212.605 42.3393 212.799 45.552 212.992 48.7646C212.451 48.4853 211.948 48.171 211.716 47.8218C211.059 46.8789 209.01 44.9583 208.16 47.4028C207.309 49.8472 208.082 56.3423 208.624 58.263C209.203 60.1836 211.02 63.7454 212.257 63.6407C213.185 63.5708 214.19 62.5581 214.654 61.9994C215.775 66.8883 217.36 72.5104 220.415 76.7707C220.608 83.4056 220.299 102.285 218.327 103.612C214.345 106.336 193.817 113.983 183.766 116.113C173.715 118.208 151.331 122.853 148.277 149.218C145.262 175.583 151.563 171.986 148.277 193.811C144.991 215.636 143.252 219.757 140.468 225.134C137.685 230.512 132.427 250.452 132.427 273.534C132.427 283.277 131.422 289.108 130.34 292.775C129.798 294.591 129.412 296.442 128.909 298.292C128.407 300.143 128.097 302.588 126.28 303.775C125.391 304.334 124.347 304.683 123.304 305.032C117.737 306.953 112.441 309.886 108.613 314.076C102.235 321.095 98.6007 323.121 95.5853 325.006C92.6086 326.892 93.5751 331.711 100.418 330.279C107.26 328.848 111.783 321.025 113.484 321.514C115.185 321.968 111.629 333.597 110.198 337.508C108.768 341.419 107.415 346.133 106.526 348.543C105.637 350.952 104.631 355.352 106.642 357.796C108.652 360.241 111.513 357.098 113.484 350.777C115.456 344.492 119.515 333.247 119.515 333.247C119.515 333.247 117.273 342.746 115.611 348.473C113.948 354.235 109.696 361.568 113.33 364.327C115.263 365.793 117.505 363.942 118.781 361.149C120.056 358.355 121.68 353.676 121.796 353.222C122.994 348.543 126.551 335.622 126.551 335.622C126.551 335.622 124.27 346.447 122.917 351.581C122.183 354.444 120.404 358.181 120.404 360.485C120.404 362.301 121.989 363.558 124.077 362.965C125.971 362.441 127.633 358.635 128.755 354.584C129.876 350.428 131.577 342.886 132.62 339.324C133.007 337.962 133.664 336.635 133.626 337.647C133.548 339.847 131.654 345.819 131.035 348.822C130.262 352.628 130.417 355.317 132.388 355.527C133.626 355.666 134.708 355.387 135.79 353.711C137.028 351.79 138.226 346.762 139.115 343.2C140.545 337.438 142.478 332.13 143.329 326.962C144.141 321.794 145.339 311.213 146.228 307.756C147.117 304.299 148.934 299.759 148.934 299.759H148.818C152.298 290.016 160.687 266.62 166.138 252.337C173.135 234.004 170.699 227.684 171.743 219.757C172.439 214.623 178.392 201.773 182.722 188.014C182.722 188.014 195.982 218.569 191.923 236.518C184.848 268.051 187.052 258.867 184.848 268.051C182.413 278.178 179.939 288.096 178.856 298.467C176.382 321.584 174.449 345.016 178.508 367.888C179.977 376.234 185.351 424.599 185.042 426.24C183.766 432.526 179.668 445.726 178.083 453.164C176.498 460.602 177.31 471.776 177.929 492.1C178.547 512.423 181.408 528.172 182.374 539.347C183.186 548.95 181.64 573.429 181.176 580.169C181.099 581.356 180.867 582.508 180.441 583.626C179.514 586.105 178.083 589.562 176.343 592.565C173.251 597.908 166.138 608 163.779 610.13C161.421 612.261 157.594 617.429 161.151 618.93C162.426 619.454 163.045 618.93 163.045 618.93C162.581 620.606 163.393 622.387 164.514 622.911C165.442 623.33 166.601 623.19 166.601 623.19C166.717 624.517 168.38 626.962 171.936 626.089C171.936 626.089 172.826 628.952 175.609 629.092C176.537 629.127 177.426 629.092 178.276 628.813C179.05 628.533 179.9 627.73 180.867 625.74C180.867 625.74 180.171 628.324 183.65 629.546C187.168 630.768 191.304 629.336 193.431 625.251C195.557 621.165 195.325 620.432 197.103 616.905C198.882 613.378 198.07 604.159 199.345 600.388C200.66 596.651 204.448 595.359 204.796 592.251C205.028 590.4 205.106 586.838 204.603 583.451C204.68 583.451 204.835 569.448 204.835 569.448L205.299 563.198C205.995 553.56 207.309 543.922 209.319 534.423C212.683 518.465 217.36 492.03 218.791 476.002C220.685 454.526 222.927 436.472 224.164 433.05C224.203 432.91 224.319 432.666 224.396 432.421C229.113 419.291 232.476 405.742 234.177 392.018C234.718 387.688 235.221 382.904 235.607 377.736C237.347 355.143 236.535 342.851 241.02 342.257C245.504 342.851 244.692 355.143 246.432 377.736C246.818 382.869 247.321 387.653 247.862 392.018C249.563 405.742 252.927 419.291 257.643 432.421C257.759 432.7 257.836 432.91 257.875 433.05C259.151 436.472 261.354 454.526 263.248 476.002C264.679 492.03 269.357 518.465 272.72 534.423C274.73 543.922 276.044 553.525 276.74 563.198L277.204 569.448C277.204 569.448 277.359 583.451 277.436 583.451C276.972 586.804 277.05 590.366 277.243 592.251C277.591 595.359 281.379 596.651 282.694 600.388C284.008 604.124 283.158 613.343 284.936 616.905C286.714 620.432 286.482 621.2 288.609 625.251C290.735 629.336 294.91 630.768 298.389 629.546C301.907 628.324 301.173 625.74 301.173 625.74C302.1 627.73 302.951 628.533 303.763 628.813C304.613 629.127 305.502 629.162 306.43 629.092C309.175 628.952 310.103 626.089 310.103 626.089C313.659 626.962 315.322 624.517 315.438 623.19C315.438 623.19 316.598 623.295 317.525 622.911C318.646 622.422 319.497 620.641 318.994 618.93C318.994 618.93 319.652 619.419 320.889 618.93C324.484 617.464 320.657 612.295 318.26 610.13C315.902 608 308.788 597.908 305.696 592.565C303.956 589.562 302.526 586.07 301.598 583.626C301.173 582.508 300.941 581.356 300.863 580.169C300.399 573.429 298.853 548.915 299.665 539.347C300.631 528.172 303.454 512.423 304.111 492.1C304.729 471.776 305.541 460.602 303.956 453.164C302.371 445.726 298.235 432.561 296.998 426.24C296.65 424.564 302.023 376.234 303.531 367.888C307.59 344.981 305.657 321.584 303.183 298.467C302.062 288.131 299.626 278.178 297.191 268.051C294.987 258.867 297.191 268.051 290.116 236.518C286.096 218.569 299.317 188.014 299.317 188.014C303.647 201.773 309.6 214.623 310.296 219.757C311.34 227.649 308.904 234.004 315.902 252.337C321.353 266.585 329.742 289.981 333.221 299.724H333.105C333.105 299.724 334.922 304.264 335.811 307.721C336.7 311.178 337.898 321.759 338.71 326.927C339.522 332.095 341.494 337.403 342.924 343.165C343.813 346.727 345.012 351.755 346.249 353.676C347.331 355.352 348.414 355.631 349.651 355.492C351.622 355.282 351.777 352.593 351.004 348.787C350.385 345.784 348.491 339.778 348.414 337.613C348.375 336.6 349.032 337.927 349.419 339.289C350.463 342.851 352.164 350.393 353.285 354.549C354.406 358.6 356.068 362.441 357.962 362.93C360.089 363.488 361.635 362.266 361.635 360.45C361.635 358.146 359.857 354.409 359.122 351.546C357.769 346.412 355.488 335.587 355.488 335.587C355.488 335.587 359.045 348.473 360.243 353.187C360.359 353.641 361.944 358.32 363.259 361.114C364.534 363.873 366.815 365.758 368.71 364.292C372.343 361.533 368.091 354.165 366.429 348.438C364.766 342.711 362.524 333.213 362.524 333.213C362.524 333.213 366.583 344.457 368.555 350.743C370.526 357.028 373.387 360.206 375.397 357.762C377.408 355.317 376.403 350.882 375.513 348.508C374.624 346.098 373.233 341.419 371.841 337.473C370.411 333.562 366.893 321.933 368.555 321.479C370.256 321.025 374.779 328.848 381.622 330.244C388.464 331.641 389.431 326.857 386.454 324.971L386.415 324.936Z" fill="#AAAAAA"/>
-  //</svg>
 
-  return `<svg viewBox="0 0 294 636" fill="none" width="100%" xmlns="http://www.w3.org/2000/svg">
+
+export function getShadowMan() {
+	// <svg width="482" height="649" viewBox="0 0 482 649" fill="none" xmlns="http://www.w3.org/2000/svg">
+	//<path d="M386.415 324.936C383.439 323.051 379.766 321.025 373.387 314.006C369.56 309.816 364.264 306.883 358.697 304.962C357.692 304.613 356.609 304.299 355.72 303.705C353.903 302.518 353.594 300.073 353.091 298.222C352.589 296.407 352.202 294.521 351.661 292.705C350.579 289.038 349.573 283.207 349.573 273.464C349.573 250.382 344.316 230.442 341.532 225.065C338.749 219.687 336.971 215.566 333.723 193.741C330.437 171.916 336.739 175.513 333.723 149.148C330.708 122.783 308.286 118.139 298.235 116.043C288.183 113.948 267.656 106.301 263.674 103.542C261.702 102.18 261.393 83.3008 261.586 76.7009C264.64 72.4406 266.225 66.8184 267.346 61.9296C267.81 62.4883 268.815 63.501 269.743 63.5708C270.98 63.6407 272.836 60.1137 273.377 58.1931C273.957 56.2725 274.73 49.7773 273.841 47.3329C272.99 44.8885 270.942 46.8091 270.284 47.752C270.052 48.1012 269.55 48.4154 269.009 48.6948C269.202 45.4821 269.357 42.2695 269.898 39.0917C270.903 32.8061 270.439 26.7649 268.081 20.6887C263.132 7.94285 243.687 7.06984 241.02 7C238.314 7.06984 218.907 7.94285 213.92 20.7586C211.562 26.8347 211.098 32.8759 212.103 39.1616C212.605 42.3393 212.799 45.552 212.992 48.7646C212.451 48.4853 211.948 48.171 211.716 47.8218C211.059 46.8789 209.01 44.9583 208.16 47.4028C207.309 49.8472 208.082 56.3423 208.624 58.263C209.203 60.1836 211.02 63.7454 212.257 63.6407C213.185 63.5708 214.19 62.5581 214.654 61.9994C215.775 66.8883 217.36 72.5104 220.415 76.7707C220.608 83.4056 220.299 102.285 218.327 103.612C214.345 106.336 193.817 113.983 183.766 116.113C173.715 118.208 151.331 122.853 148.277 149.218C145.262 175.583 151.563 171.986 148.277 193.811C144.991 215.636 143.252 219.757 140.468 225.134C137.685 230.512 132.427 250.452 132.427 273.534C132.427 283.277 131.422 289.108 130.34 292.775C129.798 294.591 129.412 296.442 128.909 298.292C128.407 300.143 128.097 302.588 126.28 303.775C125.391 304.334 124.347 304.683 123.304 305.032C117.737 306.953 112.441 309.886 108.613 314.076C102.235 321.095 98.6007 323.121 95.5853 325.006C92.6086 326.892 93.5751 331.711 100.418 330.279C107.26 328.848 111.783 321.025 113.484 321.514C115.185 321.968 111.629 333.597 110.198 337.508C108.768 341.419 107.415 346.133 106.526 348.543C105.637 350.952 104.631 355.352 106.642 357.796C108.652 360.241 111.513 357.098 113.484 350.777C115.456 344.492 119.515 333.247 119.515 333.247C119.515 333.247 117.273 342.746 115.611 348.473C113.948 354.235 109.696 361.568 113.33 364.327C115.263 365.793 117.505 363.942 118.781 361.149C120.056 358.355 121.68 353.676 121.796 353.222C122.994 348.543 126.551 335.622 126.551 335.622C126.551 335.622 124.27 346.447 122.917 351.581C122.183 354.444 120.404 358.181 120.404 360.485C120.404 362.301 121.989 363.558 124.077 362.965C125.971 362.441 127.633 358.635 128.755 354.584C129.876 350.428 131.577 342.886 132.62 339.324C133.007 337.962 133.664 336.635 133.626 337.647C133.548 339.847 131.654 345.819 131.035 348.822C130.262 352.628 130.417 355.317 132.388 355.527C133.626 355.666 134.708 355.387 135.79 353.711C137.028 351.79 138.226 346.762 139.115 343.2C140.545 337.438 142.478 332.13 143.329 326.962C144.141 321.794 145.339 311.213 146.228 307.756C147.117 304.299 148.934 299.759 148.934 299.759H148.818C152.298 290.016 160.687 266.62 166.138 252.337C173.135 234.004 170.699 227.684 171.743 219.757C172.439 214.623 178.392 201.773 182.722 188.014C182.722 188.014 195.982 218.569 191.923 236.518C184.848 268.051 187.052 258.867 184.848 268.051C182.413 278.178 179.939 288.096 178.856 298.467C176.382 321.584 174.449 345.016 178.508 367.888C179.977 376.234 185.351 424.599 185.042 426.24C183.766 432.526 179.668 445.726 178.083 453.164C176.498 460.602 177.31 471.776 177.929 492.1C178.547 512.423 181.408 528.172 182.374 539.347C183.186 548.95 181.64 573.429 181.176 580.169C181.099 581.356 180.867 582.508 180.441 583.626C179.514 586.105 178.083 589.562 176.343 592.565C173.251 597.908 166.138 608 163.779 610.13C161.421 612.261 157.594 617.429 161.151 618.93C162.426 619.454 163.045 618.93 163.045 618.93C162.581 620.606 163.393 622.387 164.514 622.911C165.442 623.33 166.601 623.19 166.601 623.19C166.717 624.517 168.38 626.962 171.936 626.089C171.936 626.089 172.826 628.952 175.609 629.092C176.537 629.127 177.426 629.092 178.276 628.813C179.05 628.533 179.9 627.73 180.867 625.74C180.867 625.74 180.171 628.324 183.65 629.546C187.168 630.768 191.304 629.336 193.431 625.251C195.557 621.165 195.325 620.432 197.103 616.905C198.882 613.378 198.07 604.159 199.345 600.388C200.66 596.651 204.448 595.359 204.796 592.251C205.028 590.4 205.106 586.838 204.603 583.451C204.68 583.451 204.835 569.448 204.835 569.448L205.299 563.198C205.995 553.56 207.309 543.922 209.319 534.423C212.683 518.465 217.36 492.03 218.791 476.002C220.685 454.526 222.927 436.472 224.164 433.05C224.203 432.91 224.319 432.666 224.396 432.421C229.113 419.291 232.476 405.742 234.177 392.018C234.718 387.688 235.221 382.904 235.607 377.736C237.347 355.143 236.535 342.851 241.02 342.257C245.504 342.851 244.692 355.143 246.432 377.736C246.818 382.869 247.321 387.653 247.862 392.018C249.563 405.742 252.927 419.291 257.643 432.421C257.759 432.7 257.836 432.91 257.875 433.05C259.151 436.472 261.354 454.526 263.248 476.002C264.679 492.03 269.357 518.465 272.72 534.423C274.73 543.922 276.044 553.525 276.74 563.198L277.204 569.448C277.204 569.448 277.359 583.451 277.436 583.451C276.972 586.804 277.05 590.366 277.243 592.251C277.591 595.359 281.379 596.651 282.694 600.388C284.008 604.124 283.158 613.343 284.936 616.905C286.714 620.432 286.482 621.2 288.609 625.251C290.735 629.336 294.91 630.768 298.389 629.546C301.907 628.324 301.173 625.74 301.173 625.74C302.1 627.73 302.951 628.533 303.763 628.813C304.613 629.127 305.502 629.162 306.43 629.092C309.175 628.952 310.103 626.089 310.103 626.089C313.659 626.962 315.322 624.517 315.438 623.19C315.438 623.19 316.598 623.295 317.525 622.911C318.646 622.422 319.497 620.641 318.994 618.93C318.994 618.93 319.652 619.419 320.889 618.93C324.484 617.464 320.657 612.295 318.26 610.13C315.902 608 308.788 597.908 305.696 592.565C303.956 589.562 302.526 586.07 301.598 583.626C301.173 582.508 300.941 581.356 300.863 580.169C300.399 573.429 298.853 548.915 299.665 539.347C300.631 528.172 303.454 512.423 304.111 492.1C304.729 471.776 305.541 460.602 303.956 453.164C302.371 445.726 298.235 432.561 296.998 426.24C296.65 424.564 302.023 376.234 303.531 367.888C307.59 344.981 305.657 321.584 303.183 298.467C302.062 288.131 299.626 278.178 297.191 268.051C294.987 258.867 297.191 268.051 290.116 236.518C286.096 218.569 299.317 188.014 299.317 188.014C303.647 201.773 309.6 214.623 310.296 219.757C311.34 227.649 308.904 234.004 315.902 252.337C321.353 266.585 329.742 289.981 333.221 299.724H333.105C333.105 299.724 334.922 304.264 335.811 307.721C336.7 311.178 337.898 321.759 338.71 326.927C339.522 332.095 341.494 337.403 342.924 343.165C343.813 346.727 345.012 351.755 346.249 353.676C347.331 355.352 348.414 355.631 349.651 355.492C351.622 355.282 351.777 352.593 351.004 348.787C350.385 345.784 348.491 339.778 348.414 337.613C348.375 336.6 349.032 337.927 349.419 339.289C350.463 342.851 352.164 350.393 353.285 354.549C354.406 358.6 356.068 362.441 357.962 362.93C360.089 363.488 361.635 362.266 361.635 360.45C361.635 358.146 359.857 354.409 359.122 351.546C357.769 346.412 355.488 335.587 355.488 335.587C355.488 335.587 359.045 348.473 360.243 353.187C360.359 353.641 361.944 358.32 363.259 361.114C364.534 363.873 366.815 365.758 368.71 364.292C372.343 361.533 368.091 354.165 366.429 348.438C364.766 342.711 362.524 333.213 362.524 333.213C362.524 333.213 366.583 344.457 368.555 350.743C370.526 357.028 373.387 360.206 375.397 357.762C377.408 355.317 376.403 350.882 375.513 348.508C374.624 346.098 373.233 341.419 371.841 337.473C370.411 333.562 366.893 321.933 368.555 321.479C370.256 321.025 374.779 328.848 381.622 330.244C388.464 331.641 389.431 326.857 386.454 324.971L386.415 324.936Z" fill="#AAAAAA"/>
+	//</svg>
+
+	return `<svg viewBox="0 0 294 636" fill="none" width="100%" xmlns="http://www.w3.org/2000/svg">
 <path d="M292.368 324.587C289.392 322.662 285.72 320.595 279.342 313.429C275.516 309.151 270.221 306.156 264.655 304.195C263.65 303.839 262.568 303.518 261.679 302.912C259.862 301.7 259.553 299.204 259.05 297.315C258.548 295.461 258.162 293.536 257.62 291.682C256.538 287.938 255.533 281.985 255.533 272.038C255.533 248.473 250.277 228.116 247.494 222.626C244.711 217.136 242.933 212.929 239.686 190.647C236.401 168.366 242.701 172.038 239.686 145.121C236.671 118.205 214.254 113.464 204.204 111.325C194.155 109.185 173.631 101.378 169.65 98.5615C167.679 97.1712 167.369 77.8969 167.563 71.1589C170.616 66.8095 172.201 61.0698 173.322 56.0787C173.785 56.6491 174.79 57.6829 175.718 57.7542C176.955 57.8255 178.81 54.2248 179.351 52.264C179.931 50.3032 180.704 43.6722 179.815 41.1766C178.965 38.6811 176.916 40.6419 176.259 41.6044C176.027 41.961 175.525 42.2818 174.984 42.567C175.177 39.2871 175.332 36.0073 175.873 32.7631C176.878 26.3459 176.414 20.1783 174.056 13.9751C169.109 0.962571 149.667 0.0713015 147 0C144.294 0.0713015 124.891 0.962571 119.905 14.0464C117.548 20.2496 117.084 26.4172 118.089 32.8344C118.591 36.0786 118.784 39.3584 118.978 42.6383C118.437 42.3531 117.934 42.0322 117.702 41.6757C117.045 40.7132 114.997 38.7524 114.146 41.2479C113.296 43.7435 114.069 50.3745 114.61 52.3353C115.19 54.2961 117.006 57.9325 118.243 57.8255C119.171 57.7542 120.176 56.7204 120.64 56.15C121.761 61.1411 123.345 66.8808 126.399 71.2302C126.592 78.0039 126.283 97.2781 124.312 98.6328C120.331 101.414 99.8066 109.221 89.7572 111.396C79.7079 113.535 57.3287 118.276 54.2752 145.193C51.2604 172.109 57.5606 168.437 54.2752 190.719C50.9899 213.001 49.2505 217.207 46.4676 222.697C43.6847 228.188 38.4281 248.544 38.4281 272.109C38.4281 282.056 37.4232 288.01 36.341 291.753C35.7998 293.607 35.4133 295.496 34.9109 297.386C34.4084 299.275 34.0992 301.771 32.2826 302.983C31.3936 303.553 30.35 303.91 29.3064 304.266C23.7406 306.227 18.4454 309.222 14.6189 313.5C8.24137 320.666 4.60814 322.734 1.59333 324.659C-1.38283 326.584 -0.416547 331.504 6.42476 330.042C13.2661 328.58 17.7883 320.594 19.4889 321.094C21.1896 321.557 17.6337 333.429 16.2036 337.422C14.7735 341.415 13.4207 346.227 12.5317 348.687C11.6427 351.147 10.6378 355.639 12.6476 358.135C14.6575 360.63 17.5177 357.422 19.4889 350.969C21.4602 344.552 25.5186 333.072 25.5186 333.072C25.5186 333.072 23.2768 342.769 21.6148 348.616C19.9528 354.498 15.7011 361.985 19.3343 364.801C21.2669 366.299 23.5087 364.409 24.7842 361.557C26.0597 358.705 27.683 353.928 27.799 353.464C28.9972 348.687 32.5531 335.497 32.5531 335.497C32.5531 335.497 30.2727 346.548 28.9199 351.789C28.1855 354.712 26.4075 358.527 26.4075 360.88C26.4075 362.734 27.9923 364.017 30.0794 363.411C31.9734 362.876 33.6354 358.99 34.7563 354.855C35.8771 350.612 37.5778 342.912 38.6214 339.276C39.0079 337.885 39.665 336.53 39.6263 337.564C39.549 339.81 37.6551 345.907 37.0367 348.972C36.2637 352.858 36.4183 355.604 38.3895 355.817C39.6263 355.96 40.7086 355.675 41.7908 353.964C43.0277 352.003 44.2259 346.869 45.1148 343.233C46.5449 337.35 48.4775 331.931 49.3278 326.655C50.1395 321.379 51.3377 310.577 52.2267 307.047C53.1157 303.518 54.9323 298.883 54.9323 298.883H54.8163C58.295 288.937 66.6823 265.051 72.1322 250.469C79.1281 231.753 76.6931 225.3 77.7366 217.207C78.4324 211.967 84.3847 198.847 88.7137 184.801C88.7137 184.801 101.971 215.995 97.9127 234.32C90.8395 266.512 93.0426 257.136 90.8395 266.512C88.4044 276.851 85.9307 286.976 84.8485 297.564C82.3748 321.165 80.4422 345.087 84.5006 368.438C85.9694 376.958 91.3419 426.335 91.0327 428.01C89.7572 434.427 85.6602 447.903 84.0755 455.497C82.4908 463.091 83.3024 474.499 83.9209 495.248C84.5393 515.996 87.3995 532.075 88.3658 543.483C89.1775 553.287 87.6314 578.278 87.1676 585.159C87.0903 586.371 86.8584 587.547 86.4332 588.688C85.5056 591.219 84.0755 594.749 82.3362 597.815C79.244 603.269 72.1322 613.573 69.7744 615.747C67.4167 617.922 63.5902 623.198 67.1462 624.731C68.4217 625.266 69.0401 624.731 69.0401 624.731C68.5763 626.442 69.3879 628.261 70.5088 628.795C71.4365 629.223 72.596 629.081 72.596 629.081C72.712 630.435 74.374 632.931 77.9299 632.04C77.9299 632.04 78.8189 634.963 81.6018 635.106C82.5294 635.141 83.4184 635.106 84.2687 634.82C85.0418 634.535 85.8921 633.715 86.8584 631.683C86.8584 631.683 86.1627 634.321 89.6413 635.569C93.1586 636.817 97.2943 635.355 99.4201 631.184C101.546 627.013 101.314 626.264 103.092 622.663C104.87 619.063 104.058 609.651 105.334 605.801C106.648 601.986 110.436 600.667 110.784 597.494C111.016 595.605 111.093 591.968 110.59 588.51C110.668 588.51 110.822 574.214 110.822 574.214L111.286 567.833C111.982 557.993 113.296 548.153 115.306 538.456C118.669 522.164 123.345 495.176 124.775 478.813C126.669 456.887 128.911 438.456 130.148 434.962C130.187 434.82 130.303 434.57 130.38 434.32C135.095 420.916 138.458 407.083 140.159 393.073C140.7 388.652 141.202 383.768 141.589 378.491C143.328 355.425 142.516 342.876 147 342.27C151.484 342.876 150.672 355.425 152.411 378.491C152.798 383.732 153.3 388.616 153.841 393.073C155.542 407.083 158.905 420.916 163.62 434.32C163.736 434.606 163.813 434.82 163.852 434.962C165.128 438.456 167.331 456.887 169.225 478.813C170.655 495.176 175.332 522.164 178.694 538.456C180.704 548.153 182.018 557.957 182.714 567.833L183.178 574.214C183.178 574.214 183.332 588.51 183.41 588.51C182.946 591.932 183.023 595.569 183.216 597.494C183.564 600.667 187.352 601.986 188.666 605.801C189.98 609.615 189.13 619.027 190.908 622.663C192.686 626.264 192.454 627.048 194.58 631.184C196.706 635.355 200.88 636.817 204.359 635.569C207.876 634.321 207.142 631.683 207.142 631.683C208.069 633.715 208.92 634.535 209.731 634.82C210.582 635.141 211.471 635.177 212.398 635.106C215.142 634.963 216.07 632.04 216.07 632.04C219.626 632.931 221.288 630.435 221.404 629.081C221.404 629.081 222.564 629.188 223.491 628.795C224.612 628.296 225.462 626.478 224.96 624.731C224.96 624.731 225.617 625.23 226.854 624.731C230.448 623.234 226.622 617.958 224.226 615.747C221.868 613.573 214.756 603.269 211.664 597.815C209.925 594.749 208.494 591.184 207.567 588.688C207.142 587.547 206.91 586.371 206.832 585.159C206.369 578.278 204.823 553.251 205.634 543.483C206.601 532.075 209.422 515.996 210.079 495.248C210.698 474.499 211.509 463.091 209.925 455.497C208.34 447.903 204.204 434.463 202.967 428.01C202.619 426.299 207.992 376.958 209.499 368.438C213.558 345.051 211.625 321.165 209.152 297.564C208.031 287.012 205.596 276.851 203.161 266.512C200.957 257.136 203.161 266.512 196.087 234.32C192.068 215.995 205.286 184.801 205.286 184.801C209.615 198.847 215.568 211.967 216.263 217.207C217.307 225.264 214.872 231.753 221.868 250.469C227.318 265.015 235.705 288.901 239.184 298.848H239.068C239.068 298.848 240.884 303.482 241.773 307.012C242.662 310.541 243.86 321.343 244.672 326.619C245.484 331.896 247.455 337.315 248.885 343.197C249.774 346.833 250.972 351.967 252.209 353.928C253.291 355.639 254.374 355.924 255.611 355.782C257.582 355.568 257.736 352.823 256.963 348.937C256.345 345.871 254.451 339.739 254.374 337.529C254.335 336.495 254.992 337.849 255.379 339.24C256.422 342.876 258.123 350.577 259.244 354.819C260.365 358.955 262.027 362.876 263.921 363.375C266.046 363.946 267.592 362.698 267.592 360.844C267.592 358.491 265.815 354.677 265.08 351.753C263.727 346.513 261.447 335.461 261.447 335.461C261.447 335.461 265.003 348.616 266.201 353.429C266.317 353.892 267.902 358.67 269.216 361.522C270.491 364.338 272.772 366.263 274.666 364.766C278.299 361.949 274.047 354.427 272.385 348.58C270.723 342.734 268.481 333.037 268.481 333.037C268.481 333.037 272.54 344.516 274.511 350.933C276.482 357.35 279.342 360.595 281.352 358.099C283.362 355.604 282.357 351.076 281.468 348.652C280.579 346.192 279.188 341.415 277.796 337.386C276.366 333.393 272.849 321.521 274.511 321.058C276.212 320.595 280.734 328.58 287.575 330.006C294.417 331.432 295.383 326.548 292.407 324.623L292.368 324.587Z" fill="#AAAAAA"/>
 </svg>`;
 }
 
+
 interface LocalizedBlocks {
-  localized: {
-    blockName: string;
-    svg: string;
-  }[];
-  not_localized: string[];
+	localized: {
+		blockName: string;
+		svg: string;
+	}[];
+	not_localized: string[];
 }
 
 function getBlockZone(blockName: BlockName): string | undefined {
-  switch (blockName) {
-    case 'HEAD':
-      return `<rect x="75" y="-5" width="62" height="60" />`;
-    case 'NECK':
-      return `<rect x="65" y="55" width="85" height="15" />`;
-    case 'LEFT_SHOULDER':
-      return `<rect x="141" y="70" width="30" height="17" />`;
-    case 'LEFT_ARM':
-      return `<rect x="141" y="87" width="35" height="53" />`;
-    case 'LEFT_ELBOW':
-      return `<rect x="154" y="140" width="30" height="15" />`;
-    case 'LEFT_FOREARM':
-      return `<rect x="154" y="155" width="30" height="35" />`;
-    case 'LEFT_WRIST':
-      return `<rect x="163" y="190" width="20" height="10" />`;
-    case 'LEFT_HAND':
-      return `<rect x="165" y="200" width="40" height="40" />`;
-    case 'RIGHT_SHOULDER':
-      return `<rect x="41" y="70" width="30" height="17" />`;
-    case 'RIGHT_ARM':
-      return `<rect x="35" y="87" width="35" height="53" />`;
-    case 'RIGHT_ELBOW':
-      return `<rect x="35" y="140" width="30" height="15" />`;
-    case 'RIGHT_FOREARM':
-      return `<rect x="30" y="155" width="30" height="35" />`;
-    case 'RIGHT_WRIST':
-      return `<rect x="30" y="190" width="20" height="10" />`;
-    case 'RIGHT_HAND':
-      return `<rect x="8" y="200" width="40" height="40" />`;
-    case 'THORAX_LEFT':
-      return `<rect x="106" y="70" width="35" height="70" />`;
-    case 'THORAX_RIGHT':
-      return `<rect x="71" y="70" width="35" height="70" />`;
-    case 'ABDOMEN':
-      return `<rect x="65" y="140" width="83" height="40" />`;
-    case 'PELVIS':
-      return `<rect x="64" y="180" width="85" height="40" />`;
-    case 'LEFT_THIGH':
-      return `<rect x="107" y="220" width="41" height="50" />`;
-    case 'LEFT_KNEE':
-      return `<rect x="114" y="270" width="35" height="22" />`;
-    case 'LEFT_LEG':
-      return `<rect x="116" y="292" width="37" height="75" />`;
-    case 'LEFT_ANKLE':
-      return `<rect x="124" y="367" width="30" height="15" />`;
-    case 'LEFT_FOOT':
-      return `<rect x="125" y="382" width="37" height="35" />`;
-    case 'RIGHT_THIGH':
-      return `<rect x="65" y="220" width="41" height="50" />`;
-    case 'RIGHT_KNEE':
-      return `<rect x="64" y="270" width="35" height="22" />`;
-    case 'RIGHT_LEG':
-      return `<rect x="59" y="292" width="37" height="75" />`;
-    case 'RIGHT_ANKLE':
-      return `<rect x="60" y="367" width="30" height="15" />`;
-    case 'RIGHT_FOOT':
-      return `<rect x="50" y="382" width="37" height="35" />`;
-  }
-  return;
+	switch (blockName) {
+		case 'HEAD':
+			return `<rect x="75" y="-5" width="62" height="60" />`;
+		case 'NECK':
+			return `<rect x="65" y="55" width="85" height="15" />`;
+		case 'LEFT_SHOULDER':
+			return `<rect x="141" y="70" width="30" height="17" />`;
+		case 'LEFT_ARM':
+			return `<rect x="141" y="87" width="35" height="53" />`;
+		case 'LEFT_ELBOW':
+			return `<rect x="154" y="140" width="30" height="15" />`;
+		case 'LEFT_FOREARM':
+			return `<rect x="154" y="155" width="30" height="35" />`;
+		case 'LEFT_WRIST':
+			return `<rect x="163" y="190" width="20" height="10" />`;
+		case 'LEFT_HAND':
+			return `<rect x="165" y="200" width="40" height="40" />`;
+		case 'RIGHT_SHOULDER':
+			return `<rect x="41" y="70" width="30" height="17" />`;
+		case 'RIGHT_ARM':
+			return `<rect x="35" y="87" width="35" height="53" />`;
+		case 'RIGHT_ELBOW':
+			return `<rect x="35" y="140" width="30" height="15" />`;
+		case 'RIGHT_FOREARM':
+			return `<rect x="30" y="155" width="30" height="35" />`;
+		case 'RIGHT_WRIST':
+			return `<rect x="30" y="190" width="20" height="10" />`;
+		case 'RIGHT_HAND':
+			return `<rect x="8" y="200" width="40" height="40" />`;
+		case 'THORAX_LEFT':
+			return `<rect x="106" y="70" width="35" height="70" />`;
+		case 'THORAX_RIGHT':
+			return `<rect x="71" y="70" width="35" height="70" />`;
+		case 'ABDOMEN':
+			return `<rect x="65" y="140" width="83" height="40" />`;
+		case 'PELVIS':
+			return `<rect x="64" y="180" width="85" height="40" />`;
+		case 'LEFT_THIGH':
+			return `<rect x="107" y="220" width="41" height="50" />`;
+		case 'LEFT_KNEE':
+			return `<rect x="114" y="270" width="35" height="22" />`;
+		case 'LEFT_LEG':
+			return `<rect x="116" y="292" width="37" height="75" />`;
+		case 'LEFT_ANKLE':
+			return `<rect x="124" y="367" width="30" height="15" />`;
+		case 'LEFT_FOOT':
+			return `<rect x="125" y="382" width="37" height="35" />`;
+		case 'RIGHT_THIGH':
+			return `<rect x="65" y="220" width="41" height="50" />`;
+		case 'RIGHT_KNEE':
+			return `<rect x="64" y="270" width="35" height="22" />`;
+		case 'RIGHT_LEG':
+			return `<rect x="59" y="292" width="37" height="75" />`;
+		case 'RIGHT_ANKLE':
+			return `<rect x="60" y="367" width="30" height="15" />`;
+		case 'RIGHT_FOOT':
+			return `<rect x="50" y="382" width="37" height="35" />`;
+	}
+	return;
 }
 
 export function getLocalizedBlocks(blocks: string[]) {
-  const result: LocalizedBlocks = {
-    localized: [],
-    not_localized: [],
-  };
-  const toDisplay: BlockName[] = blocks as BlockName[];
 
-  //toDisplay = allBlocks;
-  //toDisplay = extBlocks;
-  //toDisplay  = [ "HEAD", "NECK",  "THORAX_LEFT", "THORAX_RIGHT", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
+	const result: LocalizedBlocks = {
+		localized: [],
+		not_localized: [],
+	}
+	const toDisplay: BlockName[] = blocks as BlockName[];
 
-  toDisplay.forEach(blockName => {
-    const svg = getBlockZone(blockName as BlockName);
-    if (svg) {
-      result.localized.push({
-        blockName,
-        svg: `<svg width="220" height="470" viewBox="0 0 240 490" xmlns="http://www.w3.org/2000/svg">
+	//toDisplay = allBlocks;
+	//toDisplay = extBlocks;
+	//toDisplay  = [ "HEAD", "NECK",  "THORAX_LEFT", "THORAX_RIGHT", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
+
+	toDisplay.forEach(blockName => {
+		const svg = getBlockZone(blockName as BlockName);
+		if (svg) {
+			result.localized.push({
+				blockName,
+				svg: `<svg width="220" height="470" viewBox="0 0 240 490" xmlns="http://www.w3.org/2000/svg">
 ${svg}</svg>`,
-      });
-    } else {
-      result.not_localized.push(blockName);
-    }
-  });
+			});
+		} else {
+			result.not_localized.push(blockName);
+		}
+	});
 
-  return result;
+	return result;
 }
 
 export function getLocalizedAfflictedBlocks() {
-  return getLocalizedBlocks(getAfflictedBlocks());
+	return getLocalizedBlocks(getAfflictedBlocks());
 }
 
+
 export function getAllLocalizedBlocks() {
-  const afflictedBlocks = getAfflictedBlocks();
-  const forTreatments: string[] = Context.patientConsole.state.availableBlocks;
+	const afflictedBlocks = getAfflictedBlocks();
+	const forTreatments: string[] = Context.patientConsole.state.availableBlocks;
 
-  const mAb = afflictedBlocks.reduce<Record<string, true>>((acc, cur) => {
-    acc[cur] = true;
-    return acc;
-  }, {});
+	const mAb = afflictedBlocks.reduce<Record<string, true>>((acc, cur) => {
+		acc[cur] = true;
+		return acc;
+	}, {});
 
-  const tB = forTreatments.reduce<Record<string, true>>((acc, cur) => {
-    acc[cur] = true;
-    return acc;
-  }, {});
+	const tB = forTreatments.reduce<Record<string, true>>((acc, cur) => {
+		acc[cur] = true;
+		return acc;
+	}, {});
 
-  const union = Helpers.uniq([...afflictedBlocks, ...forTreatments]);
+	const union = Helpers.uniq([...afflictedBlocks, ...forTreatments]);
 
-  return getLocalizedBlocks(union).localized.map(lb => ({
-    ...lb,
-    observable: mAb[lb.blockName],
-    selectable: tB[lb.blockName],
-  }));
+	return getLocalizedBlocks(union).localized.map(lb => ({
+		...lb,
+		observable: mAb[lb.blockName],
+		selectable: tB[lb.blockName],
+	}));
 }

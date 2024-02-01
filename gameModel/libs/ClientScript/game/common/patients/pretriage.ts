@@ -1,31 +1,29 @@
-import { HumanBody } from '../../../HUMAn/human';
-import { getEnv } from '../../../tools/WegasHelper';
+import { HumanBody } from "../../../HUMAn/human";
+import { getEnv } from "../../../tools/WegasHelper";
 //TODO: refactor HumanHealth logic out of the_world
-import { HumanHealth } from '../../legacy/the_world';
-import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from '../../pretri/triage';
+import { HumanHealth } from "../../legacy/the_world";
+import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from "../../pretri/triage";
 
-export function doPatientAutomaticTriage(
-  patient: HumanBody,
-  simTime: number = 0,
-): PreTriageResult<string> | undefined {
-  const env = getEnv();
+export function doPatientAutomaticTriage(patient: HumanBody, simTime: number = 0): PreTriageResult<string> | undefined {
 
-  const health: HumanHealth = {
-    pathologies: patient.revivedPathologies!,
-    effects: patient.effects!,
-  };
+	const env = getEnv();
 
-  if (patient == null || health == null) {
-    return undefined;
-  }
+	const health: HumanHealth = {
+		pathologies: patient.revivedPathologies!,
+		effects: patient.effects!
+	}
 
-  const data: PreTriageData = {
-    human: patient,
-    env: env,
-    health: health,
-    actions: [],
-    console: [],
-  };
+	if (patient == null || health == null) {
+		return undefined;
+	}
 
-  return doAutomaticTriage_internal(data, true, simTime);
+	const data: PreTriageData = {
+		human: patient,
+		env: env,
+		health: health,
+		actions: [],
+		console: [],
+	};
+
+	return doAutomaticTriage_internal(data, true, simTime);
 }

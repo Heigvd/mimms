@@ -1,13 +1,6 @@
-import {
-  ActionTemplateId,
-  ActorId,
-  SimDuration,
-  SimTime,
-  TemplateRef,
-  TranslationKey,
-} from '../baseTypes';
-import { initBaseEvent } from '../events/baseEvent';
-import { FullEvent } from '../events/eventUtils';
+import { ActionTemplateId, ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
+import { initBaseEvent } from "../events/baseEvent";
+import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
   ResourceSendingToActorEvent,
@@ -15,47 +8,32 @@ import {
   ResourceTaskReleaseEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
   ActionBase,
   DefineMapObjectAction,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction,
-  AssignTaskToResourcesAction,
-  ReleaseResourcesFromTaskAction,
-  SelectMapObjectAction,
-  SendRadioMessageAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction, SendRadioMessageAction,
 } from './actionBase';
-import {
-  DefineFeature,
-  DefineMapObjectEvent,
-  GeometryType,
-  SelectMapObjectEvent,
-  FeaturePayload,
-  SelectPayload,
-  PointLikeObjects,
-} from '../events/defineMapObjectEvent';
-import { PlanActionLocalEvent } from '../localEvents/localEventBase';
-import { Actor } from '../actors/actor';
-import { getTranslation } from '../../../tools/translation';
+import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
+import { PlanActionLocalEvent } from "../localEvents/localEventBase";
+import { Actor } from "../actors/actor";
+import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
-import { SimFlag } from '../resources/resourceContainer';
-import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
-import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
-import { ActionType } from '../actionType';
+import { SimFlag } from "../resources/resourceContainer";
+import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
+import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
+import { ActionType } from "../actionType";
 
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
  * It is an action generator
  */
-export abstract class ActionTemplateBase<
-  ActionT extends ActionBase = ActionBase,
-  EventT extends ActionCreationEvent = ActionCreationEvent,
-  UserInput = unknown,
-> {
+export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> {
+
   private static IdSeed = 1000;
 
   public readonly Uid: ActionTemplateId;
@@ -67,13 +45,13 @@ export abstract class ActionTemplateBase<
    * @param flags list of simulation flags that make the action available, undefined or empty array means no flag condition
    */
   public constructor(
-    protected readonly title: TranslationKey,
-    protected readonly description: TranslationKey,
-    public replayable: boolean = false,
-    private flags: SimFlag[] = [],
-    protected readonly category: ActionType = ActionType.ACTION,
-  ) {
-    this.Uid = ActionTemplateBase.IdSeed++;
+	protected readonly title: TranslationKey, 
+	protected readonly description: TranslationKey, 
+	public replayable: boolean = false,
+	private flags: SimFlag[]=[],
+  protected readonly category: ActionType = ActionType.ACTION)
+  {
+	this.Uid = ActionTemplateBase.IdSeed++;
   }
 
   static resetIdSeed() {
@@ -95,11 +73,7 @@ export abstract class ActionTemplateBase<
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
    */
-  public abstract buildGlobalEvent(
-    timeStamp: SimTime,
-    initiator: Readonly<Actor>,
-    params: UserInput,
-  ): EventT;
+  public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
 
   /**
    * Determines if the action can be launched given the current state of the game and the actor being played
@@ -109,31 +83,26 @@ export abstract class ActionTemplateBase<
    * @see isAvailableCustom function
    * @returns true if the player can trigger this action
    */
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return (
-      this.flagWiseAvailable(state) &&
-      this.canPlayAgain(state) &&
-      this.isAvailableCustom(state, actor)
-    );
+  public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
+  {
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor);
   }
 
   /**
    * Override adds additional conditions for this template action availability
-   * @param state
-   * @param actor
+   * @param state 
+   * @param actor 
    * @see isAvailable
    */
-  protected abstract isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-  ): boolean;
+  protected abstract isAvailableCustom(state : Readonly<MainSimulationState>, actor : Readonly<Actor>) : boolean;
 
-  public isInCategory(category: ActionType): boolean {
+  public isInCategory(category: ActionType) : boolean {
     return category === this.category;
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
-    if (!this.flags || this.flags.length == 0) {
+    if(!this.flags || this.flags.length == 0)
+    {
       return true;
     }
 
@@ -149,13 +118,13 @@ export abstract class ActionTemplateBase<
    */
   public abstract getTitle(): TranslationKey;
 
-  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId): ActionCreationEvent {
+  protected initBaseEvent(timeStamp: SimTime, actorId: ActorId) : ActionCreationEvent {
     return {
       ...initBaseEvent(actorId),
       type: 'ActionCreationEvent',
       templateRef: this.getTemplateRef(),
-      triggerTime: timeStamp,
-    };
+      triggerTime : timeStamp,
+    }
   }
 
   /**
@@ -171,87 +140,62 @@ export abstract class ActionTemplateBase<
    * If replayable returns true, else returns true if the action has not yet been planned and started
    */
   protected canPlayAgain(state: Readonly<MainSimulationState>): boolean {
-    if (this.replayable) {
+    if(this.replayable){
       return true;
     }
 
-    const action = state
-      .getInternalStateObject()
-      .actions.find(action => action.getTemplateId() === this.Uid);
+    const action = state.getInternalStateObject().actions.find((action) => action.getTemplateId() === this.Uid);
     //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
   }
 
   /**
-   * @return true if the action should be created in the timeline right away,
+   * @return true if the action should be created in the timeline right away, 
    * false if some other interaction should take place in between
    */
   public abstract planActionEventOnFirstClick(): boolean;
+
 }
 
-export abstract class StartEndTemplate<
-  ActionT extends ActionBase = ActionBase,
-  EventT extends ActionCreationEvent = ActionCreationEvent,
-  UserInput = unknown,
-> extends ActionTemplateBase<ActionT, EventT, UserInput> {
+export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> extends ActionTemplateBase<ActionT, EventT, UserInput> {
+
   public readonly duration: SimDuration;
   public readonly message: TranslationKey;
 
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable = false,
-    flags: SimFlag[] = [],
-    category: ActionType = ActionType.ACTION,
-  ) {
+  constructor(title: TranslationKey, description: TranslationKey,
+     duration: SimDuration,  message: TranslationKey, replayable = false, flags: SimFlag[]=[], category: ActionType = ActionType.ACTION) {
     super(title, description, replayable, flags, category);
     this.duration = duration;
     this.message = message;
   }
 
   /** Default implementation : no custom conditions */
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-  ): boolean {
+  protected override isAvailableCustom(state : Readonly<MainSimulationState>, actor : Readonly<Actor>) : boolean{
     return true;
   }
+
 }
 
 export class GetInformationTemplate extends StartEndTemplate {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable = false,
-    flags: SimFlag[] = [],
-  ) {
+
+  constructor(title: TranslationKey, description: TranslationKey, 
+    duration: SimDuration, message: TranslationKey,
+	replayable = false, flags: SimFlag[]=[]) {
     super(title, description, duration, message, replayable, flags);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new GetInformationAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-    );
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new GetInformationAction(payload.triggerTime, this.duration, this.message, this.title , event.id, ownerId, this.Uid);
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>) : StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-    };
+      durationSec : this.duration,
+    }
   }
 
   public getTemplateRef(): TemplateRef {
@@ -259,7 +203,7 @@ export class GetInformationTemplate extends StartEndTemplate {
   }
 
   public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
@@ -269,55 +213,37 @@ export class GetInformationTemplate extends StartEndTemplate {
   public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }
 
-export class CasuMessageTemplate extends StartEndTemplate<
-  CasuMessageAction,
-  CasuMessageActionEvent,
-  CasuMessagePayload
-> {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-  ) {
+export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, CasuMessageActionEvent, CasuMessagePayload> {
+
+  constructor(title: TranslationKey, description: TranslationKey, 
+    duration: SimDuration, message: TranslationKey) {
     super(title, description, duration, message, true, [], ActionType.CASU_RADIO);
   }
 
   public getTemplateRef(): TemplateRef {
     return 'DefineCasuMessageObjectTemplate' + '_' + this.title;
   }
-
+  
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
     const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new CasuMessageAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      payload.casuMessagePayload,
-    );
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new CasuMessageAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, payload.casuMessagePayload);
   }
 
-  public buildGlobalEvent(
-    timeStamp: number,
-    initiator: Readonly<Actor>,
-    params: CasuMessagePayload,
-  ): CasuMessageActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: CasuMessagePayload): CasuMessageActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      casuMessagePayload: params,
-    };
+      durationSec : this.duration,
+      casuMessagePayload : params
+    }
   }
-
+  
   public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
@@ -327,47 +253,42 @@ export class CasuMessageTemplate extends StartEndTemplate<
   public planActionEventOnFirstClick(): boolean {
     return false;
   }
+
 }
 
-export class DefineMapObjectTemplate extends StartEndTemplate<
-  DefineMapObjectAction,
-  DefineMapObjectEvent
-> {
+export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
+  
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
     readonly featureDescription: {
-      geometryType: GeometryType;
-      name: string;
-      icon?: string;
-      feature?: DefineFeature;
+      geometryType: GeometryType,
+      name: string,
+      icon?: string,
+      feature?: DefineFeature,
     },
-    replayable = false,
-    flags: SimFlag[] = [],
+	replayable = false, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags);
   }
 
-  public buildGlobalEvent(
-    timeStamp: SimTime,
-    initiator: Readonly<Actor>,
-    payload: FeaturePayload,
-  ): DefineMapObjectEvent {
-    const feature = {
-      ownerId: initiator.Uid,
-      geometryType: this.featureDescription.geometryType,
-      name: this.featureDescription.name,
-      geometry: this.featureDescription.feature?.geometry || payload.feature,
-      ...(this.featureDescription.icon && { icon: this.featureDescription.icon }),
-    };
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: FeaturePayload): DefineMapObjectEvent {
+    
+  const feature = {
+    ownerId: initiator.Uid,
+    geometryType: this.featureDescription.geometryType,
+    name: this.featureDescription.name,
+    geometry: this.featureDescription.feature?.geometry || payload.feature,
+    ...this.featureDescription.icon && {icon: this.featureDescription.icon}
+  }
 
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
       feature: feature as unknown as DefineFeature,
-    };
+    }
   }
 
   public getTemplateRef(): string {
@@ -377,21 +298,12 @@ export class DefineMapObjectTemplate extends StartEndTemplate<
   protected createActionFromEvent(event: FullEvent<DefineMapObjectEvent>): DefineMapObjectAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new DefineMapObjectAction(
-      payload.triggerTime,
-      this.duration,
-      this.title,
-      this.message,
-      event.id,
-      ownerId,
-      payload.feature,
-      this.Uid,
-    );
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, payload.feature, this.Uid);
   }
 
   public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
@@ -401,34 +313,33 @@ export class DefineMapObjectTemplate extends StartEndTemplate<
   public planActionEventOnFirstClick(): boolean {
     return false;
   }
+
 }
 
-export class SelectMapObjectTemplate extends StartEndTemplate<
-  SelectMapObjectAction | DefineMapObjectAction,
-  SelectMapObjectEvent | DefineMapObjectEvent
-> {
+export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
+
+  
   public readonly geometrySelection?: {
-    geometryType: GeometryType;
-    icon?: string;
-    geometries: PointLikeObjects[];
-    name: string;
-  };
+    geometryType: GeometryType,
+    icon?: string,
+    geometries: PointLikeObjects[],
+	name: string,
+  }
 
   public readonly featureSelection?: {
-    layerId: string;
-    featureKey: string;
-    featureIds: string[];
-    name: string;
-  };
+    layerId: string,
+    featureKey: string,
+    featureIds: string[],
+	name: string,
+  }
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    selection: { geometrySelection?: any; featureSelection?: any },
-    replayable = false,
-    flags: SimFlag[] = [],
+    selection: { geometrySelection?: any, featureSelection?: any},
+	replayable = false, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags);
     if (selection.geometrySelection) {
@@ -439,104 +350,76 @@ export class SelectMapObjectTemplate extends StartEndTemplate<
     }
   }
 
-  public buildGlobalEvent(
-    timeStamp: number,
-    initiator: Readonly<Actor>,
-    payload: SelectPayload | FeaturePayload,
-  ): SelectMapObjectEvent | DefineMapObjectEvent {
-    if (this.geometrySelection) {
-      const feature = {
-        ownerId: initiator.Uid,
-        geometryType: this.geometrySelection.geometryType,
-        name: this.geometrySelection.name,
-        geometry: (payload as FeaturePayload).feature,
-        ...(this.geometrySelection.icon && { icon: this.geometrySelection.icon }),
-      };
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload | FeaturePayload): SelectMapObjectEvent | DefineMapObjectEvent {
 
-      return {
-        ...this.initBaseEvent(timeStamp, initiator.Uid),
-        durationSec: this.duration,
-        feature: feature as unknown as DefineFeature,
-      };
-    }
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      featureKey: this.featureSelection!.featureKey,
-      featureId: (payload as SelectPayload).featureId,
-    };
+    if (this.geometrySelection){
+
+		const feature = {
+			ownerId: initiator.Uid,
+			geometryType: this.geometrySelection.geometryType,
+			name: this.geometrySelection.name,
+			geometry: (payload as FeaturePayload).feature,
+			...this.geometrySelection.icon && {icon: this.geometrySelection.icon},
+		}
+
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			feature: feature as unknown as DefineFeature,
+		}
+	}
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			durationSec: this.duration,
+			featureKey: this.featureSelection!.featureKey,
+			featureId: (payload as SelectPayload).featureId,
+		}
+	
   }
 
   public getTemplateRef(): string {
-    return 'SelectMapObjectTemplate' + '_' + this.title;
+      return 'SelectMapObjectTemplate' + '_' + this.title;
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>,
-  ): SelectMapObjectAction | DefineMapObjectAction {
+  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>): SelectMapObjectAction | DefineMapObjectAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
     if (this.geometrySelection) {
-      return new DefineMapObjectAction(
-        payload.triggerTime,
-        this.duration,
-        this.title,
-        this.message,
-        event.id,
-        ownerId,
-        (payload as DefineMapObjectEvent).feature,
-        this.Uid,
-      );
+      return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
     }
 
-    return new SelectMapObjectAction(
-      payload.triggerTime,
-      this.duration,
-      this.title,
-      this.message,
-      event.id,
-      ownerId,
-      this.featureSelection!.featureKey,
-      (payload as SelectMapObjectEvent).featureId,
-      this.Uid,
-    );
+      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureSelection!.featureKey, (payload as SelectMapObjectEvent).featureId, this.Uid)
   }
 
   public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
+    return getTranslation('mainSim-actions-tasks', this.description)
+
   }
 
   public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
+      return getTranslation('mainSim-actions-tasks', this.title)
   }
 
   public planActionEventOnFirstClick(): boolean {
-    return false;
+      return false;
   }
 }
 
-export type SendResourcesToActorActionInput = {
-  receiverActor: ActorId;
-  sentResources: ResourceTypeAndNumber;
-};
+export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to send resources to an actor
  * XGO 25.01.2024 : Has to be replaced by SendToPosition(symbolic position)
  */
-export class SendResourcesToActorActionTemplate extends StartEndTemplate<
-  SendResourcesToActorAction,
-  ResourceSendingToActorEvent,
-  SendResourcesToActorActionInput
-> {
+export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    replayable = true,
-    flags: SimFlag[] = [],
+	replayable = true, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags);
   }
@@ -554,18 +437,11 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<
   }
 
   // XGO 25.01.2024 : Will be availble if more than a single symbolic position is available
-  public override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-  ): boolean {
+  public override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return state.getInternalStateObject().resourceGroups.length > 1;
   }
 
-  public buildGlobalEvent(
-    timeStamp: SimTime,
-    initiator: Readonly<Actor>,
-    params: SendResourcesToActorActionInput,
-  ): ResourceSendingToActorEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToActorActionInput): ResourceSendingToActorEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
@@ -574,50 +450,33 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<
     };
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<ResourceSendingToActorEvent>,
-  ): SendResourcesToActorAction {
+  protected createActionFromEvent(event: FullEvent<ResourceSendingToActorEvent>): SendResourcesToActorAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new SendResourcesToActorAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      event.payload.receiverActor,
-      event.payload.sentResources,
-    );
+    return new SendResourcesToActorAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.receiverActor, event.payload.sentResources);
   }
 
   public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }
 
-export type AssignTaskToResourcesActionInput = {
-  task: ResourceFunction;
-  assignedResources: ResourceTypeAndNumber;
-};
+export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to assign a function/task to ressources
  */
-export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<
-  AssignTaskToResourcesAction,
-  ResourceTaskAssignmentEvent,
-  AssignTaskToResourcesActionInput
-> {
+export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    replayable = true,
-    flags: SimFlag[] = [],
+	replayable = true, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags);
   }
@@ -634,11 +493,7 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  public buildGlobalEvent(
-    timeStamp: SimTime,
-    initiator: Readonly<Actor>,
-    params: AssignTaskToResourcesActionInput,
-  ): ResourceTaskAssignmentEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: AssignTaskToResourcesActionInput): ResourceTaskAssignmentEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
@@ -647,50 +502,33 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<
     };
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<ResourceTaskAssignmentEvent>,
-  ): AssignTaskToResourcesAction {
+  protected createActionFromEvent(event: FullEvent<ResourceTaskAssignmentEvent>): AssignTaskToResourcesAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new AssignTaskToResourcesAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      event.payload.task,
-      event.payload.assignedResources,
-    );
+    return new AssignTaskToResourcesAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.task, event.payload.assignedResources);
   }
 
   public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }
 
-export type ReleaseResourcesFromTaskActionInput = {
-  task: ResourceFunction;
-  releasedResources: ResourceTypeAndNumber;
-};
+export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to request resources from an actor
  */
-export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<
-  ReleaseResourcesFromTaskAction,
-  ResourceTaskReleaseEvent,
-  ReleaseResourcesFromTaskActionInput
-> {
+export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<ReleaseResourcesFromTaskAction, ResourceTaskReleaseEvent, ReleaseResourcesFromTaskActionInput> {
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    replayable = true,
-    flags: SimFlag[] = [],
+	replayable = true, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags, ActionType.RESOURCES_RADIO);
   }
@@ -707,11 +545,7 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  public buildGlobalEvent(
-    timeStamp: SimTime,
-    initiator: Readonly<Actor>,
-    params: ReleaseResourcesFromTaskActionInput,
-  ): ResourceTaskReleaseEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: ReleaseResourcesFromTaskActionInput): ResourceTaskReleaseEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
@@ -720,77 +554,50 @@ export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<
     };
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<ResourceTaskReleaseEvent>,
-  ): ReleaseResourcesFromTaskAction {
+  protected createActionFromEvent(event: FullEvent<ResourceTaskReleaseEvent>): ReleaseResourcesFromTaskAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new ReleaseResourcesFromTaskAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      event.payload.task,
-      event.payload.releasedResources,
-    );
+    return new ReleaseResourcesFromTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.task, event.payload.releasedResources);
   }
 
   public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }
 
 export class SendRadioMessage extends StartEndTemplate {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable = true,
-    flags: SimFlag[] = [],
-  ) {
+
+  constructor(title: TranslationKey, description: TranslationKey, 
+    duration: SimDuration, message: TranslationKey,
+	replayable = true, flags: SimFlag[]=[]) {
     super(title, description, duration, message, replayable, flags, ActionType.ACTORS_RADIO);
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<RadioMessageActionEvent>,
-  ): SendRadioMessageAction {
+  protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {
     const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new SendRadioMessageAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      payload.radioMessagePayload,
-    );
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new SendRadioMessageAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, payload.radioMessagePayload);
   }
 
-  public buildGlobalEvent(
-    timeStamp: number,
-    initiator: Readonly<Actor>,
-    params: RadioMessagePayload,
-  ): RadioMessageActionEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: RadioMessagePayload): RadioMessageActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      radioMessagePayload: params,
-    };
+      durationSec : this.duration,
+      radioMessagePayload : params
+    }
   }
+
 
   public getTemplateRef(): TemplateRef {
     return 'SendRadioMessageTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
-    return 'SendRadioMessageTemplateDescription';
+	return'SendRadioMessageTemplateDescription';
   }
 
   public getTitle(): string {
@@ -800,4 +607,5 @@ export class SendRadioMessage extends StartEndTemplate {
   public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }

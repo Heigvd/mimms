@@ -1,49 +1,33 @@
-import { ActorId, Position, SimDuration, SimTime } from '../baseTypes';
-import { ActionCreationEvent } from './eventTypes';
+import { ActorId, Position, SimDuration, SimTime } from "../baseTypes";
+import { ActionCreationEvent } from "./eventTypes";
 
-export type PointLikeObjects =
-  | PointLikeObject
-  | PointLikeObject[]
-  | PointLikeObject[][]
-  | PointLikeObject[][][];
+export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 
 export interface FeaturePayload {
-  id?: number | string;
+  id?: number | string,
   featureType: GeometryType | 'Select';
   feature: PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 }
 
 export interface SelectPayload {
-  id?: number | string;
-  featureKey: string;
-  featureId: string;
+  id?: number | string,
+  featureKey: string,
+  featureId: string,
 }
 
 export type MapFeature = DefineFeature | SelectFeature;
 
-export type DefineFeature =
-  | PointFeature
-  | MultiPointFeature
-  | LineStringFeature
-  | MultiLineString
-  | PolygonFeature
-  | MultiPolygonFeature;
+export type DefineFeature = PointFeature | MultiPointFeature | LineStringFeature | MultiLineString | PolygonFeature | MultiPolygonFeature
 
-export type InteractionType = 'Select' | 'Define';
+export type InteractionType = 'Select' | 'Define'
 
-export type GeometryType =
-  | 'Point'
-  | 'MultiPoint'
-  | 'LineString'
-  | 'MultiLineString'
-  | 'Polygon'
-  | 'MultiPolygon';
+export type GeometryType = 'Point' | 'MultiPoint' | 'LineString' | 'MultiLineString' | 'Polygon' | 'MultiPolygon';
 
 interface BaseFeature {
-  ownerId: ActorId;
-  name: string;
-  id?: string | number;
-  geometryType: GeometryType | 'Select';
+  ownerId: ActorId,
+  name: string,
+  id?: string | number,
+  geometryType: GeometryType | 'Select',
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
 }

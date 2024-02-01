@@ -1,50 +1,45 @@
+import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { MapFeature, SelectFeature } from "../events/defineMapObjectEvent";
 import {
-  ActionTemplateId,
-  ActorId,
-  GlobalEventId,
-  SimDuration,
-  SimTime,
-  TranslationKey,
-} from '../baseTypes';
-import { MapFeature, SelectFeature } from '../events/defineMapObjectEvent';
-import {
-  AddMapItemLocalEvent,
-  AddRadioMessageLocalEvent,
-  RemoveMapItemLocalEvent,
-  ResourceRequestResolutionLocalEvent,
-  ResourcesAllocationLocalEvent,
-  ResourcesReleaseLocalEvent,
-  TransferResourcesLocalEvent,
+	AddMapItemLocalEvent,
+	AddRadioMessageLocalEvent,
+	RemoveMapItemLocalEvent,
+	ResourceRequestResolutionLocalEvent,
+	ResourcesAllocationLocalEvent,
+	ResourcesReleaseLocalEvent,
+	TransferResourcesLocalEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { localEventManager } from "../localEvents/localEventManager";
+import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
-import { CasuMessagePayload } from '../events/casuMessageEvent';
-import { RadioMessagePayload } from '../events/radioMessageEvent';
-import { entries } from '../../../tools/helper';
-import { ActionType } from '../actionType';
+import { CasuMessagePayload } from "../events/casuMessageEvent";
+import { RadioMessagePayload } from "../events/radioMessageEvent";
+import { entries } from "../../../tools/helper";
+import { ActionType } from "../actionType";
 
-export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
+export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
+
 
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
-  protected static slogger = Helpers.getLogger('actions-logger');
+
+  protected static slogger = Helpers.getLogger("actions-logger");
 
   protected readonly logger = ActionBase.slogger;
 
-  protected status: ActionStatus;
+  protected status : ActionStatus;
 
   protected readonly templateId;
 
   public constructor(
-    readonly startTime: SimTime,
+    readonly startTime : SimTime,
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId,
-    protected readonly uuidTemplate: ActionTemplateId = -1,
-  ) {
+    protected readonly uuidTemplate: ActionTemplateId = -1)
+  {
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }
@@ -63,9 +58,9 @@ export abstract class ActionBase {
    * @returns True if cancellation could be applied
    */
   public cancel(state: MainSimulationState): boolean {
-    if (this.status === 'Cancelled') {
+    if(this.status === "Cancelled") {
       this.logger.warn('This action was already cancelled');
-    } else if (this.status === 'Completed') {
+    }else if(this.status === 'Completed'){
       this.logger.error('This action is completed, it cannot be cancelled');
       return false;
     }
@@ -86,10 +81,12 @@ export abstract class ActionBase {
   }
 }
 
+
 /**
  * An action that has a fixed duration and only start and finish effects
  */
 export abstract class StartEndAction extends ActionBase {
+
   protected readonly durationSec;
   /**
    * Translation key for the name of the action (displayed in the timeline)
@@ -101,14 +98,14 @@ export abstract class StartEndAction extends ActionBase {
   public readonly messageKey: TranslationKey;
 
   public constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-  ) {
+    messageKey: TranslationKey, 
+    ownerId: ActorId, 
+    uuidTemplate: ActionTemplateId
+  ){
     super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
@@ -119,34 +116,33 @@ export abstract class StartEndAction extends ActionBase {
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
   public update(state: MainSimulationState): void {
+
     const simTime = state.getSimTime();
-    switch (this.status) {
+    switch(this.status){
       case 'Cancelled': // should action do something ?
       case 'Completed':
+
         return;
-      case 'Uninitialized':
-        {
-          if (simTime >= this.startTime) {
-            // if action did start
-            this.logger.debug('dispatching start events...');
-            this.dispatchInitEvents(state);
-            this.status = 'OnGoing';
-          }
+      case 'Uninitialized': {
+        if(simTime >= this.startTime){ // if action did start
+          this.logger.debug('dispatching start events...');
+          this.dispatchInitEvents(state);
+          this.status = "OnGoing";
         }
-        break;
-      case 'OnGoing':
-        {
-          if (simTime >= this.startTime + this.duration()) {
-            // if action did end
-            this.logger.debug('dispatching end events...');
-            this.dispatchEndedEvents(state);
-            this.status = 'Completed';
-          }
+      }
+      break;
+      case 'OnGoing': { 
+        if(simTime >= this.startTime + this.duration()){ // if action did end
+          this.logger.debug('dispatching end events...');
+          this.dispatchEndedEvents(state);
+          this.status = "Completed";
         }
-        break;
+      }
+      break;
       default:
-        this.logger.error('Undefined status cannot update action');
+        this.logger.error('Undefined status cannot update action')
     }
+
   }
 
   public duration(): number {
@@ -154,20 +150,22 @@ export abstract class StartEndAction extends ActionBase {
   }
 
   public getTitle(): string {
-    return this.actionNameKey;
+	return this.actionNameKey;
   }
+
 }
 
 export class GetInformationAction extends StartEndAction {
-  constructor(
+
+  constructor (
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-  ) {
+    uuidTemplate: ActionTemplateId
+    ){
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
@@ -178,32 +176,26 @@ export class GetInformationAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        'ACS',
-        this.messageKey,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
-    return;
+      return;
   }
+
 }
 
 export class OnTheRoadAction extends StartEndAction {
-  constructor(
+
+  constructor (
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    uuidTemplate: ActionTemplateId
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
@@ -215,35 +207,29 @@ export class OnTheRoadAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event OnTheRoadAction');
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        'ACS',
-        this.messageKey,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
 }
 
 export class CasuMessageAction extends StartEndAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
+
+  constructor (
+    startTimeSec: SimTime, 
+    durationSeconds: SimDuration, 
+    messageKey: TranslationKey, 
+    actionNameKey: TranslationKey, 
+    eventId: GlobalEventId, 
+    ownerId: ActorId, 
     uuidTemplate: ActionTemplateId,
-    private casuMessagePayload: CasuMessagePayload,
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+	private casuMessagePayload: CasuMessagePayload
+  ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey,messageKey, ownerId, uuidTemplate);
   }
 
   private computeCasuMessage(message: CasuMessagePayload): string {
@@ -268,11 +254,9 @@ export class CasuMessageAction extends StartEndAction {
     }
     if (message.resourceRequest) {
       let requestResource = 'E - ';
-      entries(message.resourceRequest)
-        .filter(([_, a]) => a > 0)
-        .forEach(([typeId, requestedAmount]) => {
-          requestResource += `${typeId}: ${requestedAmount} \n`;
-        });
+      entries(message.resourceRequest).filter(([_,a]) => a > 0).forEach(([typeId, requestedAmount]) => {
+        requestResource += `${typeId}: ${requestedAmount} \n`;
+      })
       casuMessage += requestResource;
     }
 
@@ -286,29 +270,13 @@ export class CasuMessageAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event CasuMessageAction');
-    const now = state.getSimTime();
-    // TODO filter when we get a full METHANE message
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        state.getActorById(this.ownerId)?.FullName || '',
-        this.computeCasuMessage(this.casuMessagePayload),
-        ActionType.CASU_RADIO,
-        true,
-        true,
-      ),
-    );
-    if (this.casuMessagePayload.resourceRequest) {
-      const dispatchEvent = new ResourceRequestResolutionLocalEvent(
-        this.eventId,
-        now,
-        state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
-        this.casuMessagePayload,
-      );
-      localEventManager.queueLocalEvent(dispatchEvent);
-    }
+	const now = state.getSimTime();
+	// TODO filter when we get a full METHANE message
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.FullName || '', this.computeCasuMessage(this.casuMessagePayload), ActionType.CASU_RADIO, true, true));
+	if(this.casuMessagePayload.resourceRequest){
+		const dispatchEvent = new ResourceRequestResolutionLocalEvent(this.eventId, now, state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId, this.casuMessagePayload);
+		localEventManager.queueLocalEvent(dispatchEvent);
+	}
   }
 
   protected cancelInternal(state: MainSimulationState): void {
@@ -318,24 +286,26 @@ export class CasuMessageAction extends StartEndAction {
   public override getTitle(): string {
     return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
   }
+  
 }
 
 export class DefineMapObjectAction extends StartEndAction {
+
   /**
    * Map feature to be displayed
-   */
+  */
   public readonly feature: MapFeature;
 
   constructor(
-    startTimeSec: SimTime,
+    startTimeSec: SimTime, 
     durationSeconds: SimDuration,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
+    messageKey: TranslationKey, 
     eventId: GlobalEventId,
     ownerId: ActorId,
     feature: MapFeature,
-    uuidTemplate: ActionTemplateId,
-  ) {
+    uuidTemplate: ActionTemplateId
+  ) { 
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.feature = feature;
     this.feature.startTimeSec = this.startTime;
@@ -345,34 +315,24 @@ export class DefineMapObjectAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
     // TODO show grayed out map element
-    localEventManager.queueLocalEvent(
-      new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature),
-    );
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        'AL',
-        this.messageKey,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   // TODO remove corresponding mapFeature
   protected cancelInternal(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(
-      new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature),
-    );
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
   }
+
 }
 
 export class SelectMapObjectAction extends StartEndAction {
+
   public readonly featureKey: string;
   public readonly featureId: string;
 
@@ -403,25 +363,15 @@ export class SelectMapObjectAction extends StartEndAction {
       featureIds: this.featureId,
       startTimeSec: this.startTime,
       durationTimeSec: this.durationSec,
-    };
+    }
 
-    localEventManager.queueLocalEvent(
-      new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature),
-    );
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        'AL',
-        this.messageKey,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
@@ -434,18 +384,18 @@ export class SelectMapObjectAction extends StartEndAction {
       featureIds: this.featureId,
       startTimeSec: this.startTime,
       durationTimeSec: this.durationSec,
-    };
+    }
 
-    localEventManager.queueLocalEvent(
-      new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature),
-    );
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
   }
+
 }
 
 /**
  * Action to send resources to an actor
  */
 export class SendResourcesToActorAction extends StartEndAction {
+
   public readonly receiverActor: ActorId;
 
   public readonly sentResources: ResourceTypeAndNumber;
@@ -459,17 +409,8 @@ export class SendResourcesToActorAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     receiverActor: ActorId,
-    sentResources: ResourceTypeAndNumber,
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      globalEventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-    );
+    sentResources: ResourceTypeAndNumber) {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.receiverActor = receiverActor;
     this.sentResources = sentResources;
   }
@@ -481,42 +422,29 @@ export class SendResourcesToActorAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendResourcesAction');
 
-    localEventManager.queueLocalEvent(
-      new TransferResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        this.receiverActor,
-        this.sentResources,
-      ),
-    );
+    localEventManager.queueLocalEvent(new TransferResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.receiverActor, this.sentResources,
+    ));
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
-    this.logger.warn('params to send to message ' + JSON.stringify(this.sentResources));
+    this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
 
     // TODO see how we can send requested resources
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.receiverActor,
-        actionOwnerActor.Role as unknown as TranslationKey,
-        this.messageKey,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.receiverActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
 }
 
 /**
  * Action to assign a task to resources
  */
 export class AssignTaskToResourcesAction extends StartEndAction {
+
   public readonly task: ResourceFunction;
 
   public readonly assignedResources: ResourceTypeAndNumber;
@@ -530,17 +458,9 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    assignedResources: ResourceTypeAndNumber,
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      globalEventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-    );
+    assignedResources: ResourceTypeAndNumber) 
+  {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.task = task;
     this.assignedResources = assignedResources;
   }
@@ -555,33 +475,26 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     this.logger.info('Task:', this.task);
 
     // TODO one single event with all the changes at once
-    ResourcesArray.forEach(res => {
+    ResourcesArray.forEach((res) => {
       const nbRes = this.assignedResources[res] || 0;
-      if (nbRes > 0) {
-        localEventManager.queueLocalEvent(
-          new ResourcesAllocationLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            +this.task,
-            this.ownerId,
-            res,
-            nbRes,
-          ),
-        );
+      if(nbRes > 0){
+        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, res, nbRes));
       }
-    });
+    })
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
 }
 
 /**
  * Action to assign a task to resources
  */
 export class ReleaseResourcesFromTaskAction extends StartEndAction {
+
   public readonly task: ResourceFunction;
 
   public readonly releasedResources: ResourceTypeAndNumber;
@@ -595,56 +508,49 @@ export class ReleaseResourcesFromTaskAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
-    releasedResources: ResourceTypeAndNumber,
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      globalEventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-    );
+    releasedResources: ResourceTypeAndNumber) {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.task = task;
     this.releasedResources = releasedResources;
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event ReleaseResourcesFromTaskAction');
-  }
+	protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+		this.logger.info('start event ReleaseResourcesFromTaskAction');
+	}
 
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event ReleaseResourcesFromTaskAction');
-    this.logger.info('resourcesTypeAndNumber:', this.releasedResources);
-    this.logger.info('Task:', this.task);
+	protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+		this.logger.info('end event ReleaseResourcesFromTaskAction');
+		this.logger.info('resourcesTypeAndNumber:', this.releasedResources);
+		this.logger.info('Task:', this.task);
 
-    // TODO one single event with all the changes at once
-    ResourcesArray.forEach(res => {
-      const nbRes = this.releasedResources[res] || 0;
-      if (nbRes > 0) {
-        localEventManager.queueLocalEvent(
-          new ResourcesReleaseLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            +this.task,
-            this.ownerId,
-            res,
-            nbRes,
-          ),
-        );
-      }
-    });
-  }
+		// TODO one single event with all the changes at once
+		ResourcesArray.forEach(res => {
+			const nbRes = this.releasedResources[res] || 0;
+			if (nbRes > 0) {
+				localEventManager.queueLocalEvent(
+					new ResourcesReleaseLocalEvent(
+						this.eventId,
+						state.getSimTime(),
+						+this.task,
+						this.ownerId,
+						res,
+						nbRes,
+					),
+				);
+			}
+		});
+	}
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
 }
 
 export class SendRadioMessageAction extends StartEndAction {
-  constructor(
+
+  constructor (
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
@@ -652,8 +558,9 @@ export class SendRadioMessageAction extends StartEndAction {
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    private radioMessagePayload: RadioMessagePayload,
-  ) {
+    private radioMessagePayload: RadioMessagePayload
+    )
+  {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
@@ -664,22 +571,12 @@ export class SendRadioMessageAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendRadioMessageAction');
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.radioMessagePayload.actorId,
-        state.getActorById(this.radioMessagePayload.actorId)?.FullName || '',
-        this.radioMessagePayload.message,
-        this.radioMessagePayload.channel,
-        true,
-        true,
-      ),
-    );
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName || '', this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
   }
 
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
 }
