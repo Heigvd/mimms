@@ -1,9 +1,10 @@
-import { taskLogger } from '../../../tools/logger';
-import { getTranslation } from '../../../tools/translation';
-import { Actor } from '../actors/actor';
-import { SimTime, TaskId, TranslationKey } from '../baseTypes';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import * as TaskState from '../simulationState/taskStateAccess';
+import { taskLogger } from "../../../tools/logger";
+import { getTranslation } from "../../../tools/translation";
+import { Actor } from "../actors/actor";
+import { SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { MainSimulationState } from "../simulationState/mainSimulationState";
+import * as TaskState from "../simulationState/taskStateAccess";
+
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
@@ -16,6 +17,7 @@ export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 
  * Base class for a task
  */
 export abstract class TaskBase {
+
   private static IdSeed = 1000;
   public readonly Uid: TaskId;
 
@@ -25,8 +27,7 @@ export abstract class TaskBase {
     readonly title: TranslationKey,
     readonly description: TranslationKey,
     readonly nbMinResources: number,
-    readonly nbMaxResources: number,
-  ) {
+    readonly nbMaxResources: number) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
   }
@@ -74,9 +75,10 @@ export abstract class TaskBase {
   // TODO see where it can go
   // Note : based on cancel method on ationBase
   public cancel(): boolean {
-    if (this.status === 'Cancelled') {
+    if(this.status === "Cancelled") {
       taskLogger.warn('This action was cancelled already');
-    } else if (this.status === 'Completed') {
+
+    } else if(this.status === 'Completed') {
       taskLogger.error('This action is completed, it cannot be cancelled');
       return false;
     }
@@ -87,13 +89,11 @@ export abstract class TaskBase {
   }
 
   /** Is the task ready for an actor to allocate resources to start it. Aka can the actor see it to allocate resources. */
-  public abstract isAvailable(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-  ): boolean;
+  public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
 
   /** Update the state */
   public abstract update(state: Readonly<MainSimulationState>, timeJump: number): void;
+
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -104,22 +104,19 @@ export abstract class TaskBase {
  * Default behaviour of a task
  */
 export abstract class DefaultTask extends TaskBase {
+
   /** The last time that the task was updated */
-  protected lastUpdateSimTime: SimTime | undefined = undefined;
+  protected lastUpdateSimTime : SimTime | undefined = undefined;
 
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
     nbMinResources: number,
-    nbMaxResources: number,
-  ) {
+    nbMaxResources: number) {
     super(title, description, nbMinResources, nbMaxResources);
   }
 
-  protected abstract dispatchInProgressEvents(
-    state: Readonly<MainSimulationState>,
-    timeJump: number,
-  ): void;
+  protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void;
 
   public update(state: Readonly<MainSimulationState>, timeJump: number): void {
     const enoughResources = TaskState.hasEnoughResources(state, this);
@@ -137,7 +134,7 @@ export abstract class DefaultTask extends TaskBase {
         if (enoughResources) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = 'OnGoing';
+          this.status = "OnGoing";
           this.dispatchInProgressEvents(state, timeJump);
         }
 
@@ -154,7 +151,7 @@ export abstract class DefaultTask extends TaskBase {
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = 'Paused';
+          this.status = "Paused";
         }
         break;
       }
@@ -163,7 +160,7 @@ export abstract class DefaultTask extends TaskBase {
         if (enoughResources) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = 'OnGoing';
+          this.status = "OnGoing";
           this.dispatchInProgressEvents(state, timeJump);
         }
         break;

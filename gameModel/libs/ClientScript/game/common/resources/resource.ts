@@ -29,10 +29,11 @@ export class Resource {
     this.currentActivity = currentActivity;
 
     this.Uid = Resource.IdSeed++;
-    this.cumulatedUnusedTime = 0;
+	this.cumulatedUnusedTime = 0;
   }
 
   static resetIdSeed() {
     this.IdSeed = 1000;
   }
 }
+

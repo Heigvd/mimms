@@ -7,10 +7,10 @@
  */
 
 import {
-  ChemicalDefinition,
-  ItemDefinition,
-  PathologyDefinition,
-  ActDefinition,
+	ChemicalDefinition,
+	ItemDefinition,
+	PathologyDefinition,
+	ActDefinition,
 } from './pathology';
 import { SympSystem } from './physiologicalModel';
 import { initPathologies } from '../HUMAn/registry/pathologies';
@@ -25,106 +25,110 @@ let model: SympSystem = {};
 
 let initialized = false;
 
+
 export function getPathology(id: string): PathologyDefinition | undefined {
-  init();
-  return pathologies[id];
+	init();
+	return pathologies[id];
 }
 
 export function getPathologies(): { label: string; value: string }[] {
-  init();
-  return Object.entries(pathologies).map(([id, p]) => ({
-    value: id,
-    label: p.name,
-  }));
+	init();
+	return Object.entries(pathologies).map(([id, p]) => ({
+		value: id,
+		label: p.name,
+	}));
 }
 
 export function getPathologiesMap(): Record<string, string> {
-  init();
-  return Object.entries(pathologies).reduce<Record<string, string>>((bag, [id, { name }]) => {
-    bag[id] = name;
-    return bag;
-  }, {});
+	init();
+	return Object.entries(pathologies).reduce<Record<string, string>>((bag, [id, { name }]) => {
+		bag[id] = name;
+		return bag;
+	}, {});
 }
 
+
 export function getItem(id: string): ItemDefinition | undefined {
-  init();
-  return items[id];
+	init();
+	return items[id];
 }
 
 export function getItems(): { id: string; item: ItemDefinition }[] {
-  init();
-  return Object.entries(items).map(([id, item]) => ({
-    id: id,
-    item: item,
-  }));
+	init();
+	return Object.entries(items).map(([id, item]) => ({
+		id: id,
+		item: item,
+	}));
 }
 
-export function getAct(id?: string): ActDefinition | undefined {
-  if (!id) {
-    return undefined;
-  }
 
-  init();
-  return acts[id];
+export function getAct(id?: string): ActDefinition | undefined {
+	if (!id) {
+		return undefined;
+	}
+
+	init();
+	return acts[id];
 }
 
 export function getActs(): ActDefinition[] {
-  init();
-  return Object.values(acts);
+	init();
+	return Object.values(acts);
 }
 
 function registerChemical(def: Omit<ChemicalDefinition, 'type' | 'translationGroup'>): void {
-  chemicals[def.id] = { ...def, type: 'chemical', translationGroup: 'human-chemicals' };
+	chemicals[def.id] = { ...def, type: 'chemical', translationGroup: 'human-chemicals' };
 }
 
 export function getChemical(id: string): ChemicalDefinition | undefined {
-  init();
-  return chemicals[id];
+	init();
+	return chemicals[id];
 }
 
 export function getSystemModel(): SympSystem {
-  return model;
+	return model;
 }
 
 export function setSystemModel(m: SympSystem) {
-  model = m;
+	model = m;
 }
 
 function init() {
-  if (initialized) {
-    return;
-  }
-  initialized = true;
+	if (initialized) {
+		return;
+	}
+	initialized = true;
 
-  // const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
+	// const arterialBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
 
-  //const venousBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
-  ////////////////////////////////////////
-  // Pathologies
-  ////////////////////////////////////////
+	//const venousBlocks = substraction<ExternalBlock>(extBlocks, ['HEAD', 'ABDOMEN', 'PELVIS']);
+	////////////////////////////////////////
+	// Pathologies
+	////////////////////////////////////////
 
-  initPathologies(pathologies);
+	initPathologies(pathologies);
 
-  ////////////////////////////////////////
-  // Chemicals
-  ////////////////////////////////////////
+	////////////////////////////////////////
+	// Chemicals
+	////////////////////////////////////////
 
-  registerChemical({
-    id: 'TranexamicAcid',
-    //name: 'Acide tranexamique HL 3h',
-    halflife_s: 10800,
-  });
+	registerChemical({
+		id: 'TranexamicAcid',
+		//name: 'Acide tranexamique HL 3h',
+		halflife_s: 10800,
+	});
 
-  registerChemical({
-    id: 'TranexamicAcid_Clearance',
-    //name: 'Acide tranexamique [Cl]',
-    clearance_mLperMin: 110,
-    vd_LperKg: 0.35,
-  });
+	registerChemical({
+		id: 'TranexamicAcid_Clearance',
+		//name: 'Acide tranexamique [Cl]',
+		clearance_mLperMin: 110,
+		vd_LperKg: 0.35,
+	});
 
-  ////////////////////////////////////////
-  // Items & Acts
-  ////////////////////////////////////////
+	////////////////////////////////////////
+	// Items & Acts
+	////////////////////////////////////////
 
-  initItemAndActs(items, acts);
+	initItemAndActs(items, acts);
+	
 }

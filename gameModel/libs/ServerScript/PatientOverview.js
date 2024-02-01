@@ -1,102 +1,93 @@
-var PatientDashboard = (function () {
-  function getPatientIds() {
-    var patients = Variable.find(gameModel, 'patients').getInternalProperties();
-    var keys = [];
-    for (var k in patients) {
-      keys.push(patients[k].getKey());
-    }
-    return keys;
-  }
+var PatientDashboard = ((function () {
 
-  function overview() {
-    var patientKeys = getPatientIds();
-    var patients = {};
+	function getPatientIds() {
+		var patients = Variable.find(gameModel, "patients").getInternalProperties();
+		var keys = [];
+		for (var k in patients) {
+			keys.push(patients[k].getKey());
+		}
+		return keys;
+	}
 
-    var debugTeamId = undefined;
-    if (gameModel.getType().toString() === 'PLAY') {
-      debugTeamId = self.getTeamId();
-    }
 
-    // get all events for all teams
-    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, 'events'));
 
-    // process each team events
-    allEventsByTeamId
-      .entrySet()
-      .stream()
-      .forEach(function (entry) {
-        var teamId = entry.getKey();
-        if (teamId != debugTeamId) {
-          var rawEvents = entry.getValue();
+	function overview() {
+		var patientKeys = getPatientIds();
+		var patients = {};
 
-          events = getEvents(rawEvents);
+		var debugTeamId = undefined;
+		if (gameModel.getType().toString() === 'PLAY') {
+			debugTeamId = self.getTeamId();
+		}
 
-          // extract most recent Categorize event for each patient
-          var perPatients = events
-            .filter(function (event) {
-              return event.payload.type === 'Categorize';
-            })
-            .sort(function (a, b) {
-              return a.time - b.time;
-            })
-            .reduce(function (acc, event) {
-              acc[event.payload.targetId] = event;
-              return acc;
-            }, {});
+		// get all events for all teams
+		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "events"));
 
-          for (var i in patientKeys) {
-            var patient = patientKeys[i];
+		// process each team events
+		allEventsByTeamId.entrySet().stream().forEach(function (entry) {
+			var teamId = entry.getKey();
+			if (teamId != debugTeamId) {
+				var rawEvents = entry.getValue();
 
-            var acc = patients[patient] || {};
-            patients[patient] = acc;
+				events = getEvents(rawEvents);
 
-            if (perPatients[patient]) {
-              var event = perPatients[patient];
-              if (event.payload.category === event.payload.autoTriage.categoryId) {
-                acc.correct = (acc.correct || 0) + 1;
-              } else if (event.payload.severity < event.payload.autoTriage.severity) {
-                acc.underCategorized = (acc.underCategorized || 0) + 1;
-              } else if (event.payload.severity > event.payload.autoTriage.severity) {
-                acc.overCategorized = (acc.overCategorized || 0) + 1;
-              }
-            } else {
-              acc.notCategorized = (acc.notCategorized || 0) + 1;
-            }
-          }
-        }
-      });
+				// extract most recent Categorize event for each patient
+				var perPatients = events.filter(function (event) {
+					return event.payload.type === 'Categorize'
+				})
+					.sort(function (a, b) { return a.time - b.time })
+					.reduce(function (acc, event) {
+						acc[event.payload.targetId] = event;
+						return acc;
+					}, {});
 
-    return patients;
-  }
+				for (var i in patientKeys) {
+					var patient = patientKeys[i];
 
-  function patientInfo() {
-    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, 'events'));
+					var acc = patients[patient] || {};
+					patients[patient] = acc;
 
-    var allEvents = [];
-    // process each team events
-    allEventsByTeamId
-      .values()
-      .stream()
-      .forEach(function (evtSet) {
-        var events = getEvents(evtSet);
-        events
-          .filter(function (event) {
-            return (
-              event.payload.type == 'Categorize' ||
-              event.payload.type == 'HumanMeasure' ||
-              event.payload.type == 'HumanTreatment' ||
-              event.payload.type == 'HumanMeasureResult'
-            );
-          })
-          .forEach(function (e) {
-            allEvents.push(e);
-          });
-      });
-    return allEvents;
-  }
+					if (perPatients[patient]) {
+						var event = perPatients[patient];
+						if (event.payload.category === event.payload.autoTriage.categoryId) {
+							acc.correct = (acc.correct || 0) + 1;
+						} else if (event.payload.severity < event.payload.autoTriage.severity) {
+							acc.underCategorized = (acc.underCategorized || 0) + 1;
+						} else if (event.payload.severity > event.payload.autoTriage.severity) {
+							acc.overCategorized = (acc.overCategorized || 0) + 1;
+						}
+					} else {
+						acc.notCategorized = (acc.notCategorized || 0) + 1
+					}
+				}
+			}
+		});
 
-  return {
-    overview: overview,
-    patientInfo: patientInfo,
-  };
-})();
+		return patients;
+	}
+
+	function patientInfo() {
+
+		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "events"));
+
+		var allEvents = [];
+		// process each team events
+		allEventsByTeamId.values().stream().forEach(function(evtSet) {
+			var events = getEvents(evtSet);
+			events.filter(function (event) {
+				return event.payload.type == 'Categorize'
+				|| event.payload.type == 'HumanMeasure'
+				|| event.payload.type == 'HumanTreatment'
+				|| event.payload.type == 'HumanMeasureResult'
+			}).forEach(function (e) {allEvents.push(e)});
+
+		})
+		return allEvents;
+
+	}
+
+	return {
+		overview: overview,
+		patientInfo : patientInfo
+	}
+})());

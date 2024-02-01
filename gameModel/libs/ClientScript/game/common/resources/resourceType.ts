@@ -9,13 +9,14 @@ export const MaterialResourceTypeArray = ['ambulance', 'helicopter', 'PMA'] as c
 // type inference
 export type MaterialResourceType = typeof MaterialResourceTypeArray[number];
 
-export const HumanResourceTypeArray = [
-  'secouriste',
-  'technicienAmbulancier',
-  'ambulancier',
-  'infirmier',
-  'medecinJunior',
-  'medecinSenior',
+export const HumanResourceTypeArray = 
+[
+	'secouriste', 
+	'technicienAmbulancier', 
+	'ambulancier', 
+	'infirmier', 
+	'medecinJunior', 
+	'medecinSenior'
 ] as const;
 
 export type HumanResourceType = typeof HumanResourceTypeArray[number];
@@ -24,4 +25,4 @@ export type ResourceType = HumanResourceType | MaterialResourceType;
 
 export const ResourcesArray = [...MaterialResourceTypeArray, ...HumanResourceTypeArray] as const;
 
-export type ResourceTypeAndNumber = Partial<Record<ResourceType, number>>;
+export type ResourceTypeAndNumber = Partial<Record<ResourceType,number>>;
