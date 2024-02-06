@@ -11,12 +11,11 @@ import {
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
   ActionBase,
-  DefineMapObjectAction,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SelectMapObjectAction, SendRadioMessageAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction,
 } from './actionBase';
-import { DefineFeature, DefineMapObjectEvent, GeometryType, SelectMapObjectEvent, FeaturePayload, SelectPayload, PointLikeObjects } from "../events/defineMapObjectEvent";
+import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -256,140 +255,43 @@ export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, Cas
 
 }
 
-export class DefineMapObjectTemplate extends StartEndTemplate<DefineMapObjectAction, DefineMapObjectEvent> {
+export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionFixedMapEntityAction, SelectionFixedMapEntityEvent> {
   
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    readonly featureDescription: {
-      geometryType: GeometryType,
-      name: string,
-      icon?: string,
-      feature?: DefineFeature,
-    },
-	replayable = false, flags: SimFlag[]=[]
-  ) {
-    super(title, description, duration, message, replayable, flags);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, payload: FeaturePayload): DefineMapObjectEvent {
-    
-  const feature = {
-    ownerId: initiator.Uid,
-    geometryType: this.featureDescription.geometryType,
-    name: this.featureDescription.name,
-    geometry: this.featureDescription.feature?.geometry || payload.feature,
-    ...this.featureDescription.icon && {icon: this.featureDescription.icon}
-  }
-
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      feature: feature as unknown as DefineFeature,
-    }
-  }
-
-  public getTemplateRef(): string {
-    return 'DefineMapObjectTemplate' + '_' + this.title;
-  }
-
-  protected createActionFromEvent(event: FullEvent<DefineMapObjectEvent>): DefineMapObjectAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId; 
-    return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, payload.feature, this.Uid);
-  }
-
-  public getDescription(): string {
-	return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
-
-}
-
-export class SelectMapObjectTemplate extends StartEndTemplate<SelectMapObjectAction | DefineMapObjectAction, SelectMapObjectEvent | DefineMapObjectEvent> {
-
-  
-  public readonly geometrySelection?: {
-    geometryType: GeometryType,
-    icon?: string,
-    geometries: PointLikeObjects[],
-	name: string,
-  }
-
-  public readonly featureSelection?: {
-    layerId: string,
-    featureKey: string,
-    featureIds: string[],
-	name: string,
-  }
+  public readonly fixedMapEntity: FixedMapEntity;
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    selection: { geometrySelection?: any, featureSelection?: any},
+	fixedMapEntity: FixedMapEntity,
 	replayable = false, flags: SimFlag[]=[]
   ) {
     super(title, description, duration, message, replayable, flags);
-    if (selection.geometrySelection) {
-      this.geometrySelection = selection.geometrySelection;
-    }
-    if (selection.featureSelection) {
-      this.featureSelection = selection.featureSelection;
-    }
+	this.fixedMapEntity = fixedMapEntity;
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: SelectPayload | FeaturePayload): SelectMapObjectEvent | DefineMapObjectEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: FixedMapEntity): SelectionFixedMapEntityEvent {
 
-    if (this.geometrySelection){
-
-		const feature = {
-			ownerId: initiator.Uid,
-			geometryType: this.geometrySelection.geometryType,
-			name: this.geometrySelection.name,
-			geometry: (payload as FeaturePayload).feature,
-			...this.geometrySelection.icon && {icon: this.geometrySelection.icon},
-		}
-
-		return {
-			...this.initBaseEvent(timeStamp, initiator.Uid),
-			durationSec: this.duration,
-			feature: feature as unknown as DefineFeature,
-		}
+	//???? payload??
+	//Is there a way to keep the original instance class?
+	return {
+		...this.initBaseEvent(timeStamp, initiator.Uid),
+		durationSec: this.duration,
+		fixedMapEntity: payload,
 	}
-		return {
-			...this.initBaseEvent(timeStamp, initiator.Uid),
-			durationSec: this.duration,
-			featureKey: this.featureSelection!.featureKey,
-			featureId: (payload as SelectPayload).featureId,
-		}
 	
   }
 
   public getTemplateRef(): string {
-      return 'SelectMapObjectTemplate' + '_' + this.title;
+      return 'SelectionFixedMapEntityTemplate' + '_' + this.title;
   }
 
-  protected createActionFromEvent(event: FullEvent<SelectMapObjectEvent | DefineMapObjectEvent>): SelectMapObjectAction | DefineMapObjectAction {
+  protected createActionFromEvent(event: FullEvent<SelectionFixedMapEntityEvent >): SelectionFixedMapEntityAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
-    if (this.geometrySelection) {
-      return new DefineMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, (payload as DefineMapObjectEvent).feature, this.Uid)
-    }
-
-      return new SelectMapObjectAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, this.featureSelection!.featureKey, (payload as SelectMapObjectEvent).featureId, this.Uid)
+  	return new SelectionFixedMapEntityAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity), this.Uid);
   }
 
   public getDescription(): string {

@@ -3,7 +3,6 @@ import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
 import { Actor, InterventionRole, sortByHierarchyLevel } from "../actors/actor";
 import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
-import { MapFeature } from "../events/defineMapObjectEvent";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { changePatientPosition, PatientState } from "../simulationState/patientState";
@@ -20,6 +19,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
+import { FixedMapEntity } from "../events/defineMapObjectEvent";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -168,26 +168,26 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 /////////// TODO in own file
 export class AddMapItemLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature){
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity){
     super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.mapLocations.push(this.feature);
+    so.mapLocations.push(this.fixedMapEntity);
   }
 
 }
 
 export class RemoveMapItemLocalEvent extends LocalEventBase {
 
-	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly feature: MapFeature) {
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity) {
 		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
 		const so = state.getInternalStateObject();
-		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.feature.name && f.ownerId === this.feature.ownerId), 1);
+		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.fixedMapEntity.name && f.ownerId === this.fixedMapEntity.ownerId), 1);
 	}
 }
 

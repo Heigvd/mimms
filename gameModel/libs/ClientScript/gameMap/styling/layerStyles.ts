@@ -9,7 +9,6 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
 	const geometryType = properties.type;
-
 	switch (geometryType) {
 		case 'Point':
 			return getPointStyle(feature);
@@ -17,6 +16,8 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 			return getLineStringStyle(feature);
 		case 'MultiLineString':
 			return getLineStringStyle(feature);
+		case 'Polygon':
+			return getMultiPolygonStyle(feature);
 		case 'MultiPolygon':
 			return getMultiPolygonStyle(feature);
 		default:
@@ -31,6 +32,8 @@ export function getLayerStyle(feature: any): LayerStyleObject {
  * @returns LayerStyleObject generated point style
  */
 function getPointStyle(feature: any): LayerStyleObject {
+
+	
 
 	const properties = feature.getProperties();
 	const icon = properties.icon;
@@ -85,7 +88,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			}
 		}
 
-		if (icon === Context.mapState.state.selectionState.icon && !duration) {
+		if (Context.mapState.state.selectionState && icon === Context.mapState.state.selectionState.icon && !duration) {
 			// Convert to int to add 1
 			const index = parseInt(name, 10) + 1;
 			// Is this feature currently selected ?
@@ -170,9 +173,16 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 		width: 5,
 	}
 
+	// Convert to int to add 1
+	let index;
+	if (isNaN(properties.name))
+		index = properties.name;
+	else
+		index = parseInt(properties.name, 10) + 1;
+		
 	const text: TextStyleObject = {
 		type: 'TextStyle',
-		text: properties.name || 'No name',
+		text: String(index) || 'No name',
 		textAlign: 'center',
 	}
 

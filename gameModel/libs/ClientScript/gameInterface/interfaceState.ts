@@ -12,6 +12,7 @@ export interface InterfaceState {
 	selectedPanel: 'actions' | 'radios' | 'notification';
 	selectedMapObjectId: string;
 	channel: string;
+	updatedChannelMessagesAt: number;
 	channelText: {
 		actors: string;
 		evasam: string;

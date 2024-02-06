@@ -1,4 +1,4 @@
-import { GeometryType, PointLikeObjects } from "../game/common/events/defineMapObjectEvent";
+import { FixedMapEntity, PointLikeObjects } from "../game/common/events/defineMapObjectEvent";
 import { Point } from "../map/point2D";
 import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
@@ -10,12 +10,7 @@ export const selectionLayerRef = Helpers.useRef<any>("selectionLayer", null);
 
 interface MapState {
 	mapSelect: boolean;
-	selectionState: {
-		geometryType: GeometryType | undefined;
-		icon?: string;
-		name?: string;
-		geometries: Array<PointLikeObjects> | undefined;
-	};
+	selectionState: FixedMapEntity|undefined;
 }
 
 /**
@@ -26,10 +21,7 @@ interface MapState {
 export function getInitialMapState(): MapState {
 	return {
 		mapSelect: false,
-		selectionState: {
-			geometryType: undefined,
-			geometries: undefined,
-		},
+		selectionState: undefined
 	};
 }
 
@@ -55,13 +47,9 @@ export function endMapAction() {
  */
 export function startMapSelect() {
 	let params;
-	if (Context.action.featureSelection) {
-		logger.info('MAP: Feature Select Action started')
-		params = Context.action.featureSelection;
-	}
-	if (Context.action.geometrySelection) {
+	if (Context.action.fixedMapEntity) {
 		logger.info('MAP: Geometry Select Action started')
-		params = Context.action.geometrySelection;
+		params = Context.action.fixedMapEntity;
 	}
 
 	clearMapState();
