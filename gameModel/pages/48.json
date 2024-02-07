@@ -364,7 +364,7 @@
             "exposeAs" : "pmaDetails",
             "initialState" : {
               "@class" : "Script",
-              "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId])",
+              "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId]);",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -375,7 +375,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "if (Context.mapState.state.selectionStated) {\n\treturn false;\n}\ntrue;",
+          "content" : "if (Context.mapState.state.selectionState) {\n\treturn false;\n}\ntrue;",
           "language" : "typescript"
         },
         "layout" : { },
