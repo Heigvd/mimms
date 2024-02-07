@@ -1,3 +1,4 @@
+import { getLineStringMiddlePoint, getPolygonCentroid } from "../../../gameMap/utils/mapUtils";
 import { InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { ActionCreationEvent } from "./eventTypes";
@@ -82,7 +83,7 @@ export class MultiPointGeometricalShape extends GeometricalShape {
 
 
 	getShapeCenter(): PointLikeObject {
-		return this.selectedPosition![0];
+		return this.selectedPosition![0]!;
 	}
 }
 
@@ -99,8 +100,7 @@ export class LineStringGeometricalShape extends GeometricalShape {
 	}
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		return getLineStringMiddlePoint(this.selectedPosition!);
 	}
 }
 
@@ -117,8 +117,8 @@ export class MultiLineStringGeometricalShape extends GeometricalShape {
 	}
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		//Returns middle of first arrow
+		return getLineStringMiddlePoint(this.selectedPosition![0]!);
 	}
 }
 
@@ -135,8 +135,7 @@ export class PolygonGeometricalShape extends GeometricalShape {
 	}
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		return getPolygonCentroid(this.selectedPosition![0]!);
 	}
 }
 
@@ -153,8 +152,8 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 	}
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		//Returns centroid of first polygon
+		return getPolygonCentroid(this.selectedPosition![0]![0]!);
 	}
 }
 
