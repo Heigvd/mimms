@@ -1,4 +1,4 @@
-import { BuildingStatus, FixedMapEntity, MultiLineStringGeometricalShape, MultiPointGeometricalShape, PointGeometricalShape } from "../../game/common/events/defineMapObjectEvent";
+import { BuildingStatus, FixedMapEntity, MultiLineStringGeometricalShape, MultiPointGeometricalShape, PointGeometricalShape, SelectedPositionType, AvailablePositionType } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
@@ -58,7 +58,7 @@ export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLi
  * @returns FeatureCollection
  */
 function getLayer(features: FixedMapEntity[], name: string): FeatureCollection {
-	const layer = getEmptyFeatureCollection();
+	let layer = getEmptyFeatureCollection();
 	layer.name = name;
 
 	if (features.length > 0) {
@@ -71,50 +71,11 @@ function getLayer(features: FixedMapEntity[], name: string): FeatureCollection {
 				// If the feature is an arrow add end points for arrow heads
 				// TODO Better validation or templates ?
 				if(f.getGeometricalShape() instanceof MultiLineStringGeometricalShape) {
-					(f.getGeometricalShape() as MultiLineStringGeometricalShape).selectedPosition!.forEach((segment: PointLikeObject[], j) => {
-						const {end, rotation} = getLineEndAndRotation(segment);
-
-						const feature: any = {
-							type: 'Feature',
-							geometry: {
-								type: 'Point',
-								coordinates: end,
-							},
-							properties: {
-								type: 'Point',
-								name: String(i),
-								icon: 'arrow',
-								rotation: -rotation,
-								startTimeSec: f.startTimeSec,
-								durationTimeSec: f.durationTimeSec,
-								accessType: j === 0 ? 'Access' : 'Regress',
-							}
-						};
-
-						layer.features.push(feature)
-					})
+						const position = (f.getGeometricalShape() as MultiLineStringGeometricalShape).selectedPosition as PointLikeObject[][];
+						layer = getMultilineFeature(position, i, layer);
 				}
-
-				// Add the feature
-				const feature: any = {
-					type: 'Feature',
-					geometry: {
-						type: f.getGeometricalShape().olGeometryType,
-						coordinates: f.getGeometricalShape().selectedPosition,
-					},
-					properties: {
-						type: f.getGeometricalShape().olGeometryType,
-						name: f.name,
-						icon: f.getGeometricalShape() instanceof PointGeometricalShape || f.getGeometricalShape() instanceof MultiPointGeometricalShape ? f.icon : undefined,
-						rotation: f.getGeometricalShape() instanceof PointGeometricalShape ? (f.getGeometricalShape() as PointGeometricalShape).rotation : undefined,
-						startTimeSec: f.startTimeSec,
-						durationTimeSec: f.durationTimeSec,
-					},
-				}
-				layer.features.push(feature);
-
+				layer = getGenericFeature(f, f.getGeometricalShape().selectedPosition, f.name, layer);
 			}
-
 		});
 	}
 	return layer;
@@ -155,54 +116,62 @@ export function getUnavailableLayer() {
 export function getSelectionLayer() {
 	const selection = Context.mapState.state.selectionState as FixedMapEntity;
 
-	const layer = getEmptyFeatureCollection();
+	let layer = getEmptyFeatureCollection();
 	layer.name = 'SelectionLayer';
 
 	if (selection instanceof FixedMapEntity) {
 		selection.getGeometricalShape().availablePositions!.forEach((position, i: number) => {
 			if(selection.getGeometricalShape() instanceof MultiLineStringGeometricalShape) {
-				(position as PointLikeObject[][])!.forEach((segment: PointLikeObject[], j) => {
-					const {end, rotation} = getLineEndAndRotation(segment);
-
-					const feature: any = {
-						type: 'Feature',
-						geometry: {
-							type: 'Point',
-							coordinates: end,
-						},
-						properties: {
-							type: 'Point',
-							name: String(i),
-							icon: 'arrow',
-							rotation: -rotation,
-							accessType: j === 0 ? 'Access' : 'Regress',
-						}
-					};
-
-					layer.features.push(feature)
-				})
+				layer = getMultilineFeature(position as PointLikeObject[][], i, layer);
 			}
 
-
-			const feature: any = {
-				type: 'Feature',
-				geometry: {
-					type: selection.getGeometricalShape().olGeometryType,
-					coordinates: position,
-				},
-				properties: {
-					type: selection.getGeometricalShape().olGeometryType,
-					name: String(i),
-					icon: selection.getGeometricalShape() instanceof PointGeometricalShape || selection.getGeometricalShape() instanceof MultiPointGeometricalShape ? selection.icon : undefined,
-					rotation: selection.getGeometricalShape() instanceof PointGeometricalShape ? (selection.getGeometricalShape() as PointGeometricalShape).rotation : undefined,
-				},
-			}
-			layer.features.push(feature);
+			layer = getGenericFeature(selection, position, String(i), layer);
 		});
 	}
 	return layer;
 }
 
+function getMultilineFeature(position: PointLikeObject[][], positionCounter: number, layer: FeatureCollection): FeatureCollection {
+	position.forEach((segment: PointLikeObject[], j) => {
+		const {end, rotation} = getLineEndAndRotation(segment);
+
+		const feature: any = {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: end,
+			},
+			properties: {
+				type: 'Point',
+				name: String(positionCounter),
+				icon: 'arrow',
+				rotation: -rotation,
+				accessType: j === 0 ? 'Access' : 'Regress',
+			}
+		};
+
+		layer.features.push(feature)
+	});
+	return layer;
+}
+
+function getGenericFeature(entity: FixedMapEntity, position: SelectedPositionType|AvailablePositionType, name: string, layer: FeatureCollection): FeatureCollection {
+	const feature: any = {
+		type: 'Feature',
+		geometry: {
+			type: entity.getGeometricalShape().olGeometryType,
+			coordinates: position,
+		},
+		properties: {
+			type: entity.getGeometricalShape().olGeometryType,
+			name: name,
+			icon: entity.getGeometricalShape() instanceof PointGeometricalShape || entity.getGeometricalShape() instanceof MultiPointGeometricalShape ? entity.icon : undefined,
+			rotation: entity.getGeometricalShape() instanceof PointGeometricalShape ? (entity.getGeometricalShape() as PointGeometricalShape).rotation : undefined,
+		},
+	}
+	layer.features.push(feature);
+	return layer;
+}
 
 
 

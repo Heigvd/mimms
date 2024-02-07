@@ -78,12 +78,8 @@ export function getActionTemplate(id: number, actionType: ActionType = ActionTyp
 /**
  * @param id Uid of given action
  */
-export function isDefineMapObjectTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof SelectionFixedMapEntityTemplate;
-}
 
-export function isSelectMapObjectTemplate(id: number) {
+export function isFixedMapEntityTemplate(id: number){
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
 	return template instanceof SelectionFixedMapEntityTemplate;
 }

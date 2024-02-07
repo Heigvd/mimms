@@ -1,7 +1,7 @@
 import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectionFixedMapEntityTemplate, SendResourcesToActorActionTemplate } from "../game/common/actions/actionTemplateBase";
 import { ActionType } from "../game/common/actionType";
 import { endMapAction, startMapSelect } from "../gameMap/main";
-import { cancelAction, getActionTemplate, getAllActions, isSelectMapObjectTemplate, planAction } from "../UIfacade/actionFacade";
+import { cancelAction, getActionTemplate, getAllActions, isFixedMapEntityTemplate, planAction } from "../UIfacade/actionFacade";
 import { getSimTime } from "../UIfacade/timeFacade";
 
 
@@ -84,7 +84,7 @@ export function actionChangeHandler() {
 	})
 	endMapAction();
 	// If action is SelectMapObject we begin routine
-	if (isSelectMapObjectTemplate(Context.action.Uid) && canPlanAction()) {
+	if (isFixedMapEntityTemplate(Context.action.Uid) && canPlanAction()) {
 		startMapSelect();
 	}
 }

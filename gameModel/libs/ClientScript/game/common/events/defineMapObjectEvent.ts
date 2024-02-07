@@ -64,8 +64,7 @@ export class PointGeometricalShape extends GeometricalShape {
 	}
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		return this.selectedPosition!;
 	}
 }
 
@@ -83,8 +82,7 @@ export class MultiPointGeometricalShape extends GeometricalShape {
 
 
 	getShapeCenter(): PointLikeObject {
-		//TODO implement!
-		return [0, 0];
+		return this.selectedPosition![0];
 	}
 }
 
@@ -160,7 +158,7 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 	}
 }
 
-//not useful anymore... we use everything as geometry based
+//not useful anymore... we use everything as geometry based, probably
 /*export class FeatureBasedFixedMapEntity extends FixedMapEntity {
 	featureKey!: string;
   	selectedFeatureId?: string;
@@ -179,6 +177,10 @@ export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {
   fixedMapEntity: FixedMapEntity;
 }
 
+/*
+* This function is necesssary as we do not receive a fixedmap instance from global event but a generic object
+* So we convert the object back to its original instance type
+*/
 export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEntity{
 
 	let geometricalShape: GeometricalShape;

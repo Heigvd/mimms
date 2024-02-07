@@ -3,7 +3,7 @@ import {
 	isAssignResourcesToTaskActionTemplate,
 	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
-	isSelectMapObjectTemplate,
+	isFixedMapEntityTemplate,
 	isSendResourcesToActorActionTemplate,
 	isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
@@ -32,7 +32,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 
 	let params = {};
 
-	if (isSelectMapObjectTemplate(actionRefUid)) {
+	if (isFixedMapEntityTemplate(actionRefUid)) {
 		// If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
 		if (!canPlanAction()) {
 			startMapSelect();

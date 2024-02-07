@@ -17,7 +17,7 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 		case 'MultiLineString':
 			return getLineStringStyle(feature);
 		case 'Polygon':
-			return getMultiPolygonStyle(feature);
+			return getPolygonStyle(feature);
 		case 'MultiPolygon':
 			return getMultiPolygonStyle(feature);
 		default:
@@ -32,8 +32,6 @@ export function getLayerStyle(feature: any): LayerStyleObject {
  * @returns LayerStyleObject generated point style
  */
 function getPointStyle(feature: any): LayerStyleObject {
-
-	
 
 	const properties = feature.getProperties();
 	const icon = properties.icon;
@@ -118,9 +116,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			color: 'red',
 		}
 	};
-
 	return { image: circleStyle }
-
 }
 
 /**
@@ -149,6 +145,57 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 	}
 
 	return { stroke: strokeStyle };
+}
+
+/**
+ * Generate style for polygons (i.e.: PMA)
+ * 
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated multi polygon style
+ */
+function getPolygonStyle(feature: any): LayerStyleObject {
+	const properties = feature.getProperties();
+	const name = properties.name;
+
+	const fill: FillStyleObject = {
+		type: 'FillStyle',
+		color: '#575FCF',
+	};
+
+	const stroke: StrokeStyleObject = {
+		type: 'StrokeStyle',
+		color: '#575FCF',
+		lineCap: 'round',
+		lineJoin: 'round',
+		width: 5,
+	}
+
+	// Convert to int to add 1
+	let index;
+	if (isNaN(properties.name))
+		index = properties.name;
+	else
+		index = parseInt(properties.name, 10) + 1;
+		
+	const text: TextStyleObject = {
+		type: 'TextStyle',
+		text: String(index) || 'No name',
+		font: 'bold 10px sans-serif',
+		textAlign: 'center',
+		scale: 1.6,
+		fill: {
+			type: 'FillStyle',
+			color: 'white',
+		}
+	}
+
+	// If we're currently performing a selection
+	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) {
+		stroke.color = '#575FCF80';
+		fill.color = '#575FCF80';
+	}
+
+	return { fill, stroke, text };
 }
 
 /**
