@@ -2,7 +2,7 @@ import { group } from "../../../tools/groupBy";
 import { ActionBase } from "../actions/actionBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
-import { MapFeature } from "../events/defineMapObjectEvent";
+import { FixedMapEntity } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
 import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
@@ -146,7 +146,7 @@ export class MainSimulationState implements IClonable {
   /**
    * @returns An array of all map locations
    */
-  public getMapLocations(): MapFeature[] {
+  public getMapLocations(): FixedMapEntity[] {
 	  return this.internalState.mapLocations;
   }
 
@@ -174,7 +174,7 @@ interface MainStateObject {
   actions: ActionBase[];
   cancelledActions: ActionBase[];
   tasks: TaskBase[];
-  mapLocations: MapFeature[];
+  mapLocations: FixedMapEntity[];
   patients: PatientState[];
   actors : Actor[];
   radioMessages: RadioMessage[];

@@ -1,5 +1,5 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
-import { MapFeature, SelectFeature } from "../events/defineMapObjectEvent";
+import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
@@ -17,6 +17,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
+import { getCurrentState } from "../../mainSimulationLogic";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -289,52 +290,9 @@ export class CasuMessageAction extends StartEndAction {
   
 }
 
-export class DefineMapObjectAction extends StartEndAction {
+export class SelectionFixedMapEntityAction extends StartEndAction {
 
-  /**
-   * Map feature to be displayed
-  */
-  public readonly feature: MapFeature;
-
-  constructor(
-    startTimeSec: SimTime, 
-    durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey, 
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    feature: MapFeature,
-    uuidTemplate: ActionTemplateId
-  ) { 
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.feature = feature;
-    this.feature.startTimeSec = this.startTime;
-    this.feature.durationTimeSec = this.durationSec;
-  }
-
-  protected dispatchInitEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place immediatly
-    // TODO show grayed out map element
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature));
-  }
-
-  protected dispatchEndedEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place at the end of the action
-    // ungrey the map element
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
-  }
-
-  // TODO remove corresponding mapFeature
-  protected cancelInternal(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.feature as MapFeature));
-  }
-
-}
-
-export class SelectMapObjectAction extends StartEndAction {
-
-  public readonly featureKey: string;
-  public readonly featureId: string;
+  public readonly fixedMapEntity: FixedMapEntity;
 
   constructor(
     startTimeSec: SimTime,
@@ -343,50 +301,29 @@ export class SelectMapObjectAction extends StartEndAction {
     messageKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    featureKey: string,
-    featureId: string,
+	fixedMapEntity: FixedMapEntity,
     uuidTemplate: ActionTemplateId,
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.featureKey = featureKey;
-    this.featureId = featureId;
+    this.fixedMapEntity = fixedMapEntity;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
-    // TODO show grayed out map element
-    const selectFeature: SelectFeature = {
-      ownerId: this.ownerId,
-      name: this.actionNameKey,
-      geometryType: 'Select',
-      featureKey: this.featureKey,
-      featureIds: this.featureId,
-      startTimeSec: this.startTime,
-      durationTimeSec: this.durationSec,
-    }
-
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
+	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
+    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
+	state.getMapLocations().filter(mapEntity => mapEntity.id === this.fixedMapEntity.id).map(mapEntity => mapEntity.buildingStatus = BuildingStatus.ready);
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
     // TODO maybe store in class similar to DefineMapObject
-    const selectFeature: SelectFeature = {
-      ownerId: this.ownerId,
-      name: this.actionNameKey,
-      geometryType: 'Select',
-      featureKey: this.featureKey,
-      featureIds: this.featureId,
-      startTimeSec: this.startTime,
-      durationTimeSec: this.durationSec,
-    }
-
-    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), selectFeature));
+    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
 }

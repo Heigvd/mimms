@@ -3,7 +3,7 @@ import {
 	isAssignResourcesToTaskActionTemplate,
 	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
-	isSelectMapObjectTemplate,
+	isFixedMapEntityTemplate,
 	isSendResourcesToActorActionTemplate,
 	isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
@@ -15,6 +15,8 @@ import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
+import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -30,7 +32,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 
 	let params = {};
 
-	if (isSelectMapObjectTemplate(actionRefUid)) {
+	if (isFixedMapEntityTemplate(actionRefUid)) {
 		// If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
 		if (!canPlanAction()) {
 			startMapSelect();
@@ -71,24 +73,14 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 function fetchSelectMapObjectValues() { // TODO Add type
 
 	const mapState = Context.mapState.state;
-
-
-	let tmpFeature;
-	if (mapState.selectionState.geometryType) {
-		tmpFeature = {
-			geometryType: mapState.selectionState.geometryType,
-			feature: mapState.selectionState.geometries[Context.interfaceState.state.selectedMapObjectId]
-		}
+	let tmpFixedEntity;
+	if (mapState.selectionState instanceof FixedMapEntity) {
+		tmpFixedEntity = (mapState.selectionState as FixedMapEntity);
+		tmpFixedEntity.buildingStatus = BuildingStatus.inProgress;
+		tmpFixedEntity.getGeometricalShape().selectedPosition = mapState.selectionState.getGeometricalShape().availablePositions[Context.interfaceState.state.selectedMapObjectId];
 	}
 
-	if (mapState.selectionState.layerId) {
-		tmpFeature = {
-			featureKey: mapState.selectionState.featureKey,
-			featureId: mapState.selectionState.featureIds[Context.interfaceState.state.selectedMapObjectId]
-		}
-	}
-
-	return tmpFeature;
+	return tmpFixedEntity;
 }
 
 /**

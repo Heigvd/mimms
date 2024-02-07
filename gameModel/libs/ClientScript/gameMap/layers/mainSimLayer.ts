@@ -1,8 +1,7 @@
-import { MapFeature } from "../../game/common/events/defineMapObjectEvent";
+import { BuildingStatus, FixedMapEntity, MultiLineStringGeometricalShape, MultiPointGeometricalShape, PointGeometricalShape, SelectedPositionType, AvailablePositionType } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
-import { getSimTime } from "../../UIfacade/timeFacade";
 
 /************
 *
@@ -15,12 +14,10 @@ import { getSimTime } from "../../UIfacade/timeFacade";
  * 
  * @params MapFeature features
  */
-function filterAvailable(feature: MapFeature) {
-	if (feature.startTimeSec !== undefined && feature.durationTimeSec !== undefined) {
-		return feature.startTimeSec + feature.durationTimeSec <= getSimTime();
-	}
-
-	return true;
+function filterAvailable(feature: FixedMapEntity) {
+	if (feature.buildingStatus === BuildingStatus.ready)
+		return true;
+	return false;
 }
 
 /**
@@ -28,11 +25,9 @@ function filterAvailable(feature: MapFeature) {
  * 
  * @params MapFeature features
  */
-function filterUnavailable(feature: MapFeature) {
-	if (feature.startTimeSec !== undefined && feature.durationTimeSec !== undefined) {
-		return feature.startTimeSec + feature.durationTimeSec >= getSimTime();
-	}
-
+function filterUnavailable(feature: FixedMapEntity) {
+	if (feature.buildingStatus === BuildingStatus.inProgress)
+		return true;
 	return false;
 }
 
@@ -62,64 +57,27 @@ export function getLineEndAndRotation(segment: PointLikeObject[]): {end: PointLi
  * 
  * @returns FeatureCollection
  */
-function getLayer(features: MapFeature[], name: string): FeatureCollection {
-	const layer = getEmptyFeatureCollection();
+function getLayer(features: FixedMapEntity[], name: string): FeatureCollection {
+	let layer = getEmptyFeatureCollection();
 	layer.name = name;
 
 	if (features.length > 0) {
 
 		features.forEach((f, i) => {
-			// If the feature is a building selection (geometryType: Select) we skip it
-			if (f.geometryType === 'Select') return;
+			if (f instanceof FixedMapEntity){
+				// If the feature is a building selection (geometryType: Select) we skip it
+				if(f.buildingStatus === BuildingStatus.selection) return;
 
-			// If the feature is an arrow add end points for arrow heads
-			// TODO Better validation or templates ?
-			if (f.geometryType === 'MultiLineString') {
-				f.geometry.forEach((segment: PointLikeObject[], j) => {
-					const {end, rotation} = getLineEndAndRotation(segment);
-
-					const feature: any = {
-						type: 'Feature',
-						geometry: {
-							type: 'Point',
-							coordinates: end,
-						},
-						properties: {
-							type: 'Point',
-							name: String(i),
-							icon: 'arrow',
-							rotation: -rotation,
-							startTimeSec: f.startTimeSec,
-							durationTimeSec: f.durationTimeSec,
-							accessType: j === 0 ? 'Access' : 'Regress',
-						}
-					};
-
-					layer.features.push(feature)
-				})
+				// If the feature is an arrow add end points for arrow heads
+				// TODO Better validation or templates ?
+				if(f.getGeometricalShape() instanceof MultiLineStringGeometricalShape) {
+						const position = (f.getGeometricalShape() as MultiLineStringGeometricalShape).selectedPosition as PointLikeObject[][];
+						layer = getMultilineFeature(position, i, layer);
+				}
+				layer = getGenericFeature(f, f.getGeometricalShape().selectedPosition, f.name, layer);
 			}
-
-			// Add the feature
-			const feature: any = {
-				type: 'Feature',
-				geometry: {
-					type: f.geometryType,
-					coordinates: f.geometry,
-				},
-				properties: {
-					type: f.geometryType,
-					name: f.name,
-					icon: f.geometryType === 'Point' || f.geometryType === 'MultiPoint' ? f.icon : undefined,
-					rotation: f.geometryType === 'Point' ? f.rotation : undefined,
-					startTimeSec: f.startTimeSec,
-					durationTimeSec: f.durationTimeSec,
-				},
-			}
-			layer.features.push(feature);
-
-		})
+		});
 	}
-
 	return layer;
 }
 
@@ -136,9 +94,9 @@ function getLayer(features: MapFeature[], name: string): FeatureCollection {
  */
 export function getAvailableLayer() {
 	const features = getCurrentState().getMapLocations();
-	const unavailable = features.filter(filterAvailable);
+	const available = features.filter(filterAvailable);
 
-	return getLayer(unavailable, 'AvailableLayer')
+	return getLayer(available, 'AvailableLayer')
 }
 
 /**
@@ -156,25 +114,64 @@ export function getUnavailableLayer() {
  * This layer displays the available selection when performing a SelectMapObjectAction
  */
 export function getSelectionLayer() {
-	const selection = Context.mapState.state.selectionState;
-	const selectionFeatures: MapFeature[] = [];
+	const selection = Context.mapState.state.selectionState as FixedMapEntity;
 
-	if (selection.geometryType) {
-		selection.geometries.forEach((geometry: any, i: number) => {
-			selectionFeatures.push({
-				ownerId: Context.interfaceState.state.currentActorUid,
-				geometryType: selection.geometryType,
-				geometry: geometry,
-				name: String(i),
-				icon: selection.icon ?? undefined,
-			});
-		})
+	let layer = getEmptyFeatureCollection();
+	layer.name = 'SelectionLayer';
 
-	};
+	if (selection instanceof FixedMapEntity) {
+		selection.getGeometricalShape().availablePositions!.forEach((position, i: number) => {
+			if(selection.getGeometricalShape() instanceof MultiLineStringGeometricalShape) {
+				layer = getMultilineFeature(position as PointLikeObject[][], i, layer);
+			}
 
-	return getLayer(selectionFeatures, 'SelectionLayer');
+			layer = getGenericFeature(selection, position, String(i), layer);
+		});
+	}
+	return layer;
 }
 
+function getMultilineFeature(position: PointLikeObject[][], positionCounter: number, layer: FeatureCollection): FeatureCollection {
+	position.forEach((segment: PointLikeObject[], j) => {
+		const {end, rotation} = getLineEndAndRotation(segment);
+
+		const feature: any = {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: end,
+			},
+			properties: {
+				type: 'Point',
+				name: String(positionCounter),
+				icon: 'arrow',
+				rotation: -rotation,
+				accessType: j === 0 ? 'Access' : 'Regress',
+			}
+		};
+
+		layer.features.push(feature)
+	});
+	return layer;
+}
+
+function getGenericFeature(entity: FixedMapEntity, position: SelectedPositionType|AvailablePositionType, name: string, layer: FeatureCollection): FeatureCollection {
+	const feature: any = {
+		type: 'Feature',
+		geometry: {
+			type: entity.getGeometricalShape().olGeometryType,
+			coordinates: position,
+		},
+		properties: {
+			type: entity.getGeometricalShape().olGeometryType,
+			name: name,
+			icon: entity.getGeometricalShape() instanceof PointGeometricalShape || entity.getGeometricalShape() instanceof MultiPointGeometricalShape ? entity.icon : undefined,
+			rotation: entity.getGeometricalShape() instanceof PointGeometricalShape ? (entity.getGeometricalShape() as PointGeometricalShape).rotation : undefined,
+		},
+	}
+	layer.features.push(feature);
+	return layer;
+}
 
 
 

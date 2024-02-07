@@ -9,7 +9,6 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 
 	const properties = feature.getProperties();
 	const geometryType = properties.type;
-
 	switch (geometryType) {
 		case 'Point':
 			return getPointStyle(feature);
@@ -17,6 +16,8 @@ export function getLayerStyle(feature: any): LayerStyleObject {
 			return getLineStringStyle(feature);
 		case 'MultiLineString':
 			return getLineStringStyle(feature);
+		case 'Polygon':
+			return getPolygonStyle(feature);
 		case 'MultiPolygon':
 			return getMultiPolygonStyle(feature);
 		default:
@@ -85,7 +86,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			}
 		}
 
-		if (icon === Context.mapState.state.selectionState.icon && !duration) {
+		if (Context.mapState.state.selectionState && icon === Context.mapState.state.selectionState.icon && !duration) {
 			// Convert to int to add 1
 			const index = parseInt(name, 10) + 1;
 			// Is this feature currently selected ?
@@ -115,9 +116,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 			color: 'red',
 		}
 	};
-
 	return { image: circleStyle }
-
 }
 
 /**
@@ -149,6 +148,57 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 }
 
 /**
+ * Generate style for polygons (i.e.: PMA)
+ * 
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated multi polygon style
+ */
+function getPolygonStyle(feature: any): LayerStyleObject {
+	const properties = feature.getProperties();
+	const name = properties.name;
+
+	const fill: FillStyleObject = {
+		type: 'FillStyle',
+		color: '#575FCF',
+	};
+
+	const stroke: StrokeStyleObject = {
+		type: 'StrokeStyle',
+		color: '#575FCF',
+		lineCap: 'round',
+		lineJoin: 'round',
+		width: 5,
+	}
+
+	// Convert to int to add 1
+	let index;
+	if (isNaN(properties.name))
+		index = properties.name;
+	else
+		index = parseInt(properties.name, 10) + 1;
+		
+	const text: TextStyleObject = {
+		type: 'TextStyle',
+		text: String(index) || 'No name',
+		font: 'bold 10px sans-serif',
+		textAlign: 'center',
+		scale: 1.6,
+		fill: {
+			type: 'FillStyle',
+			color: 'white',
+		}
+	}
+
+	// If we're currently performing a selection
+	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) {
+		stroke.color = '#575FCF80';
+		fill.color = '#575FCF80';
+	}
+
+	return { fill, stroke, text };
+}
+
+/**
  * Generate style for multi polygons
  * 
  * @params feature for which to generate style
@@ -170,9 +220,16 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 		width: 5,
 	}
 
+	// Convert to int to add 1
+	let index;
+	if (isNaN(properties.name))
+		index = properties.name;
+	else
+		index = parseInt(properties.name, 10) + 1;
+		
 	const text: TextStyleObject = {
 		type: 'TextStyle',
-		text: properties.name || 'No name',
+		text: String(index) || 'No name',
 		textAlign: 'center',
 	}
 

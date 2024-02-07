@@ -1,7 +1,3 @@
-import { SelectFeature } from "../../game/common/events/defineMapObjectEvent";
-import { getCurrentState } from "../../game/mainSimulationLogic";
-import { getSimTime } from "../../UIfacade/timeFacade";
-
 export function getBuildingsLayer(feature: any, resolution: number) {
 	let buildingStyle: LayerStyleObject = {
 		fill: {
@@ -29,8 +25,6 @@ export function getBuildingsLayer(feature: any, resolution: number) {
 	const mapState = Context.mapState.state;
 	const interfaceState = Context.interfaceState.state;
 	// Filter selectFeature from mapFeatures[] and flatMap it to an array of ids
-	const mapLocations = getCurrentState().getMapLocations()
-	const selectionFeatures = mapLocations.filter(feature => feature.geometryType === 'Select').flatMap(feature => (feature as SelectFeature).featureIds);
 
 	// Is a selection action currently being performed ?
 	if (mapState.mapSelect && mapState.selectionState.featureKey) {
@@ -48,14 +42,6 @@ export function getBuildingsLayer(feature: any, resolution: number) {
 			buildingStyle.fill!.color = "#575FCF";
 			buildingStyle.text!.text = String(index);
 		}
-	}
-
-	// The feature is the planned PMA
-	if (selectionFeatures.includes(feature.get('@id'))) {
-		const selectionFeature = mapLocations.find(mapLocation => mapLocation.geometryType === 'Select' && mapLocation.featureIds === feature.get('@id'));
-		// Check if the PMA is available or not
-		buildingStyle.fill!.color = selectionFeature!.startTimeSec! + selectionFeature!.durationTimeSec! > getSimTime() ? "#575FCF80" : "#575FCF";
-		buildingStyle.text!.text = 'PMA';
 	}
 
 	return buildingStyle;
