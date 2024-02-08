@@ -1,11 +1,12 @@
 import { entries } from "../../../tools/helper";
 import { resourceLogger } from "../../../tools/logger";
+import { SimFlag } from "../actions/actionTemplateBase";
 import { InterventionRole } from "../actors/actor";
 import { ActorId, GlobalEventId, TranslationKey } from "../baseTypes";
 import { ResourceMobilizationEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType, SimFlag } from "./resourceContainer";
+import { buildContainerDefinition, ResourceContainerConfig, ResourceContainerDefinition, ResourceContainerDefinitionId, ResourceContainerType} from "./resourceContainer";
 import { ResourceType } from "./resourceType";
 
 const containerDefinitions : Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
@@ -85,7 +86,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 			"pcs",
 			{},
 			[],
-			['PCS-ARRIVED']
+			[SimFlag.PCS_ARRIVED]
 		);
 		tsv.split('\n').slice(1).forEach(line => {
 			const l = line.split('\t');

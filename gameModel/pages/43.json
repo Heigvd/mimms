@@ -232,6 +232,11 @@
                                             "language" : "typescript"
                                           }
                                         } ],
+                                        "disableIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
+                                          "language" : "typescript"
+                                        },
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
@@ -272,6 +277,11 @@
                                             "language" : "typescript"
                                           }
                                         } ],
+                                        "disableIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
+                                          "language" : "typescript"
+                                        },
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {

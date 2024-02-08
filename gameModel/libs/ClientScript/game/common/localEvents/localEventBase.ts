@@ -19,7 +19,8 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
-import { FixedMapEntity } from "../events/defineMapObjectEvent";
+import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
+import { SimFlag } from "../actions/actionTemplateBase";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -116,6 +117,19 @@ export class CancelActionLocalEvent extends LocalEventBase {
   }
 }
 
+export class ProvideFlagsToState extends LocalEventBase {
+
+   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private provideFlagsToState: SimFlag[]){
+    super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+	this.provideFlagsToState.map(flag => so.flags[flag] = true);
+  }
+}
+
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // time
@@ -188,6 +202,18 @@ export class RemoveMapItemLocalEvent extends LocalEventBase {
 	applyStateUpdate(state: MainSimulationState): void {
 		const so = state.getInternalStateObject();
 		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.fixedMapEntity.name && f.ownerId === this.fixedMapEntity.ownerId), 1);
+	}
+}
+
+export class CompleteBuildingMapItemLocalEvent extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity) {
+		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		const so = state.getInternalStateObject();
+		so.mapLocations.filter(mapEntity => mapEntity.id === this.fixedMapEntity.id).map(mapEntity => mapEntity.buildingStatus = BuildingStatus.ready);
 	}
 }
 

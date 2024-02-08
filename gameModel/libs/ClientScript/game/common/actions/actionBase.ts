@@ -3,6 +3,8 @@ import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
+	CompleteBuildingMapItemLocalEvent,
+	ProvideFlagsToState,
 	RemoveMapItemLocalEvent,
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
@@ -17,7 +19,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
-import { getCurrentState } from "../../mainSimulationLogic";
+import { SimFlag } from "./actionTemplateBase";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -293,6 +295,7 @@ export class CasuMessageAction extends StartEndAction {
 export class SelectionFixedMapEntityAction extends StartEndAction {
 
   public readonly fixedMapEntity: FixedMapEntity;
+  public provideFlagsToState: SimFlag[];
 
   constructor(
     startTimeSec: SimTime,
@@ -303,9 +306,11 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     ownerId: ActorId,
 	fixedMapEntity: FixedMapEntity,
     uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[] = []
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.fixedMapEntity = fixedMapEntity;
+	this.provideFlagsToState = provideFlagsToState;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -317,7 +322,8 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-	state.getMapLocations().filter(mapEntity => mapEntity.id === this.fixedMapEntity.id).map(mapEntity => mapEntity.buildingStatus = BuildingStatus.ready);
+	localEventManager.queueLocalEvent(new CompleteBuildingMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+	localEventManager.queueLocalEvent(new ProvideFlagsToState(this.eventId, state.getSimTime(),this.provideFlagsToState));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 

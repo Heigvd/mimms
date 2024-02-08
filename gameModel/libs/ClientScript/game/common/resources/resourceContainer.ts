@@ -1,3 +1,4 @@
+import { SimFlag } from "../actions/actionTemplateBase";
 import { InterventionRole } from "../actors/actor";
 import { SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { ResourceType } from "./resourceType";
@@ -20,8 +21,6 @@ export const ResourceContainerTypeArray = [
 ] as const;
 
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
-
-export type SimFlag = 'PCS-ARRIVED'
 
 /**
  * Describes the content of one container that can be requested by an actor to the emergency departement

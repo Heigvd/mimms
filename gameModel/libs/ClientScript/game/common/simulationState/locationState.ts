@@ -8,5 +8,5 @@ export enum LOCATION_ENUM {
 	PC = 'PC',
 	parcAmbulance = 'parcAmbulance',
 	mainAccident = 'mainAccident',
-	meetingPoint ="meetingPoint" /*sert à donner les infos sur les points à choix */
+	meetingPoint ="meetingPoint"
 }

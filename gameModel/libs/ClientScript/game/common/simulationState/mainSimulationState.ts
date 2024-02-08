@@ -1,5 +1,6 @@
 import { group } from "../../../tools/groupBy";
 import { ActionBase } from "../actions/actionBase";
+import { SimFlag } from "../actions/actionTemplateBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { FixedMapEntity } from "../events/defineMapObjectEvent";
@@ -8,7 +9,7 @@ import { LocalEventBase } from "../localEvents/localEventBase";
 import { RadioMessage } from "../radioMessage";
 import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
-import { ResourceContainerConfig, ResourceContainerType, SimFlag } from "../resources/resourceContainer";
+import { ResourceContainerConfig, ResourceContainerType} from "../resources/resourceContainer";
 import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 import { PatientState } from "./patientState";
@@ -148,6 +149,16 @@ export class MainSimulationState implements IClonable {
    */
   public getMapLocations(): FixedMapEntity[] {
 	  return this.internalState.mapLocations;
+  }
+
+  public getSimFlags(): Partial<Record<SimFlag, boolean>> {
+	  return this.internalState.flags;
+  }
+
+  public isSimFlagEnabled(flag: SimFlag): boolean {
+	  if (this.internalState.flags[flag])
+	  	return this.internalState.flags[flag]!;
+	  return false;
   }
 
   /**
