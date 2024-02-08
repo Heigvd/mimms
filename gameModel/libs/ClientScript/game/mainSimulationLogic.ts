@@ -152,6 +152,18 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, ['PCS-ARRIVED']);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
+  const placeMeetingPoint = new SelectionFixedMapEntityTemplate(
+	  'define-meetingPoint-title', 
+	  'define-meetingPoint-desc', 
+	  TimeSliceDuration * 3, 
+	  'define-meetingPoint-feedback', 
+	  new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, 
+	  ['MCS'],
+	  new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]),	  
+	  BuildingStatus.selection,
+	  'meetingpoint_blue'));
+
+
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
 
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
@@ -167,6 +179,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
+  /* ICI */
+  templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;

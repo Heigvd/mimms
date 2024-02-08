@@ -11,12 +11,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/dead_man.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
@@ -156,6 +150,18 @@
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/mainAccident.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint_blue.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
@@ -487,7 +493,7 @@
   },
   "/translations/mainSim-actions-tasks.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },
