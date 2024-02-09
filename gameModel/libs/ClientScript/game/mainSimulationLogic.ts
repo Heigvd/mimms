@@ -169,8 +169,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
-  /* ICI */
-  templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
