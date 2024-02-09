@@ -20,7 +20,6 @@ import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
-import { SimFlag } from "../actions/actionTemplateBase";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -167,7 +166,7 @@ export class TimeForwardLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 /////////// TODO in own file
-export class AddMapItemLocalEvent extends LocalEventBase {
+export class AddFixedEntityLocalEvent extends LocalEventBase {
 
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity){
     super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
@@ -180,7 +179,7 @@ export class AddMapItemLocalEvent extends LocalEventBase {
 
 }
 
-export class RemoveMapItemLocalEvent extends LocalEventBase {
+export class RemoveFixedEntityLocalEvent extends LocalEventBase {
 
 	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity) {
 		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
@@ -192,7 +191,7 @@ export class RemoveMapItemLocalEvent extends LocalEventBase {
 	}
 }
 
-export class CompleteBuildingMapItemLocalEvent extends LocalEventBase {
+export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
 
 	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly fixedMapEntity: FixedMapEntity) {
 		super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);

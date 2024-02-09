@@ -46,6 +46,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    * @param description short description of the action
    * @param replayable defaults to false, when true the action can be played multiple times
    * @param flags list of simulation flags that make the action available, undefined or empty array means no flag condition
+   * @param provideFlagsToState list of simulation flags added to state when action ends
    */
   public constructor(
 	protected readonly title: TranslationKey, 

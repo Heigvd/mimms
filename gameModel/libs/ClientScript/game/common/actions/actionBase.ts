@@ -1,10 +1,10 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
-	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
-	CompleteBuildingMapItemLocalEvent,
-	RemoveMapItemLocalEvent,
+  AddFixedEntityLocalEvent,
+  RemoveFixedEntityLocalEvent,
+  CompleteBuildingFixedEntityLocalEvent,
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
 	ResourcesReleaseLocalEvent,
@@ -322,19 +322,19 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
 	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    localEventManager.queueLocalEvent(new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-	localEventManager.queueLocalEvent(new CompleteBuildingMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+	localEventManager.queueLocalEvent(new CompleteBuildingFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
     // TODO maybe store in class similar to DefineMapObject
-    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    localEventManager.queueLocalEvent(new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
 }

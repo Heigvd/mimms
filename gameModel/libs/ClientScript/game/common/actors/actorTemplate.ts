@@ -4,7 +4,7 @@ import { Actor } from "./actor";
 export class ActorTemplate {
   
   public instanciate(): Actor{
-    return new Actor('AL','','');
+    return new Actor('AL');
   }
 
 }
