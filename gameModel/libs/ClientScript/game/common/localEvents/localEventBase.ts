@@ -117,19 +117,6 @@ export class CancelActionLocalEvent extends LocalEventBase {
   }
 }
 
-export class ProvideFlagsToState extends LocalEventBase {
-
-   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private provideFlagsToState: SimFlag[]){
-    super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-	this.provideFlagsToState.map(flag => so.flags[flag] = true);
-  }
-}
-
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // time

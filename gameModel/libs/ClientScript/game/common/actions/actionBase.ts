@@ -4,7 +4,6 @@ import {
 	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
 	CompleteBuildingMapItemLocalEvent,
-	ProvideFlagsToState,
 	RemoveMapItemLocalEvent,
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
@@ -99,6 +98,10 @@ export abstract class StartEndAction extends ActionBase {
    * Translation key to the message received at the end of the action
    */
   public readonly messageKey: TranslationKey;
+  /**
+   * Adds SimFlags values to state at the end of the action
+   */
+  public provideFlagsToState: SimFlag[];
 
   public constructor(
     startTimeSec: SimTime, 
@@ -107,12 +110,14 @@ export abstract class StartEndAction extends ActionBase {
     actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     ownerId: ActorId, 
-    uuidTemplate: ActionTemplateId
+    uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[] = []
   ){
     super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
     this.messageKey = messageKey;
+	this.provideFlagsToState = provideFlagsToState;
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -137,6 +142,9 @@ export abstract class StartEndAction extends ActionBase {
       case 'OnGoing': { 
         if(simTime >= this.startTime + this.duration()){ // if action did end
           this.logger.debug('dispatching end events...');
+		  // update flags in state as provided when action completes
+		  this.provideFlagsToState.map(flag => state.getInternalStateObject().flags[flag] = true);
+		  //execute dispatched events
           this.dispatchEndedEvents(state);
           this.status = "Completed";
         }
@@ -295,7 +303,6 @@ export class CasuMessageAction extends StartEndAction {
 export class SelectionFixedMapEntityAction extends StartEndAction {
 
   public readonly fixedMapEntity: FixedMapEntity;
-  public provideFlagsToState: SimFlag[];
 
   constructor(
     startTimeSec: SimTime,
@@ -308,9 +315,8 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
 	provideFlagsToState: SimFlag[] = []
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
     this.fixedMapEntity = fixedMapEntity;
-	this.provideFlagsToState = provideFlagsToState;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -323,7 +329,6 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
 	localEventManager.queueLocalEvent(new CompleteBuildingMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
-	localEventManager.queueLocalEvent(new ProvideFlagsToState(this.eventId, state.getSimTime(),this.provideFlagsToState));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
