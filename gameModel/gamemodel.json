@@ -7155,7 +7155,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "mainSim_jess_08-02-2024_meetingPoint",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
