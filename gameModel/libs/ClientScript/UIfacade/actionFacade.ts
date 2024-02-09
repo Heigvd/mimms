@@ -13,6 +13,7 @@ import {
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
 	SendResourcesToActorActionTemplate,
+SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
 import { ActionCreationEvent } from '../game/common/events/eventTypes';
@@ -124,3 +125,9 @@ export function isReleaseResourcesToTaskActionTemplate(id: number) {
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
 
+/**
+ * Check if meetingpoint is already built
+ */
+export function isMeetingPointBuilt() {
+	return getCurrentState().isSimFlagEnabled(SimFlag.MEETINGPOINT_BUILT);
+}

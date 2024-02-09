@@ -48,3 +48,6 @@ porters-task-completed	Patients evacuation done	Brancardage terminé
 send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
+define-meetingPoint-title	Define meeting point	Définir le point de rassemblement	
+define-meetingPoint-desc	Define the meeting point's location on the map	Décider de l'emplacement du point de rassemblement sur la carte.	
+define-meetingPoint-feedback	You successfully defined the meeting point	Vous avez défini avec succès le point de rassemblement	

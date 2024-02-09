@@ -5,9 +5,9 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag,
 } from './common/actions/actionTemplateBase';
-import { Actor, InterventionRole } from "./common/actors/actor";
+import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
@@ -104,6 +104,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
+	const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
   const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
   const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
   const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
@@ -111,7 +112,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
   const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
-  
+
   const placeAccessRegress = new SelectionFixedMapEntityTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', new GeometryBasedFixedMapEntity(0, 'Accreg', 'Accreg', [], new MultiLineStringGeometricalShape([
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
         [[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
@@ -149,7 +150,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		   [2500133.0180577287, 1118549.8816207554],
 		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection));
 	
-  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, ['PCS-ARRIVED']);
+  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
   const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
@@ -158,6 +159,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
 
   const templates: Record<string, ActionTemplateBase> = {};
+  templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;

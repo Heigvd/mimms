@@ -1,9 +1,10 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
-	AddMapItemLocalEvent,
 	AddRadioMessageLocalEvent,
-	RemoveMapItemLocalEvent,
+  AddFixedEntityLocalEvent,
+  RemoveFixedEntityLocalEvent,
+  CompleteBuildingFixedEntityLocalEvent,
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
 	ResourcesReleaseLocalEvent,
@@ -17,7 +18,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
-import { getCurrentState } from "../../mainSimulationLogic";
+import { SimFlag } from "./actionTemplateBase";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -97,6 +98,10 @@ export abstract class StartEndAction extends ActionBase {
    * Translation key to the message received at the end of the action
    */
   public readonly messageKey: TranslationKey;
+  /**
+   * Adds SimFlags values to state at the end of the action
+   */
+  public provideFlagsToState: SimFlag[];
 
   public constructor(
     startTimeSec: SimTime, 
@@ -105,12 +110,14 @@ export abstract class StartEndAction extends ActionBase {
     actionNameKey: TranslationKey,
     messageKey: TranslationKey, 
     ownerId: ActorId, 
-    uuidTemplate: ActionTemplateId
+    uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[] = []
   ){
     super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
     this.messageKey = messageKey;
+	this.provideFlagsToState = provideFlagsToState;
   }
 
   protected abstract dispatchInitEvents(state: MainSimulationState): void;
@@ -135,6 +142,9 @@ export abstract class StartEndAction extends ActionBase {
       case 'OnGoing': { 
         if(simTime >= this.startTime + this.duration()){ // if action did end
           this.logger.debug('dispatching end events...');
+		  // update flags in state as provided when action completes
+		  this.provideFlagsToState.map(flag => state.getInternalStateObject().flags[flag] = true);
+		  //execute dispatched events
           this.dispatchEndedEvents(state);
           this.status = "Completed";
         }
@@ -303,27 +313,28 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     ownerId: ActorId,
 	fixedMapEntity: FixedMapEntity,
     uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[] = []
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
     this.fixedMapEntity = fixedMapEntity;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     // dispatch state changes that take place immediatly
 	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
-    localEventManager.queueLocalEvent(new AddMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    localEventManager.queueLocalEvent(new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // dispatch state changes that take place at the end of the action
     // ungrey the map element
-	state.getMapLocations().filter(mapEntity => mapEntity.id === this.fixedMapEntity.id).map(mapEntity => mapEntity.buildingStatus = BuildingStatus.ready);
+	localEventManager.queueLocalEvent(new CompleteBuildingFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
     // TODO maybe store in class similar to DefineMapObject
-    localEventManager.queueLocalEvent(new RemoveMapItemLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    localEventManager.queueLocalEvent(new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
 }
