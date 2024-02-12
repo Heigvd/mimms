@@ -274,6 +274,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "65",
+          "name" : "mainSim_actors",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "59",
           "name" : "mainSim_events",
           "scenaristPage" : null,

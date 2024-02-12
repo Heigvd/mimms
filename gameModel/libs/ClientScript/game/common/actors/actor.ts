@@ -1,5 +1,6 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU'
 
@@ -35,6 +36,7 @@ export class Actor{
   public readonly FullName;
   public readonly ShortName;
   public readonly Role;
+  public Location: LOCATION_ENUM;
 
   public readonly Uid: ActorId;
 
@@ -45,10 +47,21 @@ export class Actor{
 	const tkey : TranslationKey= `actor-${role.toLowerCase()}`;
     this.ShortName = getTranslation(this.translationVar, tkey);
     this.FullName = getTranslation(this.translationVar, tkey + '-long');
+	this.Location = LOCATION_ENUM.mainAccident;
     this.Uid = Actor.IdSeed++;
   }
 
   static resetIdSeed() {
     this.IdSeed = 1000;
   }
+
+  /**
+   * Update the location of the Actor
+   * @param LOCATION_ENUM New location
+   */
+  public setLocation(location: LOCATION_ENUM) {
+	  this.Location = location;
+  }
+
+
 }

@@ -9,6 +9,7 @@ import {
 	ResourcesAllocationLocalEvent,
 	ResourcesReleaseLocalEvent,
 	TransferResourcesLocalEvent,
+MoveActorLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -19,6 +20,7 @@ import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -300,6 +302,9 @@ export class CasuMessageAction extends StartEndAction {
   
 }
 
+/**
+ * Action to select a FixedMapEntity
+ */
 export class SelectionFixedMapEntityAction extends StartEndAction {
 
   public readonly fixedMapEntity: FixedMapEntity;
@@ -320,23 +325,55 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place immediatly
 	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
     localEventManager.queueLocalEvent(new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place at the end of the action
     // ungrey the map element
 	localEventManager.queueLocalEvent(new CompleteBuildingFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    // TODO maybe store in class similar to DefineMapObject
     localEventManager.queueLocalEvent(new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
+}
+
+/**
+ * Action to move actor from one location to another
+ */
+export class MoveActorAction extends StartEndAction {
+
+	public readonly location: LOCATION_ENUM;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		location: LOCATION_ENUM,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.location = location;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+		localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location));
+	}
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		// Add RadioMessage to confirm movement ?
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
 }
 
 /**

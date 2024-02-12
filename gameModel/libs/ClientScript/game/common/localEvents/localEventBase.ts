@@ -231,6 +231,18 @@ export class AddActorLocalEvent extends LocalEventBase {
 
 }
 
+export class MoveActorLocalEvent extends LocalEventBase {
+
+	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly actorUid: ActorId, readonly location: LOCATION_ENUM) {
+		super(parentEventId, 'MoveActorLocalEvent', timeStamp);
+	}
+
+	applyStateUpdate(state: MainSimulationState): void {
+		const so = state.getInternalStateObject();
+		so.actors.filter(a => a.Uid === this.actorUid).map(a => a.Location = this.location);
+	}
+}
+
 /**
  * Binds an actor to its resource group
  */

@@ -3,6 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
+  MoveActorEvent,
   ResourceSendingToActorEvent,
   ResourceTaskAssignmentEvent,
   ResourceTaskReleaseEvent,
@@ -13,7 +14,7 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -24,6 +25,7 @@ import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export enum SimFlag {
 	PCS_ARRIVED = 'PCS-ARRIVED',
@@ -516,4 +518,49 @@ export class SendRadioMessage extends StartEndTemplate {
     return true;
   }
 
+}
+
+export class MoveActorActionTemplate extends StartEndTemplate {
+	
+	constructor(
+		title: TranslationKey,
+		description: TranslationKey,
+		duration: SimDuration,
+		message: TranslationKey,
+		replayable = true,
+		flags: SimFlag[],
+	) {
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+	}
+
+	protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): MoveActorAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new MoveActorAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, [], this.location);
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>): MoveActorEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+	  //TODO
+    }
+  }
+
+
+  public getTemplateRef(): TemplateRef {
+    return 'MoveActorTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+	return'MoveActorTemplateDescription';
+  }
+
+  public getTitle(): string {
+    return 'MoveActorTemplateTitle';
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return false;
+  }
 }

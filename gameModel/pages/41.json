@@ -148,6 +148,26 @@
           "props" : {
             "label" : {
               "@class" : "Script",
+              "content" : "\"<p>Actors<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "name" : "Actions",
+            "openPage" : {
+              "pageId" : "65",
+              "pageLoaderName" : {
+                "@class" : "Script",
+                "content" : "\"debugPageLoader\"",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
               "content" : "\"<p>Events<br></p>\"",
               "language" : "TypeScript"
             },
