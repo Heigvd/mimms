@@ -446,8 +446,8 @@ export class SendResourcesToLocationAction extends StartEndAction {
     globalEventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    destinationLocation: LOCATION_ENUM,
 	sourceLocation: LOCATION_ENUM,
+    destinationLocation: LOCATION_ENUM,
     sentResources: ResourceTypeAndNumber) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
 	this.sourceLocation = sourceLocation;
@@ -456,11 +456,11 @@ export class SendResourcesToLocationAction extends StartEndAction {
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event SendResourcesAction');
+    this.logger.info('start event SendResourcesToLocationAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendResourcesAction');
+    this.logger.info('end event SendResourcesToLocationAction');
 
     localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.sourceLocation, this.destinationLocation, this.sentResources));
 
