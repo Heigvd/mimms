@@ -1,6 +1,7 @@
 import { getLineStringMiddlePoint, getPolygonCentroid } from "../../../gameMap/utils/mapUtils";
 import { InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionCreationEvent } from "./eventTypes";
 
 export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
@@ -16,7 +17,7 @@ export enum BuildingStatus {
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
   name!: string;
-  id!: string; //symbolicPosition, LOCATION_ENUM
+  id!: LOCATION_ENUM; //symbolicPosition, LOCATION_ENUM
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
   icon?: string;
@@ -29,7 +30,7 @@ export abstract class FixedMapEntity {
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 	geometricalShape!: GeometricalShape;
 
-	constructor(ownerId: ActorId, name: string, id: string, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string){
+	constructor(ownerId: ActorId, name: string, id: LOCATION_ENUM, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string){
 		super();
 		this.ownerId = ownerId;
 		this.name = name;

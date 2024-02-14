@@ -4,7 +4,7 @@
 
 import { taskLogger } from "../../../tools/logger";
 import { getPriorityByCategoryId } from "../../pretri/triage";
-import { Actor } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { TranslationKey } from "../baseTypes";
 import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, PatientMovedLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
@@ -18,6 +18,10 @@ import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 
 export class PorterTask extends DefaultTask {
+
+
+  public static ownerRole: InterventionRole = 'AL';
+  public static executionLocation = LOCATION_ENUM.chantier;
 
   private GROUP_SIZE = 2;
   private TIME_REQUIRED_FOR_TRANSPORT = 120;
@@ -33,7 +37,7 @@ export class PorterTask extends DefaultTask {
     nbMaxResources: number,
     feedbackAtEnd : TranslationKey,
   ) {
-    super(title, description, nbMinResources, nbMaxResources);
+    super(title, description, nbMinResources, nbMaxResources, PorterTask.ownerRole, PorterTask.executionLocation);
   }
 
   private isAlreadyGroupMember(resourceId: number): boolean {

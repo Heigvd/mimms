@@ -19,7 +19,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { Actor } from \"./game/common/actors/actor\";\nimport { getActor, getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter(a => a !== getActor(Context.interfaceState.state.currentActorUid)).map((actor: Actor) => {return {label: actor.ShortName, value: \"\" + actor.Uid}});",
+              "content" : "import { Actor } from \"./game/common/actors/actor\";\nimport { getActor, getAllActors } from \"./UIfacade/actorFacade\";\nimport { getAvailableLocationsOnMapNameReplacedByActorIfAvailable } from \"./UIfacade/locationFacade\";\n//return getAllActors().filter(a => a !== getActor(Context.interfaceState.state.currentActorUid)).map((actor: Actor) => {return {label: actor.ShortName, value: \"\" + actor.Uid}});\ngetAvailableLocationsOnMapNameReplacedByActorIfAvailable();",
               "language" : "typescript"
             },
             "disableIf" : {

@@ -325,6 +325,25 @@ export class TransferResourcesLocalEvent extends LocalEventBase {
   }
 }
 
+/**
+ * Local event to transfer resources from a location to another
+ */
+export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId,
+    timeStamp: SimTime,
+    public readonly senderActor: ActorId,
+	public readonly sourceLocation: LOCATION_ENUM,
+    public readonly destinationLocation: LOCATION_ENUM,
+    public readonly sentResources: ResourceTypeAndNumber,
+  ) {
+    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+	  ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.destinationLocation, this.sentResources);
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // EMERGENCY DEPARTMENT
@@ -472,7 +491,9 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 		}
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
-			ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
+			//TODO MIM-93: implement location selection for arrival
+			ResourceState.addIncomingResourcesToLocation(state, resourceGroup!, rType, LOCATION_ENUM.meetingPoint, n);
+			//ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
 		})
 	}
 
@@ -494,13 +515,14 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly taskId: TaskId,
     readonly actorId: ActorId,
+	readonly sourceLocation: LOCATION_ENUM,
     readonly resourceType: ResourceType,
     readonly nb: number) {
     super(parentEventId, 'ResourcesAllocationLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
+    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.sourceLocation, this.resourceType, this.nb);
   }
 
 }
@@ -520,7 +542,7 @@ export class ResourcesReleaseLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.releaseResourcesFromTask(state, this.taskId, this.actorId, this.resourceType, this.nb);
+    ResourceState.releaseResourcesFromTask(state, this.taskId, this.resourceType, this.nb);
   }
 
 }

@@ -5,6 +5,7 @@ import {
   ActionCreationEvent,
   MoveActorEvent,
   ResourceSendingToActorEvent,
+  ResourceSendingToLocationEvent,
   ResourceTaskAssignmentEvent,
   ResourceTaskReleaseEvent,
   StandardActionEvent,
@@ -14,9 +15,9 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction,
 } from './actionBase';
-import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject } from "../events/defineMapObjectEvent";
+import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
@@ -374,7 +375,68 @@ export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendRes
 
 }
 
-export type AssignTaskToResourcesActionInput = { task: ResourceFunction, assignedResources: ResourceTypeAndNumber };
+///
+export type SendResourcesToLocationActionInput = { sourceLocation: LOCATION_ENUM, destinationLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber };
+
+/**
+ * Action template to create an action to send resources to a location
+ */
+export class SendResourcesToLocationActionTemplate extends StartEndTemplate<SendResourcesToLocationAction, ResourceSendingToLocationEvent, SendResourcesToLocationActionInput> {
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+	replayable = true, flags: SimFlag[]=[]
+  ) {
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'SendResourcesToActorActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  // availble if more than a single symbolic position is available
+  public override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    return state.getInternalStateObject().mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready).length > 1;
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToLocationActionInput): ResourceSendingToLocationEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+	  sourceLocation: params.sourceLocation,
+      destinationLocation: params.destinationLocation,
+      sentResources: params.sentResources,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ResourceSendingToLocationEvent>): SendResourcesToLocationAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new SendResourcesToLocationAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.sourceLocation, event.payload.destinationLocation, event.payload.sentResources);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+
+}
+
+///
+
+export type AssignTaskToResourcesActionInput = { task: ResourceFunction, sourceLocation: LOCATION_ENUM, assignedResources: ResourceTypeAndNumber };
 
 /**
  * Action template to create an action to assign a function/task to ressources
@@ -408,6 +470,7 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<Assign
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
       task: params.task,
+	  sourceLocation: LOCATION_ENUM.meetingPoint,//TODO: MIM-121 from UI: params.sourceLocation,
       assignedResources: params.assignedResources,
     };
   }
@@ -417,7 +480,7 @@ export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<Assign
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
     return new AssignTaskToResourcesAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.task, event.payload.assignedResources);
+      this.Uid, event.payload.task, event.payload.sourceLocation, event.payload.assignedResources);
   }
 
   public planActionEventOnFirstClick(): boolean {

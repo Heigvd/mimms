@@ -4,6 +4,8 @@ import { TaskBase, TaskStatus } from "../tasks/taskBase";
 import { MainSimulationState } from "./mainSimulationState";
 import * as ResourceState from "./resourceStateAccess";
 import { ResourceType } from '../resources/resourceType';
+import { LOCATION_ENUM } from "../simulationState/locationState";
+import { getStateActorSymbolicLocation } from "../actors/actorLogic";
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -101,4 +103,17 @@ export function changeTaskStatus(state: MainSimulationState, taskId: TaskId, sta
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);
+}
+
+/**
+ * Returns task execution location
+ */
+export function getTaskExecutionLocation(state: Readonly<MainSimulationState>, taskId: TaskId): LOCATION_ENUM {
+	const task = internallyGetTask(state, taskId);
+	return task.executionLocation;
+}
+
+export function getTaskResponsibleActorSymbolicLocation(state: Readonly<MainSimulationState>, taskId: TaskId): LOCATION_ENUM {
+	const task = internallyGetTask(state, taskId);
+	return getStateActorSymbolicLocation(state, task.ownerRole);
 }

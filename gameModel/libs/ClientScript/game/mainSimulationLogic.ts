@@ -59,17 +59,17 @@ function initMainState(): MainSimulationState {
 
 	// TODO read all simulation parameters to build start state and initilize the whole simulation
 
-	const testAL = new Actor('AL');
-	const testCASU = new Actor('CASU');
+	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+	const testCASU = new Actor('CASU', LOCATION_ENUM.meetingPoint);
 
-	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.mainAccident, ['AL'], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
+	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
     const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
     const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
 
 
 	const initialResources = [
-		new Resource('ambulancier'),
+		new Resource('ambulancier', LOCATION_ENUM.meetingPoint),
 		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),

@@ -36,18 +36,25 @@ export class Actor{
   public readonly FullName;
   public readonly ShortName;
   public readonly Role;
+
+  //current actor location
   public Location: LOCATION_ENUM;
+
+  //responsible for this location
+  private symbolicLocation: LOCATION_ENUM;
 
   public readonly Uid: ActorId;
 
   private readonly translationVar : keyof VariableClasses = 'mainSim-actors';
 
-  constructor(role: InterventionRole){
+  constructor(role: InterventionRole, symbolicLocation: LOCATION_ENUM = LOCATION_ENUM.meetingPoint){
     this.Role = role;
 	const tkey : TranslationKey= `actor-${role.toLowerCase()}`;
     this.ShortName = getTranslation(this.translationVar, tkey);
     this.FullName = getTranslation(this.translationVar, tkey + '-long');
-	this.Location = LOCATION_ENUM.mainAccident;
+	this.symbolicLocation = symbolicLocation;
+	//current actor location is the sysmbolic location at the beginning
+	this.Location = symbolicLocation;
     this.Uid = Actor.IdSeed++;
   }
 
@@ -61,6 +68,11 @@ export class Actor{
    */
   public setLocation(location: LOCATION_ENUM) {
 	  this.Location = location;
+  }
+
+  public getComputedSymbolicLocation(){
+	  //TODO MIM-93: check if symbolic location is present and apply logic
+	  return this.symbolicLocation;
   }
 
 

@@ -38,7 +38,6 @@ function getPointStyle(feature: any): LayerStyleObject {
 	const name = properties.name;
 	const rotation = properties.rotation;
 	const duration = properties.durationTimeSec;
-
 	if (icon) {
 		const iconStyle: ImageStyleObject = {
 			type: 'IconStyle',
@@ -103,10 +102,27 @@ function getPointStyle(feature: any): LayerStyleObject {
 				type: 'FillStyle',
 				color: 'white',
 			};
-		}
+		}		
 
 		return { image: iconStyle, text: textStyle };
 	}
+	//temporary to test resources
+	if (icon === undefined) {
+		const textStyle2: TextStyleObject = {
+			type: 'TextStyle'
+		};
+		textStyle2.text = String(name) || 'No name';
+		textStyle2.font =  'bold 10px sans-serif';
+		textStyle2.textAlign =  'center';
+		textStyle2.opacity = 1;
+		textStyle2.scale = 1.6;
+		textStyle2.fill = {
+				type: 'FillStyle',
+				color: 'red',
+		}
+		return { text: textStyle2 };
+	}
+		
 
 	const circleStyle: ImageStyleObject = {
 		type: 'CircleStyle',

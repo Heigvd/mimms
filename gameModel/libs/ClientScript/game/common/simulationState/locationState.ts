@@ -1,3 +1,6 @@
+import { getCurrentState } from "../../mainSimulationLogic";
+import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
+
 /**
  * Rough indication of locations
  */
@@ -7,6 +10,9 @@ export enum LOCATION_ENUM {
 	PMA = 'PMA',
 	PC = 'PC',
 	parcAmbulance = 'parcAmbulance',
-	mainAccident = 'mainAccident',
 	meetingPoint ="meetingPoint"
+}
+
+export function getAvailableLocations(): FixedMapEntity[]  {
+	return getCurrentState().getInternalStateObject().mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready)
 }

@@ -1,4 +1,5 @@
 import { ResourceId, TaskId } from '../baseTypes';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';
 
 /**
@@ -19,17 +20,17 @@ export class Resource {
   public currentActivity: TaskId | null;
 
   /** Where is the resource currently */
-  // public currentLocation;
+  public currentLocation: LOCATION_ENUM;
 
   /** Resource is cumulating time across timejumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
-  constructor(type: Resource['type'], currentActivity: Resource['currentActivity'] = null) {
+  constructor(type: Resource['type'], currentLocation: LOCATION_ENUM, currentActivity: Resource['currentActivity'] = null) {
     this.type = type;
     this.currentActivity = currentActivity;
-
     this.Uid = Resource.IdSeed++;
 	this.cumulatedUnusedTime = 0;
+	this.currentLocation = currentLocation;
   }
 
   static resetIdSeed() {

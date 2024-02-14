@@ -206,10 +206,17 @@ export interface ResourceSendingToActorEvent extends ActionCreationEvent {
 	sentResources: ResourceTypeAndNumber;
 }
 
+export interface ResourceSendingToLocationEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	sourceLocation: LOCATION_ENUM;
+	destinationLocation: LOCATION_ENUM;
+	sentResources: ResourceTypeAndNumber;
+}
 
 export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	task: ResourceFunction;
+	sourceLocation: LOCATION_ENUM;
 	assignedResources: ResourceTypeAndNumber;
 }
 
