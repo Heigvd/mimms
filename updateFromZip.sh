@@ -102,6 +102,10 @@ if [ $? -ne 0 ]; then
 fi
 
 rm -R $TMP_DIR;
+
+echo "Prettier formatting"
+yarn format
+
 echo "Done"
 echo
 echo "Please review changes"
