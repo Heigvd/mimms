@@ -365,11 +365,10 @@ export class MoveActorAction extends StartEndAction {
 	}
 
 	protected dispatchInitEvents(state: MainSimulationState): void {
-		localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location));
 	}
 
 	protected dispatchEndedEvents(state: MainSimulationState): void {
-		// Add RadioMessage to confirm movement ?
+		localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location));
 	}
 
 	protected cancelInternal(state: MainSimulationState): void {

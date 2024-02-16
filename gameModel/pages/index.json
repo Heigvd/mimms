@@ -460,6 +460,12 @@
         "name" : "notifications",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "66",
+        "name" : "moveActorAction",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

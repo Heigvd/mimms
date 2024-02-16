@@ -113,7 +113,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
   const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
 
-  const moveActor = new MoveActorActionTemplate('move-actor', 'move-actor', TimeSliceDuration, 'actor-moved', true, [SimFlag.MEETINGPOINT_BUILT], LOCATION_ENUM.meetingPoint);
+  const moveActor = new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration, 'move-actor-feedback', true, [SimFlag.MEETINGPOINT_BUILT]);
 
   const placeAccessRegress = new SelectionFixedMapEntityTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', new GeometryBasedFixedMapEntity(0, 'Accreg', 'Accreg', [], new MultiLineStringGeometricalShape([
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 

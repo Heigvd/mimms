@@ -3,11 +3,13 @@ import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
 
 export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
+	moveActorChosenLocation: LOCATION_ENUM;
 	showPatientModal: boolean;
 	selectedPanel: 'actions' | 'radios' | 'notification';
 	selectedMapObjectId: string;
@@ -98,6 +100,9 @@ export function getInitialInterfaceState(): InterfaceState {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
+
+		moveActorChosenLocation: LOCATION_ENUM.meetingPoint,
+
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',

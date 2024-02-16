@@ -1,0 +1,42 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "choices" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((fixedEntity) => {return {label: fixedEntity.name, value: fixedEntity.id }});",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.moveActorChosenLocation = Context.moveActorChosenLocation;\nContext.interfaceState.setState(newState);",
+            "language" : "TypeScript"
+          },
+          "exposeVariableAs" : {
+            "@class" : "Script",
+            "content" : "\"moveActorChosenLocation\"",
+            "language" : "TypeScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.moveActorChosenLocation",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

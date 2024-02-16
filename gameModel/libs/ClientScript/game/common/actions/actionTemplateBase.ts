@@ -596,17 +596,17 @@ export class MoveActorActionTemplate extends StartEndTemplate {
 		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
 	}
 
-	protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): MoveActorAction {
+	protected createActionFromEvent(event: FullEvent<MoveActorEvent>): MoveActorAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId; 
     return new MoveActorAction(payload.triggerTime, this.duration, this.message, 
-		this.title , event.id, ownerId, this.Uid, [], this.location);
+		this.title , event.id, ownerId, this.Uid, [], payload.location);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>): MoveActorEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: LOCATION_ENUM): MoveActorEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-	  //TODO
+		location: params,
     }
   }
 
