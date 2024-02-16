@@ -150,7 +150,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		   [2500121.81913271, 1118564.4089291636],
 		   [2500118.355243353, 1118555.6384201094],
 		   [2500133.0180577287, 1118549.8816207554],
-		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection));
+		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection, 'PMA'));
 	
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));

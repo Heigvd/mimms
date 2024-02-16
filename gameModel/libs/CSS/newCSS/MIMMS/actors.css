@@ -7,7 +7,7 @@
 
 .actor {
 	height: 2em;
-    width: 4em;
+    min-width: 4em;
     background-color: var(--gray_150);
 	color: var(--interface_700);
     justify-content: center;
@@ -15,7 +15,7 @@
     border-radius: var(--L_borderRadius);
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
-	padding: 15px 5px 15px 5px;
+	padding: 15px 8px 15px 8px;
 	animation: popping 1s linear;
 }
 
@@ -29,6 +29,7 @@
 	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);*/
 	background-color: var(--interface_BLUE);
 	color: var(--gray_WHITE);
+	
 }
 
 .actor.current:hover{

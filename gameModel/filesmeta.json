@@ -113,9 +113,21 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/Nest.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/Nest.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -125,13 +137,13 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/PMA.svg" : {
+  "/maps/mapIcons/PMA.png" : {
     "description" : "",
-    "mimeType" : "image/svg+xml",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/ambulance.svg" : {
+  "/maps/mapIcons/PMA.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
@@ -143,9 +155,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/firetruck.svg" : {
+  "/maps/mapIcons/mainAccident.png" : {
     "description" : "",
-    "mimeType" : "image/svg+xml",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -161,13 +173,13 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_blue.svg" : {
+  "/maps/mapIcons/meetingpoint_blue.png" : {
     "description" : "",
-    "mimeType" : "image/svg+xml",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/police.svg" : {
+  "/maps/mapIcons/meetingpoint_blue.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",

@@ -106,6 +106,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 
 		return { image: iconStyle, text: textStyle };
 	}
+	/*
 	//temporary to test resources
 	if (icon === undefined) {
 		const textStyle2: TextStyleObject = {
@@ -133,7 +134,7 @@ function getPointStyle(feature: any): LayerStyleObject {
 		}
 	};
 	return { image: circleStyle }
-}
+}*/
 
 /**
  * Generate style for line string

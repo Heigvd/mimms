@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1707753252320,
+  "createdTime" : 1708090498198,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6464,6 +6464,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/mapEntities",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:931899:hOI0VK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/styling/layerStyles",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6815,6 +6824,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/buttons",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:931959:Sya50m",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/debug",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7076,6 +7094,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/texts",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:931960:ESoRSz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "SelectedThemes",
     "contentType" : "json",
     "libraryType" : "SelectedThemes",
@@ -7173,7 +7200,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "mimms_jess_15-02-2024 MIM-121",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

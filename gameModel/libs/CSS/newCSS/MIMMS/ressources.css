@@ -53,13 +53,25 @@
 }
 
 .resourceCounter {
-	position: absolute;
-	right: 0.45em;
-    top: 0.1rem;
-    font-size: var(--SM_text);
+	margin: auto;
+    font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 	color: var(--interface_BLUE);
 }
+
+
+.squareCounter{
+	color: var(--gray_700);
+
+}
+
+.squareCounter-container{
+	background-color: var(--gray_WHITE);
+	color: var(--gray_500);
+	border-color: var(--gray_700);
+	z-index: 2;
+}
+
 
 .resourceTypeName-container {
 	text-align: center;
