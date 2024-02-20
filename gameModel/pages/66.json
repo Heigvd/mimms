@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((fixedEntity) => {return {label: fixedEntity.name, value: fixedEntity.id }});",
+          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\nconst currentActor = getActor(Context.interfaceState.state.currentActorUid);\ngetAvailableLocationsFacade().filter(l => l.id != currentActor!.Location).map((fixedEntity) => {return {label: fixedEntity.name, value: fixedEntity.id }});",
           "language" : "typescript"
         },
         "layoutStyle" : { },

@@ -616,11 +616,11 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 
   public getDescription(): string {
-	return'MoveActorTemplateDescription';
+	return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
-    return 'MoveActorTemplateTitle';
+    return getTranslation('mainSim-actions-tasks', this.title);
   }
 
   public planActionEventOnFirstClick(): boolean {
