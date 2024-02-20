@@ -2,9 +2,12 @@ import { FixedMapEntity } from "../game/common/events/defineMapObjectEvent";
 import { getAvailableLocations } from "../game/common/simulationState/locationState";
 import { getAllActors } from "../UIfacade/actorFacade";
 
-
+/**
+ * Returns list of accessible map entities
+ * @returns FixedMapEntity[]
+ */
 export function getAvailableLocationsFacade(): FixedMapEntity[] {
-	return getAvailableLocations();
+	return getAvailableLocations().filter(l => l.isAccessible === true);
 
 }
 
