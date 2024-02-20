@@ -11,7 +11,7 @@ export type AvailablePositionType = PointLikeObject[] | PointLikeObject[][] | Po
 export enum BuildingStatus {
 	selection = "selection",
 	inProgress = "inProgress",
-	ready = "ready"
+	ready = "ready",
 }
 
 export abstract class FixedMapEntity {

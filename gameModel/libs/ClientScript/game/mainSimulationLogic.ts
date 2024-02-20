@@ -60,7 +60,7 @@ function initMainState(): MainSimulationState {
 	// TODO read all simulation parameters to build start state and initilize the whole simulation
 
 	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
-	const testCASU = new Actor('CASU', LOCATION_ENUM.meetingPoint);
+	const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
 	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
@@ -104,7 +104,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-	const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
+  const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
   const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
   const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
   const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
