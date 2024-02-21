@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1708535022595,
+  "createdTime" : 1708536847513,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6116,6 +6116,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/resourceArrivalResolution",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:120636:3BNbVR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resourceContainer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7194,7 +7203,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Resource Resolution",
+  "name" : "MIMMS - main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -18,6 +18,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
+import resourceArrivalResolution from "../resources/resourceArrivalResolution";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -441,8 +442,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
-			//TODO MIM-93: implement location selection for arrival
-			ResourceState.addIncomingResourcesToLocation(state, rType, LOCATION_ENUM.meetingPoint, n);
+			ResourceState.addIncomingResourcesToLocation(state, rType, resourceArrivalResolution(state), n);
 			//ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
 		})
 	}

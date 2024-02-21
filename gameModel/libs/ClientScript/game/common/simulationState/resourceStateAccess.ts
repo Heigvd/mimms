@@ -17,7 +17,7 @@ import { getTaskExecutionLocation, getTaskResponsibleActorSymbolicLocation } fro
  * Retrieve the unoccupied resources.
  *
  * @param state The state
- * @param ownerActorId The actor who owns the resources // Deprecated, should be location now !
+ * @param ownerActorId The actor who owns the resources // Has been removed, should be location now !
  * @param resourceType The type of the resources
  *
  * @returns The matching resources
