@@ -16,7 +16,7 @@ export function getAvailableLocationsOnMapNameReplacedByActorIfAvailable(): {lab
 
 	const selectValues:{label:string, value: string}[] = [];
 
-	getAvailableLocations().map(mapLocation => {
+	getAvailableLocationsFacade().map(mapLocation => {
 		const actorForLocation = allActors.filter(actor => actor.getComputedSymbolicLocation() === mapLocation.id);
 		if (actorForLocation.length > 0){
 			//should be one...
