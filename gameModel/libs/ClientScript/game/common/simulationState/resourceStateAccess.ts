@@ -5,6 +5,8 @@ import { MainSimulationState } from './mainSimulationState';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { isManagedBy, ResourceGroup } from '../resources/resourceGroup';
 import { entries } from '../../../tools/helper';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getTaskExecutionLocation, getTaskResponsibleActorSymbolicLocation } from '../simulationState/taskStateAccess';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -39,7 +41,9 @@ export function getUnoccupiedResources(state: Readonly<MainSimulationState>,
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
+//DEPRECATED
 export function transferResourcesBetweenActors(state: MainSimulationState, senderActor: ActorId, receiverActor: ActorId, sentResources: ResourceTypeAndNumber): void {
+  
   const internalState = state.getInternalStateObject();
 
   entries(sentResources).forEach(([resourceType, nbResourcesToTransfer]) => {
@@ -73,6 +77,30 @@ export function transferResourcesBetweenActors(state: MainSimulationState, sende
 
 }
 
+export function transferResourcesFromToLocation(state: MainSimulationState, sourceLocation: LOCATION_ENUM, destinationLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber): void {
+  
+  const internalState = state.getInternalStateObject();
+
+  entries(sentResources).forEach(([resourceType, nbResourcesToTransfer]) => {
+
+    if (nbResourcesToTransfer && nbResourcesToTransfer > 0) {
+		
+		const matchingResources = internalState.resources.filter(res => res.currentLocation === sourceLocation)
+		if (matchingResources.length >= nbResourcesToTransfer) {
+			for (let i = 0; i < nbResourcesToTransfer; i++) {
+				matchingResources[i].currentLocation = destinationLocation;
+			}
+
+		} else {
+			resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources but has only ${matchingResources.length}`);
+		}
+
+    } else {
+      resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources `);
+    }
+  });
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // get read only data - old
@@ -81,12 +109,24 @@ export function transferResourcesBetweenActors(state: MainSimulationState, sende
 
 /**
  * @returns The number of resources that are currently without activity, owned by the given actor and of the given type
+ * DEPRECATED
  */
 export function getResourcesAvailable(state: Readonly<MainSimulationState>, actorId: ActorId, resourceType: ResourceType): Resource[] {
   const internalState = state.getInternalStateObject();
-
   return internalState.resources.filter(res =>
     isManagedBy(state, res, actorId)
+    && res.type === resourceType
+    && res.currentActivity == null);
+}
+
+/**
+ * @returns The number of resources that are currently without activity and of the given type in a specified location
+ * 
+ */
+export function getResourcesAvailableByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM, resourceType: ResourceType): Resource[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.resources.filter(res =>
+    res.currentLocation === location
     && res.type === resourceType
     && res.currentActivity == null);
 }
@@ -96,7 +136,6 @@ export function getResourcesAvailable(state: Readonly<MainSimulationState>, acto
  */
 export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>, taskId : TaskId): Resource[] {
   const internalState = state.getInternalStateObject();
-
   return internalState.resources.filter(res => 
     res.currentActivity === taskId);
 }
@@ -114,6 +153,7 @@ export function getResourcesAllocatedToTaskOfType(state: Readonly<MainSimulation
 
 /**
  * @returns The number of resources allocated to the given task, owner by the given actor and of the given type
+ * DEPRECATED
  */
 export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulationState>, taskId: TaskId,
   actorId: ActorId, resourceType: ResourceType): Resource[] {
@@ -124,6 +164,20 @@ export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulati
     && isManagedBy(state, res, actorId)
     && res.type === resourceType);
 }
+
+/**
+ * @returns The number of resources allocated to the given task and of the given type
+ * DEPRECATED
+ */
+/*export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>, taskId: TaskId,
+  actorId: ActorId, resourceType: ResourceType): Resource[] {
+  const internalState = state.getInternalStateObject();
+
+  return internalState.resources.filter(res => 
+    res.currentActivity === taskId
+    && isManagedBy(state, res, actorId)
+    && res.type === resourceType);
+}*/
 
 /**
  * @returns The resources owned by the given actor and allocated to any task
@@ -177,7 +231,7 @@ export function getAllocatedResourcesAnyKind(state: Readonly<MainSimulationState
 /**
  * Add resources to an actor.
  */
-export function addIncomingResourcesToActor(state: MainSimulationState, resourceGroup: ResourceGroup, resourceType: ResourceType, amount: number): void {
+/*export function addIncomingResourcesToActor(state: MainSimulationState, resourceGroup: ResourceGroup, resourceType: ResourceType, amount: number): void {
   const internalState = state.getInternalStateObject();
 
   for (let i = 0; i < amount; i++) {
@@ -185,14 +239,51 @@ export function addIncomingResourcesToActor(state: MainSimulationState, resource
 	resourceGroup.addResource(r);
 	internalState.resources.push(r);
   }
+}*/
+
+/**
+ * Add resources to a location.
+ */
+export function addIncomingResourcesToLocation(state: MainSimulationState, resourceGroup: ResourceGroup, resourceType: ResourceType, resourceLocation: LOCATION_ENUM, amount: number): void {
+  const internalState = state.getInternalStateObject();
+
+  for (let i = 0; i < amount; i++) {
+	const r = new Resource(resourceType, resourceLocation);
+	internalState.resources.push(r);
+  }
+}
+
+export function getInStateResourcesByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[]{
+	return state.getInternalStateObject().resources.filter(resource => resource.currentLocation === location);
+}
+
+export function getInStateCountInactiveResourcesByLocationAndType(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
+	let resByType: Partial<Record<ResourceType, number>> = {};
+	state.getInternalStateObject().resources.filter(resource => resource.currentLocation === location && resource.currentActivity === null).map(resource => {
+		if(resByType[resource.type])
+			resByType[resource.type] = resByType[resource.type]! + 1; 
+		else
+			resByType[resource.type] = 1;
+	});
+	return resByType;
+}
+
+export function getInStateCountResourcesByLocationAndTaskInProgressAndType(state: Readonly<MainSimulationState>, location: LOCATION_ENUM, taskId: TaskId): Partial<Record<ResourceType, number>> {
+	let resByType: Partial<Record<ResourceType, number>> = {};
+	state.getInternalStateObject().resources.filter(resource => resource.currentLocation === location && resource.currentActivity === taskId).map(resource => {
+		if(resByType[resource.type])
+			resByType[resource.type] = resByType[resource.type]! + 1; 
+		else
+			resByType[resource.type] = 1;
+	});
+	return resByType;
 }
 
 /**
  * Allocate resources to a task.
  */
-export function allocateResourcesToTask(state: MainSimulationState, taskId : TaskId, actorId: ActorId, resourceType: ResourceType, nb: number): void {
-
-  const available = getResourcesAvailable(state, actorId, resourceType);
+export function allocateResourcesToTask(state: MainSimulationState, taskId : TaskId, actorId: ActorId, sourceLocation: LOCATION_ENUM, resourceType: ResourceType, nb: number): void {
+  const available = getResourcesAvailableByLocation(state, sourceLocation, resourceType);
 
   if (available.length < nb) {
     taskLogger.error("try to allocate too many resources (" + nb + ") of type " + resourceType
@@ -202,23 +293,27 @@ export function allocateResourcesToTask(state: MainSimulationState, taskId : Tas
 
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
+	available[i]!.currentLocation = getTaskExecutionLocation(state, taskId);
   }
 }
 
 /**
  * Release (deallocate) resources from a task.
  */
-export function releaseResourcesFromTask(state: MainSimulationState, taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nb: number): void {
-  const atDisposal = getResourcesAllocatedToTaskForActor(state, taskId, actorId, resourceType);
+export function releaseResourcesFromTask(state: MainSimulationState, taskId: TaskId, resourceType: ResourceType, nb: number): void {
+
+  const atDisposal = getResourcesAllocatedToTaskOfType(state, taskId, resourceType);
 
   if (atDisposal.length < nb) {
     taskLogger.error("try to release too many resources (" + nb + ") of type " + resourceType
-      + " of task " + taskId + " for actor " + actorId);
+      + " of task " + taskId);
     return;
   }
 
   for (let i = 0; i < nb && i < atDisposal.length; i++) {
     atDisposal[i]!.currentActivity = null;
+	//get task responsible actor symbolic location
+	atDisposal[i]!.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
   }
 }
 
@@ -230,5 +325,7 @@ export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: 
 
   for (const resource of atDisposal) {
     resource.currentActivity = null;
+	//get task responsible actor symbolic location
+	resource.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
   }
 }

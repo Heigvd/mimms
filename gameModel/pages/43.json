@@ -106,7 +106,9 @@
                                 "className" : "headerPanels",
                                 "layout" : { },
                                 "layoutClassName" : "headerPanels-container",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "display" : "none"
+                                },
                                 "name" : "headerPanels",
                                 "style" : { }
                               },
@@ -486,6 +488,165 @@
                                   "props" : {
                                     "OSMLayer" : false,
                                     "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "fixedEntityIcon",
+                                                    "layoutStyle" : { },
+                                                    "script" : {
+                                                      "@class" : "Script",
+                                                      "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.png`",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "style" : {
+                                                      "width" : "15px"
+                                                    }
+                                                  },
+                                                  "type" : "Image"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "h3title",
+                                                    "layoutStyle" : { },
+                                                    "name" : "fixedEntitiesName",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.name;",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "layout" : {
+                                                  "alignItems" : "center",
+                                                  "flexDirection" : "row"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntityHeader",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "resourceCounter squareCounter",
+                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.resources.length);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "icon" : "hospital-user",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"<p>&nbsp;<br></p>\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : " s_squareButton",
+                                                        "layoutStyle" : { },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "name" : "rsrcBtn",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "actor",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "current",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "icon" : {
+                                                          "@class" : "Script",
+                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"hat-wizard\")}\n\n'';",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "Context.actor.Role;",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "exposeAs" : "actor",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.actors;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "Uid",
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "For each"
+                                                } ],
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntityContent",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "layout" : {
+                                              "flexDirection" : "column"
+                                            },
+                                            "layoutClassName" : "fixedEntities-container",
+                                            "layoutStyle" : { },
+                                            "name" : "genericFixedEntity",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "exposedValueKeys" : {
+                                          "exposePayloadAs" : "overlayItem"
+                                        },
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "id",
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "WegasMapOverlays"
+                                    }, {
                                       "props" : {
                                         "hideIf" : {
                                           "@class" : "Script",

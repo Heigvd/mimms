@@ -9,6 +9,8 @@ import {
 	ResourcesAllocationLocalEvent,
 	ResourcesReleaseLocalEvent,
 	TransferResourcesLocalEvent,
+MoveActorLocalEvent,
+TransferResourcesToLocationLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -19,6 +21,7 @@ import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -300,6 +303,9 @@ export class CasuMessageAction extends StartEndAction {
   
 }
 
+/**
+ * Action to select a FixedMapEntity
+ */
 export class SelectionFixedMapEntityAction extends StartEndAction {
 
   public readonly fixedMapEntity: FixedMapEntity;
@@ -320,27 +326,59 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place immediatly
 	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
     localEventManager.queueLocalEvent(new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    // dispatch state changes that take place at the end of the action
     // ungrey the map element
 	localEventManager.queueLocalEvent(new CompleteBuildingFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    // TODO maybe store in class similar to DefineMapObject
     localEventManager.queueLocalEvent(new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
   }
 
 }
 
 /**
+ * Action to move actor from one location to another
+ */
+export class MoveActorAction extends StartEndAction {
+
+	public readonly location: LOCATION_ENUM;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		location: LOCATION_ENUM,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.location = location;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+	}
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location));
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
+}
+
+/**
  * Action to send resources to an actor
+ * DEPRECATED
  */
 export class SendResourcesToActorAction extends StartEndAction {
 
@@ -388,13 +426,67 @@ export class SendResourcesToActorAction extends StartEndAction {
 
 }
 
+///
+/**
+ * Action to send resources to a location
+ */
+export class SendResourcesToLocationAction extends StartEndAction {
+
+  public readonly sourceLocation: LOCATION_ENUM;
+  public readonly destinationLocation: LOCATION_ENUM;
+
+  public readonly sentResources: ResourceTypeAndNumber;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    globalEventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+	sourceLocation: LOCATION_ENUM,
+    destinationLocation: LOCATION_ENUM,
+    sentResources: ResourceTypeAndNumber) {
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+	this.sourceLocation = sourceLocation;
+    this.destinationLocation = destinationLocation;
+    this.sentResources = sentResources;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('start event SendResourcesToLocationAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendResourcesToLocationAction');
+
+    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.sourceLocation, this.destinationLocation, this.sentResources));
+
+    const actionOwnerActor = state.getActorById(this.ownerId)!;
+
+    this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
+
+    // TODO see how we can send requested resources
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
+}
+///
+
+
 /**
  * Action to assign a task to resources
  */
 export class AssignTaskToResourcesAction extends StartEndAction {
 
   public readonly task: ResourceFunction;
-
+  public readonly sourceLocation: LOCATION_ENUM;
   public readonly assignedResources: ResourceTypeAndNumber;
 
   constructor(
@@ -406,10 +498,12 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     task: ResourceFunction,
+	sourceLocation: LOCATION_ENUM,
     assignedResources: ResourceTypeAndNumber) 
   {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     this.task = task;
+	this.sourceLocation = sourceLocation;
     this.assignedResources = assignedResources;
   }
 
@@ -426,7 +520,7 @@ export class AssignTaskToResourcesAction extends StartEndAction {
     ResourcesArray.forEach((res) => {
       const nbRes = this.assignedResources[res] || 0;
       if(nbRes > 0){
-        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, res, nbRes));
+        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, this.sourceLocation, res, nbRes));
       }
     })
   }

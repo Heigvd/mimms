@@ -38,7 +38,6 @@ function getPointStyle(feature: any): LayerStyleObject {
 	const name = properties.name;
 	const rotation = properties.rotation;
 	const duration = properties.durationTimeSec;
-
 	if (icon) {
 		const iconStyle: ImageStyleObject = {
 			type: 'IconStyle',
@@ -103,20 +102,12 @@ function getPointStyle(feature: any): LayerStyleObject {
 				type: 'FillStyle',
 				color: 'white',
 			};
-		}
+		}		
 
 		return { image: iconStyle, text: textStyle };
 	}
 
-	const circleStyle: ImageStyleObject = {
-		type: 'CircleStyle',
-		radius: 10,
-		fill: {
-			type: 'FillStyle',
-			color: 'red',
-		}
-	};
-	return { image: circleStyle }
+	return {}
 }
 
 /**

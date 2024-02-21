@@ -10,6 +10,7 @@ import { Categorization } from "../../pretri/triage";
 import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 /**
  * Walk, drive, fly to destination
@@ -205,10 +206,17 @@ export interface ResourceSendingToActorEvent extends ActionCreationEvent {
 	sentResources: ResourceTypeAndNumber;
 }
 
+export interface ResourceSendingToLocationEvent extends ActionCreationEvent {
+	durationSec: SimDuration;
+	sourceLocation: LOCATION_ENUM;
+	destinationLocation: LOCATION_ENUM;
+	sentResources: ResourceTypeAndNumber;
+}
 
 export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	task: ResourceFunction;
+	sourceLocation: LOCATION_ENUM;
 	assignedResources: ResourceTypeAndNumber;
 }
 
@@ -267,4 +275,8 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
 			return true;
 	}
 	return false;
+}
+
+export interface MoveActorEvent extends ActionCreationEvent {
+	location: LOCATION_ENUM;
 }

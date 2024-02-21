@@ -9,6 +9,7 @@ import {
 	ActionTemplateBase,
 	AssignTaskToResourcesActionTemplate,
 	CasuMessageTemplate,
+	MoveActorActionTemplate,
 	ReleaseResourcesFromTaskActionTemplate,
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
@@ -123,6 +124,14 @@ export function isAssignResourcesToTaskActionTemplate(id: number) {
 export function isReleaseResourcesToTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO).find(t => t.Uid === id);
 	return template instanceof ReleaseResourcesFromTaskActionTemplate;
+}
+
+/**
+ * @param id Uid of given action template
+ */
+export function isMoveActorActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof MoveActorActionTemplate;
 }
 
 /**

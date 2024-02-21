@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import { taskLogger } from "../../../tools/logger";
-import { Actor } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { TranslationKey } from "../baseTypes";
 import { AddRadioMessageLocalEvent, AllResourcesReleaseLocalEvent, TaskStatusChangeLocalEvent } from "../localEvents/localEventBase";
 import { localEventManager } from "../localEvents/localEventManager";
@@ -16,11 +16,15 @@ import * as ResourceState from "../simulationState/resourceStateAccess";
 import * as TaskState from "../simulationState/taskStateAccess";
 import { getTranslation } from "../../../tools/translation";
 import { ActionType } from "../actionType";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 /**
  * Default behaviour of a task
  */
 export class PreTriageTask extends DefaultTask {
+
+  public static ownerRole: InterventionRole = 'AL';
+  public static executionLocation = LOCATION_ENUM.chantier;
 
   public constructor(
     title: TranslationKey,
@@ -30,7 +34,7 @@ export class PreTriageTask extends DefaultTask {
     //readonly zone: string, // TODO see how represent it
     readonly feedbackAtEnd : TranslationKey,
   ) {
-    super(title, description, nbMinResources, nbMaxResources);
+    super(title, description, nbMinResources, nbMaxResources, PreTriageTask.ownerRole, PreTriageTask.executionLocation);
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {

@@ -116,7 +116,9 @@
       "flexDirection" : "column"
     },
     "layoutClassName" : "resourcesPanel-container",
-    "layoutStyle" : { },
+    "layoutStyle" : {
+      "display" : "hidden"
+    },
     "name" : "available resources",
     "style" : { }
   },

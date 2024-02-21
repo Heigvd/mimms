@@ -1,5 +1,6 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU'
 
@@ -36,19 +37,43 @@ export class Actor{
   public readonly ShortName;
   public readonly Role;
 
+  //current actor location
+  public Location: LOCATION_ENUM;
+
+  //responsible for this location
+  private symbolicLocation: LOCATION_ENUM;
+
   public readonly Uid: ActorId;
 
   private readonly translationVar : keyof VariableClasses = 'mainSim-actors';
 
-  constructor(role: InterventionRole){
+  constructor(role: InterventionRole, symbolicLocation: LOCATION_ENUM = LOCATION_ENUM.meetingPoint){
     this.Role = role;
 	const tkey : TranslationKey= `actor-${role.toLowerCase()}`;
     this.ShortName = getTranslation(this.translationVar, tkey);
     this.FullName = getTranslation(this.translationVar, tkey + '-long');
+	this.symbolicLocation = symbolicLocation;
+	//current actor location is the sysmbolic location at the beginning
+	this.Location = symbolicLocation;
     this.Uid = Actor.IdSeed++;
   }
 
   static resetIdSeed() {
     this.IdSeed = 1000;
   }
+
+  /**
+   * Update the location of the Actor
+   * @param LOCATION_ENUM New location
+   */
+  public setLocation(location: LOCATION_ENUM) {
+	  this.Location = location;
+  }
+
+  public getComputedSymbolicLocation(){
+	  //TODO MIM-93: check if symbolic location is present and apply logic
+	  return this.symbolicLocation;
+  }
+
+
 }

@@ -6,6 +6,7 @@ import {
 	isFixedMapEntityTemplate,
 	isSendResourcesToActorActionTemplate,
 	isRadioActionTemplate,
+isMoveActorActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
@@ -16,6 +17,7 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 
 /**
@@ -59,6 +61,10 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	} else if (isRadioActionTemplate(actionRefUid)) {
 
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
+
+	} else if (isMoveActorActionTemplate(actionRefUid)) {
+
+		params = fetchMoveActorLocation();
 	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
@@ -228,4 +234,20 @@ function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayloa
 	Context.interfaceState.setState(newState);
 
 	return res;
+}
+
+/**
+ * Get chosen location for moveActorAction 
+ * @returns LOCATION_ENUM
+ */
+function fetchMoveActorLocation(){
+	let res = Context.interfaceState.state.moveActorChosenLocation;
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.moveActorChosenLocation = LOCATION_ENUM.meetingPoint;
+	Context.interfaceState.setState(newState);
+
+	return res;
+
 }
