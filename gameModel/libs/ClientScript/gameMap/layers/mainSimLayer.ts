@@ -2,6 +2,7 @@ import { BuildingStatus, FixedMapEntity, MultiLineStringGeometricalShape, MultiP
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
 import { getCurrentState } from "../../UIfacade/debugFacade";
+import { getResourcesByLocation } from "../../UIfacade/resourceFacade";
 
 /************
 *
@@ -75,6 +76,7 @@ function getLayer(features: FixedMapEntity[], name: string): FeatureCollection {
 						layer = getMultilineFeature(position, i, layer);
 				}
 				layer = getGenericFeature(f, f.getGeometricalShape().selectedPosition, f.name, layer);
+				layer = getFixedMapEntityAssociatedResources(f, layer);
 			}
 		});
 	}
@@ -170,6 +172,27 @@ function getGenericFeature(entity: FixedMapEntity, position: SelectedPositionTyp
 		},
 	}
 	layer.features.push(feature);
+	return layer;
+}
+
+//TEMPORARY TO DISPLAY RESOURCES
+function getFixedMapEntityAssociatedResources(entity: FixedMapEntity, layer: FeatureCollection): FeatureCollection{
+		const resourcesCount = getResourcesByLocation(entity.id).length;
+		if (resourcesCount > 0){
+			const feature: any = {
+				type: 'Feature',
+				geometry: {
+					type: 'Point',
+					coordinates: entity.getGeometricalShape().selectedPosition,
+				},
+				properties: {
+					type: 'Point',
+					name: String(resourcesCount),
+					icon: undefined //TODO: define resource icon
+				}
+			};
+		layer.features.push(feature);
+		}
 	return layer;
 }
 

@@ -100,7 +100,9 @@ export function getInitialInterfaceState(): InterfaceState {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
+
 		moveActorChosenLocation: LOCATION_ENUM.meetingPoint,
+
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',

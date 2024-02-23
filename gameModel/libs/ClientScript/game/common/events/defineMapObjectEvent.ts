@@ -11,7 +11,7 @@ export type AvailablePositionType = PointLikeObject[] | PointLikeObject[][] | Po
 export enum BuildingStatus {
 	selection = "selection",
 	inProgress = "inProgress",
-	ready = "ready",
+	ready = "ready"
 }
 
 export abstract class FixedMapEntity {
@@ -23,7 +23,6 @@ export abstract class FixedMapEntity {
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  isAccessible?: boolean;
 
   abstract getGeometricalShape(): GeometricalShape;
 }
@@ -31,7 +30,7 @@ export abstract class FixedMapEntity {
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 	geometricalShape!: GeometricalShape;
 
-	constructor(ownerId: ActorId, name: string, id: LOCATION_ENUM, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string, isAccessible: boolean = true){
+	constructor(ownerId: ActorId, name: string, id: LOCATION_ENUM, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string){
 		super();
 		this.ownerId = ownerId;
 		this.name = name;
@@ -40,7 +39,6 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 		this.icon = icon;
 		this.geometricalShape = geometricalShape;
 		this.buildingStatus = buildingStatus;
-		this.isAccessible = isAccessible;
 	}
 
 	getGeometricalShape(): GeometricalShape {
@@ -206,5 +204,5 @@ export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEnt
 			geometricalShape = new MultiPolygonGeometricalShape(obj.geometricalShape.availablePositions, obj.geometricalShape.selectedPosition);
 			break;
 	}
-	return new GeometryBasedFixedMapEntity(obj.ownerId, obj.name, obj.id, obj.leaderRoles, geometricalShape!, obj.buildingStatus, obj.icon, obj.isAccessible);
+	return new GeometryBasedFixedMapEntity(obj.ownerId, obj.name, obj.id, obj.leaderRoles, geometricalShape!, obj.buildingStatus, obj.icon);
 }

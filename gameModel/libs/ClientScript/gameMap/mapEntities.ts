@@ -1,3 +1,4 @@
+import { LOCATION_ENUM } from "../game/common/simulationState/locationState";
 import { getActorsByLocation } from "../UIfacade/actorFacade";
 import { getAvailableLocationsFacade } from "../UIfacade/locationFacade";
 import { getResourcesByLocation } from "../UIfacade/resourceFacade";
@@ -7,7 +8,7 @@ export function getOverlayItems() {
 	const overlayItems: OverlayItem[] = [];
 
 	for (const mapEntity of mapEntities) {
-		// if(mapEntity.name === 'Accreg')break;
+		if(mapEntity.name === 'Accreg')break;
 		
 
 		overlayItems.push({

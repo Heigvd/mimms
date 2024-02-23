@@ -20,8 +20,9 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
-import { SimFlag } from "./actionTemplateBase";
+import { SendResourcesToActorActionTemplate, SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -146,7 +147,7 @@ export abstract class StartEndAction extends ActionBase {
         if(simTime >= this.startTime + this.duration()){ // if action did end
           this.logger.debug('dispatching end events...');
 		  // update flags in state as provided when action completes
-		  this.provideFlagsToState.map(flag => state.getInternalStateObject().flags[flag] = true);
+		  this.provideFlagsToState.forEach(flag => state.getInternalStateObject().flags[flag] = true);
 		  //execute dispatched events
           this.dispatchEndedEvents(state);
           this.status = "Completed";
@@ -619,6 +620,69 @@ export class SendRadioMessageAction extends StartEndAction {
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
+  }
+
+}
+
+
+
+
+export class ArrivalAnnoucementAction extends StartEndAction {
+
+  constructor (
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[],
+	/* do we need to list the flags here? It seems like it should be in the template but how does the class know she needs flags?  
+	private flags: SimFlag[]=[SimFlag.PCS_ARRIVED,
+	 */
+    ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event GetInformationAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event GetInformationAction');
+	const so = state.getInternalStateObject();
+	
+	//  get ids for ACS / MCS 
+	const acsUid = so.actors.find( a => a.Role === 'ACS')!.Uid;
+	const mcsUid = so.actors.find( a => a.Role === 'MCS')!.Uid;
+
+	//is PC in da place and is it built --> flag
+	// const isPcHere = so.Simflag.PCS_ARRIVED(p => p.FixedMapEntity.PC === true)! ;
+	// const isPcBuilt = so.flags.SimFlag.PCS_ARRIVED(p => p.FixedMapEntity.PC === true)! ;
+
+ 
+
+
+    //move ACS MCS
+	localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), acsUid, LOCATION_ENUM.PC));
+	localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), mcsUid, LOCATION_ENUM.PC));
+
+	//send feedback in CASU channel
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, true));
+
+	//transfer rsrc to PC
+	for (const location of so.mapLocations) {
+		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, LOCATION_ENUM.PC, availableResources));
+	}
+
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
   }
 
 }
