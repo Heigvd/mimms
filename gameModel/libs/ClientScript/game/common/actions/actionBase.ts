@@ -410,7 +410,7 @@ export class SendResourcesToLocationAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendResourcesToLocationAction');
 
-    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.sourceLocation, this.destinationLocation, this.sentResources));
+    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.destinationLocation, this.sentResources));
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 

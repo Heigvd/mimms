@@ -293,8 +293,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
  export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
    constructor(parentId: GlobalEventId,
      timeStamp: SimTime,
-     public readonly senderActor: ActorId,
- 	public readonly sourceLocation: LOCATION_ENUM,
+     public readonly sourceLocation: LOCATION_ENUM,
      public readonly destinationLocation: LOCATION_ENUM,
      public readonly sentResources: ResourceTypeAndNumber,
    ) {
