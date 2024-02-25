@@ -8,18 +8,16 @@ import {
 	AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
-import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
+import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { BuildingStatus, GeometryBasedFixedMapEntity, MultiLineStringGeometricalShape, PointGeometricalShape, PolygonGeometricalShape } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import * as TaskLogic from "./common/tasks/taskLogic";
-import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
@@ -245,20 +243,6 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 
 		}
 			break;
-		case 'ResourceAllocationEvent': {
-			const newLocalEvent = TaskLogic.createResourceAllocationLocalEvent(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
-		case 'ResourceReleaseEvent': {
-			const newLocalEvent = TaskLogic.createResourceReleaseLocalEvent(event as FullEvent<ResourceReleaseEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
 		case 'TimeForwardEvent': {
 			const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
 			localEventManager.queueLocalEvent(timefwdEvent);
@@ -312,34 +296,6 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 	} else {
 		mainSimLogger.error('Could not find action template with ref or actor with id', ref, selectedActor);
 	}
-}
-
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceAllocationEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceAllocationEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
-}
-
-export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceReleaseEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceReleaseEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
 }
 
 export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {

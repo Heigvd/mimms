@@ -7,8 +7,6 @@
 import { ActorId, TaskId } from '../game/common/baseTypes';
 import { TaskBase } from '../game/common/tasks/taskBase';
 import {
-	buildAndLaunchResourceAllocation,
-	buildAndLaunchResourceRelease,
 	getCurrentState,
 } from '../game/mainSimulationLogic';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
@@ -25,11 +23,11 @@ import { ResourceFunction, ResourceFunctionArray } from '../game/common/resource
 /**
  * @returns All the human resources types
  */
-export function getHumanResourceTypes(): ResourceType[] {
+export function getHumanResourceTypes(): readonly ResourceType[] {
 	return HumanResourceTypeArray;
 }
 
-export function getResourceFunction(): ResourceFunction[] {
+export function getResourceFunction(): readonly ResourceFunction[] {
 	return ResourceFunctionArray;
 }
 
@@ -48,7 +46,7 @@ export function countUnoccupiedResources(resourceType: ResourceType): number {
 /**
  * Retrieve the tasks that can be performed currently by resources owned by the given actor.
  *
- * @param actorId The actor who can allocate resource to those tasks // Deprecated, should be location instead ! 
+ * @param actorId The actor who can allocate resource to those tasks // Deprecated, should be location instead !
  *
  * @returns array of matching tasks
  */
@@ -88,31 +86,3 @@ export function countAllocatedResources(taskId: TaskId, resourceType: ResourceTy
 // change the world
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * Allocate resources to a task.
- *
- * @param taskId      The task to be performed
- * @param actorId     The owner of the resources // Deprecated, still useful for actionOwnerId !
- * @param resourceType        The type of resources
- * @param nbResources The number of resources
- *
- * @returns The promise of a response from the server
- */
-export async function allocateResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchResourceAllocation(taskId, actorId, resourceType, nbResources);
-}
-
-/**
- * Release a resources from a task.
- *
- * @param taskId The task where the resources were allocated
- * @param actorId The owner of the resources // Deprecated, still useful for actionOwnerId !
- * @param resourceType The type of resources
- * @param nbResources The number of resources
- *
- * @returns The promise of a response from the server
- */
-export async function releaseResource(taskId: TaskId, actorId: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	return await buildAndLaunchResourceRelease(taskId, actorId, resourceType, nbResources);
-}

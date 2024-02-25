@@ -5196,40 +5196,6 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "NumberDescriptor",
-        "broadcastScope" : "PlayerScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:447326:Vil92o",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:447327:uOGbik",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:447327:uOGbik::EN",
-              "status" : "",
-              "translation" : "assigned"
-            }
-          }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "assigned",
-        "refId" : "NumberDescriptor:447325:IqHd0N",
-        "scopeType" : "PlayerScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "ListDescriptor",
         "addShortcut" : "",
         "allowedTypes" : [ ],

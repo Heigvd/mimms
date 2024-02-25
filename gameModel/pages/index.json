@@ -343,12 +343,6 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
-        "@class" : "Page",
-        "id" : "46",
-        "name" : "resources",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",

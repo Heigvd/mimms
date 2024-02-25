@@ -67,16 +67,16 @@ export function transferResourcesFromToLocation(state: MainSimulationState, sour
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-/**
- * @returns The number of resources that are currently without activity, owned by the given actor and of the given type
- * DEPRECATED
- */
-export function getResourcesAvailable(state: Readonly<MainSimulationState>, actorId: ActorId, resourceType: ResourceType): Resource[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(res =>
-    res.type === resourceType
-    && res.currentActivity == null);
-}
+// /**
+//  * @returns The number of resources that are currently without activity, owned by the given actor and of the given type
+//  * DEPRECATED
+//  */
+// export function getResourcesAvailable(state: Readonly<MainSimulationState>, actorId: ActorId, resourceType: ResourceType): Resource[] {
+//   const internalState = state.getInternalStateObject();
+//   return internalState.resources.filter(res =>
+//     res.type === resourceType
+//     && res.currentActivity == null);
+// }
 
 /**
  * @returns The number of resources that are currently without activity and of the given type in a specified location
@@ -110,31 +110,31 @@ export function getResourcesAllocatedToTaskOfType(state: Readonly<MainSimulation
   && res.type === resourceType);
 }
 
-/**
- * @returns The number of resources allocated to the given task, owner by the given actor and of the given type
- * DEPRECATED
- */
-export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulationState>, taskId: TaskId,
-  actorId: ActorId, resourceType: ResourceType): Resource[] {
-  const internalState = state.getInternalStateObject();
+// /**
+//  * @returns The number of resources allocated to the given task, owner by the given actor and of the given type
+//  * DEPRECATED
+//  */
+// export function getResourcesAllocatedToTaskForActor(state: Readonly<MainSimulationState>, taskId: TaskId,
+//   actorId: ActorId, resourceType: ResourceType): Resource[] {
+//   const internalState = state.getInternalStateObject();
+//
+//   return internalState.resources.filter(res =>
+//     res.currentActivity === taskId
+//     && res.type === resourceType);
+// }
 
-  return internalState.resources.filter(res => 
-    res.currentActivity === taskId
-    && res.type === resourceType);
-}
-
-/**
- * @returns The number of resources allocated to the given task and of the given type
- * DEPRECATED
- */
-/*export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>, taskId: TaskId,
-  actorId: ActorId, resourceType: ResourceType): Resource[] {
-  const internalState = state.getInternalStateObject();
-
-  return internalState.resources.filter(res => 
-    res.currentActivity === taskId
-    && res.type === resourceType);
-}*/
+// /**
+//  * @returns The number of resources allocated to the given task and of the given type
+//  * DEPRECATED
+//  */
+// export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>, taskId: TaskId,
+//   actorId: ActorId, resourceType: ResourceType): Resource[] {
+//   const internalState = state.getInternalStateObject();
+//
+//   return internalState.resources.filter(res =>
+//     res.currentActivity === taskId
+//     && res.type === resourceType);
+// }
 
 /**
  * @returns The resources owned by the given actor and allocated to any task

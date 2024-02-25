@@ -3,7 +3,6 @@ import { ActorId, TaskId } from "../baseTypes";
 import { TaskBase, TaskStatus } from "../tasks/taskBase";
 import { MainSimulationState } from "./mainSimulationState";
 import * as ResourceState from "./resourceStateAccess";
-import { ResourceType } from '../resources/resourceType';
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { getStateActorSymbolicLocation } from "../actors/actorLogic";
 
@@ -52,16 +51,16 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
   return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
 }
 
-/**
- * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
- */
-export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
-  const task = internallyGetTask(state, taskId);
-
-  // TODO pro type
-
-  return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
-}
+// /**
+//  * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
+//  */
+// export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
+//   const task = internallyGetTask(state, taskId);
+//
+//   // TODO pro type
+//
+//   return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
+// }
 
 /**
  * @returns Whether the allocated resources are enough to perform the task

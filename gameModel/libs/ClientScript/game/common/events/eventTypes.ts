@@ -7,8 +7,8 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { ActorId, SimDuration, SimTime, TemplateId, TemplateRef } from "../baseTypes";
+import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 import { LOCATION_ENUM } from "../simulationState/locationState";
 
@@ -165,10 +165,7 @@ export type EventPayload =
 	// NEW EVENTS
 	| TimeForwardEvent
 	| ActionCreationEvent
-	| ActionCancellationEvent
-	| ResourceSendingToActorEvent
-	| ResourceAllocationEvent
-	| ResourceReleaseEvent;
+	| ActionCancellationEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -200,12 +197,6 @@ export interface StandardActionEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 }
 
-export interface ResourceSendingToActorEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	receiverActor: ActorId;
-	sentResources: ResourceTypeAndNumber;
-}
-
 export interface ResourceSendingToLocationEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	sourceLocation: LOCATION_ENUM;
@@ -224,24 +215,6 @@ export interface ResourceTaskReleaseEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 	task: ResourceFunction;
 	releasedResources: ResourceTypeAndNumber;
-}
-
-// soon deprecated
-export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceAllocationEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
-}
-
-// soon deprecated
-export interface ResourceReleaseEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceReleaseEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
 }
 
 export interface TimeForwardEvent extends BaseEvent, TimedPayload {
