@@ -390,7 +390,7 @@
         "@class" : "Page",
         "id" : "61",
         "name" : "ResourceSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
