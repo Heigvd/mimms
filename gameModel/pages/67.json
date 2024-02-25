@@ -1,0 +1,329 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Lieu</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\n\ngetAvailableLocationsFacade().map((location) => {return {label: location.name, value: location.id}});",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "locationChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "source location",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.currentLocation = Context.resourceAllocationCurrentLocation;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"resourceAllocationCurrentLocation\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.allocateResources.currentLocation;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "current location",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>S'adresser à <br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableTasks, getTasksWithResources } from \"./UIfacade/resourceTaskFacade\";\n\n[{label: 'en attente', value: '0'}].concat(getAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}}));",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "taskChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "source task",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.currentTaskId = Context.resourceAllocationCurrentTaskId;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"resourceAllocationCurrentTaskId\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.allocateResources.currentTaskId;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "current activity",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Parmi eux, sont concernés:<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "icon" : "user-md",
+                        "layoutClassName" : "resourceTypeIcon-container",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "resourceCounter",
+                        "layoutClassName" : "resourceCounter-container lightIconCounter-container noPadding",
+                        "layoutStyle" : { },
+                        "name" : "nb available tip",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getCountAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\ngetCountAvailableResourcesToAllocate(location, taskId, resourceType);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutClassName" : "resourceTypeChosenNumber-container",
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources[Context.resourceType.enum] = Context.resourceAllocationNbForType;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"resourceAllocationNbForType\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "\"0\"",
+                          "language" : "TypeScript"
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState.state.resources.allocateResources[Context.resourceType.enum] || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Number input"
+                    }, {
+                      "props" : {
+                        "layoutClassName" : "resourceTypeName-container",
+                        "layoutStyle" : { },
+                        "name" : "resource type name",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceType.enum + '-short');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "oneResourceType noPadding",
+                    "layout" : {
+                      "alignItems" : "center",
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "one resource type",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "resourceTypeList",
+                "exposeAs" : "resourceType",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "enum",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ]
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "resources type",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Leur ordonner de<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableLocationsOnMapNameReplacedByActorIfAvailable } from \"./UIfacade/locationFacade\";\nimport { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\nconst tasks = getAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});\nconst sendings = getAvailableLocationsOnMapNameReplacedByActorIfAvailable().map((location) => {return {label: \"Send to \" + location.label, value: location.value}});\ntasks.concat(sendings);",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "taskChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "destination task",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.destinationTaskId = Context.resourceAllocationTargetTaskId;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"resourceAllocationTargetTaskId\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.allocateResources.targetTaskId;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "target",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "pink pinkHover",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Ordonner<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton();",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "justifyContent" : "flex-end"
+        },
+        "layoutStyle" : { },
+        "name" : "button",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : "allocate resources",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

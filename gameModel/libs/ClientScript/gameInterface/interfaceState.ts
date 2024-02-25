@@ -23,6 +23,12 @@ export interface InterfaceState {
 	isReleaseResourceOpen: boolean;
 	casuMessage: CasuMessage;
 	resources: {
+		allocateResources: {
+			currentLocation: LOCATION_ENUM,
+			currentTaskId: string,
+			targetLocation: LOCATION_ENUM,
+			targetTaskId: string,
+		} & Resources;
 		sendResources: {
 			sourceLocation: LOCATION_ENUM,
 			destinationLocation: LOCATION_ENUM,
@@ -70,6 +76,19 @@ export function getInitialInterfaceState(): InterfaceState {
 			victims: "",
 		},
 		resources: {
+			allocateResources: {
+				currentLocation: LOCATION_ENUM.meetingPoint,
+				currentTaskId: '0',
+				targetLocation: LOCATION_ENUM.meetingPoint,
+				targetTaskId: '',
+				// the keywords must be those of HumanResourceTypeArray
+				secouriste: 0,
+				technicienAmbulancier: 0,
+				ambulancier: 0,
+				infirmier: 0,
+				medecinJunior: 0,
+				medecinSenior: 0,
+			},
 			sendResources: {
 				sourceLocation: LOCATION_ENUM.meetingPoint,
 				destinationLocation: LOCATION_ENUM.meetingPoint,

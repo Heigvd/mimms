@@ -300,6 +300,46 @@
                                         }
                                       },
                                       "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel == 'resources';",
+                                            "language" : "typescript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "not-active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel != 'resources';",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "disableIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'resources';\nContext.interfaceState.setState(newState);",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'resources')}</p>`",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
                                     } ],
                                     "layout" : { },
                                     "layoutStyle" : {
@@ -313,7 +353,7 @@
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tdefault: page = '45';\n}\npage;",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
@@ -557,6 +597,13 @@
                                                         },
                                                         "layoutClassName" : " s_squareButton",
                                                         "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = '0';\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
                                                         "style" : { }
                                                       },
                                                       "type" : "Button"

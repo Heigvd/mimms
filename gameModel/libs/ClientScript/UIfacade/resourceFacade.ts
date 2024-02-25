@@ -9,10 +9,18 @@ export function getHumanResourcesByLocation(location: LOCATION_ENUM): Resource[]
 	return getInStateHumanResourcesByLocation(getCurrentState(), location);
 }
 
-export function getCountInactiveResourcesByLocationAndType(location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
+function getCountInactiveResourcesByLocationAndType(location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
 	return getInStateCountInactiveResourcesByLocationAndType(getCurrentState(), location);
 }
 
-export function getCountResourcesByLocationAndTaskInProgressAndType(location: LOCATION_ENUM, taskId: TaskId): Partial<Record<ResourceType, number>> {
+function getCountResourcesByLocationAndTaskInProgressAndType(location: LOCATION_ENUM, taskId: TaskId): Partial<Record<ResourceType, number>> {
 	return getInStateCountResourcesByLocationAndTaskInProgressAndType(getCurrentState(), location, taskId);
+}
+
+export function getCountAvailableResourcesToAllocate(location : LOCATION_ENUM, taskId: number, resourceType: ResourceType) {
+	if (taskId === 0) {
+		return (getCountInactiveResourcesByLocationAndType(location)[resourceType] || 0).toString();
+	} else {
+		return (getCountResourcesByLocationAndTaskInProgressAndType(location, taskId)[resourceType] || 0).toString();
+	}
 }
