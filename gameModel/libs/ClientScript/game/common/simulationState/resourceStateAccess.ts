@@ -45,7 +45,7 @@ export function transferResourcesFromToLocation(state: MainSimulationState, sour
 
     if (nbResourcesToTransfer && nbResourcesToTransfer > 0) {
 		
-		const matchingResources = internalState.resources.filter(res => res.currentLocation === sourceLocation)
+		const matchingResources = internalState.resources.filter(res => res.currentLocation === sourceLocation && res.type === resourceType);
 		if (matchingResources.length >= nbResourcesToTransfer) {
 			for (let i = 0; i < nbResourcesToTransfer; i++) {
 				matchingResources[i].currentLocation = destinationLocation;
