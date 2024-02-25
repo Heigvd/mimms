@@ -2,11 +2,11 @@ import { TaskId } from "../game/common/baseTypes";
 import { Resource } from "../game/common/resources/resource";
 import { ResourceType } from "../game/common/resources/resourceType";
 import { LOCATION_ENUM } from "../game/common/simulationState/locationState";
-import { getInStateCountInactiveResourcesByLocationAndType, getInStateCountResourcesByLocationAndTaskInProgressAndType, getInStateResourcesByLocation } from "../game/common/simulationState/resourceStateAccess";
+import { getInStateCountInactiveResourcesByLocationAndType, getInStateCountResourcesByLocationAndTaskInProgressAndType, getInStateHumanResourcesByLocation } from "../game/common/simulationState/resourceStateAccess";
 import { getCurrentState } from "../game/mainSimulationLogic";
 
-export function getResourcesByLocation(location: LOCATION_ENUM): Resource[] {
-	return getInStateResourcesByLocation(getCurrentState(), location);
+export function getHumanResourcesByLocation(location: LOCATION_ENUM): Resource[] {
+	return getInStateHumanResourcesByLocation(getCurrentState(), location);
 }
 
 export function getCountInactiveResourcesByLocationAndType(location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {

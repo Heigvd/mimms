@@ -2,7 +2,7 @@ import { resourceLogger, taskLogger } from '../../../tools/logger';
 import { ActorId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { MainSimulationState } from './mainSimulationState';
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { HumanResourceTypeArray, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { entries } from '../../../tools/helper';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { getTaskExecutionLocation, getTaskResponsibleActorSymbolicLocation } from '../simulationState/taskStateAccess';
@@ -195,8 +195,11 @@ export function addIncomingResourcesToLocation(state: MainSimulationState, resou
   }
 }
 
-export function getInStateResourcesByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[]{
-	return state.getInternalStateObject().resources.filter(resource => resource.currentLocation === location);
+export function getInStateHumanResourcesByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[] {
+	return state.getInternalStateObject().resources.filter(
+		resource => resource.currentLocation === location &&
+			Object.values(HumanResourceTypeArray).some(type => type === resource.type),
+	);
 }
 
 export function getInStateCountInactiveResourcesByLocationAndType(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
