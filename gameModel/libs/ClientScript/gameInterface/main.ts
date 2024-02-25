@@ -1,4 +1,11 @@
-import { ActionTemplateBase, AssignTaskToResourcesActionTemplate, MoveActorActionTemplate, ReleaseResourcesFromTaskActionTemplate, SelectionFixedMapEntityTemplate } from "../game/common/actions/actionTemplateBase";
+import {
+	ActionTemplateBase,
+	AssignTaskToResourcesActionTemplate,
+	MoveActorActionTemplate,
+	ReleaseResourcesFromTaskActionTemplate,
+	SelectionFixedMapEntityTemplate,
+	SendResourcesToLocationActionTemplate,
+} from '../game/common/actions/actionTemplateBase';
 import { ActionType } from "../game/common/actionType";
 import { endMapAction, startMapSelect } from "../gameMap/main";
 import { cancelAction, getActionTemplate, getAllActions, isFixedMapEntityTemplate, planAction } from "../UIfacade/actionFacade";
@@ -141,7 +148,9 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-	if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
+	if (Context.action instanceof SendResourcesToLocationActionTemplate) {
+		return "54";
+	} else if (Context.action instanceof AssignTaskToResourcesActionTemplate) {
 		return "55";
 	} else if (Context.action instanceof ReleaseResourcesFromTaskActionTemplate) {
 		return "56";

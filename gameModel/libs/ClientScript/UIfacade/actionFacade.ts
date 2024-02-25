@@ -13,6 +13,7 @@ import {
 	ReleaseResourcesFromTaskActionTemplate,
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
+	SendResourcesToLocationActionTemplate,
 	SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
@@ -99,6 +100,14 @@ export function isCasuMessageActionTemplate(id: number) {
 export function isRadioActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO).find(t => t.Uid === id);
 	return template instanceof SendRadioMessage;
+}
+
+/**
+ * @param id Uid of given action template
+ */
+export function isSendResourcesToLocationActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
+	return template instanceof SendResourcesToLocationActionTemplate;
 }
 
 /**

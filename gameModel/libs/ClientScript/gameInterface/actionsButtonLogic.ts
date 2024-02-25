@@ -4,10 +4,10 @@ import {
 	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
 	isFixedMapEntityTemplate,
+	isSendResourcesToLocationActionTemplate,
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
@@ -41,6 +41,10 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			params = fetchSelectMapObjectValues()!;
 			clearMapState();
 		}
+
+	} else if (isSendResourcesToLocationActionTemplate(actionRefUid)) {
+
+		params = fetchSendResourcesToLocationValues();
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
 
@@ -86,11 +90,11 @@ function fetchSelectMapObjectValues() { // TODO Add type
 }
 
 /**
- * Generate a SendResourcesPayload from interface state
- * 
- * @returns SendResourcesPayload
+ * Generate a SendResourcesToLocationPayload from interface state
+ *
+ * @returns SendResourcesToLocationPayload
  */
-function fetchSendResourcesValues() { // TODO Add Type
+function fetchSendResourcesToLocationValues() { // TODO Add Type
 	const sentResources: ResourceTypeAndNumber = {};
 
 	ResourcesArray.forEach(resourceType => {
@@ -100,11 +104,12 @@ function fetchSendResourcesValues() { // TODO Add Type
 		}
 	});
 
-	const payload = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
+	const payload = { sourceLocation: Context.interfaceState.state.resources.sendResources.sourceLocation, destinationLocation: Context.interfaceState.state.resources.sendResources.destinationLocation, sentResources };
 
 	// Reset interfaceState
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
-	newState.resources.sendResources.selectedActorId = getAllActors()[0]!.Uid;
+	newState.resources.sendResources.sourceLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.sendResources.destinationLocation = LOCATION_ENUM.meetingPoint;
 	ResourcesArray.forEach(resourceType => {
 		newState.resources.sendResources[resourceType] = 0;
 	});

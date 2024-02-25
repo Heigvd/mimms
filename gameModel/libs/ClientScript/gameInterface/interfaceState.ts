@@ -24,7 +24,8 @@ export interface InterfaceState {
 	casuMessage: CasuMessage;
 	resources: {
 		sendResources: {
-			selectedActorId: number;
+			sourceLocation: LOCATION_ENUM,
+			destinationLocation: LOCATION_ENUM,
 		} & Resources;
 		assignResources: {
 			selectedTaskId: string,
@@ -70,7 +71,8 @@ export function getInitialInterfaceState(): InterfaceState {
 		},
 		resources: {
 			sendResources: {
-				selectedActorId: getAllActors()[0]!.Uid,
+				sourceLocation: LOCATION_ENUM.meetingPoint,
+				destinationLocation: LOCATION_ENUM.meetingPoint,
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
 				technicienAmbulancier: 0,

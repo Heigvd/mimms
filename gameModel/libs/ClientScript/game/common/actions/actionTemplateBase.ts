@@ -335,7 +335,7 @@ export class SendResourcesToLocationActionTemplate extends StartEndTemplate<Send
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendResourcesToActorActionTemplate' + '_' + this.title;
+    return 'SendResourcesToLocationActionTemplate' + '_' + this.title;
   }
 
   public getTitle(): string {

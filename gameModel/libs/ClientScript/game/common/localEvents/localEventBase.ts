@@ -443,7 +443,6 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
 			ResourceState.addIncomingResourcesToLocation(state, rType, resourceArrivalResolution(state), n);
-			//ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
 		})
 	}
 

@@ -5,7 +5,14 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate,
+	SendResourcesToLocationActionTemplate,
+	AssignTaskToResourcesActionTemplate,
+	ReleaseResourcesFromTaskActionTemplate,
+	CasuMessageTemplate,
+	SendRadioMessage,
+	SelectionFixedMapEntityTemplate,
+	SimFlag,
+	MoveActorActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -148,6 +155,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
+  const sendResources = new SendResourcesToLocationActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
+
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
   const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
 
@@ -164,6 +173,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
 
