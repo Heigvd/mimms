@@ -187,7 +187,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'actions';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -195,7 +195,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'actions';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -203,7 +203,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'actions';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.actions;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -222,7 +222,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'radios';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -230,7 +230,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'radios';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -243,7 +243,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'radios';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -267,7 +267,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'notification';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.notification;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -275,7 +275,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'notification';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.notification;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -288,7 +288,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'notification';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.notification;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },

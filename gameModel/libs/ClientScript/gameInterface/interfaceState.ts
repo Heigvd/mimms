@@ -5,13 +5,14 @@ import {
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
+import { SelectedPanel } from './selectedPanel';
 
 export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
 	moveActorChosenLocation: LOCATION_ENUM;
 	showPatientModal: boolean;
-	selectedPanel: 'actions' | 'radios' | 'notification';
+	selectedPanel: SelectedPanel;
 	selectedMapObjectId: string;
 	channel: string;
 	updatedChannelMessagesAt: number;
@@ -104,7 +105,7 @@ export function getInitialInterfaceState(): InterfaceState {
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',
-		selectedPanel: 'actions',
+		selectedPanel: SelectedPanel.actions,
 		channel: ActionType.CASU_RADIO,
 		updatedChannelMessagesAt: 0,
 		channelText: {
