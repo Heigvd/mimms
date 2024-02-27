@@ -15,7 +15,7 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -30,7 +30,11 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export enum SimFlag {
 	PCS_ARRIVED = 'PCS-ARRIVED',
-	MEETINGPOINT_BUILT = 'MEETINGPOINT_BUILT'
+	MEETINGPOINT_BUILT = 'MEETINGPOINT_BUILT',
+	MCS_ARRIVED = 'MCS_ARRIVED',
+	ACS_ARRIVED = 'ACS_ARRIVED',
+	PC_BUILT = 'PC_BUILT',
+	ACS_MCS_ANNOUCED = 'ACS_MCS_ANNOUNCED'
 }
 
 /**
@@ -613,6 +617,57 @@ export class MoveActorActionTemplate extends StartEndTemplate {
 
   public getTemplateRef(): TemplateRef {
     return 'MoveActorTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+	return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+}
+
+export class ArrivalAnnoucementTemplate extends StartEndTemplate {
+	constructor(
+		title: TranslationKey, 
+		description: TranslationKey, 
+    	duration: SimDuration, 
+		message: TranslationKey,
+		replayable = false,
+		flags?: SimFlag[],
+		provideFlagsToState?: SimFlag[],
+		) {
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState);}
+
+
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new ArrivalAnnoucementAction(payload.triggerTime,
+	this.duration,
+	this.message,
+	this.title ,
+	event.id,
+	ownerId,
+	this.Uid,
+	this.provideFlagsToState);
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>) : StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec : this.duration,
+    }
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ArrivalAnnoucementTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
