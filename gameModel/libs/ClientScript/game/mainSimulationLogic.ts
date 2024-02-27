@@ -119,7 +119,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const moveActor = new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration, 'move-actor-feedback', true, [SimFlag.MEETINGPOINT_BUILT]);
 
 /** ACS/MCS prise fonction */
- const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED, SimFlag.PC_BUILT], [SimFlag.ACSMCS_ANNOUCED]);
+ const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACSMCS_ANNOUCED]);
 
   const placeAccessRegress = new SelectionFixedMapEntityTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', new GeometryBasedFixedMapEntity(0, 'Accreg', 'Accreg', [], new MultiLineStringGeometricalShape([
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 

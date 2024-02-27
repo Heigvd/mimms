@@ -653,29 +653,15 @@ export class ArrivalAnnoucementAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event GetInformationAction');
 	const so = state.getInternalStateObject();
-	
-	//  get ids for ACS / MCS 
-	const acsUid = so.actors.find( a => a.Role === 'ACS')!.Uid;
-	const mcsUid = so.actors.find( a => a.Role === 'MCS')!.Uid;
 
-	//is PC in da place and is it built --> flag
-	// const isPcHere = so.Simflag.PCS_ARRIVED(p => p.FixedMapEntity.PC === true)! ;
-	// const isPcBuilt = so.flags.SimFlag.PCS_ARRIVED(p => p.FixedMapEntity.PC === true)! ;
-
- 
-
-
-    //move ACS MCS
-	localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), acsUid, LOCATION_ENUM.PC));
-	localEventManager.queueLocalEvent(new MoveActorLocalEvent(this.eventId, state.getSimTime(), mcsUid, LOCATION_ENUM.PC));
-
-	//send feedback in CASU channel
 	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, true));
 
-	//transfer rsrc to PC
+  const ownerActor = so.actors.find( a => a.Uid === this.ownerId)!;
+
+	//transfer available resources from each location to event owner location
 	for (const location of so.mapLocations) {
 		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
-   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, LOCATION_ENUM.PC, availableResources));
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, ownerActor.Location, availableResources));
 	}
 
   }
