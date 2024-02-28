@@ -13,8 +13,7 @@ import {
 	ReleaseResourcesFromTaskActionTemplate,
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
-	SendResourcesToActorActionTemplate,
-SimFlag,
+	SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
 import { ActionCreationEvent } from '../game/common/events/eventTypes';
@@ -100,14 +99,6 @@ export function isCasuMessageActionTemplate(id: number) {
 export function isRadioActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO).find(t => t.Uid === id);
 	return template instanceof SendRadioMessage;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isSendResourcesToActorActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof SendResourcesToActorActionTemplate;
 }
 
 /**

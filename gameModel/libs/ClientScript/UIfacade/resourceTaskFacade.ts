@@ -41,14 +41,14 @@ export function getResourceFunction(): ResourceFunction[] {
  *
  * @returns The number of matching resources
  */
-export function countUnoccupiedResources(ownerActorId: ActorId, resourceType: ResourceType): number {
-	return ResourceState.getUnoccupiedResources(getCurrentState(), ownerActorId, resourceType).length;
+export function countUnoccupiedResources(resourceType: ResourceType): number {
+	return ResourceState.getUnoccupiedResources(getCurrentState(), resourceType).length;
 }
 
 /**
  * Retrieve the tasks that can be performed currently by resources owned by the given actor.
  *
- * @param actorId The actor who can allocate resource to those tasks
+ * @param actorId The actor who can allocate resource to those tasks // Deprecated, should be location instead ! 
  *
  * @returns array of matching tasks
  */
@@ -63,12 +63,12 @@ export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
 /**
  * Retrieve how many human resources are available.
  *
- * @param actorId The actor responsible for these resources
+ * @param actorId The actor responsible for these resources // Deprecated, should be location instead !
  *
  * @return the number of matching resources
  */
-export function countAvailableResources(actorId: ActorId, resourceType: ResourceType): number {
-  return ResourceState.getAvailableResources(getCurrentState(), actorId, resourceType).length;
+export function countAvailableResources(resourceType: ResourceType): number {
+  return ResourceState.getAvailableResources(getCurrentState(), resourceType).length;
 }
 
 /**
@@ -93,7 +93,7 @@ export function countAllocatedResources(taskId: TaskId, resourceType: ResourceTy
  * Allocate resources to a task.
  *
  * @param taskId      The task to be performed
- * @param actorId     The owner of the resources
+ * @param actorId     The owner of the resources // Deprecated, still useful for actionOwnerId !
  * @param resourceType        The type of resources
  * @param nbResources The number of resources
  *
@@ -107,7 +107,7 @@ export async function allocateResource(taskId: TaskId, actorId: ActorId, resourc
  * Release a resources from a task.
  *
  * @param taskId The task where the resources were allocated
- * @param actorId The owner of the resources
+ * @param actorId The owner of the resources // Deprecated, still useful for actionOwnerId !
  * @param resourceType The type of resources
  * @param nbResources The number of resources
  *

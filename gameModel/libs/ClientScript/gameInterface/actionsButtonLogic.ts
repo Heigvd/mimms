@@ -4,7 +4,6 @@ import {
 	isCasuMessageActionTemplate,
 	isReleaseResourcesToTaskActionTemplate,
 	isFixedMapEntityTemplate,
-	isSendResourcesToActorActionTemplate,
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
 } from '../UIfacade/actionFacade';
@@ -42,9 +41,6 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			params = fetchSelectMapObjectValues()!;
 			clearMapState();
 		}
-	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
-
-		params = fetchSendResourcesValues();
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
 
