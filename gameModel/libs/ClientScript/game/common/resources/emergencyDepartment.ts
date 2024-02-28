@@ -68,7 +68,8 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 			{ 'ambulancier': 1, "medecinJunior": 1 }
 		);
 
-		const acsMcs = addContainerDefinition('ACS-MCS', 'acs-mcs', {}, ['ACS', 'MCS']);
+		const acsMcs = addContainerDefinition('ACS-MCS', 'acs-mcs', {}, ['ACS', 'MCS'], [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]);
+
 		const pma = addContainerDefinition(
 			'PMA',
 			"pma",
