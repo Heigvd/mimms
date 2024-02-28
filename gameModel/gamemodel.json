@@ -7218,7 +7218,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "mimms_jess_28-02-2024 MIM-131_v2",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
