@@ -3,6 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
+  AddActorEvent,
   MoveActorEvent,
   ResourceSendingToActorEvent,
   ResourceSendingToLocationEvent,
@@ -15,11 +16,11 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction,
+  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction, AddActorAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
-import { Actor } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
@@ -682,3 +683,52 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
     return false;
   }
 }
+
+
+
+export class AppointEvasanActionTemplate extends StartEndTemplate {
+	
+	constructor(
+		title: TranslationKey,
+		description: TranslationKey,
+		duration: SimDuration,
+		message: TranslationKey,
+		replayable = true,
+		flags: SimFlag[],
+	) {
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+	}
+
+	protected createActionFromEvent(event: FullEvent<AddActorEvent>): AddActorAction /* not sure on this one, shall we use AssignTaskToResourcesActionTemplate? */{
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId; 
+    return new AddActorAction(payload.triggerTime, this.duration, this.message, 
+		this.title , event.id, ownerId, this.Uid, [], 'EVASAN');
+  }
+
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AddActorEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+		actorRole: params,
+    }
+  }
+
+
+  public getTemplateRef(): TemplateRef {
+    return 'AppointEvasanActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+	return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return false;
+  }
+}
+
+

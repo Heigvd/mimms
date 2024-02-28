@@ -5,7 +5,7 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate, ArrivalAnnoucementTemplate,
+	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate, ArrivalAnnoucementTemplate, AppointEvasanActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -122,6 +122,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]), BuildingStatus.selection, 'right-arrow', false));
 
   const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUCED]);
+  
+  const appointEVASAN = new AppointEvasanActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', false, [SimFlag.PC_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]);
 
   const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
@@ -179,6 +181,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+
 
   return templates;
 }

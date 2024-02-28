@@ -505,7 +505,7 @@
   },
   "/translations/mainSim-actions-tasks.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },

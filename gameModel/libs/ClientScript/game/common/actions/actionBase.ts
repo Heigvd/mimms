@@ -11,6 +11,7 @@ import {
 	TransferResourcesLocalEvent,
 MoveActorLocalEvent,
 TransferResourcesToLocationLocalEvent,
+AddActorLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -23,6 +24,8 @@ import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
+import { InterventionRole } from "../actors/actor";
+import { TimeSliceDuration } from "../constants";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -377,6 +380,38 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
+
+export class AddActorAction extends StartEndAction{
+	public readonly actorRole: InterventionRole;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		actorRole: InterventionRole,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.actorRole = actorRole;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+	}
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
+
+}
+
 /**
  * Action to send resources to an actor
  * DEPRECATED
@@ -666,6 +701,41 @@ export class ArrivalAnnoucementAction extends StartEndAction {
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
       return;
+  }
+
+}
+
+
+
+export class RoleNominationAction extends StartEndAction {
+
+  constructor (
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private radioMessagePayload: RadioMessagePayload
+    )
+  {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event SendRadioMessageAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendRadioMessageAction');
+    // make a new role appears
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
   }
 
 }
