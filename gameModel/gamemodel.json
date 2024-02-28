@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1708507505835,
+  "createdTime" : 1709124456195,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4672,6 +4672,9 @@
         "name" : "mainSim-actions-tasks",
         "properties" : {
           "actor-arrival" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have arrived at the incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes arrivé sur les lieux de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous appointez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appointed an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez appointé un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"appointer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you assigned resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez assigné des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner une tâche\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4694,6 +4697,9 @@
           "define-accreg-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define the access and egress routes along that your resources will use.\"},\"FR\":{\"status\":\"\",\"translation\":\"définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined access and regress routes for the incident.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini les routes d'accès et d'évacuation du chantier.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define access and egress routes\"},\"FR\":{\"status\":\"\",\"translation\":\"définir les route d'accès et d'évacuation.\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you take the responsibility as ACS and MCS\"},\"FR\":{\"status\":\"\",\"translation\":\"vous prenez la responsabilité des rôles d'ACS et MCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you announced taking responsibilities as ACS and MCS\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez annoncé prendre la responsabilité des rôles d'ACS et MCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume ACS/MCS duties\"},\"FR\":{\"status\":\"\",\"translation\":\"prendre la responsabilité ACS/MCS\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define the meeting point's location on the map\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l'emplacement du point de rassemblement sur la carte.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined the meeting point\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini avec succès le point de rassemblement\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define meeting point\"},\"FR\":{\"status\":\"\",\"translation\":\"définir le point de rassemblement\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6746,6 +6752,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/flagsFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:126132:jgW9EL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/locationFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7203,7 +7218,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "mimms_jess_28-02-2024 MIM-124",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

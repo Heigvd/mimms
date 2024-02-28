@@ -1,25 +1,4 @@
-/********************** HEADER PANEL *********************************************/
-.headerPanels-container {
-	width: 50%;
-	height: auto;
-	top: 0px;
-	left: 550px;
-	padding: 1rem; 
-	pointer-events: auto; /* voir si none ou auto*/
-}
 
-.headerPanels {
-  background: var(--gray_WHITE);
-  border-radius: var(--S_borderRadius);
-  width: auto;
-  height: auto;
-  pointer-events: auto;
-  max-height: 100%;
-}
-
-.headerPanels > * {
-  padding: 0;
-}
 
 /********************** GENERAL PANEL *********************************************/
 .generalPanels-container {

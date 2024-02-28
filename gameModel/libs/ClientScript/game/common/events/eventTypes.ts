@@ -11,6 +11,7 @@ import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from 
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceFunction } from '../resources/resourceFunction';
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { InterventionRole } from "../actors/actor";
 
 /**
  * Walk, drive, fly to destination
@@ -279,4 +280,8 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
 
 export interface MoveActorEvent extends ActionCreationEvent {
 	location: LOCATION_ENUM;
+}
+
+export interface AddActorEvent extends ActionCreationEvent{
+	actorRole: InterventionRole;
 }

@@ -18,18 +18,10 @@
 
 /********************** one resource ***********************************************/
 
-.oneHeaderResource {
-	width: 100px;
-}
+
 
 .oneActionResource {
 	width: 55px;
-}
-
-.headerResourceIcon-container {
-	padding: 10px;
-	border-radius: var(--S_borderRadius);
-	border: 3px solid var(--interface_BLUE);
 }
 
 .actionResourceIcon-container {
@@ -182,12 +174,4 @@ cursor: pointer;
 	color: var(--interface_BLUE);
 }
 
-.greyRessources > *{
-	color: var(--gray_300);
-	border-color: var(--gray_300);
-	
-}
 
-.resourceCounter.greyRessources{
-		color: var(--gray_300);
-}

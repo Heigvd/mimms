@@ -11,6 +11,7 @@ import {
 	TransferResourcesLocalEvent,
 MoveActorLocalEvent,
 TransferResourcesToLocationLocalEvent,
+AddActorLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -22,6 +23,9 @@ import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
+import { InterventionRole } from "../actors/actor";
+import { TimeSliceDuration } from "../constants";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -146,7 +150,7 @@ export abstract class StartEndAction extends ActionBase {
         if(simTime >= this.startTime + this.duration()){ // if action did end
           this.logger.debug('dispatching end events...');
 		  // update flags in state as provided when action completes
-		  this.provideFlagsToState.map(flag => state.getInternalStateObject().flags[flag] = true);
+		  this.provideFlagsToState.forEach(flag => state.getInternalStateObject().flags[flag] = true);
 		  //execute dispatched events
           this.dispatchEndedEvents(state);
           this.status = "Completed";
@@ -374,6 +378,38 @@ export class MoveActorAction extends StartEndAction {
 	protected cancelInternal(state: MainSimulationState): void {
 		return;
 	}
+}
+
+
+export class AddActorAction extends StartEndAction{
+	public readonly actorRole: InterventionRole;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		actorRole: InterventionRole,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.actorRole = actorRole;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+	}
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
+
 }
 
 /**
@@ -614,6 +650,87 @@ export class SendRadioMessageAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendRadioMessageAction');
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.radioMessagePayload.actorId, state.getActorById(this.radioMessagePayload.actorId)?.FullName || '', this.radioMessagePayload.message, this.radioMessagePayload.channel, true, true));
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+    return;
+  }
+
+}
+
+export class ArrivalAnnoucementAction extends StartEndAction {
+
+  constructor (
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+	provideFlagsToState: SimFlag[],
+	/* do we need to list the flags here? It seems like it should be in the template but how does the class know she needs flags?  
+	private flags: SimFlag[]=[SimFlag.PCS_ARRIVED,
+	 */
+    ){
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event GetInformationAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event GetInformationAction');
+	const so = state.getInternalStateObject();
+
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, true));
+
+  const ownerActor = so.actors.find( a => a.Uid === this.ownerId)!;
+
+	//transfer available resources from each location to event owner location
+	for (const location of so.mapLocations) {
+		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, ownerActor.Location, availableResources));
+	}
+
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(state: MainSimulationState): void {
+      return;
+  }
+
+}
+
+
+
+export class RoleNominationAction extends StartEndAction {
+
+  constructor (
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    messageKey: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private radioMessagePayload: RadioMessagePayload
+    )
+  {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event SendRadioMessageAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendRadioMessageAction');
+    // make a new role appears
   }
 
   // TODO probably nothing

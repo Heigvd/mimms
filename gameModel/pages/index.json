@@ -352,12 +352,6 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "52",
-          "name" : "availableResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "54",
           "name" : "sendResources",
           "scenaristPage" : null,
