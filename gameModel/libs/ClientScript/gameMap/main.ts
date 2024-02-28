@@ -34,6 +34,7 @@ export function getInitialMapState(): MapState {
  */
 export function clearMapState() {
 	const newState = getInitialMapState();
+	newState.overlayState = Context.mapState.state.overlayState;
 	Context.mapState.setState(newState);
 	if (buildingsRef.current) buildingsRef.current.changed();
 }
@@ -76,8 +77,6 @@ export function handleMapClick(
 		layerId?: string
 	}[],
 ): void {
-	const interfaceState = Context.interfaceState.state;
-	const mapState = Context.mapState.state;
 	const mapEntities = features.find(f => f.layerId === 'available');
 	
 	if (mapEntities) {

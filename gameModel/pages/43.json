@@ -495,10 +495,10 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "icon" : "window-close",
+                                                    "className" : "close-button",
                                                     "label" : {
                                                       "@class" : "Script",
-                                                      "content" : "\"\"",
+                                                      "content" : "\"<p>X</p>\"",
                                                       "language" : "TypeScript"
                                                     },
                                                     "layoutStyle" : {
@@ -512,8 +512,10 @@
                                                       }
                                                     },
                                                     "style" : {
-                                                      "marginBottom" : "10px",
-                                                      "padding" : "0"
+                                                      "backgroundColor" : "none",
+                                                      "marginBottom" : ".5em",
+                                                      "paddingLeft" : "2px",
+                                                      "paddingRight" : "2px"
                                                     }
                                                   },
                                                   "type" : "Button"
@@ -651,6 +653,16 @@
                                               }
                                             },
                                             "name" : "genericFixedEntity",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "layout" : { },
+                                            "layoutClassName" : "fixedEntities-arrow",
+                                            "layoutStyle" : { },
+                                            "name" : "genericFixedEntity-arrow",
                                             "style" : { }
                                           },
                                           "type" : "FlexList"

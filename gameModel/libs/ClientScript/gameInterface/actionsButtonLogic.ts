@@ -7,7 +7,6 @@ import {
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
@@ -83,34 +82,6 @@ function fetchSelectMapObjectValues() { // TODO Add type
 	}
 
 	return tmpFixedEntity;
-}
-
-/**
- * Generate a SendResourcesPayload from interface state
- * 
- * @returns SendResourcesPayload
- */
-function fetchSendResourcesValues() { // TODO Add Type
-	const sentResources: ResourceTypeAndNumber = {};
-
-	ResourcesArray.forEach(resourceType => {
-		const amount = Context.interfaceState.state.resources.sendResources[resourceType];
-		if (amount) {
-			sentResources[resourceType] = amount;
-		}
-	});
-
-	const payload = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
-
-	// Reset interfaceState
-	const newState = Helpers.cloneDeep(Context.interfaceState.state);
-	newState.resources.sendResources.selectedActorId = getAllActors()[0]!.Uid;
-	ResourcesArray.forEach(resourceType => {
-		newState.resources.sendResources[resourceType] = 0;
-	});
-	Context.interfaceState.setState(newState);
-
-	return payload;
 }
 
 /**

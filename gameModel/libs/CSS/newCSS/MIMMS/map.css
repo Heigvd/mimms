@@ -2,6 +2,9 @@
 	cursor: crosshair;
 }
 
+.overlay-container {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 .fixedEntities-container{
 	background-color: var(--gray_WHITE);
@@ -10,4 +13,23 @@
 	margin: auto;
 	z-index: 1;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.fixedEntities-container .close-button {
+	background-color: transparent;
+	color: var(--gray_400);
+}
+
+.fixedEntities-container .close-button:hover {
+	background-color: transparent;
+	color: var(--gray_700);
+}
+
+.fixedEntities-arrow {
+ 	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid var(--gray_200);
+	margin: auto;
 }
