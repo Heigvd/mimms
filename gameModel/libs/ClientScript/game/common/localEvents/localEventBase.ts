@@ -1,7 +1,7 @@
 import { getTranslation } from "../../../tools/translation";
 import { getEnv } from "../../../tools/WegasHelper";
 import { ActionBase, OnTheRoadAction } from "../actions/actionBase";
-import { Actor, InterventionRole, sortByHierarchyLevel } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TemplateId, TranslationKey } from "../baseTypes";
 import { computeNewPatientsState } from "../patients/handleState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -12,14 +12,13 @@ import { TaskStatus } from "../tasks/taskBase";
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceContainerDefinitionId } from "../resources/resourceContainer";
 import { getContainerDef, resolveResourceRequest } from "../resources/emergencyDepartment";
-import { getOrCreateResourceGroup, ResourceGroup } from "../resources/resourceGroup";
 import { localEventManager } from "../localEvents/localEventManager";
 import { entries } from "../../../tools/helper";
 import { CasuMessagePayload } from "../events/casuMessageEvent";
-import { resourceLogger } from "../../../tools/logger";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
+import resourceArrivalResolution from "../resources/resourceArrivalResolution";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -219,14 +218,12 @@ export class AddActorLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
 
 	const actor = new Actor(this.role);
+	actor.setLocation(actor.getComputedSymbolicLocation(state));
 	state.getInternalStateObject().actors.push(actor);
 
 	const now = state.getSimTime();
 	const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
 	state.getInternalStateObject().actions.push(travelAction);
-
-	// the resource pool creation/assignation is delayed to the arrival time of the actor
-	localEventManager.queueLocalEvent(new ResourceGroupBinding(this.parentEventId, now + this.travelTime, actor.Uid));
   }
 
 }
@@ -241,22 +238,6 @@ export class MoveActorLocalEvent extends LocalEventBase {
 		const so = state.getInternalStateObject();
 		so.actors.filter(a => a.Uid === this.actorUid).map(a => a.Location = this.location);
 	}
-}
-
-/**
- * Binds an actor to its resource group
- */
-export class ResourceGroupBinding extends LocalEventBase {
-
-	constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private ownerId: ActorId){
-		super(parentEventId, 'ResourceGroupBinding', timeStamp);
-	}
-
-	applyStateUpdate(state: MainSimulationState): void {
-		// create resource group if not present
-		getOrCreateResourceGroup(state, this.ownerId);
-	}
-
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -307,42 +288,24 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-/**
- * Local event to transfer resources from an actor to another
- */
-export class TransferResourcesLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly senderActor: ActorId,
-    public readonly receiverActor: ActorId,
-    public readonly sentResources: ResourceTypeAndNumber,
-  ) {
-    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.transferResourcesBetweenActors(state, this.senderActor, this.receiverActor, this.sentResources);
-  }
-}
-
-/**
- * Local event to transfer resources from a location to another
- */
-export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly senderActor: ActorId,
-	public readonly sourceLocation: LOCATION_ENUM,
-    public readonly destinationLocation: LOCATION_ENUM,
-    public readonly sentResources: ResourceTypeAndNumber,
-  ) {
-    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-	  ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.destinationLocation, this.sentResources);
-  }
-}
+// /**
+//  * Local event to transfer resources from a location to another
+//  */
+ export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
+   constructor(parentId: GlobalEventId,
+     timeStamp: SimTime,
+     public readonly senderActor: ActorId,
+ 	public readonly sourceLocation: LOCATION_ENUM,
+     public readonly destinationLocation: LOCATION_ENUM,
+     public readonly sentResources: ResourceTypeAndNumber,
+   ) {
+     super(parentId, 'TransferResourcesLocalEvent', timeStamp);
+   }
+ 
+   applyStateUpdate(state: MainSimulationState): void {
+ 	  ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.destinationLocation, this.sentResources);
+   }
+ }
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -477,22 +440,10 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 		if(containerDef.flags){
 			containerDef.flags.forEach(f => state.getInternalStateObject().flags[f] = true);
 		}
-		const actors = sortByHierarchyLevel(state.getAllActors());
-		// find highest hierarchy group
-		let resourceGroup : ResourceGroup | undefined = undefined;
-		if(actors.length === 1){ // AL case create group if not existant
-			resourceGroup = getOrCreateResourceGroup(state, actors[0].Uid);
-		}else {
-			// multiple actors present but some might be traveling
-			resourceGroup = actors.map(a => state.getResourceGroupByActorId(a.Uid)).find(rg => rg !== undefined);
-			if(!resourceGroup){
-				resourceLogger.error('No valid resource group found in existing actor list', actors);
-			}
-		}
+
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
-			//TODO MIM-93: implement location selection for arrival
-			ResourceState.addIncomingResourcesToLocation(state, resourceGroup!, rType, LOCATION_ENUM.meetingPoint, n);
+			ResourceState.addIncomingResourcesToLocation(state, rType, resourceArrivalResolution(state), n);
 			//ResourceState.addIncomingResourcesToActor(state, resourceGroup!, rType, n);
 		})
 	}

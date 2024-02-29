@@ -1,8 +1,21 @@
 import { getTranslation } from "../../../tools/translation";
 import { ActorId, TranslationKey } from "../baseTypes";
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { MainSimulationState } from "../simulationState/mainSimulationState";
 
-export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU'
+export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
+
+/**
+ * Associates roles to their respective symbolic locations
+ */
+export const symbolicLocationMatrix: Record<InterventionRole, LOCATION_ENUM> = {
+	ACS: LOCATION_ENUM.PC,
+	MCS: LOCATION_ENUM.PC,
+	AL: LOCATION_ENUM.chantier,
+	EVASAN: LOCATION_ENUM.PC,
+	LEADPMA: LOCATION_ENUM.PMA,
+	CASU: LOCATION_ENUM.remote,
+}
 
 /**
  * Defines ascendance in leadership
@@ -47,7 +60,7 @@ export class Actor{
 
   private readonly translationVar : keyof VariableClasses = 'mainSim-actors';
 
-  constructor(role: InterventionRole, symbolicLocation: LOCATION_ENUM = LOCATION_ENUM.meetingPoint){
+  constructor(role: InterventionRole, symbolicLocation: LOCATION_ENUM = symbolicLocationMatrix[role]){
     this.Role = role;
 	const tkey : TranslationKey= `actor-${role.toLowerCase()}`;
     this.ShortName = getTranslation(this.translationVar, tkey);
@@ -70,10 +83,19 @@ export class Actor{
 	  this.Location = location;
   }
 
-  public getComputedSymbolicLocation(){
-	  //TODO MIM-93: check if symbolic location is present and apply logic
-	  return this.symbolicLocation;
+/**
+ * Compute the available symbolic location of the actor
+ * @param MainSimulationState
+ */
+  public getComputedSymbolicLocation(state: Readonly<MainSimulationState>): LOCATION_ENUM {
+	  const so = state.getInternalStateObject();
+
+	  if (so.mapLocations.find(l => l.id === this.symbolicLocation)) {
+		  return this.symbolicLocation;
+	  } else if (so.mapLocations.find(l => l.id === LOCATION_ENUM.PC)) {
+		  return LOCATION_ENUM.PC;
+	  }
+
+	  return LOCATION_ENUM.meetingPoint;
   }
-
-
 }
