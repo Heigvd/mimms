@@ -645,13 +645,6 @@
                                             },
                                             "layoutClassName" : "fixedEntities-container",
                                             "layoutStyle" : { },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "wlog(Context.mapState.state.overlayState)",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
                                             "name" : "genericFixedEntity",
                                             "style" : { }
                                           },
@@ -659,6 +652,11 @@
                                         }, {
                                           "props" : {
                                             "children" : [ ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : { },
                                             "layoutClassName" : "fixedEntities-arrow",
                                             "layoutStyle" : { },

@@ -32,4 +32,5 @@
 	border-right: 20px solid transparent;
 	border-top: 20px solid var(--gray_200);
 	margin: auto;
+	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
 }
