@@ -5,7 +5,6 @@ import {
   ActionCreationEvent,
   AddActorEvent,
   MoveActorEvent,
-  ResourceSendingToActorEvent,
   ResourceSendingToLocationEvent,
   ResourceTaskAssignmentEvent,
   ResourceTaskReleaseEvent,
@@ -16,7 +15,7 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendResourcesToActorAction, AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction, AddActorAction,
+  AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction, AddActorAction
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -320,64 +319,6 @@ export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionF
   public planActionEventOnFirstClick(): boolean {
       return false;
   }
-}
-
-export type SendResourcesToActorActionInput = { receiverActor: ActorId, sentResources: ResourceTypeAndNumber };
-
-/**
- * Action template to create an action to send resources to an actor
- * XGO 25.01.2024 : Has to be replaced by SendToPosition(symbolic position)
- */
-export class SendResourcesToActorActionTemplate extends StartEndTemplate<SendResourcesToActorAction, ResourceSendingToActorEvent, SendResourcesToActorActionInput> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-	replayable = true, flags: SimFlag[]=[]
-  ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'SendResourcesToActorActionTemplate' + '_' + this.title;
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  // XGO 25.01.2024 : Will be availble if more than a single symbolic position is available
-  public override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return state.getInternalStateObject().resourceGroups.length > 1;
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToActorActionInput): ResourceSendingToActorEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      receiverActor: params.receiverActor,
-      sentResources: params.sentResources,
-    };
-  }
-
-  protected createActionFromEvent(event: FullEvent<ResourceSendingToActorEvent>): SendResourcesToActorAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new SendResourcesToActorAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.receiverActor, event.payload.sentResources);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
 }
 
 ///
