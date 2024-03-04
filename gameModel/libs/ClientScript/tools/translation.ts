@@ -160,6 +160,7 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'general-likert',
 		'mainSim-interface',
 		'mainSim-actions-tasks',
+		'mainSim-locations',
 		'mainSim-actors',
 		'mainSim-resources',
 		'mainSim-summary',

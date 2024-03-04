@@ -527,7 +527,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "Context.overlayItem.name;",
+                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
                                                       "language" : "TypeScript"
                                                     }
                                                   },

@@ -61,7 +61,7 @@ function initMainState(): MainSimulationState {
 	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
 	const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
+	const mainAccident = new GeometryBasedFixedMapEntity(0, "location-chantier", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
     const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
     const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
@@ -99,7 +99,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
+  const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "location-meetingpoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
   const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
   const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
   const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
@@ -118,7 +118,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUCED]);
 
-  const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
+  const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'location-pma-short', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
 		   [2499948.345528039, 1118442.755145481],
 		   [2499928.9775556503, 1118418.871686022],
@@ -149,8 +149,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		   [2500133.0180577287, 1118549.8816207554],
 		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection, 'PMA'));
 	
-  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
-  const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
+  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'location-pc-short', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
+  const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "location-niddeblesses", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
   const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
   const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');

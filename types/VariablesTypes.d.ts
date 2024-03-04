@@ -123,6 +123,7 @@
 "mainSim": SListDescriptor;
 "mainSim-interface": SObjectDescriptor;
 "mainSim-actions-tasks": SObjectDescriptor;
+"mainSim-locations": SObjectDescriptor;
 "mainSim-actors": SObjectDescriptor;
 "mainSim-resources": SObjectDescriptor;
 "mainSim-summary": SObjectDescriptor;

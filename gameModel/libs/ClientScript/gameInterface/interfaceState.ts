@@ -9,7 +9,7 @@ import { getAllActors } from '../UIfacade/actorFacade';
 export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
-	moveActorChosenLocation: LOCATION_ENUM;
+	moveActorChosenLocation: LOCATION_ENUM | undefined;
 	showPatientModal: boolean;
 	selectedPanel: 'actions' | 'radios' | 'notification';
 	selectedMapObjectId: string;
@@ -100,7 +100,7 @@ export function getInitialInterfaceState(): InterfaceState {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
-		moveActorChosenLocation: LOCATION_ENUM.meetingPoint,
+		moveActorChosenLocation: undefined,
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',
