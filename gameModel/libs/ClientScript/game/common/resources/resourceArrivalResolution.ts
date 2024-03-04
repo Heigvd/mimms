@@ -8,12 +8,10 @@ import { MainSimulationState } from "../simulationState/mainSimulationState";
  */
 export default function resourceArrivalResolution(state: MainSimulationState): LOCATION_ENUM {
 	const so = state.getInternalStateObject();
-	// TODO Replace with new flags from MIM-95
-	const mcsArrived = so.actors.find(a => a.Role === 'MCS');
-	// TODO Replace with new flags from MIM-95
-	const acsArrived = so.actors.find(a => a.Role === 'ACS');
-	// TODO Replace with new flags from MIM-95
-	const pcBuilt = so.mapLocations.find(l => l.id === LOCATION_ENUM.PC);
+
+	const acsArrived = so.flags.ACS_ARRIVED;
+	const mcsArrived = so.flags.MCS_ARRIVED;
+	const pcBuilt = so.flags.PC_BUILT;
 
 	if (mcsArrived && acsArrived && pcBuilt) {
 		return LOCATION_ENUM.PC;

@@ -6,13 +6,13 @@ export function getOverlayItems() {
 	const mapEntities = getAvailableLocationsFacade();
 	const overlayItems: OverlayItem[] = [];
 
-	for (const mapEntity of mapEntities) {
-		// if(mapEntity.name === 'Accreg')break;
-		
+	for (const mapEntity of mapEntities) {		
 
 		overlayItems.push({
 			overlayProps: {
 				position: mapEntity.getGeometricalShape().getShapeCenter(),
+				positioning: 'bottom-center',
+				offset: [0, -60],
 			},
 			payload: {
 				id: mapEntity.id,

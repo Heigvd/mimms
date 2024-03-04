@@ -4678,7 +4678,7 @@
           "basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you take sometime to evaluate the situation\"},\"FR\":{\"status\":\"\",\"translation\":\"vous prenez le temps d'évaluer la situation\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25.\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-firefighter-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you approach a firefighter truck to get information.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous approchez d'un camion pompier pour obtenir des informations.\",\"lang\":\"FR\"}},\"version\":0}",
-          "basic-info-firefighter-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.\"},\"FR\":{\"status\":\"\",\"translation\":\"les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.\",\"lang\":\"FR\"}},\"version\":0}",
+          "basic-info-firefighter-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\\\"Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.\\\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\\\"Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.\\\"\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-firefighter-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"get firefighter information\"},\"FR\":{\"status\":\"\",\"translation\":\"obtenir des informations des pompiers\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-police-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you approach a nearby police car to get some more information about the situation\"},\"FR\":{\"status\":\"\",\"translation\":\"vous approchez d'une voiture de police pour obtenir des informations\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-police-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"police are informing you that rue de Lausanne is now closed to traffic in both directions.\"},\"FR\":{\"status\":\"\",\"translation\":\"la police vous informe que la rue de Lausanne est maintenant coupée à la circulation dans les deux sens.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4694,6 +4694,9 @@
           "define-accreg-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define the access and egress routes along that your resources will use.\"},\"FR\":{\"status\":\"\",\"translation\":\"définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined access and regress routes for the incident.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini les routes d'accès et d'évacuation du chantier.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define access and egress routes\"},\"FR\":{\"status\":\"\",\"translation\":\"définir les route d'accès et d'évacuation.\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume duties as ACS/MCS\"},\"FR\":{\"status\":\"\",\"translation\":\"prendre fonction en tant qu'ACS/MCS\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aCS/MCS have assumed duties\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ACS/MCS a fait la prise de fonction\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-acsmscarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume duty ACS/MCS\"},\"FR\":{\"status\":\"\",\"translation\":\"prise de fonction ACS/MCS\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define the meeting point's location on the map\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l'emplacement du point de rassemblement sur la carte.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined the meeting point\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini avec succès le point de rassemblement\",\"lang\":\"FR\"}},\"version\":0}",
           "define-meetingpoint-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define meeting point\"},\"FR\":{\"status\":\"\",\"translation\":\"définir le point de rassemblement\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4710,7 +4713,7 @@
           "move-actor-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you moved\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous êtes déplacé\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
           "on-the-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"on the way\"},\"FR\":{\"status\":\"\",\"translation\":\"en route\",\"lang\":\"FR\"}},\"version\":0}",
-          "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.\"},\"FR\":{\"status\":\"\",\"translation\":\"prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.\",\"lang\":\"FR\"}},\"version\":0}",
+          "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.\"},\"FR\":{\"status\":\"\",\"translation\":\"\\\"Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.\\\"\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the passer-by seems to be in a state of shock. He didn't see what happened.\"},\"FR\":{\"status\":\"\",\"translation\":\"le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"get information from passerby\"},\"FR\":{\"status\":\"\",\"translation\":\"obtenir de l'information d'un passant\",\"lang\":\"FR\"}},\"version\":0}",
           "porters-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage terminé\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5192,6 +5195,40 @@
         },
         "name" : "_admin_AdminMode",
         "refId" : "BooleanDescriptor:447312:e1CT8m",
+        "scopeType" : "PlayerScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:447326:Vil92o",
+          "value" : 0.0
+        },
+        "defaultValue" : 0.0,
+        "editorTag" : "",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:447327:uOGbik",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:447327:uOGbik::EN",
+              "status" : "",
+              "translation" : "assigned"
+            }
+          }
+        },
+        "maxValue" : null,
+        "minValue" : null,
+        "name" : "assigned",
+        "refId" : "NumberDescriptor:447325:IqHd0N",
         "scopeType" : "PlayerScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -6085,7 +6122,7 @@
     "contentKey" : "game/common/resources/resourceArrivalResolution",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:120636:3BNbVR",
+    "refId" : "GameModelContent:#150:8aRnJw",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6712,6 +6749,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/flagsFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:126132:jgW9EL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/locationFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7169,7 +7215,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - main sim",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

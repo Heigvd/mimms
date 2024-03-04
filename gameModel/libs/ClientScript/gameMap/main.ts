@@ -1,6 +1,6 @@
-import { FixedMapEntity, PointLikeObjects } from "../game/common/events/defineMapObjectEvent";
+import { FixedMapEntity } from "../game/common/events/defineMapObjectEvent";
+import { LOCATION_ENUM } from "../game/common/simulationState/locationState";
 import { Point } from "../map/point2D";
-import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
 
 const logger = Helpers.getLogger('mainSim.map');
 
@@ -10,7 +10,8 @@ export const selectionLayerRef = Helpers.useRef<any>("selectionLayer", null);
 
 interface MapState {
 	mapSelect: boolean;
-	selectionState: FixedMapEntity|undefined;
+	selectionState: FixedMapEntity | undefined;
+	overlayState: Partial<Record<LOCATION_ENUM, boolean>>
 }
 
 /**
@@ -21,7 +22,10 @@ interface MapState {
 export function getInitialMapState(): MapState {
 	return {
 		mapSelect: false,
-		selectionState: undefined
+		selectionState: undefined,
+		overlayState: {
+			"chantier": true,
+		}
 	};
 }
 
@@ -30,6 +34,7 @@ export function getInitialMapState(): MapState {
  */
 export function clearMapState() {
 	const newState = getInitialMapState();
+	newState.overlayState = Context.mapState.state.overlayState;
 	Context.mapState.setState(newState);
 	if (buildingsRef.current) buildingsRef.current.changed();
 }
@@ -72,45 +77,12 @@ export function handleMapClick(
 		layerId?: string
 	}[],
 ): void {
-	const interfaceState = Context.interfaceState.state;
-	const mapState = Context.mapState.state;
-
-	// Are we currently in a mapSelect action ?
-	if (mapState.mapSelect) {
-		const ref = getActionTemplate(interfaceState.currentActionUid)!.getTemplateRef();
-		const actor = interfaceState.currentActorUid;
-
-		// We're currently selecting from new geometries
-		if (mapState.selectionState.geometryType) {
-			const feature = features.find(f => f.layerId === 'selectionLayer');
-
-			if (feature) {
-				const index = feature.feature.name as number;
-
-				const mapActionPayload = {
-					geometryType: feature.feature.type,
-					feature: mapState.selectionState.geometries[index],
-				}
-
-				planAction(ref, actor, mapActionPayload);
-				clearMapState();
-			}
-		}
-
-		// We're currently selecting on a layer
-		if (mapState.selectionState.layerId) {
-			const feature = features.find(f => f.layerId === mapState.selectionState.layerId)
-			if (feature) {
-				const id = feature.feature[mapState.selectionState.featureKey];
-
-				const tmpFeature = {
-					featureKey: mapState.selectionState.featureKey,
-					featureId: id,
-				}
-
-				planAction(ref, actor, tmpFeature)
-				clearMapState();
-			}
-		}
+	const mapEntities = features.find(f => f.layerId === 'available');
+	
+	if (mapEntities) {
+		const newState = Helpers.cloneDeep(Context.mapState.state);
+		newState.overlayState[mapEntities.feature["id"] as string] = !newState.overlayState[mapEntities.feature["id"] as string];
+		Context.mapState.setState(newState);
 	}
+	
 }

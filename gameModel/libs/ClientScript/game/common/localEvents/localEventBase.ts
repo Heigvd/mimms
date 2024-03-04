@@ -218,6 +218,7 @@ export class AddActorLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
 
 	const actor = new Actor(this.role);
+	actor.setLocation(actor.getComputedSymbolicLocation(state));
 	state.getInternalStateObject().actors.push(actor);
 
 	const now = state.getSimTime();
@@ -299,7 +300,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
    ) {
      super(parentId, 'TransferResourcesLocalEvent', timeStamp);
    }
- 
+
    applyStateUpdate(state: MainSimulationState): void {
  	  ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.destinationLocation, this.sentResources);
    }

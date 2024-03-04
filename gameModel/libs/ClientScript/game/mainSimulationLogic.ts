@@ -13,6 +13,7 @@ import {
 	SelectionFixedMapEntityTemplate,
 	SimFlag,
 	MoveActorActionTemplate,
+  ArrivalAnnoucementTemplate
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -121,6 +122,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
       ]), BuildingStatus.selection, 'right-arrow', false));
 
+  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUCED]);
+
   const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
 		   [2499948.345528039, 1118442.755145481],
@@ -152,7 +155,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		   [2500133.0180577287, 1118549.8816207554],
 		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection, 'PMA'));
 	
-  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED]);
+  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
   const sendResources = new SendResourcesToLocationActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
@@ -176,6 +179,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[sendResources.getTemplateRef()] = sendResources;
   templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
   templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
+  templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
 
   return templates;
 }
