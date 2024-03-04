@@ -607,7 +607,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 	//transfer available resources from each location to event owner location
 	for (const location of so.mapLocations) {
 		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
-   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, ownerActor.Location, availableResources));
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources));
 	}
 
   }
