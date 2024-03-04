@@ -440,18 +440,30 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "className" : "fixedEntityIcon",
-                                                    "layoutStyle" : { },
-                                                    "script" : {
+                                                    "className" : "close-button",
+                                                    "label" : {
                                                       "@class" : "Script",
-                                                      "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.png`",
+                                                      "content" : "\"<p>X</p>\"",
                                                       "language" : "TypeScript"
                                                     },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
                                                     "style" : {
-                                                      "width" : "15px"
+                                                      "backgroundColor" : "none",
+                                                      "marginBottom" : ".5em",
+                                                      "paddingLeft" : "2px",
+                                                      "paddingRight" : "2px"
                                                     }
                                                   },
-                                                  "type" : "Image"
+                                                  "type" : "Button"
                                                 }, {
                                                   "props" : {
                                                     "className" : "h3title",
@@ -568,12 +580,32 @@
                                               },
                                               "type" : "FlexList"
                                             } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
                                             "layoutClassName" : "fixedEntities-container",
                                             "layoutStyle" : { },
                                             "name" : "genericFixedEntity",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : { },
+                                            "layoutClassName" : "fixedEntities-arrow",
+                                            "layoutStyle" : { },
+                                            "name" : "genericFixedEntity-arrow",
                                             "style" : { }
                                           },
                                           "type" : "FlexList"
@@ -658,7 +690,7 @@
                                       "type" : "WegasMapVectorLayer"
                                     }, {
                                       "props" : {
-                                        "layerId" : "",
+                                        "layerId" : "available",
                                         "layerProps" : {
                                           "zIndex" : 91
                                         },
@@ -813,7 +845,7 @@
                                       "onClick" : {
                                         "@class" : "ScriptCallback",
                                         "args" : [ "coord", "features" ],
-                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\n// handleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
                                       }
                                     },
                                     "style" : { },

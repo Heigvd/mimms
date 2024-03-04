@@ -1,10 +1,11 @@
 import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
 import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
-	AddRadioMessageLocalEvent,
+  AddRadioMessageLocalEvent,
   AddFixedEntityLocalEvent,
   RemoveFixedEntityLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
+
 	ResourceRequestResolutionLocalEvent,
 	ResourcesAllocationLocalEvent,
 	ResourcesReleaseLocalEvent,
@@ -12,6 +13,7 @@ import {
 MoveActorLocalEvent,
 TransferResourcesToLocationLocalEvent,
 AddActorLocalEvent,
+
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -26,6 +28,7 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
 import { InterventionRole } from "../actors/actor";
 import { TimeSliceDuration } from "../constants";
+
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -412,55 +415,6 @@ export class AddActorAction extends StartEndAction{
 
 }
 
-/**
- * Action to send resources to an actor
- * DEPRECATED
- */
-export class SendResourcesToActorAction extends StartEndAction {
-
-  public readonly receiverActor: ActorId;
-
-  public readonly sentResources: ResourceTypeAndNumber;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    globalEventId: GlobalEventId,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    receiverActor: ActorId,
-    sentResources: ResourceTypeAndNumber) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.receiverActor = receiverActor;
-    this.sentResources = sentResources;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event SendResourcesAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendResourcesAction');
-
-    localEventManager.queueLocalEvent(new TransferResourcesLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.receiverActor, this.sentResources,
-    ));
-
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
-    this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
-
-    // TODO see how we can send requested resources
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.receiverActor, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-}
 
 ///
 /**
@@ -705,8 +659,6 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
 }
 
-
-
 export class RoleNominationAction extends StartEndAction {
 
   constructor (
@@ -739,3 +691,4 @@ export class RoleNominationAction extends StartEndAction {
   }
 
 }
+

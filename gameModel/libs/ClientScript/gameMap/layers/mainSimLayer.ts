@@ -32,7 +32,7 @@ function filterUnavailable(feature: FixedMapEntity) {
 }
 
 /**
- * Returns a the end point and rotation for a given line segment
+ * Returns the end point and rotation for a given line segment
  * 
  * @param segment PointLikeObject of segment
  * 
@@ -164,6 +164,7 @@ function getGenericFeature(entity: FixedMapEntity, position: SelectedPositionTyp
 		},
 		properties: {
 			type: entity.getGeometricalShape().olGeometryType,
+			id: entity.id,
 			name: name,
 			icon: entity.getGeometricalShape() instanceof PointGeometricalShape || entity.getGeometricalShape() instanceof MultiPointGeometricalShape ? entity.icon : undefined,
 			rotation: entity.getGeometricalShape() instanceof PointGeometricalShape ? (entity.getGeometricalShape() as PointGeometricalShape).rotation : undefined,
