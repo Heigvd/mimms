@@ -295,14 +295,15 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
    constructor(parentId: GlobalEventId,
      timeStamp: SimTime,
      public readonly sourceLocation: LOCATION_ENUM,
-     public readonly destinationLocation: LOCATION_ENUM,
+     public readonly targetLocation: LOCATION_ENUM,
      public readonly sentResources: ResourceTypeAndNumber,
+	 public sourceTaskId: TaskId
    ) {
      super(parentId, 'TransferResourcesLocalEvent', timeStamp);
    }
 
    applyStateUpdate(state: MainSimulationState): void {
- 	  ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.destinationLocation, this.sentResources);
+	   ResourceState.transferResourcesFromToLocation(state, this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId);	
    }
  }
 

@@ -3,6 +3,9 @@
 // allocate resource local event
 // -------------------------------------------------------------------------------------------------
 
+import { MainSimulationState } from "../simulationState/mainSimulationState";
+import { WaitingTask } from "./taskBaseWaiting";
+
 // /**
 //  * From the global event, create the local events that must be handled when resources are allocaed.
 //  */
@@ -64,3 +67,7 @@
 //     const nbFeasible = Math.min(nbRequested, nbAvailable);
 //     return nbFeasible;
 // }
+
+export function getIdleTaskUid(state: Readonly<MainSimulationState>){
+	return state.getInternalStateObject().tasks.find(task => task instanceof WaitingTask)!.Uid;
+}

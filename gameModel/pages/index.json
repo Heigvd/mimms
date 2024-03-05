@@ -350,30 +350,6 @@
           "name" : "allocateResources",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "52",
-          "name" : "availableResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "54",
-          "name" : "sendResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "55",
-          "name" : "assignTaskToResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "56",
-          "name" : "releaseResourcesFromTask",
-          "scenaristPage" : null,
-          "trainerPage" : null
         } ],
         "name" : "resources"
       }, {

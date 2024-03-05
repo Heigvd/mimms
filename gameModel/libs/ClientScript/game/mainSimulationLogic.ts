@@ -5,15 +5,13 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToLocationActionTemplate,
-	AssignTaskToResourcesActionTemplate,
-	ReleaseResourcesFromTaskActionTemplate,
 	CasuMessageTemplate,
 	SendRadioMessage,
 	SelectionFixedMapEntityTemplate,
 	SimFlag,
 	MoveActorActionTemplate,
-  ArrivalAnnoucementTemplate
+  ArrivalAnnoucementTemplate,
+MoveResourcesAssignTaskActionTemplate
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -34,6 +32,7 @@ import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
 import { ActionType } from "./common/actionType";
 import { LOCATION_ENUM } from "./common/simulationState/locationState";
+import { WaitingTask } from "./common/tasks/taskBaseWaiting";
 
 
 let currentSimulationState : MainSimulationState;
@@ -69,12 +68,13 @@ function initMainState(): MainSimulationState {
 
 	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
-    const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
-    const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
+    const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed', [LOCATION_ENUM.chantier]);
+    const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed', [LOCATION_ENUM.chantier]);
+	const taskWaiting = new WaitingTask("En attente", "waiting-task-desc", 1, 10000, '', [LOCATION_ENUM.PC, LOCATION_ENUM.PMA, LOCATION_ENUM.chantier, LOCATION_ENUM.meetingPoint, LOCATION_ENUM.nidDeBlesses]);
 
 
 	const initialResources = [
-		new Resource('ambulancier', LOCATION_ENUM.meetingPoint),
+		new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
 		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
@@ -92,7 +92,7 @@ function initMainState(): MainSimulationState {
     actors: [testAL, testCASU],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tasks: [taskPretri, taskPorter],
+    tasks: [taskWaiting, taskPretri, taskPorter],
     radioMessages: [],
     resources: initialResources,
     resourceContainers: loadEmergencyResourceContainers(),
@@ -158,10 +158,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
-  const sendResources = new SendResourcesToLocationActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
-
-  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
-  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
+  const allocateResources = new MoveResourcesAssignTaskActionTemplate('move-res-task-title', 'move-res-task-desc', TimeSliceDuration, 'move-res-task-feedback', true);
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
@@ -176,10 +173,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
-  templates[sendResources.getTemplateRef()] = sendResources;
-  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
-  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[allocateResources.getTemplateRef()] = allocateResources;
 
   return templates;
 }

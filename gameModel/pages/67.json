@@ -8,7 +8,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Lieu</p>\"",
+              "content" : "\"<p>Lieu<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -58,7 +58,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>S'adresser à <br></p>\"",
+              "content" : "\"<p>Activité<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -67,7 +67,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableTasks, getTasksWithResources } from \"./UIfacade/resourceTaskFacade\";\n\n[{label: 'en attente', value: '0'}].concat(getAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}}));",
+              "content" : "import { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",
@@ -108,7 +108,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Parmi eux, sont concernés:<br></p>\"",
+              "content" : "\"<p>Ressources:<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -231,7 +231,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Leur ordonner de<br></p>\"",
+              "content" : "\"<p>Destination<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -240,7 +240,57 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableLocationsOnMapNameReplacedByActorIfAvailable } from \"./UIfacade/locationFacade\";\nimport { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\nconst tasks = getAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});\nconst sendings = getAvailableLocationsOnMapNameReplacedByActorIfAvailable().map((location) => {return {label: \"Send to \" + location.label, value: location.value}});\ntasks.concat(sendings);",
+              "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((location) => {return {label: location.name, value: location.id}});",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "locationChoiceInAction",
+            "layoutStyle" : { },
+            "name" : "target location",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.targetLocation = Context.resourceAllocatioTargetLocation;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"resourceAllocatioTargetLocation\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.resources.allocateResources.targetLocation;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "target location",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Activité à destination<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getAvailableLocationsOnMapNameReplacedByActorIfAvailable } from \"./UIfacade/locationFacade\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",
@@ -249,7 +299,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.destinationTaskId = Context.resourceAllocationTargetTaskId;\nContext.interfaceState.setState(newState);",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.targetTaskId = Context.resourceAllocationTargetTaskId;\nContext.interfaceState.setState(newState);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -269,7 +319,7 @@
         } ],
         "layout" : { },
         "layoutStyle" : { },
-        "name" : "target",
+        "name" : "target activity",
         "style" : { }
       },
       "type" : "FlexList"
@@ -280,7 +330,7 @@
             "className" : "pink pinkHover",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "true;",
+              "content" : "false;",
               "language" : "typescript"
             },
             "hideIf" : {
@@ -297,7 +347,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton();",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\nrunActionButton(actions[0]);",
                 "language" : "TypeScript"
               }
             },

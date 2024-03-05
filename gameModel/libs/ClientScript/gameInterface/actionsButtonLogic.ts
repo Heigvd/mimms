@@ -7,6 +7,7 @@ import {
 	isSendResourcesToLocationActionTemplate,
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
+isMoveResourcesAssignTaskActionTemplate,
 } from '../UIfacade/actionFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
@@ -17,6 +18,8 @@ import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
+import { getCurrentState } from '../game/mainSimulationLogic';
 
 
 /**
@@ -42,8 +45,10 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			clearMapState();
 		}
 
+	} else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+		params = fetchMoveResourcesAssignTaskValues();
+	
 	} else if (isSendResourcesToLocationActionTemplate(actionRefUid)) {
-
 		params = fetchSendResourcesToLocationValues();
 
 	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
@@ -70,7 +75,6 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
-
 /**
  * Generate a SelectMapObjectPayload from interface state
  * 
@@ -87,6 +91,36 @@ function fetchSelectMapObjectValues() { // TODO Add type
 	}
 
 	return tmpFixedEntity;
+}
+
+/**
+ * Generate a MoveResourcesAssignTaskPayload from interface state
+ *
+ * @returns MoveResourcesAssignTaskPayload
+ */
+function fetchMoveResourcesAssignTaskValues() { // TODO Add Type
+	const sentResources: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.allocateResources[resourceType];
+		if (amount) {
+			sentResources[resourceType] = amount;
+		}
+	});
+
+	const payload = { sourceLocation: Context.interfaceState.state.resources.allocateResources.currentLocation, targetLocation: Context.interfaceState.state.resources.allocateResources.targetLocation, sentResources: sentResources, sourceTaskId: Context.interfaceState.state.resources.allocateResources.currentTaskId, targetTaskId: Context.interfaceState.state.resources.allocateResources.targetTaskId};
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	newState.resources.allocateResources.currentLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());
+	newState.resources.allocateResources.targetLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.allocateResources.targetTaskId = getIdleTaskUid(getCurrentState());
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.allocateResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+	return payload;
 }
 
 /**

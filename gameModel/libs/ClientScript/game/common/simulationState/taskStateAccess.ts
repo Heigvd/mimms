@@ -35,6 +35,16 @@ export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorI
   }
 }
 
+export function fetchAvailableTasksByLocation(state: Readonly<MainSimulationState>, actorId: ActorId, location: LOCATION_ENUM): Readonly<TaskBase>[] {
+  const actor = state.getActorById(actorId);
+  if (actor) {
+    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor) && ta.executionLocations.includes(location));
+  } else {
+    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
+    return [];
+  }
+}
+
 export function fetchTasksWithResources(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
   const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
   const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
@@ -102,14 +112,6 @@ export function changeTaskStatus(state: MainSimulationState, taskId: TaskId, sta
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);
-}
-
-/**
- * Returns task execution location
- */
-export function getTaskExecutionLocation(state: Readonly<MainSimulationState>, taskId: TaskId): LOCATION_ENUM {
-	const task = internallyGetTask(state, taskId);
-	return task.executionLocation;
 }
 
 export function getTaskResponsibleActorSymbolicLocation(state: Readonly<MainSimulationState>, taskId: TaskId): LOCATION_ENUM {

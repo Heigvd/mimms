@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1708536847513,
+  "createdTime" : 1709657929924,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6240,6 +6240,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:124740:1zR49q",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/taskBaseWaiting",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:975032:4LWsLy",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

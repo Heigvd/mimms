@@ -13,6 +13,7 @@ import * as ResourceState from '../game/common/simulationState/resourceStateAcce
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/resourceType';
 import { ResourceFunction, ResourceFunctionArray } from '../game/common/resources/resourceFunction';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -52,6 +53,10 @@ export function countUnoccupiedResources(resourceType: ResourceType): number {
  */
 export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
 	return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
+}
+
+export function getAvailableTasksByLocation(actorId: ActorId, location: LOCATION_ENUM): Readonly<TaskBase>[] {
+	return TaskState.fetchAvailableTasksByLocation(getCurrentState(), actorId, location);
 }
 
 export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {

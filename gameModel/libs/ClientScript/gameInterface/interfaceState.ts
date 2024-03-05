@@ -1,9 +1,12 @@
 import { ActionType } from '../game/common/actionType';
+import { TaskId } from '../game/common/baseTypes';
 import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
+import { getCurrentState } from '../game/mainSimulationLogic';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 
@@ -25,9 +28,9 @@ export interface InterfaceState {
 	resources: {
 		allocateResources: {
 			currentLocation: LOCATION_ENUM,
-			currentTaskId: string,
+			currentTaskId: TaskId,
 			targetLocation: LOCATION_ENUM,
-			targetTaskId: string,
+			targetTaskId: TaskId,
 		} & Resources;
 		sendResources: {
 			sourceLocation: LOCATION_ENUM,
@@ -78,9 +81,9 @@ export function getInitialInterfaceState(): InterfaceState {
 		resources: {
 			allocateResources: {
 				currentLocation: LOCATION_ENUM.meetingPoint,
-				currentTaskId: '0',
+				currentTaskId: getIdleTaskUid(getCurrentState()),
 				targetLocation: LOCATION_ENUM.meetingPoint,
-				targetTaskId: '',
+				targetTaskId: getIdleTaskUid(getCurrentState()),
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
 				technicienAmbulancier: 0,
