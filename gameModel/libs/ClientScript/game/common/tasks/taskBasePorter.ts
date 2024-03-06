@@ -21,7 +21,6 @@ export class PorterTask extends DefaultTask {
 
 
   public static ownerRole: InterventionRole = 'AL';
-  public static executionLocation = LOCATION_ENUM.chantier;
 
   private GROUP_SIZE = 2;
   private TIME_REQUIRED_FOR_TRANSPORT = 120;
@@ -36,8 +35,9 @@ export class PorterTask extends DefaultTask {
     nbMinResources: number,
     nbMaxResources: number,
     feedbackAtEnd : TranslationKey,
+	executionLocations: LOCATION_ENUM[]
   ) {
-    super(title, description, nbMinResources, nbMaxResources, PorterTask.ownerRole, PorterTask.executionLocation);
+    super(title, description, nbMinResources, nbMaxResources, PorterTask.ownerRole, executionLocations);
   }
 
   private isAlreadyGroupMember(resourceId: number): boolean {

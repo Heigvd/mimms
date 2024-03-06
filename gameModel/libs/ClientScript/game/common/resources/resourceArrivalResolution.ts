@@ -8,7 +8,7 @@ import { MainSimulationState } from "../simulationState/mainSimulationState";
  */
 export default function resourceArrivalResolution(state: MainSimulationState): LOCATION_ENUM {
 	const so = state.getInternalStateObject();
-	
+
 	const acsArrived = so.flags.ACS_ARRIVED;
 	const mcsArrived = so.flags.MCS_ARRIVED;
 	const pcBuilt = so.flags.PC_BUILT;

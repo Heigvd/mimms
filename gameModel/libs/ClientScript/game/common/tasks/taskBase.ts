@@ -30,7 +30,7 @@ export abstract class TaskBase {
     readonly nbMinResources: number,
     readonly nbMaxResources: number,
 	readonly ownerRole: InterventionRole,
-    readonly executionLocation: LOCATION_ENUM) {
+    readonly executionLocations: LOCATION_ENUM[]) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
   }
@@ -117,9 +117,9 @@ export abstract class DefaultTask extends TaskBase {
     nbMinResources: number,
     nbMaxResources: number,
 	ownerRole: InterventionRole,
-    executionLocation: LOCATION_ENUM
+    executionLocations: LOCATION_ENUM[]
 ) {
-    super(title, description, nbMinResources, nbMaxResources, ownerRole, executionLocation);
+    super(title, description, nbMinResources, nbMaxResources, ownerRole, executionLocations);
   }
 
   protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void;

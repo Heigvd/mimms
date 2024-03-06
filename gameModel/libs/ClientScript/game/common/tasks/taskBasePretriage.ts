@@ -24,17 +24,16 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 export class PreTriageTask extends DefaultTask {
 
   public static ownerRole: InterventionRole = 'AL';
-  public static executionLocation = LOCATION_ENUM.chantier;
 
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
     nbMinResources: number,
     nbMaxResources: number,
-    //readonly zone: string, // TODO see how represent it
     readonly feedbackAtEnd : TranslationKey,
+	executionLocations: LOCATION_ENUM[]
   ) {
-    super(title, description, nbMinResources, nbMaxResources, PreTriageTask.ownerRole, PreTriageTask.executionLocation);
+    super(title, description, nbMinResources, nbMaxResources, PreTriageTask.ownerRole, executionLocations);
   }
 
   public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
