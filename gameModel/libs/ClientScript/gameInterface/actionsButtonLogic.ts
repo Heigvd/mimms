@@ -1,10 +1,7 @@
 import { CasuMessagePayload } from '../game/common/events/casuMessageEvent';
 import {
-	isAssignResourcesToTaskActionTemplate,
 	isCasuMessageActionTemplate,
-	isReleaseResourcesToTaskActionTemplate,
 	isFixedMapEntityTemplate,
-	isSendResourcesToLocationActionTemplate,
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
 isMoveResourcesAssignTaskActionTemplate,
@@ -47,17 +44,6 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 
 	} else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
 		params = fetchMoveResourcesAssignTaskValues();
-	
-	} else if (isSendResourcesToLocationActionTemplate(actionRefUid)) {
-		params = fetchSendResourcesToLocationValues();
-
-	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchAssignResourceValues();
-
-	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchReleaseResourceValues();
 
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 

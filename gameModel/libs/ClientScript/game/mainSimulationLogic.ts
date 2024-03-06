@@ -66,11 +66,11 @@ function initMainState(): MainSimulationState {
 	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
 	const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
+	const mainAccident = new GeometryBasedFixedMapEntity(0, LOCATION_ENUM.chantier, LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
-    const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed', [LOCATION_ENUM.chantier]);
-    const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed', [LOCATION_ENUM.chantier]);
-	const taskWaiting = new WaitingTask("En attente", "waiting-task-desc", 1, 10000, '', [LOCATION_ENUM.PC, LOCATION_ENUM.PMA, LOCATION_ENUM.chantier, LOCATION_ENUM.meetingPoint, LOCATION_ENUM.nidDeBlesses]);
+    const taskPretri = new PreTriageTask("pre-tri-title", "pre-tri-desc", 1, 5, 'pretriage-task-completed', [LOCATION_ENUM.chantier]);
+    const taskPorter = new PorterTask("brancardage-title", "porter-desc", 2, 10, 'porters-task-completed', [LOCATION_ENUM.chantier]);
+	const taskWaiting = new WaitingTask("waiting-title", "waiting-task-desc", 1, 10000, '', [LOCATION_ENUM.PC, LOCATION_ENUM.PMA, LOCATION_ENUM.chantier, LOCATION_ENUM.meetingPoint, LOCATION_ENUM.nidDeBlesses]);
 
 
 	const initialResources = [

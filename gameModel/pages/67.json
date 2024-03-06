@@ -8,7 +8,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Lieu<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-locations', 'sourceLocation')+\"<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -17,7 +17,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\n\ngetAvailableLocationsFacade().map((location) => {return {label: location.name, value: location.id}});",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\n\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', 'location-'+location.name), value: location.id}});",
               "language" : "typescript"
             },
             "layoutClassName" : "locationChoiceInAction",
@@ -58,7 +58,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Activité<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-actions-tasks', 'currentActivity')+\"<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -67,7 +67,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",
@@ -108,7 +108,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Ressources:<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-resources', 'resources')+\"<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -231,7 +231,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Destination<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\"\n\"<p>\"+getTranslation('mainSim-locations', 'targetLocation')+\"<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -240,7 +240,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((location) => {return {label: location.name, value: location.id}});",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', 'location-'+location.name), value: location.id}});",
               "language" : "typescript"
             },
             "layoutClassName" : "locationChoiceInAction",
@@ -281,7 +281,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Activité à destination<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-actions-tasks', 'targetActivity')+\"<br></p>\"",
               "language" : "TypeScript"
             }
           },
@@ -290,7 +290,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAvailableLocationsOnMapNameReplacedByActorIfAvailable } from \"./UIfacade/locationFacade\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",

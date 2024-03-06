@@ -7,14 +7,11 @@
 import { ActionBase } from "../game/common/actions/actionBase";
 import {
 	ActionTemplateBase,
-	AssignTaskToResourcesActionTemplate,
 	CasuMessageTemplate,
 	MoveActorActionTemplate,
 	MoveResourcesAssignTaskActionTemplate,
-	ReleaseResourcesFromTaskActionTemplate,
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
-	SendResourcesToLocationActionTemplate,
 	SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
@@ -109,30 +106,6 @@ export function isRadioActionTemplate(id: number) {
 export function isMoveResourcesAssignTaskActionTemplate(id: number) {
 	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES).find(t => t.Uid === id);
 	return template instanceof MoveResourcesAssignTaskActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isSendResourcesToLocationActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof SendResourcesToLocationActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isAssignResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof AssignTaskToResourcesActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isReleaseResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO).find(t => t.Uid === id);
-	return template instanceof ReleaseResourcesFromTaskActionTemplate;
 }
 
 /**
