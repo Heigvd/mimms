@@ -1,6 +1,6 @@
 import { getActorsByLocation } from "../UIfacade/actorFacade";
 import { getAvailableLocationsFacade } from "../UIfacade/locationFacade";
-import { getResourcesByLocation } from "../UIfacade/resourceFacade";
+import { getHumanResourcesByLocation } from '../UIfacade/resourceFacade';
 
 export function getOverlayItems() {
 	const mapEntities = getAvailableLocationsFacade();
@@ -19,7 +19,7 @@ export function getOverlayItems() {
 				name: mapEntity.name,
 				icon: mapEntity.icon,
 				actors: getActorsByLocation(mapEntity.id),
-				resources: getResourcesByLocation(mapEntity.id)
+				resources: getHumanResourcesByLocation(mapEntity.id)
 			}
 		})
 	

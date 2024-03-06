@@ -25,6 +25,7 @@ export function getSkillForPretriage(resource: Resource): SkillLevel {
     case "secouriste" :
     case "ambulance":
     case "helicopter":
+    case "PMA":
       return 'no_skill';
   }
 }
@@ -41,6 +42,7 @@ export function getSkillForTriage(resource: Resource): SkillLevel {
     case "secouriste":
     case "ambulance":
     case "helicopter":
+    case "PMA":
       return 'no_skill';
   }
 }
@@ -56,6 +58,7 @@ export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
     case "medecinSenior":
     case "ambulance":
     case "helicopter":
+    case "PMA":
       return 'no_skill';
   }
 }

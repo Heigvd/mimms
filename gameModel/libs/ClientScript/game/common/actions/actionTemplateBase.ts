@@ -1,13 +1,11 @@
-import { ActionTemplateId, ActorId, SimDuration, SimTime, TemplateRef, TranslationKey } from "../baseTypes";
+import { ActionTemplateId, ActorId, SimDuration, SimTime, TaskId, TemplateRef, TranslationKey } from "../baseTypes";
 import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
   AddActorEvent,
   MoveActorEvent,
-  ResourceSendingToLocationEvent,
-  ResourceTaskAssignmentEvent,
-  ResourceTaskReleaseEvent,
+  MoveResourcesAssignTaskEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -15,14 +13,13 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  AssignTaskToResourcesAction, ReleaseResourcesFromTaskAction, SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, SendResourcesToLocationAction, ArrivalAnnoucementAction, AddActorAction
+  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
@@ -321,13 +318,12 @@ export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionF
   }
 }
 
-///
-export type SendResourcesToLocationActionInput = { sourceLocation: LOCATION_ENUM, destinationLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber };
+export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM, targetLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber, sourceTaskId: TaskId, targetTaskId: TaskId };
 
 /**
- * Action template to create an action to send resources to a location
+ * Action template to create an action to send resources to a location and assign a task
  */
-export class SendResourcesToLocationActionTemplate extends StartEndTemplate<SendResourcesToLocationAction, ResourceSendingToLocationEvent, SendResourcesToLocationActionInput> {
+export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<MoveResourcesAssignTaskAction, MoveResourcesAssignTaskEvent, MoveResourcesAssignTaskActionInput> {
 
   constructor(
     title: TranslationKey,
@@ -336,11 +332,11 @@ export class SendResourcesToLocationActionTemplate extends StartEndTemplate<Send
     message: TranslationKey,
 	replayable = true, flags: SimFlag[]=[]
   ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+    super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags);
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendResourcesToActorActionTemplate' + '_' + this.title;
+    return 'MoveResourcesAssignTaskActionTemplate' + '_' + this.title;
   }
 
   public getTitle(): string {
@@ -356,129 +352,24 @@ export class SendResourcesToLocationActionTemplate extends StartEndTemplate<Send
     return state.getInternalStateObject().mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready).length > 1;
   }
 
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: SendResourcesToLocationActionInput): ResourceSendingToLocationEvent {
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: MoveResourcesAssignTaskActionInput): MoveResourcesAssignTaskEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
 	  sourceLocation: params.sourceLocation,
-      destinationLocation: params.destinationLocation,
+      targetLocation: params.targetLocation,
       sentResources: params.sentResources,
+	  sourceTaskId: params.sourceTaskId,
+	  targetTaskId: params.targetTaskId
     };
   }
 
-  protected createActionFromEvent(event: FullEvent<ResourceSendingToLocationEvent>): SendResourcesToLocationAction {
+  protected createActionFromEvent(event: FullEvent<MoveResourcesAssignTaskEvent>): MoveResourcesAssignTaskAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new SendResourcesToLocationAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.sourceLocation, event.payload.destinationLocation, event.payload.sentResources);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-}
-
-///
-
-export type AssignTaskToResourcesActionInput = { task: ResourceFunction, sourceLocation: LOCATION_ENUM, assignedResources: ResourceTypeAndNumber };
-
-/**
- * Action template to create an action to assign a function/task to ressources
- */
-export class AssignTaskToResourcesActionTemplate extends StartEndTemplate<AssignTaskToResourcesAction, ResourceTaskAssignmentEvent, AssignTaskToResourcesActionInput> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-	replayable = true, flags?: SimFlag[]
-  ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'AssignTaskToResourcesActionTemplate' + '_' + this.title;
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: AssignTaskToResourcesActionInput): ResourceTaskAssignmentEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      task: params.task,
-	  sourceLocation: LOCATION_ENUM.meetingPoint,//TODO: MIM-121 from UI: params.sourceLocation,
-      assignedResources: params.assignedResources,
-    };
-  }
-
-  protected createActionFromEvent(event: FullEvent<ResourceTaskAssignmentEvent>): AssignTaskToResourcesAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new AssignTaskToResourcesAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.task, event.payload.sourceLocation, event.payload.assignedResources);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-}
-
-export type ReleaseResourcesFromTaskActionInput = { task: ResourceFunction, releasedResources: ResourceTypeAndNumber };
-
-/**
- * Action template to create an action to request resources from an actor
- */
-export class ReleaseResourcesFromTaskActionTemplate extends StartEndTemplate<ReleaseResourcesFromTaskAction, ResourceTaskReleaseEvent, ReleaseResourcesFromTaskActionInput> {
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-	replayable = true, flags: SimFlag[]=[]
-  ) {
-    super(title, description, duration, message, replayable, ActionType.RESOURCES_RADIO, flags);
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'ReleaseResourcesFromTaskActionTemplate' + '_' + this.title;
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: ReleaseResourcesFromTaskActionInput): ResourceTaskReleaseEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-      task: params.task,
-      releasedResources: params.releasedResources,
-    };
-  }
-
-  protected createActionFromEvent(event: FullEvent<ResourceTaskReleaseEvent>): ReleaseResourcesFromTaskAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new ReleaseResourcesFromTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
-      this.Uid, event.payload.task, event.payload.releasedResources);
+    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+      this.Uid, event.payload.sourceLocation, event.payload.targetLocation, event.payload.sentResources, event.payload.sourceTaskId, event.payload.targetTaskId);
   }
 
   public planActionEventOnFirstClick(): boolean {
@@ -576,9 +467,9 @@ export class MoveActorActionTemplate extends StartEndTemplate {
 
 export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 	constructor(
-		title: TranslationKey, 
-		description: TranslationKey, 
-    	duration: SimDuration, 
+		title: TranslationKey,
+		description: TranslationKey,
+    	duration: SimDuration,
 		message: TranslationKey,
 		replayable = false,
 		flags?: SimFlag[],
@@ -590,7 +481,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId; 
+    const ownerId = payload.emitterCharacterId as ActorId;
     return new ArrivalAnnoucementAction(payload.triggerTime,
 	this.duration,
 	this.message,
@@ -628,7 +519,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 
 
 export class AppointEvasanActionTemplate extends StartEndTemplate {
-	
+
 	constructor(
 		title: TranslationKey,
 		description: TranslationKey,
@@ -642,8 +533,8 @@ export class AppointEvasanActionTemplate extends StartEndTemplate {
 
 	protected createActionFromEvent(event: FullEvent<AddActorEvent>): AddActorAction /* not sure on this one, shall we use AssignTaskToResourcesActionTemplate? */{
     const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId; 
-    return new AddActorAction(payload.triggerTime, this.duration, this.message, 
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new AddActorAction(payload.triggerTime, this.duration, this.message,
 		this.title , event.id, ownerId, this.Uid, [], 'EVASAN');
   }
 

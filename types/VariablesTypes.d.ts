@@ -116,6 +116,7 @@
 "variable_6HaInb": SListDescriptor;
 "qr-interface": SObjectDescriptor;
 "general-likert": SObjectDescriptor;
+"likert": SObjectDescriptor;
 "lifeSizeWithQR": SListDescriptor;
 "multiplayerMode": SStringDescriptor;
 "general": SListDescriptor;
@@ -129,8 +130,10 @@
 "realLifeRole": SStringDescriptor;
 "scenarioRevived": SBooleanDescriptor;
 "gameState": SStringDescriptor;
-"currentActorUid": SNumberDescriptor;
-"currentActionUid": SNumberDescriptor;
+"collectDemographicData": SBooleanDescriptor;
+"demographicsValidated": SBooleanDescriptor;
+"actionsDurations": SObjectDescriptor;
+"readRadioMessagesByChannel": SObjectDescriptor;
         }
 
         interface VariableIds {

@@ -5,21 +5,19 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate, ArrivalAnnoucementTemplate, AppointEvasanActionTemplate,
+  CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag, MoveActorActionTemplate, ArrivalAnnoucementTemplate, AppointEvasanActionTemplate, MoveResourcesAssignTaskActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
-import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
+import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { BuildingStatus, GeometryBasedFixedMapEntity, MultiLineStringGeometricalShape, PointGeometricalShape, PolygonGeometricalShape } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import * as TaskLogic from "./common/tasks/taskLogic";
-import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
@@ -28,6 +26,7 @@ import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
 import { ActionType } from "./common/actionType";
 import { LOCATION_ENUM } from "./common/simulationState/locationState";
+import { WaitingTask } from "./common/tasks/taskBaseWaiting";
 
 
 let currentSimulationState : MainSimulationState;
@@ -61,14 +60,15 @@ function initMainState(): MainSimulationState {
 	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
 	const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
+	const mainAccident = new GeometryBasedFixedMapEntity(0, LOCATION_ENUM.chantier, LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
-    const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
-    const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
+    const taskPretri = new PreTriageTask("pre-tri-title", "pre-tri-desc", 1, 5, 'pretriage-task-completed', [LOCATION_ENUM.chantier]);
+    const taskPorter = new PorterTask("brancardage-title", "porter-desc", 2, 10, 'porters-task-completed', [LOCATION_ENUM.chantier]);
+	const taskWaiting = new WaitingTask("waiting-title", "waiting-task-desc", 1, 10000, '', [LOCATION_ENUM.PC, LOCATION_ENUM.PMA, LOCATION_ENUM.chantier, LOCATION_ENUM.meetingPoint, LOCATION_ENUM.nidDeBlesses]);
 
 
 	const initialResources = [
-		new Resource('ambulancier', LOCATION_ENUM.meetingPoint),
+		new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
 		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
@@ -86,7 +86,7 @@ function initMainState(): MainSimulationState {
     actors: [testAL, testCASU],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tasks: [taskPretri, taskPorter],
+    tasks: [taskWaiting, taskPretri, taskPorter],
     radioMessages: [],
     resources: initialResources,
     resourceContainers: loadEmergencyResourceContainers(),
@@ -154,8 +154,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
-  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
-  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
+  const allocateResources = new MoveResourcesAssignTaskActionTemplate('move-res-task-title', 'move-res-task-desc', TimeSliceDuration * 2, 'move-res-task-feedback', true);
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
@@ -170,10 +169,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
-  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
-  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+  templates[allocateResources.getTemplateRef()] = allocateResources;
 
 
   return templates;
@@ -252,20 +250,6 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 
 		}
 			break;
-		case 'ResourceAllocationEvent': {
-			const newLocalEvent = TaskLogic.createResourceAllocationLocalEvent(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
-		case 'ResourceReleaseEvent': {
-			const newLocalEvent = TaskLogic.createResourceReleaseLocalEvent(event as FullEvent<ResourceReleaseEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
 		case 'TimeForwardEvent': {
 			const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
 			localEventManager.queueLocalEvent(timefwdEvent);
@@ -319,34 +303,6 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 	} else {
 		mainSimLogger.error('Could not find action template with ref or actor with id', ref, selectedActor);
 	}
-}
-
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceAllocationEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceAllocationEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
-}
-
-export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceReleaseEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceReleaseEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
 }
 
 export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {

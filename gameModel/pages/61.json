@@ -6,32 +6,6 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "ownerId",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-id');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "ownerType",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-owner-type');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
             "name" : "resourceId",
             "style" : { },
             "text" : {
@@ -69,35 +43,22 @@
           "type" : "Text"
         }, {
           "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "currentLocation",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-location');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
-                  "props" : {
-                    "id" : "ownerId",
-                    "layoutStyle" : { },
-                    "name" : "ownerId",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.ownerId);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "id" : "ownerType",
-                    "layoutStyle" : { },
-                    "name" : "ownerType",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.ownerType);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
                   "props" : {
                     "layoutStyle" : { },
                     "name" : "resourceId",
@@ -134,6 +95,18 @@
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "currentLocation",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.currentLocation);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ],
                 "className" : "patient-summary--line",
                 "layout" : { },
@@ -150,10 +123,10 @@
             "exposeAs" : "resourceDebug",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAllResourcesGroup } from \"./UIfacade/debugFacade\";\ngetAllResourcesGroup();",
+              "content" : "import { getAllResources } from \"./UIfacade/debugFacade\";\ngetAllResources();",
               "language" : "TypeScript"
             },
-            "itemKey" : "ownerId",
+            "itemKey" : "resourceId",
             "itemsOnly" : false,
             "layout" : {
               "flexDirection" : "column"

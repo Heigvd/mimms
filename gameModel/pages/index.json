@@ -343,35 +343,11 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
-        "@class" : "Page",
-        "id" : "46",
-        "name" : "resources",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "52",
-          "name" : "availableResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "54",
-          "name" : "sendResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "55",
-          "name" : "assignTaskToResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "56",
-          "name" : "releaseResourcesFromTask",
+          "id" : "67",
+          "name" : "allocateResources",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],
@@ -396,7 +372,7 @@
         "@class" : "Page",
         "id" : "61",
         "name" : "ResourceSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
