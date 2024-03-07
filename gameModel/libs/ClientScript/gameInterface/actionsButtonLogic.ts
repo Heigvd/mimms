@@ -1,11 +1,10 @@
 import { CasuMessagePayload } from '../game/common/events/casuMessageEvent';
 import {
-	isAssignResourcesToTaskActionTemplate,
 	isCasuMessageActionTemplate,
-	isReleaseResourcesToTaskActionTemplate,
 	isFixedMapEntityTemplate,
 	isRadioActionTemplate,
 isMoveActorActionTemplate,
+isMoveResourcesAssignTaskActionTemplate,
 } from '../UIfacade/actionFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
@@ -16,6 +15,8 @@ import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
+import { getCurrentState } from '../game/mainSimulationLogic';
 
 
 /**
@@ -41,13 +42,8 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			clearMapState();
 		}
 
-	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchAssignResourceValues();
-
-	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchReleaseResourceValues();
+	} else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+		params = fetchMoveResourcesAssignTaskValues();
 
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 
@@ -65,7 +61,6 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
 
-
 /**
  * Generate a SelectMapObjectPayload from interface state
  * 
@@ -82,6 +77,65 @@ function fetchSelectMapObjectValues() { // TODO Add type
 	}
 
 	return tmpFixedEntity;
+}
+
+/**
+ * Generate a MoveResourcesAssignTaskPayload from interface state
+ *
+ * @returns MoveResourcesAssignTaskPayload
+ */
+function fetchMoveResourcesAssignTaskValues() { // TODO Add Type
+	const sentResources: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.allocateResources[resourceType];
+		if (amount) {
+			sentResources[resourceType] = amount;
+		}
+	});
+
+	const payload = { sourceLocation: Context.interfaceState.state.resources.allocateResources.currentLocation, targetLocation: Context.interfaceState.state.resources.allocateResources.targetLocation, sentResources: sentResources, sourceTaskId: Context.interfaceState.state.resources.allocateResources.currentTaskId, targetTaskId: Context.interfaceState.state.resources.allocateResources.targetTaskId};
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	newState.resources.allocateResources.currentLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());
+	newState.resources.allocateResources.targetLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.allocateResources.targetTaskId = getIdleTaskUid(getCurrentState());
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.allocateResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+	return payload;
+}
+
+/**
+ * Generate a SendResourcesToLocationPayload from interface state
+ *
+ * @returns SendResourcesToLocationPayload
+ */
+function fetchSendResourcesToLocationValues() { // TODO Add Type
+	const sentResources: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.sendResources[resourceType];
+		if (amount) {
+			sentResources[resourceType] = amount;
+		}
+	});
+
+	const payload = { sourceLocation: Context.interfaceState.state.resources.sendResources.sourceLocation, destinationLocation: Context.interfaceState.state.resources.sendResources.destinationLocation, sentResources };
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	newState.resources.sendResources.sourceLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.sendResources.destinationLocation = LOCATION_ENUM.meetingPoint;
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.sendResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+
+	return payload;
 }
 
 /**

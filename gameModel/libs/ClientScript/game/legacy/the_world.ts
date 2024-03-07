@@ -29,7 +29,7 @@ import {
 	getItem,
 	getPathology,
 } from '../../HUMAn/registries';
-import { fastForward, getCurrentSimulationTime } from './TimeManager';
+import { getCurrentSimulationTime } from './TimeManager';
 import {
 	getBagDefinition,
 	getBodyParam,
@@ -1675,8 +1675,6 @@ function processEvent(event: FullEvent<EventPayload>, toBeProcessedEvents?: Full
 			break;
 		case 'ActionCancellationEvent':
 		case 'ActionCreationEvent':
-		case 'ResourceAllocationEvent':
-		case 'ResourceReleaseEvent':
 		case 'TimeForwardEvent':
 			worldLogger.info('Ignoring event of type (new sim)', eType);
 			break;

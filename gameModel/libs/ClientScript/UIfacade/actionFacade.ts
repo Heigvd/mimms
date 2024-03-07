@@ -7,10 +7,9 @@
 import { ActionBase } from "../game/common/actions/actionBase";
 import {
 	ActionTemplateBase,
-	AssignTaskToResourcesActionTemplate,
 	CasuMessageTemplate,
 	MoveActorActionTemplate,
-	ReleaseResourcesFromTaskActionTemplate,
+	MoveResourcesAssignTaskActionTemplate,
 	SelectionFixedMapEntityTemplate,
 	SendRadioMessage,
 	SimFlag,
@@ -104,17 +103,9 @@ export function isRadioActionTemplate(id: number) {
 /**
  * @param id Uid of given action template
  */
-export function isAssignResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(t => t.Uid === id);
-	return template instanceof AssignTaskToResourcesActionTemplate;
-}
-
-/**
- * @param id Uid of given action template
- */
-export function isReleaseResourcesToTaskActionTemplate(id: number) {
-	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO).find(t => t.Uid === id);
-	return template instanceof ReleaseResourcesFromTaskActionTemplate;
+export function isMoveResourcesAssignTaskActionTemplate(id: number) {
+	const template = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES).find(t => t.Uid === id);
+	return template instanceof MoveResourcesAssignTaskActionTemplate;
 }
 
 /**

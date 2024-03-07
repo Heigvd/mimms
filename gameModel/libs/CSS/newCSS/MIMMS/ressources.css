@@ -16,9 +16,17 @@
 	gap: 10px;
 }
 
+.resourceTypeList {
+	gap: 10px;
+}
+
 /********************** one resource ***********************************************/
 
 
+
+.oneResourceType {
+	width: 55px;
+}
 
 .oneActionResource {
 	width: 55px;
@@ -36,11 +44,9 @@
 .resourceCounter-container {
 	width: 1.5em;
 	height: 1.5em;
-	position: absolute;
-	top: -.1em;
-	right: -.2em;
 	background-color: var(--gray_WHITE);
-	border: 2px solid var(--interface_BLUE);
+	color: var(--gray_700);
+	border: 1px solid var(--gray_700);
 	border-radius: 100%;
 }
 
@@ -48,9 +54,14 @@
 	margin: auto;
     font-size: var(--S_text);
 	font-weight: var(--boldWeight);
-	color: var(--interface_BLUE);
 }
 
+.lightIconCounter-container {
+	position: absolute;
+	top: -0.8em;
+	right: -.3em;
+
+}
 
 .squareCounter{
 	color: var(--gray_700);
@@ -58,6 +69,9 @@
 }
 
 .squareCounter-container{
+	position: absolute;
+	top: -0.1em;
+	right: -.2em;
 	background-color: var(--gray_WHITE);
 	color: var(--gray_500);
 	border-color: var(--gray_700);
@@ -71,7 +85,7 @@
 
 /********************** choices ***********************************************/
 
-.actorChoiceInAction {
+.locationChoiceInAction {
 	flex-grow: 1;
 }
 
@@ -83,95 +97,23 @@
 	min-width: 10px;
 	max-width: 30px;
 }
+
+.resourceTypeChosenNumber-container input{
+	min-width: 10px;
+	max-width: 30px;
+}
     
 /****** ressources ******/
-
-/***** Ressources in tasks  ****/
-
-.fonction-container{
-font-size: var(--M_text);
-}
-
 
 .resourcesPanel-container{
 	width:auto;
 	height: auto;
 }
 
-
-.resourceTask-container{
-	background-color: var(--gray_200);
-	margin: 5px 15px 5px 15px ;
-	border-radius: var(--S_borderRadius);
-	width: auto;
+.greyRessources > *{
+	color: var(--gray_300);
+	border-color: var(--gray_300);
 	
-}
-
-.resourceTask-container * p{
-	margin: 0px;
-	justify-content: center;
-	
-}
-
-.taskHeader{
-	cursor: pointer;
-}
-
-/*** Button for resources assignations ***/
-.resourceGestion-container{
-background-color: var(--gray_WHITE);
-border-radius: var(--S_borderRadius);
-max-height: 60px;
-}
-
-.assignBtn{
-height: 100%;
-width: .6em;
-justify-content:  center;
-font-weight: var(--boldWeight);
-font-size: var(--L_text);
-padding: .4em;
-}
-
-.assignBtn-container{
-margin: 0px;
-padding: 0px;
-}
-
-.minusBtn{
-border-radius: 5px 0px 0px 5px;
-cursor: pointer;
-}
-
-.plusBtn{
-border-radius:  0px 5px  5px 0px;
-cursor: pointer;
-}
-
-
-/*** resources pool ***/
-.poolResources-container{
-	padding-left: .5em;
-	padding-top: 1em;
-}
-
-
-.poolResources-container * p{
-	font-size: var(--M_text);
-	font-weight: var(--boldWeight);
-}
-
-
-.oneResource-container{
-	padding: 10px;
-	border-radius: var(--S_borderRadius);
-	border: 3px solid var(--interface_BLUE);
-}
-
-.oneResource
-{
-	font-size: var(--L_text);
-	color: var(--interface_BLUE);
 }
 
 

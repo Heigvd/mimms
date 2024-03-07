@@ -1,4 +1,4 @@
-import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from "../baseTypes";
+import { ActionTemplateId, ActorId, GlobalEventId, SimDuration, SimTime, TaskId, TranslationKey } from "../baseTypes";
 import { BuildingStatus, FixedMapEntity} from "../events/defineMapObjectEvent";
 import {
   AddRadioMessageLocalEvent,
@@ -384,6 +384,7 @@ export class MoveActorAction extends StartEndAction {
 }
 
 
+
 export class AddActorAction extends StartEndAction{
 	public readonly actorRole: InterventionRole;
 
@@ -416,16 +417,20 @@ export class AddActorAction extends StartEndAction{
 }
 
 
-///
+
+
 /**
- * Action to send resources to a location
+ * Action to send resources to a location and assign a task
  */
-export class SendResourcesToLocationAction extends StartEndAction {
+export class MoveResourcesAssignTaskAction extends StartEndAction {
 
   public readonly sourceLocation: LOCATION_ENUM;
-  public readonly destinationLocation: LOCATION_ENUM;
-
+  public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
+  public readonly sourceTaskId: TaskId;
+  public readonly targetTaskId: TaskId;
+
+  private readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
   constructor(
     startTimeSec: SimTime,
@@ -436,22 +441,39 @@ export class SendResourcesToLocationAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
 	sourceLocation: LOCATION_ENUM,
-    destinationLocation: LOCATION_ENUM,
-    sentResources: ResourceTypeAndNumber) {
+    targetLocation: LOCATION_ENUM,
+    sentResources: ResourceTypeAndNumber,
+	sourceTaskId: TaskId,
+	targetTaskId: TaskId) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
 	this.sourceLocation = sourceLocation;
-    this.destinationLocation = destinationLocation;
+    this.targetLocation = targetLocation;
     this.sentResources = sentResources;
+	this.sourceTaskId = sourceTaskId;
+	this.targetTaskId = targetTaskId;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event SendResourcesToLocationAction');
+    this.logger.info('start event MoveResourcesAssignTaskAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendResourcesToLocationAction');
+    this.logger.info('end event MoveResourcesAssignTaskAction');
 
-    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.sourceLocation, this.destinationLocation, this.sentResources));
+	const sameLocation = this.sourceLocation === this.targetLocation;
+	let timeDelay = 0;
+	//if source != target => emit a transfer event and delay resource allocation on task event
+	if (!sameLocation){
+    	localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId));
+		timeDelay = this.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+	}
+
+    ResourcesArray.forEach((res) => {
+      const nbRes = this.sentResources[res] || 0;
+      if(nbRes > 0){
+        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() + timeDelay, +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
+      }
+    })
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
@@ -461,119 +483,6 @@ export class SendResourcesToLocationAction extends StartEndAction {
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
   }
 
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-}
-///
-
-
-/**
- * Action to assign a task to resources
- */
-export class AssignTaskToResourcesAction extends StartEndAction {
-
-  public readonly task: ResourceFunction;
-  public readonly sourceLocation: LOCATION_ENUM;
-  public readonly assignedResources: ResourceTypeAndNumber;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    globalEventId: GlobalEventId,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    task: ResourceFunction,
-	sourceLocation: LOCATION_ENUM,
-    assignedResources: ResourceTypeAndNumber) 
-  {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.task = task;
-	this.sourceLocation = sourceLocation;
-    this.assignedResources = assignedResources;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('start event AssignTaskToResourcesAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event AssignTaskToResourcesAction');
-    this.logger.info('resourcestypeAndNumber:', this.assignedResources);
-    this.logger.info('Task:', this.task);
-
-    // TODO one single event with all the changes at once
-    ResourcesArray.forEach((res) => {
-      const nbRes = this.assignedResources[res] || 0;
-      if(nbRes > 0){
-        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime(), +this.task, this.ownerId, this.sourceLocation, res, nbRes));
-      }
-    })
-  }
-
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
-    return;
-  }
-
-}
-
-/**
- * Action to assign a task to resources
- */
-export class ReleaseResourcesFromTaskAction extends StartEndAction {
-
-  public readonly task: ResourceFunction;
-
-  public readonly releasedResources: ResourceTypeAndNumber;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
-    globalEventId: GlobalEventId,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    task: ResourceFunction,
-    releasedResources: ResourceTypeAndNumber) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
-    this.task = task;
-    this.releasedResources = releasedResources;
-  }
-
-	protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-		this.logger.info('start event ReleaseResourcesFromTaskAction');
-	}
-
-	protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-		this.logger.info('end event ReleaseResourcesFromTaskAction');
-		this.logger.info('resourcesTypeAndNumber:', this.releasedResources);
-		this.logger.info('Task:', this.task);
-
-		// TODO one single event with all the changes at once
-		ResourcesArray.forEach(res => {
-			const nbRes = this.releasedResources[res] || 0;
-			if (nbRes > 0) {
-				localEventManager.queueLocalEvent(
-					new ResourcesReleaseLocalEvent(
-						this.eventId,
-						state.getSimTime(),
-						+this.task,
-						this.ownerId,
-						res,
-						nbRes,
-					),
-				);
-			}
-		});
-	}
-
-  // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
@@ -647,7 +556,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 	//transfer available resources from each location to event owner location
 	for (const location of so.mapLocations) {
 		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
-   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.ownerId, location.id, ownerActor.Location, availableResources));
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources));
 	}
 
   }
