@@ -381,7 +381,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 
 
 /**
- * Spawned when the emergeny center has a resource available and sends it to the incident site
+ * Spawned when the emergency center has a resource available and sends it to the incident site
  */
 export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	

@@ -22,7 +22,7 @@ import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
-import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
+import { getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
 import { InterventionRole } from "../actors/actor";
 import { TimeSliceDuration } from "../constants";
 
@@ -379,8 +379,9 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
-export class AddActorAction extends StartEndAction{
+export class AppointEvasanAction extends StartEndAction{
 	public readonly actorRole: InterventionRole;
+	private  isTherePotentialFutureEvasan :boolean = false;
 
 	constructor(
 		startTimeSec: SimTime,
@@ -398,10 +399,21 @@ export class AddActorAction extends StartEndAction{
 	}
 
 	protected dispatchInitEvents(state: MainSimulationState): void {
+		const potentialFutureEvasanNumber = getResourcesAvailableByLocation(state, LOCATION_ENUM.PC, 'ambulancier').length;
+		this.isTherePotentialFutureEvasan = potentialFutureEvasanNumber >= 1;
+
+		if(!this.isTherePotentialFutureEvasan){ 
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || 'HarryPotter', 'sheh'/*this.messageKey*/));
+		}
 	}
+	
 
 	protected dispatchEndedEvents(state: MainSimulationState): void {
-		localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+		if(this.isTherePotentialFutureEvasan) { 
+			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+			// localEventManager.queueLocalEvent code pour enlever un ambulancier du pool ressource (localEvent à créer)
+		}
+
 	}
 
 	protected cancelInternal(state: MainSimulationState): void {

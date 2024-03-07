@@ -3,7 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
-  AddActorEvent,
+  AppointEvasanEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   StandardActionEvent,
@@ -13,7 +13,7 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction,
+  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction, AppointEvasanAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -39,7 +39,9 @@ export enum SimFlag {
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
  * It is an action generator
  */
-export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> {
+export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, 
+                                         EventT extends ActionCreationEvent = ActionCreationEvent, 
+                                         UserInput= unknown> {
 
   private static IdSeed = 1000;
 
@@ -518,7 +520,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 
 
 
-export class AppointEvasanActionTemplate extends StartEndTemplate {
+export class AppointEvasanActionTemplate extends StartEndTemplate <AppointEvasanAction, AppointEvasanEvent, InterventionRole > {
 
 	constructor(
 		title: TranslationKey,
@@ -531,14 +533,14 @@ export class AppointEvasanActionTemplate extends StartEndTemplate {
 		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
 	}
 
-	protected createActionFromEvent(event: FullEvent<AddActorEvent>): AddActorAction /* not sure on this one, shall we use AssignTaskToResourcesActionTemplate? */{
+	protected createActionFromEvent(event: FullEvent<AppointEvasanEvent>): AppointEvasanAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new AddActorAction(payload.triggerTime, this.duration, this.message,
+    return new AppointEvasanAction(payload.triggerTime, this.duration, this.message,
 		this.title , event.id, ownerId, this.Uid, [], 'EVASAN');
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AddActorEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointEvasanEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
 		actorRole: params,
