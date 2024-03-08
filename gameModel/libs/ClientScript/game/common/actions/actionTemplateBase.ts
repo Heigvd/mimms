@@ -58,7 +58,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 	protected readonly category: ActionType = ActionType.ACTION,
 	private flags: SimFlag[]=[SimFlag.MEETINGPOINT_BUILT],
 	protected provideFlagsToState: SimFlag[] = [],
-	protected availableToActors: InterventionRole[] = [],
+	protected availableToRoles: InterventionRole[] = [],
 	)
   {
 	this.Uid = ActionTemplateBase.IdSeed++;
@@ -95,7 +95,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    */
   public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
   {
-    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor) && this.actorWiseAvailable(actor);
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor) && this.roleWiseAvailable(actor);
   }
 
   /**
@@ -119,12 +119,12 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return this.flags.some(f => state.hasFlag(f));
   }
 
-  protected actorWiseAvailable(actor: Readonly<Actor>): boolean {
-	  if(!this.availableToActors || this.availableToActors.length === 0) {
+  protected roleWiseAvailable(actor: Readonly<Actor>): boolean {
+	  if(!this.availableToRoles || this.availableToRoles.length === 0) {
 		  return true;
 	  }
 	  
-	  return this.availableToActors.includes(actor.Role);
+	  return this.availableToRoles.includes(actor.Role);
   }
 
   /**
@@ -189,9 +189,9 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
 	category: ActionType = ActionType.ACTION, 
 	flags?: SimFlag[], 
 	provideFlagsToState?: SimFlag[], 
-	availableToActors?: InterventionRole[]
+	availableToRoles?: InterventionRole[]
 	) {
-    super(title, description, replayable, category, flags, provideFlagsToState, availableToActors);
+    super(title, description, replayable, category, flags, provideFlagsToState, availableToRoles);
     this.duration = duration;
     this.message = message;
   }
@@ -213,9 +213,9 @@ export class GetInformationTemplate extends StartEndTemplate {
 	replayable = false, 
 	flags?: SimFlag[], 
 	provideFlagsToState?: SimFlag[], 
-	availableToActors?: InterventionRole[]
+	availableToRoles?: InterventionRole[]
 	) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToActors);
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
@@ -260,9 +260,9 @@ export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, Cas
 	replayable = true,
 	flags?: SimFlag[],
 	provideFlagsToState?: SimFlag[],
-	availableToActors?: InterventionRole[],
+	availableToRoles?: InterventionRole[],
 	) {
-    super(title, description, duration, message, replayable, ActionType.CASU_RADIO, flags, provideFlagsToState, availableToActors);
+    super(title, description, duration, message, replayable, ActionType.CASU_RADIO, flags, provideFlagsToState, availableToRoles);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -309,9 +309,9 @@ export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionF
 	replayable = false, 
 	flags?: SimFlag[],
 	provideFlagsToState?: SimFlag[],
-	availableToActors?: InterventionRole[],
+	availableToRoles?: InterventionRole[],
   ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToActors);
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	this.fixedMapEntity = fixedMapEntity;
   }
 
@@ -367,9 +367,9 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
 	replayable = true, 
 	flags?: SimFlag[],
 	provideFlagsToState?: SimFlag[],
-	availableToActors?: InterventionRole[],
+	availableToRoles?: InterventionRole[],
   ) {
-    super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags, provideFlagsToState, availableToActors);
+    super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags, provideFlagsToState, availableToRoles);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -425,9 +425,9 @@ export class SendRadioMessage extends StartEndTemplate {
 	replayable = true,
 	flags?: SimFlag[],
 	provideFlagsToState?: SimFlag[],
-	availableToActors?: InterventionRole[],
+	availableToRoles?: InterventionRole[],
 	) {
-    super(title, description, duration, message, replayable, ActionType.ACTORS_RADIO, flags, provideFlagsToState, availableToActors);
+    super(title, description, duration, message, replayable, ActionType.ACTORS_RADIO, flags, provideFlagsToState, availableToRoles);
   }
 
   protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {
@@ -474,9 +474,9 @@ export class MoveActorActionTemplate extends StartEndTemplate {
 		replayable = true,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
-		availableToActors?: InterventionRole[],
+		availableToRoles?: InterventionRole[],
 	) {
-		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToActors);
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	}
 
 	protected createActionFromEvent(event: FullEvent<MoveActorEvent>): MoveActorAction {
@@ -520,9 +520,9 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 		replayable = false,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
-		availableToActors?: InterventionRole[],
+		availableToRoles?: InterventionRole[],
 		) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToActors);}
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);}
 
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
