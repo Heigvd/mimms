@@ -95,7 +95,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    */
   public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
   {
-    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor) && this.roleWiseAvailable(actor);
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor) && this.roleWiseAvailable(actor.Role);
   }
 
   /**
@@ -119,12 +119,12 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     return this.flags.some(f => state.hasFlag(f));
   }
 
-  protected roleWiseAvailable(actor: Readonly<Actor>): boolean {
+  protected roleWiseAvailable(role: InterventionRole): boolean {
 	  if(!this.availableToRoles || this.availableToRoles.length === 0) {
 		  return true;
 	  }
 	  
-	  return this.availableToRoles.includes(actor.Role);
+	  return this.availableToRoles.includes(role);
   }
 
   /**
