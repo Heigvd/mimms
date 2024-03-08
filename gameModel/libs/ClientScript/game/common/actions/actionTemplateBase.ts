@@ -19,7 +19,6 @@ import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
@@ -330,7 +329,8 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-	replayable = true, flags: SimFlag[]=[]
+	replayable = true, 
+	flags: SimFlag[]=[],
   ) {
     super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags);
   }
