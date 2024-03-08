@@ -380,7 +380,7 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
-export class AppointEvasanAction extends StartEndAction{
+export class AppointActorAction extends StartEndAction{
 	public readonly actorRole: InterventionRole;
 	private  isTherePotentialFutureEvasan :boolean = false;
 

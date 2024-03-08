@@ -3,7 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
-  AppointEvasanEvent,
+  AppointActorEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   StandardActionEvent,
@@ -13,7 +13,7 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction, AppointEvasanAction,
+  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction, AppointActorAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -520,7 +520,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 
 
 
-export class AppointEvasanActionTemplate extends StartEndTemplate <AppointEvasanAction, AppointEvasanEvent, InterventionRole > {
+export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAction, AppointActorEvent, InterventionRole > {
 
 	constructor(
 		title: TranslationKey,
@@ -529,19 +529,20 @@ export class AppointEvasanActionTemplate extends StartEndTemplate <AppointEvasan
 		message: TranslationKey,
 		replayable = true,
 		flags: SimFlag[],
-		readonly wentWrongMessageKey: TranslationKey
+		readonly wentWrongMessageKey: TranslationKey,
+		readonly interventionRole: InterventionRole 
 	) {
 		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
 	}
 
-	protected createActionFromEvent(event: FullEvent<AppointEvasanEvent>): AppointEvasanAction {
+	protected createActionFromEvent(event: FullEvent<AppointActorEvent>): AppointActorAction {
     	const payload = event.payload;
     	const ownerId = payload.emitterCharacterId as ActorId;
-    	return new AppointEvasanAction(payload.triggerTime, this.duration, this.message,
-		this.title , event.id, ownerId, this.Uid, [], 'EVASAN', this.wentWrongMessageKey);
+    	return new AppointActorAction(payload.triggerTime, this.duration, this.message,
+		this.title , event.id, ownerId, this.Uid, [], this.interventionRole, this.wentWrongMessageKey);
   }
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointEvasanEvent {
+  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
 		actorRole: params,
@@ -550,7 +551,7 @@ export class AppointEvasanActionTemplate extends StartEndTemplate <AppointEvasan
 
 
   public getTemplateRef(): TemplateRef {
-    return 'AppointEvasanActionTemplate' + '_' + this.title;
+    return 'AppointActorActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
