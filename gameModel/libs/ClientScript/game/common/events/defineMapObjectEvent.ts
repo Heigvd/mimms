@@ -3,7 +3,6 @@ import { InterventionRole } from "../actors/actor";
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionCreationEvent } from "./eventTypes";
-import { getTranslation } from '../../../tools/translation';
 
 export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
 export type SelectedPositionType = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][] | undefined;

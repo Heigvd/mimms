@@ -15,9 +15,6 @@ import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
-import { getCurrentState } from '../game/mainSimulationLogic';
-
 
 /**
  * Performs logic whenever a template is initiated in interface

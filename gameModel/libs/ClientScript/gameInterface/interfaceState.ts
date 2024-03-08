@@ -5,8 +5,6 @@ import {
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 
