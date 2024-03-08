@@ -244,6 +244,6 @@ export interface MoveActorEvent extends ActionCreationEvent {
 	location: LOCATION_ENUM;
 }
 
-export interface AppointEvasanEvent extends ActionCreationEvent{
+export interface AppointActorEvent extends ActionCreationEvent{
 	actorRole: InterventionRole;
 }

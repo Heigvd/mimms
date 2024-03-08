@@ -31,7 +31,8 @@ export enum SimFlag {
 	MCS_ARRIVED = 'MCS_ARRIVED',
 	ACS_ARRIVED = 'ACS_ARRIVED',
 	PC_BUILT = 'PC_BUILT',
-	ACS_MCS_ANNOUCED = 'ACS_MCS_ANNOUNCED'
+	ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
+	EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
 /**
@@ -581,11 +582,13 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		duration: SimDuration,
 		message: TranslationKey,
 		replayable = true,
-		flags: SimFlag[],
 		readonly wentWrongMessageKey: TranslationKey,
-		readonly interventionRole: InterventionRole 
+		readonly interventionRole: InterventionRole,
+		flags?: SimFlag[],
+		provideFlagsToState?: SimFlag[],
+		availableToRoles?: InterventionRole[]
 	) {
-		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	}
 
 	protected createActionFromEvent(event: FullEvent<AppointActorEvent>): AppointActorAction {
