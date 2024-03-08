@@ -18,7 +18,7 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
-import resourceArrivalResolution from "../resources/resourceArrivalResolution";
+import resourceArrivalResolution from "../resources/resourceDispatchResolution";
 import { deleteIdleResource } from "../simulationState/resourceStateAccess";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
@@ -552,7 +552,7 @@ export class DeleteIdleResourceLocalEvent extends LocalEventBase {
 	readonly resourceType: ResourceType,
 
 	) {
-    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);	
+    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
