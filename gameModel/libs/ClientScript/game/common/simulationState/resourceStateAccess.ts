@@ -258,12 +258,15 @@ export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: 
 /**
  * Delete one idle resource 
  */
-export function deleteIdleResource(state: MainSimulationState,location: LOCATION_ENUM, resourceType: ResourceType): void {
-  const atDisposal : Resource[] = getResourcesAvailableByLocation(state, location, resourceType);
-  const internalState = state.getInternalStateObject();
+export function deleteIdleResource(state: MainSimulationState, location: LOCATION_ENUM, resourceType: ResourceType): void {
+	const atDisposal: Resource[] = getResourcesAvailableByLocation(state, location, resourceType);
+	const internalState = state.getInternalStateObject();
 
-  const theWinner = atDisposal[0];
-  internalState.resources.splice(internalState.resources.indexOf(theWinner), 1 );
- 
+	const theWinner = atDisposal[0];
+	if (theWinner == undefined) {
+		taskLogger.error(`No idle resource found to delete for location ${location} and resourceType ${resourceType}`);
+	} else {
+		internalState.resources.splice(internalState.resources.indexOf(theWinner), 1);
+	}
 }
 
