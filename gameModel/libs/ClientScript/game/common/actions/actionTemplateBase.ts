@@ -324,15 +324,19 @@ export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM
  */
 export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<MoveResourcesAssignTaskAction, MoveResourcesAssignTaskEvent, MoveResourcesAssignTaskActionInput> {
 
+  public readonly failMessage: TranslationKey;
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+	failMessage: TranslationKey,
 	replayable = true, 
 	flags: SimFlag[]=[],
   ) {
     super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags);
+	this.failMessage = failMessage;
   }
 
   public getTemplateRef(): TemplateRef {
@@ -356,6 +360,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
+	  failMessage: this.failMessage,
 	  sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
@@ -368,7 +373,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.failMessage, this.title, event.id, ownerId,
       this.Uid, event.payload.sourceLocation, event.payload.targetLocation, event.payload.sentResources, event.payload.sourceTaskId, event.payload.targetTaskId);
   }
 

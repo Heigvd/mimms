@@ -20,8 +20,8 @@ import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
-import { doesOrderRespectHierarchy } from "../resources/resourceArrivalResolution";
 import { getIdleTaskUid } from "../tasks/taskLogic";
+import { doesOrderRespectHierarchy } from "../resources/resourceDispatchResolution";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -381,16 +381,19 @@ export class MoveActorAction extends StartEndAction {
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
 
+  public readonly failMessageKey: TranslationKey;
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
 
+
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
+	failMessageKey: TranslationKey,
     actionNameKey: TranslationKey,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
@@ -401,6 +404,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 	sourceTaskId: TaskId,
 	targetTaskId: TaskId) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+	this.failMessageKey = failMessageKey;
 	this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
     this.sentResources = sentResources;
@@ -440,7 +444,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
 		
 	} else {
-		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, 'move-res-task-refused'))
+		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.failMessageKey))
 	}
 
   }
