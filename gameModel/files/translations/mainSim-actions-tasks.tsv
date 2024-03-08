@@ -62,4 +62,8 @@ define-acsMscArrival-desc	You take the responsibility as ACS and MCS	Vous prenez
 define-acsMscArrival-feedback	You announced taking responsibilities as ACS and MCS	Vous avez annoncé prendre la responsabilité des rôles d'ACS et MCS	
 waiting-title	Waiting	En attente	
 currentActivity	Current Activity	Activité en cours	
-targetActivity	Target Activity	Activité à destination	
+targetActivity	Target Activity	Activité à destination
+move-res-task-title	Assign resource	Assigner ressource
+move-res-task-desc	Move resources to given location and task	Déplacer ressources à l'endroit et tâche choisie
+move-res-task-feedback	The resources have been sucessfuly reassigned	Les ressources ont été assignés avec succés
+move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre

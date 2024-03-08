@@ -21,7 +21,6 @@ import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
@@ -60,7 +59,9 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 	public replayable: boolean = false,
 	protected readonly category: ActionType = ActionType.ACTION,
 	private flags: SimFlag[]=[SimFlag.MEETINGPOINT_BUILT],
-	protected provideFlagsToState: SimFlag[] = [])
+	protected provideFlagsToState: SimFlag[] = [],
+	protected availableToRoles: InterventionRole[] = [],
+	)
   {
 	this.Uid = ActionTemplateBase.IdSeed++;
   }
@@ -96,7 +97,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
    */
   public isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean
   {
-    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor);
+    return this.flagWiseAvailable(state) && this.canPlayAgain(state) && this.isAvailableCustom(state, actor) && this.roleWiseAvailable(actor.Role);
   }
 
   /**
@@ -118,6 +119,14 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
     }
 
     return this.flags.some(f => state.hasFlag(f));
+  }
+
+  protected roleWiseAvailable(role: InterventionRole): boolean {
+	  if(!this.availableToRoles || this.availableToRoles.length === 0) {
+		  return true;
+	  }
+
+	  return this.availableToRoles.includes(role);
   }
 
   /**
@@ -173,9 +182,18 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
   public readonly duration: SimDuration;
   public readonly message: TranslationKey;
 
-  constructor(title: TranslationKey, description: TranslationKey,
-     duration: SimDuration,  message: TranslationKey, replayable = false, category: ActionType = ActionType.ACTION, flags?: SimFlag[], provideFlagsToState?: SimFlag[]) {
-    super(title, description, replayable, category, flags, provideFlagsToState);
+  constructor(
+	title: TranslationKey,
+	description: TranslationKey,
+    duration: SimDuration,
+	message: TranslationKey,
+	replayable = false,
+	category: ActionType = ActionType.ACTION,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
+	availableToRoles?: InterventionRole[]
+	) {
+    super(title, description, replayable, category, flags, provideFlagsToState, availableToRoles);
     this.duration = duration;
     this.message = message;
   }
@@ -189,10 +207,17 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
 
 export class GetInformationTemplate extends StartEndTemplate {
 
-  constructor(title: TranslationKey, description: TranslationKey, 
-    duration: SimDuration, message: TranslationKey,
-	replayable = false, flags?: SimFlag[]) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+  constructor(
+	title: TranslationKey,
+	description: TranslationKey,
+    duration: SimDuration,
+	message: TranslationKey,
+	replayable = false,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
+	availableToRoles?: InterventionRole[]
+	) {
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
@@ -229,9 +254,17 @@ export class GetInformationTemplate extends StartEndTemplate {
 
 export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, CasuMessageActionEvent, CasuMessagePayload> {
 
-  constructor(title: TranslationKey, description: TranslationKey, 
-    duration: SimDuration, message: TranslationKey) {
-    super(title, description, duration, message, true, ActionType.CASU_RADIO);
+  constructor(
+	title: TranslationKey,
+	description: TranslationKey,
+    duration: SimDuration,
+	message: TranslationKey,
+	replayable = true,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
+	availableToRoles?: InterventionRole[],
+	) {
+    super(title, description, duration, message, replayable, ActionType.CASU_RADIO, flags, provideFlagsToState, availableToRoles);
   }
 
   public getTemplateRef(): TemplateRef {
@@ -277,9 +310,10 @@ export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionF
 	public readonly fixedMapEntity: FixedMapEntity,
 	replayable = false, 
 	flags?: SimFlag[],
-	provideFlagsToState?: SimFlag[]
+	provideFlagsToState?: SimFlag[],
+	availableToRoles?: InterventionRole[],
   ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState);
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	this.fixedMapEntity = fixedMapEntity;
   }
 
@@ -327,14 +361,21 @@ export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM
  */
 export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<MoveResourcesAssignTaskAction, MoveResourcesAssignTaskEvent, MoveResourcesAssignTaskActionInput> {
 
+  public readonly failMessage: TranslationKey;
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-	replayable = true, flags: SimFlag[]=[]
+    failMessage: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
   ) {
-    super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags);
+    super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags, provideFlagsToState, availableToRoles);
+	  this.failMessage = failMessage;
   }
 
   public getTemplateRef(): TemplateRef {
@@ -358,6 +399,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
+	  failMessage: this.failMessage,
 	  sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
@@ -370,7 +412,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.failMessage, this.title, event.id, ownerId,
       this.Uid, event.payload.sourceLocation, event.payload.targetLocation, event.payload.sentResources, event.payload.sourceTaskId, event.payload.targetTaskId);
   }
 
@@ -382,10 +424,17 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
 
 export class SendRadioMessage extends StartEndTemplate {
 
-  constructor(title: TranslationKey, description: TranslationKey, 
-    duration: SimDuration, message: TranslationKey,
-	replayable = true, flags: SimFlag[]=[]) {
-    super(title, description, duration, message, replayable, ActionType.ACTORS_RADIO, flags);
+  constructor(
+	title: TranslationKey,
+	description: TranslationKey,
+    duration: SimDuration,
+	message: TranslationKey,
+	replayable = true,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
+	availableToRoles?: InterventionRole[],
+	) {
+    super(title, description, duration, message, replayable, ActionType.ACTORS_RADIO, flags, provideFlagsToState, availableToRoles);
   }
 
   protected createActionFromEvent(event: FullEvent<RadioMessageActionEvent>): SendRadioMessageAction {
@@ -430,9 +479,11 @@ export class MoveActorActionTemplate extends StartEndTemplate {
 		duration: SimDuration,
 		message: TranslationKey,
 		replayable = true,
-		flags: SimFlag[],
+		flags?: SimFlag[],
+		provideFlagsToState?: SimFlag[],
+		availableToRoles?: InterventionRole[],
 	) {
-		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	}
 
 	protected createActionFromEvent(event: FullEvent<MoveActorEvent>): MoveActorAction {
@@ -476,8 +527,9 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 		replayable = false,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
+		availableToRoles?: InterventionRole[],
 		) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState);}
+    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);}
 
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
