@@ -346,6 +346,25 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 
 }
 
+export class SelectionPMAAction extends SelectionFixedMapEntityAction {
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		fixedMapEntity: FixedMapEntity,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = []
+	) {
+		super(startTimeSec, durationSeconds, actionNameKey, messageKey, eventId, ownerId, fixedMapEntity, uuidTemplate, provideFlagsToState);
+	}
+
+	// TODO see what need to be overridden
+}
+
 /**
  * Action to move actor from one location to another
  */

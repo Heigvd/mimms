@@ -10,10 +10,16 @@ import {
 } from '../events/eventTypes';
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
-  ActionBase,
-  CasuMessageAction,
-  GetInformationAction,
-  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction, AppointActorAction,
+	ActionBase,
+	CasuMessageAction,
+	GetInformationAction,
+	SendRadioMessageAction,
+	SelectionFixedMapEntityAction,
+	MoveActorAction,
+	ArrivalAnnoucementAction,
+	MoveResourcesAssignTaskAction,
+	AppointActorAction,
+	SelectionPMAAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -302,7 +308,8 @@ export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, Cas
 
 }
 
-export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionFixedMapEntityAction, SelectionFixedMapEntityEvent> {
+export class SelectionFixedMapEntityTemplate<ActionT extends SelectionFixedMapEntityAction = SelectionFixedMapEntityAction>
+	extends StartEndTemplate<SelectionFixedMapEntityAction, SelectionFixedMapEntityEvent, FixedMapEntity> {
 
   constructor(
     title: TranslationKey,
@@ -354,6 +361,32 @@ export class SelectionFixedMapEntityTemplate extends StartEndTemplate<SelectionF
   public planActionEventOnFirstClick(): boolean {
       return false;
   }
+}
+
+export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
+	constructor(
+		title: TranslationKey,
+		description: TranslationKey,
+		duration: SimDuration,
+		message: TranslationKey,
+		fixedMapEntity: FixedMapEntity,
+		replayable = false,
+		flags?: SimFlag[],
+		provideFlagsToState?: SimFlag[],
+	) {
+		super(title, description, duration, message, fixedMapEntity, replayable, flags, provideFlagsToState);
+	}
+
+	protected override createActionFromEvent(event: FullEvent<SelectionFixedMapEntityEvent>): SelectionPMAAction {
+		const payload = event.payload;
+		const ownerId = payload.emitterCharacterId as ActorId;
+
+		return new SelectionPMAAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity), this.Uid, this.provideFlagsToState);
+	}
+
+	public override getTemplateRef(): string {
+		return 'SelectionPMATemplate' + '_' + this.title;
+	}
 }
 
 export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM, targetLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber, sourceTaskId: TaskId, targetTaskId: TaskId };
