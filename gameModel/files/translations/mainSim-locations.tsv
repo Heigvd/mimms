@@ -11,3 +11,5 @@ location-meetingPoint	Meeting point	Point de rassemblement
 location-remote	Remotely	À distance
 location-access	Access	Accès
 location-regress	Regress	Evacuation
+sourceLocation	Location	Lieu
+targetLocation	Target Location	Destination
