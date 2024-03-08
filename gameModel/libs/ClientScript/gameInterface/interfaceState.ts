@@ -27,10 +27,10 @@ export interface InterfaceState {
 	casuMessage: CasuMessage;
 	resources: {
 		allocateResources: {
-			currentLocation: LOCATION_ENUM,
-			currentTaskId: TaskId,
-			targetLocation: LOCATION_ENUM,
-			targetTaskId: TaskId,
+			currentLocation: LOCATION_ENUM | undefined,
+			currentTaskId: TaskId | undefined,
+			targetLocation: LOCATION_ENUM | undefined,
+			targetTaskId: TaskId | undefined,
 		} & Resources;
 		sendResources: {
 			sourceLocation: LOCATION_ENUM,
@@ -80,10 +80,10 @@ export function getInitialInterfaceState(): InterfaceState {
 		},
 		resources: {
 			allocateResources: {
-				currentLocation: LOCATION_ENUM.meetingPoint,
-				currentTaskId: getIdleTaskUid(getCurrentState()),
-				targetLocation: LOCATION_ENUM.meetingPoint,
-				targetTaskId: getIdleTaskUid(getCurrentState()),
+				currentLocation: undefined,
+				currentTaskId: undefined,
+				targetLocation: undefined,
+				targetTaskId: undefined,
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
 				technicienAmbulancier: 0,
