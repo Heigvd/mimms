@@ -123,7 +123,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
 	  if(!this.availableToRoles || this.availableToRoles.length === 0) {
 		  return true;
 	  }
-	  
+
 	  return this.availableToRoles.includes(role);
   }
 
@@ -181,14 +181,14 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
   public readonly message: TranslationKey;
 
   constructor(
-	title: TranslationKey, 
+	title: TranslationKey,
 	description: TranslationKey,
-    duration: SimDuration,  
-	message: TranslationKey, 
-	replayable = false, 
-	category: ActionType = ActionType.ACTION, 
-	flags?: SimFlag[], 
-	provideFlagsToState?: SimFlag[], 
+    duration: SimDuration,
+	message: TranslationKey,
+	replayable = false,
+	category: ActionType = ActionType.ACTION,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
 	availableToRoles?: InterventionRole[]
 	) {
     super(title, description, replayable, category, flags, provideFlagsToState, availableToRoles);
@@ -206,13 +206,13 @@ export abstract class StartEndTemplate<ActionT extends ActionBase = ActionBase, 
 export class GetInformationTemplate extends StartEndTemplate {
 
   constructor(
-	title: TranslationKey, 
-	description: TranslationKey, 
-    duration: SimDuration, 
+	title: TranslationKey,
+	description: TranslationKey,
+    duration: SimDuration,
 	message: TranslationKey,
-	replayable = false, 
-	flags?: SimFlag[], 
-	provideFlagsToState?: SimFlag[], 
+	replayable = false,
+	flags?: SimFlag[],
+	provideFlagsToState?: SimFlag[],
 	availableToRoles?: InterventionRole[]
 	) {
     super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
@@ -254,7 +254,7 @@ export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, Cas
 
   constructor(
 	title: TranslationKey,
-	description: TranslationKey, 
+	description: TranslationKey,
     duration: SimDuration,
 	message: TranslationKey,
 	replayable = true,
@@ -359,17 +359,21 @@ export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM
  */
 export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<MoveResourcesAssignTaskAction, MoveResourcesAssignTaskEvent, MoveResourcesAssignTaskActionInput> {
 
+  public readonly failMessage: TranslationKey;
+
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-	replayable = true, 
-	flags?: SimFlag[],
-	provideFlagsToState?: SimFlag[],
-	availableToRoles?: InterventionRole[],
+    failMessage: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
   ) {
     super(title, description, duration, message, replayable, ActionType.ALLOCATE_RESOURCES, flags, provideFlagsToState, availableToRoles);
+	  this.failMessage = failMessage;
   }
 
   public getTemplateRef(): TemplateRef {
@@ -393,6 +397,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
+	  failMessage: this.failMessage,
 	  sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
@@ -405,7 +410,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId,
+    return new MoveResourcesAssignTaskAction(payload.triggerTime, this.duration, this.message, this.failMessage, this.title, event.id, ownerId,
       this.Uid, event.payload.sourceLocation, event.payload.targetLocation, event.payload.sentResources, event.payload.sourceTaskId, event.payload.targetTaskId);
   }
 
@@ -419,7 +424,7 @@ export class SendRadioMessage extends StartEndTemplate {
 
   constructor(
 	title: TranslationKey,
-	description: TranslationKey, 
+	description: TranslationKey,
     duration: SimDuration,
 	message: TranslationKey,
 	replayable = true,
