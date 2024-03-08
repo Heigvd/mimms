@@ -9,17 +9,21 @@ import {
   ResourcesAllocationLocalEvent,
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
+  AddActorLocalEvent,
+DeleteIdleResourceLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
+import { ResourceTypeAndNumber, ResourcesArray, ResourceType } from '../resources/resourceType';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
-import { enoughResourcesOfAllTypes, getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
+import { enoughResourcesOfAllTypes, getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
+import { InterventionRole } from "../actors/actor";
+import { TimeSliceDuration } from "../constants";
 import { getIdleTaskUid } from "../tasks/taskLogic";
 import { doesOrderRespectHierarchy } from "../resources/resourceDispatchResolution";
 
@@ -376,11 +380,56 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
+export class AppointActorAction extends StartEndAction {
+	public readonly actorRole: InterventionRole;
+	private isThereAPotentialFutureActor: boolean = false;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		actorRole: InterventionRole,
+		readonly locationOfResource: LOCATION_ENUM,
+		readonly typeOfResource: ResourceType,
+		readonly wentWrongMessageKey: TranslationKey,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.actorRole = actorRole;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, this.locationOfResource, this.typeOfResource).length;
+		this.isThereAPotentialFutureActor = potentialFutureActorNumber >= 1;
+
+		if (!this.isThereAPotentialFutureActor) {
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.wentWrongMessageKey));
+		}
+	}
+
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		if (this.isThereAPotentialFutureActor) {
+			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.locationOfResource, this.typeOfResource));
+		}
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
+
+}
+
 /**
  * Action to send resources to a location and assign a task
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
-  
+
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
   public readonly failMessageKey: TranslationKey;
   public readonly sourceLocation: LOCATION_ENUM;
@@ -388,7 +437,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
-
 
   constructor(
     startTimeSec: SimTime,
@@ -440,7 +488,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 
 		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
 		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
-		
+
 	} else {
 		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
 		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.failMessageKey))

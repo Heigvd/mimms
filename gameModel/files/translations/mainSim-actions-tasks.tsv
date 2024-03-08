@@ -54,9 +54,10 @@ define-meetingPoint-feedback	You successfully defined the meeting point	Vous ave
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	Move your role to one of the available location on the map	Déplace votre rôle à un emplacement disponible sur la carte	
 move-actor-feedback	You moved	Vous vous êtes déplacé	
-appoint-EVASAN-title	Appoint EVASAN	Appointer EVASAN	
-appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous appointez un ambulancier comme EVASAN	
-appoint-EVASAN-feedback	You appointed an EVASAN	Vous avez appointé un EVASAN	
+appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
+appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
+appoint-EVASAN-feedback	You appointed an EVASAN	Vous avez nommé un EVASAN	
+appoint-EVASAN-wentWrong-feedback	You could not appoint an EVASAN	Vous n'avez pas pu nommer un EVASAN	
 define-acsMscArrival-title	Assume ACS/MCS duties	Prendre la responsabilité ACS/MCS	
 define-acsMscArrival-desc	You take the responsibility as ACS and MCS	Vous prenez la responsabilité des rôles d'ACS et MCS	
 define-acsMscArrival-feedback	You announced taking responsibilities as ACS and MCS	Vous avez annoncé prendre la responsabilité des rôles d'ACS et MCS	

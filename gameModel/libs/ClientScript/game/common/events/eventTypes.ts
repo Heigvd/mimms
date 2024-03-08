@@ -10,6 +10,7 @@ import { Categorization } from "../../pretri/triage";
 import { ActorId, SimDuration, SimTime, TaskId, TemplateId, TemplateRef, TranslationKey } from "../baseTypes";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from "../simulationState/locationState";
+import { InterventionRole } from "../actors/actor";
 
 /**
  * Walk, drive, fly to destination
@@ -241,4 +242,8 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
 
 export interface MoveActorEvent extends ActionCreationEvent {
 	location: LOCATION_ENUM;
+}
+
+export interface AppointActorEvent extends ActionCreationEvent{
+	actorRole: InterventionRole;
 }

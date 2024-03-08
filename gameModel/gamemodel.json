@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1709913018006,
+  "createdTime" : 1709913787207,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4672,9 +4672,10 @@
         "name" : "mainSim-actions-tasks",
         "properties" : {
           "actor-arrival" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have arrived at the incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes arrivé sur les lieux de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous appointez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appointed an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez appointé un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"appointer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous nommez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appointed an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez nommé un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-wentwrong-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you could not appoint an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'avez pas pu nommer un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you assigned resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez assigné des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner une tâche\",\"lang\":\"FR\"}},\"version\":0}",

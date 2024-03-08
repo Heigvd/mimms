@@ -3,6 +3,7 @@ import { initBaseEvent } from "../events/baseEvent";
 import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
+  AppointActorEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   StandardActionEvent,
@@ -12,13 +13,13 @@ import {
   ActionBase,
   CasuMessageAction,
   GetInformationAction,
-  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction,
+  SendRadioMessageAction, SelectionFixedMapEntityAction, MoveActorAction, ArrivalAnnoucementAction, MoveResourcesAssignTaskAction, AppointActorAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
@@ -30,7 +31,8 @@ export enum SimFlag {
 	MCS_ARRIVED = 'MCS_ARRIVED',
 	ACS_ARRIVED = 'ACS_ARRIVED',
 	PC_BUILT = 'PC_BUILT',
-	ACS_MCS_ANNOUCED = 'ACS_MCS_ANNOUNCED'
+	ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
+	EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
 /**
@@ -38,7 +40,9 @@ export enum SimFlag {
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
  * It is an action generator
  */
-export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, EventT extends ActionCreationEvent = ActionCreationEvent, UserInput= unknown> {
+export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase, 
+                                         EventT extends ActionCreationEvent = ActionCreationEvent, 
+                                         UserInput= unknown> {
 
   private static IdSeed = 1000;
 
@@ -567,3 +571,55 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
     return false;
   }
 }
+
+export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAction, AppointActorEvent, InterventionRole> {
+
+	constructor(
+		title: TranslationKey,
+		description: TranslationKey,
+		duration: SimDuration,
+		message: TranslationKey,
+		replayable = true,
+		readonly wentWrongMessageKey: TranslationKey,
+		readonly actorRole: InterventionRole,
+		readonly locationOfResource: LOCATION_ENUM,
+		readonly typeOfResource: ResourceType,
+		flags?: SimFlag[],
+		provideFlagsToState?: SimFlag[],
+		availableToRoles?: InterventionRole[],
+	) {
+		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
+	}
+
+	protected createActionFromEvent(event: FullEvent<AppointActorEvent>): AppointActorAction {
+		const payload = event.payload;
+		const ownerId = payload.emitterCharacterId as ActorId;
+		return new AppointActorAction(payload.triggerTime, this.duration, this.message,
+			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.locationOfResource, this.typeOfResource, this.wentWrongMessageKey);
+	}
+
+	public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			actorRole: params,
+		};
+	}
+
+	public getTemplateRef(): TemplateRef {
+		return 'AppointActorActionTemplate' + '_' + this.title;
+	}
+
+	public getDescription(): string {
+		return getTranslation('mainSim-actions-tasks', this.description);
+	}
+
+	public getTitle(): string {
+		return getTranslation('mainSim-actions-tasks', this.title);
+	}
+
+	public planActionEventOnFirstClick(): boolean {
+		return false;
+	}
+}
+
+

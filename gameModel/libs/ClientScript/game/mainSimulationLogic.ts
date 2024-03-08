@@ -5,13 +5,14 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	CasuMessageTemplate,
-	SendRadioMessage,
-	SelectionFixedMapEntityTemplate,
-	SimFlag,
-	MoveActorActionTemplate,
+  CasuMessageTemplate,
+  SendRadioMessage,
+  SelectionFixedMapEntityTemplate,
+  SimFlag,
+  MoveActorActionTemplate,
   ArrivalAnnoucementTemplate,
-MoveResourcesAssignTaskActionTemplate
+  AppointActorActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -122,7 +123,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
       ]), BuildingStatus.selection, 'right-arrow', false));
 
-  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUCED], ['ACS', 'MCS']);
+  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUNCED], ['ACS', 'MCS']);
+
+  const appointEVASAN = new AppointActorActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', true, 'appoint-EVASAN-wentWrong-feedback', 'EVASAN', LOCATION_ENUM.PC, 'ambulancier', [SimFlag.PC_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.EVASAN_ARRIVED]);
 
   const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
@@ -174,6 +177,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
 
   return templates;
