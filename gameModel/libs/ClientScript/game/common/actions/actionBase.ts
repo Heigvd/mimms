@@ -11,6 +11,7 @@ import {
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
+DeleteIdleResourceLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
@@ -393,6 +394,7 @@ export class AppointEvasanAction extends StartEndAction{
 		uuidTemplate: ActionTemplateId,
 		provideFlagsToState: SimFlag[] = [],
 		actorRole: InterventionRole,
+		readonly wentWrongMessageKey: TranslationKey
 	) {
 		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
 		this.actorRole = actorRole;
@@ -403,7 +405,7 @@ export class AppointEvasanAction extends StartEndAction{
 		this.isTherePotentialFutureEvasan = potentialFutureEvasanNumber >= 1;
 
 		if(!this.isTherePotentialFutureEvasan){ 
-			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || 'HarryPotter', 'sheh'/*this.messageKey*/));
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.wentWrongMessageKey));
 		}
 	}
 	
@@ -411,9 +413,8 @@ export class AppointEvasanAction extends StartEndAction{
 	protected dispatchEndedEvents(state: MainSimulationState): void {
 		if(this.isTherePotentialFutureEvasan) { 
 			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
-			// localEventManager.queueLocalEvent code pour enlever un ambulancier du pool ressource (localEvent à créer)
+		 	localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), LOCATION_ENUM.PC, 'ambulancier'));
 		}
-
 	}
 
 	protected cancelInternal(state: MainSimulationState): void {

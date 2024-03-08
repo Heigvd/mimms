@@ -219,6 +219,7 @@ export function releaseResourcesFromTask(state: MainSimulationState, taskId: Tas
  */
 export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: TaskId): void {
   const atDisposal = getResourcesAllocatedToTask(state, taskId);
+  
 
   for (const resource of atDisposal) {
     resource.currentActivity = getIdleTaskUid(state);
@@ -226,3 +227,16 @@ export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: 
 	resource.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
   }
 }
+
+/**
+ * Delete one idle resource 
+ */
+export function deleteIdleResource(state: MainSimulationState,location: LOCATION_ENUM, resourceType: ResourceType): void {
+  const atDisposal : Resource[] = getResourcesAvailableByLocation(state, location, resourceType);
+  const internalState = state.getInternalStateObject();
+
+  const theWinner = atDisposal[0];
+  internalState.resources.splice(internalState.resources.indexOf(theWinner), 1 );
+ 
+}
+

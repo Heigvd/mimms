@@ -19,6 +19,7 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
 import resourceArrivalResolution from "../resources/resourceArrivalResolution";
+import { deleteIdleResource } from "../simulationState/resourceStateAccess";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -538,6 +539,24 @@ export class PatientMovedLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     changePatientPosition(state, this.patientId, this.location);
+  }
+
+}
+
+
+export class DeleteIdleResourceLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+	readonly location: LOCATION_ENUM,
+	readonly resourceType: ResourceType,
+
+	) {
+    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);	
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+	  deleteIdleResource(state, this.location, this.resourceType);
   }
 
 }

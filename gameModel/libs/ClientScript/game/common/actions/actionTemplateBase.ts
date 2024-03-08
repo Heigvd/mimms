@@ -529,15 +529,16 @@ export class AppointEvasanActionTemplate extends StartEndTemplate <AppointEvasan
 		message: TranslationKey,
 		replayable = true,
 		flags: SimFlag[],
+		readonly wentWrongMessageKey: TranslationKey
 	) {
 		super(title, description, duration, message, replayable, ActionType.ACTION, flags);
 	}
 
 	protected createActionFromEvent(event: FullEvent<AppointEvasanEvent>): AppointEvasanAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new AppointEvasanAction(payload.triggerTime, this.duration, this.message,
-		this.title , event.id, ownerId, this.Uid, [], 'EVASAN');
+    	const payload = event.payload;
+    	const ownerId = payload.emitterCharacterId as ActorId;
+    	return new AppointEvasanAction(payload.triggerTime, this.duration, this.message,
+		this.title , event.id, ownerId, this.Uid, [], 'EVASAN', this.wentWrongMessageKey);
   }
 
   public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointEvasanEvent {
