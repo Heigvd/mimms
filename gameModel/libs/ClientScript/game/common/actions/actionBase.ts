@@ -21,7 +21,7 @@ import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
-import { getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
+import { enoughResourcesOfAllTypes, getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
 import { InterventionRole } from "../actors/actor";
 import { TimeSliceDuration } from "../constants";
 import { getIdleTaskUid } from "../tasks/taskLogic";
@@ -428,6 +428,7 @@ export class AppointActorAction extends StartEndAction{
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
 
+  public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
   public readonly failMessageKey: TranslationKey;
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
@@ -467,29 +468,27 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 
 	const actionOwnerActor = state.getActorById(this.ownerId)!;
 
-	if (doesOrderRespectHierarchy(this.ownerId, this.sourceLocation, state)) {
+	if (enoughResourcesOfAllTypes(state, this.sourceTaskId, this.sentResources, this.sourceLocation) && doesOrderRespectHierarchy(this.ownerId, this.sourceLocation, state)) {
 		const sameLocation = this.sourceLocation === this.targetLocation;
-		// let timeDelay = 0;
+		let timeDelay = 0;
 		//if source != target => emit a transfer event and delay resource allocation on task event
 		if (!sameLocation){
 			localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId));
-			// timeDelay = this.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+			timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
 		}
 
 		ResourcesArray.forEach((res) => {
-		const nbRes = this.sentResources[res] || 0;
-		if(nbRes > 0){
-			localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() /* + timeDelay */, +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
-		}
-		})
+			const nbRes = this.sentResources[res] || 0;
+			if(nbRes > 0){
+				localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() + timeDelay , +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
+			}
+		});
 
-
-		this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
-
-		// TODO see how we can send requested resources
+		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
 		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
 
 	} else {
+		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
 		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.failMessageKey))
 	}
 
