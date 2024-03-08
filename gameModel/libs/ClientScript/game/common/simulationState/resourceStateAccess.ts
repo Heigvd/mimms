@@ -84,7 +84,7 @@ export function getAllocatedResourcesByTypeAndLocation(state: Readonly<MainSimul
   return internalState.resources.filter(res =>
   	res.currentLocation === location
     && res.type === resourceType
-    && ((taskId) ? res.currentActivity === taskId : true));
+    && ((taskId) ? res.currentActivity === +taskId : true));
 }
 
 /**
