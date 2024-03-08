@@ -19,7 +19,7 @@ import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInsta
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceTypeAndNumber } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
@@ -582,6 +582,8 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		replayable = true,
 		readonly wentWrongMessageKey: TranslationKey,
 		readonly actorRole: InterventionRole,
+		readonly locationOfResource: LOCATION_ENUM,
+		readonly typeOfResource: ResourceType,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
 		availableToRoles?: InterventionRole[],
@@ -593,7 +595,7 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		const payload = event.payload;
 		const ownerId = payload.emitterCharacterId as ActorId;
 		return new AppointActorAction(payload.triggerTime, this.duration, this.message,
-			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.wentWrongMessageKey);
+			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.locationOfResource, this.typeOfResource, this.wentWrongMessageKey);
 	}
 
 	public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {

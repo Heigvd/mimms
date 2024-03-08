@@ -14,7 +14,7 @@ DeleteIdleResourceLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
+import { ResourceTypeAndNumber, ResourcesArray, ResourceType } from '../resources/resourceType';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
@@ -394,6 +394,8 @@ export class AppointActorAction extends StartEndAction {
 		uuidTemplate: ActionTemplateId,
 		provideFlagsToState: SimFlag[] = [],
 		actorRole: InterventionRole,
+		readonly locationOfResource: LOCATION_ENUM,
+		readonly typeOfResource: ResourceType,
 		readonly wentWrongMessageKey: TranslationKey,
 	) {
 		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
@@ -401,7 +403,7 @@ export class AppointActorAction extends StartEndAction {
 	}
 
 	protected dispatchInitEvents(state: MainSimulationState): void {
-		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, LOCATION_ENUM.PC, 'ambulancier').length;
+		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, this.locationOfResource, this.typeOfResource).length;
 		this.isThereAPotentialFutureActor = potentialFutureActorNumber >= 1;
 
 		if (!this.isThereAPotentialFutureActor) {
@@ -413,7 +415,7 @@ export class AppointActorAction extends StartEndAction {
 	protected dispatchEndedEvents(state: MainSimulationState): void {
 		if (this.isThereAPotentialFutureActor) {
 			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
-			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), LOCATION_ENUM.PC, 'ambulancier'));
+			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.locationOfResource, this.typeOfResource));
 		}
 	}
 
