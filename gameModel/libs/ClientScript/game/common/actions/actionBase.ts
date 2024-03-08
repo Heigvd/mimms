@@ -380,9 +380,9 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
-export class AppointActorAction extends StartEndAction{
+export class AppointActorAction extends StartEndAction {
 	public readonly actorRole: InterventionRole;
-	private  isTherePotentialFutureEvasan :boolean = false;
+	private isThereAPotentialFutureActor: boolean = false;
 
 	constructor(
 		startTimeSec: SimTime,
@@ -394,26 +394,26 @@ export class AppointActorAction extends StartEndAction{
 		uuidTemplate: ActionTemplateId,
 		provideFlagsToState: SimFlag[] = [],
 		actorRole: InterventionRole,
-		readonly wentWrongMessageKey: TranslationKey
+		readonly wentWrongMessageKey: TranslationKey,
 	) {
 		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
 		this.actorRole = actorRole;
 	}
 
 	protected dispatchInitEvents(state: MainSimulationState): void {
-		const potentialFutureEvasanNumber = getResourcesAvailableByLocation(state, LOCATION_ENUM.PC, 'ambulancier').length;
-		this.isTherePotentialFutureEvasan = potentialFutureEvasanNumber >= 1;
+		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, LOCATION_ENUM.PC, 'ambulancier').length;
+		this.isThereAPotentialFutureActor = potentialFutureActorNumber >= 1;
 
-		if(!this.isTherePotentialFutureEvasan){
+		if (!this.isThereAPotentialFutureActor) {
 			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.wentWrongMessageKey));
 		}
 	}
 
 
 	protected dispatchEndedEvents(state: MainSimulationState): void {
-		if(this.isTherePotentialFutureEvasan) {
+		if (this.isThereAPotentialFutureActor) {
 			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
-		 	localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), LOCATION_ENUM.PC, 'ambulancier'));
+			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), LOCATION_ENUM.PC, 'ambulancier'));
 		}
 	}
 

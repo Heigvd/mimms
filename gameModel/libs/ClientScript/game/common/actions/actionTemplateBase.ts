@@ -572,9 +572,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
   }
 }
 
-
-
-export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAction, AppointActorEvent, InterventionRole > {
+export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAction, AppointActorEvent, InterventionRole> {
 
 	constructor(
 		title: TranslationKey,
@@ -583,44 +581,43 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		message: TranslationKey,
 		replayable = true,
 		readonly wentWrongMessageKey: TranslationKey,
-		readonly interventionRole: InterventionRole,
+		readonly actorRole: InterventionRole,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
-		availableToRoles?: InterventionRole[]
+		availableToRoles?: InterventionRole[],
 	) {
 		super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
 	}
 
 	protected createActionFromEvent(event: FullEvent<AppointActorEvent>): AppointActorAction {
-    	const payload = event.payload;
-    	const ownerId = payload.emitterCharacterId as ActorId;
-    	return new AppointActorAction(payload.triggerTime, this.duration, this.message,
-		this.title , event.id, ownerId, this.Uid, [], this.interventionRole, this.wentWrongMessageKey);
-  }
+		const payload = event.payload;
+		const ownerId = payload.emitterCharacterId as ActorId;
+		return new AppointActorAction(payload.triggerTime, this.duration, this.message,
+			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.wentWrongMessageKey);
+	}
 
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-		actorRole: params,
-    }
-  }
+	public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {
+		return {
+			...this.initBaseEvent(timeStamp, initiator.Uid),
+			actorRole: params,
+		};
+	}
 
+	public getTemplateRef(): TemplateRef {
+		return 'AppointActorActionTemplate' + '_' + this.title;
+	}
 
-  public getTemplateRef(): TemplateRef {
-    return 'AppointActorActionTemplate' + '_' + this.title;
-  }
+	public getDescription(): string {
+		return getTranslation('mainSim-actions-tasks', this.description);
+	}
 
-  public getDescription(): string {
-	return getTranslation('mainSim-actions-tasks', this.description);
-  }
+	public getTitle(): string {
+		return getTranslation('mainSim-actions-tasks', this.title);
+	}
 
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
+	public planActionEventOnFirstClick(): boolean {
+		return false;
+	}
 }
 
 
