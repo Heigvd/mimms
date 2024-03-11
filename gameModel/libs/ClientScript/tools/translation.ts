@@ -165,7 +165,6 @@ export function updateFromAllTsv(dryrun: boolean):void {
 		'mainSim-resources',
 		'mainSim-summary',
 		'trainer-interface',
-		'mainSim-locations'
 	]
 
 	variables.forEach(v => {
