@@ -346,6 +346,28 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 
 }
 
+export class SelectionPMAAction extends SelectionFixedMapEntityAction {
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		fixedMapEntity: FixedMapEntity,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = []
+	) {
+		super(startTimeSec, durationSeconds, actionNameKey, messageKey, eventId, ownerId, fixedMapEntity, uuidTemplate, provideFlagsToState);
+	}
+
+	protected override dispatchEndedEvents(state: MainSimulationState): void {
+ 	super.dispatchEndedEvents(state);
+	localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA', TimeSliceDuration));
+}
+}
+
 /**
  * Action to move actor from one location to another
  */
