@@ -5,15 +5,13 @@ import {
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 
 export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
-	moveActorChosenLocation: LOCATION_ENUM;
+	moveActorChosenLocation: LOCATION_ENUM | undefined;
 	showPatientModal: boolean;
 	selectedPanel: SelectedPanel;
 	selectedMapObjectId: string;
@@ -27,10 +25,10 @@ export interface InterfaceState {
 	casuMessage: CasuMessage;
 	resources: {
 		allocateResources: {
-			currentLocation: LOCATION_ENUM,
-			currentTaskId: TaskId,
-			targetLocation: LOCATION_ENUM,
-			targetTaskId: TaskId,
+			currentLocation: LOCATION_ENUM | undefined,
+			currentTaskId: TaskId | undefined,
+			targetLocation: LOCATION_ENUM | undefined,
+			targetTaskId: TaskId | undefined,
 		} & Resources;
 		sendResources: {
 			sourceLocation: LOCATION_ENUM,
@@ -80,10 +78,10 @@ export function getInitialInterfaceState(): InterfaceState {
 		},
 		resources: {
 			allocateResources: {
-				currentLocation: LOCATION_ENUM.meetingPoint,
-				currentTaskId: getIdleTaskUid(getCurrentState()),
-				targetLocation: LOCATION_ENUM.meetingPoint,
-				targetTaskId: getIdleTaskUid(getCurrentState()),
+				currentLocation: undefined,
+				currentTaskId: undefined,
+				targetLocation: undefined,
+				targetTaskId: undefined,
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
 				technicienAmbulancier: 0,
@@ -125,7 +123,7 @@ export function getInitialInterfaceState(): InterfaceState {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
-		moveActorChosenLocation: LOCATION_ENUM.meetingPoint,
+		moveActorChosenLocation: undefined,
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',

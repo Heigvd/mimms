@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\nconst currentActor = getActor(Context.interfaceState.state.currentActorUid);\ngetAvailableLocationsFacade().filter(l => l.id != currentActor!.Location).map((fixedEntity) => {return {label: fixedEntity.name, value: fixedEntity.id }});",
+          "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getActor } from \"./UIfacade/actorFacade\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\nconst currentActor = getActor(Context.interfaceState.state.currentActorUid);\ngetAvailableLocationsFacade().filter(l => l.id != currentActor!.Location).map((fixedEntity) => {return {label: getTranslation('mainSim-locations', fixedEntity.name), value: fixedEntity.id }});",
           "language" : "typescript"
         },
         "layoutStyle" : { },
@@ -22,7 +22,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "Context.interfaceState.state.moveActorChosenLocation",
+          "content" : "Context.interfaceState.state.moveActorChosenLocation || '';",
           "language" : "TypeScript"
         },
         "style" : { }
