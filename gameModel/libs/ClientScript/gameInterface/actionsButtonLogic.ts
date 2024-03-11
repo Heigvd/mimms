@@ -15,9 +15,6 @@ import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getIdleTaskUid } from '../game/common/tasks/taskLogic';
-import { getCurrentState } from '../game/mainSimulationLogic';
-
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -98,10 +95,10 @@ function fetchMoveResourcesAssignTaskValues() { // TODO Add Type
 
 	// Reset interfaceState
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
-	newState.resources.allocateResources.currentLocation = LOCATION_ENUM.meetingPoint;
-	newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());
-	newState.resources.allocateResources.targetLocation = LOCATION_ENUM.meetingPoint;
-	newState.resources.allocateResources.targetTaskId = getIdleTaskUid(getCurrentState());
+	newState.resources.allocateResources.currentLocation = undefined;
+	newState.resources.allocateResources.currentTaskId = undefined;
+	newState.resources.allocateResources.targetLocation = undefined;
+	newState.resources.allocateResources.targetTaskId = undefined;
 	ResourcesArray.forEach(resourceType => {
 		newState.resources.allocateResources[resourceType] = 0;
 	});
@@ -266,7 +263,7 @@ function fetchMoveActorLocation(){
 
 	// Reset interfaceState
 	const newState = Helpers.cloneDeep(Context.interfaceState.state)
-	newState.moveActorChosenLocation = LOCATION_ENUM.meetingPoint;
+	newState.moveActorChosenLocation = undefined;
 	Context.interfaceState.setState(newState);
 
 	return res;

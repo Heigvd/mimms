@@ -187,7 +187,7 @@ export class RemoveFixedEntityLocalEvent extends LocalEventBase {
 
 	applyStateUpdate(state: MainSimulationState): void {
 		const so = state.getInternalStateObject();
-		so.mapLocations.splice(so.mapLocations.findIndex(f => f.name === this.fixedMapEntity.name && f.ownerId === this.fixedMapEntity.ownerId), 1);
+		so.mapLocations.splice(so.mapLocations.findIndex(f => f.id === this.fixedMapEntity.id && f.ownerId === this.fixedMapEntity.ownerId), 1);
 	}
 }
 

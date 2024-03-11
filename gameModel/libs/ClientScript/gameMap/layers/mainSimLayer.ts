@@ -1,6 +1,7 @@
 import { BuildingStatus, FixedMapEntity, MultiLineStringGeometricalShape, MultiPointGeometricalShape, PointGeometricalShape, SelectedPositionType, AvailablePositionType } from "../../game/common/events/defineMapObjectEvent";
 import { FeatureCollection } from "../../gameMap/types/featureTypes";
 import { getEmptyFeatureCollection } from "../../gameMap/utils/mapUtils";
+import { getTranslation } from "../../tools/translation";
 import { getCurrentState } from "../../UIfacade/debugFacade";
 
 /************
@@ -74,7 +75,7 @@ function getLayer(features: FixedMapEntity[], name: string): FeatureCollection {
 						const position = (f.getGeometricalShape() as MultiLineStringGeometricalShape).selectedPosition as PointLikeObject[][];
 						layer = getMultilineFeature(position, i, layer);
 				}
-				layer = getGenericFeature(f, f.getGeometricalShape().selectedPosition, f.name, layer);
+				layer = getGenericFeature(f, f.getGeometricalShape().selectedPosition, getTranslation('mainSim-locations', f.name), layer);
 			}
 		});
 	}
@@ -146,7 +147,7 @@ function getMultilineFeature(position: PointLikeObject[][], positionCounter: num
 				name: String(positionCounter),
 				icon: 'arrow',
 				rotation: -rotation,
-				accessType: j === 0 ? 'Access' : 'Regress',
+				accessType: getTranslation('mainSim-locations', j === 0 ? 'location-access' : 'location-regress'),
 			}
 		};
 

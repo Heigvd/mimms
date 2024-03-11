@@ -152,6 +152,7 @@ export class MainSimulationState implements IClonable {
   /**
    * @returns True if the zones are defined
    */
+  // deprecated - loc.name === 'Triage Zone' won't work anymore
   public areZonesAlreadyDefined(): boolean {
     // TODO make it stronger when zones, PMA, PC, ... are more thant just places
     return this.internalState.mapLocations.filter(loc => loc.name === 'Triage Zone'

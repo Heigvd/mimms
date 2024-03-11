@@ -553,7 +553,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "Context.overlayItem.name;",
+                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
                                                       "language" : "TypeScript"
                                                     }
                                                   },
@@ -598,7 +598,7 @@
                                                         "localScriptEval" : {
                                                           "script" : {
                                                             "@class" : "ClientScript",
-                                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = '0';\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                            "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
                                                             "language" : "TypeScript"
                                                           }
                                                         },
