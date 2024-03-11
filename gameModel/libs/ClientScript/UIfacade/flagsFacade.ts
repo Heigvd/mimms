@@ -6,5 +6,5 @@ import { getCurrentState } from "../game/mainSimulationLogic";
  * @returns boolean 
  */
 export function areAcsMcsAnnouced(): boolean {
-	return getCurrentState().isSimFlagEnabled(SimFlag.ACS_MCS_ANNOUCED);
+	return getCurrentState().isSimFlagEnabled(SimFlag.ACS_MCS_ANNOUNCED);
 }
