@@ -128,7 +128,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const appointEVASAN = new AppointActorActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', true, 'appoint-EVASAN-wentWrong-feedback', 'EVASAN', LOCATION_ENUM.PC, 'ambulancier', [SimFlag.PC_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.EVASAN_ARRIVED]);
 
-  const placePMA = new SelectionPMATemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
+  const placePMA = new SelectionPMATemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'location-pma-short', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
 		   [2499948.345528039, 1118442.755145481],
 		   [2499928.9775556503, 1118418.871686022],
