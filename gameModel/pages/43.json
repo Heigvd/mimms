@@ -62,20 +62,6 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "initialSelectedPageId" : {
-                                      "@class" : "Script",
-                                      "content" : "\"52\"",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "",
-                                    "layoutStyle" : { },
-                                    "name" : "availableResourcesLoader",
-                                    "style" : { }
-                                  },
-                                  "type" : "PageLoader"
-                                }, {
-                                  "props" : {
                                     "className" : "patient-debug-information",
                                     "hideIf" : {
                                       "@class" : "Script",

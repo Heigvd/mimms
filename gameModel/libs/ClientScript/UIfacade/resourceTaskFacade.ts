@@ -64,17 +64,6 @@ export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
 }
 
 /**
- * Retrieve how many human resources are available.
- *
- * @param actorId The actor responsible for these resources // Deprecated, should be location instead !
- *
- * @return the number of matching resources
- */
-export function countAvailableResources(resourceType: ResourceType): number {
-  return ResourceState.getAvailableResources(getCurrentState(), resourceType).length;
-}
-
-/**
  * Retrieve how many human resources (of any kind) are allocated to the given task.
  *
  * @param taskId The task of concern

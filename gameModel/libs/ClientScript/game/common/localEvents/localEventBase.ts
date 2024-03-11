@@ -18,7 +18,8 @@ import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
-import resourceArrivalResolution from "../resources/resourceArrivalResolution";
+import resourceArrivalResolution from "../resources/resourceDispatchResolution";
+import { deleteIdleResource } from "../simulationState/resourceStateAccess";
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -381,7 +382,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 
 
 /**
- * Spawned when the emergeny center has a resource available and sends it to the incident site
+ * Spawned when the emergency center has a resource available and sends it to the incident site
  */
 export class ResourcesDepartureLocalEvent extends LocalEventBase {
 	
@@ -538,6 +539,24 @@ export class PatientMovedLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     changePatientPosition(state, this.patientId, this.location);
+  }
+
+}
+
+
+export class DeleteIdleResourceLocalEvent extends LocalEventBase {
+
+  constructor(parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+	readonly location: LOCATION_ENUM,
+	readonly resourceType: ResourceType,
+
+	) {
+    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+	  deleteIdleResource(state, this.location, this.resourceType);
   }
 
 }

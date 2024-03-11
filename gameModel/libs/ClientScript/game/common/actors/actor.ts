@@ -25,7 +25,7 @@ type AuthorityLevel = number;
 /**
  * 0 = top level
  */
-const hierarchyLevels : Record<InterventionRole, AuthorityLevel> = {
+export const hierarchyLevels : Record<InterventionRole, AuthorityLevel> = {
 	ACS: 0,
 	MCS: 0,
 	LEADPMA: 10,

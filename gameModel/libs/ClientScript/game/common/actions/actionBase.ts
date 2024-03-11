@@ -7,21 +7,25 @@ import {
   CompleteBuildingFixedEntityLocalEvent,
   ResourceRequestResolutionLocalEvent,
   ResourcesAllocationLocalEvent,
-  ResourcesReleaseLocalEvent,
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
+  AddActorLocalEvent,
+DeleteIdleResourceLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceTypeAndNumber, ResourcesArray } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
+import { ResourceTypeAndNumber, ResourcesArray, ResourceType } from '../resources/resourceType';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
 import { ActionType } from "../actionType";
 import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
-import { getInStateCountInactiveResourcesByLocationAndType } from "../simulationState/resourceStateAccess";
+import { enoughResourcesOfAllTypes, getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
+import { InterventionRole } from "../actors/actor";
+import { TimeSliceDuration } from "../constants";
+import { getIdleTaskUid } from "../tasks/taskLogic";
+import { doesOrderRespectHierarchy } from "../resources/resourceDispatchResolution";
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined
 
@@ -376,23 +380,69 @@ export class MoveActorAction extends StartEndAction {
 	}
 }
 
+export class AppointActorAction extends StartEndAction {
+	public readonly actorRole: InterventionRole;
+	private isThereAPotentialFutureActor: boolean = false;
+
+	constructor(
+		startTimeSec: SimTime,
+		durationSeconds: SimDuration,
+		actionNameKey: TranslationKey,
+		messageKey: TranslationKey,
+		eventId: GlobalEventId,
+		ownerId: ActorId,
+		uuidTemplate: ActionTemplateId,
+		provideFlagsToState: SimFlag[] = [],
+		actorRole: InterventionRole,
+		readonly locationOfResource: LOCATION_ENUM,
+		readonly typeOfResource: ResourceType,
+		readonly wentWrongMessageKey: TranslationKey,
+	) {
+		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+		this.actorRole = actorRole;
+	}
+
+	protected dispatchInitEvents(state: MainSimulationState): void {
+		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, this.locationOfResource, this.typeOfResource).length;
+		this.isThereAPotentialFutureActor = potentialFutureActorNumber >= 1;
+
+		if (!this.isThereAPotentialFutureActor) {
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.wentWrongMessageKey));
+		}
+	}
+
+
+	protected dispatchEndedEvents(state: MainSimulationState): void {
+		if (this.isThereAPotentialFutureActor) {
+			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
+			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.locationOfResource, this.typeOfResource));
+		}
+	}
+
+	protected cancelInternal(state: MainSimulationState): void {
+		return;
+	}
+
+}
+
 /**
  * Action to send resources to a location and assign a task
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
 
+  public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
+  public readonly failMessageKey: TranslationKey;
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
 
-  private readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
-
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
+	failMessageKey: TranslationKey,
     actionNameKey: TranslationKey,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
@@ -403,6 +453,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 	sourceTaskId: TaskId,
 	targetTaskId: TaskId) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+	this.failMessageKey = failMessageKey;
 	this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
     this.sentResources = sentResources;
@@ -417,27 +468,32 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
-	const sameLocation = this.sourceLocation === this.targetLocation;
-	let timeDelay = 0;
-	//if source != target => emit a transfer event and delay resource allocation on task event
-	if (!sameLocation){
-    	localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId));
-		timeDelay = this.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+	const actionOwnerActor = state.getActorById(this.ownerId)!;
+
+	if (enoughResourcesOfAllTypes(state, this.sourceTaskId, this.sentResources, this.sourceLocation) && doesOrderRespectHierarchy(this.ownerId, this.sourceLocation, state)) {
+		const sameLocation = this.sourceLocation === this.targetLocation;
+		let timeDelay = 0;
+		//if source != target => emit a transfer event and delay resource allocation on task event
+		if (!sameLocation){
+			localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId));
+			timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+		}
+
+		ResourcesArray.forEach((res) => {
+			const nbRes = this.sentResources[res] || 0;
+			if(nbRes > 0){
+				localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() + timeDelay , +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
+			}
+		});
+
+		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
+
+	} else {
+		// TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+		localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.failMessageKey))
 	}
 
-    ResourcesArray.forEach((res) => {
-      const nbRes = this.sentResources[res] || 0;
-      if(nbRes > 0){
-        localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() + timeDelay, +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
-      }
-    })
-
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
-    this.logger.warn("params to send to message " + JSON.stringify(this.sentResources));
-
-    // TODO see how we can send requested resources
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, actionOwnerActor.Role as unknown as TranslationKey, this.messageKey));
   }
 
   protected cancelInternal(state: MainSimulationState): void {
@@ -513,7 +569,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 	//transfer available resources from each location to event owner location
 	for (const location of so.mapLocations) {
 		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
-   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources));
+   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources, getIdleTaskUid(state)));
 	}
 
   }

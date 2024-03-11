@@ -76,6 +76,33 @@ export function getResourcesAvailableByLocation(state: Readonly<MainSimulationSt
 }
 
 /**
+ * @returns The resources of the given kind and allocated to the given task and location
+ */
+export function getAllocatedResourcesByTypeAndLocation(state: Readonly<MainSimulationState>, taskId: TaskId, resourceType: ResourceType, location: LOCATION_ENUM,): Readonly<Resource>[] {
+  const internalState = state.getInternalStateObject();
+
+  return internalState.resources.filter(res =>
+  	res.currentLocation === location
+    && res.type === resourceType
+    && ((taskId) ? res.currentActivity === +taskId : true));
+}
+
+/**
+ * @returns checks whether the requested resources are available in a specific location
+ */
+export function enoughResourcesOfAllTypes(state: Readonly<MainSimulationState>, taskId: TaskId, resources: ResourceTypeAndNumber, location: LOCATION_ENUM,): boolean {
+	let enoughResources = true;
+	entries(resources).forEach(([resourceType, nbResourcesToTransfer]) => {
+		if (nbResourcesToTransfer && nbResourcesToTransfer > 0) {
+			if (nbResourcesToTransfer > getAllocatedResourcesByTypeAndLocation(state, taskId, resourceType, location).length){
+                enoughResources = false;
+			}
+		}
+	});
+	return enoughResources;
+}
+
+/**
  * @returns The number of resources allocated to the given task
  */
 export function getResourcesAllocatedToTask(state: Readonly<MainSimulationState>, taskId : TaskId): Resource[] {
@@ -190,7 +217,7 @@ export function allocateResourcesToTask(state: MainSimulationState, taskId : Tas
 
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
-	available[i]!.currentLocation = sourceLocation;
+	//available[i]!.currentLocation = sourceLocation;
   }
 }
 
@@ -219,6 +246,7 @@ export function releaseResourcesFromTask(state: MainSimulationState, taskId: Tas
  */
 export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: TaskId): void {
   const atDisposal = getResourcesAllocatedToTask(state, taskId);
+  
 
   for (const resource of atDisposal) {
     resource.currentActivity = getIdleTaskUid(state);
@@ -226,3 +254,19 @@ export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: 
 	resource.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
   }
 }
+
+/**
+ * Delete one idle resource 
+ */
+export function deleteIdleResource(state: MainSimulationState, location: LOCATION_ENUM, resourceType: ResourceType): void {
+	const atDisposal: Resource[] = getResourcesAvailableByLocation(state, location, resourceType);
+	const internalState = state.getInternalStateObject();
+
+	const theWinner = atDisposal[0];
+	if (theWinner == undefined) {
+		taskLogger.error(`No idle resource found to delete for location ${location} and resourceType ${resourceType}`);
+	} else {
+		internalState.resources.splice(internalState.resources.indexOf(theWinner), 1);
+	}
+}
+

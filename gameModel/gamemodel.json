@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1709719020037,
+  "createdTime" : 1709913787207,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4672,9 +4672,10 @@
         "name" : "mainSim-actions-tasks",
         "properties" : {
           "actor-arrival" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have arrived at the incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes arrivé sur les lieux de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous appointez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appointed an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez appointé un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"appointer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous nommez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appointed an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez nommé un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-evasan-wentwrong-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you could not appoint an EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'avez pas pu nommer un EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you assigned resources to a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez assigné des ressources à une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign a task\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner une tâche\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4716,6 +4717,10 @@
           "move-actor-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move your role to one of the available location on the map\"},\"FR\":{\"status\":\"\",\"translation\":\"déplace votre rôle à un emplacement disponible sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you moved\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous êtes déplacé\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move resources to given location and task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer ressources à l'endroit et tâche choisie\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resources have been sucessfuly reassigned\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources ont été assignés avec succés\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-refused" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resources have refused your orders\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources ont refusé votre ordre\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resource\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner ressource\",\"lang\":\"FR\"}},\"version\":0}",
           "on-the-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"on the way\"},\"FR\":{\"status\":\"\",\"translation\":\"en route\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.\"},\"FR\":{\"status\":\"\",\"translation\":\"prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the passer-by seems to be in a state of shock. He didn't see what happened.\"},\"FR\":{\"status\":\"\",\"translation\":\"le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6172,19 +6177,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourceArrivalResolution",
+    "contentKey" : "game/common/resources/resourceContainer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#150:8aRnJw",
+    "refId" : "GameModelContent:30080917:KbL31o",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourceContainer",
+    "contentKey" : "game/common/resources/resourceDispatchResolution",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:30080917:KbL31o",
+    "refId" : "GameModelContent:#152:AyvFLj",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
