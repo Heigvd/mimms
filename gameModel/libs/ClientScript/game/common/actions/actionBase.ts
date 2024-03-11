@@ -362,7 +362,10 @@ export class SelectionPMAAction extends SelectionFixedMapEntityAction {
 		super(startTimeSec, durationSeconds, actionNameKey, messageKey, eventId, ownerId, fixedMapEntity, uuidTemplate, provideFlagsToState);
 	}
 
-	// TODO see what need to be overridden
+	protected override dispatchEndedEvents(state: MainSimulationState): void {
+ 	super.dispatchEndedEvents(state);
+	localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA', TimeSliceDuration));
+}
 }
 
 /**
