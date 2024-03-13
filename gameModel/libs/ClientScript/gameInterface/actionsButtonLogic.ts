@@ -1,13 +1,11 @@
 import { CasuMessagePayload } from '../game/common/events/casuMessageEvent';
 import {
-	isAssignResourcesToTaskActionTemplate,
 	isCasuMessageActionTemplate,
-	isReleaseResourcesToTaskActionTemplate,
 	isFixedMapEntityTemplate,
-	isSendResourcesToActorActionTemplate,
 	isRadioActionTemplate,
+isMoveActorActionTemplate,
+isMoveResourcesAssignTaskActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getAllActors } from '../UIfacade/actorFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from "../game/common/resources/resourceType";
 import { actionClickHandler, canPlanAction } from "../gameInterface/main";
 import { clearMapState, startMapSelect } from '../gameMap/main';
@@ -16,7 +14,7 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -40,17 +38,9 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 			params = fetchSelectMapObjectValues()!;
 			clearMapState();
 		}
-	} else if (isSendResourcesToActorActionTemplate(actionRefUid)) {
 
-		params = fetchSendResourcesValues();
-
-	} else if (isAssignResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchAssignResourceValues();
-
-	} else if (isReleaseResourcesToTaskActionTemplate(actionRefUid)) {
-
-		params = fetchReleaseResourceValues();
+	} else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+		params = fetchMoveResourcesAssignTaskValues();
 
 	} else if (isCasuMessageActionTemplate(actionRefUid)) {
 
@@ -59,11 +49,14 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 	} else if (isRadioActionTemplate(actionRefUid)) {
 
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
+
+	} else if (isMoveActorActionTemplate(actionRefUid)) {
+
+		params = fetchMoveActorLocation();
 	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
-
 
 /**
  * Generate a SelectMapObjectPayload from interface state
@@ -84,11 +77,41 @@ function fetchSelectMapObjectValues() { // TODO Add type
 }
 
 /**
- * Generate a SendResourcesPayload from interface state
- * 
- * @returns SendResourcesPayload
+ * Generate a MoveResourcesAssignTaskPayload from interface state
+ *
+ * @returns MoveResourcesAssignTaskPayload
  */
-function fetchSendResourcesValues() { // TODO Add Type
+function fetchMoveResourcesAssignTaskValues() { // TODO Add Type
+	const sentResources: ResourceTypeAndNumber = {};
+
+	ResourcesArray.forEach(resourceType => {
+		const amount = Context.interfaceState.state.resources.allocateResources[resourceType];
+		if (amount) {
+			sentResources[resourceType] = amount;
+		}
+	});
+
+	const payload = { sourceLocation: Context.interfaceState.state.resources.allocateResources.currentLocation, targetLocation: Context.interfaceState.state.resources.allocateResources.targetLocation, sentResources: sentResources, sourceTaskId: Context.interfaceState.state.resources.allocateResources.currentTaskId, targetTaskId: Context.interfaceState.state.resources.allocateResources.targetTaskId};
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state);
+	newState.resources.allocateResources.currentLocation = undefined;
+	newState.resources.allocateResources.currentTaskId = undefined;
+	newState.resources.allocateResources.targetLocation = undefined;
+	newState.resources.allocateResources.targetTaskId = undefined;
+	ResourcesArray.forEach(resourceType => {
+		newState.resources.allocateResources[resourceType] = 0;
+	});
+	Context.interfaceState.setState(newState);
+	return payload;
+}
+
+/**
+ * Generate a SendResourcesToLocationPayload from interface state
+ *
+ * @returns SendResourcesToLocationPayload
+ */
+function fetchSendResourcesToLocationValues() { // TODO Add Type
 	const sentResources: ResourceTypeAndNumber = {};
 
 	ResourcesArray.forEach(resourceType => {
@@ -98,11 +121,12 @@ function fetchSendResourcesValues() { // TODO Add Type
 		}
 	});
 
-	const payload = { receiverActor: +Context.interfaceState.state.resources.sendResources.selectedActorId, sentResources };
+	const payload = { sourceLocation: Context.interfaceState.state.resources.sendResources.sourceLocation, destinationLocation: Context.interfaceState.state.resources.sendResources.destinationLocation, sentResources };
 
 	// Reset interfaceState
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
-	newState.resources.sendResources.selectedActorId = getAllActors()[0]!.Uid;
+	newState.resources.sendResources.sourceLocation = LOCATION_ENUM.meetingPoint;
+	newState.resources.sendResources.destinationLocation = LOCATION_ENUM.meetingPoint;
 	ResourcesArray.forEach(resourceType => {
 		newState.resources.sendResources[resourceType] = 0;
 	});
@@ -228,4 +252,20 @@ function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayloa
 	Context.interfaceState.setState(newState);
 
 	return res;
+}
+
+/**
+ * Get chosen location for moveActorAction 
+ * @returns LOCATION_ENUM
+ */
+function fetchMoveActorLocation(){
+	let res = Context.interfaceState.state.moveActorChosenLocation;
+
+	// Reset interfaceState
+	const newState = Helpers.cloneDeep(Context.interfaceState.state)
+	newState.moveActorChosenLocation = undefined;
+	Context.interfaceState.setState(newState);
+
+	return res;
+
 }

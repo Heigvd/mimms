@@ -1,5 +1,6 @@
 import { Actor } from "../game/common/actors/actor";
 import { ActorId } from "../game/common/baseTypes";
+import { LOCATION_ENUM } from "../game/common/simulationState/locationState";
 import { getCurrentState } from "../game/mainSimulationLogic";
 
 
@@ -43,3 +44,21 @@ export function getOtherValidActor(ctx: any) : ActorId {
 
 }
 
+/**
+ * Returns actors at given location
+ * @param location 
+ */
+export function getActorsByLocation(location: LOCATION_ENUM){
+	return getAllActors().filter((actor) => actor.Location === location );	
+}
+
+/**
+ * Check if the current actor is at given location
+ *
+ * @param location Location to check
+ */
+// note : used in pages
+export function isCurrentActorAtLocation(location: LOCATION_ENUM): boolean {
+  const currentActorUid = Context.interfaceState.state.currentActorUid;
+  return getActorsByLocation(location).some(actor => actor.Uid === currentActorUid);
+}

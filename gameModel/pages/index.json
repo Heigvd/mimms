@@ -20,7 +20,7 @@
         "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -58,7 +58,7 @@
           "@class" : "Page",
           "id" : "17",
           "name" : "likert",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
@@ -158,19 +158,19 @@
           "@class" : "Page",
           "id" : "30",
           "name" : "patientJoinPages",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "35",
           "name" : "squadJoinPages",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "38",
           "name" : "observerJoinPage",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : false
         } ],
         "name" : "QR"
@@ -188,7 +188,7 @@
         "@class" : "Page",
         "id" : "3",
         "name" : "(para)SympatheticSystem",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -200,25 +200,25 @@
         "@class" : "Page",
         "id" : "13",
         "name" : "bagsConfig",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "15",
         "name" : "situationsConfig",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "16",
         "name" : "skills config",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "29",
         "name" : "patientPresets",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : true
       } ],
       "name" : "Scenarist"
@@ -238,13 +238,13 @@
         "@class" : "Page",
         "id" : "1",
         "name" : "HUMAn for tests",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "7",
         "name" : "spy",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
@@ -270,6 +270,12 @@
           "@class" : "Page",
           "id" : "58",
           "name" : "mainSim_actions",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "65",
+          "name" : "mainSim_actors",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
@@ -300,7 +306,7 @@
         "@class" : "Page",
         "id" : "18",
         "name" : "livePathologyEditor",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -312,7 +318,7 @@
         "@class" : "Page",
         "id" : "20",
         "name" : "currentPatientPathologyEditor",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "tools"
@@ -337,35 +343,11 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
-        "@class" : "Page",
-        "id" : "46",
-        "name" : "resources",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "52",
-          "name" : "availableResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "54",
-          "name" : "sendResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "55",
-          "name" : "assignTaskToResources",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "56",
-          "name" : "releaseResourcesFromTask",
+          "id" : "67",
+          "name" : "allocateResources",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],
@@ -390,7 +372,7 @@
         "@class" : "Page",
         "id" : "61",
         "name" : "ResourceSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -453,6 +435,12 @@
         "id" : "64",
         "name" : "notifications",
         "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "66",
+        "name" : "moveActorAction",
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"

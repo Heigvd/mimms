@@ -1,7 +1,8 @@
 import { taskLogger } from "../../../tools/logger";
 import { getTranslation } from "../../../tools/translation";
-import { Actor } from "../actors/actor";
+import { Actor, InterventionRole } from "../actors/actor";
 import { SimTime, TaskId, TranslationKey } from "../baseTypes";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import * as TaskState from "../simulationState/taskStateAccess";
 
@@ -27,7 +28,9 @@ export abstract class TaskBase {
     readonly title: TranslationKey,
     readonly description: TranslationKey,
     readonly nbMinResources: number,
-    readonly nbMaxResources: number) {
+    readonly nbMaxResources: number,
+	readonly ownerRole: InterventionRole,
+    readonly executionLocations: LOCATION_ENUM[]) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
   }
@@ -112,8 +115,11 @@ export abstract class DefaultTask extends TaskBase {
     title: TranslationKey,
     description: TranslationKey,
     nbMinResources: number,
-    nbMaxResources: number) {
-    super(title, description, nbMinResources, nbMaxResources);
+    nbMaxResources: number,
+	ownerRole: InterventionRole,
+    executionLocations: LOCATION_ENUM[]
+) {
+    super(title, description, nbMinResources, nbMaxResources, ownerRole, executionLocations);
   }
 
   protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void;

@@ -1,6 +1,7 @@
 import { getLineStringMiddlePoint, getPolygonCentroid } from "../../../gameMap/utils/mapUtils";
 import { InterventionRole } from "../actors/actor";
-import { ActorId, SimDuration, SimTime } from "../baseTypes";
+import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionCreationEvent } from "./eventTypes";
 
 export type PointLikeObjects = PointLikeObject | PointLikeObject[] | PointLikeObject[][] | PointLikeObject[][][];
@@ -10,18 +11,19 @@ export type AvailablePositionType = PointLikeObject[] | PointLikeObject[][] | Po
 export enum BuildingStatus {
 	selection = "selection",
 	inProgress = "inProgress",
-	ready = "ready"
+	ready = "ready",
 }
 
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
-  name!: string;
-  id!: string; //symbolicPosition, LOCATION_ENUM
+  name!: TranslationKey;
+  id!: LOCATION_ENUM; //symbolicPosition, LOCATION_ENUM
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
+  isAccessible?: boolean;
 
   abstract getGeometricalShape(): GeometricalShape;
 }
@@ -29,7 +31,7 @@ export abstract class FixedMapEntity {
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 	geometricalShape!: GeometricalShape;
 
-	constructor(ownerId: ActorId, name: string, id: string, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string){
+	constructor(ownerId: ActorId, name: TranslationKey, id: LOCATION_ENUM, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string, isAccessible: boolean = true){
 		super();
 		this.ownerId = ownerId;
 		this.name = name;
@@ -38,6 +40,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 		this.icon = icon;
 		this.geometricalShape = geometricalShape;
 		this.buildingStatus = buildingStatus;
+		this.isAccessible = isAccessible;
 	}
 
 	getGeometricalShape(): GeometricalShape {
@@ -203,5 +206,5 @@ export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEnt
 			geometricalShape = new MultiPolygonGeometricalShape(obj.geometricalShape.availablePositions, obj.geometricalShape.selectedPosition);
 			break;
 	}
-	return new GeometryBasedFixedMapEntity(obj.ownerId, obj.name, obj.id, obj.leaderRoles, geometricalShape!, obj.buildingStatus, obj.icon);
+	return new GeometryBasedFixedMapEntity(obj.ownerId, obj.name, obj.id, obj.leaderRoles, geometricalShape!, obj.buildingStatus, obj.icon, obj.isAccessible);
 }

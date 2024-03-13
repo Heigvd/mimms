@@ -62,20 +62,6 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "initialSelectedPageId" : {
-                                      "@class" : "Script",
-                                      "content" : "\"52\"",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "",
-                                    "layoutStyle" : { },
-                                    "name" : "availableResourcesLoader",
-                                    "style" : { }
-                                  },
-                                  "type" : "PageLoader"
-                                }, {
-                                  "props" : {
                                     "className" : "patient-debug-information",
                                     "hideIf" : {
                                       "@class" : "Script",
@@ -106,7 +92,9 @@
                                 "className" : "headerPanels",
                                 "layout" : { },
                                 "layoutClassName" : "headerPanels-container",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "display" : "none"
+                                },
                                 "name" : "headerPanels",
                                 "style" : { }
                               },
@@ -185,7 +173,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'actions';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -193,7 +181,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'actions';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -201,7 +189,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'actions';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.actions;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -220,7 +208,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'radios';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -228,7 +216,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'radios';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -241,7 +229,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'radios';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -265,7 +253,7 @@
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'notification';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.notification;",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -273,7 +261,7 @@
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'notification';",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.notification;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -286,7 +274,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'notification';\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.notification;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -294,6 +282,46 @@
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'notifications')}</p>`",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel == 'resources';",
+                                            "language" : "typescript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "not-active-selected-item",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.selectedPanel != 'resources';",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "disableIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'resources';\nContext.interfaceState.setState(newState);",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'resources')}</p>`",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -311,7 +339,7 @@
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tdefault: page = '45';\n}\npage;",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
@@ -487,6 +515,204 @@
                                     "OSMLayer" : false,
                                     "children" : [ {
                                       "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "close-button",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"<p>X</p>\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutStyle" : {
+                                                      "padding" : "0"
+                                                    },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "style" : {
+                                                      "backgroundColor" : "none",
+                                                      "marginBottom" : ".5em",
+                                                      "paddingLeft" : "2px",
+                                                      "paddingRight" : "2px"
+                                                    }
+                                                  },
+                                                  "type" : "Button"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "h3title",
+                                                    "layoutStyle" : { },
+                                                    "name" : "fixedEntitiesName",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                } ],
+                                                "layout" : {
+                                                  "alignItems" : "center",
+                                                  "flexDirection" : "row"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntityHeader",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "resourceCounter squareCounter",
+                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.resources.length);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "icon" : "hospital-user",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"<p>&nbsp;<br></p>\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : " s_squareButton",
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "name" : "rsrcBtn",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "actor",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "current",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "icon" : {
+                                                          "@class" : "Script",
+                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"hat-wizard\")}\n\n'';",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "Context.actor.Role;",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "exposeAs" : "actor",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.actors;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "Uid",
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "For each"
+                                                } ],
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntityContent",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : {
+                                              "flexDirection" : "column"
+                                            },
+                                            "layoutClassName" : "fixedEntities-container",
+                                            "layoutStyle" : { },
+                                            "name" : "genericFixedEntity",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : { },
+                                            "layoutClassName" : "fixedEntities-arrow",
+                                            "layoutStyle" : { },
+                                            "name" : "genericFixedEntity-arrow",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "exposedValueKeys" : {
+                                          "exposePayloadAs" : "overlayItem"
+                                        },
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "id",
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "WegasMapOverlays"
+                                    }, {
+                                      "props" : {
                                         "hideIf" : {
                                           "@class" : "Script",
                                           "content" : "!Context.mapState.state.selectionState",
@@ -552,7 +778,7 @@
                                       "type" : "WegasMapVectorLayer"
                                     }, {
                                       "props" : {
-                                        "layerId" : "",
+                                        "layerId" : "available",
                                         "layerProps" : {
                                           "zIndex" : 91
                                         },
@@ -707,7 +933,7 @@
                                       "onClick" : {
                                         "@class" : "ScriptCallback",
                                         "args" : [ "coord", "features" ],
-                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\n// handleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
                                       }
                                     },
                                     "style" : { },

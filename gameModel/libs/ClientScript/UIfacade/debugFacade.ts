@@ -2,6 +2,7 @@ import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { localEventManager } from '../game/common/localEvents/localEventManager';
 import { buildingsRef } from '../gameMap/main';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 export function getCurrentState() {
 	return mainLogic.getCurrentState();
@@ -31,22 +32,35 @@ export function recomputeLocalState() {
 	mainLogic.recomputeState();
 }
 
+/* DEPRECATED */
+// export function getAllResourcesGroup() {
+// 	const tasks = getCurrentState().getInternalStateObject().tasks;
+// 	const actors = getCurrentState().getInternalStateObject().actors;
+// 	const resources = getCurrentState().getInternalStateObject().resources;
+// 	const resourceGroups = Object.values(getCurrentState().getInternalStateObject().resourceGroups);
+// 	const response: { ownerId: number, ownerType: Role, resourceId: number, resourceType: string, currentActivity: string  }[] = [];
+// 	resourceGroups.forEach((resourceGroup) => {
+// 		Object.keys(resourceGroup.owners).forEach(key => {
+// 			const actor = actors.find(a => Number(key) == a.Uid);
+// 			Object.keys(resourceGroup.resources).forEach(rk => {
+// 				const resource = resources.find( r => r.Uid == Number(rk))
+// 				const actionTitle = resource.currentActivity ? tasks.find(t => t.Uid == resource.currentActivity)?.title : resource.currentActivity;
+// 				response.push({ownerId: actor.Uid, ownerType: actor.Role, resourceId: resource.Uid, resourceType: resource.type, currentActivity: actionTitle})
+// 			})
+// 		})
+// 	});
+// 	return response;
+// }
 
-export function getAllResourcesGroup() {
+export function getAllResources() {
 	const tasks = getCurrentState().getInternalStateObject().tasks;
-	const actors = getCurrentState().getInternalStateObject().actors;
 	const resources = getCurrentState().getInternalStateObject().resources;
-	const resourceGroups = Object.values(getCurrentState().getInternalStateObject().resourceGroups);
-	const response: { ownerId: number, ownerType: Role, resourceId: number, resourceType: string, currentActivity: string  }[] = [];
-	resourceGroups.forEach((resourceGroup) => {
-		Object.keys(resourceGroup.owners).forEach(key => {
-			const actor = actors.find(a => Number(key) == a.Uid);
-			Object.keys(resourceGroup.resources).forEach(rk => {
-				const resource = resources.find( r => r.Uid == Number(rk))
-				const actionTitle = resource.currentActivity ? tasks.find(t => t.Uid == resource.currentActivity)?.title : resource.currentActivity;
-				response.push({ownerId: actor.Uid, ownerType: actor.Role, resourceId: resource.Uid, resourceType: resource.type, currentActivity: actionTitle})
-			})
-		})
+
+	const response: { resourceId: number, resourceType: string, currentActivity: string, currentLocation: LOCATION_ENUM  }[] = [];
+
+	resources.forEach((resource) => {
+		const activityTitle = resource.currentActivity ? tasks.find(t => t.Uid == resource.currentActivity)?.title : resource.currentActivity;
+		response.push({resourceId: resource.Uid, resourceType: resource.type, currentActivity: '' + (activityTitle || ''), currentLocation: resource.currentLocation});
 	});
 	return response;
 }

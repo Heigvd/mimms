@@ -5,30 +5,36 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-	SendResourcesToActorActionTemplate, AssignTaskToResourcesActionTemplate, ReleaseResourcesFromTaskActionTemplate, CasuMessageTemplate, SendRadioMessage, SelectionFixedMapEntityTemplate, SimFlag,
+  CasuMessageTemplate,
+  SendRadioMessage,
+  SelectionFixedMapEntityTemplate,
+  SimFlag,
+  MoveActorActionTemplate,
+  ArrivalAnnoucementTemplate,
+  AppointActorActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+SelectionPMATemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
-import { ActorId, TaskId, TemplateId, TemplateRef } from "./common/baseTypes";
+import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
 import { TimeSliceDuration } from "./common/constants";
 import { initBaseEvent } from "./common/events/baseEvent";
 import { BuildingStatus, GeometryBasedFixedMapEntity, MultiLineStringGeometricalShape, PointGeometricalShape, PolygonGeometricalShape } from "./common/events/defineMapObjectEvent";
-import { ActionCancellationEvent, ActionCreationEvent, ResourceAllocationEvent, ResourceReleaseEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
+import { ActionCancellationEvent, ActionCreationEvent, TimeForwardEvent, TimedEventPayload, isLegacyGlobalEvent } from "./common/events/eventTypes";
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from "./common/events/eventUtils";
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from "./common/localEvents/localEventBase";
 import { localEventManager } from "./common/localEvents/localEventManager";
 import { loadPatients } from "./common/patients/handleState";
 import { MainSimulationState } from "./common/simulationState/mainSimulationState";
-import * as TaskLogic from "./common/tasks/taskLogic";
-import { ResourceType } from './common/resources/resourceType';
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from "./common/resources/resourceContainer";
 import { loadEmergencyResourceContainers } from "./common/resources/emergencyDepartment";
-import { ResourceGroup } from "./common/resources/resourceGroup";
 import { TaskBase } from "./common/tasks/taskBase";
 import { PorterTask } from "./common/tasks/taskBasePorter";
 import { PreTriageTask } from "./common/tasks/taskBasePretriage";
 import { ActionType } from "./common/actionType";
 import { LOCATION_ENUM } from "./common/simulationState/locationState";
+import { WaitingTask } from "./common/tasks/taskBaseWaiting";
 
 
 let currentSimulationState : MainSimulationState;
@@ -59,17 +65,18 @@ function initMainState(): MainSimulationState {
 
 	// TODO read all simulation parameters to build start state and initilize the whole simulation
 
-	const testAL = new Actor('AL');
-	const testCASU = new Actor('CASU');
+	const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+	const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-	const mainAccident = new GeometryBasedFixedMapEntity(0, "Lieu de l'accident", LOCATION_ENUM.mainAccident, ['AL'], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
+	const mainAccident = new GeometryBasedFixedMapEntity(0, "location-chantier", LOCATION_ENUM.chantier, [], new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]), BuildingStatus.ready, 'mainAccident');
 	
-    const taskPretri = new PreTriageTask("PreTriage", "pre-tri-desc", 1, 5, 'pretriage-task-completed');
-    const taskPorter = new PorterTask("Brancardage", "porter-desc", 2, 10, 'porters-task-completed');
+    const taskPretri = new PreTriageTask("pre-tri-title", "pre-tri-desc", 1, 5, 'pretriage-task-completed', [LOCATION_ENUM.chantier]);
+    const taskPorter = new PorterTask("brancardage-title", "porter-desc", 2, 10, 'porters-task-completed', [LOCATION_ENUM.chantier]);
+	const taskWaiting = new WaitingTask("waiting-title", "waiting-task-desc", 1, 10000, '', [LOCATION_ENUM.PC, LOCATION_ENUM.PMA, LOCATION_ENUM.chantier, LOCATION_ENUM.meetingPoint, LOCATION_ENUM.nidDeBlesses]);
 
 
 	const initialResources = [
-		new Resource('ambulancier'),
+		new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
 		/*new Resource('secouriste'),
 		new Resource('secouriste'),
 		new Resource('secouriste'),
@@ -81,20 +88,16 @@ function initMainState(): MainSimulationState {
 		new Resource('medecinJunior'),*/
 	];
 
-	const testGroup = new ResourceGroup().addOwner(testAL.Uid);
-	initialResources.forEach(r => testGroup.addResource(r));
-
   return new MainSimulationState({
     actions: [],
     cancelledActions: [],
     actors: [testAL, testCASU],
     mapLocations: [mainAccident],
     patients: loadPatients(),
-    tasks: [taskPretri, taskPorter],
+    tasks: [taskWaiting, taskPretri, taskPorter],
     radioMessages: [],
     resources: initialResources,
     resourceContainers: loadEmergencyResourceContainers(),
-    resourceGroups: [testGroup],
     flags: {}
   }, 0, 0);
 
@@ -104,7 +107,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-	const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "MeetingPoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
+  const placeMeetingPoint = new SelectionFixedMapEntityTemplate('define-meetingPoint-title', 'define-meetingPoint-desc', TimeSliceDuration , 'define-meetingPoint-feedback', new GeometryBasedFixedMapEntity(0, "location-meetingpoint", LOCATION_ENUM.meetingPoint, ['AL'], new PointGeometricalShape([[2500075.549931927, 1118500.103111194], [2500106.549931926, 1118550.103111192], [2500106.549931926, 1118489.103111192]]), BuildingStatus.selection, 'meetingpoint_blue'),false, [], [SimFlag.MEETINGPOINT_BUILT]);
   const getInfo = new GetInformationTemplate('basic-info-title', 'basic-info-desc', TimeSliceDuration * 2, 'basic-info-feedback');
   const getInfo2 = new GetInformationTemplate('other-basic-info-title', 'other-basic-info-desc', TimeSliceDuration, 'other-basic-info-feedback');
   const getPoliceInfos = new GetInformationTemplate('basic-info-police-title', 'basic-info-police-desc', TimeSliceDuration, 'basic-info-police-feedback');
@@ -113,13 +116,19 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
   const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
 
+  const moveActor = new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration, 'move-actor-feedback', true, [SimFlag.MEETINGPOINT_BUILT]);
+
   const placeAccessRegress = new SelectionFixedMapEntityTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', new GeometryBasedFixedMapEntity(0, 'Accreg', 'Accreg', [], new MultiLineStringGeometricalShape([
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
         [[[2500113.647301364, 1118575.704815885], [2500096.7293570912, 1118534.8226090078]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]],
         [[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]], [[2500109.5966483564,1118490.3921636103], [2500134.8148273816,1118469.6649961546]]],
-      ]), BuildingStatus.selection, 'right-arrow'));
+      ]), BuildingStatus.selection, 'right-arrow', false));
 
-  const placePMA = new SelectionFixedMapEntityTemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'PMA', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
+  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUNCED], ['ACS', 'MCS']);
+
+  const appointEVASAN = new AppointActorActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', true, 'appoint-EVASAN-wentWrong-feedback', 'EVASAN', LOCATION_ENUM.PC, 'ambulancier', [SimFlag.PC_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.EVASAN_ARRIVED]);
+
+  const placePMA = new SelectionPMATemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'location-pma-short', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
 		   [2499948.345528039, 1118442.755145481],
 		   [2499928.9775556503, 1118418.871686022],
@@ -148,18 +157,16 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		   [2500121.81913271, 1118564.4089291636],
 		   [2500118.355243353, 1118555.6384201094],
 		   [2500133.0180577287, 1118549.8816207554],
-		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection));
+		   [2500136.790143822, 1118548.3406066815]]]]), BuildingStatus.selection, 'PMA'));
 	
-  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'PC', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED]);
-  const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "Nest", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
+  const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'location-pc-short', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
+  const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "location-niddeblesses", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
-  const sendResources = new SendResourcesToActorActionTemplate('send-resources-title', 'send-resources-desc', TimeSliceDuration, 'send-resources-feedback');
-
-  const assignTaskToResources = new AssignTaskToResourcesActionTemplate('assign-task-title', 'assign-task-desc', TimeSliceDuration, 'assign-task-feedback');
-  const releaseResourcesFromTask = new ReleaseResourcesFromTaskActionTemplate('release-task-title', 'release-task-desc', TimeSliceDuration, 'release-task-feedback');
+  const allocateResources = new MoveResourcesAssignTaskActionTemplate('move-res-task-title', 'move-res-task-desc', TimeSliceDuration, 'move-res-task-feedback', 'move-res-task-refused', true);
 
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
+  templates[moveActor.getTemplateRef()] = moveActor;
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
@@ -170,9 +177,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
-  templates[sendResources.getTemplateRef()] = sendResources;
-  templates[assignTaskToResources.getTemplateRef()] = assignTaskToResources;
-  templates[releaseResourcesFromTask.getTemplateRef()] = releaseResourcesFromTask;
+  templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+  templates[allocateResources.getTemplateRef()] = allocateResources;
 
   return templates;
 }
@@ -250,20 +257,6 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
 
 		}
 			break;
-		case 'ResourceAllocationEvent': {
-			const newLocalEvent = TaskLogic.createResourceAllocationLocalEvent(event as FullEvent<ResourceAllocationEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
-		case 'ResourceReleaseEvent': {
-			const newLocalEvent = TaskLogic.createResourceReleaseLocalEvent(event as FullEvent<ResourceReleaseEvent>, currentSimulationState);
-			if (newLocalEvent != null) {
-				localEventManager.queueLocalEvent(newLocalEvent);
-			}
-			break;
-		}
 		case 'TimeForwardEvent': {
 			const timefwdEvent = new TimeForwardLocalEvent(event.id, event.payload.triggerTime, event.payload.timeJump);
 			localEventManager.queueLocalEvent(timefwdEvent);
@@ -317,34 +310,6 @@ export async function buildAndLaunchActionFromTemplate(ref: TemplateRef, selecte
 	} else {
 		mainSimLogger.error('Could not find action template with ref or actor with id', ref, selectedActor);
 	}
-}
-
-export async function buildAndLaunchResourceAllocation(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceAllocationEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceAllocationEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
-}
-
-export async function buildAndLaunchResourceRelease(taskId: TaskId, selectedActor: ActorId, resourceType: ResourceType, nbResources: number): Promise<IManagedResponse | undefined> {
-	const globalEvent: ResourceReleaseEvent = {
-		...initBaseEvent(0),
-		triggerTime: currentSimulationState.getSimTime(),
-		type: 'ResourceReleaseEvent',
-		taskId,
-		actorId: selectedActor,
-		resourceType,
-		nbResources,
-	}
-
-	return await sendEvent(globalEvent);
 }
 
 export async function buildAndLaunchActionCancellation(selectedActor: ActorId, templateId: TemplateId): Promise<IManagedResponse | undefined> {

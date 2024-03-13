@@ -1,15 +1,19 @@
 import { ActionType } from '../game/common/actionType';
+import { TaskId } from '../game/common/baseTypes';
 import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
+import { SelectedPanel } from './selectedPanel';
 
 export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
+	moveActorChosenLocation: LOCATION_ENUM | undefined;
 	showPatientModal: boolean;
-	selectedPanel: 'actions' | 'radios' | 'notification';
+	selectedPanel: SelectedPanel;
 	selectedMapObjectId: string;
 	channel: string;
 	updatedChannelMessagesAt: number;
@@ -20,8 +24,15 @@ export interface InterfaceState {
 	isReleaseResourceOpen: boolean;
 	casuMessage: CasuMessage;
 	resources: {
+		allocateResources: {
+			currentLocation: LOCATION_ENUM | undefined,
+			currentTaskId: TaskId | undefined,
+			targetLocation: LOCATION_ENUM | undefined,
+			targetTaskId: TaskId | undefined,
+		} & Resources;
 		sendResources: {
-			selectedActorId: number;
+			sourceLocation: LOCATION_ENUM,
+			destinationLocation: LOCATION_ENUM,
 		} & Resources;
 		assignResources: {
 			selectedTaskId: string,
@@ -66,8 +77,22 @@ export function getInitialInterfaceState(): InterfaceState {
 			victims: "",
 		},
 		resources: {
+			allocateResources: {
+				currentLocation: undefined,
+				currentTaskId: undefined,
+				targetLocation: undefined,
+				targetTaskId: undefined,
+				// the keywords must be those of HumanResourceTypeArray
+				secouriste: 0,
+				technicienAmbulancier: 0,
+				ambulancier: 0,
+				infirmier: 0,
+				medecinJunior: 0,
+				medecinSenior: 0,
+			},
 			sendResources: {
-				selectedActorId: getAllActors()[0]!.Uid,
+				sourceLocation: LOCATION_ENUM.meetingPoint,
+				destinationLocation: LOCATION_ENUM.meetingPoint,
 				// the keywords must be those of HumanResourceTypeArray
 				secouriste: 0,
 				technicienAmbulancier: 0,
@@ -98,10 +123,11 @@ export function getInitialInterfaceState(): InterfaceState {
 			},
 			requestedResources: getEmptyResourceRequest(),
 		},
+		moveActorChosenLocation: undefined,
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',
-		selectedPanel: 'actions',
+		selectedPanel: SelectedPanel.actions,
 		channel: ActionType.CASU_RADIO,
 		updatedChannelMessagesAt: 0,
 		channelText: {

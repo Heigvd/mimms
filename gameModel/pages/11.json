@@ -62,6 +62,11 @@
                 "language" : "typescript"
               }
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { areAcsMcsAnnouced } from \"./UIfacade/flagsFacade\";\n!areAcsMcsAnnouced();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "\"<p>D418</p>\"",
@@ -103,6 +108,11 @@
                 "language" : "typescript"
               }
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { areAcsMcsAnnouced } from \"./UIfacade/flagsFacade\";\n!areAcsMcsAnnouced();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "\"<p>D424</p>\"",
@@ -144,6 +154,11 @@
                 "language" : "typescript"
               }
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { areAcsMcsAnnouced } from \"./UIfacade/flagsFacade\";\n!areAcsMcsAnnouced();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "\"<p>D912</p>\"",

@@ -1,7 +1,7 @@
 import { group } from "../../../tools/groupBy";
 import { ActionBase } from "../actions/actionBase";
 import { SimFlag } from "../actions/actionTemplateBase";
-import { Actor, InterventionRole } from "../actors/actor";
+import { Actor } from "../actors/actor";
 import { ActorId, SimDuration, SimTime } from "../baseTypes";
 import { FixedMapEntity } from "../events/defineMapObjectEvent";
 import { IClonable } from "../interfaces";
@@ -10,7 +10,6 @@ import { RadioMessage } from "../radioMessage";
 import { getAllContainerDefs } from "../resources/emergencyDepartment";
 import { Resource } from "../resources/resource";
 import { ResourceContainerConfig, ResourceContainerType} from "../resources/resourceContainer";
-import { ResourceGroup } from "../resources/resourceGroup";
 import { TaskBase } from "../tasks/taskBase";
 import { PatientState } from "./patientState";
 
@@ -133,17 +132,6 @@ export class MainSimulationState implements IClonable {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
 
-  public getResourceGroupByActorId(actorId: ActorId): ResourceGroup | undefined{
-	  return this.internalState.resourceGroups.find(g => g.hasOwner(actorId));
-  }
-
-  /**
-   * If multiple matches, returns the first match
-   */
-  public getResourceGroupByRole(role: InterventionRole): ResourceGroup | undefined{
-	  return this.internalState.resourceGroups.find(g => g.hasRole(this, role));
-  }
-
   /**
    * @returns An array of all map locations
    */
@@ -164,6 +152,7 @@ export class MainSimulationState implements IClonable {
   /**
    * @returns True if the zones are defined
    */
+  // deprecated - loc.name === 'Triage Zone' won't work anymore
   public areZonesAlreadyDefined(): boolean {
     // TODO make it stronger when zones, PMA, PC, ... are more thant just places
     return this.internalState.mapLocations.filter(loc => loc.name === 'Triage Zone'
@@ -190,7 +179,6 @@ interface MainStateObject {
   actors : Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];
-  resourceGroups: ResourceGroup[];
   /**
    * Resources containers that can be dispatched by the emergency dept.
    */

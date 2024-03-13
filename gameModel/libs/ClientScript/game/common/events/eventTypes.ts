@@ -7,9 +7,10 @@ import { Channel, Phone, Radio } from "../../legacy/communication";
 import { FullEvent } from "./eventUtils";
 import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
-import { ActorId, SimDuration, SimTime, TaskId,  TemplateId, TemplateRef } from "../baseTypes";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceFunction } from '../resources/resourceFunction';
+import { ActorId, SimDuration, SimTime, TaskId, TemplateId, TemplateRef, TranslationKey } from "../baseTypes";
+import { ResourceTypeAndNumber } from '../resources/resourceType';
+import { LOCATION_ENUM } from "../simulationState/locationState";
+import { InterventionRole } from "../actors/actor";
 
 /**
  * Walk, drive, fly to destination
@@ -164,10 +165,7 @@ export type EventPayload =
 	// NEW EVENTS
 	| TimeForwardEvent
 	| ActionCreationEvent
-	| ActionCancellationEvent
-	| ResourceSendingToActorEvent
-	| ResourceAllocationEvent
-	| ResourceReleaseEvent;
+	| ActionCancellationEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -199,41 +197,14 @@ export interface StandardActionEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
 }
 
-export interface ResourceSendingToActorEvent extends ActionCreationEvent {
+export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
 	durationSec: SimDuration;
-	receiverActor: ActorId;
+	failMessage: TranslationKey;
+	sourceLocation: LOCATION_ENUM;
+	targetLocation: LOCATION_ENUM;
 	sentResources: ResourceTypeAndNumber;
-}
-
-
-export interface ResourceTaskAssignmentEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	task: ResourceFunction;
-	assignedResources: ResourceTypeAndNumber;
-}
-
-export interface ResourceTaskReleaseEvent extends ActionCreationEvent {
-	durationSec: SimDuration;
-	task: ResourceFunction;
-	releasedResources: ResourceTypeAndNumber;
-}
-
-// soon deprecated
-export interface ResourceAllocationEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceAllocationEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
-}
-
-// soon deprecated
-export interface ResourceReleaseEvent extends BaseEvent, TimedPayload {
-	type: 'ResourceReleaseEvent';
-	taskId: TaskId;
-	actorId: ActorId;
-	resourceType: ResourceType;
-	nbResources: number;
+	sourceTaskId: TaskId;
+	targetTaskId: TaskId;
 }
 
 export interface TimeForwardEvent extends BaseEvent, TimedPayload {
@@ -267,4 +238,12 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
 			return true;
 	}
 	return false;
+}
+
+export interface MoveActorEvent extends ActionCreationEvent {
+	location: LOCATION_ENUM;
+}
+
+export interface AppointActorEvent extends ActionCreationEvent{
+	actorRole: InterventionRole;
 }
