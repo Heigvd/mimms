@@ -126,7 +126,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
       return true;
     }
 
-    return this.flags.some(f => state.hasFlag(f));
+    return this.flags.every(f => state.hasFlag(f));
   }
 
   protected roleWiseAvailable(role: InterventionRole): boolean {
