@@ -32,7 +32,7 @@
 }
 
 .generalPanels {
-  background: var(--gray_WHITE);
+  background-color: /*var(--gray_WHITE)*/ pink;
   border-radius: var(--S_borderRadius);
   width: auto;
   height: auto;
@@ -52,11 +52,11 @@
 	scrollbar-width: thin;
 	scrollbar-color: var(--gray_500) var(--gray_200);	
 }
-
+/*
 .leftPanel:first-of-type .allDisplay-container{
 	min-width: 31.5rem;
 }
-
+*/
 ::scrollbar-thumb{
     border-radius: 10px;
 	}

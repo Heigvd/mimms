@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1710150955844,
+  "createdTime" : 1710343669081,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7282,7 +7282,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "mimms_jess_13-03-2024 MIM-141-fixLeftPanelSize",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
