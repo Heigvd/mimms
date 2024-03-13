@@ -212,7 +212,7 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
 
 export class AddActorLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private role: InterventionRole, private travelTime: SimDuration){
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private role: InterventionRole, private travelTime: SimDuration=0){
     super(parentEventId, 'AddActorLocalEvent', timeStamp);
   }
 
@@ -222,9 +222,11 @@ export class AddActorLocalEvent extends LocalEventBase {
 	actor.setLocation(actor.getComputedSymbolicLocation(state));
 	state.getInternalStateObject().actors.push(actor);
 
-	const now = state.getSimTime();
-	const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
-	state.getInternalStateObject().actions.push(travelAction);
+	if(this.travelTime > 0){
+		const now = state.getSimTime();
+		const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
+		state.getInternalStateObject().actions.push(travelAction);
+	}
   }
 
 }
