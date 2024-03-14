@@ -100,12 +100,9 @@
     },
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
-    "style" : {
-      "heigth" : "700px"
-    }
+    "style" : { }
   },
   "type" : "FlexList"
 }

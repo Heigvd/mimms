@@ -27,14 +27,21 @@
 .sysFail{
 	color: var(--orange);
 }
+ /**************** CASU TRANSMISSION ***********************/
 
-.modal-methane-container {
-	max-width: 700px;
+.casuTransmission-container{
+	height: 100px;
+	width: 100%;
+	overflow-y: scroll!important;
 } 
 
+.scrollableCasuTransmission{
+	height: 100px;
+}
 
-.modalTitle{
-font-weight: var(--boldWeight);
+
+.modalTitle{/*Is it used?*/
+	font-weight: var(--boldWeight);
 	font-size: var(--M_text);
 }
 

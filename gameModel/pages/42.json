@@ -657,22 +657,22 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "scrollableCasuTransmission",
         "layout" : {
           "flexDirection" : "column"
         },
         "layoutStyle" : { },
+        "name" : "",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "className" : "",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin modal-methane-container",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto"
-    },
+    "layoutClassName" : " noPadding noMargin casuTransmission-container",
+    "layoutStyle" : { },
     "name" : "casuMessageInput",
     "style" : { }
   },
