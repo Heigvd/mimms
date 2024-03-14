@@ -24,7 +24,7 @@ export function getInitialMapState(): MapState {
 		mapSelect: false,
 		selectionState: undefined,
 		overlayState: {
-			"chantier": true,
+			"chantier": false,
 		}
 	};
 }
