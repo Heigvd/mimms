@@ -7282,7 +7282,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "mimms_jess_13-03-2024 MIM-141-fixLeftPanelSize",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
