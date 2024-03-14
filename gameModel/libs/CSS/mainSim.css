@@ -32,7 +32,7 @@
 }
 
 .generalPanels {
-  background-color: /*var(--gray_WHITE)*/ pink;
+  background-color: var(--gray_WHITE);
   border-radius: var(--S_borderRadius);
   width: auto;
   height: auto;
