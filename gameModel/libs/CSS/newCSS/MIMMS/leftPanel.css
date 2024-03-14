@@ -1,11 +1,12 @@
 
 .role-container{
-	width: 6rem;
+	width: 100%;
+	height: 2rem;
 	background: var(--interface_BLUE);
 	font-weight: var(--boldWeight);
 	font-size: var(--ML_text);
 	color: var(--gray_WHITE);
-	border-top-left-radius: var(--S_borderRadius);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px;
 	white-space: nowrap;
 }
 
