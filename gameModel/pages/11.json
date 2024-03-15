@@ -23,7 +23,7 @@
             } ],
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>G682</p>\"",
+              "content" : "\"<p>G679</p>\"",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },

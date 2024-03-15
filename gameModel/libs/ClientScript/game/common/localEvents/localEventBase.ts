@@ -212,19 +212,35 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
 
 export class AddActorLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, private role: InterventionRole, private travelTime: SimDuration){
+  /**
+   * Adds an actor in the game
+   * @param parentEventId 
+   * @param timeStamp 
+   * @param role spawned role
+   * @param location if undefined automatically resolved
+   * @param travelTime if 0 no travel time, if greater, a travel action is planned
+   */
+  constructor(parentEventId: GlobalEventId, 
+    timeStamp: SimTime, 
+    private role: InterventionRole, 
+    private location: LOCATION_ENUM | undefined = undefined, 
+    private travelTime: SimDuration = 0)
+  {
     super(parentEventId, 'AddActorLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
 
-	const actor = new Actor(this.role);
-	actor.setLocation(actor.getComputedSymbolicLocation(state));
-	state.getInternalStateObject().actors.push(actor);
+    const actor = new Actor(this.role);
+    const loc = this.location || actor.getComputedSymbolicLocation(state);
+    actor.setLocation(loc);
+    state.getInternalStateObject().actors.push(actor);
 
-	const now = state.getSimTime();
-	const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
-	state.getInternalStateObject().actions.push(travelAction);
+    if(this.travelTime > 0){
+      const now = state.getSimTime();
+      const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
+      state.getInternalStateObject().actions.push(travelAction);
+    }
   }
 
 }
@@ -347,32 +363,32 @@ export class ResourceMobilizationEvent extends LocalEventBase {
 	public readonly actorId: ActorId,
 	public readonly departureTime: SimTime,
 	public readonly travelTime: SimDuration,
-	public readonly containerDef: ResourceContainerDefinitionId,
+	public readonly containerDefId: ResourceContainerDefinitionId,
 	public readonly amount: number,
 	public readonly configName: string) {
 		super(parentId, 'ResourceMobilizationEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
-		const containerDef = getContainerDef(this.containerDef);
+		const containerDef = getContainerDef(this.containerDefId);
 		// We assume that containers are well configured
 		// and thus that there are no duplicates
 
 		// actors are created right away (they need to appear in the timeline)
 		// Note : Actor creation ignores the "amount" value
 		containerDef.roles.forEach(role => {
-			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, role, this.travelTime);
+			const evt = new AddActorLocalEvent(this.parentEventId, this.departureTime, role, undefined, this.travelTime);
 			localEventManager.queueLocalEvent(evt);
 		});
 
 		// schedule messages when the emergency center has new ressources that are sent
-		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDef, this.travelTime, this.amount, this.configName);
+		const dptEvt = new ResourcesDepartureLocalEvent(this.parentEventId, this.departureTime, this.actorId, this.containerDefId, this.travelTime, this.amount, this.configName);
 		localEventManager.queueLocalEvent(dptEvt);
 
 		if(Object.keys(containerDef.resources).length > 0 || Object.keys(containerDef.flags).length > 0){
 			// schedule resource arrival event
 			// TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
-			const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDef, this.amount);
+			const evt = new ResourcesArrivalLocalEvent(this.parentEventId, this.departureTime + this.travelTime, this.containerDefId, this.amount);
 			localEventManager.queueLocalEvent(evt);
 		}
 
@@ -429,14 +445,14 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 	constructor(parentId: GlobalEventId,
 	timeStamp: SimTime,
-	public readonly containerDef: ResourceContainerDefinitionId,
+	public readonly containerDefId: ResourceContainerDefinitionId,
 	public readonly amount: number) {
 		super(parentId, 'RessourcesArrivalEvent', timeStamp);
 	}
 
 	applyStateUpdate(state: MainSimulationState): void {
 
-		const containerDef = getContainerDef(this.containerDef);
+		const containerDef = getContainerDef(this.containerDefId);
 		// add flags to state if any
 		if(containerDef.flags){
 			containerDef.flags.forEach(f => state.getInternalStateObject().flags[f] = true);

@@ -363,9 +363,9 @@ export class SelectionPMAAction extends SelectionFixedMapEntityAction {
 	}
 
 	protected override dispatchEndedEvents(state: MainSimulationState): void {
- 	super.dispatchEndedEvents(state);
-	localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA', TimeSliceDuration));
-}
+		super.dispatchEndedEvents(state);
+		localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA'));
+	}
 }
 
 /**
@@ -404,7 +404,8 @@ export class MoveActorAction extends StartEndAction {
 
 export class AppointActorAction extends StartEndAction {
 	public readonly actorRole: InterventionRole;
-	private isThereAPotentialFutureActor: boolean = false;
+	private potentialActorCount: number = 0;
+	private location: LOCATION_ENUM | undefined = undefined; 
 
 	constructor(
 		startTimeSec: SimTime,
@@ -416,28 +417,29 @@ export class AppointActorAction extends StartEndAction {
 		uuidTemplate: ActionTemplateId,
 		provideFlagsToState: SimFlag[] = [],
 		actorRole: InterventionRole,
-		readonly locationOfResource: LOCATION_ENUM,
-		readonly typeOfResource: ResourceType,
-		readonly wentWrongMessageKey: TranslationKey,
+		readonly requiredResourceType: ResourceType,
+		readonly failureMessageKey: TranslationKey,
 	) {
 		super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
 		this.actorRole = actorRole;
 	}
 
 	protected dispatchInitEvents(state: MainSimulationState): void {
-		const potentialFutureActorNumber = getResourcesAvailableByLocation(state, this.locationOfResource, this.typeOfResource).length;
-		this.isThereAPotentialFutureActor = potentialFutureActorNumber >= 1;
-
-		if (!this.isThereAPotentialFutureActor) {
-			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.wentWrongMessageKey));
+		this.location = state.getActorById(this.ownerId)?.Location;
+		if(this.location){
+			this.potentialActorCount = getResourcesAvailableByLocation(state, this.location, this.requiredResourceType).length;
+		}
+		if(this.potentialActorCount > 0){
+			// TODO reserve resource mecanism
+		}else{
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.failureMessageKey));
 		}
 	}
 
-
 	protected dispatchEndedEvents(state: MainSimulationState): void {
-		if (this.isThereAPotentialFutureActor) {
-			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, TimeSliceDuration));
-			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.locationOfResource, this.typeOfResource));
+		if (this.potentialActorCount) {
+			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole));
+			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.location!, this.requiredResourceType));
 		}
 	}
 

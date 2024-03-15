@@ -116,7 +116,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const casuMessage = new CasuMessageTemplate('casu-message-title', 'casu-message-desc', TimeSliceDuration, 'casu-message-feedback');
   const radioMessage = new SendRadioMessage('send-radio-title', 'send-radio-desc', TimeSliceDuration, 'send-radio-feedback');
 
-  const moveActor = new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration, 'move-actor-feedback', true, [SimFlag.MEETINGPOINT_BUILT]);
+  const moveActor = new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration, 'move-actor-feedback');
 
   const placeAccessRegress = new SelectionFixedMapEntityTemplate('define-accreg-title', 'define-accreg-desc', TimeSliceDuration * 3, 'define-accreg-feedback', new GeometryBasedFixedMapEntity(0, 'Accreg', 'Accreg', [], new MultiLineStringGeometricalShape([
         [[[2500052.6133020874, 1118449.2968644362], [2500087.3369474486, 1118503.6293053096]], [[2500060.952470149, 1118523.9098080816], [2500029.950508212, 1118486.1465293542]]], 
@@ -126,7 +126,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 
   const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate('define-acsMscArrival-title', 'define-acsMscArrival-desc', TimeSliceDuration, 'define-acsMscArrival-feedback', false,[SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.ACS_MCS_ANNOUNCED], ['ACS', 'MCS']);
 
-  const appointEVASAN = new AppointActorActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', true, 'appoint-EVASAN-wentWrong-feedback', 'EVASAN', LOCATION_ENUM.PC, 'ambulancier', [SimFlag.PC_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.EVASAN_ARRIVED]);
+  const appointEVASAN = new AppointActorActionTemplate('appoint-EVASAN-title', 'appoint-EVASAN-desc', TimeSliceDuration, 'appoint-EVASAN-feedback', true, 'appoint-EVASAN-wentWrong-feedback', 'EVASAN', 'ambulancier', [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED], [SimFlag.EVASAN_ARRIVED]);
 
   const placePMA = new SelectionPMATemplate('define-PMA-title', 'define-PMA-desc', TimeSliceDuration * 4, 'define-PMA-feedback', new GeometryBasedFixedMapEntity(0, 'location-pma-short', LOCATION_ENUM.PMA, ['LEADPMA'], new PolygonGeometricalShape(
 		[[[[2499959.513377705, 1118456.6791527744], //'way/301355984'
