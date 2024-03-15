@@ -12,6 +12,7 @@ export enum LOCATION_ENUM {
 	parcAmbulance = 'parcAmbulance',
 	meetingPoint = 'meetingPoint',
 	remote = 'remote',
+	AccReg = 'AccReg',
 }
 
 export function getAvailableLocations(): FixedMapEntity[]  {

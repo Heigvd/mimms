@@ -126,7 +126,7 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
       return true;
     }
 
-    return this.flags.some(f => state.hasFlag(f));
+    return this.flags.every(f => state.hasFlag(f));
   }
 
   protected roleWiseAvailable(role: InterventionRole): boolean {
@@ -425,8 +425,8 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<Move
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  // availble if more than a single symbolic position is available
-  public override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+  // available if more than a single symbolic position is available
+  protected override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return state.getInternalStateObject().mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready).length > 1;
   }
 
@@ -486,7 +486,6 @@ export class SendRadioMessage extends StartEndTemplate {
       radioMessagePayload : params
     }
   }
-
 
   public getTemplateRef(): TemplateRef {
     return 'SendRadioMessageTemplate' + '_' + this.title;
@@ -605,6 +604,10 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
   }
 }
 
+/**
+ * Appoints a new actor if necessary conditions are met
+ * 
+ */
 export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAction, AppointActorEvent, InterventionRole> {
 
 	constructor(
@@ -615,7 +618,6 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		replayable = true,
 		readonly wentWrongMessageKey: TranslationKey,
 		readonly actorRole: InterventionRole,
-		readonly locationOfResource: LOCATION_ENUM,
 		readonly typeOfResource: ResourceType,
 		flags?: SimFlag[],
 		provideFlagsToState?: SimFlag[],
@@ -628,7 +630,7 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 		const payload = event.payload;
 		const ownerId = payload.emitterCharacterId as ActorId;
 		return new AppointActorAction(payload.triggerTime, this.duration, this.message,
-			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.locationOfResource, this.typeOfResource, this.wentWrongMessageKey);
+			this.title, event.id, ownerId, this.Uid, [], this.actorRole, this.typeOfResource, this.wentWrongMessageKey);
 	}
 
 	public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: InterventionRole): AppointActorEvent {
@@ -636,6 +638,12 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 			...this.initBaseEvent(timeStamp, initiator.Uid),
 			actorRole: params,
 		};
+	}
+
+    // only available if no such role is present
+	// might change if multiple AL can be summoned
+	protected override isAvailableCustom(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+		return state.getAllActors().every(act => act.Role !== this.actorRole);
 	}
 
 	public getTemplateRef(): TemplateRef {
@@ -653,6 +661,8 @@ export class AppointActorActionTemplate extends StartEndTemplate <AppointActorAc
 	public planActionEventOnFirstClick(): boolean {
 		return false;
 	}
+
+
 }
 
 
