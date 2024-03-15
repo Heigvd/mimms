@@ -13,3 +13,26 @@
 .role{
 	margin: auto;
 }
+
+.mainSimLeftPanel {
+	width: 30vw;
+	/*max-height: 70vh; To use when we need responsive */
+	height: 60vh;
+  	pointer-events: auto;
+	
+}
+
+.mainSimLeftPanel-container{
+	padding: 1rem;
+	margin-bottom: 1rem;
+	height: 60vh;
+	/*max-height: 70vh; To use when we need responsive */
+	}
+
+/******** SUBPANEL (Actions, radio resources) ********/
+.leftSubPanel-container{
+	height: 100%;
+	width: 100%;
+	margin-top: 0px;
+	padding-top: 0px;
+}
