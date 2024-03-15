@@ -428,7 +428,6 @@ export class AppointActorAction extends StartEndAction {
 		this.location = state.getActorById(this.ownerId)?.Location;
 		if(this.location){
 			this.potentialActorCount = getResourcesAvailableByLocation(state, this.location, this.requiredResourceType).length;
-			this.logger.error('this.potentialActorCount', this.potentialActorCount);
 		}
 		if(this.potentialActorCount > 0){
 			// TODO reserve resource mecanism
