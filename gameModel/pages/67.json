@@ -330,17 +330,17 @@
             "className" : "pink pinkHover",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "false;",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
               "language" : "typescript"
             },
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
               "language" : "typescript"
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Ordonner<br></p>\"",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -364,6 +364,11 @@
       },
       "type" : "FlexList"
     } ],
+    "disableIf" : {
+      "@class" : "Script",
+      "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },
