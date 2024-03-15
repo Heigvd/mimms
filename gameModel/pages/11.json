@@ -23,7 +23,7 @@
             } ],
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>G682</p>\"",
+              "content" : "\"<p>G679</p>\"",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -202,11 +202,9 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    }
+    "layoutClassName" : "leftSubPanel-container",
+    "layoutStyle" : { },
+    "style" : { }
   },
   "type" : "FlexList"
 }

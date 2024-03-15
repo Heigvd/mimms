@@ -218,13 +218,8 @@
       "flexDirection" : "column",
       "justifyContent" : "flex-start"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "marginTop" : "0px",
-      "overflow" : "auto",
-      "paddingTop" : "0px",
-      "width" : "100%"
-    },
+    "layoutClassName" : "leftSubPanel-container",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

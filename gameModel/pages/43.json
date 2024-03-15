@@ -92,9 +92,7 @@
                                 "className" : "headerPanels",
                                 "layout" : { },
                                 "layoutClassName" : "headerPanels-container",
-                                "layoutStyle" : {
-                                  "display" : "none"
-                                },
+                                "layoutStyle" : { },
                                 "name" : "headerPanels",
                                 "style" : { }
                               },
@@ -348,14 +346,16 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "greyPanel leftPanel generalPanels",
+                                "className" : "mainSimLeftPanel greyPanel ",
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
-                                "layoutClassName" : "leftPanel-container generalPanels-container",
+                                "layoutClassName" : "mainSimLeftPanel-container",
                                 "layoutStyle" : { },
                                 "name" : "leftPanel",
-                                "style" : { }
+                                "style" : {
+                                  "overflow" : "hidden"
+                                }
                               },
                               "type" : "FlexList"
                             }, {
