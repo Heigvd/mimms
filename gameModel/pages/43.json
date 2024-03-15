@@ -151,20 +151,20 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
+                                    "className" : "role",
+                                    "layoutClassName" : "role-container",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
                                     "children" : [ {
-                                      "props" : {
-                                        "className" : "role",
-                                        "layoutClassName" : "role-container",
-                                        "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
                                       "props" : {
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Inside",
