@@ -61,6 +61,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "D424Chanel",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -72,10 +73,7 @@
           "flexDirection" : "column"
         },
         "layoutStyle" : { },
-        "style" : {
-          "max-height" : "350px",
-          "overflow-y" : "auto"
-        }
+        "style" : { }
       },
       "type" : "For each"
     }, {
@@ -175,9 +173,9 @@
     },
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

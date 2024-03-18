@@ -16,9 +16,8 @@
 }
 
 .mainSimLeftPanel {
-	width: 30vw;
-	/*max-height: 70vh; To use when we need responsive */
-	height: 60vh;
+	width: 25vw;
+	height: 50vh;
   	pointer-events: auto;
 	
 }
@@ -26,8 +25,7 @@
 .mainSimLeftPanel-container{
 	padding: 1rem;
 	margin-bottom: 1rem;
-	height: 60vh;
-	/*max-height: 70vh; To use when we need responsive */
+	height: 50vh;
 	}
 
 /******** SUBPANEL (Actions, radio resources) ********/
@@ -36,4 +34,11 @@
 	width: 100%;
 	margin-top: 0px;
 	padding-top: 0px;
+}
+
+/*** Sub panel for resources ***/
+.resourcesSubPanel-container{
+	height: 30rem;
+	width: 100%;
+	overflow-y: auto;
 }

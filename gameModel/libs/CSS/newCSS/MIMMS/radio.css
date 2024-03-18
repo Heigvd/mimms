@@ -100,7 +100,7 @@
 }
 
 .emitter-text-header-layout {
-	font-family: Inter;
+	font-family: var(--mainFont);
 	font-size: 14px;
 	font-weight: var(--boldWeight);
 	line-height: 17px;
@@ -111,7 +111,7 @@
 }
 
 .emitter-text-body-layout {
-	font-family: Inter;
+	font-family: var(--mainFont);
 	font-size: 12px;
 	line-height: 15px;
 	letter-spacing: 0em;
@@ -142,4 +142,10 @@
 	border-radius: var(--S_borderRadius);
 	height: 10rem;
 	background-color: white;
+}
+
+
+.D424Chanel{
+	max-height: 200px;
+	overflow-y: auto;
 }

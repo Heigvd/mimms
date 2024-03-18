@@ -628,7 +628,7 @@
                                                         } ],
                                                         "icon" : {
                                                           "@class" : "Script",
-                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"hat-wizard\")}\n\n'';",
+                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
                                                           "language" : "typescript"
                                                         },
                                                         "label" : {
