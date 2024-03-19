@@ -438,7 +438,7 @@ export class AppointActorAction extends StartEndAction {
 
 	protected dispatchEndedEvents(state: MainSimulationState): void {
 		if (this.potentialActorCount) {
-			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole));
+			localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location));
 			localEventManager.queueLocalEvent(new DeleteIdleResourceLocalEvent(this.eventId, state.getSimTime(), this.location!, this.requiredResourceType));
 		}
 	}
