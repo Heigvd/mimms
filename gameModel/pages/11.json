@@ -181,7 +181,12 @@
             }
           },
           "type" : "Button"
-        } ]
+        } ],
+        "className" : "",
+        "layout" : { },
+        "layoutClassName" : "G679-container",
+        "layoutStyle" : { },
+        "style" : { }
       },
       "type" : "FlexList"
     }, {

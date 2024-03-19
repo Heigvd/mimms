@@ -382,7 +382,9 @@
     "layoutClassName" : "resourcesSubPanel-container",
     "layoutStyle" : { },
     "name" : "allocate resources",
-    "style" : { }
+    "style" : {
+      "overflow" : "auto"
+    }
   },
   "type" : "FlexList"
 }

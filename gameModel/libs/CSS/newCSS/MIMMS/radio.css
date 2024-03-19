@@ -149,3 +149,13 @@
 	max-height: 200px;
 	overflow-y: auto;
 }
+/* for phase 4
+.G679-container{
+position: fixed;
+background-color:var(--gray_WHITE);
+z-index: 2;
+width: 450px;
+margin: 0px;
+padding:0px;
+}
+*/
