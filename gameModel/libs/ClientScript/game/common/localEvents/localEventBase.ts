@@ -478,18 +478,25 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
  */
 export class ResourcesAllocationLocalEvent extends LocalEventBase {
 
-  constructor(parentEventId: GlobalEventId,
+  constructor(
+    parentEventId: GlobalEventId,
     timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly actorId: ActorId,
-	readonly sourceLocation: LOCATION_ENUM,
+    readonly targetTaskId: TaskId,
+    readonly currentLocation: LOCATION_ENUM,
+    readonly currentTaskId: TaskId,
     readonly resourceType: ResourceType,
     readonly nb: number) {
     super(parentEventId, 'ResourcesAllocationLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourcesToTask(state, this.taskId, this.actorId, this.sourceLocation, this.resourceType, this.nb);
+    ResourceState.allocateResourcesToTask(
+      state,
+      this.targetTaskId,
+      this.currentLocation,
+      this.currentTaskId,
+      this.resourceType,
+      this.nb);
   }
 
 }

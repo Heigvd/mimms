@@ -65,14 +65,33 @@ export function transferResourcesFromToLocation(state: MainSimulationState, sour
 
 /**
  * @returns The number of resources that are currently without activity and of the given type in a specified location
- * 
+ *
  */
 export function getResourcesAvailableByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM, resourceType: ResourceType): Resource[] {
+	const internalState = state.getInternalStateObject();
+
+	return internalState.resources.filter(res =>
+		res.currentLocation === location
+		&& res.type === resourceType
+		&& res.currentActivity == getIdleTaskUid(state));
+}
+
+/**
+ * @returns The number of resources that are currently without activity and of the given type in a specified location
+ * 
+ */
+export function getResourcesByLocationAndTask(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM,
+  taskId: TaskId,
+  resourceType: ResourceType
+): Resource[] {
   const internalState = state.getInternalStateObject();
+
   return internalState.resources.filter(res =>
     res.currentLocation === location
     && res.type === resourceType
-    && res.currentActivity == getIdleTaskUid(state));
+    && res.currentActivity === taskId);
 }
 
 /**
@@ -206,18 +225,23 @@ export function getInStateCountInactiveResourcesByLocationAndType(state: Readonl
 /**
  * Allocate resources to a task.
  */
-export function allocateResourcesToTask(state: MainSimulationState, taskId : TaskId, actorId: ActorId, sourceLocation: LOCATION_ENUM, resourceType: ResourceType, nb: number): void {
-  const available = getResourcesAvailableByLocation(state, sourceLocation, resourceType);
+export function allocateResourcesToTask(state: MainSimulationState,
+                                        targetTaskId: TaskId,
+                                        currentLocation: LOCATION_ENUM,
+                                        currentTaskId: TaskId,
+                                        resourceType: ResourceType,
+                                        nb: number): void {
+  const matchingResources = getResourcesByLocationAndTask(state, currentLocation, currentTaskId, resourceType);
 
-  if (available.length < nb) {
-    taskLogger.error("try to allocate too many resources (" + nb + ") of type " + resourceType
-      + " for task " + taskId + " and actor " + actorId);
+  if (matchingResources.length < nb) {
+    taskLogger.error('try to allocate too many resources (' + nb + ') of type ' + resourceType
+      + ' previously doing task ' + currentTaskId + ' at location ' + currentLocation);
     return;
   }
 
-  for (let i = 0; i < nb && i < available.length; i++) {
-    available[i]!.currentActivity = taskId;
-	//available[i]!.currentLocation = sourceLocation;
+  for (let i = 0; i < nb && i < matchingResources.length; i++) {
+    matchingResources[i]!.currentActivity = targetTaskId;
+    // no need to change the location. The resources are already where they must be.
   }
 }
 

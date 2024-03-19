@@ -497,16 +497,31 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 	if (enoughResourcesOfAllTypes(state, this.sourceTaskId, this.sentResources, this.sourceLocation) && doesOrderRespectHierarchy(this.ownerId, this.sourceLocation, state)) {
 		const sameLocation = this.sourceLocation === this.targetLocation;
 		let timeDelay = 0;
+		let currentTaskId : TaskId;
+
 		//if source != target => emit a transfer event and delay resource allocation on task event
 		if (!sameLocation){
 			localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), this.sourceLocation, this.targetLocation, this.sentResources, this.sourceTaskId));
 			timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+			// if transferred, a resource has an idle task
+			currentTaskId = getIdleTaskUid(state);
+		} else {
+			currentTaskId = +this.sourceTaskId;
 		}
 
 		ResourcesArray.forEach((res) => {
 			const nbRes = this.sentResources[res] || 0;
 			if(nbRes > 0){
-				localEventManager.queueLocalEvent(new ResourcesAllocationLocalEvent(this.eventId, state.getSimTime() + timeDelay , +this.targetTaskId, this.ownerId, this.targetLocation, res, nbRes));
+				localEventManager.queueLocalEvent(
+					new ResourcesAllocationLocalEvent(
+						this.eventId,
+						state.getSimTime() + timeDelay,
+						+this.targetTaskId,
+						this.targetLocation,
+						currentTaskId,
+						res,
+						nbRes,
+					));
 			}
 		});
 
