@@ -47,10 +47,10 @@
 /* Container for the dynamically displayed items (actions, resources and radio */
 .allDisplay-container{
 	flex-direction: column;
-	max-height: 30rem;
-	overflow-y: auto;
+	max-height: 90%;
+	/*overflow-y: auto;
 	scrollbar-width: thin;
-	scrollbar-color: var(--gray_500) var(--gray_200);	
+	scrollbar-color: var(--gray_500) var(--gray_200);	*/
 }
 /*
 .leftPanel:first-of-type .allDisplay-container{

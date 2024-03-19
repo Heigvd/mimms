@@ -30,14 +30,21 @@
  /**************** CASU TRANSMISSION ***********************/
 
 .casuTransmission-container{
-	height: 100px;
+	max-height: 15rem;
 	width: 100%;
-	overflow-y: scroll!important;
+	/*overflow-y: scroll;*/
 } 
 
 .scrollableCasuTransmission{
-	height: 100px;
+	height: 90%;
 }
+
+/*where the message sent to or by CASU can be red */
+.casuDialogue{
+	max-height: 10rem;
+}
+
+
 
 
 .modalTitle{/*Is it used?*/

@@ -44,6 +44,7 @@
           },
           "type" : "Select input"
         } ],
+        "className" : "",
         "layout" : { },
         "layoutStyle" : { },
         "name" : "current location",
@@ -94,6 +95,7 @@
           },
           "type" : "Select input"
         } ],
+        "className" : "",
         "layout" : { },
         "layoutStyle" : { },
         "name" : "current activity",
@@ -215,6 +217,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "",
         "layout" : {
           "flexDirection" : "column"
         },
@@ -267,6 +270,7 @@
           },
           "type" : "Select input"
         } ],
+        "className" : "",
         "layout" : { },
         "layoutStyle" : { },
         "name" : "target location",
@@ -317,6 +321,7 @@
           },
           "type" : "Select input"
         } ],
+        "className" : "",
         "layout" : { },
         "layoutStyle" : { },
         "name" : "target activity",
@@ -327,7 +332,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "pink pinkHover",
+            "className" : "pink l_button",
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
@@ -343,6 +348,7 @@
               "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -355,6 +361,7 @@
           },
           "type" : "Button"
         } ],
+        "className" : "",
         "layout" : {
           "justifyContent" : "flex-end"
         },
@@ -372,13 +379,12 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "resourcesSubPanel-container",
+    "layoutStyle" : { },
     "name" : "allocate resources",
-    "style" : { }
+    "style" : {
+      "overflow" : "auto"
+    }
   },
   "type" : "FlexList"
 }

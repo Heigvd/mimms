@@ -340,7 +340,9 @@
                                       "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
                                       "language" : "typescript"
                                     },
-                                    "layoutStyle" : { },
+                                    "layoutStyle" : {
+                                      "overflow" : "auto"
+                                    },
                                     "name" : "interfaceMenuLoader",
                                     "style" : { }
                                   },
@@ -628,7 +630,7 @@
                                                         } ],
                                                         "icon" : {
                                                           "@class" : "Script",
-                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"hat-wizard\")}\n\n'';",
+                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
                                                           "language" : "typescript"
                                                         },
                                                         "label" : {

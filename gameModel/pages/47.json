@@ -59,6 +59,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "casuDialogue",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -71,7 +72,6 @@
         },
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
           "overflow-y" : "auto"
         }
       },
@@ -95,9 +95,11 @@
       },
       "type" : "PageLoader"
     } ],
+    "className" : "",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "width" : "100%"
