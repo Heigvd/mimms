@@ -589,7 +589,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
     this.logger.info('end event GetInformationAction');
 	const so = state.getInternalStateObject();
 
-	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, true));
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, false));
 
   const ownerActor = so.actors.find( a => a.Uid === this.ownerId)!;
 
