@@ -341,6 +341,7 @@
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : {
+                                      "height" : "100%",
                                       "overflow" : "auto"
                                     },
                                     "name" : "interfaceMenuLoader",
