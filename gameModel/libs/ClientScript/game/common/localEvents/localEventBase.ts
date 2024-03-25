@@ -237,6 +237,7 @@ export class AddActorLocalEvent extends LocalEventBase {
     state.getInternalStateObject().actors.push(actor);
 
     if(this.travelTime > 0){
+	    actor.setLocation(LOCATION_ENUM.remote);
       const now = state.getSimTime();
       const travelAction = new OnTheRoadAction(now, this.travelTime, 'actor-arrival', 'on-the-road', 0, actor.Uid, 0);
       state.getInternalStateObject().actions.push(travelAction);

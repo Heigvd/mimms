@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n\n getNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n\n getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "wlog(Context.item);\n`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
                   "language" : "TypeScript"
                 }
               },
@@ -43,6 +43,14 @@
               "condition" : {
                 "@class" : "Script",
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-last",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().filter(m => m.channel === ActionType.CASU_RADIO).slice(-1)[0].uid === Context.item.uid;",
                 "language" : "typescript"
               }
             } ],

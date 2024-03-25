@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : " wlog(Context.item);\nreturn`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
                   "language" : "TypeScript"
                 }
               },

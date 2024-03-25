@@ -23,7 +23,6 @@ import { SimFlag } from "./actionTemplateBase";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 import { enoughResourcesOfAllTypes, getInStateCountInactiveResourcesByLocationAndType, getResourcesAvailableByLocation } from "../simulationState/resourceStateAccess";
 import { InterventionRole } from "../actors/actor";
-import { TimeSliceDuration } from "../constants";
 import { getIdleTaskUid } from "../tasks/taskLogic";
 import { doesOrderRespectHierarchy } from "../resources/resourceDispatchResolution";
 
@@ -225,6 +224,10 @@ export class OnTheRoadAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event OnTheRoadAction');
+	// Once actor arrives, we change location from remote
+	const actor = state.getActorById(this.ownerId)!;
+	actor.setLocation(actor.getComputedSymbolicLocation(state));
+
     localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'ACS', this.messageKey))
   }
 
@@ -586,7 +589,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
     this.logger.info('end event GetInformationAction');
 	const so = state.getInternalStateObject();
 
-	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, true));
+	localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, state.getActorById(this.ownerId)?.ShortName || '', this.messageKey, ActionType.CASU_RADIO, true, false));
 
   const ownerActor = so.actors.find( a => a.Uid === this.ownerId)!;
 
