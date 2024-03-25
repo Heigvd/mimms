@@ -562,35 +562,5 @@
     "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
-  },
-  "/tutorial/" : {
-    "description" : "",
-    "mimeType" : "application/wfs-directory",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/Tutorial_1.svg" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/Tutorial_2.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/tutorial_1.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/tutorial_2.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
   }
 }
