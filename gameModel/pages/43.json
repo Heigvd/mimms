@@ -611,7 +611,87 @@
                                                     } ],
                                                     "layout" : { },
                                                     "layoutStyle" : { },
-                                                    "name" : "rsrcBtn",
+                                                    "name" : "humanRsrcBtn",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "resourceCounter squareCounter",
+                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.ambulances.length || 0);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "icon" : "truck",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"<p>&nbsp;<br></p>\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : " s_squareButton",
+                                                        "layoutStyle" : { },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.ambulances.length < 1;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "name" : "ambulancesBtn",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "resourceCounter squareCounter",
+                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.helicopters.length || 0);",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "icon" : "helicopter",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"<p>&nbsp;<br></p>\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : " s_squareButton",
+                                                        "layoutStyle" : { },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.helicopters.length < 1;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "name" : "helicoptersBtn",
                                                     "style" : { }
                                                   },
                                                   "type" : "FlexList"

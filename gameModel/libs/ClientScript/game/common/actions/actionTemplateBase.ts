@@ -10,35 +10,38 @@ import {
 } from '../events/eventTypes';
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import {
-	ActionBase,
-	CasuMessageAction,
-	GetInformationAction,
-	SendRadioMessageAction,
-	SelectionFixedMapEntityAction,
-	MoveActorAction,
-	ArrivalAnnoucementAction,
-	MoveResourcesAssignTaskAction,
-	AppointActorAction,
-	SelectionPMAAction,
+  ActionBase,
+  CasuMessageAction,
+  GetInformationAction,
+  SendRadioMessageAction,
+  SelectionFixedMapEntityAction,
+  MoveActorAction,
+  ArrivalAnnoucementAction,
+  MoveResourcesAssignTaskAction,
+  AppointActorAction,
+  SelectionPMAAction,
+  SelectionParkAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
 import { Actor, InterventionRole } from "../actors/actor";
 import { getTranslation } from "../../../tools/translation";
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { MaterialResourceType, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
 import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export enum SimFlag {
-	PCS_ARRIVED = 'PCS-ARRIVED',
-	MEETINGPOINT_BUILT = 'MEETINGPOINT_BUILT',
-	MCS_ARRIVED = 'MCS_ARRIVED',
-	ACS_ARRIVED = 'ACS_ARRIVED',
-	PC_BUILT = 'PC_BUILT',
-	ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
-	EVASAN_ARRIVED = 'EVASAN_ARRIVED',
+  PCS_ARRIVED = 'PCS-ARRIVED',
+  MEETINGPOINT_BUILT = 'MEETINGPOINT_BUILT',
+  MCS_ARRIVED = 'MCS_ARRIVED',
+  ACS_ARRIVED = 'ACS_ARRIVED',
+  PC_BUILT = 'PC_BUILT',
+  AMBULANCE_PARK_BUILT = 'AMBULANCE_PARK_BUILT',
+  HELICOPTER_PARK_BUILT = 'HELICOPTER_PARK_BUILT',
+  ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
+  EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
 /**
@@ -89,9 +92,10 @@ export abstract class ActionTemplateBase<ActionT extends ActionBase = ActionBase
   protected abstract createActionFromEvent(event: FullEvent<EventT>): ActionT;
 
   /**
-   * Generate an event to be broadcasted
+   * Generate an event to be broadcast
    * @param timeStamp current time
    * @param initiator the actor that initiates this action and will be its owner
+   * @param params    additional data to send
    */
   public abstract buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>, params: UserInput): EventT;
 
@@ -308,86 +312,208 @@ export class CasuMessageTemplate extends StartEndTemplate<CasuMessageAction, Cas
 
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// place a map item
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of a fixed map entity.
+ */
 export class SelectionFixedMapEntityTemplate<ActionT extends SelectionFixedMapEntityAction = SelectionFixedMapEntityAction>
-	extends StartEndTemplate<SelectionFixedMapEntityAction, SelectionFixedMapEntityEvent, FixedMapEntity> {
+  extends StartEndTemplate<SelectionFixedMapEntityAction, SelectionFixedMapEntityEvent, FixedMapEntity> {
 
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-	public readonly fixedMapEntity: FixedMapEntity,
-	replayable = false, 
-	flags?: SimFlag[],
-	provideFlagsToState?: SimFlag[],
-	availableToRoles?: InterventionRole[],
+    public readonly fixedMapEntity: FixedMapEntity,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
   ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
-	this.fixedMapEntity = fixedMapEntity;
-  }
-
-  public buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, payload: FixedMapEntity): SelectionFixedMapEntityEvent {
-
-	//???? payload??
-	//Is there a way to keep the original instance class?
-	return {
-		...this.initBaseEvent(timeStamp, initiator.Uid),
-		durationSec: this.duration,
-		fixedMapEntity: payload,
-	}
-	
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      flags,
+      provideFlagsToState,
+      availableToRoles);
+    this.fixedMapEntity = fixedMapEntity;
   }
 
   public getTemplateRef(): string {
-      return 'SelectionFixedMapEntityTemplate' + '_' + this.title;
+    return 'SelectionFixedMapEntityTemplate' + '_' + this.title;
   }
 
-  protected createActionFromEvent(event: FullEvent<SelectionFixedMapEntityEvent >): SelectionFixedMapEntityAction {
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    payload: FixedMapEntity,
+  ): SelectionFixedMapEntityEvent {
+
+    //???? payload??
+    //Is there a way to keep the original instance class?
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      fixedMapEntity: payload,
+    };
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>,
+  ): SelectionFixedMapEntityAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
-  	return new SelectionFixedMapEntityAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity), this.Uid, this.provideFlagsToState);
+    return new SelectionFixedMapEntityAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.provideFlagsToState);
   }
 
   public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description)
-
+    return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
-      return getTranslation('mainSim-actions-tasks', this.title)
+    return getTranslation('mainSim-actions-tasks', this.title);
   }
 
   public planActionEventOnFirstClick(): boolean {
-      return false;
+    return false;
   }
 }
 
+// -------------------------------------------------------------------------------------------------
+// place PMA
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of the PMA
+ */
 export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
-	constructor(
-		title: TranslationKey,
-		description: TranslationKey,
-		duration: SimDuration,
-		message: TranslationKey,
-		fixedMapEntity: FixedMapEntity,
-		replayable = false,
-		flags?: SimFlag[],
-		provideFlagsToState?: SimFlag[],
-	) {
-		super(title, description, duration, message, fixedMapEntity, replayable, flags, provideFlagsToState);
-	}
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    fixedMapEntity: FixedMapEntity,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      fixedMapEntity,
+      replayable,
+      flags,
+      provideFlagsToState,
+      availableToRoles);
+  }
 
-	protected override createActionFromEvent(event: FullEvent<SelectionFixedMapEntityEvent>): SelectionPMAAction {
-		const payload = event.payload;
-		const ownerId = payload.emitterCharacterId as ActorId;
+  public override getTemplateRef(): string {
+    return 'SelectionPMATemplate' + '_' + this.title;
+  }
 
-		return new SelectionPMAAction(payload.triggerTime, this.duration, this.title, this.message, event.id, ownerId, createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity), this.Uid, this.provideFlagsToState);
-	}
+  protected override createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>,
+  ): SelectionPMAAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
 
-	public override getTemplateRef(): string {
-		return 'SelectionPMATemplate' + '_' + this.title;
-	}
+    return new SelectionPMAAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.provideFlagsToState);
+  }
 }
+
+// -------------------------------------------------------------------------------------------------
+// place a park item
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of a parking
+ */
+export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<SelectionParkAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    fixedMapEntity: FixedMapEntity,
+    readonly materialResourceType: MaterialResourceType,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      fixedMapEntity,
+      replayable,
+      flags,
+      provideFlagsToState,
+      availableToRoles);
+  }
+
+  public override getTemplateRef(): string {
+    return 'SelectionParkTemplate' + '_' + this.title;
+  }
+
+  protected override createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>,
+  ): SelectionParkAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SelectionParkAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.materialResourceType,
+      this.provideFlagsToState);
+  }
+}
+
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  Interaction with human resources
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 export type MoveResourcesAssignTaskActionInput = { sourceLocation: LOCATION_ENUM, targetLocation: LOCATION_ENUM, sentResources: ResourceTypeAndNumber, sourceTaskId: TaskId, targetTaskId: TaskId };
 

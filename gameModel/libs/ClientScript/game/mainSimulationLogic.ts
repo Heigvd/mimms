@@ -5,15 +5,16 @@ import { mainSimLogger } from "../tools/logger";
 import {
 	ActionTemplateBase,
 	GetInformationTemplate,
-  CasuMessageTemplate,
-  SendRadioMessage,
-  SelectionFixedMapEntityTemplate,
-  SimFlag,
-  MoveActorActionTemplate,
-  ArrivalAnnoucementTemplate,
-  AppointActorActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
-SelectionPMATemplate,
+	CasuMessageTemplate,
+	SendRadioMessage,
+	SelectionFixedMapEntityTemplate,
+	SimFlag,
+	MoveActorActionTemplate,
+	ArrivalAnnoucementTemplate,
+	AppointActorActionTemplate,
+	MoveResourcesAssignTaskActionTemplate,
+	SelectionParkTemplate,
+	SelectionPMATemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from "./common/actors/actor";
 import { ActorId, TemplateId, TemplateRef } from "./common/baseTypes";
@@ -162,6 +163,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   const placePC = new SelectionFixedMapEntityTemplate('define-PC-title', 'define-PC-desc', TimeSliceDuration * 2, 'define-PC-feedback', new GeometryBasedFixedMapEntity(0, 'location-pc-short', LOCATION_ENUM.PC, ['ACS', 'MCS'], new PointGeometricalShape([[2500095.549931929, 1118489.103111194], [2500009.75586577, 1118472.531405577], [2500057.0688582086, 1118551.6205987816]]), BuildingStatus.selection, 'PC'), false, [SimFlag.PCS_ARRIVED], [SimFlag.PC_BUILT]);
   const placeNest = new SelectionFixedMapEntityTemplate('define-Nest-title', 'define-Nest-desc', TimeSliceDuration * 3, 'define-Nest-feedback', new GeometryBasedFixedMapEntity(0, "location-niddeblesses", LOCATION_ENUM.nidDeBlesses, ['MCS'], new PointGeometricalShape([[2500041.9170648125, 1118456.4054969894], [2500106.9001576486, 1118532.2446804282], [2499999.6045754217, 1118483.805125067]]), BuildingStatus.selection, 'Nest'));
 
+  const placeAmbulancePark = new SelectionParkTemplate('define-ambulance-park-title', 'define-ambulance-park-desc', TimeSliceDuration, 'define-ambulance-park-feedback',
+    new GeometryBasedFixedMapEntity(0, 'location-ambulance-park', LOCATION_ENUM.ambulancePark, ['EVASAN'], new PointGeometricalShape([[2499960, 1118580], [2500070, 1118498], [2499961, 1118388]]), BuildingStatus.selection, 'ambulance-park'),
+    'ambulance', false, undefined, [SimFlag.AMBULANCE_PARK_BUILT]);
+
+  const placeHelicopterPark = new SelectionParkTemplate('define-helicopter-park-title', 'define-helicopter-park-desc', TimeSliceDuration * 2, 'define-helicopter-park-feedback',
+    new GeometryBasedFixedMapEntity(0, 'location-helicopter-park', LOCATION_ENUM.helicopterPark, ['EVASAN'], new PointGeometricalShape([[2499956, 1118332], [2499872, 1118614], [2499925, 1118451]]), BuildingStatus.selection, 'helicopter-park'),
+    'helicopter', false, undefined, [SimFlag.HELICOPTER_PARK_BUILT]);
+
   const allocateResources = new MoveResourcesAssignTaskActionTemplate('move-res-task-title', 'move-res-task-desc', TimeSliceDuration, 'move-res-task-feedback', 'move-res-task-refused', true);
 
   const templates: Record<string, ActionTemplateBase> = {};
@@ -177,6 +186,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
+  templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;

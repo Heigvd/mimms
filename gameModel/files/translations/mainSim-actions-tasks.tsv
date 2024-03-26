@@ -20,6 +20,12 @@ define-Nest-feedback	The survivor reception center is now defined	Le nid de bles
 define-PMA-title	Deciding where to locate the advanced medical post	Décider de l’emplacement du poste médical avancé (PMA)	
 define-PMA-desc	Pick a location on the map for the advanced medical post	Décider de l'emplacement du poste médical avancé (PMA) sur la carte	
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
+define-ambulance-park-title	Define ambulance park location	Placer le parc ambulance	
+define-ambulance-park-desc	Pick a position on the map for the ambulance park	Définir l'emplacement du parc ambulance sur la carte	
+define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance est maintenant prêt	
+define-helicopter-park-title	Define helicopter park location	Placer le parc hélicoptère	
+define-helicopter-park-desc	Pick a position on the map for the helicopter park	Définir l'emplacement du parc hélicoptère sur la carte	
+define-helicopter-park-feedback	The helicopter park is now ready	Le parc hélicoptère est maintenant prêt	
 define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation.	
 define-accreg-desc	Define the access and egress routes along that your resources will use.	Définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.	
 define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et d'évacuation du chantier.	

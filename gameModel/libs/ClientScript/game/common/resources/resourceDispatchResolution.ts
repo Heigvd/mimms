@@ -2,24 +2,38 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
 import { hierarchyLevels } from "../actors/actor";
 import { ActorId } from "../baseTypes";
+import { HumanResourceTypeArray, ResourceType } from './resourceType';
 
 /**
  * Resolves which location new resources should be sent to
  * @params state
  * @returns location
  */
-export default function resourceArrivalResolution(state: MainSimulationState): LOCATION_ENUM {
-	const so = state.getInternalStateObject();
+export default function resourceArrivalResolution(
+  state: MainSimulationState,
+  resourceType: ResourceType
+): LOCATION_ENUM {
+  const so = state.getInternalStateObject();
 
-	const acsArrived = so.flags.ACS_ARRIVED;
-	const mcsArrived = so.flags.MCS_ARRIVED;
-	const pcBuilt = so.flags.PC_BUILT;
+  if (Object.values(HumanResourceTypeArray).some(type => type === resourceType)) {
+    const acsArrived = so.flags.ACS_ARRIVED;
+    const mcsArrived = so.flags.MCS_ARRIVED;
+    const pcBuilt = so.flags.PC_BUILT;
 
-	if (mcsArrived && acsArrived && pcBuilt) {
-		return LOCATION_ENUM.PC;
-	}
+    if (mcsArrived && acsArrived && pcBuilt) {
+      return LOCATION_ENUM.PC;
+    }
+  }
 
-	return LOCATION_ENUM.meetingPoint;
+  if (resourceType === 'ambulance' && so.flags.AMBULANCE_PARK_BUILT) {
+    return LOCATION_ENUM.ambulancePark;
+  }
+
+  if (resourceType === 'helicopter' && so.flags.HELICOPTER_PARK_BUILT) {
+    return LOCATION_ENUM.helicopterPark;
+  }
+
+  return LOCATION_ENUM.meetingPoint;
 }
 
 /**

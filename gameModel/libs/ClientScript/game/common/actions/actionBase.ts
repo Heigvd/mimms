@@ -10,11 +10,18 @@ import {
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
-DeleteIdleResourceLocalEvent,
+  DeleteIdleResourceLocalEvent,
+  MoveAllIdleResourcesToLocationLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from "../localEvents/localEventManager";
 import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { ResourceTypeAndNumber, ResourcesArray, ResourceType } from '../resources/resourceType';
+import {
+  ResourceTypeAndNumber,
+  ResourcesArray,
+  ResourceType,
+  MaterialResourceType,
+  HumanResourceTypeArray,
+} from '../resources/resourceType';
 import { CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessagePayload } from "../events/radioMessageEvent";
 import { entries } from "../../../tools/helper";
@@ -310,6 +317,12 @@ export class CasuMessageAction extends StartEndAction {
   
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// place map items
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 /**
  * Action to select a FixedMapEntity
  */
@@ -320,56 +333,151 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
-    eventId: GlobalEventId,
     ownerId: ActorId,
-	fixedMapEntity: FixedMapEntity,
     uuidTemplate: ActionTemplateId,
-	provideFlagsToState: SimFlag[] = []
+    fixedMapEntity: FixedMapEntity,
+    provideFlagsToState: SimFlag[],
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate, provideFlagsToState);
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState);
     this.fixedMapEntity = fixedMapEntity;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-	this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
-    localEventManager.queueLocalEvent(new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
+
+    localEventManager.queueLocalEvent(
+      new AddFixedEntityLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.fixedMapEntity,
+      ),
+    );
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // ungrey the map element
-	localEventManager.queueLocalEvent(new CompleteBuildingFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
-    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(this.eventId, state.getSimTime(), this.ownerId, 'AL', this.messageKey))
+    localEventManager.queueLocalEvent(
+      new CompleteBuildingFixedEntityLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.fixedMapEntity,
+      ),
+    );
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        'AL',
+        this.messageKey,
+      ),
+    );
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity));
+    localEventManager.queueLocalEvent(
+      new RemoveFixedEntityLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.fixedMapEntity));
   }
-
 }
+
+// -------------------------------------------------------------------------------------------------
+// place PMA
+// -------------------------------------------------------------------------------------------------
 
 export class SelectionPMAAction extends SelectionFixedMapEntityAction {
 
-	constructor(
-		startTimeSec: SimTime,
-		durationSeconds: SimDuration,
-		actionNameKey: TranslationKey,
-		messageKey: TranslationKey,
-		eventId: GlobalEventId,
-		ownerId: ActorId,
-		fixedMapEntity: FixedMapEntity,
-		uuidTemplate: ActionTemplateId,
-		provideFlagsToState: SimFlag[] = []
-	) {
-		super(startTimeSec, durationSeconds, actionNameKey, messageKey, eventId, ownerId, fixedMapEntity, uuidTemplate, provideFlagsToState);
-	}
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    provideFlagsToState: SimFlag[] = [],
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId, uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState);
+  }
 
-	protected override dispatchEndedEvents(state: MainSimulationState): void {
-		super.dispatchEndedEvents(state);
-		localEventManager.queueLocalEvent(new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA'));
-	}
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+    localEventManager.queueLocalEvent(
+      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA'),
+    );
+  }
 }
+
+// -------------------------------------------------------------------------------------------------
+// place park
+// -------------------------------------------------------------------------------------------------
+
+export class SelectionParkAction extends SelectionFixedMapEntityAction {
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    readonly materialResourceType: MaterialResourceType,
+    provideFlagsToState: SimFlag[] = [],
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState);
+  }
+
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+
+    localEventManager.queueLocalEvent(
+      new MoveAllIdleResourcesToLocationLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.materialResourceType,
+        this.fixedMapEntity.id
+        ));
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  Move actor
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 /**
  * Action to move actor from one location to another
@@ -593,10 +701,10 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
   const ownerActor = so.actors.find( a => a.Uid === this.ownerId)!;
 
-	//transfer available resources from each location to event owner location
+	//transfer available human resources from each location to event owner location
 	for (const location of so.mapLocations) {
-		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, location.id);
-   		localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources, getIdleTaskUid(state)));
+		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, HumanResourceTypeArray, location.id);
+    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources, getIdleTaskUid(state)));
 	}
 
   }

@@ -63,6 +63,12 @@ export function transferResourcesFromToLocation(state: MainSimulationState, sour
   });
 }
 
+export function sendResourcesToLocation(resources: Resource[], targetLocation: LOCATION_ENUM) {
+  resources.forEach(resource => {
+    resource.currentLocation = targetLocation;
+  })
+}
+
 /**
  * @returns The number of resources that are currently without activity and of the given type in a specified location
  * 
@@ -188,9 +194,21 @@ export function getInStateHumanResourcesByLocation(state: Readonly<MainSimulatio
 	);
 }
 
-export function getInStateCountResourcesByLocationAndTaskInProgressAndType(state: Readonly<MainSimulationState>, location: LOCATION_ENUM, taskId: TaskId): Partial<Record<ResourceType, number>> {
-	let resByType: Partial<Record<ResourceType, number>> = {};
-	state.getInternalStateObject().resources.filter(resource => resource.currentLocation === location && resource.currentActivity === taskId).map(resource => {
+export function getInStateAmbulancesByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[] {
+	return state.getInternalStateObject().resources.filter(
+		resource => resource.currentLocation === location && ('ambulance' === resource.type),
+	);
+}
+
+export function getInStateHelicoptersByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[] {
+	return state.getInternalStateObject().resources.filter(
+		resource => resource.currentLocation === location && ('helicopter' === resource.type),
+	);
+}
+
+export function getInStateCountResourcesByLocationAndTaskInProgressAndType(state: Readonly<MainSimulationState>, types : Readonly<ResourceType[]>, location: LOCATION_ENUM, taskId: TaskId): Partial<Record<ResourceType, number>> {
+	const resByType: Partial<Record<ResourceType, number>> = {};
+	state.getInternalStateObject().resources.filter(resource => types.some(type => type === resource.type) && resource.currentLocation === location && resource.currentActivity === taskId).map(resource => {
 		if(resByType[resource.type])
 			resByType[resource.type] = resByType[resource.type]! + 1; 
 		else
@@ -199,8 +217,8 @@ export function getInStateCountResourcesByLocationAndTaskInProgressAndType(state
 	return resByType;
 }
 
-export function getInStateCountInactiveResourcesByLocationAndType(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
-	return getInStateCountResourcesByLocationAndTaskInProgressAndType(state, location, getIdleTaskUid(state));
+export function getInStateCountInactiveResourcesByLocationAndType(state: Readonly<MainSimulationState>, types : Readonly<ResourceType[]>, location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
+	return getInStateCountResourcesByLocationAndTaskInProgressAndType(state, types, location, getIdleTaskUid(state));
 }
 
 /**

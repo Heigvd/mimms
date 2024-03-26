@@ -31,6 +31,7 @@ export abstract class FixedMapEntity {
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
 	geometricalShape!: GeometricalShape;
 
+	// TODO see why the ownerId is always set at 0
 	constructor(ownerId: ActorId, name: TranslationKey, id: LOCATION_ENUM, leaderRoles: InterventionRole[], geometricalShape: GeometricalShape, buildingStatus: BuildingStatus, icon?: string, isAccessible: boolean = true){
 		super();
 		this.ownerId = ownerId;

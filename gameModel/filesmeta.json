@@ -149,7 +149,19 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/ambulance-park.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/arrow.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",

@@ -19,7 +19,7 @@ import { LOCATION_ENUM } from "../simulationState/locationState";
 import { ActionType } from "../actionType";
 import { BuildingStatus, FixedMapEntity } from "../events/defineMapObjectEvent";
 import resourceArrivalResolution from "../resources/resourceDispatchResolution";
-import { deleteIdleResource } from "../simulationState/resourceStateAccess";
+import { deleteIdleResource, getUnoccupiedResources } from '../simulationState/resourceStateAccess';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous'
 
@@ -325,6 +325,23 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
    }
  }
 
+ export class MoveAllIdleResourcesToLocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourceType: ResourceType,
+    readonly targetLocation: LOCATION_ENUM,
+  ) {
+    super(parentId, 'MoveAllResourcesToLocationLocalEvent', timeStamp);
+  }
+
+   applyStateUpdate(state: MainSimulationState): void {
+    const idleResources = getUnoccupiedResources(state, this.resourceType);
+    ResourceState.sendResourcesToLocation(idleResources, this.targetLocation);
+   }
+
+ }
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // EMERGENCY DEPARTMENT
@@ -461,7 +478,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 		entries(containerDef.resources).filter(([_,qt]) => qt && qt > 0).forEach(([rType, qty]) =>  {
 			const n = qty! * this.amount;
-			ResourceState.addIncomingResourcesToLocation(state, rType, resourceArrivalResolution(state), n);
+			ResourceState.addIncomingResourcesToLocation(state, rType, resourceArrivalResolution(state, rType), n);
 		})
 	}
 
