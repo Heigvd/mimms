@@ -75,10 +75,8 @@ export class PreTriageTask extends DefaultTask {
 				result += key + ": " + value + "\n";
 			});
 
-			// FIXME See to whom and from whom
-			state.getAllActors().forEach(actor => {
-				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) + "\n" + result, ActionType.RESOURCES_RADIO, false, true));
-			});
+			// We broadcast a message that task is completed (recipient = 0)
+			localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), 0, 'resources', getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) + "\n" + result, ActionType.RESOURCES_RADIO, false, true));
 		}
   }
 

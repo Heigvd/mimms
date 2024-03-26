@@ -34,7 +34,7 @@ export class PorterTask extends DefaultTask {
     description: TranslationKey,
     nbMinResources: number,
     nbMaxResources: number,
-    feedbackAtEnd : TranslationKey,
+    readonly feedbackAtEnd : TranslationKey,
 	executionLocations: LOCATION_ENUM[]
   ) {
     super(title, description, nbMinResources, nbMaxResources, PorterTask.ownerRole, executionLocations);
@@ -143,11 +143,9 @@ export class PorterTask extends DefaultTask {
       this.resourcesGroups = [];
       localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
       localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
-
-      // FIXME See to whom and from whom
-      state.getAllActors().forEach(actor => {
-        localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd || 'TODO add task feedback'));
-      });
+	
+	// We broadcast a message that task is completed (recipient = 0)
+    localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), 0, 'resources', this.feedbackAtEnd || 'TODO add task feedback'));
     }
     
   }
