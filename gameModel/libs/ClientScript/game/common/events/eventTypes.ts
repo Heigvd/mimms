@@ -9,7 +9,7 @@ import { ActionSource, ResolvedAction } from "../../legacy/the_world";
 import { Categorization } from "../../pretri/triage";
 import { ActorId, SimDuration, SimTime, TaskId, TemplateId, TemplateRef, TranslationKey } from "../baseTypes";
 import { ResourceTypeAndNumber } from '../resources/resourceType';
-import { LOCATION_ENUM } from "../simulationState/locationState";
+import { LOCATION_ENUM, Proximity } from "../simulationState/locationState";
 import { InterventionRole } from "../actors/actor";
 
 /**
@@ -246,4 +246,8 @@ export interface MoveActorEvent extends ActionCreationEvent {
 
 export interface AppointActorEvent extends ActionCreationEvent{
 	actorRole: InterventionRole;
+}
+
+export interface GetHospitalInformationEvent extends ActionCreationEvent {
+  proximity: Proximity;
 }

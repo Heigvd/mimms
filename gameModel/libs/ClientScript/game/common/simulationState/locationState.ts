@@ -18,3 +18,12 @@ export enum LOCATION_ENUM {
 export function getAvailableLocations(): FixedMapEntity[]  {
 	return getCurrentState().getInternalStateObject().mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready)
 }
+
+/**
+ * Hospital details proximity
+ */
+export enum Proximity {
+  Regional,
+  National,
+  International,
+}
