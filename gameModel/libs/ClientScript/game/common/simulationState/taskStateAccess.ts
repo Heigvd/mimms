@@ -1,10 +1,10 @@
-import { mainSimStateLogger, taskLogger } from "../../../tools/logger";
-import { ActorId, TaskId } from "../baseTypes";
-import { TaskBase, TaskStatus } from "../tasks/taskBase";
-import { MainSimulationState } from "./mainSimulationState";
-import * as ResourceState from "./resourceStateAccess";
-import { LOCATION_ENUM } from "../simulationState/locationState";
-import { getStateActorSymbolicLocation } from "../actors/actorLogic";
+import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { ActorId, TaskId } from '../baseTypes';
+import { TaskBase, TaskStatus } from '../tasks/taskBase';
+import { MainSimulationState } from './mainSimulationState';
+import * as ResourceState from './resourceStateAccess';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -25,7 +25,10 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
  * @returns The tasks that can be handled by the actor regarding the current state.
  * (= the tasks to which the actor can allocate resources)
  */
-export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+export function fetchAvailableTasks(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId
+): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
     return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
@@ -35,20 +38,31 @@ export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorI
   }
 }
 
-export function fetchAvailableTasksByLocation(state: Readonly<MainSimulationState>, actorId: ActorId, location: LOCATION_ENUM): Readonly<TaskBase>[] {
+export function fetchAvailableTasksByLocation(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+  location: LOCATION_ENUM
+): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor) && ta.executionLocations.includes(location));
+    return Object.values(getAllTasks(state)).filter(
+      ta => ta.isAvailable(state, actor) && ta.executionLocations.includes(location)
+    );
   } else {
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];
   }
 }
 
-export function fetchTasksWithResources(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+export function fetchTasksWithResources(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId
+): Readonly<TaskBase>[] {
   const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
   const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-  return Object.values(getAllTasks(state)).filter(ta => tasksIdWhereResources.find(taskId => taskId == ta.Uid));
+  return Object.values(getAllTasks(state)).filter(ta =>
+    tasksIdWhereResources.find(taskId => taskId == ta.Uid)
+  );
 }
 
 /**
@@ -77,7 +91,9 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
  */
 export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
   // TODO for each type
-  return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources();
+  return (
+    ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources()
+  );
 }
 
 /**
@@ -89,11 +105,11 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
   const matchingTasks = internalState.tasks.filter(ta => ta.Uid === taskId);
 
   if (matchingTasks.length === 0 || matchingTasks[0] == null) {
-    mainSimStateLogger.error("No task matches id : " + taskId);
+    mainSimStateLogger.error('No task matches id : ' + taskId);
   }
 
   if (matchingTasks.length > 1) {
-    mainSimStateLogger.error("Error in data : there must not be 2 tasks with same id : " + taskId);
+    mainSimStateLogger.error('Error in data : there must not be 2 tasks with same id : ' + taskId);
   }
 
   return matchingTasks[0]!;
@@ -108,13 +124,20 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
 /**
  * Change the status of a task
  */
-export function changeTaskStatus(state: MainSimulationState, taskId: TaskId, status: TaskStatus): void {
+export function changeTaskStatus(
+  state: MainSimulationState,
+  taskId: TaskId,
+  status: TaskStatus
+): void {
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);
 }
 
-export function getTaskResponsibleActorSymbolicLocation(state: Readonly<MainSimulationState>, taskId: TaskId): LOCATION_ENUM {
-	const task = internallyGetTask(state, taskId);
-	return getStateActorSymbolicLocation(state, task.ownerRole);
+export function getTaskResponsibleActorSymbolicLocation(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId
+): LOCATION_ENUM {
+  const task = internallyGetTask(state, taskId);
+  return getStateActorSymbolicLocation(state, task.ownerRole);
 }

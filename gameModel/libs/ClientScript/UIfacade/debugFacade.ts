@@ -5,31 +5,31 @@ import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 export function getCurrentState() {
-	return mainLogic.getCurrentState();
+  return mainLogic.getCurrentState();
 }
 
 export function getAllActionTemplates() {
-	return mainLogic.debugGetAllActionTemplates();
+  return mainLogic.debugGetAllActionTemplates();
 }
 
 export function getAllEvents() {
-	return eventUtils.getAllEvents();
+  return eventUtils.getAllEvents();
 }
 
 export function triggerEventLoop() {
-	wlog('RUNNING UPDATE LOOP');
-	mainLogic.runUpdateLoop();
-	// Force scroll after interface rerender
-	setTimeout(() => {
-		Helpers.scrollIntoView('#current-time', {behavior: 'smooth', inline: 'center'})
-		Helpers.scrollIntoView('.aMessage-animation', {behavior: 'smooth', block: 'start'})
-	}, 1);
-	if (buildingsRef.current) buildingsRef.current.changed();
+  wlog('RUNNING UPDATE LOOP');
+  mainLogic.runUpdateLoop();
+  // Force scroll after interface rerender
+  setTimeout(() => {
+    Helpers.scrollIntoView('#current-time', { behavior: 'smooth', inline: 'center' });
+    Helpers.scrollIntoView('.aMessage-animation', { behavior: 'smooth', block: 'start' });
+  }, 1);
+  if (buildingsRef.current) buildingsRef.current.changed();
 }
 
 export function recomputeLocalState() {
-	wlog('--- LOCAL STATE RESET');
-	mainLogic.recomputeState();
+  wlog('--- LOCAL STATE RESET');
+  mainLogic.recomputeState();
 }
 
 /* DEPRECATED */
@@ -53,21 +53,33 @@ export function recomputeLocalState() {
 // }
 
 export function getAllResources() {
-	const tasks = getCurrentState().getInternalStateObject().tasks;
-	const resources = getCurrentState().getInternalStateObject().resources;
+  const tasks = getCurrentState().getInternalStateObject().tasks;
+  const resources = getCurrentState().getInternalStateObject().resources;
 
-	const response: { resourceId: number, resourceType: string, currentActivity: string, currentLocation: LOCATION_ENUM  }[] = [];
+  const response: {
+    resourceId: number;
+    resourceType: string;
+    currentActivity: string;
+    currentLocation: LOCATION_ENUM;
+  }[] = [];
 
-	resources.forEach((resource) => {
-		const activityTitle = resource.currentActivity ? tasks.find(t => t.Uid == resource.currentActivity)?.title : resource.currentActivity;
-		response.push({resourceId: resource.Uid, resourceType: resource.type, currentActivity: '' + (activityTitle || ''), currentLocation: resource.currentLocation});
-	});
-	return response;
+  resources.forEach(resource => {
+    const activityTitle = resource.currentActivity
+      ? tasks.find(t => t.Uid == resource.currentActivity)?.title
+      : resource.currentActivity;
+    response.push({
+      resourceId: resource.Uid,
+      resourceType: resource.type,
+      currentActivity: '' + (activityTitle || ''),
+      currentLocation: resource.currentLocation,
+    });
+  });
+  return response;
 }
 
 export function getAllLocalEvents() {
-	let counter = 0;
-	return localEventManager.processedEvents.map((pe) => {
-		return {id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp}
-	})
+  let counter = 0;
+  return localEventManager.processedEvents.map(pe => {
+    return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
+  });
 }

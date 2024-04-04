@@ -1,16 +1,17 @@
 import {
-	ActionTemplateBase,
-	MoveActorActionTemplate,
-	SelectionFixedMapEntityTemplate,
+  ActionTemplateBase,
+  GetHospitalInformationActionTemplate,
+  MoveActorActionTemplate,
+  SelectionFixedMapEntityTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionType } from '../game/common/actionType';
 import { endMapAction, startMapSelect } from '../gameMap/main';
 import {
-	cancelAction,
-	getActionTemplate,
-	getAllActions,
-	isFixedMapEntityTemplate,
-	planAction,
+  cancelAction,
+  getActionTemplate,
+  getAllActions,
+  isFixedMapEntityTemplate,
+  planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
@@ -20,7 +21,7 @@ type gameStateStatus = 'NOT_INITIATED' | 'RUNNING' | 'PAUSED';
  * Get the current gameStateStatus
  */
 export function getGameStateStatus(): gameStateStatus {
-	return Variable.find(gameModel, 'gameState').getValue(self) as gameStateStatus;
+  return Variable.find(gameModel, 'gameState').getValue(self) as gameStateStatus;
 }
 
 /**
@@ -29,20 +30,20 @@ export function getGameStateStatus(): gameStateStatus {
  * @returns boolean whether an action can be planned by current actor
  */
 export function canPlanAction(): boolean {
-	const currentTime = getSimTime();
-	const actorUid = Context.interfaceState.state.currentActorUid;
-	const actions = getAllActions();
+  const currentTime = getSimTime();
+  const actorUid = Context.interfaceState.state.currentActorUid;
+  const actions = getAllActions();
 
-	if (actions[actorUid] === undefined) return true;
+  if (actions[actorUid] === undefined) return true;
 
-	for (const action of actions[actorUid]!) {
-		// Is a future action planned ?
-		if (action.startTime === currentTime) return false;
-		// Is a previous action finished ?
-		if (action.startTime + action.duration() > currentTime) return false;
-	}
+  for (const action of actions[actorUid]!) {
+    // Is a future action planned ?
+    if (action.startTime === currentTime) return false;
+    // Is a previous action finished ?
+    if (action.startTime + action.duration() > currentTime) return false;
+  }
 
-	return true;
+  return true;
 }
 
 /**
@@ -52,17 +53,17 @@ export function canPlanAction(): boolean {
  * @returns boolean whether action uid is currently planned one
  */
 export function isPlannedAction(id: number) {
-	const actorUid = Context.interfaceState.state.currentActorUid;
-	const actions = getAllActions()[actorUid];
+  const actorUid = Context.interfaceState.state.currentActorUid;
+  const actions = getAllActions()[actorUid];
 
-	if (actorUid && actions) {
-		const action = actions.find(a => a.startTime === getSimTime());
-		if (action) {
-			return id == action.getTemplateId();
-		}
-	}
+  if (actorUid && actions) {
+    const action = actions.find(a => a.startTime === getSimTime());
+    if (action) {
+      return id == action.getTemplateId();
+    }
+  }
 
-	return false;
+  return false;
 }
 
 /**
@@ -73,29 +74,29 @@ export function isPlannedAction(id: number) {
  * @params any payload the action creation
  */
 export function actionClickHandler(id: number, actionType: ActionType, params: any): void {
-	const template = getActionTemplate(id, actionType)!;
-	const uid = Context.interfaceState.state.currentActorUid;
+  const template = getActionTemplate(id, actionType)!;
+  const uid = Context.interfaceState.state.currentActorUid;
 
-	if (canPlanAction()) {
-		planAction(template.getTemplateRef(), uid, params);
-	} else if (isPlannedAction(id)) {
-		cancelAction(uid, id);
-	}
+  if (canPlanAction()) {
+    planAction(template.getTemplateRef(), uid, params);
+  } else if (isPlannedAction(id)) {
+    cancelAction(uid, id);
+  }
 }
 
 /**
  * Update state whenever user changes action
  */
 export function actionChangeHandler() {
-	Context.interfaceState.setState({
-		...Context.interfaceState.state,
-		currentActionUid: Context.action.Uid,
-	});
-	endMapAction();
-	// If action is SelectMapObject we begin routine
-	if (isFixedMapEntityTemplate(Context.action.Uid) && canPlanAction()) {
-		startMapSelect();
-	}
+  Context.interfaceState.setState({
+    ...Context.interfaceState.state,
+    currentActionUid: Context.action.Uid,
+  });
+  endMapAction();
+  // If action is SelectMapObject we begin routine
+  if (isFixedMapEntityTemplate(Context.action.Uid) && canPlanAction()) {
+    startMapSelect();
+  }
 }
 
 /**
@@ -104,17 +105,17 @@ export function actionChangeHandler() {
  * @return Date timeStamp for simulation start time
  */
 export function getStartTime(): Date {
-	// const hours = Variable.find(gameModel, 'startHours').getValue(self);
-	// const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
-	// Hardcoded in demo
-	const hours = 16;
-	const minutes = 0;
+  // const hours = Variable.find(gameModel, 'startHours').getValue(self);
+  // const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+  // Hardcoded in demo
+  const hours = 16;
+  const minutes = 0;
 
-	const dateTime = new Date();
-	dateTime.setHours(hours);
-	dateTime.setMinutes(minutes);
+  const dateTime = new Date();
+  dateTime.setHours(hours);
+  dateTime.setMinutes(minutes);
 
-	return dateTime;
+  return dateTime;
 }
 
 /**
@@ -124,10 +125,10 @@ export function getStartTime(): Date {
  * @returns string Notification time adjusted to sim time
  */
 export function getNotificationTime(notificationTime: number): string {
-	const startTime = getStartTime();
-	startTime.setSeconds(notificationTime + startTime.getSeconds());
+  const startTime = getStartTime();
+  startTime.setSeconds(notificationTime + startTime.getSeconds());
 
-	return formatTime(startTime);
+  return formatTime(startTime);
 }
 
 /**
@@ -137,8 +138,10 @@ export function getNotificationTime(notificationTime: number): string {
  * @returns string dateTime in HH:MM format
  */
 export function formatTime(dateTime: Date): string {
-	const splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
-	return splitted.join(':');
+  let splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
+  let result = splitted.join(':');
+
+  return result;
 }
 
 /**
@@ -148,12 +151,12 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-	if (Context.action instanceof SelectionFixedMapEntityTemplate) {
-		return '48';
-	} else if (Context.action instanceof MoveActorActionTemplate) {
-		return '66';
-	}
-	return '';
+  if (Context.action instanceof SelectionFixedMapEntityTemplate) {
+    return '48';
+  } else if (Context.action instanceof MoveActorActionTemplate) {
+    return '66';
+  }
+  return '';
 }
 
 /**
@@ -162,11 +165,11 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
  * @returns string Page number to be displayed in page loader
  */
 export function getModalPageNumber(): string {
-	if (Context.interfaceState.state.showCasuMessageModal) {
-		return '42';
-	}
-	if (Context.interfaceState.state.showPatientModal) {
-		return '57';
-	}
-	return '';
+  if (Context.interfaceState.state.showCasuMessageModal) {
+    return '42';
+  }
+  if (Context.interfaceState.state.showPatientModal) {
+    return '57';
+  }
+  return '';
 }

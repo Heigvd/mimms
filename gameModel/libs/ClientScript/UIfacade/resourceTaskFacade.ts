@@ -6,9 +6,7 @@
 
 import { ActorId, TaskId } from '../game/common/baseTypes';
 import { TaskBase } from '../game/common/tasks/taskBase';
-import {
-	getCurrentState,
-} from '../game/mainSimulationLogic';
+import { getCurrentState } from '../game/mainSimulationLogic';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/resourceType';
@@ -25,11 +23,11 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
  * @returns All the human resources types
  */
 export function getHumanResourceTypes(): readonly ResourceType[] {
-	return HumanResourceTypeArray;
+  return HumanResourceTypeArray;
 }
 
 export function getResourceFunction(): readonly ResourceFunction[] {
-	return ResourceFunctionArray;
+  return ResourceFunctionArray;
 }
 
 /**
@@ -41,7 +39,7 @@ export function getResourceFunction(): readonly ResourceFunction[] {
  * @returns The number of matching resources
  */
 export function countUnoccupiedResources(resourceType: ResourceType): number {
-	return ResourceState.getUnoccupiedResources(getCurrentState(), resourceType).length;
+  return ResourceState.getUnoccupiedResources(getCurrentState(), resourceType).length;
 }
 
 /**
@@ -52,15 +50,18 @@ export function countUnoccupiedResources(resourceType: ResourceType): number {
  * @returns array of matching tasks
  */
 export function getAvailableTasks(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
+  return TaskState.fetchAvailableTasks(getCurrentState(), actorId);
 }
 
-export function getAvailableTasksByLocation(actorId: ActorId, location: LOCATION_ENUM): Readonly<TaskBase>[] {
-	return TaskState.fetchAvailableTasksByLocation(getCurrentState(), actorId, location);
+export function getAvailableTasksByLocation(
+  actorId: ActorId,
+  location: LOCATION_ENUM
+): Readonly<TaskBase>[] {
+  return TaskState.fetchAvailableTasksByLocation(getCurrentState(), actorId, location);
 }
 
 export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
-	return TaskState.fetchTasksWithResources(getCurrentState(), actorId);
+  return TaskState.fetchTasksWithResources(getCurrentState(), actorId);
 }
 
 /**
@@ -72,7 +73,7 @@ export function getTasksWithResources(actorId: ActorId): Readonly<TaskBase>[] {
  * @returns the number of matching resources
  */
 export function countAllocatedResources(taskId: TaskId, resourceType: ResourceType): number {
-	return ResourceState.getAllocatedResources(getCurrentState(), taskId, resourceType).length;
+  return ResourceState.getAllocatedResources(getCurrentState(), taskId, resourceType).length;
 }
 
 // -------------------------------------------------------------------------------------------------
