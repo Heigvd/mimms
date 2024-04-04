@@ -70,7 +70,6 @@ export abstract class ActionBase {
 	/**
 	 * Will update the given status
 	 * @param state the current state that will be updated
-	 * @param simTime
 	 */
 	public abstract update(state: Readonly<MainSimulationState>): void;
 

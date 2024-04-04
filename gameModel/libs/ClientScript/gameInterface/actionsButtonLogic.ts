@@ -10,11 +10,11 @@ import {
 	isMoveResourcesAssignTaskActionTemplate,
 } from '../UIfacade/actionFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
-import { actionClickHandler, canPlanAction } from '../gameInterface/main';
+import { actionClickHandler, canPlanAction } from './main';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { getEmptyResourceRequest } from '../gameInterface/interfaceState';
+import { getEmptyResourceRequest } from './interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
