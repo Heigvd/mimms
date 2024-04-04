@@ -197,6 +197,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/park.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/secondaryAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
