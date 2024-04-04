@@ -194,15 +194,9 @@ export function getInStateHumanResourcesByLocation(state: Readonly<MainSimulatio
 	);
 }
 
-export function getInStateAmbulancesByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[] {
+export function getResourcesByTypeAndLocation(state: Readonly<MainSimulationState>, resourceType: ResourceType, location: LOCATION_ENUM): Resource[] {
 	return state.getInternalStateObject().resources.filter(
-		resource => resource.currentLocation === location && ('ambulance' === resource.type),
-	);
-}
-
-export function getInStateHelicoptersByLocation(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): Resource[] {
-	return state.getInternalStateObject().resources.filter(
-		resource => resource.currentLocation === location && ('helicopter' === resource.type),
+		resource => resource.currentLocation === location && (resource.type === resourceType),
 	);
 }
 

@@ -3,11 +3,10 @@ import { Resource } from "../game/common/resources/resource";
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from "../game/common/simulationState/locationState";
 import {
-	getInStateAmbulancesByLocation,
 	getInStateCountInactiveResourcesByLocationAndType,
 	getInStateCountResourcesByLocationAndTaskInProgressAndType,
-	getInStateHelicoptersByLocation,
 	getInStateHumanResourcesByLocation,
+	getResourcesByTypeAndLocation,
 } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from "../game/mainSimulationLogic";
 
@@ -16,11 +15,11 @@ export function getHumanResourcesByLocation(location: LOCATION_ENUM): Resource[]
 }
 
 export function getAmbulancesByLocation(location: LOCATION_ENUM): Resource[]  {
-	return getInStateAmbulancesByLocation(getCurrentState(), location);
+	return getResourcesByTypeAndLocation(getCurrentState(), 'ambulance', location);
 }
 
 export function getHelicoptersByLocation(location: LOCATION_ENUM): Resource[]  {
-	return getInStateHelicoptersByLocation(getCurrentState(), location);
+	return getResourcesByTypeAndLocation(getCurrentState(), 'helicopter', location);
 }
 
 function getCountInactiveResourcesByLocationAndType(location: LOCATION_ENUM): Partial<Record<ResourceType, number>> {
