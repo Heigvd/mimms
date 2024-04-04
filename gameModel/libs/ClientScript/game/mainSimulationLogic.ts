@@ -14,7 +14,6 @@ import {
 	AppointActorActionTemplate,
 	MoveResourcesAssignTaskActionTemplate,
 	SelectionPMATemplate,
-	GetHospitalInformationActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
@@ -192,14 +191,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 		TimeSliceDuration,
 		'basic-info-firefighter-feedback',
 	);
-	const getHospitalInfos = new GetHospitalInformationActionTemplate(
-		'get-hospital-information-title',
-		'get-hospital-information-desc',
-		TimeSliceDuration,
-		'get-hospital-information-feedback',
-		false,
-	);
-
 	const casuMessage = new CasuMessageTemplate(
 		'casu-message-title',
 		'casu-message-desc',
@@ -408,7 +399,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
 	templates[getInfo2.getTemplateRef()] = getInfo2;
 	templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
 	templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
-	templates[getHospitalInfos.getTemplateRef()] = getHospitalInfos;
 	templates[casuMessage.getTemplateRef()] = casuMessage;
 	templates[radioMessage.getTemplateRef()] = radioMessage;
 	templates[placePMA.getTemplateRef()] = placePMA;

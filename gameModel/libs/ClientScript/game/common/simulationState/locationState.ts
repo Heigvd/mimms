@@ -25,5 +25,5 @@ export function getAvailableLocations(): FixedMapEntity[]  {
 export enum Proximity {
   Regional,
   National,
-  International,
+  International
 }

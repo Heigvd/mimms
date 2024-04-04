@@ -1,5 +1,6 @@
 import {
 	ActionTemplateBase,
+	GetHospitalInformationActionTemplate,
 	MoveActorActionTemplate,
 	SelectionFixedMapEntityTemplate,
 } from '../game/common/actions/actionTemplateBase';
@@ -149,8 +150,7 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 		return "48";
 	} else if (Context.action instanceof MoveActorActionTemplate) {
 		return "66";
-	}
-
+	} 
 	return "";
 }
 

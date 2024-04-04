@@ -4,7 +4,6 @@ import { FullEvent } from "../events/eventUtils";
 import {
   ActionCreationEvent,
   AppointActorEvent,
-  GetHospitalInformationEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   StandardActionEvent,
@@ -21,7 +20,6 @@ import {
   MoveResourcesAssignTaskAction,
   AppointActorAction,
   SelectionPMAAction,
-GetHospitalInformationAction,
 } from './actionBase';
 import { SelectionFixedMapEntityEvent, FixedMapEntity, createFixedMapEntityInstanceFromAnyObject, BuildingStatus } from "../events/defineMapObjectEvent";
 import { PlanActionLocalEvent } from "../localEvents/localEventBase";
@@ -31,7 +29,7 @@ import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from "../events/casuMessageEvent";
 import { RadioMessageActionEvent, RadioMessagePayload } from "../events/radioMessageEvent";
 import { ActionType } from "../actionType";
-import { LOCATION_ENUM, Proximity } from "../simulationState/locationState";
+import { LOCATION_ENUM } from "../simulationState/locationState";
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
@@ -664,55 +662,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<AppointActorAct
 
 
 }
-
-export class GetHospitalInformationActionTemplate extends StartEndTemplate {
-
-
-
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[],
-  ) {
-    super(title, description, duration, message, replayable, ActionType.ACTION, flags, provideFlagsToState, availableToRoles);
-  }
-
-  protected override createActionFromEvent(event: FullEvent<GetHospitalInformationEvent>): GetHospitalInformationAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new GetHospitalInformationAction(payload.triggerTime, this.duration, this.message, this.title, event.id, ownerId, this.Uid, payload.proximity)
-  }
-
-  public override buildGlobalEvent(timeStamp: number, initiator: Readonly<Actor>, params: Proximity): GetHospitalInformationEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      proximity: params,
-    }
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'GetHospitalInformationActionTemplate' + '_' + this.title;
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
-}
-
-
 
 
 

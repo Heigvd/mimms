@@ -12,7 +12,8 @@ export const pmaDetails = [
   [false, false, 40, "9/10", true, true],
 ];
 
-export enum Proxmity {
+// Definitions could be stored elsewhere
+enum Proxmity {
   Regional,
   National,
   International,
@@ -28,7 +29,7 @@ interface PatientUnitDefinition {
   availableCapacity: number;
 }
 
-interface HospitalDefinition {
+export interface HospitalDefinition {
   fullName: string;
   shortName: string;
   description?: string;
