@@ -2,223 +2,222 @@
 /**
  * Server-side event manager
  */
-var EventManager = (function () {
-  function lock(player) {
-    var thePlayer = player || self;
-    // !!!!!!!!!!!!!! Do NOT load events before locking !!!!!!!!!!!!!!!!!
+var EventManager = ((function () {
 
-    RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
-  }
+	function lock(player) {
+		var thePlayer = player || self;
+		// !!!!!!!!!!!!!! Do NOT load events before locking !!!!!!!!!!!!!!!!!
 
-  function sendEvent(payload, time, player) {
-    lock();
-    var thePlayer = player || self;
-    var realTime = getEventTime(time, thePlayer);
+		RequestManager.lock("NewEvent-" + thePlayer.getTeamId());
+	}
 
-    var events = Variable.find(gameModel, 'events');
-    var instance = events.getInstance(thePlayer);
+	function sendEvent(payload, time, player) {
+		lock();
+		var thePlayer = player || self;
+		var realTime = getEventTime(time, thePlayer);
 
-    lastEventI = Variable.find(gameModel, 'lastEventId').getInstance(thePlayer);
-    lastId = lastEventI.getValue();
+		var events = Variable.find(gameModel, 'events');
+		var instance = events.getInstance(thePlayer);
 
-    var event = {
-      time: realTime,
-      payload: payload,
-    };
+		lastEventI = Variable.find(gameModel, 'lastEventId').getInstance(thePlayer);
+		lastId = lastEventI.getValue();
 
-    var newEvent = instance.sendMessage(thePlayer.getName(), '' + lastId, JSON.stringify(event));
-    // print ("NewEvent ID" + newEvent.getId());
-    // Make sure newEvent got an Id
-    // hack: commit request to force state machine evaluation
-    //       This will flush all pending changes to DB
-    //       newEvent got an ID
-    RequestManager.commit();
-    // print ("Post Commit NewEvent ID" + newEvent.getId());
+		var event = {
+			time: realTime,
+			payload: payload,
+		}
 
-    lastEventI.setValue(newEvent.getId());
-  }
+		var newEvent = instance.sendMessage(thePlayer.getName(), '' + lastId, JSON.stringify(event));
+		// print ("NewEvent ID" + newEvent.getId());
+		// Make sure newEvent got an Id
+		// hack: commit request to force state machine evaluation
+		//       This will flush all pending changes to DB
+		//       newEvent got an ID
+		RequestManager.commit();
+		// print ("Post Commit NewEvent ID" + newEvent.getId());
 
-  /**
-   * New implementation using new EventBox dedicated type
-   */
-  function sendNewEvent(payload, time, player) {
-    lock();
-    var thePlayer = player || self;
-    var realTime = getEventTime(time, thePlayer);
+		lastEventI.setValue(newEvent.getId());
+	}
 
-    var events = Variable.find(gameModel, 'newEvents');
-    var instance = events.getInstance(thePlayer);
+	/**
+	 * New implementation using new EventBox dedicated type
+	 */
+	function sendNewEvent(payload, time, player) {
+		lock();
+		var thePlayer = player || self;
+		var realTime = getEventTime(time, thePlayer);
 
-    var event = {
-      time: realTime,
-      payload: payload,
-    };
+		var events = Variable.find(gameModel, 'newEvents');
+		var instance = events.getInstance(thePlayer);
 
-    instance.sendEvent(JSON.stringify(event));
-    // Make sure newEvent got an Id
-    // hack: commit request to force state machine evaluation
-    //       This will flush all pending changes to DB
-    //       newEvent got an ID
-    RequestManager.commit();
-  }
+		var event = {
+			time: realTime,
+			payload: payload,
+		}
 
-  function getEventTime(time, player) {
-    if (time > 0) {
-      return time;
-    } else {
-      var x = TimeManager.getCurrentTime(player);
-      return x;
-    }
-  }
+		instance.sendEvent(JSON.stringify(event));
+		// Make sure newEvent got an Id
+		// hack: commit request to force state machine evaluation
+		//       This will flush all pending changes to DB
+		//       newEvent got an ID
+		RequestManager.commit();
+	}
 
-  function getParsedPatients() {
-    var list = [];
+	function getEventTime(time, player) {
+		if (time > 0) {
+			return time;
+		} else {
+			var x = TimeManager.getCurrentTime(player);
+			return x;
+		}
+	}
 
-    Variable.find(gameModel, 'patients')
-      .getProperties()
-      .entrySet()
-      .stream()
-      .forEach(function (entry) {
-        var patientId = entry.getKey();
-        var raw = entry.getValue();
-        var data = JSON.parse(raw);
 
-        list.push({
-          id: patientId,
-          data: data,
-        });
-      });
+	function getParsedPatients() {
+		var list = [];
 
-    return list;
-  }
-  function revivePayload(emitter, patientId, event) {
-    var payload = {};
+		Variable.find(gameModel, 'patients').getProperties().entrySet().stream().forEach(function (entry) {
+			var patientId = entry.getKey();
+			var raw = entry.getValue();
+			var data = JSON.parse(raw);
 
-    for (var key in event.payload) {
-      payload[key] = event.payload[key];
-    }
+			list.push({
+				id: patientId,
+				data: data
+			})
+		});
 
-    payload.emitterCharacterId = emitter.emitterCharacterId;
-    payload.emitterPlayerId = emitter.emitterPlayerId;
+		return list;
+	}
+	function revivePayload(emitter, patientId, event) {
+		var payload = {};
 
-    payload.targetId = patientId;
+		for (var key in event.payload) {
+			payload[key] = event.payload[key];
+		}
 
-    return payload;
-  }
+		payload.emitterCharacterId = emitter.emitterCharacterId;
+		payload.emitterPlayerId = emitter.emitterPlayerId;
 
-  function runScenario(player) {
-    lock();
-    var thePlayer = player || self;
+		payload.targetId = patientId;
 
-    var alreadyDone = Variable.find(gameModel, 'scenarioRevived').getValue(thePlayer);
-    if (!alreadyDone) {
-      var emitter = {
-        emitterCharacterId: '',
-        emitterPlayerId: thePlayer.getId(),
-      };
-      var patients = getParsedPatients();
-      for (var i in patients) {
-        var patient = patients[i];
-        var events = patient.data.scriptedEvents;
-        if (events) {
-          for (var j in events) {
-            var event = events[j];
-            var payload = revivePayload(emitter, patient.id, event);
-            sendEvent(payload, event.time, thePlayer);
-          }
-        }
-      }
+		return payload;
+	}
 
-      Variable.find(gameModel, 'scenarioRevived').setValue(thePlayer, true);
-    }
-  }
+	function runScenario(player) {
+		lock();
+		var thePlayer = player || self;
 
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		var alreadyDone = Variable.find(gameModel, "scenarioRevived").getValue(thePlayer);
+		if (!alreadyDone) {
+			var emitter = {
+				emitterCharacterId: "",
+				emitterPlayerId: thePlayer.getId(),
+			};
+			var patients = getParsedPatients();
+			for (var i in patients) {
+				var patient = patients[i];
+				var events = patient.data.scriptedEvents;
+				if (events) {
+					for (var j in events) {
+						var event = events[j];
+						var payload = revivePayload(emitter, patient.id, event);
+						sendEvent(payload, event.time, thePlayer);
+					}
+				}
 
-  function generateRandomId(length) {
-    var id = '';
+			}
 
-    for (var i = 0; i < length; i++) {
-      id += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
+			Variable.find(gameModel, "scenarioRevived").setValue(thePlayer, true);
+		}
+	}
 
-    return id;
-  }
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  function generateUniqueId() {
-    var existing = Variable.find(gameModel, 'characters').getInstance(self).getProperties();
-    var name = generateRandomId(3);
-    var counter = 0;
-    var id = 'char-' + name;
+	function generateRandomId(length) {
+		var id = "";
 
-    // make sure to avoid collisions by appending numeric suffix
-    while (existing.containsKey(id)) {
-      counter++;
-      id = 'char-' + name + '-' + counter;
-    }
-    return id;
-  }
+		for (var i = 0; i < length; i++) {
+			id += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
 
-  function instantiateCharacter(profileId, bagId, useEventBox) {
-    lock();
-    var charactersDesc = Variable.find(gameModel, 'characters');
-    var strProfile = charactersDesc.getProperty(profileId);
+		return id;
+	}
 
-    if (strProfile) {
-      var profile = JSON.parse(strProfile);
-      var skillId = profile.skillId;
+	function generateUniqueId() {
+		var existing = Variable.find(gameModel, "characters").getInstance(self).getProperties();
+		var name = generateRandomId(3);
+		var counter = 0;
+		var id = 'char-' + name
 
-      var bodyFactoryParam = {
-        age: 30,
-        sex: Math.random() < 0.5 ? 'male' : 'female',
-        bmi: 22.5,
-        height_cm: 175,
-        lungDepth: 1,
-        scriptedEvents: [],
-        description: '',
-        skillId: skillId,
-      };
-      var id = generateUniqueId();
-      var jsonParam = JSON.stringify(bodyFactoryParam);
+        // make sure to avoid collisions by appending numeric suffix
+		while (existing.containsKey(id)) {
+			counter++;
+			id = 'char-' + name + "-" + counter;
+		}
+		return id;
+	}
 
-      // persist data and set whoiAmI
-      Variable.find(gameModel, 'whoAmI').setValue(self, id);
-      charactersDesc.getInstance().setProperty(id, jsonParam);
+	function instantiateCharacter(profileId, bagId, useEventBox) {
+		lock();
+		var charactersDesc = Variable.find(gameModel, 'characters');
+		var strProfile = charactersDesc.getProperty(profileId);
 
-      if (bagId) {
-        var giveBagPayload = {
-          emitterPlayerId: self.getId(),
-          emitterCharacterId: id,
-          type: 'GiveBag',
-          targetType: 'Human',
-          targetId: id,
-          bagId: bagId,
-        };
-        if (useEventBox) {
-          sendNewEvent(giveBagPayload);
-        } else {
-          sendEvent(giveBagPayload);
-        }
-      }
+		if (strProfile) {
+			var profile = JSON.parse(strProfile);
+			var skillId = profile.skillId
 
-      return id;
-    }
-    return '';
-  }
+			var bodyFactoryParam = {
+				age: 30,
+				sex: Math.random() < 0.5 ? 'male' : 'female',
+				bmi: 22.5,
+				height_cm: 175,
+				lungDepth: 1,
+				scriptedEvents: [],
+				description: '',
+				skillId: skillId
+			};
+			var id = generateUniqueId();
+			var jsonParam = JSON.stringify(bodyFactoryParam);
 
-  return {
-    instantiateCharacter: function (profileId, bagId) {
-      instantiateCharacter(profileId, bagId, false);
-    },
-    instantiateCharacterNew: function (profileId, bagId) {
-      instantiateCharacter(profileId, bagId, true);
-    },
-    runScenario: runScenario,
-    postEvent: function (payload, time) {
-      sendEvent(payload, time);
-    },
-    postNewEvent: function (payload, time) {
-      sendNewEvent(payload, time);
-    },
-  };
-})();
+			// persist data and set whoiAmI
+			Variable.find(gameModel, "whoAmI").setValue(self, id);
+			charactersDesc.getInstance().setProperty(id, jsonParam);
+
+			if (bagId) {
+				var giveBagPayload = {
+					emitterPlayerId: self.getId(),
+					emitterCharacterId: id,
+					type: 'GiveBag',
+					targetType: 'Human',
+					targetId: id,
+					bagId: bagId,
+				}
+				if(useEventBox){
+					sendNewEvent(giveBagPayload)
+				}else{
+					sendEvent(giveBagPayload);
+				}
+			}
+
+			return id;
+		}
+		return '';
+	}
+
+	return {
+		instantiateCharacter: function (profileId, bagId) {
+			instantiateCharacter(profileId, bagId, false);
+		},
+		instantiateCharacterNew: function (profileId, bagId) {
+			instantiateCharacter(profileId, bagId, true);
+		},
+		runScenario: runScenario,
+		postEvent: function (payload, time) {
+			sendEvent(payload, time);
+		},
+		postNewEvent:  function(payload, time) {
+			sendNewEvent(payload, time)
+		},
+	};
+})());
