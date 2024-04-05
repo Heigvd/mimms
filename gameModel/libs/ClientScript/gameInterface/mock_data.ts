@@ -4,38 +4,15 @@
 //                                        //
 ////////////////////////////////////////////
 
+import { HospitalDefinition } from "../game/common/resources/hospitalType";
+import { HospitalProximity } from "../game/common/simulationState/locationState";
+
 // PMA details in action panel
 export const pmaDetails = [
   [true, true, 200, '6/10', false, false],
   [false, true, 20, '8/10', true, true],
   [false, false, 40, '9/10', true, true],
 ];
-
-// Definitions could be stored elsewhere
-enum HospitalProximity {
-  Regional,
-  National,
-  International,
-}
-
-interface PatientUnitType {
-  typology: string;
-  description?: string;
-}
-
-interface PatientUnitDefinition {
-  placeType: PatientUnitType;
-  availableCapacity: number;
-}
-
-export interface HospitalDefinition {
-  fullName: string;
-  shortName: string;
-  description?: string;
-  proximity: HospitalProximity;
-  distance: number;
-  units: PatientUnitDefinition[];
-}
 
 // Hospital details
 export const hospitalInfo: HospitalDefinition[] = [

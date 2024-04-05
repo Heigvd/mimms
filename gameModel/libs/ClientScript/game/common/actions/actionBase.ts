@@ -25,7 +25,6 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ResourceTypeAndNumber, ResourcesArray, ResourceType } from '../resources/resourceType';
 import {
   CasuMessagePayload,
-  HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
@@ -41,7 +40,8 @@ import {
 import { InterventionRole } from '../actors/actor';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
-import { HospitalDefinition, hospitalInfo } from '../../../gameInterface/mock_data';
+import { hospitalInfo } from '../../../gameInterface/mock_data';
+import { HospitalDefinition } from '../resources/hospitalType';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -363,7 +363,7 @@ export class CasuMessageAction extends StartEndAction {
           state.getSimTime(),
           this.ownerId,
           state.getActorById(this.ownerId)?.FullName || '',
-          this.computeCasuMessage(this.casuMessagePayload as MethaneMessagePayload),
+          this.computeCasuMessage(methaneMessagePayload),
           ActionType.CASU_RADIO,
           true,
           true

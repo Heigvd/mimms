@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1712328414982,
+  "createdTime" : 1712329342210,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5039,6 +5039,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:30076644:5ntpRr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/resources/hospitalType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:151865:25tgd8",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
