@@ -13,6 +13,7 @@ import {
   ArrivalAnnoucementTemplate,
   AppointActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+	SelectionParkTemplate,
   SelectionPMATemplate,
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
@@ -383,7 +384,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const allocateResources = new MoveResourcesAssignTaskActionTemplate(
+	const placeAmbulancePark = new SelectionParkTemplate('define-ambulance-park-title', 'define-ambulance-park-desc', TimeSliceDuration, 'define-ambulance-park-feedback',
+		new GeometryBasedFixedMapEntity(0, 'location-ambulance-park', LOCATION_ENUM.ambulancePark, ['EVASAN'], new PointGeometricalShape([[2499960, 1118580], [2500070, 1118498], [2499961, 1118388]]), BuildingStatus.selection, 'ambulance-park'),
+		'ambulance', false, undefined, [SimFlag.AMBULANCE_PARK_BUILT]);
+
+	const placeHelicopterPark = new SelectionParkTemplate('define-helicopter-park-title', 'define-helicopter-park-desc', TimeSliceDuration * 2, 'define-helicopter-park-feedback',
+		new GeometryBasedFixedMapEntity(0, 'location-helicopter-park', LOCATION_ENUM.helicopterPark, ['EVASAN'], new PointGeometricalShape([[2499956, 1118332], [2499872, 1118614], [2499925, 1118451]]), BuildingStatus.selection, 'helicopter-park'),
+		'helicopter', false, undefined, [SimFlag.HELICOPTER_PARK_BUILT]);
+
+	const allocateResources = new MoveResourcesAssignTaskActionTemplate(
     'move-res-task-title',
     'move-res-task-desc',
     TimeSliceDuration,
@@ -405,6 +414,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
+  templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
+  templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
