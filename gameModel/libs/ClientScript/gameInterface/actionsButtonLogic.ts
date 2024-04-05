@@ -1,4 +1,5 @@
 import {
+CasuMessagePayload,
 	HospitalRequestPayload,
 	MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
@@ -49,11 +50,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 		params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
 	} else if (isMoveActorActionTemplate(actionRefUid)) {
 		params = fetchMoveActorLocation();
-	} // else if (isGetHospitalInformationActionTemplate(actionRefUid)) {
-	//
-	// 	params = fetchGetHospitalInformationValues()
-	//
-	// }
+	}
 
 	actionClickHandler(Context.action.Uid, Context.action.category, params);
 }
@@ -219,7 +216,7 @@ function fetchReleaseResourceValues() {
  *
  * @returns CasuMessagePayload
  */
-function fetchCasuMessageRequestValues(): MethaneMessagePayload | HospitalRequestPayload {
+function fetchCasuMessageRequestValues(): CasuMessagePayload {
 	const casuMessage = Context.interfaceState.state.casuMessage;
 	const request = Context.interfaceState.state.resources.requestedResources;
 	const hospitalProximity = Context.interfaceState.state.getHospitalInfoChosenProximity;

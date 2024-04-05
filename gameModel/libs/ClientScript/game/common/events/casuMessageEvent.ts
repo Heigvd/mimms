@@ -3,11 +3,10 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import { HospitalProximity } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
 
-export interface CasuMessagePayload {
-  messageType: string;
-}
 
-export interface MethaneMessagePayload extends CasuMessagePayload {
+export type CasuMessagePayload = MethaneMessagePayload | HospitalRequestPayload;
+
+export interface MethaneMessagePayload {
   messageType: 'METHANE' | 'MET' | 'HANE' | 'E';
   major?: string;
   exact?: string;
@@ -18,7 +17,7 @@ export interface MethaneMessagePayload extends CasuMessagePayload {
   resourceRequest?: Record<ResourceContainerType, number>;
 }
 
-export interface HospitalRequestPayload extends CasuMessagePayload {
+export interface HospitalRequestPayload {
   messageType: 'R';
   proximity: HospitalProximity;
 }

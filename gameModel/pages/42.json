@@ -654,7 +654,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { Proximity } from \"./game/common/simulationState/locationState\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(Proximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: Proximity[key],\n}));\nselection;",
+                  "content" : "import { HospitalProximity } from \"./game/common/simulationState/locationState\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(HospitalProximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: HospitalProximity[key],\n}));\nselection;",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },

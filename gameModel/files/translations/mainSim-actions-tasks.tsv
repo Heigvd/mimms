@@ -3,14 +3,14 @@ basic-info-title	Scene examination	Examen de la scène
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation	
 basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 	
 other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant	
-other-basic-info-desc	Take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.	"Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important."	
+other-basic-info-desc	Take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.	Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.	
 other-basic-info-feedback	The passer-by seems to be in a state of shock. He didn't see what happened.	Le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.	
 basic-info-police-title	Get police information	Obtenir des informations de la police	
 basic-info-police-desc	You approach a nearby police car to get some more information about the situation	Vous approchez d'une voiture de police pour obtenir des informations	
 basic-info-police-feedback	Police are informing you that rue de Lausanne is now closed to traffic in both directions.	La police vous informe que la rue de Lausanne est maintenant coupée à la circulation dans les deux sens.	
 basic-info-firefighter-title	Get firefighter information	Obtenir des informations des pompiers	
 basic-info-firefighter-desc	You approach a firefighter truck to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.	
-basic-info-firefighter-feedback	"Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus."	"Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car."	
+basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.	
 define-PC-title	Define command post location	Placer le poste de commandement	
 define-PC-desc	Pick a position on the map for your command post	Définir l'emplacement du poste de commandement sur la carte	
 define-PC-feedback	The command post is now ready	Le post de commandement est maintenant prêt	
@@ -20,6 +20,12 @@ define-Nest-feedback	The survivor reception center is now defined	Le nid de bles
 define-PMA-title	Deciding where to locate the advanced medical post	Décider de l’emplacement du poste médical avancé (PMA)	
 define-PMA-desc	Pick a location on the map for the advanced medical post	Décider de l'emplacement du poste médical avancé (PMA) sur la carte	
 define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
+define-ambulance-park-title	Define ambulance park location	Placer le parc ambulance	
+define-ambulance-park-desc	Pick a position on the map for the ambulance park	Définir l'emplacement du parc ambulance sur la carte	
+define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance est maintenant prêt	
+define-helicopter-park-title	Define helicopter park location	Placer le parc hélicoptère	
+define-helicopter-park-desc	Pick a position on the map for the helicopter park	Définir l'emplacement du parc hélicoptère sur la carte	
+define-helicopter-park-feedback	The helicopter park is now ready	Le parc hélicoptère est maintenant prêt	
 define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation.	
 define-accreg-desc	Define the access and egress routes along that your resources will use.	Définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.	
 define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et d'évacuation du chantier.	
@@ -28,7 +34,7 @@ casu-message-title-MET	Send MET	Envoi du MET
 casu-message-title-HANE	Send HANE	Envoi du HANE	
 casu-message-title-E	Send E	Envoi du E	
 casu-message-title-METHANE	Send METHANE	Envoie du METHANE	
-casu-message-title-R	Request for hospital information	Demande d'informations sur h�pitaux	
+casu-message-title-R	Request for hospital information	Demande d'informations sur hôpitaux	
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
 send-resources-title	Send resources	Envoyer des ressources	
@@ -43,7 +49,7 @@ release-task-feedback	You released resources from a task	Vous avez rappelé des 
 on-the-road	On the way	En route	
 pre-tri-title	Pre-triage	Pré-triage	
 brancardage-title	Brancardage	Brancardage	
-request-hospital-info	Request hospital informations	Demander informations sur h�pitaux	
+request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
@@ -70,4 +76,4 @@ move-res-task-title	Assign resource	Assigner ressource
 move-res-task-desc	Move resources to given location and task	Déplacer ressources à l'endroit et tâche choisie	
 move-res-task-feedback	The resources have been sucessfuly reassigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
-get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander � la CASU d'obtenir et de compiler les places hospitali�res disponibles au niveau g�ographique demand�	
+get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé	

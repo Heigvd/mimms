@@ -335,36 +335,12 @@ export class CasuMessageAction extends StartEndAction {
     const now = state.getSimTime();
     // TODO filter when we get a full METHANE message
 
-    // Handle METHANE message
-    if ((this.casuMessagePayload as MethaneMessagePayload).incidentType) {
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          state.getActorById(this.ownerId)?.FullName || '',
-          this.computeCasuMessage(this.casuMessagePayload as MethaneMessagePayload),
-          ActionType.CASU_RADIO,
-          true,
-          true
-        )
-      );
-    }
-    // Handle METHANE resource request
-    if ((this.casuMessagePayload as MethaneMessagePayload).resourceRequest) {
-      const dispatchEvent = new ResourceRequestResolutionLocalEvent(
-        this.eventId,
-        now,
-        state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
-        this.casuMessagePayload
-      );
-      localEventManager.queueLocalEvent(dispatchEvent);
-    }
     // Handle hospital information request
-    if ((this.casuMessagePayload as HospitalRequestPayload).proximity) {
-      // Hardcoded, hospital data shouldn't be retrieve from scenarist inputs
+    if (this.casuMessagePayload.messageType === 'R') {
+      // Hardcoded, hospital data should be retrieve from scenarist inputs
+      const hospitalRequestPayload = this.casuMessagePayload;
       const hospitals = hospitalInfo.filter(
-        h => (this.casuMessagePayload as HospitalRequestPayload).proximity!.valueOf() >= h.proximity
+        h => hospitalRequestPayload.proximity!.valueOf() >= h.proximity
       );
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -378,6 +354,31 @@ export class CasuMessageAction extends StartEndAction {
           true
         )
       );
+    } else {
+      const methaneMessagePayload = this.casuMessagePayload;
+    // Handle METHANE message
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          state.getActorById(this.ownerId)?.FullName || '',
+          this.computeCasuMessage(this.casuMessagePayload as MethaneMessagePayload),
+          ActionType.CASU_RADIO,
+          true,
+          true
+        )
+      );
+      // Handle METHANE resource request
+      if (methaneMessagePayload.resourceRequest) {
+        const dispatchEvent = new ResourceRequestResolutionLocalEvent(
+          this.eventId,
+          now,
+          state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
+          this.casuMessagePayload
+        );
+        localEventManager.queueLocalEvent(dispatchEvent);
+      }
     }
   }
 
