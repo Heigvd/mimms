@@ -1,35 +1,32 @@
-import { getActorsByLocation } from "../UIfacade/actorFacade";
-import { getAvailableLocationsFacade } from "../UIfacade/locationFacade";
+import { getActorsByLocation } from '../UIfacade/actorFacade';
+import { getAvailableLocationsFacade } from '../UIfacade/locationFacade';
 import {
-	getAmbulancesByLocation,
-	getHelicoptersByLocation,
-	getHumanResourcesByLocation,
+  getAmbulancesByLocation,
+  getHelicoptersByLocation,
+  getHumanResourcesByLocation,
 } from '../UIfacade/resourceFacade';
 
 export function getOverlayItems() {
-	const mapEntities = getAvailableLocationsFacade();
-	const overlayItems: OverlayItem[] = [];
+  const mapEntities = getAvailableLocationsFacade();
+  const overlayItems: OverlayItem[] = [];
 
-	for (const mapEntity of mapEntities) {		
-
-		overlayItems.push({
-			overlayProps: {
-				position: mapEntity.getGeometricalShape().getShapeCenter(),
-				positioning: 'bottom-center',
-				offset: [0, -60],
-			},
-			payload: {
-				id: mapEntity.id,
-				name: mapEntity.name,
-				icon: mapEntity.icon,
-				actors: getActorsByLocation(mapEntity.id),
-				resources: getHumanResourcesByLocation(mapEntity.id),
-				ambulances: getAmbulancesByLocation(mapEntity.id),
-				helicopters: getHelicoptersByLocation(mapEntity.id)
-			}
-		})
-	
-	}
-	return overlayItems; 
-
+  for (const mapEntity of mapEntities) {
+    overlayItems.push({
+      overlayProps: {
+        position: mapEntity.getGeometricalShape().getShapeCenter(),
+        positioning: 'bottom-center',
+        offset: [0, -60],
+      },
+      payload: {
+        id: mapEntity.id,
+        name: mapEntity.name,
+        icon: mapEntity.icon,
+        actors: getActorsByLocation(mapEntity.id),
+        resources: getHumanResourcesByLocation(mapEntity.id),
+        ambulances: getAmbulancesByLocation(mapEntity.id),
+        helicopters: getHelicoptersByLocation(mapEntity.id),
+      },
+    });
+  }
+  return overlayItems;
 }

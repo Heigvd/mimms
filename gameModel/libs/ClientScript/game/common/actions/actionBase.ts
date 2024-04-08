@@ -24,15 +24,13 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
-	ResourceTypeAndNumber,
-	ResourcesArray,
-	ResourceType,
-	MaterialResourceType,
-	HumanResourceTypeArray, } from '../resources/resourceType';
-import {
-  CasuMessagePayload,
-  MethaneMessagePayload,
-} from '../events/casuMessageEvent';
+  ResourceTypeAndNumber,
+  ResourcesArray,
+  ResourceType,
+  MaterialResourceType,
+  HumanResourceTypeArray,
+} from '../resources/resourceType';
+import { CasuMessagePayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { entries } from '../../../tools/helper';
 import { ActionType } from '../actionType';
@@ -362,7 +360,7 @@ export class CasuMessageAction extends StartEndAction {
       );
     } else {
       const methaneMessagePayload = this.casuMessagePayload;
-    // Handle METHANE message
+      // Handle METHANE message
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -418,7 +416,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[],
+    provideFlagsToState: SimFlag[]
   ) {
     super(
       startTimeSec,
@@ -428,7 +426,8 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
       messageKey,
       ownerId,
       uuidTemplate,
-      provideFlagsToState);
+      provideFlagsToState
+    );
     this.fixedMapEntity = fixedMapEntity;
   }
 
@@ -436,11 +435,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
 
     localEventManager.queueLocalEvent(
-      new AddFixedEntityLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.fixedMapEntity,
-      ),
+      new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
     );
   }
 
@@ -450,8 +445,8 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
       new CompleteBuildingFixedEntityLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.fixedMapEntity,
-      ),
+        this.fixedMapEntity
+      )
     );
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -459,17 +454,15 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
         state.getSimTime(),
         this.ownerId,
         'AL',
-        this.messageKey,
-      ),
+        this.messageKey
+      )
     );
   }
 
   protected cancelInternal(state: MainSimulationState): void {
     localEventManager.queueLocalEvent(
-      new RemoveFixedEntityLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.fixedMapEntity));
+      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
+    );
   }
 }
 
@@ -487,44 +480,7 @@ export class SelectionPMAAction extends SelectionFixedMapEntityAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = [],
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId, uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState);
-  }
-
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
-    super.dispatchEndedEvents(state);
-    localEventManager.queueLocalEvent(
-      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA'),
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place park
-// -------------------------------------------------------------------------------------------------
-
-export class SelectionParkAction extends SelectionFixedMapEntityAction {
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    readonly materialResourceType: MaterialResourceType,
-    provideFlagsToState: SimFlag[] = [],
+    provideFlagsToState: SimFlag[] = []
   ) {
     super(
       startTimeSec,
@@ -535,7 +491,46 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       ownerId,
       uuidTemplate,
       fixedMapEntity,
-      provideFlagsToState);
+      provideFlagsToState
+    );
+  }
+
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+    localEventManager.queueLocalEvent(
+      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place park
+// -------------------------------------------------------------------------------------------------
+
+export class SelectionParkAction extends SelectionFixedMapEntityAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    readonly materialResourceType: MaterialResourceType,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState
+    );
   }
 
   protected override dispatchEndedEvents(state: MainSimulationState): void {
@@ -547,7 +542,8 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
         state.getSimTime(),
         this.materialResourceType,
         this.fixedMapEntity.id
-        ));
+      )
+    );
   }
 }
 
@@ -892,10 +888,23 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
     const ownerActor = so.actors.find(a => a.Uid === this.ownerId)!;
 
-	//transfer available human resources from each location to event owner location
+    //transfer available human resources from each location to event owner location
     for (const location of so.mapLocations) {
-		const availableResources = getInStateCountInactiveResourcesByLocationAndType(state, HumanResourceTypeArray, location.id);
-    localEventManager.queueLocalEvent(new TransferResourcesToLocationLocalEvent(this.eventId, state.getSimTime(), location.id, ownerActor.Location, availableResources, getIdleTaskUid(state)));
+      const availableResources = getInStateCountInactiveResourcesByLocationAndType(
+        state,
+        HumanResourceTypeArray,
+        location.id
+      );
+      localEventManager.queueLocalEvent(
+        new TransferResourcesToLocationLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          location.id,
+          ownerActor.Location,
+          availableResources,
+          getIdleTaskUid(state)
+        )
+      );
     }
   }
 

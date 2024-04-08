@@ -25,16 +25,19 @@ export class Resource {
   /** Resource is cumulating time across timejumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
-  constructor(type: Resource['type'], currentLocation: LOCATION_ENUM, currentActivity: Resource['currentActivity'] = null) {
+  constructor(
+    type: Resource['type'],
+    currentLocation: LOCATION_ENUM,
+    currentActivity: Resource['currentActivity'] = null
+  ) {
     this.type = type;
     this.currentActivity = currentActivity;
     this.Uid = Resource.IdSeed++;
-	this.cumulatedUnusedTime = 0;
-	this.currentLocation = currentLocation;
+    this.cumulatedUnusedTime = 0;
+    this.currentLocation = currentLocation;
   }
 
   static resetIdSeed() {
     this.IdSeed = 1000;
   }
 }
-

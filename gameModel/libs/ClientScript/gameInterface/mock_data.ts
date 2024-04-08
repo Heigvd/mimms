@@ -4,8 +4,8 @@
 //                                        //
 ////////////////////////////////////////////
 
-import { HospitalDefinition } from "../game/common/resources/hospitalType";
-import { HospitalProximity } from "../game/common/simulationState/locationState";
+import { HospitalDefinition } from '../game/common/resources/hospitalType';
+import { HospitalProximity } from '../game/common/simulationState/locationState';
 
 // PMA details in action panel
 export const pmaDetails = [

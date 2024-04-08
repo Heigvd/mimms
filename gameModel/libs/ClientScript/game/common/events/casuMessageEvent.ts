@@ -3,7 +3,6 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import { HospitalProximity } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
 
-
 export type CasuMessagePayload = MethaneMessagePayload | HospitalRequestPayload;
 
 export interface MethaneMessagePayload {

@@ -1,7 +1,7 @@
-import { LOCATION_ENUM } from "../simulationState/locationState";
-import { MainSimulationState } from "../simulationState/mainSimulationState";
-import { hierarchyLevels } from "../actors/actor";
-import { ActorId } from "../baseTypes";
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { hierarchyLevels } from '../actors/actor';
+import { ActorId } from '../baseTypes';
 import { HumanResourceTypeArray, ResourceType } from './resourceType';
 
 /**
@@ -41,21 +41,26 @@ export default function resourceArrivalResolution(
  * @param actorUid Actor emitting the order
  * @param sourceLocation Current location of the resource
  * @param state
- * @returns boolean 
+ * @returns boolean
  */
-export function doesOrderRespectHierarchy(actorUid: ActorId, sourceLocation: LOCATION_ENUM, state: Readonly<MainSimulationState>): boolean {
-	const actor = state.getActorById(actorUid)!;
-	const locationLeaderRoles = state.getMapLocations().find(l => l.id === sourceLocation)!.leaderRoles;
+export function doesOrderRespectHierarchy(
+  actorUid: ActorId,
+  sourceLocation: LOCATION_ENUM,
+  state: Readonly<MainSimulationState>
+): boolean {
+  const actor = state.getActorById(actorUid)!;
+  const locationLeaderRoles = state
+    .getMapLocations()
+    .find(l => l.id === sourceLocation)!.leaderRoles;
 
-	if (locationLeaderRoles.length === 0) {
-		return true;
-	} else {
-		
-		// Returns lowest role available
-		const minLeaderRole = locationLeaderRoles.reduce((minRole, currRole) => {
-			return hierarchyLevels[currRole] < hierarchyLevels[minRole] ? currRole : minRole;
-		}, locationLeaderRoles[0]);
+  if (locationLeaderRoles.length === 0) {
+    return true;
+  } else {
+    // Returns lowest role available
+    const minLeaderRole = locationLeaderRoles.reduce((minRole, currRole) => {
+      return hierarchyLevels[currRole] < hierarchyLevels[minRole] ? currRole : minRole;
+    }, locationLeaderRoles[0]);
 
-		return hierarchyLevels[actor.Role] <= hierarchyLevels[minLeaderRole];
-	}
+    return hierarchyLevels[actor.Role] <= hierarchyLevels[minLeaderRole];
+  }
 }

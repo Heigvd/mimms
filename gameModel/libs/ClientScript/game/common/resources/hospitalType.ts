@@ -1,9 +1,9 @@
 /**
- * 
+ *
  * Types relating to casuMessage HospitalRequest
- * 
+ *
  */
-import { HospitalProximity } from "../simulationState/locationState";
+import { HospitalProximity } from '../simulationState/locationState';
 
 interface PatientUnitType {
   typology: string;

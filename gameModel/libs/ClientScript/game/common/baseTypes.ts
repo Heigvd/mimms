@@ -3,11 +3,11 @@ import { LOCATION_ENUM } from './simulationState/locationState';
 /**
  * Represents the time in the simulation in seconds
  */
-export type SimTime = number
+export type SimTime = number;
 /**
  * Represent a duration in seconds
  */
-export type SimDuration = number
+export type SimDuration = number;
 
 export type TranslationKey = string;
 
