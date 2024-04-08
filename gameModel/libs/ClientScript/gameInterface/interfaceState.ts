@@ -4,7 +4,7 @@ import {
 	ResourceContainerType,
 	ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 
@@ -12,6 +12,7 @@ export interface InterfaceState {
 	currentActorUid: number;
 	currentActionUid: number;
 	moveActorChosenLocation: LOCATION_ENUM | undefined;
+	getHospitalInfoChosenProximity: HospitalProximity | undefined;
 	showPatientModal: boolean;
 	selectedPanel: SelectedPanel;
 	selectedMapObjectId: string;
@@ -25,33 +26,35 @@ export interface InterfaceState {
 	casuMessage: CasuMessage;
 	resources: {
 		allocateResources: {
-			currentLocation: LOCATION_ENUM | undefined,
-			currentTaskId: TaskId | undefined,
-			targetLocation: LOCATION_ENUM | undefined,
-			targetTaskId: TaskId | undefined,
+			currentLocation: LOCATION_ENUM | undefined;
+			currentTaskId: TaskId | undefined;
+			targetLocation: LOCATION_ENUM | undefined;
+			targetTaskId: TaskId | undefined;
 		} & Resources;
 		sendResources: {
-			sourceLocation: LOCATION_ENUM,
-			destinationLocation: LOCATION_ENUM,
+			sourceLocation: LOCATION_ENUM;
+			destinationLocation: LOCATION_ENUM;
 		} & Resources;
 		assignResources: {
-			selectedTaskId: string,
+			selectedTaskId: string;
 		} & Resources;
 		releaseResources: {
-			selectedTaskId: string,
+			selectedTaskId: string;
 		} & Resources;
-		requestedResources: Partial<Record<"ACS-MCS" | "Ambulance" | "SMUR" | "PMA" | "PICA" | "PCS" | "Helicopter", number>>;
-	}
+		requestedResources: Partial<
+			Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
+		>;
+	};
 }
 
 interface CasuMessage {
-	messageType: string,
-	major: string,
-	exact: string,
-	incidentType: string,
-	hazards: string,
-	access: string, 
-	victims: string,
+	messageType: string;
+	major: string;
+	exact: string;
+	incidentType: string;
+	hazards: string;
+	access: string;
+	victims: string;
 }
 
 interface Resources {
@@ -68,13 +71,13 @@ export function getInitialInterfaceState(): InterfaceState {
 		currentActorUid: getAllActors()[0]!.Uid,
 		currentActionUid: 0,
 		casuMessage: {
-			messageType: "",
-			major: "",
-			exact: "",
-			incidentType: "",
-			hazards: "",
-			access: "",
-			victims: "",
+			messageType: '',
+			major: '',
+			exact: '',
+			incidentType: '',
+			hazards: '',
+			access: '',
+			victims: '',
 		},
 		resources: {
 			allocateResources: {
@@ -124,6 +127,7 @@ export function getInitialInterfaceState(): InterfaceState {
 			requestedResources: getEmptyResourceRequest(),
 		},
 		moveActorChosenLocation: undefined,
+		getHospitalInfoChosenProximity: undefined,
 		showPatientModal: false,
 		selectedMapObjectId: '0',
 		// selectedMapObject: '',
@@ -132,11 +136,10 @@ export function getInitialInterfaceState(): InterfaceState {
 		updatedChannelMessagesAt: 0,
 		channelText: {
 			actors: '',
-			evasam: ''
+			evasam: '',
 		},
 		isReleaseResourceOpen: false,
 	};
-
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
@@ -148,8 +151,8 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 }
 
 /**
-* Helper function, change only key-values give in update object
-*/
+ * Helper function, change only key-values give in update object
+ */
 export function setInterfaceState(update: object): void {
 	const newState = Helpers.cloneDeep(Context.interfaceState.state);
 

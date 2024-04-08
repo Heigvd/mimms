@@ -34,6 +34,7 @@ casu-message-title-MET	Send MET	Envoi du MET
 casu-message-title-HANE	Send HANE	Envoi du HANE	
 casu-message-title-E	Send E	Envoi du E	
 casu-message-title-METHANE	Send METHANE	Envoie du METHANE	
+casu-message-title-R	Request for hospital information	Demande d'informations sur hôpitaux	
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
 send-resources-title	Send resources	Envoyer des ressources	
@@ -48,6 +49,7 @@ release-task-feedback	You released resources from a task	Vous avez rappelé des 
 on-the-road	On the way	En route	
 pre-tri-title	Pre-triage	Pré-triage	
 brancardage-title	Brancardage	Brancardage	
+request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
@@ -74,3 +76,4 @@ move-res-task-title	Assign resource	Assigner ressource
 move-res-task-desc	Move resources to given location and task	Déplacer ressources à l'endroit et tâche choisie	
 move-res-task-feedback	The resources have been sucessfuly reassigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
+get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé	

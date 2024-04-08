@@ -109,6 +109,28 @@
               "type" : "Button"
             }, {
               "props" : {
+                "className" : "whiteButton methaneMenuButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-hospital-info');",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'R';\n Context.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "demandeInfoHopitaux",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
                 "className" : "",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
@@ -610,6 +632,64 @@
             "layoutClassName" : "noPadding noMargin",
             "layoutStyle" : { },
             "name" : "LetterE",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "name" : "letterR",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'get-hospital-information-desc')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { HospitalProximity } from \"./game/common/simulationState/locationState\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(HospitalProximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: HospitalProximity[key],\n}));\nselection;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.getHospitalInfoChosenProximity;\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"getHospitalInfoChosenProximity\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.getHospitalInfoChosenProximity || '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('R');",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterR",
             "style" : { }
           },
           "type" : "FlexList"

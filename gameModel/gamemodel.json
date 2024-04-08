@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1710867581463,
+  "createdTime" : 1712329342210,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3994,6 +3994,7 @@
           "casu-message-title-hane" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send HANE\"},\"FR\":{\"status\":\"\",\"translation\":\"envoi du HANE\",\"lang\":\"FR\"}},\"version\":0}",
           "casu-message-title-met" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send MET\"},\"FR\":{\"status\":\"\",\"translation\":\"envoi du MET\",\"lang\":\"FR\"}},\"version\":0}",
           "casu-message-title-methane" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send METHANE\"},\"FR\":{\"status\":\"\",\"translation\":\"envoie du METHANE\",\"lang\":\"FR\"}},\"version\":0}",
+          "casu-message-title-r" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request for hospital information\"},\"FR\":{\"status\":\"\",\"translation\":\"demande d'informations sur hôpitaux\",\"lang\":\"FR\"}},\"version\":0}",
           "currentactivity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"current Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define the access and egress routes along that your resources will use.\"},\"FR\":{\"status\":\"\",\"translation\":\"définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.\",\"lang\":\"FR\"}},\"version\":0}",
           "define-accreg-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you successfully defined access and regress routes for the incident.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez défini les routes d'accès et d'évacuation du chantier.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4019,6 +4020,7 @@
           "define-pma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pick a location on the map for the advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l'emplacement du poste médical avancé (PMA) sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the advanced medical post can now be prepared\"},\"FR\":{\"status\":\"\",\"translation\":\"le poste médical avancé (PMA) est prêt à être installé\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deciding where to locate the advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l’emplacement du poste médical avancé (PMA)\",\"lang\":\"FR\"}},\"version\":0}",
+          "get-hospital-information-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ask CASU to obtain and compile available hospital places at requested geographical level\"},\"FR\":{\"status\":\"\",\"translation\":\"demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move your role to one of the available location on the map\"},\"FR\":{\"status\":\"\",\"translation\":\"déplace votre rôle à un emplacement disponible sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you moved\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous êtes déplacé\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4036,6 +4038,7 @@
           "release-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"rappelle des ressources d'une tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "release-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you released resources from a task\"},\"FR\":{\"status\":\"\",\"translation\":\"vous avez rappelé des ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "release-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"release resources\"},\"FR\":{\"status\":\"\",\"translation\":\"rappeler des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "request-hospital-info" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request hospital information\"},\"FR\":{\"status\":\"\",\"translation\":\"demander informations sur hôpitaux\",\"lang\":\"FR\"}},\"version\":0}",
           "request-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request for resources\"},\"FR\":{\"status\":\"\",\"translation\":\"demande de ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sends a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoie un message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"a radio message was sent\"},\"FR\":{\"status\":\"\",\"translation\":\"un message radio a été envoyé\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5042,6 +5045,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/hospitalType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:151865:25tgd8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resource",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5357,10 +5369,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameInterface/PMA",
+    "contentKey" : "gameInterface/mock_data",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:75985:LIppZ4",
+    "refId" : "GameModelContent:151550:SiPn9B",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
