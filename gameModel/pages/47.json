@@ -34,7 +34,7 @@
               "className" : "radio-message-others tri-right left-top",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.item.emitter != Context.interfaceState.state.currentActorUid;",
+                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
             }, {
@@ -42,7 +42,7 @@
               "className" : "radio-message-casu-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.item.emitter == Context.interfaceState.state.currentActorUid;",
+                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
             }, {

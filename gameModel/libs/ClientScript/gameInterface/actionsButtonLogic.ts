@@ -227,6 +227,10 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 			messageType: casuMessage.messageType,
 			proximity: hospitalProximity,
 		};
+    
+    const newState = Helpers.cloneDeep(Context.interfaceState.state);
+    newState.getHospitalInfoChosenProximity = undefined;
+    Context.interfaceState.setState(newState);
 
 		return payload;
 	} else {

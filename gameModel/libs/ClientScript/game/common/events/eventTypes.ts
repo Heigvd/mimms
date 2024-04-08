@@ -17,7 +17,7 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { ResourceTypeAndNumber } from '../resources/resourceType';
-import { LOCATION_ENUM, HospitalProximity } from '../simulationState/locationState';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
 
 /**
@@ -256,8 +256,4 @@ export interface MoveActorEvent extends ActionCreationEvent {
 
 export interface AppointActorEvent extends ActionCreationEvent {
   actorRole: InterventionRole;
-}
-
-export interface GetHospitalInformationEvent extends ActionCreationEvent {
-  proximity: HospitalProximity;
 }

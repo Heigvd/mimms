@@ -26,7 +26,7 @@ export function getAvailableLocations(): FixedMapEntity[] {
  * Hospital details proximity
  */
 export enum HospitalProximity {
-  Regional,
+  Regional = 0,
   National,
   International,
 }
