@@ -8,8 +8,8 @@ import {
   ResourceTypeAndNumber,
 } from '../resources/resourceType';
 import { entries } from '../../../tools/helper';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getTaskResponsibleActorSymbolicLocation } from '../simulationState/taskStateAccess';
+import { LOCATION_ENUM } from './locationState';
+import { getTaskResponsibleActorSymbolicLocation } from './taskStateAccess';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------

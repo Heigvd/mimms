@@ -319,9 +319,9 @@ export class CasuMessageAction extends StartEndAction {
   // TODO Add translation handling and better perhaps better formatting
   private formatHospitalReponse(hospitals: HospitalDefinition[]): string {
     let casuMessage = '';
-    for (let hospital of hospitals) {
+    for (const hospital of hospitals) {
       casuMessage += `${hospital.shortName}: \n`;
-      for (let unit of hospital.units) {
+      for (const unit of hospital.units) {
         casuMessage += `${unit.availableCapacity}: ${unit.placeType.typology} \n`;
       }
       casuMessage += '\n';

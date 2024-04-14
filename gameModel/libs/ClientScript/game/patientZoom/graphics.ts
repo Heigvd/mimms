@@ -5,7 +5,6 @@ import { BlockName, BodyPosition, Glasgow, HumanBody } from '../../HUMAn/human';
 import { getCurrentPatientBody, getHuman } from '../legacy/the_world';
 import { Categorization, Category, getCategory } from '../pretri/triage';
 import { convertMeterToMapUnit } from '../../map/layersData';
-import { getTranslation } from '../../tools/translation';
 
 export interface HumanOverview {
   height_cm: number;

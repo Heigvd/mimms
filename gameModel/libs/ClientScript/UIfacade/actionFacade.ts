@@ -24,8 +24,6 @@ import {
 } from '../game/mainSimulationLogic';
 import { ActionType } from '../game/common/actionType';
 
-const logger = Helpers.getLogger('mainSim-interface');
-
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
  *

@@ -18,7 +18,7 @@ import { ResourceType } from './resourceType';
 const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
 export function getContainerDef(id: ResourceContainerDefinitionId) {
-  return containerDefinitions[id];
+  return containerDefinitions[id]!;
 }
 
 export function getAllContainerDefs(): Record<
