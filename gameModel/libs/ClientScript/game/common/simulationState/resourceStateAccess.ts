@@ -339,36 +339,6 @@ export function allocateResourcesToTask(
 }
 
 /**
- * Release (deallocate) resources from a task.
- */
-export function releaseResourcesFromTask(
-  state: MainSimulationState,
-  taskId: TaskId,
-  resourceType: ResourceType,
-  nb: number
-): void {
-  const atDisposal = getResourcesAllocatedToTaskOfType(state, taskId, resourceType);
-
-  if (atDisposal.length < nb) {
-    taskLogger.error(
-      'try to release too many resources (' +
-        nb +
-        ') of type ' +
-        resourceType +
-        ' of task ' +
-        taskId
-    );
-    return;
-  }
-
-  for (let i = 0; i < nb && i < atDisposal.length; i++) {
-    atDisposal[i]!.currentActivity = getIdleTaskUid(state);
-    //get task responsible actor symbolic location
-    atDisposal[i]!.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
-  }
-}
-
-/**
  * Release (deallocate) all resources from a task.
  */
 export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: TaskId): void {

@@ -31,16 +31,6 @@ export interface InterfaceState {
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Resources;
-    sendResources: {
-      sourceLocation: LOCATION_ENUM;
-      destinationLocation: LOCATION_ENUM;
-    } & Resources;
-    assignResources: {
-      selectedTaskId: string;
-    } & Resources;
-    releaseResources: {
-      selectedTaskId: string;
-    } & Resources;
     requestedResources: Partial<
       Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
     >;
@@ -66,6 +56,7 @@ interface Resources {
   medecinSenior: number;
 }
 
+// used in page 43
 export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getAllActors()[0]!.Uid,
@@ -85,37 +76,6 @@ export function getInitialInterfaceState(): InterfaceState {
         currentTaskId: undefined,
         targetLocation: undefined,
         targetTaskId: undefined,
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
-      sendResources: {
-        sourceLocation: LOCATION_ENUM.meetingPoint,
-        destinationLocation: LOCATION_ENUM.meetingPoint,
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
-      assignResources: {
-        selectedTaskId: '',
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
-      releaseResources: {
-        selectedTaskId: '',
         // the keywords must be those of HumanResourceTypeArray
         secouriste: 0,
         technicienAmbulancier: 0,

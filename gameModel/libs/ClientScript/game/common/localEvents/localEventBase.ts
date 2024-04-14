@@ -589,26 +589,6 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
   }
 }
 
-/**
- * Local event to release (deallocate) resources from a task.
- */
-export class ResourcesReleaseLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly actorId: ActorId,
-    readonly resourceType: ResourceType,
-    readonly nb: number
-  ) {
-    super(parentEventId, 'ResourcesReleaseLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.releaseResourcesFromTask(state, this.taskId, this.resourceType, this.nb);
-  }
-}
-
 export class AllResourcesReleaseLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
     super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
