@@ -20,7 +20,7 @@ import { TaskStatus } from '../tasks/taskBase';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceContainerDefinitionId } from '../resources/resourceContainer';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
-import { localEventManager } from '../localEvents/localEventManager';
+import { localEventManager } from './localEventManager';
 import { entries } from '../../../tools/helper';
 import { CasuMessagePayload } from '../events/casuMessageEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -399,7 +399,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (this.request.resourceRequest) {
+    if ('resourceRequest' in this.request && this.request.resourceRequest) {
       resolveResourceRequest(
         this.parentEventId,
         this.request.resourceRequest,
