@@ -13,7 +13,7 @@ import {
 } from '../baseTypes';
 import { computeNewPatientsState } from '../patients/handleState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { changePatientPosition, PatientState } from '../simulationState/patientState';
+import { changePatientLocation, PatientState } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
@@ -646,7 +646,7 @@ export class PatientMovedLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    changePatientPosition(state, this.patientId, this.location);
+    changePatientLocation(state, this.patientId, this.location);
   }
 }
 
