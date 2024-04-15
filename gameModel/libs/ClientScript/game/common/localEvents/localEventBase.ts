@@ -13,14 +13,14 @@ import {
 } from '../baseTypes';
 import { computeNewPatientsState } from '../patients/handleState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { changePatientPosition, PatientState } from '../simulationState/patientState';
+import { changePatientLocation, PatientState } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ResourceContainerDefinitionId } from '../resources/resourceContainer';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
-import { localEventManager } from '../localEvents/localEventManager';
+import { localEventManager } from './localEventManager';
 import { entries } from '../../../tools/helper';
 import { CasuMessagePayload } from '../events/casuMessageEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -399,7 +399,8 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (this.request.resourceRequest) {
+    // check that the payload subtypes to MethaneMessagePayload
+    if (this.request.messageType !== 'R' && this.request.resourceRequest) {
       resolveResourceRequest(
         this.parentEventId,
         this.request.resourceRequest,
@@ -589,26 +590,6 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
   }
 }
 
-/**
- * Local event to release (deallocate) resources from a task.
- */
-export class ResourcesReleaseLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly actorId: ActorId,
-    readonly resourceType: ResourceType,
-    readonly nb: number
-  ) {
-    super(parentEventId, 'ResourcesReleaseLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.releaseResourcesFromTask(state, this.taskId, this.resourceType, this.nb);
-  }
-}
-
 export class AllResourcesReleaseLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
     super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
@@ -646,7 +627,7 @@ export class PatientMovedLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    changePatientPosition(state, this.patientId, this.location);
+    changePatientLocation(state, this.patientId, this.location);
   }
 }
 

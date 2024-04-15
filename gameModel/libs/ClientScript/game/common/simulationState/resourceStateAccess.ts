@@ -8,8 +8,8 @@ import {
   ResourceTypeAndNumber,
 } from '../resources/resourceType';
 import { entries } from '../../../tools/helper';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getTaskResponsibleActorSymbolicLocation } from '../simulationState/taskStateAccess';
+import { LOCATION_ENUM } from './locationState';
+import { getTaskResponsibleActorSymbolicLocation } from './taskStateAccess';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
@@ -335,36 +335,6 @@ export function allocateResourcesToTask(
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
     //available[i]!.currentLocation = sourceLocation;
-  }
-}
-
-/**
- * Release (deallocate) resources from a task.
- */
-export function releaseResourcesFromTask(
-  state: MainSimulationState,
-  taskId: TaskId,
-  resourceType: ResourceType,
-  nb: number
-): void {
-  const atDisposal = getResourcesAllocatedToTaskOfType(state, taskId, resourceType);
-
-  if (atDisposal.length < nb) {
-    taskLogger.error(
-      'try to release too many resources (' +
-        nb +
-        ') of type ' +
-        resourceType +
-        ' of task ' +
-        taskId
-    );
-    return;
-  }
-
-  for (let i = 0; i < nb && i < atDisposal.length; i++) {
-    atDisposal[i]!.currentActivity = getIdleTaskUid(state);
-    //get task responsible actor symbolic location
-    atDisposal[i]!.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
   }
 }
 

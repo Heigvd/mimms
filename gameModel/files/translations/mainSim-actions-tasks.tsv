@@ -37,15 +37,6 @@ casu-message-title-METHANE	Send METHANE	Envoie du METHANE
 casu-message-title-R	Request for hospital information	Demande d'informations sur hôpitaux	
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
-send-resources-title	Send resources	Envoyer des ressources	
-send-resources-desc	Transfer some of your resources to another actor	Transférer certaines de vos ressources à un autre acteur	
-send-resources-feedback	You received resources	Vous avez reçu des ressources	
-assign-task-title	Assign a task	Assigner une tâche	
-assign-task-desc	Assign resources to a task	Assigner des ressources à une tâche	
-assign-task-feedback	You assigned resources to a task	Vous avez assigné des ressources à une tâche	
-release-task-title	Release resources	Rappeler des ressources	
-release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche	
-release-task-feedback	You released resources from a task	Vous avez rappelé des ressources	
 on-the-road	On the way	En route	
 pre-tri-title	Pre-triage	Pré-triage	
 brancardage-title	Brancardage	Brancardage	

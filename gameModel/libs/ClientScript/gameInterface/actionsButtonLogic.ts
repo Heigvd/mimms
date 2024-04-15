@@ -18,13 +18,13 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { getEmptyResourceRequest } from './interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 /**
  * Performs logic whenever a template is initiated in interface
  *
  * @params ActionTemplateBase action being launched
  */
+// used in several pages
 export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
   if (action != undefined) {
     Context.action = action;
@@ -111,103 +111,6 @@ function fetchMoveResourcesAssignTaskValues() {
     newState.resources.allocateResources[resourceType] = 0;
   });
   Context.interfaceState.setState(newState);
-  return payload;
-}
-
-/**
- * Generate a SendResourcesToLocationPayload from interface state
- *
- * @returns SendResourcesToLocationPayload
- */
-function fetchSendResourcesToLocationValues() {
-  // TODO Add Type
-  const sentResources: ResourceTypeAndNumber = {};
-
-  ResourcesArray.forEach(resourceType => {
-    const amount = Context.interfaceState.state.resources.sendResources[resourceType];
-    if (amount) {
-      sentResources[resourceType] = amount;
-    }
-  });
-
-  const payload = {
-    sourceLocation: Context.interfaceState.state.resources.sendResources.sourceLocation,
-    destinationLocation: Context.interfaceState.state.resources.sendResources.destinationLocation,
-    sentResources,
-  };
-
-  // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.sendResources.sourceLocation = LOCATION_ENUM.meetingPoint;
-  newState.resources.sendResources.destinationLocation = LOCATION_ENUM.meetingPoint;
-  ResourcesArray.forEach(resourceType => {
-    newState.resources.sendResources[resourceType] = 0;
-  });
-  Context.interfaceState.setState(newState);
-
-  return payload;
-}
-
-/**
- * Generate a AssignResourcePayload from interface state
- *
- * @returns AssignResourcePayload
- */
-function fetchAssignResourceValues() {
-  // TODO Add Type
-  const resourcesForAssignation: ResourceTypeAndNumber = {};
-
-  ResourcesArray.forEach(resourceType => {
-    const amount = Context.interfaceState.state.resources.assignResources[resourceType];
-    if (amount) {
-      resourcesForAssignation[resourceType] = amount;
-    }
-  });
-
-  const payload = {
-    task: Context.interfaceState.state.resources.assignResources.selectedTaskId,
-    assignedResources: resourcesForAssignation,
-  };
-
-  // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.assignResources.selectedTaskId = '';
-  ResourcesArray.forEach(resourceType => {
-    newState.resources.assignResources[resourceType] = 0;
-  });
-  Context.interfaceState.setState(newState);
-
-  return payload;
-}
-
-/**
- * Generate a ReleaseResourcePayload from interface state
- *
- * @returns ReleaseResourcePayload
- */
-function fetchReleaseResourceValues() {
-  const resourcesForRelease: ResourceTypeAndNumber = {};
-
-  ResourcesArray.forEach(resourceType => {
-    const amount = Context.interfaceState.state.resources.releaseResources[resourceType];
-    if (amount) {
-      resourcesForRelease[resourceType] = amount;
-    }
-  });
-
-  const payload = {
-    task: Context.interfaceState.state.resources.releaseResources.selectedTaskId,
-    releasedResources: resourcesForRelease,
-  };
-
-  // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.releaseResources.selectedTaskId = '';
-  ResourcesArray.forEach(resourceType => {
-    newState.resources.releaseResources[resourceType] = 0;
-  });
-  Context.interfaceState.setState(newState);
-
   return payload;
 }
 

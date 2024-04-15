@@ -82,7 +82,7 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
     .getInstance(self)
     .getProperties();
   let totalAmount = 0;
-  for (let key in readMsgsProperties) {
+  for (const key in readMsgsProperties) {
     if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
       totalAmount +=
         getAvailableRadioMessagesForChannel(ActionType[key as keyof typeof ActionType]).length -

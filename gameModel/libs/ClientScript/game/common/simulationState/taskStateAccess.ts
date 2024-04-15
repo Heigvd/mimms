@@ -3,7 +3,7 @@ import { ActorId, TaskId } from '../baseTypes';
 import { TaskBase, TaskStatus } from '../tasks/taskBase';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { LOCATION_ENUM } from './locationState';
 import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 
 // -------------------------------------------------------------------------------------------------
