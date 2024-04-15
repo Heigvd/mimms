@@ -4,9 +4,10 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : " button-primaryColor",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
@@ -45,9 +46,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : " button-primaryColor /*active-channel*/",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
@@ -91,9 +93,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : " button-primaryColor /*active-channel*/",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
@@ -137,9 +140,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : " button-primaryColor /*active-channel*/",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",

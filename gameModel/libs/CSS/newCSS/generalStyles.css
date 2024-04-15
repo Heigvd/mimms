@@ -22,6 +22,7 @@ As the interface got more complex, we relocated these line in separated files:
 /*********** COLORS ***********/
 
 :root {
+	/*
     --blue_0: #DBF5FE;
     --blue_100: #B7ECFD;
     --blue_200: #6FD9FB;
@@ -48,7 +49,7 @@ As the interface got more complex, we relocated these line in separated files:
     --green_200: #A0BC91;
     --green: #88AB75;
     --green_500: #6D895E;
-    --green_700: #36442F;
+    --green_700: #36442F;*/
 
     --secondaryInterface_0: #FFCCE1;
     --secondaryInterface_100: #FE99C3;
@@ -72,6 +73,23 @@ As the interface got more complex, we relocated these line in separated files:
     --gray_700: #485460;
     --gray_BLACK: #1E272E;
 
+	/*** New colors ***/
+	
+  
+  --blue30: #8ac8e0;
+  --blue50: #3ca3cc;
+  --blue-base: #1591c2;
+  --green-base: #539265;
+  --green50: #457A54;
+  --grey10: #f0f1f3;
+  --grey20: #CCCFD0;
+  --grey40: #989EA1;
+  --grey60: #545C5F;
+  --grey90: #3c3e41;
+  --grey100: #242527;
+  --grey-base: #b3bbc3;
+
+
 }
 
 
@@ -81,6 +99,7 @@ As the interface got more complex, we relocated these line in separated files:
 
 
 html{
+	--XXS_borderRadius: 5px;
 	--XS_borderRadius: 10px;
 	--S_borderRadius: 15px;
 	--L_borderRadius: 50px;

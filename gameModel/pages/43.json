@@ -397,7 +397,7 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "className" : "actor",
+                                            "className" : "/*actor*/ button-S button-primaryColor",
                                             "conditionnalClassNames" : [ {
                                               "applyOn" : "Inside",
                                               "className" : "current",

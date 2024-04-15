@@ -129,7 +129,16 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "noPadding playActionBtn",
+                    "className" : "noPadding  /*playActionBtn*/ button-S button-secondaryColor ",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "abort",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
@@ -140,9 +149,10 @@
                       "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nif (isPlannedAction(Context.action.Uid)) {\n\treturn 'times';\n}\n'plus';",
                       "language" : "typescript"
                     },
+                    "id" : " ",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"\"",
+                      "content" : "\"<p>texte<br></p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
