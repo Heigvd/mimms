@@ -399,7 +399,8 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    if ('resourceRequest' in this.request && this.request.resourceRequest) {
+    // check that the payload subtypes to MethaneMessagePayload
+    if (this.request.messageType !== 'R' && this.request.resourceRequest) {
       resolveResourceRequest(
         this.parentEventId,
         this.request.resourceRequest,
