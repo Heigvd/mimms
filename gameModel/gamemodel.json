@@ -5567,6 +5567,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "multiplayer/multiplayerManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:191567:isScC1",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/CustomForms",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
