@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1712329342210,
+  "createdTime" : 1713253241751,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4742,6 +4742,115 @@
       "name" : "interface",
       "refId" : "ListDescriptor:445466:kMdtO9",
       "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:183091:WiGV7x"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:183096:1uKy4p"
+        },
+        "description" : "",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:183097:KLF9Jd",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:183097:KLF9Jd::EN",
+              "status" : "",
+              "translation" : "multiplayerMatrix"
+            }
+          }
+        },
+        "name" : "multiplayerMatrix",
+        "properties" : {
+          "183006" : "{\"AL\":true,\"ACS\":true,\"MCS\":true,\"EVASAN\":true,\"LEADPMA\":true}"
+        },
+        "refId" : "ObjectDescriptor:183095:ZEWrRY",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "TriggerDescriptor",
+        "broadcastScope" : "PlayerScope",
+        "comments" : "Trigger used to initialise multiplayer matrix",
+        "defaultInstance" : {
+          "@class" : "FSMInstance",
+          "currentStateId" : 1,
+          "enabled" : true,
+          "refId" : "StateMachineInstance:191576:ALscE7",
+          "transitionHistory" : [ ]
+        },
+        "dependencies" : [ ],
+        "dependsOnStrategy" : "AUTO",
+        "disableSelf" : true,
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:191577:lmO45k",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:191577:lmO45k::EN",
+              "status" : "",
+              "translation" : "playerInit"
+            }
+          }
+        },
+        "name" : "playerInit",
+        "oneShot" : false,
+        "postTriggerEvent" : {
+          "@class" : "Script",
+          "content" : "const currentPlayerId = self.getId();\nconst playableRoles = {\n  AL: true,\n  ACS: true,\n  MCS: true,\n  EVASAN: true,\n  LEADPMA: true,\n};\nVariable.find(gameModel, 'multiplayerMatrix').setProperty(currentPlayerId.toString(), JSON.stringify(playableRoles))",
+          "language" : "javascript"
+        },
+        "refId" : "TriggerDescriptor:191575:ySumIQ",
+        "scopeType" : "PlayerScope",
+        "triggerEvent" : {
+          "@class" : "Script",
+          "content" : "",
+          "language" : "JavaScript"
+        },
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:183092:QNT0fx",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:183092:QNT0fx::EN",
+            "status" : "",
+            "translation" : "multiplayer"
+          }
+        }
+      },
+      "name" : "multiplayer",
+      "refId" : "ListDescriptor:183090:bSD4tM",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
