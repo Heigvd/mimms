@@ -428,7 +428,7 @@
                                         "exposeAs" : "actor",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                          "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\ngetCurrentPlayerActors()",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "Uid",
@@ -723,7 +723,7 @@
                                                         "localScriptEval" : {
                                                           "script" : {
                                                             "@class" : "ClientScript",
-                                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                            "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n\n\nif (getCurrentPlayerActors().find(a => a.Uid === Context.actor.Uid)) {\n  Context.interfaceState.setState({\n    ...Context.interfaceState.state,\n    currentActorUid: Context.actor.Uid,\n  });\n}",
                                                             "language" : "TypeScript"
                                                           }
                                                         },

@@ -4782,9 +4782,7 @@
           }
         },
         "name" : "multiplayerMatrix",
-        "properties" : {
-          "183006" : "{\"AL\":true,\"ACS\":true,\"MCS\":true,\"EVASAN\":true,\"LEADPMA\":true}"
-        },
+        "properties" : { },
         "refId" : "ObjectDescriptor:183095:ZEWrRY",
         "scopeType" : "TeamScope",
         "version" : null,
@@ -4822,7 +4820,7 @@
         "oneShot" : false,
         "postTriggerEvent" : {
           "@class" : "Script",
-          "content" : "const currentPlayerId = self.getId();\nconst playableRoles = {\n  AL: true,\n  ACS: true,\n  MCS: true,\n  EVASAN: true,\n  LEADPMA: true,\n};\nVariable.find(gameModel, 'multiplayerMatrix').setProperty(currentPlayerId.toString(), JSON.stringify(playableRoles))",
+          "content" : "MultiplayerHelper.registerSelf();",
           "language" : "javascript"
         },
         "refId" : "TriggerDescriptor:191575:ySumIQ",

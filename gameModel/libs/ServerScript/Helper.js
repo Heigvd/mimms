@@ -53,3 +53,32 @@ var MimmsHelper = (function () {
     getEndTimes: simRefs,
   };
 })();
+
+var MultiplayerHelper = (function () {
+  function registerSelf() {
+    const currentPlayerId = self.getId();
+    const playableRoles = {
+      AL: true,
+      ACS: true,
+      MCS: true,
+      EVASAN: true,
+      LEADPMA: true,
+    };
+
+    if (currentPlayerId) {
+      const playerMatrix = {
+        id: currentPlayerId,
+        ready: false,
+        roles: playableRoles,
+      };
+      Variable.find(gameModel, 'multiplayerMatrix').setProperty(
+        currentPlayerId.toString(),
+        JSON.stringify(playerMatrix)
+      );
+    }
+  }
+
+  return {
+    registerSelf: registerSelf,
+  };
+})();

@@ -15,6 +15,15 @@
       "type" : "Image"
     }, {
       "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : "46",
+        "layoutStyle" : { },
+        "name" : "multiplayerMatrixPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -152,6 +161,17 @@
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Ready</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutStyle" : { },
@@ -273,9 +293,37 @@
                             "type" : "checkbox"
                           },
                           "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateReady } from \"./multiplayer/multiplayerManager\";\n\nupdateReady(Context.player.id);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.ready",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
                         } ]
                       },
                       "type" : "FlexList"
+                    } ],
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "highlightSelf",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  if (getPlayersAndRoles().length > 1) {\n  return Context.player.id === self.getId();\n  }\n  false;",
+                        "language" : "typescript"
+                      }
                     } ],
                     "layout" : {
                       "alignItems" : "center"
@@ -313,6 +361,11 @@
           },
           "type" : "FlexList"
         } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "true;",
+          "language" : "typescript"
+        },
         "layout" : {
           "alignItems" : "center",
           "flexDirection" : "column"
@@ -325,13 +378,17 @@
     }, {
       "props" : {
         "className" : "l_button pink",
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { checkAllPlayersReady, checkAllRolesPlayed } from \"./multiplayer/multiplayerManager\";\n  if (APP_CONTEXT === 'Editor') return false;\n!checkAllRolesPlayed() || !checkAllPlayersReady();",
+          "language" : "typescript"
+        },
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
-            "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");\n;",
+            "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
             "language" : "javascript"
-          },
-          "priority" : 0
+          }
         },
         "label" : {
           "@class" : "Script",
@@ -339,13 +396,7 @@
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { initMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\ninitMultiplayerMatrix();",
-            "language" : "TypeScript"
-          }
-        },
+        "name" : "start",
         "style" : { }
       },
       "type" : "Button"

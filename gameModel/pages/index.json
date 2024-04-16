@@ -442,6 +442,12 @@
         "name" : "moveActorAction",
         "scenaristPage" : false,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "46",
+        "name" : "mutliplayerMatrix",
+        "scenaristPage" : false,
+        "trainerPage" : true
       } ],
       "name" : "mainSimulation pages"
     } ],
