@@ -58,7 +58,7 @@
 }
 
 .timeline-item.current {
-	background:var(--primary_10);
+	background:var(--interface_0);
 }
 
 .marker-time {
@@ -81,9 +81,9 @@
 }
 
 .time.current {
-	background: var(--primary_10);
+	background: var(--interface_0);
 	padding: 5px 10px 5px 10px;
-	border: 3px solid var(--primary_base);
+	border: 3px solid var(--interface_BLUE);
 	border-radius: var(--XS_borderRadius);
 	
 }
@@ -102,7 +102,7 @@
 }
 
 .marker-line.current {
-	border-right: 3px solid var(--primary_base);
+	border-right: 3px solid var(--interface_BLUE);
 	z-index: 2;
 }
 
@@ -133,11 +133,11 @@ overflow: visible;
     /* align-content: flex-end; */
     font-weight: var(--boldWeight);
     color: var(--gray_WHITE);
-    background: var(--secondary_50);
+    background: var(--secondaryInterface_400);
 }
 
 .nextActionBtn:hover > *{
-	background: var(--secondary_40);
+	background: var(--secondaryInterface_200);
 	cursor: pointer;
 }
 .nextActionBtn > * > svg {

@@ -68,10 +68,10 @@ border-radius: 50%;
 /*align-content: flex-end; */
 font-weight: var(--boldWeight);
 color: var(--gray_WHITE);
-background: var(--secondary_50);
+background: var(--secondaryInterface_400);
 }
 
 .playActionBtn:hover > *{
-	background: var(--secondary_40);
+	background: var(--secondaryInterface_200);
 	cursor: pointer;
 }

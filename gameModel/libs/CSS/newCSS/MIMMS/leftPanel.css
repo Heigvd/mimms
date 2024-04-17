@@ -2,7 +2,7 @@
 .role-container{
 	width: 100%;
 	height: 3rem;
-	background: var(--primary_base);
+	background: var(--interface_BLUE);
 	font-weight: var(--boldWeight);
 	font-size: var(--ML_text);
 	color: var(--gray_WHITE);

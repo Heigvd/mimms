@@ -60,7 +60,7 @@ font-weight: var(--boldWeight);
 
 
 .methaneMenuButton:focus{
-	background-color: var(--primary_base);
+	background-color: var(--interface_BLUE);
 	
 }
 
@@ -76,7 +76,7 @@ font-weight: var(--boldWeight);
 
 .methane-letter-container{
 	font-weight: var(--boldWeight);
-	color: var(--primary_base);
+	color: var(--interface_BLUE);
 	}
 
 .methane-letter-container > .methane-letter > p {
