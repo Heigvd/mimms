@@ -73,7 +73,7 @@ interface BaseModule<T extends string> {
 
 export const hemorrhageArgKeys = ['instantaneousBloodLoss', 'bleedingFactor'] as const;
 
-interface HemorrhageMeta extends BaseModule<typeof hemorrhageArgKeys[number]> {
+interface HemorrhageMeta extends BaseModule<(typeof hemorrhageArgKeys)[number]> {
   config: {
     type: 'Hemorrhage';
     blocks: ExternalBlock[];
@@ -111,7 +111,7 @@ interface NervousSystemMeta extends BaseModule<never> {
 
 export const tamponadeArgKeys = ['pericardial_deltaMin', 'pericardial_mL'] as const;
 
-interface TamponadeMeta extends BaseModule<typeof tamponadeArgKeys[number]> {
+interface TamponadeMeta extends BaseModule<(typeof tamponadeArgKeys)[number]> {
   config: {
     type: 'Tamponade';
     blocks: 'HEART'[];
@@ -127,7 +127,7 @@ interface TamponadeMeta extends BaseModule<typeof tamponadeArgKeys[number]> {
 
 export const airwaysResistanceArgKeys = ['airResistance', 'airResistanceDelta'] as const;
 
-interface AirwaysResistanceMeta extends BaseModule<typeof airwaysResistanceArgKeys[number]> {
+interface AirwaysResistanceMeta extends BaseModule<(typeof airwaysResistanceArgKeys)[number]> {
   config: {
     type: 'AirwaysResistance';
     blocks: ('HEAD' | 'NECK' | 'BRONCHUS_1' | 'BRONCHUS_2')[];
@@ -143,7 +143,7 @@ interface AirwaysResistanceMeta extends BaseModule<typeof airwaysResistanceArgKe
 
 export const pneumothoraxArgKeys = ['compliance', 'complianceDelta'] as const;
 
-interface PneumothoraxMeta extends BaseModule<typeof pneumothoraxArgKeys[number]> {
+interface PneumothoraxMeta extends BaseModule<(typeof pneumothoraxArgKeys)[number]> {
   config: {
     type: 'Pneumothorax';
     blocks: ('UNIT_BRONCHUS_1' | 'UNIT_BRONCHUS_2')[];
@@ -160,7 +160,7 @@ interface PneumothoraxMeta extends BaseModule<typeof pneumothoraxArgKeys[number]
 
 export const burnArgKeys = ['percent'] as const;
 
-interface BurnMeta extends BaseModule<typeof burnArgKeys[number]> {
+interface BurnMeta extends BaseModule<(typeof burnArgKeys)[number]> {
   config: {
     type: 'Burn';
     blocks: ExternalBlock[];
@@ -175,7 +175,7 @@ interface BurnMeta extends BaseModule<typeof burnArgKeys[number]> {
 
 export const intercraniaArgKeys = ['delta_perMin', 'mass'] as const;
 
-interface IntercranialMassMeta extends BaseModule<typeof intercraniaArgKeys[number]> {
+interface IntercranialMassMeta extends BaseModule<(typeof intercraniaArgKeys)[number]> {
   config: {
     type: 'ICM';
     blocks: 'HEAD'[];
@@ -191,7 +191,7 @@ interface IntercranialMassMeta extends BaseModule<typeof intercraniaArgKeys[numb
 
 export const painArgKeys = ['pain'] as const;
 
-interface PainMeta extends BaseModule<typeof painArgKeys[number]> {
+interface PainMeta extends BaseModule<(typeof painArgKeys)[number]> {
   config: {
     type: 'Pain';
     blocks: BlockName[];
@@ -536,8 +536,8 @@ export function instantiateModule(
       mod.subtype === 'venous'
         ? 'venousBleedingFactor'
         : mod.subtype === 'arterial'
-        ? 'arterialBleedingFactor'
-        : 'internalBleedingFactor';
+          ? 'arterialBleedingFactor'
+          : 'internalBleedingFactor';
 
     return {
       block: block,

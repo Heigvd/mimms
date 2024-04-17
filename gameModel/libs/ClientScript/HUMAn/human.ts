@@ -389,8 +389,8 @@ type MappedVitalsKeys = {
   [V in TopVitalsKeys]: BodyState['vitals'][V] extends Primitive
     ? `vitals.${V}`
     : SubVitalsKeys<V> extends Primitive
-    ? `vitals.${V}.${SubVitalsKeys<V>}`
-    : never;
+      ? `vitals.${V}.${SubVitalsKeys<V>}`
+      : never;
 };
 
 type VitalsKeys = MappedVitalsKeys[TopVitalsKeys];
@@ -686,7 +686,7 @@ export const allBlocks = [
   'UNIT_BRONCHUS_2',
 ] as const;
 
-export type BlockName = typeof allBlocks[number];
+export type BlockName = (typeof allBlocks)[number];
 
 export const extBlocks = [
   'HEAD',
@@ -720,7 +720,7 @@ export const extBlocks = [
 ] as const;
 
 // ts-unused-exports:disable-next-line
-export type ExternalBlock = typeof extBlocks[number];
+export type ExternalBlock = (typeof extBlocks)[number];
 
 // ts-unused-exports:disable-next-line
 export const bonesBlocks = [
@@ -757,7 +757,7 @@ export const bonesBlocks = [
   'RIGHT_FOOT',
 ] as const;
 
-export type BoneBlock = typeof bonesBlocks[number];
+export type BoneBlock = (typeof bonesBlocks)[number];
 
 export const simpleFractureBonesBlocks = [
   'LEFT_SHOULDER',
@@ -788,7 +788,7 @@ export const simpleFractureBonesBlocks = [
 ] as const;
 
 // ts-unused-exports:disable-next-line
-export type SimpleFractureBoneBlock = typeof simpleFractureBonesBlocks[number];
+export type SimpleFractureBoneBlock = (typeof simpleFractureBonesBlocks)[number];
 
 // ts-unused-exports:disable-next-line
 export const nervousSystemBlocks = [
@@ -823,7 +823,7 @@ export const nervousSystemBlocks = [
   'RIGHT_FOOT',
 ] as const;
 
-export type NervousBlock = typeof nervousSystemBlocks[number];
+export type NervousBlock = (typeof nervousSystemBlocks)[number];
 
 function createBlock(
   bodyState: BodyState,

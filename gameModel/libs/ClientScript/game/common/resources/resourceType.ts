@@ -7,7 +7,7 @@
 
 export const MaterialResourceTypeArray = ['ambulance', 'helicopter', 'PMA'] as const;
 // type inference
-export type MaterialResourceType = typeof MaterialResourceTypeArray[number];
+export type MaterialResourceType = (typeof MaterialResourceTypeArray)[number];
 
 export const HumanResourceTypeArray = [
   'secouriste',
@@ -18,7 +18,7 @@ export const HumanResourceTypeArray = [
   'medecinSenior',
 ] as const;
 
-export type HumanResourceType = typeof HumanResourceTypeArray[number];
+export type HumanResourceType = (typeof HumanResourceTypeArray)[number];
 
 export type ResourceType = HumanResourceType | MaterialResourceType;
 
