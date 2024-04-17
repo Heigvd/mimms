@@ -5,6 +5,7 @@ interface MultiplayerMatrix extends Array<PlayerMatrix> {}
 
 interface PlayerMatrix {
   id: number;
+  name: string;
   ready: boolean;
   roles: PlayerRoles;
 }
@@ -12,13 +13,18 @@ interface PlayerMatrix {
 type PlayerRoles = Partial<Record<InterventionRole, boolean>>;
 
 export async function clearMultiplayerMatrix() {
-  await APIMethods.runScript(`Variable.find(gameModel, 'multiplayerMatrix').clearProperties()`, {});
+  await APIMethods.runScript(
+    `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).clearProperties()`,
+    {}
+  );
 }
+
+// `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${channel}','${amount}');`,
 
 // Register current player (self) in matrix
 export async function registerSelf(): Promise<void> {
-  const statements: string[] = [];
   const currentPlayerId = self.getId();
+  const currentPlayerName = self.getName();
   const playableRoles: PlayerRoles = {
     AL: true,
     ACS: true,
@@ -30,22 +36,19 @@ export async function registerSelf(): Promise<void> {
   if (currentPlayerId) {
     const playerMatrix: PlayerMatrix = {
       id: currentPlayerId,
+      name: currentPlayerName,
       ready: false,
       roles: playableRoles,
     };
 
-    statements.push(
-      `Variable.find(gameModel, 'multiplayerMatrix').setProperty(${currentPlayerId.toString()}, ${JSON.stringify(
-        JSON.stringify(playerMatrix)
-      )})`
-    );
-  }
-
-  const script = statements.join(';');
-  try {
-    await APIMethods.runScript(script, {});
-  } catch (error) {
-    mainSimLogger.error(error);
+    const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${currentPlayerId.toString()}, ${JSON.stringify(
+      JSON.stringify(playerMatrix)
+    )})`;
+    try {
+      await APIMethods.runScript(script, {});
+    } catch (error) {
+      mainSimLogger.error(error);
+    }
   }
 }
 
@@ -54,10 +57,12 @@ export async function registerSelf(): Promise<void> {
  */
 export async function unregisterSelf(): Promise<void> {
   const currentPlayerId = self.getId();
-  const currentPlayers = Variable.find(gameModel, 'multiplayerMatrix').getProperties();
+  const currentPlayers = Variable.find(gameModel, 'multiplayerMatrix')
+    .getInstance(self)
+    .getProperties();
 
   if (currentPlayerId && currentPlayers[String(currentPlayerId)]) {
-    const script = `Variable.find(gameModel, 'multiplayerMatrix').removeProperty(${String(
+    const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).removeProperty(${String(
       currentPlayerId
     )})`;
 
@@ -82,7 +87,7 @@ export async function updateRole(playerId: number, role: InterventionRole): Prom
   const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
   playerMatrix.roles[role] = !playerMatrix.roles[role];
 
-  const script = `Variable.find(gameModel, 'multiplayerMatrix').setProperty(${playerId!.toString()}, ${JSON.stringify(
+  const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${playerId!.toString()}, ${JSON.stringify(
     JSON.stringify(playerMatrix)
   )})`;
 
@@ -106,7 +111,7 @@ export async function updateReady(playerId: number) {
   const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
   playerMatrix.ready = !playerMatrix.ready;
 
-  const script = `Variable.find(gameModel, 'multiplayerMatrix').setProperty(${playerId.toString()}, ${JSON.stringify(
+  const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${playerId.toString()}, ${JSON.stringify(
     JSON.stringify(playerMatrix)
   )})`;
 
@@ -121,13 +126,14 @@ export async function updateReady(playerId: number) {
  * Get and convert multiplayerMatrix to workable format
  */
 export function getPlayersAndRoles(): MultiplayerMatrix {
-  return Object.entries(Variable.find(gameModel, 'multiplayerMatrix').getProperties()).map(
-    ([id, playerMatrix]) => ({
-      id: parseInt(id),
-      ready: JSON.parse(playerMatrix).ready,
-      roles: JSON.parse(playerMatrix).roles,
-    })
-  );
+  return Object.entries(
+    Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).getProperties()
+  ).map(([id, playerMatrix]) => ({
+    id: parseInt(id),
+    name: JSON.parse(playerMatrix).name,
+    ready: JSON.parse(playerMatrix).ready,
+    roles: JSON.parse(playerMatrix).roles,
+  }));
 }
 
 /**

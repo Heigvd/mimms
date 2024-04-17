@@ -92,6 +92,18 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
+                      "content" : "\"<p>Name</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
                       "content" : "\"<p>AL<br></p>\"",
                       "language" : "TypeScript"
                     }
@@ -177,6 +189,18 @@
                         "text" : {
                           "@class" : "Script",
                           "content" : "  String(Context.player.id)",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixRowItem",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  Context.player.name",
                           "language" : "TypeScript"
                         }
                       },

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1713253241751,
+  "createdTime" : 1713363833355,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4812,7 +4812,7 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:191577:lmO45k::EN",
               "status" : "",
-              "translation" : "playerInit"
+              "translation" : "registerPlayer"
             }
           }
         },
@@ -4820,7 +4820,7 @@
         "oneShot" : false,
         "postTriggerEvent" : {
           "@class" : "Script",
-          "content" : "MultiplayerHelper.registerSelf();",
+          "content" : "MultiplayerHelper.registerSelf()",
           "language" : "javascript"
         },
         "refId" : "TriggerDescriptor:191575:ySumIQ",

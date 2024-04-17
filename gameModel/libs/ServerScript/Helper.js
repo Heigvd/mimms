@@ -71,10 +71,9 @@ var MultiplayerHelper = (function () {
         ready: false,
         roles: playableRoles,
       };
-      Variable.find(gameModel, 'multiplayerMatrix').setProperty(
-        currentPlayerId.toString(),
-        JSON.stringify(playerMatrix)
-      );
+      Variable.find(gameModel, 'multiplayerMatrix')
+        .getInstance(self)
+        .setProperty(currentPlayerId.toString(), JSON.stringify(playerMatrix));
     }
   }
 

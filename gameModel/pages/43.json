@@ -500,6 +500,11 @@
                               },
                               "type" : "FlexList"
                             } ],
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { getPlayerRolesSelf } from \"./multiplayer/multiplayerManager\";\nObject.entries(getPlayerRolesSelf()).length === 0;",
+                              "language" : "typescript"
+                            },
                             "layoutClassName" : "interface-container noMargin",
                             "layoutStyle" : { },
                             "name" : "interface",
