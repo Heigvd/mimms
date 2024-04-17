@@ -1,0 +1,107 @@
+/************************* Button size ****************************/
+.button-S{
+    border-radius: var(--L_borderRadius);
+    padding: 8px 15px;
+    font-size: var(--SM_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+/*.button-M{}*/
+
+.button-L{
+    border-radius: var(--L_borderRadius);
+    padding: 15px 20px;
+    font-size: var(--M_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+/************************* Button color ****************************/
+/** primary **/
+.button-primaryColor{
+	background-color: var(--primary_base);
+	color: var(--gray_WHITE);
+}
+
+.button-primaryColor:hover{
+	background-color: var(--primary_base);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+}
+ 
+.button-primaryColor:active{
+	background-color: var(--primary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+	font-weight: var(--boldWeight);
+}
+
+.disabled.button-primaryColor{
+	background-color: var(--grey_20);
+	color: var(--grey40);
+	cursor: not-allowed;
+}
+
+.disabled.button-primaryColor:hover{
+	background-color: var(--grey_30);
+    color: var(--grey40);
+    cursor: not-allowed;
+}
+
+/** secondary **/
+.button-secondaryColor{
+	background-color: var(--secondary_base);
+    color: var(--gray_WHITE);
+}
+
+.button-secondaryColor:hover{
+	background-color: var(--secondary_base);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+	cursor: pointer;
+}
+
+.button-secondaryColor:active{
+	background-color: var(--secondary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.disabled.button-secondaryColor{
+	background-color: var(--grey_20);
+	color: var(--gray_150);
+	cursor: not-allowed;
+}
+
+.disabled.button-secondaryColor:hover{
+	background-color: var(--grey_30);
+    color: var(--grey_40);
+    cursor: not-allowed;
+}
+
+/************************* Special button  ****************************/
+/***** SQUARE *****/
+.button-square{
+	padding: 8px 15px;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--XXS_borderRadius);
+}
+
+
+
+/***** ROUND *****/
+.button-round{
+	width: 5rem;
+	height: 5rem;
+}
+
+/***** HORIZONTAL TAB (RADIO) *****/
+
+.button-channel{
+	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+	padding: 5px 15px ;
+}
+
+
+/***** VERTICAL TAB (MAIN MENU) *****/
