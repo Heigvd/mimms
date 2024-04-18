@@ -4,14 +4,16 @@ import { translationLogger } from './logger';
 let cache: Record<string, SObjectDescriptor> = {};
 
 /**
- * category must be an object type
- * key is case insensitive
- * @param uppercase first letter defaults to true
+ * @param category must be an object type
+ * @param key is case insensitive
+ * @param uppercase first letter, defaults to true
+ * @param values interpolation values corresponding to {0}, {1},... placeholders in the translation string
  */
 export function getTranslation(
   category: keyof VariableClasses,
   key: string,
-  upperCaseFirstLetter = true
+  upperCaseFirstLetter = true,
+  values: (string | number)[] = []
 ): string {
   //if(!cache[category]){
   cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
@@ -23,7 +25,8 @@ export function getTranslation(
       const t = JSON.parse(tr);
       const translated = I18n.translate(t);
       if (translated) {
-        return upperCaseFirstLetter ? upperCaseFirst(translated) : translated;
+        const interpolated = interpolate(translated, values);
+        return upperCaseFirstLetter ? upperCaseFirst(interpolated) : interpolated;
       }
     }
   }
@@ -32,17 +35,33 @@ export function getTranslation(
   return fallback;
 }
 
-export function translationExists(category: keyof VariableClasses, key: string): boolean {
-  if (!cache[category]) {
-    cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
-  }
-  if (cache[category]) {
-    const tr = cache[category]!.getProperties()[key.toLocaleLowerCase()];
-    if (tr) {
-      return true;
+/**
+ * same as getTranslation but with rest values arguments
+ * @see getTranslation
+ */
+export function getTranslationAlt(
+  category: keyof VariableClasses,
+  key: string,
+  upperCaseFirstLetter = true,
+  ...values: (string | number)[]
+): string {
+  return getTranslation(category, key, upperCaseFirstLetter, values);
+}
+
+function interpolate(template: string, values: (string | number)[]): string {
+  if (!values) return template;
+
+  let result = template;
+  for (let i = 0; i < values.length; i++) {
+    const placeholder = `{${i}}`;
+
+    if (template.includes(placeholder)) {
+      result = result.replaceAll(placeholder, String(values[i]));
+    } else {
+      translationLogger.warn(`Placeholder at index ${i} ('${values[i]}') not found in ${template}`);
     }
   }
-  return false;
+  return result;
 }
 
 export function getBlockTranslation(blockName: string): string {
