@@ -1,6 +1,6 @@
 
 .timeline-container {
-	width: 69%;
+	width: 65.8vw;
 	height: auto;
 	bottom: 0;
 	right: 0;
@@ -8,6 +8,8 @@
 	margin: 8px;
 	pointer-events: auto;
 	overflow: visible!important;
+	border-left: 2px solid var(--grey_20);
+	z-index: 6;
 	/* trouver pourquoi il y a collusion de style*/
 }
 
@@ -58,7 +60,7 @@
 }
 
 .timeline-item.current {
-	background:var(--interface_0);
+	background:var(--primary_10);
 }
 
 .marker-time {
@@ -81,9 +83,9 @@
 }
 
 .time.current {
-	background: var(--interface_0);
+	background: var(--primary_10);
 	padding: 5px 10px 5px 10px;
-	border: 3px solid var(--interface_BLUE);
+	border: 3px solid var(--primary_base);
 	border-radius: var(--XS_borderRadius);
 	
 }
@@ -102,7 +104,7 @@
 }
 
 .marker-line.current {
-	border-right: 3px solid var(--interface_BLUE);
+	border-right: 3px solid var(--primary_base);
 	z-index: 2;
 }
 
@@ -115,38 +117,6 @@
 	overflow: visible;
 	z-index: 4;
 }
-
-/*********************** NEXT BUTTON ***********************/
-.next-container{
-z-index: 4;
-position: absolute;
-top: -1.6em;
-right: 2em;
-overflow: visible;
-}
-
-.nextActionBtn > * {
-    /* margin: 0.5em; */
-    height: 2.5em;
-    width: 4.5em;
-    border-radius: 25px;
-    /* align-content: flex-end; */
-    font-weight: var(--boldWeight);
-    color: var(--gray_WHITE);
-    background: var(--secondaryInterface_400);
-}
-
-.nextActionBtn:hover > *{
-	background: var(--secondaryInterface_200);
-	cursor: pointer;
-}
-.nextActionBtn > * > svg {
-	font-size: 1.6em;
-	margin: auto;
-}
-
-
-
 
 
 

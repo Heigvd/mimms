@@ -151,23 +151,55 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "role",
-                                    "layoutClassName" : "role-container",
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "role",
+                                        "layoutClassName" : "role-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "exposePageSizeAs" : "",
+                                        "initialSelectedPageId" : {
+                                          "@class" : "Script",
+                                          "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutStyle" : {
+                                          "height" : "100%",
+                                          "overflow" : "auto"
+                                        },
+                                        "name" : "interfaceMenuLoader",
+                                        "style" : { }
+                                      },
+                                      "type" : "PageLoader"
+                                    } ],
+                                    "className" : "mainSimLeftPanel /*greyPanel*/ ",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "mainSimLeftPanel-container",
                                     "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
-                                      "language" : "TypeScript"
+                                    "name" : "leftPanel",
+                                    "style" : {
+                                      "overflow" : "hidden"
                                     }
                                   },
-                                  "type" : "Text"
+                                  "type" : "FlexList"
                                 }, {
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
+                                        "className" : "menuItem",
                                         "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
@@ -175,7 +207,7 @@
                                             "language" : "typescript"
                                           }
                                         }, {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
@@ -183,6 +215,8 @@
                                             "language" : "typescript"
                                           }
                                         } ],
+                                        "icon" : "bolt",
+                                        "layoutClassName" : "menuItem-container",
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
@@ -191,18 +225,15 @@
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'actions')}</p>`",
-                                          "language" : "TypeScript"
-                                        }
+                                        "name" : "action",
+                                        "style" : { }
                                       },
-                                      "type" : "Text"
+                                      "type" : "Icon"
                                     }, {
                                       "props" : {
+                                        "className" : "menuItem",
                                         "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
@@ -210,7 +241,7 @@
                                             "language" : "typescript"
                                           }
                                         }, {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
@@ -218,11 +249,8 @@
                                             "language" : "typescript"
                                           }
                                         } ],
-                                        "disableIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
-                                          "language" : "typescript"
-                                        },
+                                        "icon" : "comment-medical",
+                                        "layoutClassName" : "menuItem-container",
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
@@ -231,134 +259,65 @@
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'radio')}</p>`",
-                                          "language" : "TypeScript"
-                                        },
-                                        "unreadCount" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
-                                          "language" : "TypeScript"
-                                        }
+                                        "name" : "radio",
+                                        "style" : { }
                                       },
-                                      "type" : "Text"
+                                      "type" : "Icon"
                                     }, {
                                       "props" : {
+                                        "className" : "menuItem",
                                         "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.notification;",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.resources;",
                                             "language" : "typescript"
                                           }
                                         }, {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "not-active-selected-item",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.notification;",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
                                             "language" : "typescript"
                                           }
                                         } ],
-                                        "disableIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
-                                          "language" : "typescript"
-                                        },
+                                        "icon" : "users",
+                                        "layoutClassName" : "menuItem-container",
                                         "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.notification;\nContext.interfaceState.setState(newState);",
+                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nContext.interfaceState.setState(newState);",
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'notifications')}</p>`",
-                                          "language" : "TypeScript"
-                                        }
+                                        "name" : "resources",
+                                        "style" : { }
                                       },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "active-selected-item",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel == 'resources';",
-                                            "language" : "typescript"
-                                          }
-                                        }, {
-                                          "applyOn" : "Inside",
-                                          "className" : "not-active-selected-item",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.selectedPanel != 'resources';",
-                                            "language" : "typescript"
-                                          }
-                                        } ],
-                                        "disableIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n!isMeetingPointBuilt();",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = 'resources';\nContext.interfaceState.setState(newState);",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`<p>${getTranslation('mainSim-interface', 'resources')}</p>`",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
+                                      "type" : "Icon"
                                     } ],
-                                    "layout" : { },
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "menu-container",
                                     "layoutStyle" : {
                                       "padding" : "0px"
                                     },
+                                    "name" : "menu",
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "initialSelectedPageId" : {
-                                      "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutStyle" : {
-                                      "height" : "100%",
-                                      "overflow" : "auto"
-                                    },
-                                    "name" : "interfaceMenuLoader",
-                                    "style" : { }
-                                  },
-                                  "type" : "PageLoader"
                                 } ],
-                                "className" : "mainSimLeftPanel /*greyPanel*/ ",
+                                "className" : "noMargin noPadding",
                                 "layout" : {
-                                  "flexDirection" : "column"
+                                  "flexDirection" : "row"
                                 },
-                                "layoutClassName" : "mainSimLeftPanel-container",
+                                "layoutClassName" : "noMargin noPadding leftPanelParent-container",
                                 "layoutStyle" : { },
-                                "name" : "leftPanel",
-                                "style" : {
-                                  "overflow" : "hidden"
-                                }
+                                "name" : "LeftPanelParent",
+                                "style" : { }
                               },
                               "type" : "FlexList"
                             }, {
@@ -1053,6 +1012,7 @@
                             "layout" : { },
                             "layoutStyle" : {
                               "height" : "100%",
+                              "padding" : "0px",
                               "width" : "100%"
                             },
                             "name" : "map",

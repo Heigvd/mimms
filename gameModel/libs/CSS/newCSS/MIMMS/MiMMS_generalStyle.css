@@ -1,0 +1,41 @@
+/*** COLORS ***/
+
+:root {
+  --primary_10: #d0e9f3ff;
+  --primary_20: #b1daebff;
+  --primary_30: #8ac8e0ff;
+  --primary_40: #63b6d6ff;
+  --primary_50: #3ca3ccff;
+  --primary_base: #1591c2ff;
+  --primary_60: #1179a2ff;
+  --primary_70: #0e6181ff;
+  --primary_80: #0a4861ff;
+  --primary_90: #073041ff;
+  --primary_100: #041d27ff;
+
+  --grey_10: #e0e2e3ff;
+  --grey_20: #cccfd0ff;
+  --grey_30: #b2b6b8ff;
+  --grey_40: #989ea1ff;
+  --grey_50: #7f8689ff;
+  --grey_base: #656e72ff;
+  --grey_60: #545c5fff;
+  --grey_70: #43494cff;
+  --grey_80: #323739ff;
+  --grey_90: #222526ff;
+  --grey_100: #141617ff;
+  --grey_0: #f6f7f9ff;
+  --grey-white: #ffffffff;
+  
+  --secondary_10: #dde9e0ff;
+  --secondary_20: #c6dbccff;
+  --secondary_30: #a9c8b2ff;
+  --secondary_40: #8cb698ff;
+  --secondary_50: #70a47fff;
+  --secondary_base: #539265ff;
+  --secondary_60: #457a54ff;
+  --secondary_70: #376143ff;
+  --secondary_80: #294932ff;
+  --secondary_90: #1c3122ff;
+  --secondary_100: #111d14ff;
+}

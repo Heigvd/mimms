@@ -1,25 +1,42 @@
 /******************************************** MENU ITEMS ********************************************/
+.menuItem{
+	font-family: var(--mainFont);
+	font-size: 30px;
+	padding:  4px;
+	pointer-events: auto;
+}
 
 .active-selected-item {
-	font-family: var(--mainFont);
-	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
-	line-height: 24px;
-	letter-spacing: 0em;
-	text-align: left;
-	color: var(--interface_BLUE);
-	margin-left: 20px;
+	color:var(--primary_base);
+	background-color:  var(--grey_0);
+	filter: drop-shadow(3px 3px 3px var(--primary_70));
 }
+
+
 
 .not-active-selected-item {
-	font-family: var(--mainFont);
-	font-size: var(--M_text);
-	line-height: 24px;
-	letter-spacing: 0em;
-	text-align: left;
-	color: var(--gray_BLACK);
-	margin-left: 20px;
+	color: var(--grey_70);
 	cursor: pointer;
+	background-color: var(--grey_10);
+	border-left: 2px solid var(--grey_20);
+	
 }
 
+
+.menu-container{
+	margin-top: 3.2rem;
+	padding: 0px;
+}
+
+.menuItem-container{
+	width: 50px;
+	height: 50px;
+	font-size: var(--L_text);
+	pointer-events: auto;
+	cursor: pointer;
+	padding: 8px;
+	margin-bottom: 8px;
+	border-radius: 0px 5px 5px 0px;
+}
 

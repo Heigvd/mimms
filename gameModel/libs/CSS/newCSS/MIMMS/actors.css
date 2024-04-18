@@ -9,7 +9,7 @@
 	height: 2em;
     min-width: 4em;
     background-color: var(--gray_150);
-	color: var(--interface_700);
+	color: var(--primary_90);
     justify-content: center;
     align-items: center;
     border-radius: var(--L_borderRadius);
@@ -25,19 +25,19 @@
 }
 
 .actor.current {
-	/*background: var(--interface_0);
-	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);*/
-	background-color: var(--interface_BLUE);
+	/*background: var(--primary_10);
+	box-shadow: inset 0px 0px 0px 3px var(--primary_base);*/
+	background-color: var(--primary_base);
 	color: var(--gray_WHITE);
 	
 }
 
 .actor.current:hover{
-	background-color: var(--interface_200);
+	background-color: var(--primary_40);
 }
 
 .actor:focus:hover{
-	background:var(--interface_100);
+	background:var(--primary_20);
 	cursor: pointer;
 }
 

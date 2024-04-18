@@ -2,6 +2,24 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "h2title",
+        "layoutClassName" : "h2title",
+        "layoutStyle" : {
+          "marginLeft" : "5px"
+        },
+        "name" : "Panel title",
+        "style" : {
+          "marginTop" : "5px"
+        },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'resources')}`",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "layoutStyle" : { },

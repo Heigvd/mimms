@@ -104,4 +104,36 @@
 }
 
 
-/***** VERTICAL TAB (MAIN MENU) *****/
+/*********************** NEXT BUTTON ***********************/
+.next-container{
+	z-index: 4;
+	position: absolute;
+	top: -5.5em;
+	right: -1em;
+	overflow: visible;
+}
+
+.nextActionBtn > * {
+    margin: 0.5em;
+    height: 3.5em;
+    width: 8.5em;
+    border-radius: 25px;
+    /* align-content: flex-end; */
+    font-weight: var(--boldWeight);
+    color: var(--gray_WHITE);
+    background: /*var(--secondary_50)*/ hotpink;
+	filter: drop-shadow(10px 10px 3px rgb(5, 77, 101));
+}
+
+.nextActionBtn:hover > *{
+	background: var(--secondary_40);
+	cursor: pointer;
+}
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
+	margin: auto;
+}
+
+
+
+
