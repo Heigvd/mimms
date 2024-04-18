@@ -52,21 +52,6 @@
 	font-size: var(--M_text);
 }
 
-.methaneMenuButton > *{
-font-size: var(--S_text);
-color: var(--gray_BLACK);
-font-weight: var(--boldWeight);
-}
-
-
-.methaneMenuButton:focus{
-	background-color: var(--primary_base);
-	
-}
-
-.methaneMenuButton:focus > *{
-	color: var(--gray_WHITE);
-}
 
 
 .E-ressources-container{

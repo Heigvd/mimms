@@ -88,6 +88,34 @@
 	border-radius: var(--XXS_borderRadius);
 }
 
+/**** rectangles buttons ****/
+
+.rectangleButton-container > *{
+	border-radius: var(--XXS_borderRadius);
+	font-size: var(--S_text);
+	color: var(--grey_70);
+	font-weight: var(--boldWeight);
+	background-color: transparent;
+	border: solid 1px var(--grey_70);
+}
+
+.rectangleButton-container :hover{
+	background-color: var(--primary_40);
+	color: var(--grey-white);
+	border-color: var(--primary_40);
+}
+
+
+.rectangleButton-container :focus{
+	background-color: var(--primary_base);
+	color: var(--grey_0);
+	border: solid 1px var(--primary_base);
+}
+
+.rectangleButton-container:focus > *{
+	color: var(--gray_WHITE);
+}
+
 
 
 /***** ROUND *****/
