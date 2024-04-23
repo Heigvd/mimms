@@ -10,8 +10,8 @@
 	font-weight: var(--boldWeight);
 	color:var(--primary_base);
 	background-color:  var(--grey_0);
-	filter: drop-shadow(3px 3px 3px var(--primary_70));
 }
+
 
 
 

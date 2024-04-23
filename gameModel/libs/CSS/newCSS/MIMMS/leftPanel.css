@@ -1,8 +1,9 @@
 .leftPanelParent-container{
 	/*border:3px solid orange;*/
-	height: 99%;
-	position:absolute;
-	width: 35%;
+	position: fixed;
+	left: 16px;
+	height: 100%;
+	width: 30%;
 }
 
 .role-container{
@@ -23,7 +24,9 @@
 
 .mainSimLeftPanel {
 	height: 100%;
+	width: 100%;
   	pointer-events: auto;
+	
 }
 
 .mainSimLeftPanel-container{
@@ -31,7 +34,7 @@
 	width: 100%;
 	padding: 0px;
 	background-color: var(--gray_WHITE);
-	z-index: 5;
+	z-index: 4;
 	}
 
 
@@ -41,7 +44,7 @@
 .leftSubPanel-container{
 	width: 100%;
 	margin-top: 0px;
-	padding-top: 0px;
+	padding: 0px 15px;
 }
 
 /*** Sub panel for resources ***/
@@ -49,4 +52,5 @@
 	height: 100%;
 	width: 100%;
 	overflow-y: auto;
+	padding: 0px 15px;
 }

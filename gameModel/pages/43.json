@@ -60,45 +60,6 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "patient-debug-information",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "Variable.find(gameModel, 'display_debug_button').isFalse(self);",
-                                      "language" : "typescript"
-                                    },
-                                    "icon" : "info",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "",
-                                    "layoutStyle" : {
-                                      "width" : "100%"
-                                    },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = true;\nContext.interfaceState.setState(newState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                } ],
-                                "className" : "headerPanels",
-                                "layout" : { },
-                                "layoutClassName" : "headerPanels-container",
-                                "layoutStyle" : { },
-                                "name" : "headerPanels",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
                                 "attachToClosest" : ".main-game",
                                 "attachedToId" : "",
                                 "children" : [ {
@@ -181,7 +142,7 @@
                                       },
                                       "type" : "PageLoader"
                                     } ],
-                                    "className" : "mainSimLeftPanel /*greyPanel*/ ",
+                                    "className" : "mainSimLeftPanel",
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
@@ -460,12 +421,12 @@
                               "type" : "FlexList"
                             } ],
                             "layoutClassName" : "interface-container noMargin",
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "padding" : "0px"
+                            },
                             "name" : "interface",
                             "onAbsoluteClick" : { },
-                            "style" : {
-                              "margin" : "0"
-                            }
+                            "style" : { }
                           },
                           "type" : "AbsoluteLayout"
                         }, {
@@ -969,6 +930,7 @@
                                       "backgroundColor" : "#E7EEE3",
                                       "flexGrow" : "1",
                                       "height" : "100%",
+                                      "padding" : "0px",
                                       "width" : "100%"
                                     },
                                     "mapOptions" : {
@@ -1001,6 +963,7 @@
                                 },
                                 "layoutStyle" : {
                                   "height" : "100%",
+                                  "padding" : "0px",
                                   "width" : "100%"
                                 },
                                 "localState" : false,
@@ -1026,10 +989,7 @@
                         },
                         "layoutClassName" : "main-game",
                         "layoutStyle" : {
-                          "heigth" : "100%",
-                          "margin" : "0",
-                          "overflow" : "hidden",
-                          "padding" : "0",
+                          "height" : "100%",
                           "width" : "100%"
                         },
                         "name" : "game",
@@ -1045,9 +1005,9 @@
                     },
                     "layoutStyle" : {
                       "height" : "100%",
-                      "margin" : "0",
+                      "margin" : "0px",
                       "overflow" : "hidden",
-                      "padding" : "0",
+                      "padding" : "0px",
                       "width" : "100%"
                     },
                     "localState" : true,
@@ -1062,6 +1022,7 @@
                 },
                 "layoutStyle" : {
                   "height" : "100%",
+                  "padding" : "0px",
                   "width" : "100%"
                 },
                 "name" : "root",
@@ -1079,6 +1040,7 @@
         },
         "layoutStyle" : {
           "height" : "100%",
+          "padding" : "0px",
           "width" : "100%"
         },
         "style" : { }
@@ -1093,6 +1055,7 @@
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
+      "padding" : "0px",
       "width" : "100%"
     },
     "name" : "mainSimulationPage",

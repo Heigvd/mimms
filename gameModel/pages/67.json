@@ -397,9 +397,9 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "resourcesSubPanel-container",
+    "layoutClassName" : "/*leftPanel-container*/ mainSimLeftPanel-container",
     "layoutStyle" : { },
-    "name" : "allocate resources",
+    "name" : "resources",
     "style" : {
       "overflow" : "auto"
     }

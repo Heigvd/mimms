@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "h2title",
+        "className" : "",
         "layoutClassName" : "h2title",
         "layoutStyle" : {
           "marginLeft" : "5px"
@@ -137,7 +137,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "Description & play",
                     "style" : { }
@@ -145,7 +145,7 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "noPadding  /*playActionBtn*/ button-S button-secondaryColor ",
+                    "className" : " button-S button-secondaryColor ",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
                       "className" : "abort",
@@ -162,16 +162,19 @@
                     },
                     "icon" : {
                       "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nif (isPlannedAction(Context.action.Uid)) {\n\treturn 'times';\n}\n'plus';",
+                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\n'';",
                       "language" : "typescript"
                     },
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"<p>texte<br></p>\"",
+                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(isPlannedAction(Context.action.Uid)){\n\treturn getTranslation('mainSim-interface', 'cancel')\n}\ngetTranslation('mainSim-interface', 'send')",
                       "language" : "TypeScript"
                     },
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "align-self" : "flex-end",
+                      "padding" : "15px 0px 10px 0px"
+                    },
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
@@ -190,7 +193,7 @@
                   "language" : "typescript"
                 },
                 "layout" : {
-                  "flexDirection" : "row",
+                  "flexDirection" : "column",
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",

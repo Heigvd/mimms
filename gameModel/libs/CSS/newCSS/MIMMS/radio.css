@@ -1,4 +1,5 @@
-.active-channel {
+/****** TABS ******/
+.button-channel_selected{
 	width: 68px;
 	height: 33px;
 	padding: 8px 15px 8px 15px;
@@ -7,21 +8,30 @@
 	font-weight: var(--boldWeight);
 }
 
+.button-channel_selected:hover{
+	background-color: var(--primary_50);
+}
+
+.button-channel{
+	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+	padding: 5px 15px ;
+}
+
 .not-active-channel {
 	width: 68px;
 	height: 33px;
 	padding: 8px 15px 8px 15px;
-	border-radius: 50px;
-	 background-color: var(--gray_150);
+	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+	background-color: var(--gray_150);
 	color: var(--primary_90);
 }
 
 .not-active-channel:hover{
-		background-color: var(--gray_200);
+	background-color: var(--gray_200);
 }
 
 .active-channel:hover{
-		background-color: var(--primary_40);
+	background-color: var(--primary_40);
 		
 }
 

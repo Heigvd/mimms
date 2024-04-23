@@ -3,7 +3,7 @@
     "children" : [ {
       "props" : {
         "className" : "h2title",
-        "layoutClassName" : "h2title",
+        "layoutClassName" : "",
         "layoutStyle" : {
           "marginLeft" : "5px"
         },
@@ -23,7 +23,7 @@
             "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : " button-primaryColor",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
@@ -65,7 +65,7 @@
             "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : " button-primaryColor /*active-channel*/",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
@@ -112,7 +112,7 @@
             "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : " button-primaryColor /*active-channel*/",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
@@ -159,7 +159,7 @@
             "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : " button-primaryColor /*active-channel*/",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",

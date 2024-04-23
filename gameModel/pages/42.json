@@ -23,7 +23,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "",
+                    "className" : "rectangleButton",
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -45,7 +45,7 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "className" : "",
+                    "className" : "rectangleButton",
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -67,7 +67,7 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "className" : "",
+                    "className" : "rectangleButton",
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -89,7 +89,7 @@
                   "type" : "Button"
                 }, {
                   "props" : {
-                    "className" : "",
+                    "className" : "rectangleButton",
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -120,7 +120,7 @@
               "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "",
+                "className" : "rectangleButton",
                 "id" : "",
                 "label" : {
                   "@class" : "Script",
