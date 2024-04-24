@@ -69,7 +69,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid);",
+                  "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
@@ -107,10 +107,10 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "tomato",
+        "className" : "",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid).length > 0;",
+          "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
         "layoutStyle" : {

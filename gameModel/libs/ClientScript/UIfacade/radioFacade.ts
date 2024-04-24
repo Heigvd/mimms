@@ -22,15 +22,10 @@ export function getAllChanneledRadioMessages(): RadioMessage[] {
 }
 
 /**
- * Get radio messages for given Uid
+ * Get notifications for given recipientId
  */
-export function getAvailableRadioMessages(
-  id: number,
-  shouldBeRadioMessage: boolean = false
-): RadioMessage[] {
-  return getAllRadioMessages().filter(
-    m => m.recipientId === id && m.isRadioMessage == shouldBeRadioMessage
-  );
+export function getNotifications(id: number): RadioMessage[] {
+  return getAllRadioMessages().filter(m => m.recipientId === id && !m.isRadioMessage);
 }
 
 /**

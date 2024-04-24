@@ -60,6 +60,134 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "notificationPanelHeader",
+                                        "layoutClassName" : "notificationPanelHeader-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "let fakeVar = \"bla\"\n\"Notifications\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "",
+                                        "exposePageSizeAs" : "",
+                                        "initialSelectedPageId" : {
+                                          "@class" : "Script",
+                                          "content" : "\"64\"",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutStyle" : {
+                                          "overflow" : "auto"
+                                        },
+                                        "name" : "notif",
+                                        "style" : { }
+                                      },
+                                      "type" : "PageLoader"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "!Context.interfaceState.state.showNotificationsPanel",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "className" : "counterCircle",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length === 0;",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "counterCircle-container",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\n\"\" + getNotifications(Context.interfaceState.state.currentActorUid).length;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "notificationButton",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "closedNotif-button",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "!Context.interfaceState.state.showNotificationsPanel;",
+                                        "language" : "typescript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
+                                      "className" : "newNotif",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "false;",
+                                        "language" : "typescript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
+                                      "className" : "openNotif-button",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.interfaceState.state.showNotificationsPanel;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
+                                    "icon" : "mail-bulk",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "notificationButton-container",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\n\n",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "notificationPanel",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "notificationPanel-container_Hidden",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.interfaceState.state.showNotificationsPanel;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "notificationPanel-container",
+                                "layoutStyle" : { },
+                                "name" : "notificationPanel",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
                                 "attachToClosest" : ".main-game",
                                 "attachedToId" : "",
                                 "children" : [ {

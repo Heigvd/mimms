@@ -1,68 +1,122 @@
-/**************************** RADIO CSS (upper-right) ************************************/
-.radio-container {
-	right: 0;
+/***** NEW NOTIFICAITON PANEL ******/
+
+.notificationPanel-container{
+	right: 20px;
+	top: 20px;
+	background-color: var(--gray_WHITE);
+	border-radius: var(--XS_borderRadius);
+	width: 20rem;
 	pointer-events: auto;
-	min-width: 17em;
-	max-width: 20%;
-	overflow: hidden;
+	max-height: 70%;
 }
 
-.aMessage{
-		border-radius: var(--S_borderRadius);
-		padding: 0px;
-		margin: 0px;
-
+.notificationPanel-container_Hidden{
+	background-color: rgba(245, 40, 145, 0);
 }
 
-.aMessage-animation {
-	animation: popping 1s linear;
-}
-
-
-.radioContent-container{
-	font-size: var(--S_text);
-	color: var(--gray_BLACK);			
-}
-
-
-.sender-container{
+.notificationPanelHeader{
+	width: 10em;
+	height: auto;
+	max-height: 80vh;
+	margin-left: 10px;
+	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
-	margin-bottom: 0px ;
-	padding-bottom: 0px;
+}
+.notificationPanelHeader > p{
+	margin-bottom: 0px;
+	margin-top: 15px;
 }
 
-.aMessage-container{
-	padding-top: 0px;
-	background-color: var(--gray_200);
+/*** NOTIF BUTTONS ***/
+
+.notificationButton-container{
+	position: absolute;
+	z-index: 3;
+	right: 3px;
+	top: 3px;
+	pointer-events: auto;
+	border-radius: 100%;
+	margin: .5rem .5rem 0 0;
+	padding: 0px;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+	/*background-color: var(--primary_base);*/
+}
+
+.notificationButton > *{
+	color: var(--grey_0);
+}
+
+.notificationButton{
+	width: 100px;
+	height: 100px;
+}
+
+.notificationButton-container:hover{
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+
+.notificationButton-container .openNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	height: 2.2em;
+	width: 2.2em;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25) inset;
+}
+
+
+.notificationButton-container .closedNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	height: 2.2em;
+	width: 2.2em;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+}
+
+.notificationButton-container .newNotif{
+	background-color: var(--secondary_base);
+}
+
+/*
+.notificationButton-container.closedNotif-button > *{
+	color: var(--gray_WHITE);
+}*/
+
+.counterCircle-container {
+	width: 1.5em;
+	height: 1.5em;
+	color: var(--grey_70);
+	background-color: var(--secondary_10);
+	border: 1px var(--secondary_base) solid;
+	position: absolute;
+	right: 0px;
+	top: 2px;
+	z-index: 4;
+	border-radius: 100%;
+}
+
+.counterCircle {
+	margin: auto;
+    font-size: var(--S_text);
+	font-weight: var(--boldWeight);
 	
 }
 
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
-
-}
-/**** COLOR MANAGEMENT MSG RADIO
-.sender-role[data-sender-role="MCS"] {
-  background-color: var(--yellow_0);
+.counterCircle > p {
+	padding: 0px;
+	margin: -2px;
 }
 
-.sender-role[data-sender-role="ACS"] {
-  background-color: var(--orange_0);
-}
 
-.sender-role[data-sender-role="AL"] {
-  background-color:var(--blue_0);
-}
-*/
 
-.sender{
-		font-weight: var(--boldWeight);
 
-}
 
-.noRadio{
-	margin:5px;
-	padding:5px;
-}
+
+
