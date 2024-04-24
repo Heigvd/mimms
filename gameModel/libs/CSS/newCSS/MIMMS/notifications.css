@@ -1,11 +1,11 @@
-/***** NEW NOTIFICAITON PANEL ******/
+/***** NOTIFICAITON PANEL ******/
 
 .notificationPanel-container{
 	right: 20px;
 	top: 20px;
 	background-color: var(--gray_WHITE);
 	border-radius: var(--XS_borderRadius);
-	width: 20rem;
+	width: 21rem;
 	pointer-events: auto;
 	max-height: 70%;
 }
@@ -14,11 +14,12 @@
 	background-color: rgba(245, 40, 145, 0);
 }
 
+/*** HEADER ***/
 .notificationPanelHeader{
 	width: 10em;
 	height: auto;
 	max-height: 80vh;
-	margin-left: 10px;
+	margin-left: 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
@@ -27,7 +28,7 @@
 	margin-top: 15px;
 }
 
-/*** NOTIF BUTTONS ***/
+/****** NOTIFICATION BUTTONS ******/
 
 .notificationButton-container{
 	position: absolute;
@@ -41,7 +42,6 @@
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
-	/*background-color: var(--primary_base);*/
 }
 
 .notificationButton > *{
@@ -49,8 +49,8 @@
 }
 
 .notificationButton{
-	width: 100px;
-	height: 100px;
+	width: 3em;
+	height: 3em;
 }
 
 .notificationButton-container:hover{
@@ -61,8 +61,6 @@
 .notificationButton-container .openNotif-button{
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	height: 2.2em;
-	width: 2.2em;
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
@@ -73,8 +71,6 @@
 .notificationButton-container .closedNotif-button{
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	height: 2.2em;
-	width: 2.2em;
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
@@ -84,10 +80,6 @@
 	background-color: var(--secondary_base);
 }
 
-/*
-.notificationButton-container.closedNotif-button > *{
-	color: var(--gray_WHITE);
-}*/
 
 .counterCircle-container {
 	width: 1.5em;
@@ -96,8 +88,8 @@
 	background-color: var(--secondary_10);
 	border: 1px var(--secondary_base) solid;
 	position: absolute;
-	right: 0px;
-	top: 2px;
+	right: .1px;
+	top: .1em;
 	z-index: 4;
 	border-radius: 100%;
 }
@@ -106,7 +98,9 @@
 	margin: auto;
     font-size: var(--S_text);
 	font-weight: var(--boldWeight);
-	
+	position: relative;
+	top: -2px;
+	color: var(--secondary_70);
 }
 
 .counterCircle > p {
@@ -116,7 +110,11 @@
 
 
 
+/***** A NOTIFICATION *****/
 
 
-
-
+.aNotification-container{
+	background-color: var(--grey_10);
+	border-radius: var(--XS_borderRadius);
+	margin: 0px;
+}
