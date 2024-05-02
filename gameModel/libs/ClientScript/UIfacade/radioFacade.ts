@@ -111,3 +111,13 @@ export function getUnreadMessagesCountBullet(channel: ActionType): number | unde
   }
   return undefined;
 }
+
+export function getUnreadNotificationsCount(): number {
+  const readMsgsProperties = Variable.find(gameModel, 'readRadioMessagesByChannel')
+    .getInstance(self)
+    .getProperties();
+  return (
+    getNotifications(Context.interfaceState.state.currentActorUid).length -
+    (+readMsgsProperties[ActionType.ACTION] || 0)
+  );
+}

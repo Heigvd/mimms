@@ -109,7 +109,7 @@
                                     "className" : "counterCircle",
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length === 0;",
+                                      "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() === 0;",
                                       "language" : "typescript"
                                     },
                                     "layoutClassName" : "counterCircle-container",
@@ -117,7 +117,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\n\"\" + getNotifications(Context.interfaceState.state.currentActorUid).length;",
+                                      "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() + '';",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -161,8 +161,9 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\n\n",
-                                        "language" : "TypeScript"
+                                        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getNotifications, updateReadMessages } from \"./UIfacade/radioFacade\";\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\nupdateReadMessages(ActionType.ACTION, getNotifications(Context.interfaceState.state.currentActorUid).length);",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
                                       }
                                     },
                                     "style" : { }
