@@ -7,7 +7,7 @@
 	bottom: 0px;
 	right: 0px;
 	pointer-events: auto;
-	overflow: hidden;
+	overflow: visible;
 	border-left: 2px solid var(--grey_20);
 	z-index: 7;
   /*border: solid 1px hotpink;*/

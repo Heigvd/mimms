@@ -163,25 +163,29 @@
 .next-container{
 	z-index: 4;
 	position: absolute;
-	top: -5.5em;
-	right: -1em;
+	top: -85px;
+	right: 0px;
 	overflow: visible;
 }
 
 .nextActionBtn > * {
-    margin: 0.5em;
-    height: 3.5em;
-    width: 8.5em;
-    border-radius: 25px;
-    /* align-content: flex-end; */
-    font-weight: var(--boldWeight);
-    color: var(--gray_WHITE);
-    background: /*var(--secondary_50)*/ hotpink;
+  margin: 0.5em;
+  height: 3.5em;
+  width: 8.5em;
+  border-radius: 25px;
+  background: rgb(33,0,36);
+  background: linear-gradient(90deg, rgba(33,0,36,0.8178338229823179) 0%, rgba(62,9,121,1) 14%, rgba(0,212,255,1) 100%); 
+  /* align-content: flex-end; */
+  font-weight: var(--boldWeight);
+  color: var(--gray_WHITE);
+  /*background: var(--secondary_50) hotpink; */
 	filter: drop-shadow(10px 10px 3px rgb(5, 77, 101));
 }
 
 .nextActionBtn:hover > *{
-	background: var(--secondary_40);
+  background: rgb(131,58,180);
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+	/*background: var(--secondary_40);*/
 	cursor: pointer;
 }
 .nextActionBtn > * > svg {
