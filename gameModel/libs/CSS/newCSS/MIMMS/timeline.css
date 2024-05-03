@@ -13,6 +13,13 @@
   /*border: solid 1px hotpink;*/
 }
 
+.fullWidthTimeline{
+  position: absolute;
+  bottom: 0px;
+	left: 0px;
+  width:100vw;
+ }
+
 .timeline{
 	background: var(--gray_WHITE);
 	height: auto;

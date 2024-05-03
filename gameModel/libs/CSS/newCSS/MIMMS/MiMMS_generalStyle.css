@@ -71,11 +71,16 @@
 	width: 100%;
   margin: 0px;
   padding: 0px;
-  pointer-events: none;
 	z-index: 1;
 	position: absolute;
 }
 
+/*Page loader in left panel, linked to the main menu*/
+.interfaceMenuLoader-container{
+  overflow: auto;
+  height: 100%;
+  max-width: 25vw;
+}
 
 .grid{
   display: grid;

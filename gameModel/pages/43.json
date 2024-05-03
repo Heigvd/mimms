@@ -64,59 +64,37 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "nextActionBtn",
-                                        "icon" : {
-                                          "@class" : "Script",
-                                          "content" : "'fast-forward';",
-                                          "language" : "typescript"
-                                        },
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "\"\"",
-                                          "language" : "TypeScript"
-                                        },
-                                        "layoutClassName" : "next-container",
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "name" : "Next",
-                                        "style" : {
-                                          "margin" : "auto"
-                                        }
-                                      },
-                                      "type" : "Button"
-                                    }, {
-                                      "props" : {
                                         "children" : [ {
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "className" : "/*actor*/ button-S button-primaryColor",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "current",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "confirm" : false,
+                                                "className" : "",
+                                                "layoutClassName" : "",
+                                                "layoutStyle" : {
+                                                  "width" : "85%"
+                                                },
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
+                                                "className" : "closeLeftPanelBtn",
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.actor.Role;",
+                                                  "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
                                                   "language" : "TypeScript"
                                                 },
+                                                "layoutClassName" : "closeLeftPanelBtn-container",
                                                 "layoutStyle" : { },
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showLeftPanel = !newState.showLeftPanel;\nContext.interfaceState.setState(newState);\n",
                                                     "language" : "TypeScript"
                                                   }
                                                 },
@@ -124,120 +102,79 @@
                                               },
                                               "type" : "Button"
                                             } ],
-                                            "exposeAs" : "actor",
-                                            "getItemsFn" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
-                                              "language" : "TypeScript"
-                                            },
-                                            "itemKey" : "Uid",
-                                            "itemsOnly" : false,
+                                            "className" : "role",
                                             "layout" : {
                                               "alignItems" : "center",
-                                              "flexDirection" : "column",
-                                              "justifyContent" : "center"
+                                              "justifyContent" : "space-evenly"
                                             },
-                                            "layoutStyle" : { },
-                                            "style" : {
-                                              "gap" : "5px",
-                                              "minWidth" : "5em"
-                                            }
-                                          },
-                                          "type" : "For each"
-                                        } ],
-                                        "className" : "actor_button",
-                                        "layout" : {
-                                          "flexDirection" : "column"
-                                        },
-                                        "layoutClassName" : "timeline-actors",
-                                        "layoutStyle" : { },
-                                        "name" : "timeline-actors",
-                                        "style" : {
-                                          "paddingTop" : "calc(2em + 20px)"
-                                        }
-                                      },
-                                      "type" : "FlexList"
-                                    }, {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "layoutStyle" : {
-                                              "margin-left" : "8px"
-                                            },
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime());",
-                                              "language" : "TypeScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        } ],
-                                        "className" : "display",
-                                        "layout" : { },
-                                        "layoutClassName" : "timeline-display",
-                                        "layoutStyle" : {
-                                          "overflow" : "auto"
-                                        },
-                                        "name" : "timeline-display",
-                                        "style" : { }
-                                      },
-                                      "type" : "FlexList"
-                                    } ],
-                                    "className" : "timeline",
-                                    "layout" : {
-                                      "flexDirection" : "row"
-                                    },
-                                    "layoutClassName" : "timeline-container column",
-                                    "layoutStyle" : { },
-                                    "name" : "timeline",
-                                    "style" : { }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "className" : "role",
                                             "layoutClassName" : "role-container",
                                             "layoutStyle" : { },
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role;",
-                                              "language" : "TypeScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        }, {
-                                          "props" : {
-                                            "exposePageSizeAs" : "",
-                                            "initialSelectedPageId" : {
-                                              "@class" : "Script",
-                                              "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
-                                              "language" : "typescript"
-                                            },
-                                            "layoutStyle" : {
-                                              "height" : "100%",
-                                              "overflow" : "auto"
-                                            },
-                                            "name" : "interfaceMenuLoader",
+                                            "name" : "header",
                                             "style" : { }
                                           },
-                                          "type" : "PageLoader"
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "exposePageSizeAs" : "",
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "!Context.interfaceState.state.showLeftPanel",
+                                                  "language" : "typescript"
+                                                },
+                                                "initialSelectedPageId" : {
+                                                  "@class" : "Script",
+                                                  "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layoutClassName" : "interfaceMenuLoader-container",
+                                                "layoutStyle" : { },
+                                                "name" : "interfaceMenuLoader",
+                                                "style" : { }
+                                              },
+                                              "type" : "PageLoader"
+                                            } ],
+                                            "className" : "mainSimLeftPanel",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "hiddenLeftPanel",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.interfaceState.state.showLeftPanel",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "shownLeftPanel",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.interfaceState.state.showLeftPanel",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "layout" : {
+                                              "flexDirection" : "column"
+                                            },
+                                            "layoutClassName" : "mainSimLeftPanel-container",
+                                            "layoutStyle" : { },
+                                            "name" : "leftPanel",
+                                            "style" : {
+                                              "overflow" : "hidden"
+                                            }
+                                          },
+                                          "type" : "FlexList"
                                         } ],
-                                        "className" : "mainSimLeftPanel",
+                                        "className" : "noPadding noMargin",
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
-                                        "layoutClassName" : "mainSimLeftPanel-container",
-                                        "layoutStyle" : { },
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : {
+                                          "width" : "25vw"
+                                        },
                                         "name" : "leftPanel",
-                                        "style" : {
-                                          "overflow" : "hidden"
-                                        }
+                                        "style" : { }
                                       },
                                       "type" : "FlexList"
                                     }, {
@@ -268,7 +205,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.actions;\nContext.interfaceState.setState(newState);",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -302,7 +239,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -336,7 +273,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nContext.interfaceState.setState(newState);",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -344,6 +281,15 @@
                                             "style" : { }
                                           },
                                           "type" : "Icon"
+                                        } ],
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "menuItem-goingWest",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "!Context.interfaceState.state.showLeftPanel",
+                                            "language" : "typescript"
+                                          }
                                         } ],
                                         "layout" : {
                                           "flexDirection" : "column"
@@ -361,7 +307,7 @@
                                     "layout" : {
                                       "flexDirection" : "row"
                                     },
-                                    "layoutClassName" : "noMargin noPadding leftPanelParent-container column",
+                                    "layoutClassName" : "noMargin noPadding leftPanelParent-container ",
                                     "layoutStyle" : { },
                                     "name" : "LeftPanelParent",
                                     "style" : { }
@@ -378,7 +324,150 @@
                                   "position" : "relative",
                                   "width" : "100%"
                                 },
-                                "name" : "hello",
+                                "name" : "leftPanel and Timeline",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "nextActionBtn",
+                                    "icon" : {
+                                      "@class" : "Script",
+                                      "content" : "'fast-forward';",
+                                      "language" : "typescript"
+                                    },
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "next-container",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "Next",
+                                    "style" : {
+                                      "margin" : "auto"
+                                    }
+                                  },
+                                  "type" : "Button"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "/*actor*/ button-S button-primaryColor",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Inside",
+                                              "className" : "current",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "confirm" : false,
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.actor.Role;",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ],
+                                        "exposeAs" : "actor",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "Uid",
+                                        "itemsOnly" : false,
+                                        "layout" : {
+                                          "alignItems" : "center",
+                                          "flexDirection" : "column",
+                                          "justifyContent" : "center"
+                                        },
+                                        "layoutStyle" : { },
+                                        "style" : {
+                                          "gap" : "5px",
+                                          "minWidth" : "5em"
+                                        }
+                                      },
+                                      "type" : "For each"
+                                    } ],
+                                    "className" : "actor_button",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "timeline-actors",
+                                    "layoutStyle" : { },
+                                    "name" : "timeline-actors",
+                                    "style" : {
+                                      "paddingTop" : "calc(2em + 20px)"
+                                    }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : {
+                                          "margin-left" : "8px"
+                                        },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime());",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "display",
+                                    "layout" : { },
+                                    "layoutClassName" : "timeline-display",
+                                    "layoutStyle" : {
+                                      "overflow" : "auto"
+                                    },
+                                    "name" : "timeline-display",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "timeline",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "fullWidthTimeline",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showLeftPanel === false;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "row"
+                                },
+                                "layoutClassName" : "timeline-container",
+                                "layoutStyle" : { },
+                                "name" : "timeline",
                                 "style" : { }
                               },
                               "type" : "FlexList"
