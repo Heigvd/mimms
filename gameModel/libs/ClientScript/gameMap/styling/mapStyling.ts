@@ -106,16 +106,17 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
     style.push({
       text: {
         type: 'TextStyle',
-        fill: { type: 'FillStyle', color: 'white' },
+        fill: { type: 'FillStyle', color: 'black' },
         stroke: {
           type: 'StrokeStyle',
           lineCap: 'round',
           lineJoin: 'round',
           miterLimit: 10,
-          width: 3,
+          width: 2,
+          color: '#D9DDE1', //'#CCD2D7'
         },
         text: name,
-        scale: 1.25,
+        scale: 1.6,
         placement: 'line',
         overflow: false,
       },
