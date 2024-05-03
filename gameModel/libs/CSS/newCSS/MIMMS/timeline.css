@@ -1,16 +1,16 @@
 
 .timeline-container {
-	position: fixed;
-	width: 72.3vw;
+	position: absolute;
+  width: 75vw;
 	height: auto;
+  padding: 0px;
 	bottom: 0px;
 	right: 0px;
-	padding: 0px;
 	pointer-events: auto;
-	overflow: visible!important;
+	overflow: hidden;
 	border-left: 2px solid var(--grey_20);
-	z-index: 3;
-	/* trouver pourquoi il y a collusion de style*/
+	z-index: 7;
+  /*border: solid 1px hotpink;*/
 }
 
 .timeline{
@@ -18,6 +18,7 @@
 	height: auto;
 	pointer-events: auto;
 	width: 100%;
+  overflow: hidden;
 	}
 
 .timeline-display {
@@ -25,7 +26,6 @@
 	height: 100%;
 	margin-top: 10px;
 }
-
 
 
 /***********************TIMELINE ITEM ***********************/

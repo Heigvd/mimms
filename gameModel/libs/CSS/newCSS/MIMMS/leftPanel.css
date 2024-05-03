@@ -1,9 +1,9 @@
 .leftPanelParent-container{
 	/*border:3px solid orange;*/
-	position: fixed;
-	left: 16px;
+	position: absolute;
+	left: 0px;
 	height: 100%;
-	width: 30%;
+	width: calc(25vw + 50px);
 }
 
 .role-container{
@@ -26,7 +26,7 @@
 	height: 100%;
 	width: 100%;
   	pointer-events: auto;
-	
+	/*border: solid 3px pink*/
 }
 
 .mainSimLeftPanel-container{

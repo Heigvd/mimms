@@ -1,68 +1,120 @@
-/**************************** RADIO CSS (upper-right) ************************************/
-.radio-container {
-	right: 0;
+/***** NOTIFICAITON PANEL ******/
+
+.notificationPanel-container{
+	right: 20px;
+	top: 20px;
+	background-color: var(--gray_WHITE);
+	border-radius: var(--XS_borderRadius);
+	width: 21rem;
 	pointer-events: auto;
-	min-width: 17em;
-	max-width: 20%;
-	overflow: hidden;
+	max-height: 70%;
 }
 
-.aMessage{
-		border-radius: var(--S_borderRadius);
-		padding: 0px;
-		margin: 0px;
-
+.notificationPanel-container_Hidden{
+	background-color: rgba(245, 40, 145, 0);
 }
 
-.aMessage-animation {
-	animation: popping 1s linear;
-}
-
-
-.radioContent-container{
-	font-size: var(--S_text);
-	color: var(--gray_BLACK);			
-}
-
-
-.sender-container{
+/*** HEADER ***/
+.notificationPanelHeader{
+	width: 10em;
+	height: auto;
+	max-height: 80vh;
+	margin-left: 5px;
+	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
-	margin-bottom: 0px ;
-	padding-bottom: 0px;
+}
+.notificationPanelHeader > p{
+	margin-bottom: 0px;
+	margin-top: 15px;
 }
 
-.aMessage-container{
-	padding-top: 0px;
-	background-color: var(--gray_200);
-	
+/****** NOTIFICATION BUTTONS ******/
+
+.notificationButton-container{
+	position: absolute;
+	z-index: 3;
+	right: 3px;
+	top: 3px;
+	pointer-events: auto;
+	border-radius: 100%;
+	margin: .5rem .5rem 0 0;
+	padding: 0px;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
 }
 
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
-
-}
-/**** COLOR MANAGEMENT MSG RADIO
-.sender-role[data-sender-role="MCS"] {
-  background-color: var(--yellow_0);
+.notificationButton > *{
+	color: var(--grey_0);
 }
 
-.sender-role[data-sender-role="ACS"] {
-  background-color: var(--orange_0);
+.notificationButton{
+	width: 3em;
+	height: 3em;
 }
 
-.sender-role[data-sender-role="AL"] {
-  background-color:var(--blue_0);
-}
-*/
-
-.sender{
-		font-weight: var(--boldWeight);
-
+.notificationButton-container:hover{
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-.noRadio{
-	margin:5px;
-	padding:5px;
+
+.notificationButton-container .openNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25) inset;
+}
+
+
+.notificationButton-container .closedNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+}
+
+.notificationButton-container .newNotif{
+	background-color: var(--secondary_base);
+}
+
+
+.counterCircle-container {
+	width: 1.5em;
+	height: 1.5em;
+	color: var(--grey_70);
+	background-color: var(--secondary_10);
+	border: 1px var(--secondary_base) solid;
+	position: absolute;
+	right: .1px;
+	top: .1em;
+	z-index: 4;
+	border-radius: 100%;
+}
+
+.counterCircle {
+	margin: auto;
+    font-size: var(--S_text);
+	font-weight: var(--boldWeight);
+	position: relative;
+	top: -2px;
+	color: var(--secondary_70);
+}
+
+.counterCircle > p {
+	padding: 0px;
+	margin: -2px;
+}
+
+
+
+/***** A NOTIFICATION *****/
+
+
+.aNotification-container{
+	background-color: var(--grey_10);
+	border-radius: var(--XS_borderRadius);
+	margin: 0px;
 }

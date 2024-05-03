@@ -39,3 +39,46 @@
   --secondary_90: #1c3122ff;
   --secondary_100: #111d14ff;
 }
+
+
+.stateInterface-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+.mainGame-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  /*border: solid 3px aquamarine;*/
+}
+
+
+.map-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+
+.interface-container{
+  height: 100%;
+	width: 100%;
+  margin: 0px;
+  padding: 0px;
+  pointer-events: none;
+	z-index: 1;
+	position: absolute;
+}
+
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 0px;
+}

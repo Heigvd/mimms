@@ -37,7 +37,7 @@
                       },
                       "type" : "Text"
                     } ],
-                    "className" : "aMessage",
+                    "className" : "aNotification",
                     "computedAttributes" : [ {
                       "attrName" : "sender-role",
                       "attrValue" : {
@@ -58,25 +58,25 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "aMessage-container sender-role",
+                    "layoutClassName" : "aNotification-container",
                     "layoutStyle" : { },
                     "name" : "aMessage",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "allDisplay-container s_margin",
+                "className" : "noPadding noMargin",
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid);",
+                  "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding noMargin",
                 "layoutStyle" : {
                   "width" : "100%"
                 },
@@ -107,12 +107,13 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "tomato",
+        "className" : "noPadding noMargin",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid).length > 0;",
+          "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
           "overflow" : "none"
         },

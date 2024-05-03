@@ -142,13 +142,6 @@ button.wegas-btn > div > div > p:first-child:last-child {
 
 /**************************** OTHERS ************************/
 
-.interface-container{
-	pointer-events: none;
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
 
 .rootPage{
 	margin: auto;
