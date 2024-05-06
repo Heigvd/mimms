@@ -107,7 +107,7 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "noPadding noMargin",
+        "className" : "",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
