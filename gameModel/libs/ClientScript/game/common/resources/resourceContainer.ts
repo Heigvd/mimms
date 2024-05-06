@@ -20,7 +20,7 @@ export const ResourceContainerTypeArray = [
   'Helicopter',
 ] as const;
 
-export type ResourceContainerType = (typeof ResourceContainerTypeArray)[number];
+export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
 /**
  * Describes the content of one container that can be requested by an actor to the emergency departement

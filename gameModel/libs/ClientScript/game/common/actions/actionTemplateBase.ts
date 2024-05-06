@@ -69,7 +69,7 @@ export enum SimFlag {
 export abstract class ActionTemplateBase<
   ActionT extends ActionBase = ActionBase,
   EventT extends ActionCreationEvent = ActionCreationEvent,
-  UserInput = unknown,
+  UserInput = unknown
 > {
   private static IdSeed = 1000;
 
@@ -220,7 +220,7 @@ export abstract class ActionTemplateBase<
 export abstract class StartEndTemplate<
   ActionT extends ActionBase = ActionBase,
   EventT extends ActionCreationEvent = ActionCreationEvent,
-  UserInput = unknown,
+  UserInput = unknown
 > extends ActionTemplateBase<ActionT, EventT, UserInput> {
   public readonly duration: SimDuration;
   public readonly message: TranslationKey;
@@ -395,7 +395,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
  * Template of an action to select the place of a fixed map entity.
  */
 export class SelectionFixedMapEntityTemplate<
-  ActionT extends SelectionFixedMapEntityAction = SelectionFixedMapEntityAction,
+  ActionT extends SelectionFixedMapEntityAction = SelectionFixedMapEntityAction
 > extends StartEndTemplate<
   SelectionFixedMapEntityAction,
   SelectionFixedMapEntityEvent,

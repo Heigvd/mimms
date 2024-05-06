@@ -85,11 +85,7 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
  * Creates an action to be inserted in the timeline and inits it
  */
 export class PlanActionLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly action: ActionBase
-  ) {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase) {
     super(parentEventId, 'PlanActionEvent', timeStamp);
   }
 
@@ -141,11 +137,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
 /////////// TODO in own file
 // TODO dynamic time progression (continue advancing until something relevant happens)
 export class TimeForwardLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly timeJump: number
-  ) {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly timeJump: number) {
     super(parentEventId, 'TimeForwardEvent', timeStamp);
   }
 
@@ -599,11 +591,7 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
 }
 
 export class AllResourcesReleaseLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly taskId: TaskId
-  ) {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
     super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
   }
 
