@@ -483,6 +483,24 @@
             }
           },
           "type" : "Modal"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Download CSV time of death<br></p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { exportAllPatientsTimeOfDeath } from \"./dashboard/timeOfDeath\";\n\nexportAllPatientsTimeOfDeath()",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
         } ],
         "exposeAs" : "patients",
         "initialState" : {
@@ -656,7 +674,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Drill: Downalod&nbsp;CSV data<br></p>\"",
+              "content" : "\"<p>Drill: Download CSV data<br></p>\"",
               "language" : "JavaScript"
             },
             "layoutStyle" : {

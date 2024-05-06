@@ -6,15 +6,12 @@
 
 import { getPatientPreset, PatientPreset } from '../edition/patientPreset';
 import {
-  BodyEffect,
-  HumanBody,
-  doActionOnHumanBody,
-  createHumanBody,
-  computeState,
-} from '../HUMAn/human';
-import { AfflictedPathology, RevivedPathology, revivePathology } from '../HUMAn/pathology';
-import { getAct, getItem } from '../HUMAn/registries';
-import { mainSimLogger } from '../tools/logger';
+  computeInitialAfflictedPathologies,
+  computeInitialEffects,
+  reviveAfflictedPathologies,
+} from '../game/common/patients/handleState';
+import { HumanBody, createHumanBody, computeState } from '../HUMAn/human';
+import { RevivedPathology } from '../HUMAn/pathology';
 import { getEnv, getPatientsBodyFactoryParamsArray } from '../tools/WegasHelper';
 
 type PatientId = string;
@@ -80,96 +77,6 @@ export function loadPatients(): PatientState[] {
         : [],
     };
   });
-}
-
-// Duplicate code in client/game/common/patients/handleState.ts !
-function computeInitialAfflictedPathologies(patient: HumanBody): [AfflictedPathology, number][] {
-  const pathologiesWithTime: [AfflictedPathology, number][] = [];
-  const healthConditions = patient.meta.scriptedEvents;
-  healthConditions!.map(healthCondition => {
-    if (healthCondition.payload.type === 'HumanPathology') {
-      try {
-        pathologiesWithTime.push([healthCondition.payload, healthCondition.time]);
-        mainSimLogger.debug('Afflict Pathology: ', {
-          pathology: healthCondition.payload,
-          time: healthCondition.time,
-        });
-      } catch {
-        mainSimLogger.warn(
-          `Afflict Pathology Failed: Pathology "${healthCondition.payload.pathologyId}" does not exist`
-        );
-      }
-    }
-  });
-  return pathologiesWithTime;
-}
-
-// Duplicate code in client/game/common/patients/handleState.ts !
-function computeInitialEffects(patient: HumanBody): BodyEffect[] {
-  const effects: BodyEffect[] = [];
-  patient.meta.scriptedEvents!.map(healthCondition => {
-    if (healthCondition.payload.type === 'HumanTreatment') {
-      if (healthCondition.payload.source.type === 'act') {
-        const act = getAct(healthCondition.payload.source.actId);
-        if (act) {
-          if (act.action.type === 'ActionBodyEffect') {
-            mainSimLogger.info('Do Act: ', { time: healthCondition.time, act });
-            effects.push(
-              doActionOnHumanBody(
-                act,
-                act.action,
-                'default',
-                healthCondition.payload.blocks,
-                healthCondition.time
-              )!
-            );
-          } else {
-            mainSimLogger.info('Ignore measure');
-          }
-        }
-      } else if (healthCondition.payload.source.type === 'itemAction') {
-        const item = getItem(healthCondition.payload.source.itemId);
-        const action = item?.actions[healthCondition.payload.source.actionId];
-        if (action != null) {
-          if (action.type === 'ActionBodyEffect') {
-            mainSimLogger.info('Apply Item: ', { time: healthCondition.time, item, action });
-            effects.push(
-              doActionOnHumanBody(
-                item!,
-                action,
-                healthCondition.payload.source.actionId,
-                healthCondition.payload.blocks,
-                healthCondition.time
-              )!
-            );
-          } else {
-            mainSimLogger.info('Ignore measure');
-          }
-        } else {
-          mainSimLogger.warn(
-            `Item Action Failed: Event/Action "${healthCondition.payload.source.itemId}/${healthCondition.payload.source.actionId}`
-          );
-        }
-      }
-    }
-  });
-  return effects;
-}
-
-// Duplicate code in client/game/common/patients/handleState.ts !
-function reviveAfflictedPathologies(
-  afflictedPathologies: [AfflictedPathology, number][]
-): RevivedPathology[] {
-  const pathologies: RevivedPathology[] = [];
-  afflictedPathologies.forEach(afflictedPathologyTuple => {
-    const revivedpathology = revivePathology(
-      afflictedPathologyTuple[0],
-      afflictedPathologyTuple[1]
-    );
-    pathologies.push(revivedpathology);
-  });
-
-  return pathologies;
 }
 
 export function computePatientUntilDeath(patientState: PatientState): PatientState {
@@ -241,10 +148,7 @@ export function exportAllPatientsTimeOfDeath() {
     lines[patient.patientId].push(patient.timeOfDeath === 0 ? '.' : String(patient.timeOfDeath));
     for (let pathology of patient.pathologies) {
       lines[patient.patientId].push(pathology);
-      pathologyHeaderIndex =
-        patient.pathologies.length <= pathologyHeaderIndex
-          ? pathologyHeaderIndex
-          : patient.pathologies.length;
+      pathologyHeaderIndex = Math.max(pathologyHeaderIndex, patient.pathologies.length);
     }
   }
 
