@@ -74,15 +74,20 @@ export async function unregisterSelf(): Promise<void> {
   }
 }
 
+function canUpdateRole(targetPlayerId: number): boolean {
+  const currentPlayerId = self.getId();
+  // return APP_CONTEXT === 'Player' && (currentPlayerId === undefined || targetPlayerId !== currentPlayerId);
+  return (
+    APP_CONTEXT !== 'Player' ||
+    (currentPlayerId !== undefined && targetPlayerId === currentPlayerId)
+  );
+}
+
 /**
  * Update role of given player
  */
 export async function updateRole(playerId: number, role: InterventionRole): Promise<void> {
-  const currentPlayerId = self.getId();
-
-  // Players can only update themselves, trainers & editors can update everyone
-  if (APP_CONTEXT === 'Player' && (currentPlayerId === undefined || playerId !== currentPlayerId))
-    return;
+  if (!canUpdateRole(playerId)) return;
 
   const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
   playerMatrix.roles[role] = !playerMatrix.roles[role];
@@ -102,11 +107,7 @@ export async function updateRole(playerId: number, role: InterventionRole): Prom
  * Update ready status of given player
  */
 export async function updateReady(playerId: number) {
-  const currentPlayerId = self.getId();
-
-  // Players can only update themselves, trainers & editors can update everyone
-  if (APP_CONTEXT === 'Player' && (currentPlayerId === undefined || playerId !== currentPlayerId))
-    return;
+  if (!canUpdateRole(playerId)) return;
 
   const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
   playerMatrix.ready = !playerMatrix.ready;
@@ -167,7 +168,7 @@ export function checkAllRolesPlayed(): boolean {
       if (role) playableRoles[Number(i)] = role;
     }
   }
-  return playableRoles.every(r => r === true);
+  return playableRoles.every(r => r);
 }
 
 /**
