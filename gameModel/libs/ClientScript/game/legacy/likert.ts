@@ -695,7 +695,7 @@ const demographicVariables = [
   'yPreHospXp',
 ] as const;
 
-type DemoKey = (typeof demographicVariables)[number];
+type DemoKey = typeof demographicVariables[number];
 
 type RawDemographics = Record<DemoKey, string | number | boolean>;
 

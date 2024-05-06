@@ -468,7 +468,7 @@ const clKeys = [
   'vitals.glasgow.total',
 ] as const;
 
-export type ClKeys = (typeof clKeys)[number];
+export type ClKeys = typeof clKeys[number];
 
 const phKeys = [
   'vitals.respiration.PaO2',
@@ -479,7 +479,7 @@ const phKeys = [
   'vitals.brain.ICP_mmHg',
 ] as const;
 
-export type PhKeys = (typeof phKeys)[number];
+export type PhKeys = typeof phKeys[number];
 
 export interface LikertData {
   clinical: Record<ClKeys, Serie>;

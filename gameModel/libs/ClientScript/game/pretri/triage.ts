@@ -77,7 +77,7 @@ type SACCO_CATEGORY =
   | 'twelve';
 
 export interface Category<
-  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
+  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string
 > {
   id: T;
   bgColor: string;
@@ -91,7 +91,7 @@ export interface Category<
 export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE_NARU' | 'START';
 
 interface TagSystem<
-  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
+  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string
 > {
   /** Sorted by severity (less severe first) ! */
   categories: Category<T>[];
@@ -558,7 +558,7 @@ const explanations = {
 type Explanation = keyof typeof explanations;
 
 export interface PreTriageResult<
-  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string,
+  T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string
 > {
   categoryId: T | undefined;
   severity: number;

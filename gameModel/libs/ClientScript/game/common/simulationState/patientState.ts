@@ -90,9 +90,9 @@ export function getNextNonTransportedPatientByPriority(
           getPriorityByCategoryId(b.preTriageResult.categoryId!)
           ? 1
           : getPriorityByCategoryId(a.preTriageResult.categoryId!) <
-              getPriorityByCategoryId(b.preTriageResult.categoryId!)
-            ? -1
-            : 0
+            getPriorityByCategoryId(b.preTriageResult.categoryId!)
+          ? -1
+          : 0
         : 0
     )
     .find(

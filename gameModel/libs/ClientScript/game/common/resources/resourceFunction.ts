@@ -18,4 +18,4 @@ export const ResourceFunctionArray = [
 ] as const;
 
 // infer type from array
-export type ResourceFunction = (typeof ResourceFunctionArray)[number];
+export type ResourceFunction = typeof ResourceFunctionArray[number];
