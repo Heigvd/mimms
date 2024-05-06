@@ -108,6 +108,9 @@
 	margin: auto;
 	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
+	position: relative;
+	top: -2px;
+	color: var(--secondary_70);
 }
 
 .counterCircle > p {
