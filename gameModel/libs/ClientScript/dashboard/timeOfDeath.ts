@@ -241,7 +241,7 @@ export function exportAllPatientsTimeOfDeath() {
     lines[patient.patientId].push(patient.timeOfDeath === 0 ? '.' : String(patient.timeOfDeath));
     for (let pathology of patient.pathologies) {
       lines[patient.patientId].push(pathology);
-      pathologyHeaderIndex =
+      pathologyHeaderIndex = Math.max(pathologyHeaderIndex, patient.pathologies.length)
         patient.pathologies.length <= pathologyHeaderIndex
           ? pathologyHeaderIndex
           : patient.pathologies.length;
