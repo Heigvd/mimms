@@ -49,7 +49,7 @@ export function doesOrderRespectHierarchy(
   state: Readonly<MainSimulationState>
 ): boolean {
   const actor = state.getActorById(actorUid)!;
-  // Actors who's location is remote are irrelevant
+  // Actors whose location is remote are irrelevant
   const currentActors = state
     .getAllActors()
     .filter(a => a.Location !== LOCATION_ENUM.remote)
