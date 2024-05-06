@@ -49,11 +49,21 @@ export function doesOrderRespectHierarchy(
   state: Readonly<MainSimulationState>
 ): boolean {
   const actor = state.getActorById(actorUid)!;
+  // Actors who's location is remote are irrelevant
+  const currentActors = state
+    .getAllActors()
+    .filter(a => a.Location !== LOCATION_ENUM.remote)
+    .map(a => a.Role);
   const locationLeaderRoles = state
     .getMapLocations()
     .find(l => l.id === sourceLocation)!.leaderRoles;
 
-  if (locationLeaderRoles.length === 0) {
+  // Should obey order if no leader role, only one actor in game or location's leader roles not in play
+  if (
+    locationLeaderRoles.length === 0 ||
+    currentActors.length === 1 ||
+    !currentActors.some(r => locationLeaderRoles.includes(r))
+  ) {
     return true;
   } else {
     // Returns lowest role available
