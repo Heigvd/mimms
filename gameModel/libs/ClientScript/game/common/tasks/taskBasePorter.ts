@@ -22,13 +22,11 @@ import {
   getPatient,
 } from '../simulationState/patientState';
 import { TaskResourcesGroup } from './resources';
-import { DefaultTask } from './taskBase';
+import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 
-export class PorterTask extends DefaultTask {
-  public static ownerRole: InterventionRole = 'AL';
-
+export class PorterTask extends TaskBase {
   private GROUP_SIZE = 2;
   private TIME_REQUIRED_FOR_TRANSPORT = 120;
   private TIME_REQUIRED_FOR_SELF_TRANSPORT = 60;
@@ -39,18 +37,21 @@ export class PorterTask extends DefaultTask {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
+    readonly feedbackAtEnd: TranslationKey,
     nbMinResources: number,
     nbMaxResources: number,
-    readonly feedbackAtEnd: TranslationKey,
-    executionLocations: LOCATION_ENUM[]
+    ownerRole: InterventionRole,
+    availableToLocations: LOCATION_ENUM[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       title,
       description,
       nbMinResources,
       nbMaxResources,
-      PorterTask.ownerRole,
-      executionLocations
+      ownerRole,
+      availableToLocations,
+      availableToRoles
     );
   }
 
@@ -93,11 +94,18 @@ export class PorterTask extends DefaultTask {
       .map(resourceGroup => resourceGroup.transportingPatientId!);
   }
 
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>,
+    _location: Readonly<LOCATION_ENUM>
+  ): boolean {
     return getNonTransportedPatientsSize(state) > 0;
   }
 
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
+  protected override dispatchInProgressEvents(
+    state: Readonly<MainSimulationState>,
+    timeJump: number
+  ): void {
     // check if we have the capacity to do something
     if (!TaskState.hasEnoughResources(state, this)) {
       taskLogger.info('Not enough resources!');

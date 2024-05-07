@@ -1,38 +1,37 @@
-import { Actor, InterventionRole } from '../actors/actor';
+import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { DefaultTask } from './taskBase';
+import { TaskBase } from './taskBase';
 
 /**
  * Default behaviour of a task
  */
-export class WaitingTask extends DefaultTask {
-  public static ownerRole: InterventionRole = 'AL';
-
+export class WaitingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
     nbMinResources: number,
     nbMaxResources: number,
-    readonly feedbackAtEnd: TranslationKey,
-    executionLocations: LOCATION_ENUM[]
+    ownerRole: InterventionRole,
+    availableToLocations: LOCATION_ENUM[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       title,
       description,
       nbMinResources,
       nbMaxResources,
-      WaitingTask.ownerRole,
-      executionLocations
+      ownerRole,
+      availableToLocations,
+      availableToRoles
     );
   }
 
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    return true;
-  }
-
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
+  protected override dispatchInProgressEvents(
+    _state: Readonly<MainSimulationState>,
+    _timeJump: number
+  ): void {
     //nothing to do while waiting
   }
 }

@@ -38,11 +38,7 @@ import {
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getTranslation } from '../../../tools/translation';
-import {
-  ResourceType,
-  ResourceTypeAndNumber,
-  VehicleType,
-} from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';

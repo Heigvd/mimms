@@ -73,7 +73,7 @@ Helpers.registerEffect(() => {
 });
 
 function initMainState(): MainSimulationState {
-  // TODO read all simulation parameters to build start state and initilize the whole simulation
+  // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
@@ -91,26 +91,26 @@ function initMainState(): MainSimulationState {
   const taskPretri = new PreTriageTask(
     'pre-tri-title',
     'pre-tri-desc',
+    'pretriage-task-completed',
     1,
     5,
-    'pretriage-task-completed',
-    [LOCATION_ENUM.chantier]
+    'AL',
+    [LOCATION_ENUM.chantier],
+    []
   );
+
   const taskPorter = new PorterTask(
     'brancardage-title',
     'porter-desc',
+    'porters-task-completed',
     2,
     10,
-    'porters-task-completed',
-    [LOCATION_ENUM.chantier]
+    'AL',
+    [LOCATION_ENUM.chantier],
+    []
   );
-  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, '', [
-    LOCATION_ENUM.PC,
-    LOCATION_ENUM.PMA,
-    LOCATION_ENUM.chantier,
-    LOCATION_ENUM.meetingPoint,
-    LOCATION_ENUM.nidDeBlesses,
-  ]);
+
+  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
   const initialResources = [
     new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),

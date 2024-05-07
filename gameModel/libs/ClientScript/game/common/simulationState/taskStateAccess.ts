@@ -8,7 +8,7 @@ import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// get read only data
+// get data
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -21,33 +21,14 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
   return internalState.tasks;
 }
 
-/**
- * @returns The tasks that can be handled by the actor regarding the current state.
- * (= the tasks to which the actor can allocate resources)
- */
-export function fetchAvailableTasks(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId
-): Readonly<TaskBase>[] {
-  const actor = state.getActorById(actorId);
-  if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
-  } else {
-    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
-    return [];
-  }
-}
-
-export function fetchAvailableTasksByLocation(
+export function fetchAvailableTasksForActorAndLocation(
   state: Readonly<MainSimulationState>,
   actorId: ActorId,
   location: LOCATION_ENUM
 ): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
-    return Object.values(getAllTasks(state)).filter(
-      ta => ta.isAvailable(state, actor) && ta.executionLocations.includes(location)
-    );
+    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor, location));
   } else {
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];

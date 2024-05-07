@@ -68,7 +68,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
+              "content" : "import { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\ngetSourceTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",
@@ -294,7 +294,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
+              "content" : "import { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "taskChoiceInAction",

@@ -1,13 +1,15 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { Actor, InterventionRole } from '../actors/actor';
-import { SimTime, TaskId, TranslationKey } from '../baseTypes';
+import { TaskId, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as TaskState from '../simulationState/taskStateAccess';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
+
+const baseSeed = 4000;
 
 // -------------------------------------------------------------------------------------------------
 // Base
@@ -17,25 +19,29 @@ export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 
  * Base class for a task
  */
 export abstract class TaskBase {
-  private static IdSeed = 1000;
+  private static IdSeed = baseSeed;
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
 
-  public constructor(
+  protected constructor(
     readonly title: TranslationKey,
-    readonly description: TranslationKey,
+    readonly description: TranslationKey, // currently not used
     readonly nbMinResources: number,
-    readonly nbMaxResources: number,
+    readonly nbMaxResources: number, // currently not used
+    /** the actor role owner of the task */
     readonly ownerRole: InterventionRole,
-    readonly executionLocations: LOCATION_ENUM[]
+    /** the locations where the task can take place */
+    readonly availableToLocations: LOCATION_ENUM[] = [],
+    /** which roles can order the task */
+    readonly availableToRoles: InterventionRole[] = []
   ) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
   }
 
   static resetIdSeed() {
-    this.IdSeed = 1000;
+    this.IdSeed = baseSeed;
   }
 
   /** Its short name */
@@ -75,7 +81,7 @@ export abstract class TaskBase {
    * @returns True if cancellation could be applied
    */
   // TODO see where it can go
-  // Note : based on cancel method on ationBase
+  // Note : based on cancel method on actionBase
   public cancel(): boolean {
     if (this.status === 'Cancelled') {
       taskLogger.warn('This action was cancelled already');
@@ -89,43 +95,54 @@ export abstract class TaskBase {
     return true;
   }
 
-  /** Is the task ready for an actor to allocate resources to start it. Aka can the actor see it to allocate resources. */
-  public abstract isAvailable(
+  /** Is the task ready for an actor to allocate resources to start it. */
+  public isAvailable(
     state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
-  ): boolean;
-
-  /** Update the state */
-  public abstract update(state: Readonly<MainSimulationState>, timeJump: number): void;
-}
-
-// -------------------------------------------------------------------------------------------------
-// Default
-// -------------------------------------------------------------------------------------------------
-
-/**
- * Default behaviour of a task
- */
-export abstract class DefaultTask extends TaskBase {
-  /** The last time that the task was updated */
-  protected lastUpdateSimTime: SimTime | undefined = undefined;
-
-  public constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
-    ownerRole: InterventionRole,
-    executionLocations: LOCATION_ENUM[]
-  ) {
-    super(title, description, nbMinResources, nbMaxResources, ownerRole, executionLocations);
+    actor: Readonly<Actor>,
+    location: Readonly<LOCATION_ENUM>
+  ): boolean {
+    return (
+      this.isRoleWiseAvailable(actor.Role) &&
+      this.isLocationWiseAvailable(location) &&
+      this.isAvailableCustom(state, actor, location)
+    );
   }
 
-  protected abstract dispatchInProgressEvents(
-    state: Readonly<MainSimulationState>,
-    timeJump: number
-  ): void;
+  protected isRoleWiseAvailable(role: InterventionRole): boolean {
+    if (!this.availableToRoles || this.availableToRoles.length === 0) {
+      return true;
+    }
 
+    return this.availableToRoles.includes(role);
+  }
+
+  protected isLocationWiseAvailable(location: LOCATION_ENUM): boolean {
+    if (!this.availableToLocations || this.availableToLocations.length === 0) {
+      return true;
+    }
+
+    return this.availableToLocations.includes(location);
+  }
+
+  /**
+   * Override adds additional conditions for this task availability
+   *
+   * @param _state
+   * @param _actor
+   * @param _location
+   *
+   * @see isAvailable
+   */
+  // to override when needed
+  protected isAvailableCustom(
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>,
+    _location: Readonly<LOCATION_ENUM>
+  ): boolean {
+    return true;
+  }
+
+  /** Update the state */
   public update(state: Readonly<MainSimulationState>, timeJump: number): void {
     const enoughResources = TaskState.hasEnoughResources(state, this);
 
@@ -180,7 +197,10 @@ export abstract class DefaultTask extends TaskBase {
         break;
       }
     }
-
-    this.lastUpdateSimTime = state.getSimTime();
   }
+
+  protected abstract dispatchInProgressEvents(
+    state: Readonly<MainSimulationState>,
+    timeJump: number
+  ): void;
 }
