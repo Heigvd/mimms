@@ -48,7 +48,9 @@ export function loadPatients(): PatientState[] {
   });
 }
 
-function computeInitialAfflictedPathologies(patient: HumanBody): [AfflictedPathology, number][] {
+export function computeInitialAfflictedPathologies(
+  patient: HumanBody
+): [AfflictedPathology, number][] {
   const pathologiesWithTime: [AfflictedPathology, number][] = [];
   const healthConditions = patient.meta.scriptedEvents;
   healthConditions!.map(healthCondition => {
@@ -69,7 +71,7 @@ function computeInitialAfflictedPathologies(patient: HumanBody): [AfflictedPatho
   return pathologiesWithTime;
 }
 
-function computeInitialEffects(patient: HumanBody): BodyEffect[] {
+export function computeInitialEffects(patient: HumanBody): BodyEffect[] {
   const effects: BodyEffect[] = [];
   patient.meta.scriptedEvents!.map(healthCondition => {
     if (healthCondition.payload.type === 'HumanTreatment') {
@@ -120,7 +122,7 @@ function computeInitialEffects(patient: HumanBody): BodyEffect[] {
   return effects;
 }
 
-function reviveAfflictedPathologies(
+export function reviveAfflictedPathologies(
   afflictedPathologies: [AfflictedPathology, number][]
 ): RevivedPathology[] {
   const pathologies: RevivedPathology[] = [];

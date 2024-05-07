@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1713363833355,
+  "createdTime" : 1714749755466,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4904,6 +4904,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24076751:9QkC9G",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/timeOfDeath",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:208752:bWHbOU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

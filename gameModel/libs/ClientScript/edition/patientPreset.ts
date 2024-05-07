@@ -24,7 +24,7 @@ type PresetsUpdateFn = (x: DataDef<PatientPresetId>) => void;
 
 type PatientPresetId = string;
 
-type PatientPreset = {
+export type PatientPreset = {
   name: string;
   patients: Record<string, boolean>;
 };
