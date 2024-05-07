@@ -683,6 +683,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
+  public compliantWithHierarchy: boolean;
 
   constructor(
     startTimeSec: SimTime,
@@ -714,10 +715,16 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     this.sentResources = sentResources;
     this.sourceTaskId = sourceTaskId;
     this.targetTaskId = targetTaskId;
+    this.compliantWithHierarchy = false;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event MoveResourcesAssignTaskAction');
+    this.compliantWithHierarchy = doesOrderRespectHierarchy(
+      this.ownerId,
+      this.sourceLocation,
+      state
+    );
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
@@ -732,7 +739,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
         this.sentResources,
         this.sourceLocation
       ) &&
-      doesOrderRespectHierarchy(this.ownerId, this.sourceLocation, state)
+      this.compliantWithHierarchy
     ) {
       const sameLocation = this.sourceLocation === this.targetLocation;
       let timeDelay = 0;

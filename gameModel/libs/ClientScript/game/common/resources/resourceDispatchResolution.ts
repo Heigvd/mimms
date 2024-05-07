@@ -58,19 +58,7 @@ export function doesOrderRespectHierarchy(
     .getMapLocations()
     .find(l => l.id === sourceLocation)!.leaderRoles;
 
-  // Should obey order if no leader role, only one actor in game or location's leader roles not in play
-  if (
-    locationLeaderRoles.length === 0 ||
-    currentActors.length === 1 ||
-    !currentActors.some(r => locationLeaderRoles.includes(r))
-  ) {
-    return true;
-  } else {
-    // Returns lowest role available
-    const minLeaderRole = locationLeaderRoles.reduce((minRole, currRole) => {
-      return hierarchyLevels[currRole] < hierarchyLevels[minRole] ? currRole : minRole;
-    }, locationLeaderRoles[0]);
-
-    return hierarchyLevels[actor.Role] <= hierarchyLevels[minLeaderRole];
-  }
+  return currentActors
+    .filter(a => locationLeaderRoles.includes(a))
+    .every(r => hierarchyLevels[r] >= hierarchyLevels[actor.Role]);
 }
