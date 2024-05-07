@@ -39,9 +39,9 @@ import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getTranslation } from '../../../tools/translation';
 import {
-  MaterialResourceType,
   ResourceType,
   ResourceTypeAndNumber,
+  VehicleType,
 } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
@@ -545,7 +545,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
     duration: SimDuration,
     message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
-    readonly materialResourceType: MaterialResourceType,
+    readonly vehicleType: VehicleType,
     replayable = false,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -583,7 +583,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.materialResourceType,
+      this.vehicleType,
       this.provideFlagsToState
     );
   }

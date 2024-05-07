@@ -27,8 +27,8 @@ import {
   ResourceTypeAndNumber,
   ResourcesArray,
   ResourceType,
-  MaterialResourceType,
   HumanResourceTypeArray,
+  VehicleType,
 } from '../resources/resourceType';
 import { CasuMessagePayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
@@ -517,7 +517,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
-    readonly materialResourceType: MaterialResourceType,
+    readonly vehicleType: VehicleType,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -540,7 +540,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       new MoveAllIdleResourcesToLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.materialResourceType,
+        this.vehicleType,
         this.fixedMapEntity.id
       )
     );
