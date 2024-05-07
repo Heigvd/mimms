@@ -683,7 +683,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
-  public compliantWithHierarchy: boolean;
+  private compliantWithHierarchy: boolean;
 
   constructor(
     startTimeSec: SimTime,
