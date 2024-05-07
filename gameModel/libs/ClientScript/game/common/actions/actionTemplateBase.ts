@@ -34,7 +34,6 @@ import {
   SelectionFixedMapEntityEvent,
   FixedMapEntity,
   createFixedMapEntityInstanceFromAnyObject,
-  BuildingStatus,
 } from '../events/defineMapObjectEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { Actor, InterventionRole } from '../actors/actor';
@@ -649,19 +648,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
 
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  // available if more than a single symbolic position is available
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
-  ): boolean {
-    return (
-      state
-        .getInternalStateObject()
-        .mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready)
-        .length > 1
-    );
   }
 
   public buildGlobalEvent(
