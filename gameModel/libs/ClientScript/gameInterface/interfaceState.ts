@@ -22,7 +22,6 @@ export interface InterfaceState {
     actors: string;
     evasam: string;
   };
-  isReleaseResourceOpen: boolean;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -98,7 +97,6 @@ export function getInitialInterfaceState(): InterfaceState {
       actors: '',
       evasam: '',
     },
-    isReleaseResourceOpen: false,
   };
 }
 
