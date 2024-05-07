@@ -1,11 +1,12 @@
 import { getActorsByLocation } from '../UIfacade/actorFacade';
 import { getAvailableLocationsFacade } from '../UIfacade/locationFacade';
 import {
-  getAmbulancesByLocation,
-  getHelicoptersByLocation,
-  getHumanResourcesByLocation,
-} from '../UIfacade/resourceFacade';
+  getHumanResourcesForLocation,
+  getResourcesForLocationAndType,
+} from '../game/common/simulationState/resourceStateAccess';
+import { getCurrentState } from '../game/mainSimulationLogic';
 
+// used in page 43
 export function getOverlayItems() {
   const mapEntities = getAvailableLocationsFacade();
   const overlayItems: OverlayItem[] = [];
@@ -22,9 +23,9 @@ export function getOverlayItems() {
         name: mapEntity.name,
         icon: mapEntity.icon,
         actors: getActorsByLocation(mapEntity.id),
-        resources: getHumanResourcesByLocation(mapEntity.id),
-        ambulances: getAmbulancesByLocation(mapEntity.id),
-        helicopters: getHelicoptersByLocation(mapEntity.id),
+        resources: getHumanResourcesForLocation(getCurrentState(), mapEntity.id),
+        ambulances: getResourcesForLocationAndType(getCurrentState(), mapEntity.id, 'ambulance'),
+        helicopters: getResourcesForLocationAndType(getCurrentState(), mapEntity.id, 'helicopter'),
       },
     });
   }

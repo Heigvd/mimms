@@ -114,15 +114,6 @@ function initMainState(): MainSimulationState {
 
   const initialResources = [
     new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
-    /*new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),*/
   ];
 
   return new MainSimulationState(

@@ -7,6 +7,7 @@ import {
 import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
+import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 
 export interface InterfaceState {
   currentActorUid: number;
@@ -29,10 +30,8 @@ export interface InterfaceState {
       currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
-    } & Resources;
-    requestedResources: Partial<
-      Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
-    >;
+    } & Partial<Record<ResourceType, number>>;
+    requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
 }
 
@@ -44,15 +43,6 @@ interface CasuMessage {
   hazards: string;
   access: string;
   victims: string;
-}
-
-interface Resources {
-  secouriste: number;
-  technicienAmbulancier: number;
-  ambulancier: number;
-  infirmier: number;
-  medecinJunior: number;
-  medecinSenior: number;
 }
 
 // used in page 43
@@ -70,19 +60,7 @@ export function getInitialInterfaceState(): InterfaceState {
       victims: '',
     },
     resources: {
-      allocateResources: {
-        currentLocation: undefined,
-        currentTaskId: undefined,
-        targetLocation: undefined,
-        targetTaskId: undefined,
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
+      allocateResources: getEmptyAllocateResources(),
       requestedResources: getEmptyResourceRequest(),
     },
     moveActorChosenLocation: undefined,
@@ -97,6 +75,20 @@ export function getInitialInterfaceState(): InterfaceState {
       actors: '',
       evasam: '',
     },
+  };
+}
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+
+  return {
+    currentLocation: undefined,
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
   };
 }
 

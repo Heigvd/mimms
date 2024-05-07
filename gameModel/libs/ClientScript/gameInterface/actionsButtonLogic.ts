@@ -15,7 +15,7 @@ import { actionClickHandler, canPlanAction } from './main';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { getEmptyResourceRequest } from './interfaceState';
+import { getEmptyAllocateResources, getEmptyResourceRequest } from './interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 
@@ -103,13 +103,7 @@ function fetchMoveResourcesAssignTaskValues() {
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.allocateResources.currentLocation = undefined;
-  newState.resources.allocateResources.currentTaskId = undefined;
-  newState.resources.allocateResources.targetLocation = undefined;
-  newState.resources.allocateResources.targetTaskId = undefined;
-  ResourcesArray.forEach(resourceType => {
-    newState.resources.allocateResources[resourceType] = 0;
-  });
+  newState.resources.allocateResources = getEmptyAllocateResources();
   Context.interfaceState.setState(newState);
   return payload;
 }
