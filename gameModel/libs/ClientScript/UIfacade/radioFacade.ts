@@ -13,15 +13,6 @@ export function getAllRadioMessages(): RadioMessage[] {
 }
 
 /**
- * All radio messages with channel information currently in state
- */
-export function getAllChanneledRadioMessages(): RadioMessage[] {
-  return getCurrentState()
-    .getRadioMessages()
-    .filter(m => m.channel !== undefined);
-}
-
-/**
  * Get notifications for given recipientId
  */
 export function getNotifications(id: number): RadioMessage[] {
@@ -32,7 +23,7 @@ export function getNotifications(id: number): RadioMessage[] {
  * Get radio messages for given channel
  */
 export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioMessage[] {
-  return getAllChanneledRadioMessages().filter(m => m.channel === channel);
+  return getAllRadioMessages().filter(m => m.channel === channel);
 }
 
 /**
@@ -47,24 +38,34 @@ export function setChannelType(channel: ActionType) {
 /**
  * Update variable containing all radio messages that are read, by channel. Variable is readRadioMessagesByChannel
  */
-export function updateReadMessages(
+export async function updateReadMessages(
   channel: ActionType,
   amount: number = 1
-): Promise<IManagedResponse> | undefined {
-  return APIMethods.runScript(
-    `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${channel}','${amount}');`,
+): Promise<IManagedResponse> {
+  const key = channel === ActionType.ACTION ? getActorNotificationChannelName() : String(channel);
+  return await APIMethods.runScript(
+    `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${key}','${amount}');`,
     {}
   );
 }
 
 /**
- * Get not read radio messages, by channel
+ * In the case of notifications, each actor has his own personal 'channel'
  */
-export function getUnreadMessages(channel: ActionType): number {
+function getActorNotificationChannelName(actorId: number | undefined = undefined): string {
+  return (
+    ActionType.ACTION + '-' + (actorId ? actorId : Context.interfaceState.state.currentActorUid)
+  );
+}
+
+/**
+ * Get unread radio messages, by channel
+ */
+function getUnreadMessagesCount(channel: ActionType): number {
   return (
     getAvailableRadioMessagesForChannel(channel).length -
     +Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
-      channel!
+      channel
     ]
   );
 }
@@ -77,24 +78,39 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
     .getInstance(self)
     .getProperties();
   let totalAmount = 0;
-  for (const key in readMsgsProperties) {
-    if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
-      totalAmount +=
-        getAvailableRadioMessagesForChannel(ActionType[key as keyof typeof ActionType]).length -
-        +readMsgsProperties[key];
-    }
+
+  if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
+    totalAmount = Object.entries(readMsgsProperties)
+      .filter(([k, _]) =>
+        [
+          ActionType.ACTORS_RADIO,
+          ActionType.CASU_RADIO,
+          ActionType.EVASAN_RADIO,
+          ActionType.RESOURCES_RADIO,
+        ].includes(k as ActionType)
+      )
+      .reduce((prev, [k, v]) => {
+        return prev + getAvailableRadioMessagesForChannel(String(k) as ActionType).length - +v;
+      }, 0);
+    /*
+    for (const key in readMsgsProperties) {
+        totalAmount +=
+          getAvailableRadioMessagesForChannel(ActionType[key as keyof typeof ActionType]).length -
+          +readMsgsProperties[key];
+    }*/
   }
+
   return totalAmount > 0 ? totalAmount : undefined;
 }
 
 /**
- * Computing bullet not read messages for radio channel passed as argument
+ * Computing unread messages bullet for a given radio channel
  */
 //hack, if ui is already displaying a channel, then we have to update immediately the count of read messages
 //but it is refreshed multiple times, so try to limit the amount of concurrent requests to the server with boolean global variable
 let updatingReadChannelRadioMessages = false;
 export function getUnreadMessagesCountBullet(channel: ActionType): number | undefined {
-  const unreadMsgs = getUnreadMessages(channel);
+  const unreadMsgs = getUnreadMessagesCount(channel);
   if (Context.interfaceState.state.channel !== channel) {
     return unreadMsgs > 0 ? unreadMsgs : undefined;
   } else {
@@ -116,8 +132,11 @@ export function getUnreadNotificationsCount(): number {
   const readMsgsProperties = Variable.find(gameModel, 'readRadioMessagesByChannel')
     .getInstance(self)
     .getProperties();
+  const actorChannelName = getActorNotificationChannelName(
+    Context.interfaceState.state.currentActorUid
+  );
   return (
     getNotifications(Context.interfaceState.state.currentActorUid).length -
-    (+readMsgsProperties[ActionType.ACTION] || 0)
+    (+readMsgsProperties[actorChannelName] || 0)
   );
 }
