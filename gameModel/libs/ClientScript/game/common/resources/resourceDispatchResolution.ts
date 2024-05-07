@@ -49,18 +49,16 @@ export function doesOrderRespectHierarchy(
   state: Readonly<MainSimulationState>
 ): boolean {
   const actor = state.getActorById(actorUid)!;
+  // Actors whose location is remote are irrelevant
+  const currentActors = state
+    .getAllActors()
+    .filter(a => a.Location !== LOCATION_ENUM.remote)
+    .map(a => a.Role);
   const locationLeaderRoles = state
     .getMapLocations()
     .find(l => l.id === sourceLocation)!.leaderRoles;
 
-  if (locationLeaderRoles.length === 0) {
-    return true;
-  } else {
-    // Returns lowest role available
-    const minLeaderRole = locationLeaderRoles.reduce((minRole, currRole) => {
-      return hierarchyLevels[currRole] < hierarchyLevels[minRole] ? currRole : minRole;
-    }, locationLeaderRoles[0]);
-
-    return hierarchyLevels[actor.Role] <= hierarchyLevels[minLeaderRole];
-  }
+  return currentActors
+    .filter(a => locationLeaderRoles.includes(a))
+    .every(r => hierarchyLevels[r] >= hierarchyLevels[actor.Role]);
 }
