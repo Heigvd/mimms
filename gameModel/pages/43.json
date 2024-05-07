@@ -287,7 +287,9 @@
                                               "justifyContent" : "space-evenly"
                                             },
                                             "layoutClassName" : "role-container",
-                                            "layoutStyle" : { },
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
                                             "name" : "header",
                                             "style" : { }
                                           },
@@ -336,7 +338,9 @@
                                               "flexDirection" : "column"
                                             },
                                             "layoutClassName" : "mainSimLeftPanel-container",
-                                            "layoutStyle" : { },
+                                            "layoutStyle" : {
+                                              "pointerEvent" : "auto"
+                                            },
                                             "name" : "leftPanel",
                                             "style" : {
                                               "overflow" : "hidden"
@@ -380,7 +384,9 @@
                                             } ],
                                             "icon" : "bolt",
                                             "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : { },
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
@@ -414,7 +420,9 @@
                                             } ],
                                             "icon" : "comment-medical",
                                             "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : { },
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
@@ -448,7 +456,9 @@
                                             } ],
                                             "icon" : "users",
                                             "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : { },
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
@@ -500,6 +510,7 @@
                                 "layoutClassName" : "noPadding noMargin grid",
                                 "layoutStyle" : {
                                   "height" : "100%",
+                                  "pointerEvents" : "none",
                                   "position" : "relative",
                                   "width" : "100%"
                                 },
@@ -702,7 +713,9 @@
                               "type" : "Modal"
                             } ],
                             "layoutClassName" : "interface-container",
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "pointerEvents" : "none"
+                            },
                             "name" : "interface",
                             "onAbsoluteClick" : { },
                             "style" : { }
@@ -1193,15 +1206,6 @@
                                       },
                                       "type" : "WegasMapVectorLayer"
                                     } ],
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : "cursor-crosshair",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.mapState.state.mapAction;",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
                                     "debug" : false,
                                     "id" : "",
                                     "layoutClassName" : "map",
@@ -1253,7 +1257,9 @@
                             } ],
                             "layout" : { },
                             "layoutClassName" : "map-container",
-                            "layoutStyle" : { },
+                            "layoutStyle" : {
+                              "pointerEvents" : "auto"
+                            },
                             "name" : "map",
                             "style" : { }
                           },
