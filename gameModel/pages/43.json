@@ -84,6 +84,7 @@
                                           "content" : "\"64\"",
                                           "language" : "typescript"
                                         },
+                                        "layoutClassName" : "notificationPageloader-container",
                                         "layoutStyle" : {
                                           "overflow" : "auto"
                                         },
@@ -138,7 +139,7 @@
                                       "className" : "newNotif",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "true;",
+                                        "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() !== 0;",
                                         "language" : "typescript"
                                       }
                                     }, {

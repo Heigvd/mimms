@@ -92,12 +92,6 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
       .reduce((prev, [k, v]) => {
         return prev + getAvailableRadioMessagesForChannel(String(k) as ActionType).length - +v;
       }, 0);
-    /*
-    for (const key in readMsgsProperties) {
-        totalAmount +=
-          getAvailableRadioMessagesForChannel(ActionType[key as keyof typeof ActionType]).length -
-          +readMsgsProperties[key];
-    }*/
   }
 
   return totalAmount > 0 ? totalAmount : undefined;

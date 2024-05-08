@@ -19,15 +19,21 @@
 	width: 10em;
 	height: auto;
 	max-height: 80vh;
-	margin-left: 10px;
+	margin-left: 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
+
 .notificationPanelHeader > p{
 	margin-bottom: 0px;
 	margin-top: 15px;
 }
 
+
+
+.notificationPageloader-container{
+    width: calc(100% - 3em);
+}
 /****** NOTIFICATION BUTTONS ******/
 
 .notificationButton-container{
@@ -42,6 +48,8 @@
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.35);
+
 }
 
 .notificationButton > *{
@@ -49,39 +57,30 @@
 }
 
 .notificationButton{
-	width: 3em;
 	height: 3em;
+	width: 3em;
 }
 
 .notificationButton-container:hover{
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.65);
 }
 
 
 .notificationButton-container .openNotif-button{
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	height: 2.2em;
-	width: 2.2em;
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25) inset;
 }
 
-/***** A NOTIFICATION *****/
-
-.aNotification-container{
-	background-color: var(--grey_10);
-	border-radius: var(--XS_borderRadius);
-	margin: 0px;
-}
 
 .notificationButton-container .closedNotif-button{
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	height: 2.2em;
-	width: 2.2em;
+	height: 3em;
+	width: 3em;
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
@@ -118,3 +117,11 @@
 	margin: -2px;
 }
 
+/***** A NOTIFICATION *****/
+
+.aNotification-container{
+	background-color: var(--grey_10);
+	border-radius: var(--XS_borderRadius);
+  margin-bottom: 10px;
+	/*margin: 0px;*/
+}

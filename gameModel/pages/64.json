@@ -65,7 +65,7 @@
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "noPadding noMargin",
+                "className" : "",
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
@@ -76,7 +76,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "",
                 "layoutStyle" : {
                   "width" : "100%"
                 },
