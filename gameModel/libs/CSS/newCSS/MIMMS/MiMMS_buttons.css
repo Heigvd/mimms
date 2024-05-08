@@ -57,15 +57,17 @@
 
 
 .disabled.button-primaryColor{
-	background-color: var(--grey_20);
-	color: var(--grey40);
+	background-color: var(--grey_50);
+	color: var(--grey_0);
 	cursor: not-allowed;
+  border-color: var(--grey_50);
 }
 
 .disabled.button-primaryColor:hover{
 	background-color: var(--grey_30);
-    color: var(--grey40);
-    cursor: not-allowed;
+  color: var(--grey40);
+  cursor: not-allowed;
+  border-color: var(--grey_30);
 }
 
 /** secondary **/
@@ -94,8 +96,8 @@
 
 .disabled.button-secondaryColor:hover{
 	background-color: var(--grey_30);
-    color: var(--grey_40);
-    cursor: not-allowed;
+  color: var(--grey_40);
+  cursor: not-allowed;
 }
 
 /************************* Special button  ****************************/
@@ -137,6 +139,17 @@
 	border: solid 2px var(--primary_50);
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	color: var(--grey_0);
+}
+.disabled.rectangleButton{
+  background-color:transparent;
+  color: var(--grey_50);
+  border-color: var(--grey_50);
+  cursor: not-allowed;
+}
+
+.disabled.rectangleButton:hover{
+  background-color: var(--grey_10);
+  color: var(--grey_50);
 }
 
 .rectangleButton:focus{
