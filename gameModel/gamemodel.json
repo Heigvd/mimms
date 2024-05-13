@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1715334572381,
+  "createdTime" : 1715608452492,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4396,9 +4396,9 @@
         "@class" : "NumberInstance",
         "history" : [ ],
         "refId" : "NumberInstance:1034515:yNS8au",
-        "value" : 1.0
+        "value" : 0.0
       },
-      "defaultValue" : 1.0,
+      "defaultValue" : 0.0,
       "editorTag" : "debugStoredState",
       "historySize" : 20,
       "isolation" : "OPEN",
@@ -4419,6 +4419,39 @@
       "minValue" : null,
       "name" : "debugStoredState",
       "refId" : "NumberDescriptor:1034514:acfBDl",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : {
+          "ignored" : "{}"
+        },
+        "refId" : "ObjectInstance:1034619:Pes6r0"
+      },
+      "description" : "",
+      "editorTag" : "debugIgnoredEvents",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1034620:MgNejH",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:1034620:MgNejH::EN",
+            "status" : "",
+            "translation" : "debugIgnoredEvents"
+          }
+        }
+      },
+      "name" : "debugIgnoredEvents",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:1034618:k8juHH",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
