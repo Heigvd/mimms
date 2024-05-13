@@ -687,3 +687,15 @@ export function recomputeState() {
   mainSimLogger.info('reset done');
   runUpdateLoop();
 }
+
+/**** DEBUUUUUG function that resets the state to a previous one*/
+export function setCurrentStateDebug(stateId: number | undefined) {
+  const idx = stateHistory.findIndex(s => s.stateCount == stateId);
+  if (idx < 0) {
+    wlog('state not found id :', stateId);
+    return;
+  }
+  currentSimulationState = stateHistory[idx];
+  stateHistory = stateHistory.slice(0, idx + 1);
+  wlog('restored state with id', stateId);
+}

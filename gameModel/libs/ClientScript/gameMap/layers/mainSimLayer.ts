@@ -7,6 +7,7 @@ import {
   SelectedPositionType,
   AvailablePositionType,
 } from '../../game/common/events/defineMapObjectEvent';
+//import { getCurrentState } from '../../game/mainSimulationLogic';
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
 import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
 import { getTranslation } from '../../tools/translation';

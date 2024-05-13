@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1714749755466,
+  "createdTime" : 1715334572381,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4388,6 +4388,40 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1034515:yNS8au",
+        "value" : 1.0
+      },
+      "defaultValue" : 1.0,
+      "editorTag" : "debugStoredState",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1034516:Cp6XCB",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:1034516:Cp6XCB::EN",
+            "status" : "",
+            "translation" : "debugStoredState"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "debugStoredState",
+      "refId" : "NumberDescriptor:1034514:acfBDl",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -6114,7 +6148,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "MIMMS - XGO dev",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

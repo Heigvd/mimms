@@ -8,6 +8,21 @@ export function getCurrentState() {
   return mainLogic.getCurrentState();
 }
 
+export let storedStateId: number;
+
+export function debugStoreCurrentState() {
+  storedStateId = mainLogic.getCurrentState().stateCount;
+  wlog('Stored state with id ', storedStateId);
+}
+
+export function debugRestoreSavedState() {
+  if (storedStateId === undefined) {
+    wlog('No state stored yet');
+  } else {
+    mainLogic.setCurrentStateDebug(storedStateId);
+  }
+}
+
 export function getAllActionTemplates() {
   return mainLogic.debugGetAllActionTemplates();
 }
