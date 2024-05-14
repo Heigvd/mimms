@@ -3,9 +3,26 @@ import * as eventUtils from '../game/common/events/eventUtils';
 import { localEventManager } from '../game/common/localEvents/localEventManager';
 import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { debugFacadeLogger } from '../tools/logger';
 
 export function getCurrentState() {
   return mainLogic.getCurrentState();
+}
+
+export async function debugStoreCurrentState() {
+  const stateId = mainLogic.getCurrentState().stateCount;
+  const script = `Variable.find(gameModel, 'debugStoredState').getInstance(self).setValue(${stateId});`;
+  await APIMethods.runScript(script, {});
+  debugFacadeLogger.info('Stored state with id ', stateId);
+}
+
+export async function debugRestoreSavedState() {
+  const storedStateId = Variable.find(gameModel, 'debugStoredState').getValue(self);
+  if (storedStateId === undefined) {
+    debugFacadeLogger.info('No state stored yet');
+  } else {
+    await mainLogic.setCurrentStateDebug(storedStateId);
+  }
 }
 
 export function getAllActionTemplates() {
@@ -17,7 +34,6 @@ export function getAllEvents() {
 }
 
 export function triggerEventLoop() {
-  wlog('RUNNING UPDATE LOOP');
   mainLogic.runUpdateLoop();
   // Force scroll after interface rerender
   setTimeout(() => {

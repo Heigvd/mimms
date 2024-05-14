@@ -264,7 +264,7 @@
           "@class" : "Page",
           "id" : "51",
           "name" : "mainSim_state",
-          "scenaristPage" : null,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
@@ -289,6 +289,12 @@
           "id" : "60",
           "name" : "mainSim_features",
           "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "46",
+          "name" : "mainSim_stateSave",
+          "scenaristPage" : true,
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"

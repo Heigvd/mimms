@@ -20,7 +20,7 @@ export class LocalEventManager {
     this.pendingEvents.insert(event);
   }
 
-  public processPendingEvents(state: MainSimulationState): MainSimulationState {
+  public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
     let safeguard = 0;
     let pending: LocalEventBase[] = [];
     let newState = state;
@@ -29,7 +29,7 @@ export class LocalEventManager {
 
     while (pending.length > 0 && safeguard <= 10) {
       // we might as well apply event by event and store each single change
-      newState = newState.applyEvents(pending);
+      newState = newState.applyEvents(pending, eventId);
       this.processedEvents.push(...pending);
       pending = this.getPendingEvents(newState.getSimTime());
       safeguard++;
