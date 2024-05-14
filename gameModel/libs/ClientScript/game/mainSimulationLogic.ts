@@ -48,6 +48,7 @@ import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { SubTask } from './common/tasks/subTask';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -665,6 +666,7 @@ export function recomputeState() {
   Actor.resetIdSeed();
   ActionTemplateBase.resetIdSeed();
   TaskBase.resetIdSeed();
+  SubTask.resetIdSeed();
   Resource.resetIdSeed();
   resetSeedId();
 

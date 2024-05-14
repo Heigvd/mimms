@@ -30,6 +30,25 @@ export function getPatient(
   return state.getInternalStateObject().patients.find(patient => patient.patientId === patientId);
 }
 
+export function comparePatientByPreTriageResult(a: PatientState, b: PatientState): number {
+  if (a.preTriageResult && b.preTriageResult) {
+    if (
+      getPriorityByCategoryId(a.preTriageResult.categoryId!) >
+      getPriorityByCategoryId(b.preTriageResult.categoryId!)
+    ) {
+      return 1;
+    } else if (
+      getPriorityByCategoryId(a.preTriageResult.categoryId!) <
+      getPriorityByCategoryId(b.preTriageResult.categoryId!)
+    ) {
+      return -1;
+    }
+  }
+
+  // be as deterministic as possible
+  return a.patientId.localeCompare(b.patientId);
+}
+
 // -------------------------------------------------------------------------------------------------
 // pre tri
 // -------------------------------------------------------------------------------------------------
@@ -72,33 +91,25 @@ export function getPreTriagedAmountByCategory(
 // transport
 // -------------------------------------------------------------------------------------------------
 
-export function getNonTransportedPatientsSize(state: Readonly<MainSimulationState>): number {
-  return state
-    .getInternalStateObject()
-    .patients.filter(patient => patient.location === LOCATION_ENUM.chantier).length;
+export function getNonTransportedPatientsSize(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): number {
+  return state.getInternalStateObject().patients.filter(patient => patient.location === location)
+    .length;
 }
 
-export function getNextNonTransportedPatientByPriority(
+export function getNextNonTransportedPatientsByPriority(
   state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM,
   excludedIdsList: string[] = []
-): PatientState | undefined {
+): PatientState[] {
   const internalState = state.getInternalStateObject();
   return internalState.patients
-    .sort((a, b) =>
-      a.preTriageResult && b.preTriageResult
-        ? getPriorityByCategoryId(a.preTriageResult.categoryId!) >
-          getPriorityByCategoryId(b.preTriageResult.categoryId!)
-          ? 1
-          : getPriorityByCategoryId(a.preTriageResult.categoryId!) <
-            getPriorityByCategoryId(b.preTriageResult.categoryId!)
-          ? -1
-          : 0
-        : 0
+    .filter(
+      patient => patient.location === location && !excludedIdsList.includes(patient.patientId)
     )
-    .find(
-      patient =>
-        patient.location === LOCATION_ENUM.chantier && !excludedIdsList.includes(patient.patientId)
-    );
+    .sort(comparePatientByPreTriageResult);
 }
 
 // -------------------------------------------------------------------------------------------------

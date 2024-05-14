@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1714749755466,
+  "createdTime" : 1715951574949,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5153,10 +5153,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/tasks/resources",
+    "contentKey" : "game/common/tasks/subTask",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:123351:83HPpr",
+    "refId" : "GameModelContent:#148:Ro2dyb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5729,10 +5729,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/resourceTaskFacade",
+    "contentKey" : "UIfacade/taskFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#107:uYuioa",
+    "refId" : "GameModelContent:#149:04SgAV",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

@@ -22,6 +22,11 @@ export function getAvailableLocations(): FixedMapEntity[] {
     .mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready);
 }
 
+export function isLocationAvailable(location: LOCATION_ENUM): boolean {
+  return getAvailableLocations().find(loc => loc.id === location) != undefined;
+  // Note : PMA could need a special treatment
+}
+
 /**
  * Hospital details proximity
  */

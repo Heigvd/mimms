@@ -2,7 +2,7 @@ import { entries } from '../../../tools/helper';
 import { resourceLogger, taskLogger } from '../../../tools/logger';
 import { ActorId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
-import { ResourceType, ResourceTypeAndNumber, isAHuman } from '../resources/resourceType';
+import { isAHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
@@ -40,6 +40,18 @@ export function getResourcesForLocationAndType(
     .resources.filter(
       resource => resource.currentLocation === location && resource.type === resourceType
     );
+}
+
+/**
+ * @returns The resources allocated to the given task
+ */
+export function getResourcesForTask(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId
+): Readonly<Resource>[] {
+  return state
+    .getInternalStateObject()
+    .resources.filter(resource => resource.currentActivity === taskId);
 }
 
 export function getHumanResourcesForLocation(
@@ -199,17 +211,6 @@ export function getResourcesAllocatedToAnyTaskForActor(
 ): Resource[] {
   const internalState = state.getInternalStateObject();
   return internalState.resources.filter(res => res.currentActivity !== getIdleTaskUid(state));
-}
-
-/**
- * @returns The resources allocated to the given task
- */
-export function getAllocatedResourcesAnyKind(
-  state: Readonly<MainSimulationState>,
-  taskId: TaskId
-): Readonly<Resource>[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(res => res.currentActivity === taskId);
 }
 
 // -------------------------------------------------------------------------------------------------

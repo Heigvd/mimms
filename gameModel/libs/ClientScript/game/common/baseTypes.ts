@@ -26,6 +26,7 @@ export type TemplateId = number;
 export type ActionTemplateId = number;
 
 export type TaskId = number;
+export type SubTaskId = number;
 
 export type ResourceId = number;
 

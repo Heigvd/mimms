@@ -74,7 +74,7 @@ export class PreTriageTask extends TaskBase {
     );
     const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-    ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
+    ResourceState.getResourcesForTask(state, this.Uid).map(resource => {
       if (
         (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY >=
         TIME_REQUIRED_FOR_PATIENT_PRETRI

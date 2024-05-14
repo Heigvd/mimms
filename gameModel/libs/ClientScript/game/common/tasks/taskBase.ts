@@ -1,10 +1,19 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { Actor, InterventionRole } from '../actors/actor';
-import { TaskId, TranslationKey } from '../baseTypes';
+import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as TaskState from '../simulationState/taskStateAccess';
+import { SubTask } from './subTask';
+import { Resource } from '../resources/resource';
+import * as ResourceState from '../simulationState/resourceStateAccess';
+import { localEventManager } from '../localEvents/localEventManager';
+import {
+  AddRadioMessageLocalEvent,
+  AllResourcesReleaseLocalEvent,
+  TaskStatusChangeLocalEvent,
+} from '../localEvents/localEventBase';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
@@ -12,17 +21,19 @@ export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 
 const baseSeed = 4000;
 
 // -------------------------------------------------------------------------------------------------
-// Base
+// Task base
 // -------------------------------------------------------------------------------------------------
 
 /**
  * Base class for a task
  */
-export abstract class TaskBase {
+export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   private static IdSeed = baseSeed;
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
+
+  protected subTasks: Record<SubTaskId, SubTaskType>;
 
   protected constructor(
     readonly title: TranslationKey,
@@ -38,6 +49,7 @@ export abstract class TaskBase {
   ) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
+    this.subTasks = {};
   }
 
   static resetIdSeed() {
@@ -49,17 +61,20 @@ export abstract class TaskBase {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
+  // TODO see if useful
   /** Its description to give more details */
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
+  // TODO see if useful
   // TODO to be refined with types
   /** The minimum resources needed for the task to be performed */
   public getNbMinResources(): number {
     return this.nbMinResources;
   }
 
+  // TODO see if useful
   // TODO to be refined with types
   /** The maximum useful resources. More would be useless */
   public getNbMaxResources(): number {
@@ -80,7 +95,7 @@ export abstract class TaskBase {
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  // TODO see where it can go
+  // TODO see where it can go and if it is needed
   // Note : based on cancel method on actionBase
   public cancel(): boolean {
     if (this.status === 'Cancelled') {
@@ -91,7 +106,7 @@ export abstract class TaskBase {
     }
 
     // TODO some way ResourceState.releaseAllResources(state, this);
-    this.setStatus('Cancelled');
+    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
     return true;
   }
 
@@ -159,7 +174,7 @@ export abstract class TaskBase {
         if (enoughResources) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = 'OnGoing';
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
 
@@ -176,7 +191,7 @@ export abstract class TaskBase {
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = 'Paused';
+          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
         }
         break;
       }
@@ -185,7 +200,7 @@ export abstract class TaskBase {
         if (enoughResources) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = 'OnGoing';
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
         break;
@@ -203,4 +218,91 @@ export abstract class TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void;
+
+  /*
+   * Cleanup sub-tasks according to new allocated resources information.
+   * <p>
+   * A resource that was working on a sub-task may have been unallocated to the task.
+   * <p>
+   * In that cas, the sub-task is stopped and everything goes as if nothing happened.
+   */
+  protected cleanupSubTasksFromUnallocatedResources(state: Readonly<MainSimulationState>) {
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+
+    // FIXME see if no problem removing element from the list we browse
+
+    for (const subTask of Object.values(this.subTasks)) {
+      for (const subTaskResourceId of subTask.resources) {
+        if (
+          allocatedToTaskResources.find(resource => resource.Uid === subTaskResourceId) ===
+          undefined
+        ) {
+          // if a resource is no more working on the task, then delete complete sub-task
+          delete this.subTasks[subTask.subTaskId];
+          // no need to go through other resources
+          break;
+        }
+      }
+    }
+  }
+
+  /*
+   * Get the resources that are allocated to the task, but not involved in a sub-task
+   */
+  protected getResourcesReadyForNewSubTask(state: Readonly<MainSimulationState>): Resource[] {
+    const result: Resource[] = [];
+
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+    allocatedToTaskResources.map(resource => {
+      if (!this.isResourceInvolvedInASubTask(resource.Uid)) {
+        result.push(resource);
+      }
+    });
+
+    return result;
+  }
+
+  /*
+   * Determine if the resource is involved in a sub-task
+   */
+  protected isResourceInvolvedInASubTask(resourceId: number): boolean {
+    return (
+      Object.values(this.subTasks).find((subTask: SubTaskType) =>
+        subTask.resources.find((subTaskResourceId: ResourceId) => subTaskResourceId === resourceId)
+      ) !== undefined
+    );
+  }
+
+  /*
+   * Get the patients that are involved in a sub-task
+   */
+  protected getPatientsInvolvedInSubTask(): PatientId[] {
+    return Object.values(this.subTasks)
+      .filter(subTask => subTask.patientId != null)
+      .map(subTask => subTask.patientId!);
+  }
+
+  protected finaliseTask(
+    state: Readonly<MainSimulationState>,
+    feedbackRadioMessage: TranslationKey
+  ) {
+    localEventManager.queueLocalEvent(
+      new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
+    );
+
+    localEventManager.queueLocalEvent(
+      new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+    );
+
+    // We broadcast a message when the task is completed
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        0,
+        state.getSimTime(),
+        0,
+        'resources',
+        feedbackRadioMessage || 'TODO add task feedback'
+      )
+    );
+  }
 }

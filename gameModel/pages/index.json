@@ -366,7 +366,7 @@
         "@class" : "Page",
         "id" : "57",
         "name" : "PatientSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
