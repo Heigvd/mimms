@@ -1,5 +1,4 @@
-
-/**************************** RADIO CSS (upper-right) ************************************/
+/**** RADIO ****/
 .radio-container {
 	right: 0;
 	pointer-events: auto;
@@ -8,74 +7,25 @@
 	overflow: hidden;
 }
 
-.aMessage{
-		border-radius: var(--S_borderRadius);
-		padding: 0px;
-		margin: 0px;
-
-}
-
-.aMessage-animation {
-	animation: popping 1s linear;
-}
-
-
-.radioContent-container{
-	font-size: var(--S_text);
-	color: var(--gray_BLACK);			
-}
-
-
-.sender-container{
-	font-weight: var(--boldWeight);
-	margin-bottom: 0px ;
-	padding-bottom: 0px;
-}
-
-.aMessage-container{
-	padding-top: 0px;
-	background-color: var(--gray_200);
-}
-
-.message{
-	font-weight: var(--regularWeight);
-}
-
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
-
-}
-/**** COLOR MANAGEMENT MSG RADIO*/
-.sender-role[data-sender-role="MCS"] {
-  background-color: var(--yellow_0);
-}
-
-.sender-role[data-sender-role="ACS"] {
-  background-color: var(--orange_0);
-}
-
-.sender-role[data-sender-role="AL"] {
-  background-color:var(--blue_0);
-}
-
-
-.sender{
-		font-weight: var(--boldWeight);
-
-}
-
-.noRadio{
-	margin:5px;
-	padding:5px;
-}
 /****** TABS ******/
+/* default */
+
+.button-channel{
+	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+  margin-bottom: 0px;
+}
+
+.button-channel-container{
+  margin: 0px;
+  padding: 0px 5px 0px;
+  background-color: lemonchiffon;
+}
+
+/* selected */
 .button-channel_selected{
 	width: 68px;
 	height: 33px;
 	padding: 8px 15px 8px 15px;
-	border-radius: 50px;
 	background-color: var(--primary_base);
 	font-weight: var(--boldWeight);
 }
@@ -84,12 +34,8 @@
 	background-color: var(--primary_50);
 }
 
-.button-channel{
-	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
-	padding: 5px 15px ;
-}
-
-.not-active-channel {
+/* not active */
+.not-active-channel{
 	width: 68px;
 	height: 33px;
 	padding: 8px 15px 8px 15px;
@@ -102,40 +48,144 @@
 	background-color: var(--gray_200);
 }
 
+/* active*/ 
 .active-channel:hover{
 	background-color: var(--primary_40);
 		
 }
 
 
+
+/*** text areas (input & output)***/
+
+.messageArea-container{
+  border: 1px solid var(--grey_30);
+	border-radius: 0px var(--XXS_borderRadius) var(--XXS_borderRadius) var(--XXS_borderRadius);
+	height: 10rem;
+	background-color: white;
+  overflow-y: auto;
+}
+
+/* D418 */
+.freeMessageInput-container{
+	border: 1px solid var(--grey_30);
+	border-radius: var(--XXS_borderRadius);
+	height: 10rem;
+	background-color: white;
+  margin-top: 10px;
+}
+
+
+
+
+
+/**************************** RADIO CSS (upper-right) ************************************/
+
+/*** message (single) ***/
+
+
+/*.aMessage{
+	border-radius: var(--S_borderRadius);
+	padding: 0px;
+	margin: 0px;
+}
+
+.aMessage-container{
+	padding-top: 0px;
+	background-color: var(--gray_200);
+}
+
+
+.aMessage-animation {
+	animation: popping 1s linear;
+}
+*/
+
+
+
+/* is it used???
+.message{
+	font-weight: var(--regularWeight);
+}
+ 
+.radioContent-container{
+	font-size: var(--S_text);
+	color: var(--gray_BLACK);			
+}
+*/
+/*
+
+.sender-container{
+	font-weight: var(--boldWeight);
+	margin-bottom: 0px ;
+	padding-bottom: 0px;
+}
+
+.sender-role{
+	border-radius: var(--S_borderRadius);
+	margin: .3em;
+	padding: 4px;
+}
+
+.sender{
+		font-weight: var(--boldWeight);
+}
+*/
+
+
+/**** COLOR MANAGEMENT MSG RADIO
+ probably depreciated 
+
+.sender-role[data-sender-role="MCS"] {
+  background-color: var(--yellow_0);
+}
+
+.sender-role[data-sender-role="ACS"] {
+  background-color: var(--orange_0);
+}
+
+.sender-role[data-sender-role="AL"] {
+  background-color:var(--blue_0);
+}
+
+*/
+
+.noRadio{
+	margin:5px;
+	padding:5px;
+}
+
+
+/* message sent by oneself */
 .radio-message-myself {
 	margin: 10px;
-	left: 120px;
-  	display: inline-block;
-  	position: relative;
-	width: 200px;
+	left: 30%;
+  display: inline-block;
+  position: relative;
+	width: 60%;
 	height: auto;
 	background-color: var(--primary_10);
 	border-radius: 15px;
 }
 
-.radio-message-casu-myself {
+/* why not the same as the one for oneself?*/
+.radio-message-casu-myself{
 	margin: 10px;
-	left: 160px;
-  	display: inline-block;
-  	position: relative;
-	width: 200px;
+	left: /*160px*/ 30%;
+  display: inline-block;
+  position: relative;
+	width:20px;
 	height: auto;
-	background-color: var(--primary_10);
+	background-color: /*var(--primary_10)*/ hotpink;
 	border-radius: 15px;
-	flex: none;
+	/*flex: none;*/
 }
 
 .radio-message-others {
 	margin: 10px;
 	left: 5px;
-  	display: inline-block;
-  	position: relative;
+  display: inline-block;
+  position: relative;
 	width: 200px;
 	height: auto;
 	background-color: var(--gray_150);
@@ -148,9 +198,9 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-  	left: -40px;
+  left: -40px;
 	right: auto;
-  	top: -8px;
+  top: -8px;
 	bottom: auto;
 	border: 32px solid;
 	border-color: #666 transparent transparent transparent;
@@ -160,9 +210,9 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-  	left: -20px;
+	left: -20px;
 	right: auto;
-  	top: 0px;
+  top: 0px;
 	bottom: auto;
 	border: 22px solid;
 	border-color: var(--gray_150) transparent transparent transparent;
@@ -173,9 +223,9 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-  	left: auto;
+  left: auto;
 	right: -20px;
-  	top: 0px;
+  top: 0px;
 	bottom: auto;
 	border: 20px solid;
 	border-color: var(--primary_10) transparent transparent transparent;
@@ -205,7 +255,7 @@
 .emitter-text-body-layout>p{
 	margin-top: 0px;
 }
-
+/* is it used???
 .chevron-icon {
 	display: flex;
 	align-items: flex-end;
@@ -213,24 +263,19 @@
 }
 
 .rotate{
-   transform: rotate(180deg);
-}
+  transform: rotate(180deg);
+}*/
 
 
 /*** Free message input for D418 chanel ***/
 
-.freeMessageInput-container{
-	border: 1px solid black;
-	border-radius: var(--S_borderRadius);
-	height: 10rem;
-	background-color: white;
-}
 
 
+/*
 .D424Chanel{
 	max-height: 200px;
 	overflow-y: auto;
-}
+}*/
 /* for phase 4
 .G679-container{
 position: fixed;

@@ -60,186 +60,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "notificationPanelHeader",
-                                        "layoutClassName" : "notificationPanelHeader-container",
-                                        "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "let fakeVar = \"bla\"\n\"Notifications\"",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "className" : "",
-                                        "exposePageSizeAs" : "",
-                                        "initialSelectedPageId" : {
-                                          "@class" : "Script",
-                                          "content" : "\"64\"",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutClassName" : "notificationPageloader-container",
-                                        "layoutStyle" : {
-                                          "overflow" : "auto"
-                                        },
-                                        "name" : "notif",
-                                        "style" : { }
-                                      },
-                                      "type" : "PageLoader"
-                                    } ],
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "!Context.interfaceState.state.showNotificationsPanel",
-                                      "language" : "typescript"
-                                    },
-                                    "layout" : {
-                                      "flexDirection" : "column"
-                                    },
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "className" : "counterCircle",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() === 0;",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "counterCircle-container",
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() + '';",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "notificationButton",
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Inside",
-                                      "className" : "closedNotif-button",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "!Context.interfaceState.state.showNotificationsPanel;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "newNotif",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() !== 0;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "openNotif-button",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.interfaceState.state.showNotificationsPanel;",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
-                                    "icon" : "mail-bulk",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "notificationButton-container",
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getNotifications, updateReadMessages } from \"./UIfacade/radioFacade\";\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\nupdateReadMessages(ActionType.ACTION, getNotifications(Context.interfaceState.state.currentActorUid).length);",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
-                                      }
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                } ],
-                                "className" : "notificationPanel",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
-                                  "className" : "notificationPanel-container_Hidden",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "!Context.interfaceState.state.showNotificationsPanel;",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "layout" : { },
-                                "layoutClassName" : "notificationPanel-container",
-                                "layoutStyle" : { },
-                                "name" : "notificationPanel",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "attachToClosest" : ".main-game",
-                                "attachedToId" : "",
-                                "children" : [ {
-                                  "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "initialSelectedPageId" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getModalPageNumber } from \"./gameInterface/main\";\ngetModalPageNumber();",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutStyle" : { },
-                                    "name" : "popupLoader",
-                                    "style" : { }
-                                  },
-                                  "type" : "PageLoader"
-                                } ],
-                                "className" : "",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "patient-modal-view",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.interfaceState.state.showPatientModal",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "!Context.interfaceState.state.showCasuMessageModal && !Context.interfaceState.state.showPatientModal;",
-                                  "language" : "typescript"
-                                },
-                                "layout" : { },
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "height" : "100%",
-                                  "width" : "100%"
-                                },
-                                "name" : "PageLoader",
-                                "onExitActions" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showCasuMessageModal = false;\nnewState.casuMessage.messageType = '';\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Modal"
-                            }, {
-                              "props" : {
+                                "OSMLayer" : false,
                                 "children" : [ {
                                   "props" : {
                                     "children" : [ {
@@ -248,50 +69,50 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "className" : "",
-                                                "layoutClassName" : "",
-                                                "layoutStyle" : {
-                                                  "width" : "85%"
+                                                "className" : "close-button",
+                                                "label" : {
+                                                  "@class" : "Script",
+                                                  "content" : "\"<p>X</p>\"",
+                                                  "language" : "TypeScript"
                                                 },
+                                                "layoutStyle" : {
+                                                  "padding" : "0"
+                                                },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "style" : {
+                                                  "backgroundColor" : "none",
+                                                  "marginBottom" : ".5em",
+                                                  "paddingLeft" : "2px",
+                                                  "paddingRight" : "2px"
+                                                }
+                                              },
+                                              "type" : "Button"
+                                            }, {
+                                              "props" : {
+                                                "className" : "h3title",
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntitiesName",
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
+                                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
                                                   "language" : "TypeScript"
                                                 }
                                               },
                                               "type" : "Text"
-                                            }, {
-                                              "props" : {
-                                                "className" : "closeLeftPanelBtn",
-                                                "label" : {
-                                                  "@class" : "Script",
-                                                  "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
-                                                  "language" : "TypeScript"
-                                                },
-                                                "layoutClassName" : "closeLeftPanelBtn-container",
-                                                "layoutStyle" : { },
-                                                "localScriptEval" : {
-                                                  "script" : {
-                                                    "@class" : "ClientScript",
-                                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showLeftPanel = !newState.showLeftPanel;\nContext.interfaceState.setState(newState);\n",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                },
-                                                "style" : { }
-                                              },
-                                              "type" : "Button"
                                             } ],
-                                            "className" : "role",
                                             "layout" : {
                                               "alignItems" : "center",
-                                              "justifyContent" : "space-evenly"
+                                              "flexDirection" : "row"
                                             },
-                                            "layoutClassName" : "role-container",
-                                            "layoutStyle" : {
-                                              "pointerEvents" : "auto"
-                                            },
-                                            "name" : "header",
+                                            "layoutStyle" : { },
+                                            "name" : "fixedEntityHeader",
                                             "style" : { }
                                           },
                                           "type" : "FlexList"
@@ -299,992 +120,1062 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "exposePageSizeAs" : "",
-                                                "hideIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "!Context.interfaceState.state.showLeftPanel",
-                                                  "language" : "typescript"
-                                                },
-                                                "initialSelectedPageId" : {
-                                                  "@class" : "Script",
-                                                  "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
-                                                  "language" : "typescript"
-                                                },
-                                                "layoutClassName" : "interfaceMenuLoader-container",
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "resourceCounter squareCounter",
+                                                    "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "String(Context.overlayItem.resources.length);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "icon" : "hospital-user",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"<p>&nbsp;<br></p>\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutStyle" : { },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ],
+                                                "layout" : { },
                                                 "layoutStyle" : { },
-                                                "name" : "interfaceMenuLoader",
+                                                "name" : "humanRsrcBtn",
                                                 "style" : { }
                                               },
-                                              "type" : "PageLoader"
-                                            } ],
-                                            "className" : "mainSimLeftPanel",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Outside",
-                                              "className" : "hiddenLeftPanel",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "!Context.interfaceState.state.showLeftPanel",
-                                                "language" : "typescript"
-                                              }
+                                              "type" : "FlexList"
                                             }, {
-                                              "applyOn" : "Outside",
-                                              "className" : "shownLeftPanel",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "Context.interfaceState.state.showLeftPanel",
-                                                "language" : "typescript"
-                                              }
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "resourceCounter squareCounter",
+                                                    "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "String(Context.overlayItem.ambulances.length || 0);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "icon" : "truck",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"<p>&nbsp;<br></p>\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.overlayItem.ambulances.length < 1;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "name" : "ambulancesBtn",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "resourceCounter squareCounter",
+                                                    "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "String(Context.overlayItem.helicopters.length || 0);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "icon" : "helicopter",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"<p>&nbsp;<br></p>\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.overlayItem.helicopters.length < 1;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "name" : "helicoptersBtn",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "actor",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "current",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "icon" : {
+                                                      "@class" : "Script",
+                                                      "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.actor.Role;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutStyle" : { },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                } ],
+                                                "exposeAs" : "actor",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.overlayItem.actors;",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "itemKey" : "Uid",
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "For each"
                                             } ],
-                                            "layout" : {
-                                              "flexDirection" : "column"
-                                            },
-                                            "layoutClassName" : "mainSimLeftPanel-container",
-                                            "layoutStyle" : {
-                                              "pointerEvent" : "auto"
-                                            },
-                                            "name" : "leftPanel",
-                                            "style" : {
-                                              "overflow" : "hidden"
-                                            }
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "fixedEntityContent",
+                                            "style" : { }
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "className" : "noPadding noMargin",
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "language" : "typescript"
+                                        },
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
-                                        "layoutClassName" : "noPadding noMargin",
-                                        "layoutStyle" : {
-                                          "width" : "25vw"
-                                        },
-                                        "name" : "leftPanel",
+                                        "layoutClassName" : "fixedEntities-container",
+                                        "layoutStyle" : { },
+                                        "name" : "genericFixedEntity",
                                         "style" : { }
                                       },
                                       "type" : "FlexList"
                                     }, {
                                       "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "className" : "menuItem",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Outside",
-                                              "className" : "active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
-                                                "language" : "typescript"
-                                              }
-                                            }, {
-                                              "applyOn" : "Outside",
-                                              "className" : "not-active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
-                                                "language" : "typescript"
-                                              }
-                                            } ],
-                                            "icon" : "bolt",
-                                            "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : {
-                                              "pointerEvents" : "auto"
-                                            },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "name" : "action",
-                                            "style" : { }
-                                          },
-                                          "type" : "Icon"
-                                        }, {
-                                          "props" : {
-                                            "className" : "menuItem",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Outside",
-                                              "className" : "active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
-                                                "language" : "typescript"
-                                              }
-                                            }, {
-                                              "applyOn" : "Outside",
-                                              "className" : "not-active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
-                                                "language" : "typescript"
-                                              }
-                                            } ],
-                                            "icon" : "comment-medical",
-                                            "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : {
-                                              "pointerEvents" : "auto"
-                                            },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "name" : "radio",
-                                            "style" : { }
-                                          },
-                                          "type" : "Icon"
-                                        }, {
-                                          "props" : {
-                                            "className" : "menuItem",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Outside",
-                                              "className" : "active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.resources;",
-                                                "language" : "typescript"
-                                              }
-                                            }, {
-                                              "applyOn" : "Outside",
-                                              "className" : "not-active-selected-item",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
-                                                "language" : "typescript"
-                                              }
-                                            } ],
-                                            "icon" : "users",
-                                            "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : {
-                                              "pointerEvents" : "auto"
-                                            },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "name" : "resources",
-                                            "style" : { }
-                                          },
-                                          "type" : "Icon"
-                                        } ],
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "menuItem-goingWest",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "!Context.interfaceState.state.showLeftPanel",
-                                            "language" : "typescript"
-                                          }
-                                        } ],
-                                        "layout" : {
-                                          "flexDirection" : "column"
+                                        "children" : [ ],
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "language" : "typescript"
                                         },
-                                        "layoutClassName" : "menu-container",
-                                        "layoutStyle" : {
-                                          "padding" : "0px"
-                                        },
-                                        "name" : "menu",
+                                        "layout" : { },
+                                        "layoutClassName" : "fixedEntities-arrow",
+                                        "layoutStyle" : { },
+                                        "name" : "genericFixedEntity-arrow",
                                         "style" : { }
                                       },
                                       "type" : "FlexList"
                                     } ],
-                                    "className" : "noMargin noPadding",
-                                    "layout" : {
-                                      "flexDirection" : "row"
+                                    "exposedValueKeys" : {
+                                      "exposePayloadAs" : "overlayItem"
                                     },
-                                    "layoutClassName" : "noMargin noPadding leftPanelParent-container ",
-                                    "layoutStyle" : { },
-                                    "name" : "LeftPanelParent",
-                                    "style" : { }
-                                  },
-                                  "type" : "FlexList"
-                                } ],
-                                "className" : "noPadding noMargin",
-                                "layout" : {
-                                  "flexDirection" : "column"
-                                },
-                                "layoutClassName" : "noPadding noMargin grid",
-                                "layoutStyle" : {
-                                  "height" : "100%",
-                                  "pointerEvents" : "none",
-                                  "position" : "relative",
-                                  "width" : "100%"
-                                },
-                                "name" : "leftPanel and Timeline",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "nextActionBtn",
-                                    "icon" : {
+                                    "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "'fast-forward';",
-                                      "language" : "typescript"
-                                    },
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"\"",
+                                      "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
                                     },
-                                    "layoutClassName" : "next-container",
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "name" : "Next",
-                                    "style" : {
-                                      "margin" : "auto"
-                                    }
-                                  },
-                                  "type" : "Button"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "className" : "/*actor*/ button-S button-primaryColor",
-                                            "conditionnalClassNames" : [ {
-                                              "applyOn" : "Inside",
-                                              "className" : "current",
-                                              "condition" : {
-                                                "@class" : "Script",
-                                                "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
-                                                "language" : "typescript"
-                                              }
-                                            } ],
-                                            "confirm" : false,
-                                            "label" : {
-                                              "@class" : "Script",
-                                              "content" : "Context.actor.Role;",
-                                              "language" : "TypeScript"
-                                            },
-                                            "layoutStyle" : { },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "style" : { }
-                                          },
-                                          "type" : "Button"
-                                        } ],
-                                        "exposeAs" : "actor",
-                                        "getItemsFn" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
-                                          "language" : "TypeScript"
-                                        },
-                                        "itemKey" : "Uid",
-                                        "itemsOnly" : false,
-                                        "layout" : {
-                                          "alignItems" : "center",
-                                          "flexDirection" : "column",
-                                          "justifyContent" : "center"
-                                        },
-                                        "layoutStyle" : { },
-                                        "style" : {
-                                          "gap" : "5px",
-                                          "minWidth" : "5em"
-                                        }
-                                      },
-                                      "type" : "For each"
-                                    } ],
-                                    "className" : "actor_button",
-                                    "layout" : {
-                                      "flexDirection" : "column"
-                                    },
-                                    "layoutClassName" : "timeline-actors",
-                                    "layoutStyle" : { },
-                                    "name" : "timeline-actors",
-                                    "style" : {
-                                      "paddingTop" : "calc(2em + 20px)"
-                                    }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "layoutStyle" : {
-                                          "margin-left" : "8px"
-                                        },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime());",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    } ],
-                                    "className" : "display",
-                                    "layout" : { },
-                                    "layoutClassName" : "timeline-display",
+                                    "itemKey" : "id",
                                     "layoutStyle" : {
-                                      "overflow" : "auto"
+                                      "pointer-events" : "auto"
                                     },
-                                    "name" : "timeline-display",
                                     "style" : { }
                                   },
-                                  "type" : "FlexList"
-                                } ],
-                                "className" : "timeline",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
-                                  "className" : "fullWidthTimeline",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.interfaceState.state.showLeftPanel === false;",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "layout" : {
-                                  "flexDirection" : "row"
-                                },
-                                "layoutClassName" : "timeline-container",
-                                "layoutStyle" : { },
-                                "name" : "timeline",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "attachToClosest" : ".main-game",
-                                "attachedToId" : "",
-                                "children" : [ {
+                                  "type" : "WegasMapOverlays"
+                                }, {
                                   "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "initialSelectedPageId" : {
+                                    "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "import { getModalPageNumber } from \"./gameInterface/main\";\ngetModalPageNumber();",
+                                      "content" : "!Context.mapState.state.selectionState",
                                       "language" : "typescript"
                                     },
+                                    "layerId" : "selectionLayer",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getSelectionLayer } from \"./gameMap/layers/mainSimLayer\";\ngetSelectionLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                    },
                                     "layoutStyle" : { },
-                                    "name" : "popupLoader",
+                                    "name" : "selectionLayer",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
+                                    },
                                     "style" : { }
                                   },
-                                  "type" : "PageLoader"
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : {
+                                      "opacity" : 0.5,
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getUnavailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetUnavailableLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "UnavailableLayer",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "available",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getAvailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetAvailableLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "AvailableLayer",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : { },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/water.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "water",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : { },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/rails.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "rails",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : {
+                                      "zIndex" : 10
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/roads.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "roads",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "buildings",
+                                    "layerProps" : { },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "buildings",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { buildingsRef, mapRef } from \"./gameMap/main\";\nmapRef.current = map;\nbuildingsRef.current = layer;\nreturn"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
                                 } ],
-                                "className" : "",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "patient-modal-view",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.interfaceState.state.showPatientModal",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "!Context.interfaceState.state.showCasuMessageModal && !Context.interfaceState.state.showPatientModal;",
-                                  "language" : "typescript"
-                                },
-                                "layout" : { },
+                                "debug" : false,
+                                "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : {
+                                  "backgroundColor" : "#E7EEE3",
+                                  "flexGrow" : "/*1*/",
+                                  "height" : "100%",
+                                  "padding" : "0px",
+                                  "pointer-events" : "auto",
+                                  "width" : "100%"
+                                },
+                                "mapOptions" : {
+                                  "onClick" : {
+                                    "@class" : "ScriptCallback",
+                                    "args" : [ "coord", "features" ],
+                                    "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                                  }
+                                },
+                                "style" : {
                                   "height" : "100%",
                                   "width" : "100%"
                                 },
-                                "name" : "PageLoader",
-                                "onExitActions" : {
-                                  "client" : {
+                                "viewOptions" : {
+                                  "center" : [ 2500000, 1118500 ],
+                                  "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
+                                  "maxZoom" : 21,
+                                  "projection" : "EPSG:2056",
+                                  "zoom" : {
                                     "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showCasuMessageModal = false;\nnewState.casuMessage.messageType = '';\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
+                                    "content" : "(18.5)",
+                                    "language" : "typescript"
+                                  }
+                                }
+                              },
+                              "type" : "WegasMap"
+                            } ],
+                            "exposeAs" : "mapState",
+                            "initialState" : {
+                              "@class" : "Script",
+                              "content" : "import { getInitialMapState } from \"./gameMap/main\";\ngetInitialMapState();",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : {
+                              "height" : "100%",
+                              "padding" : "0px",
+                              "pointer-events" : "auto",
+                              "width" : "100%"
+                            },
+                            "localState" : false,
+                            "name" : "map",
+                            "style" : {
+                              "height" : "100%",
+                              "width" : "100%"
+                            }
+                          },
+                          "type" : "State"
+                        } ],
+                        "className" : "noPadding noMargin",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding noMargin",
+                        "layoutStyle" : {
+                          "height" : "100%",
+                          "left" : "0",
+                          "pointer-events" : "auto",
+                          "position" : "absolute",
+                          "top" : "0",
+                          "width" : "100%"
+                        },
+                        "name" : "map",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "menuItem",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Outside",
+                                  "className" : "not-active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "icon" : "bolt",
+                                "layoutClassName" : "menuItem-container",
+                                "layoutStyle" : {
+                                  "pointerEvents" : "auto"
+                                },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
                                     "language" : "TypeScript"
                                   }
                                 },
+                                "name" : "action",
                                 "style" : { }
                               },
-                              "type" : "Modal"
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "className" : "menuItem",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Outside",
+                                  "className" : "not-active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "icon" : "comment-medical",
+                                "layoutClassName" : "menuItem-container",
+                                "layoutStyle" : {
+                                  "pointerEvents" : "auto"
+                                },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "radio",
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "className" : "menuItem",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Outside",
+                                  "className" : "not-active-selected-item",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "icon" : "users",
+                                "layoutClassName" : "menuItem-container",
+                                "layoutStyle" : {
+                                  "pointerEvents" : "auto"
+                                },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "resources",
+                                "style" : { }
+                              },
+                              "type" : "Icon"
                             } ],
-                            "layoutClassName" : "interface-container",
-                            "layoutStyle" : {
-                              "pointerEvents" : "none"
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "menuItem-goingWest",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.interfaceState.state.showLeftPanel",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
                             },
-                            "name" : "interface",
-                            "onAbsoluteClick" : { },
+                            "layoutClassName" : "menu-container",
+                            "layoutStyle" : {
+                              "left" : "30%",
+                              "padding" : "0px",
+                              "position" : "absolute",
+                              "top" : "5%"
+                            },
+                            "name" : "menu",
                             "style" : { }
                           },
-                          "type" : "AbsoluteLayout"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "OSMLayer" : false,
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "children" : [ {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "className" : "close-button",
-                                                    "label" : {
-                                                      "@class" : "Script",
-                                                      "content" : "\"<p>X</p>\"",
-                                                      "language" : "TypeScript"
-                                                    },
-                                                    "layoutStyle" : {
-                                                      "padding" : "0"
-                                                    },
-                                                    "localScriptEval" : {
-                                                      "script" : {
-                                                        "@class" : "ClientScript",
-                                                        "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    },
-                                                    "style" : {
-                                                      "backgroundColor" : "none",
-                                                      "marginBottom" : ".5em",
-                                                      "paddingLeft" : "2px",
-                                                      "paddingRight" : "2px"
-                                                    }
-                                                  },
-                                                  "type" : "Button"
-                                                }, {
-                                                  "props" : {
-                                                    "className" : "h3title",
-                                                    "layoutStyle" : { },
-                                                    "name" : "fixedEntitiesName",
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
-                                                } ],
-                                                "layout" : {
-                                                  "alignItems" : "center",
-                                                  "flexDirection" : "row"
-                                                },
-                                                "layoutStyle" : { },
-                                                "name" : "fixedEntityHeader",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "className" : "resourceCounter squareCounter",
-                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
-                                                        "layoutStyle" : { },
-                                                        "style" : { },
-                                                        "text" : {
-                                                          "@class" : "Script",
-                                                          "content" : "String(Context.overlayItem.resources.length);",
-                                                          "language" : "TypeScript"
-                                                        }
-                                                      },
-                                                      "type" : "Text"
-                                                    }, {
-                                                      "props" : {
-                                                        "icon" : "hospital-user",
-                                                        "label" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"<p>&nbsp;<br></p>\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "layoutClassName" : " s_squareButton",
-                                                        "layoutStyle" : { },
-                                                        "localScriptEval" : {
-                                                          "script" : {
-                                                            "@class" : "ClientScript",
-                                                            "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
-                                                            "language" : "TypeScript"
-                                                          }
-                                                        },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Button"
-                                                    } ],
-                                                    "layout" : { },
-                                                    "layoutStyle" : { },
-                                                    "name" : "humanRsrcBtn",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                }, {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "className" : "resourceCounter squareCounter",
-                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
-                                                        "layoutStyle" : { },
-                                                        "style" : { },
-                                                        "text" : {
-                                                          "@class" : "Script",
-                                                          "content" : "String(Context.overlayItem.ambulances.length || 0);",
-                                                          "language" : "TypeScript"
-                                                        }
-                                                      },
-                                                      "type" : "Text"
-                                                    }, {
-                                                      "props" : {
-                                                        "icon" : "truck",
-                                                        "label" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"<p>&nbsp;<br></p>\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "layoutClassName" : " s_squareButton",
-                                                        "layoutStyle" : { },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Button"
-                                                    } ],
-                                                    "hideIf" : {
-                                                      "@class" : "Script",
-                                                      "content" : "Context.overlayItem.ambulances.length < 1;",
-                                                      "language" : "typescript"
-                                                    },
-                                                    "layout" : { },
-                                                    "layoutStyle" : { },
-                                                    "name" : "ambulancesBtn",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                }, {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "className" : "resourceCounter squareCounter",
-                                                        "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
-                                                        "layoutStyle" : { },
-                                                        "style" : { },
-                                                        "text" : {
-                                                          "@class" : "Script",
-                                                          "content" : "String(Context.overlayItem.helicopters.length || 0);",
-                                                          "language" : "TypeScript"
-                                                        }
-                                                      },
-                                                      "type" : "Text"
-                                                    }, {
-                                                      "props" : {
-                                                        "icon" : "helicopter",
-                                                        "label" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"<p>&nbsp;<br></p>\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "layoutClassName" : " s_squareButton",
-                                                        "layoutStyle" : { },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Button"
-                                                    } ],
-                                                    "hideIf" : {
-                                                      "@class" : "Script",
-                                                      "content" : "Context.overlayItem.helicopters.length < 1;",
-                                                      "language" : "typescript"
-                                                    },
-                                                    "layout" : { },
-                                                    "layoutStyle" : { },
-                                                    "name" : "helicoptersBtn",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                }, {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "className" : "actor",
-                                                        "conditionnalClassNames" : [ {
-                                                          "applyOn" : "Inside",
-                                                          "className" : "current",
-                                                          "condition" : {
-                                                            "@class" : "Script",
-                                                            "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
-                                                            "language" : "typescript"
-                                                          }
-                                                        } ],
-                                                        "icon" : {
-                                                          "@class" : "Script",
-                                                          "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
-                                                          "language" : "typescript"
-                                                        },
-                                                        "label" : {
-                                                          "@class" : "Script",
-                                                          "content" : "Context.actor.Role;",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "layoutStyle" : { },
-                                                        "localScriptEval" : {
-                                                          "script" : {
-                                                            "@class" : "ClientScript",
-                                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
-                                                            "language" : "TypeScript"
-                                                          }
-                                                        },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Button"
-                                                    } ],
-                                                    "exposeAs" : "actor",
-                                                    "getItemsFn" : {
-                                                      "@class" : "Script",
-                                                      "content" : "Context.overlayItem.actors;",
-                                                      "language" : "TypeScript"
-                                                    },
-                                                    "itemKey" : "Uid",
-                                                    "layout" : { },
-                                                    "layoutStyle" : { },
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "For each"
-                                                } ],
-                                                "layout" : { },
-                                                "layoutStyle" : { },
-                                                "name" : "fixedEntityContent",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            } ],
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
-                                              "language" : "typescript"
-                                            },
-                                            "layout" : {
-                                              "flexDirection" : "column"
-                                            },
-                                            "layoutClassName" : "fixedEntities-container",
-                                            "layoutStyle" : { },
-                                            "name" : "genericFixedEntity",
-                                            "style" : { }
-                                          },
-                                          "type" : "FlexList"
-                                        }, {
-                                          "props" : {
-                                            "children" : [ ],
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
-                                              "language" : "typescript"
-                                            },
-                                            "layout" : { },
-                                            "layoutClassName" : "fixedEntities-arrow",
-                                            "layoutStyle" : { },
-                                            "name" : "genericFixedEntity-arrow",
-                                            "style" : { }
-                                          },
-                                          "type" : "FlexList"
-                                        } ],
-                                        "exposedValueKeys" : {
-                                          "exposePayloadAs" : "overlayItem"
-                                        },
-                                        "getItemsFn" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
-                                          "language" : "TypeScript"
-                                        },
-                                        "itemKey" : "id",
-                                        "layoutStyle" : { },
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapOverlays"
-                                    }, {
-                                      "props" : {
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "!Context.mapState.state.selectionState",
-                                          "language" : "typescript"
-                                        },
-                                        "layerId" : "selectionLayer",
-                                        "layerProps" : {
-                                          "zIndex" : 91
-                                        },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getSelectionLayer } from \"./gameMap/layers/mainSimLayer\";\ngetSelectionLayer();",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:2056",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "selectionLayer",
-                                        "onLayerReady" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "layer", "map" ],
-                                          "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "",
-                                        "layerProps" : {
-                                          "opacity" : 0.5,
-                                          "zIndex" : 91
-                                        },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getUnavailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetUnavailableLayer();",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:2056",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "UnavailableLayer",
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "available",
-                                        "layerProps" : {
-                                          "zIndex" : 91
-                                        },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getAvailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetAvailableLayer();",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:2056",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "AvailableLayer",
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "",
-                                        "layerProps" : { },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "return(`maps/GVA-center/water.geojson`)",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:4326",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "water",
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "",
-                                        "layerProps" : { },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "return(`maps/GVA-center/rails.geojson`)",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:4326",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "rails",
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "",
-                                        "layerProps" : {
-                                          "zIndex" : 10
-                                        },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "return(`maps/GVA-center/roads.geojson`)",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:4326",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "roads",
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    }, {
-                                      "props" : {
-                                        "layerId" : "buildings",
-                                        "layerProps" : { },
-                                        "layerSource" : {
-                                          "dataType" : "GeoJSON",
-                                          "source" : {
-                                            "@class" : "Script",
-                                            "content" : "(\"maps/GVA-center/buildings.geojson\")",
-                                            "language" : "typescript"
-                                          },
-                                          "sourceProjection" : "EPSG:4326",
-                                          "type" : "VectorLayer",
-                                          "useSpatialIndex" : true
-                                        },
-                                        "layerStyle" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "feature", "resolution" ],
-                                          "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
-                                        },
-                                        "layoutStyle" : { },
-                                        "name" : "buildings",
-                                        "onLayerReady" : {
-                                          "@class" : "ScriptCallback",
-                                          "args" : [ "layer", "map" ],
-                                          "content" : "import { buildingsRef, mapRef } from \"./gameMap/main\";\nmapRef.current = map;\nbuildingsRef.current = layer;\nreturn"
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "WegasMapVectorLayer"
-                                    } ],
-                                    "debug" : false,
-                                    "id" : "",
-                                    "layoutClassName" : "map",
+                                    "className" : "",
+                                    "layoutClassName" : "",
                                     "layoutStyle" : {
-                                      "backgroundColor" : "#E7EEE3",
-                                      "flexGrow" : "1",
-                                      "height" : "100%",
-                                      "padding" : "0px",
-                                      "width" : "100%"
-                                    },
-                                    "mapOptions" : {
-                                      "onClick" : {
-                                        "@class" : "ScriptCallback",
-                                        "args" : [ "coord", "features" ],
-                                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
-                                      }
+                                      "width" : "85%"
                                     },
                                     "style" : { },
-                                    "viewOptions" : {
-                                      "center" : [ 2500000, 1118500 ],
-                                      "extent" : [ 2499286.1059294315, 1117892.4878584156, 2500468.4624423133, 1118778.4582210586 ],
-                                      "maxZoom" : 21,
-                                      "projection" : "EPSG:2056",
-                                      "zoom" : {
-                                        "@class" : "Script",
-                                        "content" : "(18.5)",
-                                        "language" : "typescript"
-                                      }
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
+                                      "language" : "TypeScript"
                                     }
                                   },
-                                  "type" : "WegasMap"
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "closeLeftPanelBtn",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "closeLeftPanelBtn-container",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showLeftPanel = !newState.showLeftPanel;\nContext.interfaceState.setState(newState);\n",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
                                 } ],
-                                "exposeAs" : "mapState",
-                                "initialState" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getInitialMapState } from \"./gameMap/main\";\ngetInitialMapState();",
-                                  "language" : "TypeScript"
+                                "className" : "role",
+                                "layout" : {
+                                  "alignItems" : "center",
+                                  "justifyContent" : "space-evenly"
                                 },
+                                "layoutClassName" : "role-container",
                                 "layoutStyle" : {
-                                  "height" : "100%",
-                                  "padding" : "0px",
-                                  "width" : "100%"
+                                  "pointerEvents" : "auto"
                                 },
-                                "localState" : false,
-                                "name" : "map",
+                                "name" : "header",
                                 "style" : { }
                               },
-                              "type" : "State"
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "exposePageSizeAs" : "",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "!Context.interfaceState.state.showLeftPanel",
+                                      "language" : "typescript"
+                                    },
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "interfaceMenuLoader-container",
+                                    "layoutStyle" : { },
+                                    "name" : "interfaceMenuLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "className" : "mainSimLeftPanel",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "hiddenLeftPanel",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.interfaceState.state.showLeftPanel",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Outside",
+                                  "className" : "shownLeftPanel",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showLeftPanel",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "mainSimLeftPanel-container",
+                                "layoutStyle" : {
+                                  "pointerEvent" : "auto"
+                                },
+                                "name" : "leftPanel",
+                                "style" : {
+                                  "overflow" : "hidden"
+                                }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : {
+                              "height" : "100%",
+                              "width" : "30%"
+                            },
+                            "name" : "leftPanel",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "nextActionBtn",
+                                "icon" : {
+                                  "@class" : "Script",
+                                  "content" : "'fast-forward';",
+                                  "language" : "typescript"
+                                },
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "next-container",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Next",
+                                "style" : {
+                                  "margin" : "auto"
+                                }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "button-S button-primaryColor",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "current",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "confirm" : false,
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.actor.Role;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "Uid",
+                                    "itemsOnly" : false,
+                                    "layout" : {
+                                      "alignItems" : "center",
+                                      "flexDirection" : "column",
+                                      "justifyContent" : "center"
+                                    },
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "gap" : "5px",
+                                      "minWidth" : "/*5em*/"
+                                    }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "actor_button",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "timeline-actors",
+                                "layoutStyle" : { },
+                                "name" : "timeline-actors",
+                                "style" : {
+                                  "paddingTop" : "calc(2em + 20px)"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : {
+                                      "margin-left" : "8px"
+                                    },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { createGrid } from \"./gameInterface/timeline\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\ncreateGrid(getSimTime());",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "display",
+                                "layout" : { },
+                                "layoutClassName" : "timeline-display",
+                                "layoutStyle" : {
+                                  "overflow" : "auto"
+                                },
+                                "name" : "timeline-display",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "timeline",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "partialTimeline",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.interfaceState.state.showLeftPanel === true;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "row"
+                            },
+                            "layoutClassName" : "timeline-container",
+                            "layoutStyle" : {
+                              "height" : "auto",
+                              "marginTop" : "auto",
+                              "width" : "100%"
+                            },
+                            "name" : "timeline",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "notificationPanelHeader",
+                                    "layoutClassName" : "notificationPanelHeader-container",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "let fakeVar = \"bla\"\n\"Notifications\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "",
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"64\"",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "notificationPageloader-container",
+                                    "layoutStyle" : {
+                                      "overflow" : "auto"
+                                    },
+                                    "name" : "notif",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.interfaceState.state.showNotificationsPanel",
+                                  "language" : "typescript"
+                                },
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "className" : "counterCircle",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() === 0;",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "counterCircle-container",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() + '';",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "notificationButton",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "closedNotif-button",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.interfaceState.state.showNotificationsPanel;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "newNotif",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount() !== 0;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "openNotif-button",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showNotificationsPanel;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "icon" : "mail-bulk",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "notificationButton-container",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getNotifications, updateReadMessages } from \"./UIfacade/radioFacade\";\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\nupdateReadMessages(ActionType.ACTION, getNotifications(Context.interfaceState.state.currentActorUid).length);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "notificationPanel",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "notificationPanel-container_Hidden",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.interfaceState.state.showNotificationsPanel;",
+                                "language" : "typescript"
+                              }
                             } ],
                             "layout" : { },
-                            "layoutClassName" : "map-container",
+                            "layoutClassName" : "notificationPanel-container",
                             "layoutStyle" : {
-                              "pointerEvents" : "auto"
+                              "leftMargin" : "auto",
+                              "position" : "absolute"
                             },
-                            "name" : "map",
+                            "name" : "notificationPanel",
                             "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
-                        "id" : "",
-                        "layout" : {
-                          "flexDirection" : "column"
+                        "className" : "noPadding noMargin",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding noMargin",
+                        "layoutStyle" : {
+                          "flexShrink" : "0",
+                          "height" : "100%",
+                          "width" : "100%"
                         },
-                        "layoutClassName" : "mainGame-container",
-                        "layoutStyle" : { },
-                        "name" : "game",
+                        "name" : "globalInterface",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
+                    "className" : "noPadding noMargin",
                     "exposeAs" : "interfaceState",
                     "initialState" : {
                       "@class" : "Script",
                       "content" : "import { getInitialInterfaceState } from \"./gameInterface/interfaceState\";\ngetInitialInterfaceState();",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "stateInterface-container",
-                    "layoutStyle" : { },
+                    "layoutClassName" : "stateInterface-container noPadding noMargin",
+                    "layoutStyle" : {
+                      "height" : "100%",
+                      "pointer-events" : "none",
+                      "width" : "100%"
+                    },
                     "localState" : true,
                     "name" : "interface",
                     "style" : { }

@@ -21,8 +21,8 @@
 }
 
 .actionHeaderActive{
-		font-weight: var(--boldWeight);
-		border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
+	font-weight: var(--boldWeight);
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
 
 }
 
@@ -34,7 +34,7 @@
 }
 
 .actionName:first-letter {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .actionInfo{
@@ -52,11 +52,11 @@
 	
 }
 
-
+/*
 .aDescriptionAction{
 	min-width: 20em;
 	max-width: 30em;
-}
+}*/
 
 /** Play btn **/
 .playActionBtn > *{

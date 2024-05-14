@@ -20,7 +20,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "button-channel",
+            "className" : "button-channel ",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
               "className" : "button-channel_selected",
@@ -40,9 +40,10 @@
             } ],
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>G679</p>\"",
+              "content" : "  const fakevar = 'G679';\n   fakevar ;",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -90,6 +91,7 @@
               "content" : "\"<p>D418</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -137,6 +139,7 @@
               "content" : "\"<p>D424</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -184,6 +187,7 @@
               "content" : "\"<p>D912</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -202,15 +206,19 @@
           },
           "type" : "Button"
         } ],
-        "className" : "",
+        "className" : "noPadding noMargin",
         "layout" : { },
-        "layoutClassName" : "G679-container",
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : {
+          "border" : "1px solid orange"
+        },
+        "name" : "radioMenu",
         "style" : { }
       },
       "type" : "FlexList"
     }, {
       "props" : {
+        "className" : "noPadding noMargin",
         "exposePageSizeAs" : "",
         "id" : "",
         "initialSelectedPageId" : {
@@ -218,6 +226,7 @@
           "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
         "name" : "channelPageLoader",
         "style" : { }

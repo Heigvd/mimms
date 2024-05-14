@@ -1,7 +1,7 @@
 
 .timeline-container {
 	position: absolute;
-  width: 75vw;
+  /*width: 75%;*/
 	height: auto;
   padding: 0px;
 	bottom: 0px;
@@ -13,12 +13,18 @@
   /*border: solid 1px hotpink;*/
 }
 
+/*
 .fullWidthTimeline{
   position: absolute;
   bottom: 0px;
 	left: 0px;
-  width:100vw;
+  width:100%;
  }
+*/
+
+.partialTimeline{
+  width: 70% !important;
+}
 
 .timeline{
 	background: var(--gray_WHITE);
