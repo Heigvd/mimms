@@ -619,6 +619,124 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "width" : "85%"
+                                    },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "closeLeftPanelBtn",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "closeLeftPanelBtn-container",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showLeftPanel = !newState.showLeftPanel;\nContext.interfaceState.setState(newState);\n",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "role",
+                                "layout" : {
+                                  "alignItems" : "center",
+                                  "justifyContent" : "space-evenly"
+                                },
+                                "layoutClassName" : "role-container",
+                                "layoutStyle" : {
+                                  "pointerEvents" : "auto"
+                                },
+                                "name" : "header",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "exposePageSizeAs" : "",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "!Context.interfaceState.state.showLeftPanel",
+                                      "language" : "typescript"
+                                    },
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "interfaceMenuLoader-container",
+                                    "layoutStyle" : { },
+                                    "name" : "interfaceMenuLoader",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "className" : "contentLeftPanel",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "hiddenLeftPanel",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.interfaceState.state.showLeftPanel",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Outside",
+                                  "className" : "shownLeftPanel",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.interfaceState.state.showLeftPanel",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "contentLeftPanel-container",
+                                "layoutStyle" : {
+                                  "pointerEvent" : "auto"
+                                },
+                                "name" : "leftPanel",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : {
+                              "height" : "100%",
+                              "width" : "30%"
+                            },
+                            "name" : "leftPanel",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
                                 "className" : "menuItem",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Outside",
@@ -728,10 +846,10 @@
                             } ],
                             "conditionnalClassNames" : [ {
                               "applyOn" : "Inside",
-                              "className" : "menuItem-goingWest",
+                              "className" : "menuItem-openPanel",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "!Context.interfaceState.state.showLeftPanel",
+                                "content" : "Context.interfaceState.state.showLeftPanel",
                                 "language" : "typescript"
                               }
                             } ],
@@ -739,133 +857,8 @@
                               "flexDirection" : "column"
                             },
                             "layoutClassName" : "menu-container",
-                            "layoutStyle" : {
-                              "left" : "30%",
-                              "padding" : "0px",
-                              "position" : "absolute",
-                              "top" : "5%"
-                            },
+                            "layoutStyle" : { },
                             "name" : "menu",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "",
-                                    "layoutClassName" : "",
-                                    "layoutStyle" : {
-                                      "width" : "85%"
-                                    },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "closeLeftPanelBtn",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "closeLeftPanelBtn-container",
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showLeftPanel = !newState.showLeftPanel;\nContext.interfaceState.setState(newState);\n",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                } ],
-                                "className" : "role",
-                                "layout" : {
-                                  "alignItems" : "center",
-                                  "justifyContent" : "space-evenly"
-                                },
-                                "layoutClassName" : "role-container",
-                                "layoutStyle" : {
-                                  "pointerEvents" : "auto"
-                                },
-                                "name" : "header",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "exposePageSizeAs" : "",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "!Context.interfaceState.state.showLeftPanel",
-                                      "language" : "typescript"
-                                    },
-                                    "initialSelectedPageId" : {
-                                      "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = '67'; break;\n\tdefault: page = '45';\n}\npage;",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "interfaceMenuLoader-container",
-                                    "layoutStyle" : { },
-                                    "name" : "interfaceMenuLoader",
-                                    "style" : { }
-                                  },
-                                  "type" : "PageLoader"
-                                } ],
-                                "className" : "mainSimLeftPanel",
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
-                                  "className" : "hiddenLeftPanel",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "!Context.interfaceState.state.showLeftPanel",
-                                    "language" : "typescript"
-                                  }
-                                }, {
-                                  "applyOn" : "Outside",
-                                  "className" : "shownLeftPanel",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.interfaceState.state.showLeftPanel",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "layout" : {
-                                  "flexDirection" : "column"
-                                },
-                                "layoutClassName" : "mainSimLeftPanel-container",
-                                "layoutStyle" : {
-                                  "pointerEvent" : "auto"
-                                },
-                                "name" : "leftPanel",
-                                "style" : {
-                                  "overflow" : "hidden"
-                                }
-                              },
-                              "type" : "FlexList"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : {
-                              "height" : "100%",
-                              "width" : "30%"
-                            },
-                            "name" : "leftPanel",
                             "style" : { }
                           },
                           "type" : "FlexList"

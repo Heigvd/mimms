@@ -1,12 +1,4 @@
-.leftPanelParent-container{
-	/*border:3px solid orange;*/
-	position: absolute;
-	left: 0px;
-	height: 100%;
-}
-
-
-
+/*** Left Panel Header ***/
 .role-container{
 	width: 100%;
 	height: 3rem;
@@ -18,6 +10,13 @@
 	padding: 0px;
 }
 
+.role{
+	margin: auto;
+}
+
+
+/*** show & hide left panel ***/
+/* make the bg of the left panel disapear independently from the header*/
 .hiddenLeftPanel{
   left: -1000;
   display: none;
@@ -33,40 +32,35 @@ font-weight: var(--boldWeight);
   background-color: var(--primary_50);
 }
 
+/*** Left panel content ***/
 
-/*
-.shownLeftPanel{
-  background-color: lawngreen;
-}*/
-
-.role{
-	margin: auto;
-}
-
-.mainSimLeftPanel {
+.contentLeftPanel {
 	height: 100%;
 	width: 100%;
-  	pointer-events: auto;
+  pointer-events: auto;
+  overflow: hidden;
 	/*border: solid 3px pink*/
 }
 
-.mainSimLeftPanel-container{
+.contentLeftPanel-container{
 	height: 100%;
 	width: 100%;
 	padding: 0px;
 	background-color: var(--gray_WHITE);
 	z-index: 4;
-	}
+}
 
 
-/*** Panel Title ***/
+
 
 /******** SUBPANEL (Actions, radio resources) ********/
+/*check if still used
+
 .leftSubPanel-container{
 	width: 100%;
 	margin-top: 0px;
 	padding: 0px 15px;
-}
+}*/
 
 /*** Sub panel for resources ***/
 .resourcesSubPanel-container{

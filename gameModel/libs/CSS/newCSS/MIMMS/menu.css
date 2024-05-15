@@ -12,21 +12,18 @@
 	background-color:  var(--grey_0);
 }
 
-
-
-
 .not-active-selected-item {
 	color: var(--grey_70);
 	cursor: pointer;
 	background-color: var(--grey_10);
 	border-left: 2px solid var(--grey_20);
-	
 }
-
 
 .menu-container{
 	margin-top: 3.2rem;
 	padding: 0px;
+  position:absolute;
+  left: 0px;
 }
 
 .menuItem-container{
@@ -40,7 +37,9 @@
 	border-radius: 0px 5px 5px 0px;
 }
 
-.menuItem-goingWest{
-  margin-left: -25vw;
+/*** for open left panel ***/
+.menuItem-openPanel{
+  margin-left: 30%;
+  z-index: 10;
 }
 
