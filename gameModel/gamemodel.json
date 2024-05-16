@@ -6123,7 +6123,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_14-05-24_MIM_InterfaceRewamp_correctionLayout",
+  "name" : "MIMMS Main Simulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

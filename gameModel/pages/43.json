@@ -724,11 +724,8 @@
                             "layout" : {
                               "flexDirection" : "column"
                             },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : {
-                              "height" : "100%",
-                              "width" : "30%"
-                            },
+                            "layoutClassName" : "noPadding noMargin leftPanel-container",
+                            "layoutStyle" : { },
                             "name" : "leftPanel",
                             "style" : { }
                           },
@@ -845,7 +842,7 @@
                               "type" : "Icon"
                             } ],
                             "conditionnalClassNames" : [ {
-                              "applyOn" : "Inside",
+                              "applyOn" : "Outside",
                               "className" : "menuItem-openPanel",
                               "condition" : {
                                 "@class" : "Script",

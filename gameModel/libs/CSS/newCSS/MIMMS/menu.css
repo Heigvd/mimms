@@ -22,8 +22,7 @@
 .menu-container{
 	margin-top: 3.2rem;
 	padding: 0px;
-  position:absolute;
-  left: 0px;
+  	position:absolute;
 }
 
 .menuItem-container{
@@ -39,7 +38,7 @@
 
 /*** for open left panel ***/
 .menuItem-openPanel{
-  margin-left: 30%;
-  z-index: 10;
+  	position:relative;
+  	left: 0;
 }
 
