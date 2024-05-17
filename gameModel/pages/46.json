@@ -1,0 +1,81 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "alignSelf" : "flex-start",
+        "icon" : "save",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Store Current State<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugStoreCurrentState } from \"./UIfacade/debugFacade\";\ndebugStoreCurrentState()",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "store",
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Currently Stored State Id<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'debugStoredState')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Number"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-start",
+        "icon" : "arrow-left",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Restore Saved State<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "priority" : 0,
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugRestoreSavedState } from \"./UIfacade/debugFacade\";\n\ndebugRestoreSavedState();",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "restore",
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

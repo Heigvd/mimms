@@ -4388,6 +4388,73 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1034515:yNS8au",
+        "value" : 0.0
+      },
+      "defaultValue" : 0.0,
+      "editorTag" : "debugStoredState",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1034516:Cp6XCB",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:1034516:Cp6XCB::EN",
+            "status" : "",
+            "translation" : "debugStoredState"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "debugStoredState",
+      "refId" : "NumberDescriptor:1034514:acfBDl",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : {
+          "ignored" : "{}"
+        },
+        "refId" : "ObjectInstance:1034619:Pes6r0"
+      },
+      "description" : "",
+      "editorTag" : "debugIgnoredEvents",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1034620:MgNejH",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:1034620:MgNejH::EN",
+            "status" : "",
+            "translation" : "debugIgnoredEvents"
+          }
+        }
+      },
+      "name" : "debugIgnoredEvents",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:1034618:k8juHH",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4797,6 +4864,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24076751:9QkC9G",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/timeOfDeath",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:208752:bWHbOU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
