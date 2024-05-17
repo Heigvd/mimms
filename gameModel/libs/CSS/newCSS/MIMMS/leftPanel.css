@@ -13,6 +13,7 @@
 .role{
 	margin: auto;
 }
+
 /*** global LeftPanel ***/
 .leftPanel-container{
   width: 30%;
@@ -41,7 +42,7 @@
 
 .contentLeftPanel {
 	height: 100%;
-	width: 100%;
+	width: auto;
   pointer-events: auto;
   overflow: hidden;
 	/*border: solid 3px pink*/
@@ -51,26 +52,28 @@
 	height: 100%;
 	width: 100%;
 	padding: 0px;
+  margin: auto;
 	background-color: var(--gray_WHITE);
 	z-index: 4;
 }
 
-
-
-
 /******** SUBPANEL (Actions, radio resources) ********/
-/*check if still used
 
 .leftSubPanel-container{
 	width: 100%;
 	margin-top: 0px;
 	padding: 0px 15px;
-}*/
+}
+
+interfaceMenuLoader-container{
+  width: 100%;
+  margin: auto;
+}
 
 /*** Sub panel for resources ***/
 .resourcesSubPanel-container{
-	height: 100%;
+	/*height: 100%;
 	width: 100%;
 	overflow-y: auto;
-	padding: 0px 15px;
+	padding: 0px 15px;*/
 }

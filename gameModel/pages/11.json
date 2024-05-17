@@ -4,9 +4,7 @@
       "props" : {
         "className" : "h2title",
         "layoutClassName" : "",
-        "layoutStyle" : {
-          "marginLeft" : "5px"
-        },
+        "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
         "text" : {
@@ -209,9 +207,7 @@
         "className" : "noPadding noMargin",
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : {
-          "border" : "1px solid orange"
-        },
+        "layoutStyle" : { },
         "name" : "radioMenu",
         "style" : { }
       },

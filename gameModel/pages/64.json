@@ -10,8 +10,8 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "sender",
-                        "layoutClassName" : "radioContent-container sender-container",
+                        "className" : "/*sender*/",
+                        "layoutClassName" : "notificationTime",
                         "layoutStyle" : { },
                         "name" : "Sender",
                         "style" : { },
@@ -24,8 +24,8 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "className" : "message",
-                        "layoutClassName" : "radioContent-container message-container",
+                        "className" : "notificationText",
+                        "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "Message",
                         "style" : { },

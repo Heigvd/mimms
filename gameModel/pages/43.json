@@ -545,8 +545,7 @@
                                 "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : {
-                                  "backgroundColor" : "#E7EEE3",
-                                  "flexGrow" : "/*1*/",
+                                  "backgroundColor" : "#E4E6E7",
                                   "height" : "100%",
                                   "padding" : "0px",
                                   "pointer-events" : "auto",

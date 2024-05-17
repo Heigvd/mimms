@@ -73,7 +73,7 @@
 .interfaceMenuLoader-container{
   overflow: auto;
   height: 100%;
-  max-width: 25vw;
+  /*max-width: 25vw;*/
 }
 
 .grid{

@@ -2,15 +2,11 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "h2title",
+        "className" : "",
         "layoutClassName" : "h2title",
-        "layoutStyle" : {
-          "marginLeft" : "5px"
-        },
+        "layoutStyle" : { },
         "name" : "Panel title",
-        "style" : {
-          "marginTop" : "5px"
-        },
+        "style" : { },
         "text" : {
           "@class" : "Script",
           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'resources')}`",
@@ -397,7 +393,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "/*leftPanel-container*/ mainSimLeftPanel-container",
+    "layoutClassName" : "/*leftPanel-container*/ mainSimLeftPanel-container leftSubPanel-container",
     "layoutStyle" : { },
     "name" : "resources",
     "style" : {

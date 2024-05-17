@@ -4,9 +4,7 @@
       "props" : {
         "className" : "",
         "layoutClassName" : "h2title",
-        "layoutStyle" : {
-          "marginLeft" : "5px"
-        },
+        "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
         "text" : {
@@ -222,7 +220,7 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "allDisplay-container",
+        "className" : "/*allDisplay-container*/",
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
@@ -234,7 +232,7 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "allDisplay-container",
+        "layoutClassName" : "/*allDisplay-container*/",
         "layoutStyle" : {
           "marginTop" : "0px",
           "paddingTop" : "0px"

@@ -10,19 +10,23 @@
 	font-weight: var(--boldWeight);
 	color:var(--primary_base);
 	background-color:  var(--grey_0);
+  border-right: solid 2px var(--primary_base);
+  border-top: solid 2px var(--primary_base);
+  border-bottom: solid 2px var(--primary_base);
 }
 
 .not-active-selected-item {
 	color: var(--grey_70);
 	cursor: pointer;
-	background-color: var(--grey_10);
+	background-color: var(--grey_0);
 	border-left: 2px solid var(--grey_20);
 }
 
 .menu-container{
 	margin-top: 3.2rem;
 	padding: 0px;
-  	position:absolute;
+  position:absolute;
+ 
 }
 
 .menuItem-container{
@@ -38,7 +42,7 @@
 
 /*** for open left panel ***/
 .menuItem-openPanel{
-  	position:relative;
-  	left: 0;
+  position:relative;
+  left: 0;
 }
 
