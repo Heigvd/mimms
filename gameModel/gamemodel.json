@@ -6199,7 +6199,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_16-05-24_MIM_InterfaceRewamp_corrContentLeftPanel&map",
+  "name" : "MIMMS Main Simulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

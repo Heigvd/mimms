@@ -26,6 +26,11 @@
     font-family: var(--mainFont);
   }
 
+  .h3title p{
+    padding: 0px;
+    margin: 0px;
+  }
+
   .simpleText {
     font-size: var(--SM_text);
     color: var(--gray_700);

@@ -2,8 +2,8 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "",
-        "layoutClassName" : "h2title",
+        "className" : "noPadding",
+        "layoutClassName" : "h2title noPadding",
         "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
@@ -18,11 +18,13 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "h3title",
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-locations', 'sourceLocation')+\"<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', 'sourceLocation')",
               "language" : "TypeScript"
             }
           },
@@ -34,7 +36,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\n\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', location.name), value: location.id}});",
               "language" : "typescript"
             },
-            "layoutClassName" : "locationChoiceInAction",
+            "layoutClassName" : "resourcesDropdowns",
             "layoutStyle" : { },
             "name" : "source location",
             "onVariableChange" : {
@@ -59,8 +61,13 @@
           "type" : "Select input"
         } ],
         "className" : "",
-        "layout" : { },
-        "layoutStyle" : { },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "display" : "none"
+        },
         "name" : "current location",
         "style" : { }
       },
@@ -69,11 +76,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-actions-tasks', 'currentActivity')+\"<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'currentActivity')",
               "language" : "TypeScript"
             }
           },
@@ -85,7 +93,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
-            "layoutClassName" : "taskChoiceInAction",
+            "layoutClassName" : "resourcesDropdowns",
             "layoutStyle" : { },
             "name" : "source task",
             "onVariableChange" : {
@@ -110,7 +118,9 @@
           "type" : "Select input"
         } ],
         "className" : "",
-        "layout" : { },
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
         "name" : "current activity",
         "style" : { }
@@ -120,11 +130,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-resources', 'resources')+\"<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'resources')",
               "language" : "TypeScript"
             }
           },
@@ -135,29 +146,22 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "resource type name",
+                    "style" : {
+                      "align-content" : "center"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceType.enum + '-short');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
-                      "props" : {
-                        "icon" : "user-md",
-                        "layoutClassName" : "resourceTypeIcon-container",
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Icon"
-                    }, {
-                      "props" : {
-                        "className" : "resourceCounter",
-                        "layoutClassName" : "resourceCounter-container lightIconCounter-container noPadding",
-                        "layoutStyle" : { },
-                        "name" : "nb available tip",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getCountAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\ngetCountAvailableResourcesToAllocate(location, taskId, resourceType);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
                       "props" : {
                         "layoutClassName" : "resourceTypeChosenNumber-container",
                         "layoutStyle" : { },
@@ -189,52 +193,66 @@
                       "type" : "Number input"
                     }, {
                       "props" : {
-                        "layoutClassName" : "resourceTypeName-container",
+                        "className" : "",
+                        "layoutClassName" : "selectableRessources noPadding",
                         "layoutStyle" : { },
-                        "name" : "resource type name",
+                        "name" : "availableResourcesByType",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceType.enum + '-short');",
+                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getCountAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + getCountAvailableResourcesToAllocate(location, taskId, resourceType);",
                           "language" : "TypeScript"
                         }
                       },
                       "type" : "Text"
                     } ],
-                    "className" : "oneResourceType noPadding",
-                    "layout" : {
-                      "alignItems" : "center",
-                      "flexDirection" : "column"
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "height" : "50px"
                     },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "one resource type",
+                    "name" : "numbers",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "resourceTypeList",
-                "exposeAs" : "resourceType",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
-                  "language" : "TypeScript"
+                "className" : "",
+                "layout" : {
+                  "justifyContent" : "space-between"
                 },
-                "itemKey" : "enum",
-                "layout" : { },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "evenOddList-container",
                 "layoutStyle" : { },
-                "style" : { }
+                "name" : "resources",
+                "style" : {
+                  "height" : "40px"
+                }
               },
-              "type" : "For each"
-            } ]
+              "type" : "FlexList"
+            } ],
+            "className" : "",
+            "exposeAs" : "resourceType",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "enum",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "0px"
+            },
+            "style" : { }
           },
-          "type" : "FlexList"
+          "type" : "For each"
         } ],
         "className" : "",
         "layout" : {
+          "alignContent" : "center",
           "flexDirection" : "column"
         },
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "name" : "resources type",
         "style" : { }
@@ -244,11 +262,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutClassName" : "h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\"\n\"<p>\"+getTranslation('mainSim-locations', 'targetLocation')+\"<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\"\ngetTranslation('mainSim-locations', 'targetLocation')",
               "language" : "TypeScript"
             }
           },
@@ -260,7 +279,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', location.name), value: location.id}});",
               "language" : "typescript"
             },
-            "layoutClassName" : "locationChoiceInAction",
+            "layoutClassName" : "resourcesDropdowns",
             "layoutStyle" : { },
             "name" : "target location",
             "onVariableChange" : {
@@ -285,7 +304,9 @@
           "type" : "Select input"
         } ],
         "className" : "",
-        "layout" : { },
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
         "name" : "target location",
         "style" : { }
@@ -295,11 +316,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutClassName" : "h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\"<p>\"+getTranslation('mainSim-actions-tasks', 'targetActivity')+\"<br></p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'targetActivity')",
               "language" : "TypeScript"
             }
           },
@@ -311,7 +333,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
               "language" : "typescript"
             },
-            "layoutClassName" : "taskChoiceInAction",
+            "layoutClassName" : "resourcesDropdowns",
             "layoutStyle" : { },
             "name" : "destination task",
             "onVariableChange" : {
@@ -336,7 +358,9 @@
           "type" : "Select input"
         } ],
         "className" : "",
-        "layout" : { },
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
         "name" : "target activity",
         "style" : { }
@@ -346,7 +370,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "l_button button-primaryColor",
+            "className" : "s_button button-primaryColor",
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
