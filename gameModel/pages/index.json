@@ -359,16 +359,6 @@
         } ],
         "name" : "resources"
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "42",
-          "name" : "casuMessageInput",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        } ],
-        "name" : "modal"
-      }, {
         "@class" : "Page",
         "id" : "57",
         "name" : "PatientSummaryPage",
@@ -405,6 +395,12 @@
       }, {
         "@class" : "Folder",
         "items" : [ {
+          "@class" : "Page",
+          "id" : "42",
+          "name" : "casuMessageInput",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
           "@class" : "Page",
           "id" : "11",
           "name" : "radio",

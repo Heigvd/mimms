@@ -1,28 +1,33 @@
 
 .timeline-container {
-	width: 100%;
+	position: absolute;
 	height: auto;
-	bottom: 0;
-	padding: 1rem;
+  padding: 0px;
+	bottom: 0px;
+	right: 0px;
 	pointer-events: auto;
-	overflow: visible!important;
-	/* trouver pourquoi il y a collusion de style*/
+	overflow-y: visible;
+	border-left: 2px solid var(--grey_20);
+	z-index: 7;
 }
 
-.timeline {
+.partialTimeline{
+  width: 70% !important;
+}
+
+.timeline{
 	background: var(--gray_WHITE);
-	width: auto;
 	height: auto;
 	pointer-events: auto;
-	border-radius: var(--S_borderRadius);
-}
+	width: 100%;
+  overflow: hidden;
+	}
 
 .timeline-display {
 	width: 100%;
 	height: 100%;
 	margin-top: 10px;
 }
-
 
 
 /***********************TIMELINE ITEM ***********************/
@@ -56,7 +61,7 @@
 }
 
 .timeline-item.current {
-	background:var(--interface_0);
+	background:var(--primary_10);
 }
 
 .marker-time {
@@ -79,9 +84,9 @@
 }
 
 .time.current {
-	background: var(--interface_0);
+	background: var(--primary_10);
 	padding: 5px 10px 5px 10px;
-	border: 3px solid var(--interface_BLUE);
+	border: 3px solid var(--primary_base);
 	border-radius: var(--XS_borderRadius);
 	
 }
@@ -100,7 +105,7 @@
 }
 
 .marker-line.current {
-	border-right: 3px solid var(--interface_BLUE);
+	border-right: 3px solid var(--primary_base);
 	z-index: 2;
 }
 
@@ -113,38 +118,6 @@
 	overflow: visible;
 	z-index: 4;
 }
-
-/*********************** NEXT BUTTON ***********************/
-.next-container{
-z-index: 4;
-position: absolute;
-top: -1.6em;
-right: 2em;
-overflow: visible;
-}
-
-.nextActionBtn > * {
-    /* margin: 0.5em; */
-    height: 2.5em;
-    width: 4.5em;
-    border-radius: 25px;
-    /* align-content: flex-end; */
-    font-weight: var(--boldWeight);
-    color: var(--gray_WHITE);
-    background: var(--secondaryInterface_400);
-}
-
-.nextActionBtn:hover > *{
-	background: var(--secondaryInterface_200);
-	cursor: pointer;
-}
-.nextActionBtn > * > svg {
-	font-size: 1.6em;
-	margin: auto;
-}
-
-
-
 
 
 
