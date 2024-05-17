@@ -158,11 +158,7 @@
                       "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
                       "language" : "typescript"
                     },
-                    "icon" : {
-                      "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\n'';",
-                      "language" : "typescript"
-                    },
+                    "icon" : "",
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",

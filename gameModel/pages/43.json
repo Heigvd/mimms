@@ -244,7 +244,7 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "className" : "actor",
+                                                    "className" : "button-S button-primaryColor",
                                                     "conditionnalClassNames" : [ {
                                                       "applyOn" : "Inside",
                                                       "className" : "current",
@@ -295,6 +295,15 @@
                                             "style" : { }
                                           },
                                           "type" : "FlexList"
+                                        } ],
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "currentPosition",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.interfaceState.state.isCurrentActorAtLocation === Context.actor.location;",
+                                            "language" : "typescript"
+                                          }
                                         } ],
                                         "hideIf" : {
                                           "@class" : "Script",

@@ -38,7 +38,7 @@
             } ],
             "label" : {
               "@class" : "Script",
-              "content" : "  const fakevar = 'G679';\n   fakevar ;",
+              "content" : "\"<p>G679</p>\"",
               "language" : "TypeScript"
             },
             "layoutClassName" : "button-channel-container",
