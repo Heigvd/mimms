@@ -14,6 +14,7 @@ import {
   AllResourcesReleaseLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
+import { ActionType } from '../actionType';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
@@ -301,7 +302,10 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         state.getSimTime(),
         0,
         'resources',
-        feedbackRadioMessage || 'TODO add task feedback'
+        feedbackRadioMessage || 'TODO add task feedback',
+        ActionType.RESOURCES_RADIO,
+        undefined,
+        true
       )
     );
   }

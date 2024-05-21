@@ -100,14 +100,25 @@ function initMainState(): MainSimulationState {
     []
   );
 
-  const taskPorter = new PorterTask(
+  const taskBrancardageChantier = new PorterTask(
     'brancardage-title',
     'porter-desc',
-    'porters-task-completed',
+    'porters-task-chantier-completed',
+    LOCATION_ENUM.chantier,
     2,
-    10,
+    100,
     'AL',
-    [LOCATION_ENUM.chantier],
+    []
+  );
+
+  const taskBrancardageNidDeBlesses = new PorterTask(
+    'brancardage-title',
+    'porter-desc',
+    'porters-task-nid-completed',
+    LOCATION_ENUM.nidDeBlesses,
+    2,
+    100,
+    'AL',
     []
   );
 
@@ -124,7 +135,7 @@ function initMainState(): MainSimulationState {
       actors: [testAL, testCASU],
       mapLocations: [mainAccident],
       patients: loadPatients(),
-      tasks: [taskWaiting, taskPretri, taskPorter],
+      tasks: [taskWaiting, taskPretri, taskBrancardageChantier, taskBrancardageNidDeBlesses],
       radioMessages: [],
       resources: initialResources,
       resourceContainers: loadEmergencyResourceContainers(),

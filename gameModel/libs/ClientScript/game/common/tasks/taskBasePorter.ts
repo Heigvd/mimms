@@ -16,6 +16,7 @@ import {
 import { TaskBase } from './taskBase';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
+import { getTranslation } from '../../../tools/translation';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task
@@ -28,16 +29,14 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   private TIME_REQUIRED_FOR_INSTRUCTION = 60;
   private TIME_REQUIRED_FOR_SELF_TRANSPORT = 60;
 
-  private locationSource: LOCATION_ENUM = LOCATION_ENUM.chantier;
-
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
     readonly feedbackAtEnd: TranslationKey,
+    readonly locationSource: LOCATION_ENUM,
     nbMinResources: number,
     nbMaxResources: number,
     ownerRole: InterventionRole,
-    availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -46,9 +45,14 @@ export class PorterTask extends TaskBase<PorterSubTask> {
       nbMinResources,
       nbMaxResources,
       ownerRole,
-      availableToLocations,
+      [locationSource],
       availableToRoles
     );
+  }
+
+  /** Its short name */
+  public getFeedbackEndMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackAtEnd);
   }
 
   protected override isAvailableCustom(
@@ -157,7 +161,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
     //4. completed
     if (getNonTransportedPatientsSize(state, this.locationSource) === 0) {
-      this.finaliseTask(state, this.feedbackAtEnd);
+      this.finaliseTask(state, this.getFeedbackEndMessage());
     }
   }
 
@@ -199,12 +203,12 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   private computeTargetLocation(_state: Readonly<MainSimulationState>): LOCATION_ENUM {
     return LOCATION_ENUM.PMA;
     //   if (isLocationAvailable(LOCATION_ENUM.PMA)) {
-    //     return LOCATION_ENUM.PMA;
-    //   }
+    //   return LOCATION_ENUM.PMA;
+    // }
     //
     //   if (isLocationAvailable(LOCATION_ENUM.nidDeBlesses)) {
-    //     return LOCATION_ENUM.nidDeBlesses;
-    //   }
+    //   return LOCATION_ENUM.nidDeBlesses;
+    // }
     //
     //   // TODO send a radio message if none is available
     //   return LOCATION_ENUM.nidDeBlesses;

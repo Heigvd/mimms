@@ -44,6 +44,8 @@ request-hospital-info	Request hospital information	Demander informations sur hô
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
+porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage terminé depuis le chantier	 
+porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage terminé depuis le nid de blessés	 
 send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
@@ -67,4 +69,4 @@ move-res-task-title	Assign resource	Assigner ressource
 move-res-task-desc	Move resources to given location and task	Déplacer ressources à l'endroit et tâche choisie	
 move-res-task-feedback	The resources have been sucessfuly reassigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
-get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé	
+get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé
