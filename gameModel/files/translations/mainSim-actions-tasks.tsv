@@ -43,7 +43,8 @@ brancardage-title	Brancardage	Brancardage
 request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
-porters-task-completed	Patients evacuation done	Brancardage terminé	 
+porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener
+porters-task-completed	Patients evacuation done	Brancardage terminé
 porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage terminé depuis le chantier	 
 porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage terminé depuis le nid de blessés	 
 send-radio-title	Sends radio message	Envoie message radio	

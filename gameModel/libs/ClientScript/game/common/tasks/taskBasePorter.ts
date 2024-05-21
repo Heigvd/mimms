@@ -2,10 +2,10 @@ import { taskLogger } from '../../../tools/logger';
 import { getPriorityByCategoryId } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
-import { PatientMovedLocalEvent } from '../localEvents/localEventBase';
+import { AddRadioMessageLocalEvent, PatientMovedLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { isLocationAvailableForPatients, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   getNextNonTransportedPatientsByPriority,
@@ -17,6 +17,7 @@ import { TaskBase } from './taskBase';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { getTranslation } from '../../../tools/translation';
+import { ActionType } from '../actionType';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task
@@ -32,7 +33,8 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly feedbackAtEnd: TranslationKey,
+    readonly feedbackWhenDone: TranslationKey,
+    readonly feedbackIfNoTargetLocation: TranslationKey,
     readonly locationSource: LOCATION_ENUM,
     nbMinResources: number,
     nbMaxResources: number,
@@ -51,8 +53,12 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   }
 
   /** Its short name */
-  public getFeedbackEndMessage(): string {
-    return getTranslation('mainSim-actions-tasks', this.feedbackAtEnd);
+  public getFeedbackWhenDone(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenDone);
+  }
+
+  public getFeedbackIfNoTargetLocation(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackIfNoTargetLocation);
   }
 
   protected override isAvailableCustom(
@@ -60,13 +66,18 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     _actor: Readonly<Actor>,
     location: Readonly<LOCATION_ENUM>
   ): boolean {
-    return getNonTransportedPatientsSize(state, location) > 0;
+    return (
+      this.computeTargetLocation(state, this.locationSource) != undefined &&
+      getNonTransportedPatientsSize(state, location) > 0
+    );
   }
 
   protected override dispatchInProgressEvents(
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
+    taskLogger.info('brancardage from ', this.locationSource);
+
     // check if we have the capacity to do something
     if (!TaskState.hasEnoughResources(state, this)) {
       taskLogger.info('Not enough resources!');
@@ -161,7 +172,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
     //4. completed
     if (getNonTransportedPatientsSize(state, this.locationSource) === 0) {
-      this.finaliseTask(state, this.getFeedbackEndMessage());
+      this.finaliseTask(state, this.getFeedbackWhenDone());
     }
   }
 
@@ -175,12 +186,38 @@ export class PorterTask extends TaskBase<PorterSubTask> {
       alreadyInvolvedInSubTaskPatients
     );
 
-    while (readyResources.length >= this.GROUP_SIZE && readyPatients.length > 0) {
+    const targetLocation: LOCATION_ENUM | undefined = this.computeTargetLocation(
+      state,
+      this.locationSource
+    );
+
+    if (targetLocation == undefined) {
+      taskLogger.warn('nowhere to send patients');
+
+      // We broadcast a message when the task is completed
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          0,
+          state.getSimTime(),
+          0,
+          'resources',
+          this.getFeedbackIfNoTargetLocation(),
+          ActionType.RESOURCES_RADIO,
+          undefined,
+          true
+        )
+      );
+    }
+
+    while (
+      targetLocation != undefined &&
+      readyResources.length >= this.GROUP_SIZE &&
+      readyPatients.length > 0
+    ) {
       const chosenResources: ResourceId[] = readyResources
         .splice(0, this.GROUP_SIZE)
         .map(resource => resource.Uid);
       const chosenPatient: PatientState = readyPatients.splice(0, 1)[0]!;
-      const targetLocation: LOCATION_ENUM = this.computeTargetLocation(state);
 
       const patientCannotWalk: boolean =
         (chosenPatient.preTriageResult &&
@@ -200,17 +237,21 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     }
   }
 
-  private computeTargetLocation(_state: Readonly<MainSimulationState>): LOCATION_ENUM {
-    return LOCATION_ENUM.PMA;
-    //   if (isLocationAvailable(LOCATION_ENUM.PMA)) {
-    //   return LOCATION_ENUM.PMA;
-    // }
-    //
-    //   if (isLocationAvailable(LOCATION_ENUM.nidDeBlesses)) {
-    //   return LOCATION_ENUM.nidDeBlesses;
-    // }
-    //
-    //   // TODO send a radio message if none is available
-    //   return LOCATION_ENUM.nidDeBlesses;
+  private computeTargetLocation(
+    state: Readonly<MainSimulationState>,
+    locationSource: LOCATION_ENUM
+  ): LOCATION_ENUM | undefined {
+    if (isLocationAvailableForPatients(state, LOCATION_ENUM.PMA)) {
+      return LOCATION_ENUM.PMA;
+    }
+
+    if (
+      locationSource != LOCATION_ENUM.nidDeBlesses &&
+      isLocationAvailableForPatients(state, LOCATION_ENUM.nidDeBlesses)
+    ) {
+      return LOCATION_ENUM.nidDeBlesses;
+    }
+
+    return undefined;
   }
 }

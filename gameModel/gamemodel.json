@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716294892965,
+  "createdTime" : 1716302838552,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4032,6 +4032,7 @@
           "porters-task-chantier-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done from the incident\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage terminé depuis le chantier\",\"lang\":\"FR\"}},\"version\":0}",
           "porters-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage terminé\",\"lang\":\"FR\"}},\"version\":0}",
           "porters-task-nid-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done from the survivor receptor center\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage terminé depuis le nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
+          "porters-task-no-target-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"not possible to evacuate patients, we don't know where to take them\"},\"FR\":{\"status\":\"\",\"translation\":\"pas possible de brancarder, on ne sait pas où les amener\",\"lang\":\"FR\"}},\"version\":0}",
           "pre-tri-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pre-triage\"},\"FR\":{\"status\":\"\",\"translation\":\"pré-triage\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pre-triage done\"},\"FR\":{\"status\":\"\",\"translation\":\"pré-triage terminé\",\"lang\":\"FR\"}},\"version\":0}",
           "request-hospital-info" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request hospital information\"},\"FR\":{\"status\":\"\",\"translation\":\"demander informations sur hôpitaux\",\"lang\":\"FR\"}},\"version\":0}",
