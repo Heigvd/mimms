@@ -10,7 +10,7 @@
     "build": "tsc",
     "test": "jest",
     "lint": "eslint 'gameModel' --ext '.ts'",
-    "format": "prettier --write 'gameModel/**/*.[tj]s'",
+    "format": "prettier --write gameModel/**/*.[tj]s",
     "checkFormat": "prettier --check 'gameModel/**/*.[tj]s'"
   },
   "devDependencies": {

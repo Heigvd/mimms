@@ -2,11 +2,26 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "h2title",
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "Panel title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'radio')}`",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
+            "className" : "button-channel ",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
@@ -26,6 +41,7 @@
               "content" : "\"<p>G679</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -45,9 +61,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
@@ -72,6 +89,7 @@
               "content" : "\"<p>D418</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -91,9 +109,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
@@ -118,6 +137,7 @@
               "content" : "\"<p>D424</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -137,9 +157,10 @@
           "type" : "Button"
         }, {
           "props" : {
+            "className" : "button-channel",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
-              "className" : "active-channel",
+              "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
                 "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",
@@ -164,6 +185,7 @@
               "content" : "\"<p>D912</p>\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "button-channel-container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -182,15 +204,17 @@
           },
           "type" : "Button"
         } ],
-        "className" : "",
+        "className" : "noPadding noMargin",
         "layout" : { },
-        "layoutClassName" : "G679-container",
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
+        "name" : "radioMenu",
         "style" : { }
       },
       "type" : "FlexList"
     }, {
       "props" : {
+        "className" : "noPadding noMargin",
         "exposePageSizeAs" : "",
         "id" : "",
         "initialSelectedPageId" : {
@@ -198,6 +222,7 @@
           "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = '62'; break;\n\tdefault: page = '47';\n}\npage;",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
         "name" : "channelPageLoader",
         "style" : { }

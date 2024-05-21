@@ -55,13 +55,12 @@
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "style" : {
-              "max-height" : "300px"
-            }
+            "name" : "message",
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "className" : "D424Chanel",
+        "className" : "messageArea",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -72,7 +71,9 @@
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
+        "name" : "outuput message",
         "style" : { }
       },
       "type" : "For each"
@@ -116,7 +117,6 @@
                 },
                 "style" : {
                   "border" : "none",
-                  "height" : "100px",
                   "resize" : "none",
                   "width" : "100%"
                 }
@@ -155,7 +155,6 @@
             },
             "onAbsoluteClick" : { },
             "style" : {
-              "height" : "200px",
               "width" : "100%"
             }
           },
@@ -164,17 +163,21 @@
         "layout" : { },
         "layoutClassName" : "freeMessageInput-container",
         "layoutStyle" : { },
+        "name" : "input message",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
       "width" : "100%"
     },
+    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

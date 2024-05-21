@@ -2,11 +2,11 @@ export function getBuildingsLayer(feature: any, resolution: number) {
   let buildingStyle: LayerStyleObject = {
     fill: {
       type: 'FillStyle',
-      color: '#CCD2D7',
+      color: '#C5C8C9',
     },
     stroke: {
       type: 'StrokeStyle',
-      color: '#B1BFCD',
+      color: '#656E72',
       width: 1,
       lineCap: 'round',
       lineJoin: 'round',

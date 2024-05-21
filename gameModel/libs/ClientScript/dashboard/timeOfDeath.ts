@@ -136,7 +136,7 @@ export function exportAllPatientsTimeOfDeath() {
   const patients = computePresetPatientsUntilDeath();
 
   const separator = '\t';
-  const header: string[] = ['patientId', 'time_to_death'];
+  const header: string[] = ['patientId', 'time_to_death_minutes'];
 
   const lines: Record<PatientId, string[]> = {};
 

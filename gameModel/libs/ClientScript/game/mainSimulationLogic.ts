@@ -56,16 +56,12 @@ let stateHistory: MainSimulationState[];
 let actionTemplates: Record<string, ActionTemplateBase>;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
-let updateCount: number;
-
 Helpers.registerEffect(() => {
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];
 
   actionTemplates = {};
   processedEvents = {};
-
-  updateCount = 0;
 
   mainSimLogger.info('Main simulation initialized', actionTemplates);
   mainSimLogger.info('Initial state', currentSimulationState);
@@ -129,6 +125,8 @@ function initMainState(): MainSimulationState {
   const initialResources = [
     new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
   ];
+
+  MainSimulationState.resetStateCounter();
 
   return new MainSimulationState(
     {
@@ -473,31 +471,28 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
  * Forces rerendering if any changes ?
  */
 export function runUpdateLoop(): void {
-  updateCount++;
-  mainSimLogger.info('------ start of update loop', updateCount);
-
   // get all events
   const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
   // filter out non processed events
-  const unprocessed = globalEvents.filter(e => !processedEvents[e.id]);
+  // and filter out ignored events (if a previous state was restored)
+  const ignored = getOmittedEvents();
+  const unprocessed = globalEvents.filter(e => !processedEvents[e.id] && !ignored[e.id]);
+
+  // state restoration debug : filter out ignored events
 
   const sorted = unprocessed.sort(compareTimedEvents);
 
   // process all candidate events
-  mainSimLogger.info('Starting event processing...');
   sorted.forEach(event => {
     mainSimLogger.info('Processing event ', event);
     processEvent(event);
   });
-
-  mainSimLogger.info('------ ..... end of update loop', updateCount);
-  // TODO force render ?
 }
 
 /**
  * Processes one global event and computes a new resulting state
- * The new state is appended in the history
+ * The new state is appended to the history
  * The event is ignored if it doesn't match with the current simulation time
  * @param event the global event to process
  * @returns the resulting simulation state
@@ -579,11 +574,10 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
   processedEvents[event.id] = event;
 
   // process all generated events
-  const newState = localEventManager.processPendingEvents(currentSimulationState);
-  mainSimLogger.info('new state with count', newState.stateCount, newState);
+  const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
 
   if (newState.stateCount !== currentSimulationState.stateCount) {
-    mainSimLogger.info('updating current state');
+    mainSimLogger.info('updating current state', newState.stateCount);
     currentSimulationState = newState;
     stateHistory.push(newState);
   }
@@ -681,15 +675,54 @@ export function recomputeState() {
   TaskBase.resetIdSeed();
   SubTask.resetIdSeed();
   Resource.resetIdSeed();
-  resetSeedId();
+  resetSeedId(); // ressource containers
 
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];
 
   actionTemplates = initActionTemplates();
 
-  updateCount = 0;
-
   mainSimLogger.info('reset done');
   runUpdateLoop();
+}
+
+/**** DEBUG TOOLS SECTION ***/
+/*
+ function that resets the game state to a previously stored one
+ */
+export async function setCurrentStateDebug(stateId: number | undefined) {
+  const idx = stateHistory.findIndex(s => s.stateCount == stateId);
+  if (idx < 0) {
+    mainSimLogger.warn('state not found, cannot restore state with id', stateId);
+    return;
+  }
+  currentSimulationState = stateHistory[idx];
+  stateHistory = stateHistory.slice(0, idx + 1);
+
+  // store the events that have to be omitted when recomputing the state
+  // i.e. the events that occured after the restored state
+  const ignored = getOmittedEvents();
+  const lastEvtId = currentSimulationState.getLastEventId();
+  const all = getAllEvents();
+  let i = all.length - 1;
+  while (i > 0 && all[i].id !== lastEvtId) {
+    ignored[all[i].id] = true;
+    i--;
+  }
+
+  const ignoredString = JSON.stringify(ignored);
+  const updateIgnoredScript = `Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).setProperty('ignored', JSON.stringify(${ignoredString}));`;
+  await APIMethods.runScript(updateIgnoredScript, {});
+  mainSimLogger.info(`restored state ${stateId}, ignored events :`, stateId);
+}
+
+/**
+ * Get the events that have been cancelled due to previous stored state reloading
+ */
+function getOmittedEvents(): Record<string, boolean> {
+  const raw = Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()[
+    'ignored'
+  ];
+  const ignored = JSON.parse(raw) as Record<string, boolean>;
+  return ignored;
 }

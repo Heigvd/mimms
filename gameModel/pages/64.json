@@ -10,8 +10,8 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "sender",
-                        "layoutClassName" : "radioContent-container sender-container",
+                        "className" : "/*sender*/",
+                        "layoutClassName" : "notificationTime",
                         "layoutStyle" : { },
                         "name" : "Sender",
                         "style" : { },
@@ -24,8 +24,8 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "className" : "message",
-                        "layoutClassName" : "radioContent-container message-container",
+                        "className" : "notificationText",
+                        "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "Message",
                         "style" : { },
@@ -37,7 +37,7 @@
                       },
                       "type" : "Text"
                     } ],
-                    "className" : "aMessage",
+                    "className" : "aNotification",
                     "computedAttributes" : [ {
                       "attrName" : "sender-role",
                       "attrValue" : {
@@ -58,18 +58,18 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "aMessage-container sender-role",
+                    "layoutClassName" : "aNotification-container",
                     "layoutStyle" : { },
                     "name" : "aMessage",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "allDisplay-container s_margin",
+                "className" : "",
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid);",
+                  "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
@@ -107,12 +107,13 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "tomato",
+        "className" : "noPadding noMargin",
         "ifCondition" : {
           "@class" : "Script",
-          "content" : "import { getAvailableRadioMessages } from \"./UIfacade/radioFacade\";\ngetAvailableRadioMessages(Context.interfaceState.state.currentActorUid).length > 0;",
+          "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
           "overflow" : "none"
         },

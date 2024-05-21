@@ -15,6 +15,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
   channel: string;
@@ -66,6 +67,7 @@ export function getInitialInterfaceState(): InterfaceState {
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    showLeftPanel: true,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
