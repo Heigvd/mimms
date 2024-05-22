@@ -2,8 +2,8 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "noPadding",
-        "layoutClassName" : "h2title noPadding",
+        "className" : "",
+        "layoutClassName" : "h2title",
         "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
@@ -131,6 +131,7 @@
         "children" : [ {
           "props" : {
             "className" : "h3title",
+            "layoutClassName" : "h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -146,11 +147,13 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutClassName" : "",
+                    "className" : "noPadding noMargin",
+                    "layoutClassName" : "noPadding noMargin",
                     "layoutStyle" : { },
                     "name" : "resource type name",
                     "style" : {
-                      "align-content" : "center"
+                      "align-content" : "center",
+                      "font-size" : "12px"
                     },
                     "text" : {
                       "@class" : "Script",
@@ -163,7 +166,8 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutClassName" : "resourceTypeChosenNumber-container",
+                        "className" : "noPadding noMargin",
+                        "layoutClassName" : "resourceTypeChosenNumber-container noPadding noMargin",
                         "layoutStyle" : { },
                         "onCancel" : { },
                         "onVariableChange" : {
@@ -188,16 +192,25 @@
                           "content" : "Context.interfaceState.state.resources.allocateResources[Context.resourceType.enum] || '';",
                           "language" : "TypeScript"
                         },
-                        "style" : { }
+                        "style" : {
+                          "font-size" : "10px",
+                          "height" : "10px",
+                          "line-height" : "10px"
+                        }
                       },
                       "type" : "Number input"
                     }, {
                       "props" : {
                         "className" : "",
-                        "layoutClassName" : "selectableRessources noPadding",
-                        "layoutStyle" : { },
+                        "layoutClassName" : "selectableRessources ",
+                        "layoutStyle" : {
+                          "paddingTop" : "0px"
+                        },
                         "name" : "availableResourcesByType",
-                        "style" : { },
+                        "style" : {
+                          "align-items" : "center",
+                          "font-size" : "12px"
+                        },
                         "text" : {
                           "@class" : "Script",
                           "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getCountAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + getCountAvailableResourcesToAllocate(location, taskId, resourceType);",
@@ -206,25 +219,32 @@
                       },
                       "type" : "Text"
                     } ],
-                    "layout" : { },
-                    "layoutStyle" : {
-                      "height" : "50px"
+                    "className" : "noPadding noMargin",
+                    "layout" : {
+                      "alignContent" : "center",
+                      "justifyContent" : "space-between"
                     },
+                    "layoutClassName" : "noPadding noMargin",
+                    "layoutStyle" : { },
                     "name" : "numbers",
-                    "style" : { }
+                    "style" : {
+                      "height" : "2rem",
+                      "width" : "4rem"
+                    }
                   },
                   "type" : "FlexList"
                 } ],
                 "className" : "",
                 "layout" : {
+                  "alignContent" : "center",
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "evenOddList-container",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "height" : "30px"
+                },
                 "name" : "resources",
-                "style" : {
-                  "height" : "40px"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             } ],

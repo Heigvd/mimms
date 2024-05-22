@@ -39,7 +39,7 @@
               }
             }, {
               "applyOn" : "Inside",
-              "className" : "radio-message-myself /*radio-message-casu-myself*/ tri-right right-top",
+              "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
@@ -78,13 +78,14 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "noPadding noMargin messageArea-container",
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "For each"
     }, {
       "props" : {
+        "className" : "noMargin noPadding",
         "disableIf" : {
           "@class" : "Script",
           "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
@@ -96,13 +97,14 @@
           "content" : "\"42\"",
           "language" : "typescript"
         },
+        "layoutClassName" : "noMargin noPadding",
         "layoutStyle" : { },
         "name" : "casuPageLoader",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "noPadding noMargin ",
     "layout" : {
       "flexDirection" : "column"
     },
@@ -111,6 +113,7 @@
       "height" : "100%",
       "width" : "100%"
     },
+    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

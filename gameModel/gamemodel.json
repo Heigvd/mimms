@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1715947955897,
+  "createdTime" : 1716373420982,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6199,7 +6199,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Main Simulation",
+  "name" : "MIMMS_17-05-24_MIM_RessourcesPanelCorrection",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

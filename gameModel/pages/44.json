@@ -15,7 +15,7 @@
       "type" : "Image"
     }, {
       "props" : {
-        "className" : "l_button pink",
+        "className" : "button-L button-secondaryColor",
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",

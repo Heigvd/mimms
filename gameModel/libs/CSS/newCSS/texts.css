@@ -18,8 +18,8 @@
     font-family: var(--mainFont);
   }
 
-  .h3title {
-    font-size: var(--SM_text);
+  .h3title{
+    font-size: var(--S_text);
     margin-bottom: 5px;
     font-weight: var(--boldWeight);
     color: var(--gray_BLACK);

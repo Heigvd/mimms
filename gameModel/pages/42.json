@@ -113,7 +113,9 @@
                 "className" : "noPadding noMargin",
                 "layout" : { },
                 "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "max-width" : "25vw"
+                },
                 "name" : "methaneButtons",
                 "style" : { }
               },
@@ -141,12 +143,15 @@
               },
               "type" : "Button"
             } ],
+            "className" : "noPadding",
             "layout" : {
               "alignItems" : "flex-start",
               "flexDirection" : "column"
             },
             "layoutClassName" : "noPadding noMargin",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "max-width" : "25vw"
+            },
             "name" : "buttons",
             "style" : { }
           },
@@ -644,6 +649,7 @@
                   "content" : "import { HospitalProximity } from \"./game/common/simulationState/locationState\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(HospitalProximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: HospitalProximity[key],\n}));\nselection;",
                   "language" : "typescript"
                 },
+                "id" : "",
                 "layoutStyle" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -684,7 +690,16 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "button-primaryColor s_button",
+                "className" : "button-secondaryColor button-S",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
                 "disableIf" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
@@ -735,7 +750,7 @@
       },
       "type" : "FlexList"
     } ],
-    "className" : "",
+    "className" : "noPadding noMargin ",
     "layout" : {
       "flexDirection" : "column"
     },

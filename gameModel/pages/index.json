@@ -403,32 +403,32 @@
         }, {
           "@class" : "Page",
           "id" : "11",
-          "name" : "radio",
+          "name" : "radio_container",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "47",
-          "name" : "channel_CASU_RADIO",
+          "name" : "G679_Casu",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "50",
-          "name" : "channel_ ACTORS_RADIO",
+          "name" : "D418_freeMsg",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "62",
-          "name" : "channel_ EVASAN_RADIO",
+          "name" : "D912_evasan",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "63",
-          "name" : "channel_ RESSOURCES_RADIO",
-          "scenaristPage" : null,
+          "name" : "D424",
+          "scenaristPage" : true,
           "trainerPage" : null
         } ],
         "name" : "radio_page"

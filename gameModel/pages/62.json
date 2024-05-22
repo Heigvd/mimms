@@ -55,12 +55,11 @@
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "style" : {
-              "max-height" : "300px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "className" : "messageArea",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -71,113 +70,24 @@
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
-          "overflow-y" : "auto"
+          "overflow" : "auto"
         }
       },
       "type" : "For each"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.evasam = Context.evasam;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"evasam\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "rows" : 2,
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.channelText.evasam;",
-                  "language" : "TypeScript"
-                },
-                "style" : {
-                  "border" : "none",
-                  "height" : "100px",
-                  "resize" : "none",
-                  "width" : "100%"
-                }
-              },
-              "type" : "String input"
-            }, {
-              "props" : {
-                "className" : "pink l_button",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : {
-                  "bottom" : "5px",
-                  "right" : "5px"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst test =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nrunActionButton(test[0]);",
-                    "language" : "TypeScript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
-            } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "true",
-              "language" : "typescript"
-            },
-            "layoutStyle" : {
-              "margin-right" : "5px",
-              "width" : "100%"
-            },
-            "onAbsoluteClick" : { },
-            "style" : {
-              "height" : "200px",
-              "width" : "100%"
-            }
-          },
-          "type" : "AbsoluteLayout"
-        } ],
-        "layout" : { },
-        "layoutStyle" : {
-          "background-color" : "white",
-          "border" : "1px solid black",
-          "border-radius" : "15px",
-          "height" : "180px"
-        },
-        "style" : { }
-      },
-      "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
+    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

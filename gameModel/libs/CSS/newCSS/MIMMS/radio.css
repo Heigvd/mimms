@@ -20,6 +20,10 @@
   padding: 0px 5px 0px;
 }
 
+.button-channel-container:first-child{
+  padding-left: 0px;
+}
+
 /* selected */
 .button-channel_selected{
 	width: 68px;
@@ -158,28 +162,32 @@
 /* message sent by oneself */
 .radio-message-myself {
 	margin: 10px;
-	left: 30%;
+	/*left: 30%;*/
+  margin-left: auto;
   display: inline-block;
   position: relative;
-	width: 60%;
+	max-width: 13rem;
+  min-width: 10rem;
 	height: auto;
 	background-color: var(--primary_10);
 	border-radius: 15px;
 }
 
-/* why not the same as the one for oneself?*/
+/* why not the same as the one for oneself?
 .radio-message-casu-myself{
 	margin: 10px;
-	left: /*160px*/ 30%;
+	/*left: 30%;*/
+  /*
+  margin-left: calc(auto - 5px);
   display: inline-block;
   position: relative;
 	width:20px;
 	height: auto;
-	background-color: /*var(--primary_10)*/ hotpink;
+	background-color: /*var(--primary_10) hotpink;
 	border-radius: 15px;
-	/*flex: none;*/
+	
 }
-
+*/
 .radio-message-others {
 	margin: 10px;
 	left: 5px;
@@ -248,11 +256,12 @@
 	letter-spacing: 0em;
 	text-align: left;
 	margin-left: 15px;
-	
 }
 
 .emitter-text-body-layout>p{
 	margin-top: 0px;
+  max-width: 10rem;
+  word-wrap: break-word;
 }
 /* is it used???
 .chevron-icon {

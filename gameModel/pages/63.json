@@ -127,19 +127,24 @@
         "layout" : {
           "justifyContent" : "flex-end"
         },
+        "layoutClassName" : "freeMessageInput-container",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "className" : "",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "name" : "messagePanel",
+    "style" : { }
   },
   "type" : "FlexList"
 }
