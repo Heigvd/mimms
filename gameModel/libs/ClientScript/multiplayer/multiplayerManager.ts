@@ -1,4 +1,5 @@
-import { InterventionRole } from '../game/common/actors/actor';
+import { Actor, InterventionRole } from '../game/common/actors/actor';
+import { ActorId } from '../game/common/baseTypes';
 import { mainSimLogger } from '../tools/logger';
 
 interface MultiplayerMatrix extends Array<PlayerMatrix> {}
@@ -178,4 +179,12 @@ export function checkAllPlayersReady(): boolean {
   return getPlayersAndRoles()
     .flatMap(p => p.ready)
     .every(r => r);
+}
+
+/**
+ * Given a list of actors, filters those which are played by the current player
+ */
+export function getCurrentPlayerActorIds(actors: Readonly<Actor[]>): ActorId[] {
+  const roles = getPlayerRolesSelf();
+  return actors.filter(a => roles[a.Role]).map(a => a.Uid);
 }

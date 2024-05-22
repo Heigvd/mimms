@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1714749755466,
+  "createdTime" : 1716372733651,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5260,6 +5260,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/timeState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1037079:hWsFTK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/tasks/resources",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6230,7 +6239,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "MIMMS - XGO TimeForward MIM-196",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
