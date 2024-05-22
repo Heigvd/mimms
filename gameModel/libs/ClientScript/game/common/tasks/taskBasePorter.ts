@@ -67,8 +67,9 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     location: Readonly<LOCATION_ENUM>
   ): boolean {
     return (
-      this.computeTargetLocation(state, this.locationSource) != undefined &&
-      getNonTransportedPatientsSize(state, location) > 0
+      // we allow the player to assign resources even if there is no work to do
+      // but there must be a place to bring them to
+      this.computeTargetLocation(state, this.locationSource) != undefined
     );
   }
 
@@ -171,7 +172,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     );
 
     //4. completed
-    if (getNonTransportedPatientsSize(state, this.locationSource) === 0) {
+    if (this.isCompleted(state)) {
       this.finaliseTask(state, this.getFeedbackWhenDone());
     }
   }
@@ -253,5 +254,12 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     }
 
     return undefined;
+  }
+
+  private isCompleted(state: Readonly<MainSimulationState>): boolean {
+    return (
+      getNonTransportedPatientsSize(state, this.locationSource) === 0 &&
+      !TaskState.isBrancardageTaskForTargetLocation(state, this.locationSource)
+    );
   }
 }

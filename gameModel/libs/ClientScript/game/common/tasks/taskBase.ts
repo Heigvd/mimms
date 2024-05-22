@@ -34,7 +34,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
   protected status: TaskStatus;
 
-  protected subTasks: Record<SubTaskId, SubTaskType>;
+  public subTasks: Record<SubTaskId, SubTaskType>;
 
   protected constructor(
     readonly title: TranslationKey,

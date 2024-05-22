@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import { taskLogger } from '../../../tools/logger';
-import { Actor, InterventionRole } from '../actors/actor';
+import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
@@ -49,15 +49,6 @@ export class PreTriageTask extends TaskBase {
       availableToLocations,
       availableToRoles
     );
-  }
-
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    _actor: Readonly<Actor>,
-    _location: Readonly<LOCATION_ENUM>
-  ): boolean {
-    //return state.areZonesAlreadyDefined();
-    return getNonPreTriagedPatientsSize(state) > 0;
   }
 
   protected override dispatchInProgressEvents(

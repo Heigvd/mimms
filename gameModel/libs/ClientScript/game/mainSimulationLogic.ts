@@ -116,7 +116,7 @@ function initMainState(): MainSimulationState {
     LOCATION_ENUM.nidDeBlesses,
     2,
     100,
-    'AL',
+    'MCS',
     []
   );
 

@@ -5,6 +5,8 @@ import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
 import { LOCATION_ENUM } from './locationState';
 import { getStateActorSymbolicLocation } from '../actors/actorLogic';
+import { PorterTask } from '../tasks/taskBasePorter';
+import { PorterSubTask } from '../tasks/subTask';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -44,6 +46,16 @@ export function fetchTasksWithResources(
   return Object.values(getAllTasks(state)).filter(ta =>
     tasksIdWhereResources.find(taskId => taskId == ta.Uid)
   );
+}
+
+export function isBrancardageTaskForTargetLocation(
+  state: Readonly<MainSimulationState>,
+  targetLocation: LOCATION_ENUM
+): boolean {
+  return Object.values(getAllTasks(state))
+    .filter(ta => ta instanceof PorterTask)
+    .flatMap(ta => Object.values(ta.subTasks))
+    .some(st => (st as PorterSubTask).targetLocation === targetLocation);
 }
 
 /**
