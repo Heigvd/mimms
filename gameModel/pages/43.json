@@ -69,7 +69,7 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "className" : "h3title ",
+                                                "className" : "mimms_h3title",
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "selectedFixedEntityHeader",

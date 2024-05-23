@@ -18,7 +18,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h3title",
+            "className" : "mimms_h3title",
             "layoutClassName" : "",
             "layoutStyle" : { },
             "style" : { },
@@ -76,7 +76,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h3title",
+            "className" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -130,8 +130,8 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h3title",
-            "layoutClassName" : "h3title",
+            "className" : "mimms_h3title",
+            "layoutClassName" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -282,7 +282,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "layoutClassName" : "h3title",
+            "layoutClassName" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -336,7 +336,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "layoutClassName" : "h3title",
+            "layoutClassName" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
