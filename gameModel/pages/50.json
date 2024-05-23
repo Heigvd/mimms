@@ -135,6 +135,14 @@
                     "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
                     "language" : "typescript"
                   }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "language" : "typescript"
+                  }
                 } ],
                 "label" : {
                   "@class" : "Script",

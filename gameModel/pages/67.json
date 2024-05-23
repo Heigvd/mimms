@@ -9,7 +9,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'resources')}`",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'sourcelocation')}`",
           "language" : "TypeScript"
         }
       },
@@ -77,6 +77,7 @@
         "children" : [ {
           "props" : {
             "className" : "mimms_h3title",
+            "layoutClassName" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -390,7 +391,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "s_button button-primaryColor",
+            "className" : "button-S button-primaryColor",
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",

@@ -118,7 +118,8 @@
                                             } ],
                                             "layout" : {
                                               "alignItems" : "center",
-                                              "flexDirection" : "row"
+                                              "flexDirection" : "row",
+                                              "justifyContent" : "space-between"
                                             },
                                             "layoutStyle" : { },
                                             "name" : "fixedEntityHeader",
@@ -305,6 +306,7 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
+                                        "className" : "fixedEntities",
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Inside",
                                           "className" : "currentPosition",
@@ -318,7 +320,7 @@
                                           "className" : "selectedFixedMapEntity",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "true;",
+                                            "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -1173,6 +1175,24 @@
                             "style" : { }
                           },
                           "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "",
+                            "children" : [ ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "onExitActions" : { },
+                            "style" : {
+                              "backgroundColor" : "pink"
+                            }
+                          },
+                          "type" : "Modal"
                         } ],
                         "className" : "noPadding noMargin",
                         "layout" : { },
