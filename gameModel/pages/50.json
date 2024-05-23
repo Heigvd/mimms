@@ -38,7 +38,7 @@
                 "language" : "typescript"
               }
             }, {
-              "applyOn" : "Outside",
+              "applyOn" : "Inside",
               "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
@@ -72,7 +72,9 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "messageArea-container",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "height" : "23rem"
+        },
         "name" : "outuput message",
         "style" : { }
       },

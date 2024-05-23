@@ -69,6 +69,28 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
+                                                "className" : "h3title ",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "selectedFixedEntityHeader",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "true;",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layoutStyle" : { },
+                                                "name" : "fixedEntitiesName",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
                                                 "className" : "close-button",
                                                 "label" : {
                                                   "@class" : "Script",
@@ -93,19 +115,6 @@
                                                 }
                                               },
                                               "type" : "Button"
-                                            }, {
-                                              "props" : {
-                                                "className" : "h3title",
-                                                "layoutStyle" : { },
-                                                "name" : "fixedEntitiesName",
-                                                "style" : { },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
-                                                  "language" : "TypeScript"
-                                                }
-                                              },
-                                              "type" : "Text"
                                             } ],
                                             "layout" : {
                                               "alignItems" : "center",
@@ -304,6 +313,14 @@
                                             "content" : "Context.interfaceState.state.isCurrentActorAtLocation === Context.actor.location;",
                                             "language" : "typescript"
                                           }
+                                        }, {
+                                          "applyOn" : "Outside",
+                                          "className" : "selectedFixedMapEntity",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "true;",
+                                            "language" : "typescript"
+                                          }
                                         } ],
                                         "hideIf" : {
                                           "@class" : "Script",
@@ -322,6 +339,15 @@
                                     }, {
                                       "props" : {
                                         "children" : [ ],
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Outside",
+                                          "className" : "selectedFixedMapEntityArrow",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "true;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "hideIf" : {
                                           "@class" : "Script",
                                           "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
@@ -832,7 +858,7 @@
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "icon" : "users",
+                                "icon" : "map-marked",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
                                   "pointerEvents" : "auto"

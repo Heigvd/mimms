@@ -44,4 +44,22 @@
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
 }
 
-/*** Fixed entities (unselected)  ***/
+
+/*** selected fixed map entity ***/
+.fixedEntities-arrow.selectedFixedMapEntityArrow{
+  border-top: 20px solid var(--primary_base);
+}
+
+.selectedFixedMapEntity{
+  border-radius: var(--XS_borderRadius);
+  border: solid 3px var(--primary_base);
+}
+
+
+.selectedFixedMapEntity > * {
+  color: var(--primary_base);
+}
+
+.selectedFixedEntityHeader{
+  color: var(--primary_base);
+}
