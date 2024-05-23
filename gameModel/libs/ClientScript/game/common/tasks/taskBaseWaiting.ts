@@ -5,7 +5,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { TaskBase } from './taskBase';
 
 /**
- * Default behaviour of a task
+ * Pseudo-task when the resource is waiting for another task
  */
 export class WaitingTask extends TaskBase {
   public constructor(

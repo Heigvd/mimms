@@ -15,6 +15,7 @@ import {
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { ActionType } from '../actionType';
+import { Category } from '../../pretri/triage';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
@@ -22,7 +23,9 @@ export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 
 const baseSeed = 4000;
 
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // Task base
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
 /**
@@ -307,6 +310,49 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         undefined,
         true
       )
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// Healing
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// should be in its own file, but does not compile in wegas ...
+
+/**
+ * Task to treat patients.
+ */
+export class HealingTask extends TaskBase {
+  public constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    readonly location: LOCATION_ENUM,
+    readonly patientPriority: Category<string>['priority'],
+    nbMinResources: number,
+    nbMaxResources: number,
+    ownerRole: InterventionRole,
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      nbMinResources,
+      nbMaxResources,
+      ownerRole,
+      [location],
+      availableToRoles
+    );
+  }
+
+  protected override dispatchInProgressEvents(
+    _state: Readonly<MainSimulationState>,
+    _timeJump: number
+  ): void {
+    // no effect
+    taskLogger.info(
+      'healing at location ' + this.location + ' for priority ' + this.patientPriority
     );
   }
 }

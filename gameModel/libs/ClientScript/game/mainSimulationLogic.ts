@@ -42,7 +42,7 @@ import { MainSimulationState } from './common/simulationState/mainSimulationStat
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from './common/resources/resourceContainer';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
-import { TaskBase } from './common/tasks/taskBase';
+import { HealingTask, TaskBase } from './common/tasks/taskBase';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
@@ -120,6 +120,39 @@ function initMainState(): MainSimulationState {
     []
   );
 
+  const taskHealingRedPMA = new HealingTask(
+    'healing-pma-red-title',
+    'healing-pma-red-desc',
+    LOCATION_ENUM.PMA,
+    1,
+    1,
+    100,
+    'LEADPMA',
+    []
+  );
+
+  const taskHealingYellowPMA = new HealingTask(
+    'healing-pma-yellow-title',
+    'healing-pma-yellow-desc',
+    LOCATION_ENUM.PMA,
+    2,
+    1,
+    100,
+    'LEADPMA',
+    []
+  );
+
+  const taskHealingGreenPMA = new HealingTask(
+    'healing-pma-green-title',
+    'healing-pma-green-desc',
+    LOCATION_ENUM.PMA,
+    3,
+    1,
+    100,
+    'LEADPMA',
+    []
+  );
+
   const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
   const initialResources = [
@@ -135,7 +168,15 @@ function initMainState(): MainSimulationState {
       actors: [testAL, testCASU],
       mapLocations: [mainAccident],
       patients: loadPatients(),
-      tasks: [taskWaiting, taskPretri, taskBrancardageChantier, taskBrancardageNidDeBlesses],
+      tasks: [
+        taskWaiting,
+        taskPretri,
+        taskBrancardageChantier,
+        taskBrancardageNidDeBlesses,
+        taskHealingRedPMA,
+        taskHealingYellowPMA,
+        taskHealingGreenPMA,
+      ],
       radioMessages: [],
       resources: initialResources,
       resourceContainers: loadEmergencyResourceContainers(),
