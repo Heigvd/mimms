@@ -290,6 +290,12 @@
           "name" : "mainSim_features",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "52",
+          "name" : "mainSim_timeFwd",
+          "scenaristPage" : true,
+          "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
       } ],

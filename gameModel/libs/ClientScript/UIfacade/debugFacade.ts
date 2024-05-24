@@ -3,6 +3,7 @@ import * as eventUtils from '../game/common/events/eventUtils';
 import { localEventManager } from '../game/common/localEvents/localEventManager';
 import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getStateHistory } from '../game/mainSimulationLogic';
 
 export function getCurrentState() {
   return mainLogic.getCurrentState();
@@ -81,5 +82,13 @@ export function getAllLocalEvents() {
   let counter = 0;
   return localEventManager.processedEvents.map(pe => {
     return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
+  });
+}
+
+export function getTimeFramHistory() {
+  const h = getStateHistory();
+  let i = 0;
+  return h.map(s => {
+    return { id: i++, tf: s.getCurrentTimeFrame() };
   });
 }

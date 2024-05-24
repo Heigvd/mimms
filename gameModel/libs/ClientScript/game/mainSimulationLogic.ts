@@ -722,3 +722,7 @@ export function recomputeState() {
   mainSimLogger.info('reset done');
   runUpdateLoop();
 }
+
+export function getStateHistory() {
+  return stateHistory;
+}

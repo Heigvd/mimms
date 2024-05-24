@@ -50,7 +50,7 @@ export class MainSimulationState implements IClonable {
       Helpers.cloneDeep(this.internalState),
       this.simulationTimeSec,
       this.baseEventId,
-      this.forwardTimeFrame
+      Helpers.cloneDeep(this.forwardTimeFrame)
     ) as this;
   }
 
