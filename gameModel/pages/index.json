@@ -292,6 +292,12 @@
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
+      }, {
+        "@class" : "Page",
+        "id" : "52",
+        "name" : "trainerDebugPage",
+        "scenaristPage" : null,
+        "trainerPage" : true
       } ],
       "name" : "debug_pages"
     }, {
@@ -446,6 +452,12 @@
         "@class" : "Page",
         "id" : "46",
         "name" : "mutliplayerMatrix",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "54",
+        "name" : "trainer multiplayerMatrix",
         "scenaristPage" : false,
         "trainerPage" : true
       } ],

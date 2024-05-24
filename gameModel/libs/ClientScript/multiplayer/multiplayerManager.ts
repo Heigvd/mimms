@@ -12,17 +12,21 @@ interface PlayerMatrix {
 
 type PlayerRoles = Partial<Record<InterventionRole, boolean>>;
 
+// Throttle resquests to server
+let hasRegisteredOnce = false;
+
 export async function clearMultiplayerMatrix() {
+  hasRegisteredOnce = false;
+
   await APIMethods.runScript(
     `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).clearProperties()`,
     {}
   );
 }
 
-// `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${channel}','${amount}');`,
-
 // Register current player (self) in matrix
 export async function registerSelf(): Promise<void> {
+  if (hasRegisteredOnce) return;
   const currentPlayerId = self.getId();
   const currentPlayerName = self.getName();
   const playableRoles: PlayerRoles = {
@@ -33,7 +37,9 @@ export async function registerSelf(): Promise<void> {
     LEADPMA: true,
   };
 
-  if (currentPlayerId) {
+  const matrix = Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).getProperties();
+
+  if (currentPlayerId && !matrix[currentPlayerId]) {
     const playerMatrix: PlayerMatrix = {
       id: currentPlayerId,
       name: currentPlayerName,
@@ -46,6 +52,7 @@ export async function registerSelf(): Promise<void> {
     )})`;
     try {
       await APIMethods.runScript(script, {});
+      hasRegisteredOnce = true;
     } catch (error) {
       mainSimLogger.error(error);
     }
@@ -76,7 +83,6 @@ export async function unregisterSelf(): Promise<void> {
 
 function canUpdateRole(targetPlayerId: number): boolean {
   const currentPlayerId = self.getId();
-  // return APP_CONTEXT === 'Player' && (currentPlayerId === undefined || targetPlayerId !== currentPlayerId);
   return (
     APP_CONTEXT !== 'Player' ||
     (currentPlayerId !== undefined && targetPlayerId === currentPlayerId)
@@ -155,7 +161,6 @@ export function getPlayerRolesSelf(): PlayerRoles {
   }
   return playerRoles!.roles;
 }
-
 /**
  * Check if all playable roles are currently filled by a player
  */

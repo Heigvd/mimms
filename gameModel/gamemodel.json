@@ -4788,48 +4788,71 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "TriggerDescriptor",
-        "broadcastScope" : "PlayerScope",
-        "comments" : "Trigger used to initialise multiplayer matrix",
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
         "defaultInstance" : {
-          "@class" : "FSMInstance",
-          "currentStateId" : 1,
-          "enabled" : true,
-          "refId" : "StateMachineInstance:191576:ALscE7",
-          "transitionHistory" : [ ]
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:229060:x3YZb1"
         },
-        "dependencies" : [ ],
-        "dependsOnStrategy" : "AUTO",
-        "disableSelf" : true,
         "editorTag" : "",
         "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:229065:RN1v6E",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:229066:Zx2ZxH",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:229067:jlWp3f",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:229067:jlWp3f::EN",
+                "status" : "",
+                "translation" : "selectedTeam"
+              }
+            }
+          },
+          "maxSelectable" : 1,
+          "name" : "selectedTeam",
+          "refId" : "StringDescriptor:229064:Sk0Wg5",
+          "scopeType" : "TeamScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:191577:lmO45k",
+          "refId" : "TranslatableContent:229061:xPPXIo",
           "translations" : {
             "EN" : {
               "@class" : "Translation",
               "lang" : "EN",
-              "refId" : "TranslatableContent:191577:lmO45k::EN",
+              "refId" : "TranslatableContent:229061:xPPXIo::EN",
               "status" : "",
-              "translation" : "registerPlayer"
+              "translation" : "trainer"
             }
           }
         },
-        "name" : "playerInit",
-        "oneShot" : false,
-        "postTriggerEvent" : {
-          "@class" : "Script",
-          "content" : "MultiplayerHelper.registerSelf()",
-          "language" : "javascript"
-        },
-        "refId" : "TriggerDescriptor:191575:ySumIQ",
-        "scopeType" : "PlayerScope",
-        "triggerEvent" : {
-          "@class" : "Script",
-          "content" : "",
-          "language" : "JavaScript"
-        },
+        "name" : "trainer_PX3n0s",
+        "refId" : "ListDescriptor:229059:mUDySZ",
+        "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -5678,6 +5701,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57478:23476j",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "multiplayer/multiplayerDashboard",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:223067:bfWri7",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

@@ -2,6 +2,19 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "layoutStyle" : {
+          "display" : "none"
+        },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n  registerSelf();\n  \"<p>(Trigger event loop hack)</p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -16,7 +29,8 @@
                   "script" : {
                     "@class" : "ClientScript",
                     "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n\nregisterSelf();",
-                    "language" : "TypeScript"
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
                   }
                 },
                 "name" : "register",

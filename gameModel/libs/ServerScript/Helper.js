@@ -55,6 +55,16 @@ var MimmsHelper = (function () {
 })();
 
 var MultiplayerHelper = (function () {
+  function getTeams() {
+    var teams = gameModel.getTeams();
+    return teams;
+  }
+
+  function getMultiplayerMatrix() {
+    var matrixByTeams = Variable.getInstancesByKeyId(Variable.find(gameModel, 'multiplayerMatrix'));
+    return matrixByTeams;
+  }
+
   function registerSelf() {
     const currentPlayerId = self.getId();
     const playableRoles = {
@@ -79,5 +89,7 @@ var MultiplayerHelper = (function () {
 
   return {
     registerSelf: registerSelf,
+    getMultiplayerMatrix: getMultiplayerMatrix,
+    getTeams: getTeams,
   };
 })();
