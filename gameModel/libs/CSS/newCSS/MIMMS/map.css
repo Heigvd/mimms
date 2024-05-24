@@ -55,16 +55,18 @@
   border: solid 3px var(--primary_base);
 }
 
-
-.selectedFixedMapEntity > * {
+.selectedFixedEntityHeader ~ mimms_h3title{
   color: var(--primary_base);
 }
 
-.selectedFixedEntityHeader{
+
+.selectedFixedEntityHeader {
   color: var(--primary_base);
 }
 
-/* WIP*/
+
+
+
 .currentPosition{
   background-color: darkgoldenrod!important;
 }

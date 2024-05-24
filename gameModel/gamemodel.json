@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716473733179,
+  "createdTime" : 1716562824327,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5769,6 +5769,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/patientFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:48271:U4h0FR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/pretriFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5935,6 +5944,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1354:HOGAbD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/PMA",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:48265:w51ymk",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6199,7 +6217,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_17-05-24_MIM_RessourcesPanelCorrection",
+  "name" : "MIMMS_24-05-24_MIM_PMAmodal",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
