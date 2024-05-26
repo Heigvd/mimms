@@ -4,10 +4,10 @@ import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
 import { Resource } from '../resources/resource';
 import * as ResourceState from '../simulationState/resourceStateAccess';
+import * as TaskState from '../simulationState/taskStateAccess';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
   AddRadioMessageLocalEvent,
@@ -49,7 +49,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     /** the locations where the task can take place */
     readonly availableToLocations: LOCATION_ENUM[] = [],
     /** which roles can order the task */
-    readonly availableToRoles: InterventionRole[] = []
+    readonly availableToRoles: InterventionRole[] = [],
+    readonly isStandardAssignation: boolean = true
   ) {
     this.Uid = TaskBase.IdSeed++;
     this.status = 'Uninitialized';
@@ -118,12 +119,14 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   public isAvailable(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>
+    location: Readonly<LOCATION_ENUM>,
+    checkStandardAssignation: boolean
   ): boolean {
     return (
       this.isRoleWiseAvailable(actor.Role) &&
       this.isLocationWiseAvailable(location) &&
-      this.isAvailableCustom(state, actor, location)
+      this.isAvailableCustom(state, actor, location) &&
+      (!checkStandardAssignation || this.isStandardAssignation)
     );
   }
 
@@ -163,7 +166,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
   /** Update the state */
   public update(state: Readonly<MainSimulationState>, timeJump: number): void {
-    const enoughResources = TaskState.hasEnoughResources(state, this);
+    const hasAnyResource = TaskState.isAtLeastOneResource(state, this);
 
     switch (this.status) {
       case 'Cancelled':
@@ -175,20 +178,19 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       }
 
       case 'Uninitialized': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
           this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
 
-        // no evolution if not enough resources
-
+        // no evolution if no resource
         break;
       }
 
       case 'OnGoing': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task : dispatch local events to update the state');
 
           this.dispatchInProgressEvents(state, timeJump);
@@ -197,11 +199,12 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
           this.status = 'Paused'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
         }
+
         break;
       }
 
       case 'Paused': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
           this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)

@@ -1,12 +1,21 @@
+import { HospitalId } from '../baseTypes';
+
 /**
- *
- * Types relating to casuMessage HospitalRequest
- *
+ * Hospital details proximity
  */
-import { HospitalProximity } from '../simulationState/locationState';
+export enum HospitalProximity {
+  Regional = 0,
+  National,
+  International,
+}
+
+/**
+ * Hospital patient unit place typology
+ */
+export type PatientUnitTypology = string;
 
 interface PatientUnitType {
-  typology: string;
+  typology: PatientUnitTypology;
   description?: string;
 }
 
@@ -15,7 +24,11 @@ interface PatientUnitDefinition {
   availableCapacity: number;
 }
 
+/**
+ * Hospital definition
+ */
 export interface HospitalDefinition {
+  hospitalId: HospitalId;
   fullName: string;
   shortName: string;
   description?: string;

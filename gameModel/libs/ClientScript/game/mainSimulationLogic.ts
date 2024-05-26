@@ -4,17 +4,18 @@
 import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
-  GetInformationTemplate,
-  CasuMessageTemplate,
-  SendRadioMessage,
-  SelectionFixedMapEntityTemplate,
-  SimFlag,
-  MoveActorActionTemplate,
-  ArrivalAnnoucementTemplate,
   AppointActorActionTemplate,
+  ArrivalAnnoucementTemplate,
+  CasuMessageTemplate,
+  EvacuationActionTemplate,
+  GetInformationTemplate,
+  MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPMATemplate,
+  SendRadioMessage,
+  SimFlag,
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
@@ -30,9 +31,9 @@ import {
 import {
   ActionCancellationEvent,
   ActionCreationEvent,
-  TimeForwardEvent,
-  TimedEventPayload,
   isLegacyGlobalEvent,
+  TimedEventPayload,
+  TimeForwardEvent,
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import { CancelActionLocalEvent, TimeForwardLocalEvent } from './common/localEvents/localEventBase';
@@ -49,6 +50,7 @@ import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
 import { SubTask } from './common/tasks/subTask';
+import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -153,6 +155,16 @@ function initMainState(): MainSimulationState {
     []
   );
 
+  const taskEvacuation = new EvacuationTask(
+    'evacuate-title',
+    'evacuate-desc',
+    1,
+    100000,
+    'EVASAN',
+    [LOCATION_ENUM.ambulancePark, LOCATION_ENUM.helicopterPark],
+    []
+  );
+
   const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
   const initialResources = [
@@ -176,11 +188,13 @@ function initMainState(): MainSimulationState {
         taskHealingRedPMA,
         taskHealingYellowPMA,
         taskHealingGreenPMA,
+        taskEvacuation,
       ],
       radioMessages: [],
       resources: initialResources,
       resourceContainers: loadEmergencyResourceContainers(),
       flags: {},
+      hospital: {},
     },
     0,
     0
@@ -485,6 +499,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true
   );
 
+  const evacuate = new EvacuationActionTemplate(
+    'evacuate-title',
+    'evacuate-desc',
+    TimeSliceDuration,
+    'evacuate-feedback',
+    true,
+    undefined,
+    undefined,
+    ['EVASAN']
+  );
+
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
   templates[moveActor.getTemplateRef()] = moveActor;
@@ -503,6 +528,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
+  templates[evacuate.getTemplateRef()] = evacuate;
 
   return templates;
 }

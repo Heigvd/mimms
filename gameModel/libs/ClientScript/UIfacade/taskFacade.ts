@@ -9,11 +9,13 @@ export function getSourceTaskChoices(
   location: LOCATION_ENUM
 ): { label: string; value: string }[] {
   // FIXME Do we need to restrict the tasks to now available for the actor ?
-  return TaskState.fetchAvailableTasksForActorAndLocation(getCurrentState(), actorId, location).map(
-    task => {
-      return { label: task.getTitle(), value: '' + task.Uid };
-    }
-  );
+  return TaskState.fetchAvailableStandardTasksForActorAndLocation(
+    getCurrentState(),
+    actorId,
+    location
+  ).map(task => {
+    return { label: task.getTitle(), value: '' + task.Uid };
+  });
 }
 
 // used in page 67
@@ -22,9 +24,11 @@ export function getTargetTaskChoices(
   location: LOCATION_ENUM
 ): { label: string; value: string }[] {
   // FIXME Is it too restrictive to restrict the tasks to now available ?
-  return TaskState.fetchAvailableTasksForActorAndLocation(getCurrentState(), actorId, location).map(
-    task => {
-      return { label: task.getTitle(), value: '' + task.Uid };
-    }
-  );
+  return TaskState.fetchAvailableStandardTasksForActorAndLocation(
+    getCurrentState(),
+    actorId,
+    location
+  ).map(task => {
+    return { label: task.getTitle(), value: '' + task.Uid };
+  });
 }

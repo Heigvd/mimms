@@ -1,0 +1,10 @@
+
+/********************** choices ***********************************************/
+
+.evacuationInputItem {
+    align-items: center;
+}
+
+.evacuationInputField {
+    flex-grow: 1;
+}

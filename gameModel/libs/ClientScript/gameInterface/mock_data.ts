@@ -1,13 +1,13 @@
+import { HospitalDefinition, HospitalProximity } from '../game/common/evacuation/hospitalType';
+
 ////////////////////////////////////////////
 //                                        //
 // MOCK DATA - TO BE DEFINED BY SCENARIST //
 //                                        //
 ////////////////////////////////////////////
 
-import { HospitalDefinition } from '../game/common/resources/hospitalType';
-import { HospitalProximity } from '../game/common/simulationState/locationState';
-
 // PMA details in action panel
+// used in page 48
 export const pmaDetails = [
   [true, true, 200, '6/10', false, false],
   [false, true, 20, '8/10', true, true],
@@ -17,6 +17,7 @@ export const pmaDetails = [
 // Hospital details
 export const hospitalInfo: HospitalDefinition[] = [
   {
+    hospitalId: 'CH-GE-HUG',
     fullName: 'Hôpitaux universitaires de Genève',
     shortName: 'HUGs',
     proximity: HospitalProximity.Regional,
@@ -49,6 +50,7 @@ export const hospitalInfo: HospitalDefinition[] = [
     ],
   },
   {
+    hospitalId: 'CH-VD-CHUV',
     fullName: 'Centre hospitalier universitaire vaudois',
     shortName: 'CHUV',
     proximity: HospitalProximity.National,
@@ -75,6 +77,7 @@ export const hospitalInfo: HospitalDefinition[] = [
     ],
   },
   {
+    hospitalId: 'CH-GE-LA_TOUR',
     fullName: 'Hôpital de La Tour à Meyrin',
     shortName: 'La Tour',
     proximity: HospitalProximity.Regional,
@@ -101,6 +104,7 @@ export const hospitalInfo: HospitalDefinition[] = [
     ],
   },
   {
+    hospitalId: 'FR-76-SAINT-JULIEN',
     fullName: 'Centre Hospitalier Intercommunal Sud-Léman Valserine',
     shortName: 'St Julien',
     proximity: HospitalProximity.International,

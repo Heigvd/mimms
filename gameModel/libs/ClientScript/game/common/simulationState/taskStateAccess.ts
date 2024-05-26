@@ -23,14 +23,16 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
   return internalState.tasks;
 }
 
-export function fetchAvailableTasksForActorAndLocation(
+export function fetchAvailableStandardTasksForActorAndLocation(
   state: Readonly<MainSimulationState>,
   actorId: ActorId,
   location: LOCATION_ENUM
 ): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor, location));
+    return Object.values(getAllTasks(state)).filter(ta =>
+      ta.isAvailable(state, actor, location, true)
+    );
   } else {
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];
@@ -68,25 +70,15 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
   return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
 }
 
-// /**
-//  * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
-//  */
-// export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
-//   const task = internallyGetTask(state, taskId);
-//
-//   // TODO pro type
-//
-//   return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
-// }
-
 /**
  * @returns Whether the allocated resources are enough to perform the task
  */
-export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
+export function isAtLeastOneResource(
+  state: Readonly<MainSimulationState>,
+  task: TaskBase
+): boolean {
   // TODO for each type
-  return (
-    ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources()
-  );
+  return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length > 0;
 }
 
 /**

@@ -21,7 +21,6 @@ import {
 } from '../simulationState/patientState';
 import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -55,11 +54,6 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
-    // check if we have the capacity to do something
-    if (!TaskState.hasEnoughResources(state, this)) {
-      taskLogger.info('Not enough resources!');
-      return;
-    }
     taskLogger.info(
       'Patients not pretriaged before action: ' + getNonPreTriagedPatientsSize(state)
     );

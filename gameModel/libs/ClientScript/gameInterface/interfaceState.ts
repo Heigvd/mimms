@@ -1,13 +1,15 @@
 import { ActionType } from '../game/common/actionType';
-import { TaskId } from '../game/common/baseTypes';
+import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
+import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 
 export interface InterfaceState {
   currentActorUid: number;
@@ -33,6 +35,13 @@ export interface InterfaceState {
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  evacuation: {
+    patientId: PatientId | undefined;
+    hospitalId: HospitalId | undefined;
+    patientUnitAtHospital: PatientUnitTypology | undefined;
+    transportSquad: EvacuationSquadType | undefined;
+    doResourcesComeBack: boolean;
   };
 }
 
@@ -64,6 +73,7 @@ export function getInitialInterfaceState(): InterfaceState {
       allocateResources: getEmptyAllocateResources(),
       requestedResources: getEmptyResourceRequest(),
     },
+    evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
@@ -100,6 +110,16 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
     resourceRequest[t] = 0;
   });
   return resourceRequest;
+}
+
+export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
+  return {
+    patientId: undefined,
+    hospitalId: undefined,
+    patientUnitAtHospital: undefined,
+    transportSquad: undefined,
+    doResourcesComeBack: false,
+  };
 }
 
 /**

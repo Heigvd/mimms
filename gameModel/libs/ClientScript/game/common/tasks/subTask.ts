@@ -1,5 +1,6 @@
-import { PatientId, ResourceId, SubTaskId } from '../baseTypes';
+import { GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { PatientUnitTypology } from '../evacuation/hospitalType';
 
 const baseSeed = 4200;
 
@@ -39,5 +40,34 @@ export class PorterSubTask extends SubTask {
     super(resources, patientId);
     this.targetLocation = targetLocation;
     this.patientCanWalk = patientCanWalk;
+  }
+}
+
+type EvacuationSubTaskStatus = 'started' | 'way_to_hospital' | 'way_back' | 'completed';
+
+export class EvacuationSubTask extends SubTask {
+  public status: EvacuationSubTaskStatus;
+  public hospitalId: HospitalId;
+  public patientUnitAtHospital: PatientUnitTypology;
+  public doResourcesComeBack: boolean;
+  public parentEventId: GlobalEventId;
+  public travelTime: number;
+
+  constructor(
+    resources: ResourceId[],
+    patientId: string,
+    hospitalId: HospitalId,
+    patientUnitAtHospital: PatientUnitTypology,
+    doResourcesComeBack: boolean,
+    parentEventId: GlobalEventId,
+    travelTime: number
+  ) {
+    super(resources, patientId);
+    this.hospitalId = hospitalId;
+    this.patientUnitAtHospital = patientUnitAtHospital;
+    this.doResourcesComeBack = doResourcesComeBack;
+    this.parentEventId = parentEventId;
+    this.travelTime = travelTime;
+    this.status = 'started';
   }
 }

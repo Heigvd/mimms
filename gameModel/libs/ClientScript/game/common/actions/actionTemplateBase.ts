@@ -29,6 +29,7 @@ import {
   AppointActorAction,
   SelectionPMAAction,
   SelectionParkAction,
+  EvacuationAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
@@ -43,6 +44,7 @@ import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessag
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
@@ -982,3 +984,91 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     return false;
   }
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  Evacuation
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Action to evacuate a patient to a hospital
+ */
+export class EvacuationActionTemplate extends StartEndTemplate<
+  EvacuationAction,
+  EvacuationActionEvent,
+  EvacuationActionPayload
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.EVASAN_RADIO,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'EvacuationActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): TranslationKey {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): TranslationKey {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  protected createActionFromEvent(event: FullEvent<EvacuationActionEvent>): EvacuationAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new EvacuationAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      payload.evacuationActionPayload,
+      this.provideFlagsToState
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: SimTime,
+    initiator: Readonly<Actor>,
+    params: EvacuationActionPayload
+  ): EvacuationActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      evacuationActionPayload: params,
+    };
+  }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true;
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------

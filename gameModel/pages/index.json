@@ -426,6 +426,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "52",
+          "name" : "evacuation",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "63",
           "name" : "channel_ RESSOURCES_RADIO",
           "scenaristPage" : null,

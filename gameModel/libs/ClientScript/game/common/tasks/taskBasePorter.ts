@@ -2,7 +2,7 @@ import { taskLogger } from '../../../tools/logger';
 import { getPriorityByCategoryId } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
-import { AddRadioMessageLocalEvent, PatientMovedLocalEvent } from '../localEvents/localEventBase';
+import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { isLocationAvailableForPatients, LOCATION_ENUM } from '../simulationState/locationState';
@@ -79,12 +79,6 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   ): void {
     taskLogger.info('brancardage from ', this.locationSource);
 
-    // check if we have the capacity to do something
-    if (!TaskState.hasEnoughResources(state, this)) {
-      taskLogger.info('Not enough resources!');
-      return;
-    }
-
     taskLogger.debug(
       'Patients not transported before action : ',
       getNonTransportedPatientsSize(state, this.locationSource)
@@ -126,13 +120,10 @@ export class PorterTask extends TaskBase<PorterSubTask> {
           this.TIME_REQUIRED_FOR_INSTRUCTION + this.TIME_REQUIRED_FOR_SELF_TRANSPORT
         ) {
           localEventManager.queueLocalEvent(
-            new PatientMovedLocalEvent(
-              0,
-              state.getSimTime(),
-              this.Uid,
-              patient.patientId,
-              subTask.targetLocation
-            )
+            new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
+              kind: 'FixedMapEntity',
+              locationId: subTask.targetLocation,
+            })
           );
 
           completedSubTasks.push(subTask);
@@ -142,13 +133,10 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         //time-jump is enough to transport patient, so we just move it and un-assign patient
         if (subTask.cumulatedTime >= this.TIME_REQUIRED_FOR_TRANSPORT) {
           localEventManager.queueLocalEvent(
-            new PatientMovedLocalEvent(
-              0,
-              state.getSimTime(),
-              this.Uid,
-              patient.patientId,
-              subTask.targetLocation
-            )
+            new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
+              kind: 'FixedMapEntity',
+              locationId: LOCATION_ENUM.PMA,
+            })
           );
 
           completedSubTasks.push(subTask);

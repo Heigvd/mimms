@@ -38,12 +38,3 @@ export function isLocationAvailableForPatients(
 function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
   return fixedMapEntity.buildingStatus === BuildingStatus.ready && !!fixedMapEntity.isAccessible;
 }
-
-/**
- * Hospital details proximity
- */
-export enum HospitalProximity {
-  Regional = 0,
-  National,
-  International,
-}

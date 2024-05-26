@@ -1,5 +1,3 @@
-import { LOCATION_ENUM } from './simulationState/locationState';
-
 /**
  * Represents the time in the simulation in seconds
  */
@@ -32,4 +30,4 @@ export type ResourceId = number;
 
 export type PatientId = string;
 
-export type Location = LOCATION_ENUM;
+export type HospitalId = string;

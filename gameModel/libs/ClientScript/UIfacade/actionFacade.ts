@@ -8,6 +8,7 @@ import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
+  EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
@@ -140,6 +141,14 @@ export function isMoveActorActionTemplate(id: number) {
     t => t.Uid === id
   );
   return template instanceof MoveActorActionTemplate;
+}
+
+export function isEvacuationActionTemplate(id: number) {
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.EVASAN_RADIO
+  ).find(t => t.Uid === id);
+  return template instanceof EvacuationActionTemplate;
 }
 
 /**

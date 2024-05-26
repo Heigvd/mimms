@@ -5,6 +5,7 @@ import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActorId,
   GlobalEventId,
+  ResourceId,
   SimDuration,
   SimTime,
   TaskId,
@@ -13,7 +14,11 @@ import {
 } from '../baseTypes';
 import { computeNewPatientsState } from '../patients/handleState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { changePatientLocation, PatientState } from '../simulationState/patientState';
+import {
+  changePatientLocation,
+  PatientLocation,
+  PatientState,
+} from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
@@ -27,7 +32,13 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import resourceArrivalResolution from '../resources/resourceDispatchResolution';
-import { deleteIdleResource, getUnoccupiedResources } from '../simulationState/resourceStateAccess';
+import {
+  deleteIdleResource,
+  getUnoccupiedResources,
+  sendResourcesToLocation,
+} from '../simulationState/resourceStateAccess';
+import { HospitalProximity } from '../evacuation/hospitalType';
+import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
 
@@ -570,7 +581,6 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
     parentEventId: GlobalEventId,
     timeStamp: SimTime,
     readonly taskId: TaskId,
-    readonly actorId: ActorId,
     readonly sourceLocation: LOCATION_ENUM,
     readonly resourceType: ResourceType,
     readonly nb: number
@@ -582,11 +592,25 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
     ResourceState.allocateResourcesToTask(
       state,
       this.taskId,
-      this.actorId,
       this.sourceLocation,
       this.resourceType,
       this.nb
     );
+  }
+}
+
+export class ResourceAllocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourceId: ResourceId,
+    readonly taskId: TaskId
+  ) {
+    super(parentEventId, 'ResourceAllocationLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.allocateResourceToTask(state, this.resourceId, this.taskId);
   }
 }
 
@@ -615,15 +639,60 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
   }
 }
 
-export class PatientMovedLocalEvent extends LocalEventBase {
+export class MoveResourcesLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
     timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly patientId: string,
+    readonly resourcesUids: ResourceId[],
     readonly location: LOCATION_ENUM
   ) {
-    super(parentEventId, 'PatientMovedLocalEvent', timeStamp);
+    super(parentEventId, 'MoveResourceLocalEvent', timeStamp);
+  }
+
+  override applyStateUpdate(state: MainSimulationState) {
+    this.resourcesUids.forEach(resourceId => {
+      const resource = state.getInternalStateObject().resources.find(res => res.Uid === resourceId);
+      if (resource != undefined) {
+        sendResourcesToLocation([resource], this.location);
+      }
+    });
+  }
+}
+
+export class MoveResourceLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesUids: ResourceId[],
+    readonly location: LOCATION_ENUM
+  ) {
+    super(parentEventId, 'MoveResourceLocalEvent', timeStamp);
+  }
+
+  override applyStateUpdate(state: MainSimulationState) {
+    this.resourcesUids.forEach(resourceId => {
+      const resource = state.getInternalStateObject().resources.find(res => res.Uid === resourceId);
+      if (resource != undefined) {
+        sendResourcesToLocation([resource], this.location);
+      }
+    });
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class MovePatientLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly patientId: string,
+    readonly location: PatientLocation
+  ) {
+    super(parentEventId, 'MovePatientLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -645,3 +714,29 @@ export class DeleteIdleResourceLocalEvent extends LocalEventBase {
     deleteIdleResource(state, this.location, this.resourceType);
   }
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// HOSPITAL
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly proximity: HospitalProximity
+  ) {
+    super(parentEventId, 'HospitalRequestUpdateLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    updateHospitalProximityRequest(state, this.proximity);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------

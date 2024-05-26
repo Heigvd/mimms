@@ -1,6 +1,6 @@
 import { entries } from '../../../tools/helper';
-import { resourceLogger, taskLogger } from '../../../tools/logger';
-import { ActorId, TaskId } from '../baseTypes';
+import { mainSimStateLogger, resourceLogger, taskLogger } from '../../../tools/logger';
+import { ActorId, ResourceId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { isAHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
@@ -13,6 +13,29 @@ import { getTaskResponsibleActorSymbolicLocation } from './taskStateAccess';
 // get data
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+export function getResourceById(
+  state: Readonly<MainSimulationState>,
+  resourceId: ResourceId
+): Resource {
+  const internalState = state.getInternalStateObject();
+
+  const matchingResources = internalState.resources.filter(
+    (resource: Resource) => resource.Uid === resourceId
+  );
+
+  if (matchingResources.length === 0 || matchingResources[0] == null) {
+    mainSimStateLogger.error('No resource matches id : ' + resourceId);
+  }
+
+  if (matchingResources.length > 1) {
+    mainSimStateLogger.error(
+      'Error in data : there must not be 2 resources with same id : ' + resourceId
+    );
+  }
+
+  return matchingResources[0]!;
+}
 
 export function getResourcesForLocationTaskAndType(
   state: Readonly<MainSimulationState>,
@@ -84,6 +107,20 @@ export function getUnoccupiedResources(
   const internalState = state.getInternalStateObject();
   return internalState.resources.filter(
     res => res.type === resourceType && res.currentActivity == getIdleTaskUid(state)
+  );
+}
+
+/**
+ * @returns The number of resources that are currently without activity and of the given type in a specified location
+ *
+ */
+export function getIdleResourcesForLocation(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): Resource[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.resources.filter(
+    res => res.currentLocation === location && res.currentActivity == getIdleTaskUid(state)
   );
 }
 
@@ -276,7 +313,6 @@ export function getInStateCountInactiveResourcesByLocationAndType(
 export function allocateResourcesToTask(
   state: MainSimulationState,
   taskId: TaskId,
-  actorId: ActorId,
   sourceLocation: LOCATION_ENUM,
   resourceType: ResourceType,
   nb: number
@@ -290,17 +326,23 @@ export function allocateResourcesToTask(
         ') of type ' +
         resourceType +
         ' for task ' +
-        taskId +
-        ' and actor ' +
-        actorId
+        taskId
     );
     return;
   }
 
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
-    //available[i]!.currentLocation = sourceLocation;
   }
+}
+
+export function allocateResourceToTask(
+  state: MainSimulationState,
+  resourceId: ResourceId,
+  taskId: TaskId
+): void {
+  const resource = getResourceById(state, resourceId);
+  resource.currentActivity = taskId;
 }
 
 /**

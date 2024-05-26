@@ -1,8 +1,9 @@
 import { HumanBody } from '../../../HUMAn/human';
 import { getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
 import { MainSimulationState } from './mainSimulationState';
-import { Location, PatientId } from '../baseTypes';
+import { HospitalId, PatientId } from '../baseTypes';
 import { LOCATION_ENUM } from './locationState';
+import { PatientUnitTypology } from '../evacuation/hospitalType';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -10,10 +11,24 @@ import { LOCATION_ENUM } from './locationState';
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
+export type PatientLocation =
+  | {
+      kind: 'FixedMapEntity';
+      locationId: LOCATION_ENUM;
+    }
+  | {
+      kind: 'Hospital';
+      locationId: HospitalId;
+      patientUnit: PatientUnitTypology;
+    };
+
+export type PatientLocationKind = 'FixedMapEntity' | 'Hospital';
+export type PatientLocationId = LOCATION_ENUM | HospitalId;
+
 export type PatientState = {
   patientId: PatientId;
   humanBody: HumanBody;
-  location: Location | undefined;
+  location: PatientLocation;
   preTriageResult: PreTriageResult<string> | undefined;
 };
 
@@ -28,6 +43,17 @@ export function getPatient(
   patientId: string
 ): PatientState | undefined {
   return state.getInternalStateObject().patients.find(patient => patient.patientId === patientId);
+}
+
+export function getPatientsByLocation(
+  state: Readonly<MainSimulationState>,
+  locationKind: PatientLocationKind,
+  locationId: PatientLocationId
+): PatientState[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.patients.filter(
+    patient => patient.location.kind === locationKind && patient.location.locationId === locationId
+  );
 }
 
 export function comparePatientByPreTriageResult(a: PatientState, b: PatientState): number {
@@ -95,8 +121,7 @@ export function getNonTransportedPatientsSize(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
 ): number {
-  return state.getInternalStateObject().patients.filter(patient => patient.location === location)
-    .length;
+  return getPatientsByLocation(state, 'FixedMapEntity', location).length;
 }
 
 export function getNextNonTransportedPatientsByPriority(
@@ -104,11 +129,8 @@ export function getNextNonTransportedPatientsByPriority(
   location: LOCATION_ENUM,
   excludedIdsList: string[] = []
 ): PatientState[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.patients
-    .filter(
-      patient => patient.location === location && !excludedIdsList.includes(patient.patientId)
-    )
+  return getPatientsByLocation(state, 'FixedMapEntity', location)
+    .filter(patient => !excludedIdsList.includes(patient.patientId))
     .sort(comparePatientByPreTriageResult);
 }
 
@@ -124,7 +146,7 @@ export function getNextNonTransportedPatientsByPriority(
 export function changePatientLocation(
   state: MainSimulationState,
   patientId: string,
-  location: Location
+  location: PatientLocation
 ): void {
   const patient = getPatient(state, patientId);
   if (patient) {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716388606539,
+  "createdTime" : 1716753271239,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4017,6 +4017,9 @@
           "define-pma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pick a location on the map for the advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l'emplacement du poste médical avancé (PMA) sur la carte\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the advanced medical post can now be prepared\"},\"FR\":{\"status\":\"\",\"translation\":\"le poste médical avancé (PMA) est prêt à être installé\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"deciding where to locate the advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"décider de l’emplacement du poste médical avancé (PMA)\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuate a patient to a hospital\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuer un patient vers un hôpital\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation is in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est en cours\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "get-hospital-information-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ask CASU to obtain and compile available hospital places at requested geographical level\"},\"FR\":{\"status\":\"\",\"translation\":\"demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé\",\"lang\":\"FR\"}},\"version\":0}",
           "healing-pma-green-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"green patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients verts\",\"lang\":\"FR\"}},\"version\":0}",
           "healing-pma-green-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"green patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients verts\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4200,6 +4203,7 @@
           "summary-owner-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-owner-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-patient-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-patient-unit" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient Unit\"},\"FR\":{\"status\":\"\",\"translation\":\"prise en charge\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-pretri-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"preTri Result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat du pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-activity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité de la resource\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD de la resource\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5004,6 +5008,51 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/evacuation/evacuationLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#153:OQvCUH",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/evacuationSquadDef",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#154:tGXcnR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/evacuationTypes",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#152:cyxyxD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/hospitalController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#155:7oCnGl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/hospitalType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#151:hT3bLq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/events/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5026,6 +5075,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#87:tLE73u",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/events/evacuationMessageEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#157:VRQlPF",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5121,15 +5179,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/hospitalType",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:151865:25tgd8",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/resources/resource",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5179,6 +5228,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#103:vhNUXW",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/hospitalState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#156:lOEPlr",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5242,6 +5300,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#75:6MFZQm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/taskBaseEvacuation",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#158:YzfbRb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5760,6 +5827,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/evacuationFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#158:XWcYDZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/flagsFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5778,10 +5854,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/pretriFacade",
+    "contentKey" : "UIfacade/patientFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:564371:lvNNkS",
+    "refId" : "GameModelContent:#159:XPXLzj",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5944,6 +6020,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1354:HOGAbD",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/patient",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:#150:4df5OW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

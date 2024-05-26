@@ -10,7 +10,7 @@ import { isAHuman, ResourceType } from './resourceType';
  * @returns location
  */
 export default function resourceArrivalResolution(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): LOCATION_ENUM {
   const so = state.getInternalStateObject();

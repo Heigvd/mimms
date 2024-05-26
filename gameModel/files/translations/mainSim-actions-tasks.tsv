@@ -77,3 +77,6 @@ move-res-task-desc	Move resources to given location and task	Déplacer ressource
 move-res-task-feedback	The resources have been sucessfuly reassigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
 get-hospital-information-desc	Ask CASU to obtain and compile available hospital places at requested geographical level	Demander à la CASU d'obtenir et de compiler les places hospitalières disponibles au niveau géographique demandé
+evacuate-title	Evacuation	Evacuation
+evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital
+evacuate-feedback	Evacuation is in progress	L'évacuation est en cours
