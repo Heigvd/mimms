@@ -1,34 +1,34 @@
 Key	EN	FR	
 basic-info-title	Scene examination	Examen de la scène	
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation	
-basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur. Le car s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25.
-other-basic-info-title	Request information from a passerby	Demander des informations à un passant
-other-basic-info-desc	You ask a passerby, who is visibly agitated, to tell you what happened.	Vous demandez à un passant, visiblement agité, de vous raconter ce qui s'est passé.
+basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur. Le car s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 	
+other-basic-info-title	Request information from a passerby	Demander des informations à un passant	
+other-basic-info-desc	You ask a passerby, who is visibly agitated, to tell you what happened.	Vous demandez à un passant, visiblement agité, de vous raconter ce qui s'est passé.	
 other-basic-info-feedback	The passer-by seems to be in a state of shock. He didn't see what happened.	Le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.	
-basic-info-police-title	Request information from the police	Demander des informations de la police
-basic-info-police-desc	You approach a police car and ask for information	Vous approchez d'une voiture de police et demander des informations
+basic-info-police-title	Request information from the police	Demander des informations de la police	
+basic-info-police-desc	You approach a police car and ask for information	Vous approchez d'une voiture de police et demander des informations	
 basic-info-police-feedback	Police are informing you that rue de Lausanne is now closed to traffic in both directions.	La police vous informe que la rue de Lausanne est maintenant coupée à la circulation dans les deux sens.	
-basic-info-firefighter-title	Request information from the fire brigade	Demander des informations des pompiers
-basic-info-firefighter-desc	You approach a firefighter truck and ask for information	Vous vous approchez d'un camion pompier pour obtenir des informations.
-basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car. Celui-ci doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.
-define-PC-title	Positioning the command post (CP)	Placer le poste de commandement (PC)
-define-PC-desc	Choose a position for the command post CP	Choisir l'emplacement du PC
-define-PC-feedback	The CP is now ready	Le poste de commandement est maintenant prêt
-define-Nest-title	Positioning survivor reception center location	Placer le nid de blessés
-define-Nest-desc	Choose a position for the survivor reception center	Choisir l'emplacement du nid de blessés
+basic-info-firefighter-title	Request information from the fire brigade	Demander des informations des pompiers	
+basic-info-firefighter-desc	You approach a firefighter truck and ask for information	Vous vous approchez d'un camion pompier pour obtenir des informations.	
+basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car. Celui-ci doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.	
+define-PC-title	Positioning the command post (CP)	Placer le poste de commandement (PC)	
+define-PC-desc	Choose a position for the command post CP	Choisir l'emplacement du PC	
+define-PC-feedback	The CP is now ready	Le poste de commandement est maintenant prêt	
+define-Nest-title	Positioning survivor reception center location	Placer le nid de blessés	
+define-Nest-desc	Choose a position for the survivor reception center	Choisir l'emplacement du nid de blessés	
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé	
-define-PMA-title	Positioning the advanced medical post location (AMP)	Placer le poste médical avancé (PMA)
-define-PMA-desc	Choose a position for the AMP	Choisir l'emplacement du poste médical avancé (PMA)
-define-PMA-feedback	The AMP can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
+define-PMA-title	Positioning the advanced medical post location (AMP)	Placer le poste médical avancé (PMA)	
+define-PMA-desc	Choose a position for the AMP	Choisir l'emplacement du poste médical avancé (PMA)	
+define-PMA-feedback	The AMP can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
 define-ambulance-park-title	Define ambulance park location	Placer le parc ambulance	
-define-ambulance-park-desc	Choose a position for the ambulance park	Choisir l'emplacement du parc ambulances
+define-ambulance-park-desc	Choose a position for the ambulance park	Choisir l'emplacement du parc ambulances	
 define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance est maintenant prêt	
 define-helicopter-park-title	Define helicopter park location	Placer le parc hélicoptère	
-define-helicopter-park-desc	Choose a position for the helicopter park	Choisir l'emplacement du parc hélicoptères
+define-helicopter-park-desc	Choose a position for the helicopter park	Choisir l'emplacement du parc hélicoptères	
 define-helicopter-park-feedback	The helicopter park is now ready	Le parc hélicoptère est maintenant prêt	
-define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation
-define-accreg-desc	Choose a position for access and egress routes along that your resources will use.	Choisir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site
-define-accreg-feedback	Access and regress routes are defined	Les routes d'accès et d'évacuation sont définies
+define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation	
+define-accreg-desc	Choose a position for access and egress routes along that your resources will use.	Choisir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site	
+define-accreg-feedback	Access and regress routes are defined	Les routes d'accès et d'évacuation sont définies	
 casu-message-title	Send message to CASU	Envoyer un message à CASU	
 casu-message-title-MET	Send MET	Envoi du MET	
 casu-message-title-HANE	Send HANE	Envoi du HANE	
@@ -43,40 +43,40 @@ brancardage-title	Brancardage	Brancardage
 request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
-porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener
-porters-task-completed	Patients evacuation done	Brancardage terminé
-porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé
-porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage depuis le nid de blessés terminé
-healing-pma-red-title	Red patients care	Soins des patients rouges
-healing-pma-red-desc	Red patients care	Soins des patients rouges
-healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes
-healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes
-healing-pma-green-title	Green patients care	Soins des patients verts
-healing-pma-green-desc	Green patients care	Soins des patients verts
-send-radio-title	Sends radio message	Envoie message radio
+porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener	
+porters-task-completed	Patients evacuation done	Brancardage terminé	 
+porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé	 
+porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage depuis le nid de blessés terminé	 
+healing-pma-red-title	Red patients care	Soins des patients rouges	
+healing-pma-red-desc	Red patients care	Soins des patients rouges	
+healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes	
+healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes	
+healing-pma-green-title	Green patients care	Soins des patients verts	
+healing-pma-green-desc	Green patients care	Soins des patients verts	
+send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
-define-meetingPoint-title	Define meeting point	Placer le point de rassemblement
-define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement
-define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini
+define-meetingPoint-title	Define meeting point	Placer le point de rassemblement	
+define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
+define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
 move-actor-title	Move to another location	Se déplacer	
-move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)
+move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)	
 move-actor-feedback	You moved	Vous vous êtes déplacé	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
-appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé
+appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
 appoint-EVASAN-wentWrong-feedback	You could not appoint an EVASAN	Vous n'avez pas pu nommer un EVASAN	
-define-acsMscArrival-title	Assume ACS/MCS duties	Prise de responsabilité ACS/MCS
-define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS
-define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de responsabilité ACS/MCS	
+define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
+define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
 waiting-title	Waiting	En attente	
 currentActivity	Current Activity	Activité en cours	
 targetActivity	Target Activity	Activité à destination	
 move-res-task-title	Assign resource	Assigner ressource	
-move-res-task-desc	Send resources	Envoyer des ressources
-move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succés
+move-res-task-desc	Send resources	Envoyer des ressources	
+move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
-get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles
-evacuate-title	Evacuation	Evacuation
-evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital
-evacuate-feedback	Evacuation is in progress	L'évacuation est en cours
+get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
+evacuate-title	Evacuation	Evacuation	
+evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
+evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
