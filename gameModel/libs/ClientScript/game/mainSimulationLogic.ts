@@ -122,36 +122,36 @@ function initMainState(): MainSimulationState {
     []
   );
 
-  const taskHealingRedPMA = new HealingTask(
+  const taskHealingRed = new HealingTask(
     'healing-pma-red-title',
     'healing-pma-red-desc',
-    LOCATION_ENUM.PMA,
     1,
     1,
     100,
     'LEADPMA',
+    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
     []
   );
 
-  const taskHealingYellowPMA = new HealingTask(
+  const taskHealingYellow = new HealingTask(
     'healing-pma-yellow-title',
     'healing-pma-yellow-desc',
-    LOCATION_ENUM.PMA,
     2,
     1,
     100,
     'LEADPMA',
+    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
     []
   );
 
-  const taskHealingGreenPMA = new HealingTask(
+  const taskHealingGreen = new HealingTask(
     'healing-pma-green-title',
     'healing-pma-green-desc',
-    LOCATION_ENUM.PMA,
     3,
     1,
     100,
     'LEADPMA',
+    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
     []
   );
 
@@ -185,9 +185,9 @@ function initMainState(): MainSimulationState {
         taskPretri,
         taskBrancardageChantier,
         taskBrancardageNidDeBlesses,
-        taskHealingRedPMA,
-        taskHealingYellowPMA,
-        taskHealingGreenPMA,
+        taskHealingRed,
+        taskHealingYellow,
+        taskHealingGreen,
         taskEvacuation,
       ],
       radioMessages: [],
