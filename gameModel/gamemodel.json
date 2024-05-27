@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716306780048,
+  "createdTime" : 1716822653002,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5773,15 +5773,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "multiplayer/multiplayerDashboard",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:223067:bfWri7",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "multiplayer/multiplayerManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6347,7 +6338,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dom translations",
+  "name" : "MIMMS - Multiplayer POC Fix",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
