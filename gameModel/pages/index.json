@@ -454,12 +454,6 @@
         "name" : "mutliplayerMatrix",
         "scenaristPage" : false,
         "trainerPage" : false
-      }, {
-        "@class" : "Page",
-        "id" : "54",
-        "name" : "trainer multiplayerMatrix",
-        "scenaristPage" : false,
-        "trainerPage" : true
       } ],
       "name" : "mainSimulation pages"
     } ],
