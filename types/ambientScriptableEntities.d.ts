@@ -332,6 +332,9 @@ interface WegasEntitiesNamesAndClasses {
   STextInstance : STextInstance;
   'STextInstance[]' : STextInstance[];  'Readonly<STextInstance>' : Readonly<STextInstance>;
   'Readonly<STextInstance[]>' : Readonly<STextInstance[]>;
+  SEventInboxInstance : SEventInboxInstance;
+  'SEventInboxInstance[]' : SEventInboxInstance[];  'Readonly<SEventInboxInstance>' : Readonly<SEventInboxInstance>;
+  'Readonly<SEventInboxInstance[]>' : Readonly<SEventInboxInstance[]>;
   SResetPasswordToken : SResetPasswordToken;
   'SResetPasswordToken[]' : SResetPasswordToken[];  'Readonly<SResetPasswordToken>' : Readonly<SResetPasswordToken>;
   'Readonly<SResetPasswordToken[]>' : Readonly<SResetPasswordToken[]>;
@@ -371,6 +374,9 @@ interface WegasEntitiesNamesAndClasses {
   SCategorizedEvaluationInstance : SCategorizedEvaluationInstance;
   'SCategorizedEvaluationInstance[]' : SCategorizedEvaluationInstance[];  'Readonly<SCategorizedEvaluationInstance>' : Readonly<SCategorizedEvaluationInstance>;
   'Readonly<SCategorizedEvaluationInstance[]>' : Readonly<SCategorizedEvaluationInstance[]>;
+  SEventInboxDescriptor : SEventInboxDescriptor;
+  'SEventInboxDescriptor[]' : SEventInboxDescriptor[];  'Readonly<SEventInboxDescriptor>' : Readonly<SEventInboxDescriptor>;
+  'Readonly<SEventInboxDescriptor[]>' : Readonly<SEventInboxDescriptor[]>;
 }
 
 /**
@@ -2509,6 +2515,32 @@ getJSONClassName() : IInboxDescriptor["@class"];
 /**
 
  
+ */
+// @ts-ignore
+abstract class SEventInboxDescriptor extends SVariableDescriptor<SEventInboxInstance> {
+  public constructor(client: WegasClient, entity: Readonly<IEventInboxDescriptor>);
+  public getEntity() : Readonly<IEventInboxDescriptor>;
+  getJSONClassName() : IEventInboxDescriptor["@class"];
+
+
+  /**
+
+   @param p
+
+   @return check if the given player's inbox is empty
+
+   */
+  public abstract isEmpty(p: Readonly<SPlayer>, ) : Readonly<boolean>;
+
+
+  public abstract sendEvent(p: Readonly<SPlayer>, payload: Readonly<string>, ) : Readonly<SEvent>;
+
+
+  public abstract getInstance(player: Readonly<SPlayer>, ) : Readonly<SEventInboxInstance>;
+}
+/**
+
+
 */
 // @ts-ignore 
 abstract class SListDescriptor extends SVariableDescriptor<SListInstance> {
@@ -3772,6 +3804,26 @@ getJSONClassName() : IStaticTextInstance["@class"];
 }
 /**
  
+ */
+// @ts-ignore
+class SEventInboxInstance extends SVariableInstance {
+  public constructor(client: WegasClient, entity: Readonly<IEventInboxInstance>);
+  public getEntity() : Readonly<IEventInboxInstance>;
+  /**
+
+
+   */
+  getEvents():SEvent[] | undefined ;
+  getLastEventId():number | undefined | null ;
+  getJSONClassName() : IEventInboxInstance["@class"];
+  /**
+   Used during deserialization (wgz or zip)
+
+   */
+  getLastEventRefId():string | undefined | null ;
+}
+/**
+
 */
 // @ts-ignore 
 class STextInstance extends SVariableInstance {
@@ -4042,6 +4094,7 @@ interface SInstanceOwner{
   FSMDescriptor : SFSMDescriptor,
   SingleResultChoiceDescriptor : SSingleResultChoiceDescriptor,
   ChoiceDescriptor : SChoiceDescriptor,
+  EventInboxDescriptor : SEventInboxDescriptor,
   NumberDescriptor : SNumberDescriptor,
   AchievementDescriptor : SAchievementDescriptor,
   WhQuestionDescriptor : SWhQuestionDescriptor,
@@ -4079,6 +4132,7 @@ interface SInstanceOwner{
   Team : STeam,
   Transition : STransition,
   InboxInstance : SInboxInstance,
+  EventInboxInstance : SEventInboxInstance,
   AchievementInstance : SAchievementInstance,
   IterationPeriod : SIterationPeriod,
   FSMInstance : SFSMInstance,

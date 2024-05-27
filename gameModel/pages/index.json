@@ -264,7 +264,7 @@
           "@class" : "Page",
           "id" : "51",
           "name" : "mainSim_state",
-          "scenaristPage" : null,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
@@ -289,6 +289,12 @@
           "id" : "60",
           "name" : "mainSim_features",
           "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "46",
+          "name" : "mainSim_stateSave",
+          "scenaristPage" : true,
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
@@ -359,16 +365,6 @@
         } ],
         "name" : "resources"
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "42",
-          "name" : "casuMessageInput",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        } ],
-        "name" : "modal"
-      }, {
         "@class" : "Page",
         "id" : "57",
         "name" : "PatientSummaryPage",
@@ -405,6 +401,12 @@
       }, {
         "@class" : "Folder",
         "items" : [ {
+          "@class" : "Page",
+          "id" : "42",
+          "name" : "casuMessageInput",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
           "@class" : "Page",
           "id" : "11",
           "name" : "radio",

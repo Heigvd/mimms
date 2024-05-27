@@ -1,3 +1,10 @@
+.map-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
 .cursor-crosshair {
 	cursor: crosshair;
 }
@@ -6,6 +13,8 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+
+/*** Fixed entities (unselected) ***/
 .fixedEntities-container{
 	background-color: var(--gray_WHITE);
 	border-radius: var(--XS_borderRadius);
@@ -34,3 +43,5 @@
 	margin: auto;
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
 }
+
+/*** Fixed entities (unselected)  ***/

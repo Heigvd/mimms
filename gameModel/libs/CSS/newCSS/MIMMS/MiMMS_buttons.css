@@ -1,0 +1,211 @@
+/************************* Button size ****************************/
+.button-S{
+    border-radius: var(--L_borderRadius);
+    padding: 8px 15px;
+    font-size: var(--S_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+.button-M{
+	border-radius: var(--L_borderRadius);
+    padding: 8px 15px;
+    font-size: var(--SM_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+.button-L{
+    border-radius: var(--L_borderRadius);
+    padding: 15px 20px;
+    font-size: var(--M_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+/************************* Button color ****************************/
+/** primary **/
+.button-primaryColor{
+	border: solid 3px var(--primary_base);
+	background-color: var(--grey_0);
+	color: var(--primary_base);
+}
+
+.button-primaryColor:hover{
+	background-color: var(--primary_base);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+	color: var(--grey_0);
+}
+
+.button-primaryColor:active{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+ 
+.button-primaryColor.current{
+	border: solid 3px var(--primary_base);
+	background-color: var(--primary_base);
+	font-weight: var(--boldWeight);
+	color: var(--grey_0);
+}
+
+
+
+.disabled.button-primaryColor{
+	background-color: var(--grey_50);
+	color: var(--grey_0);
+	cursor: not-allowed;
+  border-color: var(--grey_50);
+}
+
+.disabled.button-primaryColor:hover{
+	background-color: var(--grey_30);
+  color: var(--grey40);
+  cursor: not-allowed;
+  border-color: var(--grey_30);
+}
+
+/** secondary **/
+.button-secondaryColor{
+	background-color: var(--secondary_base);
+    color: var(--gray_WHITE);
+}
+
+.button-secondaryColor:hover{
+	background-color: var(--secondary_base);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+}
+
+.button-secondaryColor:active{
+	background-color: var(--secondary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+
+.disabled.button-secondaryColor{
+	background-color: var(--grey_20);
+	color: var(--gray_150);
+	cursor: not-allowed;
+}
+
+.disabled.button-secondaryColor:hover{
+	background-color: var(--grey_30);
+  color: var(--grey_40);
+  cursor: not-allowed;
+}
+
+/************************* Special button  ****************************/
+
+/***** ABORT *****/
+.abort{
+	background-color: var(--grey_60);
+	
+}
+
+.abort:hover{
+	background-color: var(--grey_70);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/***** SQUARE *****/
+.button-square{
+	padding: 8px 15px;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--XXS_borderRadius);
+}
+
+/**** rectangles buttons ****/
+.rectangleButton{
+	border-radius: var(--XXS_borderRadius);
+	font-size: var(--S_text);
+	color: var(--primary_base);
+	font-weight: var(--boldWeight);
+	background-color: var(--grey_0);
+	border: solid 2px var(--primary_base);
+	margin: 0px;
+}
+
+.rectangleButton-container{
+	margin: 0px;
+}
+.rectangleButton:hover{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	color: var(--grey_0);
+}
+.disabled.rectangleButton{
+  background-color:transparent;
+  color: var(--grey_50);
+  border-color: var(--grey_50);
+  cursor: not-allowed;
+}
+
+.disabled.rectangleButton:hover{
+  background-color: var(--grey_10);
+  color: var(--grey_50);
+}
+
+.rectangleButton:focus{
+	background-color: var(--primary_base);
+	color: var(--grey_0);
+	border: solid 2px var(--primary_base);
+	margin: 0px;
+}
+
+.rectangleButton:focus:hover{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+
+/***** ROUND *****/
+.button-round{
+	width: 5rem;
+	height: 5rem;
+}
+
+/*********************** NEXT BUTTON ***********************/
+.next-container{
+	z-index: 4;
+	position: absolute;
+	top: -85px;
+	right: 0px;
+	overflow: visible;
+}
+
+.nextActionBtn > * {
+  margin: 0.5em;
+  height: 3.5em;
+  width: 8.5em;
+  border-radius: 25px;
+  background: rgb(33,0,36);
+  background: linear-gradient(90deg, rgba(33,0,36,0.8178338229823179) 0%, rgba(62,9,121,1) 14%, rgba(0,212,255,1) 100%); 
+  /* align-content: flex-end; */
+  font-weight: var(--boldWeight);
+  color: var(--gray_WHITE);
+  /*background: var(--secondary_50) hotpink; */
+	filter: drop-shadow(10px 10px 3px rgb(5, 77, 101));
+}
+
+.nextActionBtn:hover > *{
+  background: rgb(131,58,180);
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+	/*background: var(--secondary_40);*/
+	cursor: pointer;
+}
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
+	margin: auto;
+}
+
+
+
+

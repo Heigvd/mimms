@@ -39,7 +39,7 @@
               }
             }, {
               "applyOn" : "Inside",
-              "className" : "radio-message-casu-myself tri-right right-top",
+              "className" : "radio-message-myself /*radio-message-casu-myself*/ tri-right right-top",
               "condition" : {
                 "@class" : "Script",
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
@@ -67,7 +67,7 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "casuDialogue",
+        "className" : "messageArea",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -78,10 +78,9 @@
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "noPadding noMargin messageArea-container",
         "layoutStyle" : { },
-        "style" : {
-          "overflow-y" : "auto"
-        }
+        "style" : { }
       },
       "type" : "For each"
     }, {
@@ -103,11 +102,11 @@
       },
       "type" : "PageLoader"
     } ],
-    "className" : "",
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "",
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
       "width" : "100%"

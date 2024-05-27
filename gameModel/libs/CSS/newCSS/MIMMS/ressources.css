@@ -40,7 +40,7 @@
 
 .resourceIcon {
 	font-size: var(--L_text);
-	color: var(--interface_BLUE);
+	color: var(--primary_base);
 }
 
 .resourceCounter-container {
