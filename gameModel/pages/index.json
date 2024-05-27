@@ -290,20 +290,8 @@
           "name" : "mainSim_features",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "46",
-          "name" : "mainSim_stateSave",
-          "scenaristPage" : true,
-          "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
-      }, {
-        "@class" : "Page",
-        "id" : "52",
-        "name" : "trainerDebugPage",
-        "scenaristPage" : null,
-        "trainerPage" : true
       } ],
       "name" : "debug_pages"
     }, {
