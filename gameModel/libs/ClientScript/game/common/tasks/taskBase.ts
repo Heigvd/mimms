@@ -323,12 +323,12 @@ export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    readonly patientPriority: Category<string>['priority'],
     nbMinResources: number,
     nbMaxResources: number,
     ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
-    availableToRoles?: InterventionRole[]
+    availableToRoles?: InterventionRole[],
+    readonly patientPriority?: Category<string>['priority']
   ) {
     super(
       title,
@@ -346,6 +346,10 @@ export class HealingTask extends TaskBase {
     _timeJump: number
   ): void {
     // no effect
-    taskLogger.info('healing for priority ' + this.patientPriority);
+    if (this.patientPriority != null) {
+      taskLogger.info('healing for priority ' + this.patientPriority);
+    } else {
+      taskLogger.info('healing');
+    }
   }
 }

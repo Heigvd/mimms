@@ -122,37 +122,47 @@ function initMainState(): MainSimulationState {
     []
   );
 
+  const taskHealing = new HealingTask(
+    'healing-title',
+    'healing-desc',
+    1,
+    100,
+    'AL',
+    [LOCATION_ENUM.nidDeBlesses, LOCATION_ENUM.chantier],
+    []
+  );
+
   const taskHealingRed = new HealingTask(
     'healing-pma-red-title',
     'healing-pma-red-desc',
     1,
-    1,
     100,
     'LEADPMA',
-    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
-    []
+    [LOCATION_ENUM.PMA],
+    [],
+    1
   );
 
   const taskHealingYellow = new HealingTask(
     'healing-pma-yellow-title',
     'healing-pma-yellow-desc',
-    2,
     1,
     100,
     'LEADPMA',
-    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
-    []
+    [LOCATION_ENUM.PMA],
+    [],
+    2
   );
 
   const taskHealingGreen = new HealingTask(
     'healing-pma-green-title',
     'healing-pma-green-desc',
-    3,
     1,
     100,
     'LEADPMA',
-    [LOCATION_ENUM.PMA, LOCATION_ENUM.nidDeBlesses],
-    []
+    [LOCATION_ENUM.PMA],
+    [],
+    3
   );
 
   const taskEvacuation = new EvacuationTask(
@@ -185,6 +195,7 @@ function initMainState(): MainSimulationState {
         taskPretri,
         taskBrancardageChantier,
         taskBrancardageNidDeBlesses,
+        taskHealing,
         taskHealingRed,
         taskHealingYellow,
         taskHealingGreen,
