@@ -5,7 +5,6 @@ import {
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
-import { TimeForwardState } from '../gameInterface/timeline';
 import { mainSimLogger } from '../tools/logger';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
@@ -16,7 +15,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
-  timeForwardState: TimeForwardState;
+  timeForwardAwaitingConfirmation: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
   channel: string;
@@ -94,7 +93,7 @@ export function getInitialInterfaceState(): InterfaceState {
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
-    timeForwardState: TimeForwardState.NotReady,
+    timeForwardAwaitingConfirmation: false,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
@@ -115,22 +114,6 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
   });
   return resourceRequest;
 }
-
-/**
- * Helper function, change only key-values give in update object
- */
-/*
-export function setInterfaceState(update: object): void {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-
-  for (const key in update) {
-    if (newState.hasOwnProperty(key)) {
-      newState[key] = update[key as keyof typeof update];
-    }
-  }
-
-  Context.interfaceState.setState(newState);
-}*/
 
 /**
  * @param update, an object that only contains the change set to be applied to the interface state
@@ -155,7 +138,7 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
       if (t && typeof t === 'object') {
         updateSubStateRecursive(src[key], t, ++depth);
       } else {
-        // primitive
+        // either a primitive or target was null thus assigning src object is ok
         target[key] = src[key];
       }
     }

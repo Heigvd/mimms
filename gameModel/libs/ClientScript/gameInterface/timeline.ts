@@ -17,24 +17,6 @@ interface Timeline {
   timeline: Action[];
 }
 
-/**
- * Interface state of time forward
- */
-export enum TimeForwardState {
-  /**
-   * Player hasn't clicked on time forward yet
-   */
-  'NotReady',
-  /**
-   * Player has to confirm he is ready
-   */
-  'WaitingConfirmation',
-  /**
-   * Player is waiting to proceed to next time slice
-   */
-  'Ready',
-}
-
 // Potential TODO, use ActionBase / StartEndAction instead of custom interface
 
 /**

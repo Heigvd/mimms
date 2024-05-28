@@ -5,7 +5,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 
 /**
  * Data structure used to handle time forward for multiplayer.
- * Time forward occurs only if all present actors
+ * Time forward occurs only if all present actors on site
  * have been set ready to time forward.
  * An actor is set ready when a player controlling it
  * clicks on the time forward button.
@@ -33,7 +33,10 @@ export function isTimeForwardReady(state: MainSimulationState): boolean {
   return actors.every(a => timeFrame.waitingTimeForward[a.Uid] > 0);
 }
 
-export function isPlayerAwaitingTimeForward(state: MainSimulationState): boolean {
+/**
+ * Returns true if the player's controlled actors are all ready to time forward
+ */
+export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>): boolean {
   const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
   const timeFrame = state.getCurrentTimeFrame();
   return actorIds.every(a => timeFrame.waitingTimeForward[a] > 0);
