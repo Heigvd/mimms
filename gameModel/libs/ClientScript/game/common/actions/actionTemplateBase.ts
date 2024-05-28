@@ -158,11 +158,7 @@ export abstract class ActionTemplateBase<
   }
 
   protected roleWiseAvailable(role: InterventionRole): boolean {
-    if (!this.availableToRoles || this.availableToRoles.length === 0) {
-      return true;
-    }
-
-    return this.availableToRoles.includes(role);
+    return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
 
   /**

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716793870924,
+  "createdTime" : 1716912142057,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5021,15 +5021,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#154:tGXcnR",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/evacuation/evacuationTypes",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#152:cyxyxD",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

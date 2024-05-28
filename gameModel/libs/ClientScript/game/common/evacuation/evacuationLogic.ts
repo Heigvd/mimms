@@ -30,7 +30,7 @@ export function getResourcesForEvacSquad(
       const matchingResource = availableResourcesAtLocation.find(
         resource => resource.type === possibleType
       );
-      if (matchingResource != undefined) {
+      if (matchingResource !== undefined) {
         result.push(matchingResource);
         // remove from the available resources at location
         availableResourcesAtLocation.splice(

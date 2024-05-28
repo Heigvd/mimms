@@ -2,7 +2,7 @@ import { entries } from '../../../tools/helper';
 import { mainSimStateLogger, resourceLogger, taskLogger } from '../../../tools/logger';
 import { ActorId, ResourceId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
-import { isAHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { isHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
@@ -20,11 +20,11 @@ export function getResourceById(
 ): Resource {
   const internalState = state.getInternalStateObject();
 
-  const matchingResources = internalState.resources.filter(
+  const matchingResources: Resource[] = internalState.resources.filter(
     (resource: Resource) => resource.Uid === resourceId
   );
 
-  if (matchingResources.length === 0 || matchingResources[0] == null) {
+  if (matchingResources.length === 0) {
     mainSimStateLogger.error('No resource matches id : ' + resourceId);
   }
 
@@ -83,7 +83,7 @@ export function getHumanResourcesForLocation(
 ): Resource[] {
   return state
     .getInternalStateObject()
-    .resources.filter(resource => resource.currentLocation === location && isAHuman(resource.type));
+    .resources.filter(resource => resource.currentLocation === location && isHuman(resource.type));
 }
 
 // -------------------------------------------------------------------------------------------------

@@ -167,7 +167,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
   private createNewSubTasks(state: Readonly<MainSimulationState>) {
     const readyResources: Resource[] = this.getResourcesReadyForNewSubTask(state);
-    const alreadyInvolvedInSubTaskPatients = this.getPatientsInvolvedInSubTask();
+    const alreadyInvolvedInSubTaskPatients = this.getPatientsInvolvedInSubTasks();
 
     const readyPatients = getNextNonTransportedPatientsByPriority(
       state,

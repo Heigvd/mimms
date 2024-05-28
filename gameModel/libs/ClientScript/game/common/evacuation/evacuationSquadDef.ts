@@ -8,8 +8,8 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 // -------------------------------------------------------------------------------------------------
 
 export const EvacuationSquadTypeArray = [
-  'Ambulance_driver',
-  'Ambulance_driver_healer',
+  'AmbulanceDriver',
+  'AmbulanceDriverHealer',
   'Helicopter',
 ] as const;
 export type EvacuationSquadType = typeof EvacuationSquadTypeArray[number];
@@ -46,8 +46,8 @@ export interface EvacuationSquadDefinition {
 // -------------------------------------------------------------------------------------------------
 
 const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> = {
-  Ambulance_driver: {
-    uid: 'Ambulance_driver',
+  AmbulanceDriver: {
+    uid: 'AmbulanceDriver',
     location: LOCATION_ENUM.ambulancePark,
     neededResources: [
       { qualifiedTypes: ['ambulance'] },
@@ -55,8 +55,8 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     ],
   },
 
-  Ambulance_driver_healer: {
-    uid: 'Ambulance_driver_healer',
+  AmbulanceDriverHealer: {
+    uid: 'AmbulanceDriverHealer',
     location: LOCATION_ENUM.ambulancePark,
     neededResources: [
       { qualifiedTypes: ['ambulance'] },

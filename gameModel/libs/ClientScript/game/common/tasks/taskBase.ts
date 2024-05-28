@@ -131,19 +131,11 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   }
 
   protected isRoleWiseAvailable(role: InterventionRole): boolean {
-    if (!this.availableToRoles || this.availableToRoles.length === 0) {
-      return true;
-    }
-
-    return this.availableToRoles.includes(role);
+    return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
 
   protected isLocationWiseAvailable(location: LOCATION_ENUM): boolean {
-    if (!this.availableToLocations || this.availableToLocations.length === 0) {
-      return true;
-    }
-
-    return this.availableToLocations.includes(location);
+    return this.availableToLocations.includes(location) || this.availableToLocations.length === 0;
   }
 
   /**
@@ -283,7 +275,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   /*
    * Get the patients that are involved in a sub-task
    */
-  protected getPatientsInvolvedInSubTask(): PatientId[] {
+  protected getPatientsInvolvedInSubTasks(): PatientId[] {
     return Object.values(this.subTasks)
       .filter(subTask => subTask.patientId != null)
       .map(subTask => subTask.patientId!);

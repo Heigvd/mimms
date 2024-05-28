@@ -4,7 +4,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { HospitalId } from '../baseTypes';
 import { OneMinuteDuration } from '../constants';
 import { Resource } from '../resources/resource';
-import { isAVehicle } from '../resources/resourceType';
+import { isVehicle } from '../resources/resourceType';
 
 // -------------------------------------------------------------------------------------------------
 // hospital
@@ -41,7 +41,7 @@ export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>
 export function computeTravelTime(hospitalId: HospitalId, resources: Resource[]): number {
   const distance = getHospitalById(hospitalId).distance;
 
-  const vehicles = resources.filter((resource: Resource) => isAVehicle(resource.type));
+  const vehicles = resources.filter((resource: Resource) => isVehicle(resource.type));
 
   let speed: number = 2; /* km/h */
   let loadingTime: number = 1; /* minutes */

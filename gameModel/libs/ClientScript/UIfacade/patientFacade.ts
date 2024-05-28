@@ -42,9 +42,7 @@ export function getPatientsSummary() {
     if (patientId) {
       let effectsStringArray = [''];
       if (patient.humanBody.effects && patient.humanBody.effects.length > 0) {
-        effectsStringArray = patient.humanBody.effects.map(effect =>
-          effect.source !== undefined ? effect.source.id : ''
-        );
+        effectsStringArray = patient.humanBody.effects.map(effect => effect.source.id || '');
       }
       response.push({
         n: patientNumber,

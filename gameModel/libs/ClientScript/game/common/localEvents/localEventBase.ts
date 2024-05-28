@@ -646,27 +646,7 @@ export class MoveResourcesLocalEvent extends LocalEventBase {
     readonly resourcesUids: ResourceId[],
     readonly location: LOCATION_ENUM
   ) {
-    super(parentEventId, 'MoveResourceLocalEvent', timeStamp);
-  }
-
-  override applyStateUpdate(state: MainSimulationState) {
-    this.resourcesUids.forEach(resourceId => {
-      const resource = state.getInternalStateObject().resources.find(res => res.Uid === resourceId);
-      if (resource != undefined) {
-        sendResourcesToLocation([resource], this.location);
-      }
-    });
-  }
-}
-
-export class MoveResourceLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesUids: ResourceId[],
-    readonly location: LOCATION_ENUM
-  ) {
-    super(parentEventId, 'MoveResourceLocalEvent', timeStamp);
+    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp);
   }
 
   override applyStateUpdate(state: MainSimulationState) {

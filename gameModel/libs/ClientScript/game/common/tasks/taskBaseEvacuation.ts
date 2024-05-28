@@ -8,7 +8,6 @@ import { EvacuationSubTask } from './subTask';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
   MovePatientLocalEvent,
-  MoveResourceLocalEvent,
   MoveResourcesLocalEvent,
   ResourceAllocationLocalEvent,
 } from '../localEvents/localEventBase';
@@ -86,6 +85,8 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       }
 
       if (subTask.status === 'way_to_hospital' && subTask.cumulatedTime > subTask.travelTime) {
+        subTask.cumulatedTime -= subTask.travelTime;
+
         this.launchEventsWhenArriveAtHospital(state, subTask);
 
         if (subTask.doResourcesComeBack) {
@@ -95,8 +96,11 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         }
       }
 
-      if (subTask.status === 'way_back' && subTask.cumulatedTime > 2 * subTask.travelTime) {
+      if (subTask.status === 'way_back' && subTask.cumulatedTime > subTask.travelTime) {
+        subTask.cumulatedTime -= subTask.travelTime;
+
         this.launchEventsWhenResourcesComeBack(state, subTask);
+
         subTask.status = 'completed';
       }
 
@@ -152,7 +156,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       const resource: Resource = ResourceState.getResourceById(state, resourceId);
 
       localEventManager.queueLocalEvent(
-        new MoveResourceLocalEvent(
+        new MoveResourcesLocalEvent(
           subTask.parentEventId,
           state.getSimTime(),
           [resource.Uid],
