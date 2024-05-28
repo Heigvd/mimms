@@ -47,6 +47,8 @@ porters-task-no-target-location	Not possible to evacuate patients, we don't know
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
 porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé	 
 porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage depuis le nid de blessés terminé	 
+healing-title	Patients care	Soins des patients	
+healing-desc	Patients care	Soins des patients	
 healing-pma-red-title	Red patients care	Soins des patients rouges	
 healing-pma-red-desc	Red patients care	Soins des patients rouges	
 healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes	
