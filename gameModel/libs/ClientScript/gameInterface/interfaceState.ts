@@ -5,6 +5,8 @@ import {
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
+import { TimeForwardState } from '../gameInterface/timeline';
+import { mainSimLogger } from '../tools/logger';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 
@@ -14,6 +16,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  timeForwardState: TimeForwardState;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
   channel: string;
@@ -25,13 +28,15 @@ export interface InterfaceState {
   isReleaseResourceOpen: boolean;
   casuMessage: CasuMessage;
   resources: {
-    allocateResources: {
-      currentLocation: LOCATION_ENUM | undefined;
-      currentTaskId: TaskId | undefined;
-      targetLocation: LOCATION_ENUM | undefined;
-      targetTaskId: TaskId | undefined;
-    } & Resources;
-    requestedResources: Partial<
+    allocateResources?: Partial<
+      {
+        currentLocation: LOCATION_ENUM | undefined;
+        currentTaskId: TaskId | undefined;
+        targetLocation: LOCATION_ENUM | undefined;
+        targetTaskId: TaskId | undefined;
+      } & Resources
+    >;
+    requestedResources?: Partial<
       Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
     >;
   };
@@ -89,6 +94,7 @@ export function getInitialInterfaceState(): InterfaceState {
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    timeForwardState: TimeForwardState.NotReady,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
@@ -113,6 +119,7 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 /**
  * Helper function, change only key-values give in update object
  */
+/*
 export function setInterfaceState(update: object): void {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
 
@@ -122,5 +129,37 @@ export function setInterfaceState(update: object): void {
     }
   }
 
+  Context.interfaceState.setState(newState);
+}*/
+
+/**
+ * @param update, an object that only contains the change set to be applied to the interface state
+ */
+export function setInterfaceState(update: Partial<InterfaceState>): void {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+
+  function updateSubStateRecursive(
+    src: Record<string, any>,
+    target: Record<string, any>,
+    depth: number
+  ): void {
+    if (depth > 20) {
+      // safety break
+      mainSimLogger.warn(
+        'Stopping recursion on update of object, too much depth (circular reference ?)'
+      );
+      return;
+    }
+    for (const key in src) {
+      const t = target[key];
+      if (t && typeof t === 'object') {
+        updateSubStateRecursive(src[key], t, ++depth);
+      } else {
+        // primitive
+        target[key] = src[key];
+      }
+    }
+  }
+  updateSubStateRecursive(update, newState, 0);
   Context.interfaceState.setState(newState);
 }

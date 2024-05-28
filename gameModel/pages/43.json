@@ -366,6 +366,7 @@
                                 "children" : [ {
                                   "props" : {
                                     "className" : "nextActionBtn",
+                                    "confirm" : false,
                                     "icon" : {
                                       "@class" : "Script",
                                       "content" : "'fast-forward';",
@@ -381,11 +382,12 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
-                                        "language" : "TypeScript"
+                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n  timeForward()",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
                                       }
                                     },
-                                    "name" : "Next",
+                                    "name" : "Ready",
                                     "style" : {
                                       "margin" : "auto"
                                     }

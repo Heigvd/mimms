@@ -688,14 +688,14 @@ export async function triggerTimeForward(): Promise<IManagedResponse> {
  */
 export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
   const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
-  const tf: TimeForwardCancelEvent = {
+  const tfc: TimeForwardCancelEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     involvedActors: actorIds,
     type: 'TimeForwardCancelEvent',
   };
 
-  return await sendEvent(tf);
+  return await sendEvent(tfc);
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {

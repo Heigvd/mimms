@@ -4,6 +4,7 @@ import { localEventManager } from '../game/common/localEvents/localEventManager'
 import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getStateHistory } from '../game/mainSimulationLogic';
+import { InterfaceState, setInterfaceState2 } from '../gameInterface/interfaceState';
 
 export function getCurrentState() {
   return mainLogic.getCurrentState();
@@ -32,26 +33,6 @@ export function recomputeLocalState() {
   wlog('--- LOCAL STATE RESET');
   mainLogic.recomputeState();
 }
-
-/* DEPRECATED */
-// export function getAllResourcesGroup() {
-// 	const tasks = getCurrentState().getInternalStateObject().tasks;
-// 	const actors = getCurrentState().getInternalStateObject().actors;
-// 	const resources = getCurrentState().getInternalStateObject().resources;
-// 	const resourceGroups = Object.values(getCurrentState().getInternalStateObject().resourceGroups);
-// 	const response: { ownerId: number, ownerType: Role, resourceId: number, resourceType: string, currentActivity: string  }[] = [];
-// 	resourceGroups.forEach((resourceGroup) => {
-// 		Object.keys(resourceGroup.owners).forEach(key => {
-// 			const actor = actors.find(a => Number(key) == a.Uid);
-// 			Object.keys(resourceGroup.resources).forEach(rk => {
-// 				const resource = resources.find( r => r.Uid == Number(rk))
-// 				const actionTitle = resource.currentActivity ? tasks.find(t => t.Uid == resource.currentActivity)?.title : resource.currentActivity;
-// 				response.push({ownerId: actor.Uid, ownerType: actor.Role, resourceId: resource.Uid, resourceType: resource.type, currentActivity: actionTitle})
-// 			})
-// 		})
-// 	});
-// 	return response;
-// }
 
 export function getAllResources() {
   const tasks = getCurrentState().getInternalStateObject().tasks;
@@ -91,4 +72,17 @@ export function getTimeFramHistory() {
   return h.map(s => {
     return { id: i++, tf: s.getCurrentTimeFrame() };
   });
+}
+
+export function testSetStateOneLiner() {
+  const update: Partial<InterfaceState> = {
+    channel: 'G679',
+    moveActorChosenLocation: LOCATION_ENUM.PMA,
+  };
+  wlog(Context.interfaceState.state);
+  setInterfaceState2(update);
+  //const ctx = Context.interfaceState.state;
+  setTimeout(() => {
+    wlog(Context.interfaceState.state);
+  }, 1);
 }

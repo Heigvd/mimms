@@ -1,3 +1,4 @@
+import { getCurrentPlayerActorIds } from '../../../multiplayer/multiplayerManager';
 import { timeLogger } from '../../../tools/logger';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -30,6 +31,12 @@ export function isTimeForwardReady(state: MainSimulationState): boolean {
   const actors = state.getOnSiteActors();
   const timeFrame = state.getCurrentTimeFrame();
   return actors.every(a => timeFrame.waitingTimeForward[a.Uid] > 0);
+}
+
+export function isPlayerAwaitingTimeForward(state: MainSimulationState): boolean {
+  const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
+  const timeFrame = state.getCurrentTimeFrame();
+  return actorIds.every(a => timeFrame.waitingTimeForward[a] > 0);
 }
 
 /**
