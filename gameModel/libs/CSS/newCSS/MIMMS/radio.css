@@ -210,7 +210,7 @@
   top: -8px;
 	bottom: auto;
 	border: 32px solid;
-	border-color: #666 transparent transparent transparent;
+  border-color: #666 transparent transparent transparent;
 }
 .tri-right.left-top:after{
 	content: ' ';
@@ -224,6 +224,8 @@
 	border: 22px solid;
 	border-color: var(--gray_150) transparent transparent transparent;
 }
+
+
 
 .tri-right.right-top:after{
 	content: ' ';
@@ -263,6 +265,28 @@
   max-width: 10rem;
   word-wrap: break-word;
 }
+
+
+/*** pending message ***/
+.pending.radio-message-myself{
+  background-color: var(--grey_10);
+  border: dotted 3px var(--grey_50);
+}
+
+.pending.tri-right.right-top:after{
+	border-color: var(--grey_10) transparent transparent transparent;
+}
+
+.pending.radio-message-others{
+  background-color: var(--grey_10);
+  border: dotted 3px var(--grey_50);
+}
+
+.pending.tri-left.right-top:after{
+	border-color: var(--grey_10) transparent transparent transparent;
+}
+
+
 /* is it used???
 .chevron-icon {
 	display: flex;

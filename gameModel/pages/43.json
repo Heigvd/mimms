@@ -1820,7 +1820,7 @@
                             "className" : "modalPMA",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "false;",
+                              "content" : "true;",
                               "language" : "typescript"
                             },
                             "layout" : {

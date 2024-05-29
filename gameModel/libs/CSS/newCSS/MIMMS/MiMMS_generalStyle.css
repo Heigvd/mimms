@@ -27,17 +27,17 @@
   --grey_0: #f6f7f9ff;
   --grey-white: #ffffffff;
   
-  --secondary_10: #dde9e0ff;
-  --secondary_20: #c6dbccff;
-  --secondary_30: #a9c8b2ff;
-  --secondary_40: #8cb698ff;
-  --secondary_50: #70a47fff;
-  --secondary_base: #539265ff;
-  --secondary_60: #457a54ff;
-  --secondary_70: #376143ff;
-  --secondary_80: #294932ff;
-  --secondary_90: #1c3122ff;
-  --secondary_100: #111d14ff;
+  --secondary_10: #DDDBEA;
+  --secondary_20: #C6C2DB;
+  --secondary_30: #AAA4C9;
+  --secondary_40: #8E86B8;
+  --secondary_50: #7167A6;
+  --secondary_base: #554994;
+  --secondary_60: #473D7B;
+  --secondary_70: #393163;
+  --secondary_80: #2B254A;
+  --secondary_90: #1C1831;
+  --secondary_100: #110F1E;
 }
 
 
