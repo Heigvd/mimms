@@ -10,4 +10,5 @@ export interface RadioMessage {
   uid: number;
   isRadioMessage: boolean;
   channel: ActionType | undefined;
+  pending: boolean | undefined;
 }

@@ -24,3 +24,5 @@ your-text	Your text	Votre texte
 radio	radio	radio
 send-one-minute	Send (1 min)	Envoyer (1 min)
 send-request-one-minute	Send request (1 min)	Envoyer la demande (1 min)
+msg-now	Now	Maintenant
+notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.

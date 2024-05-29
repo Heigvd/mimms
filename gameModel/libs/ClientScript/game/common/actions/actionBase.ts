@@ -30,7 +30,11 @@ import {
   MaterialResourceType,
   HumanResourceTypeArray,
 } from '../resources/resourceType';
-import { CasuMessagePayload, MethaneMessagePayload } from '../events/casuMessageEvent';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../events/casuMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { entries } from '../../../tools/helper';
 import { ActionType } from '../actionType';
@@ -46,6 +50,7 @@ import { getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { HospitalDefinition } from '../resources/hospitalType';
+import { getCurrentState } from '../../mainSimulationLogic';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -191,6 +196,42 @@ export abstract class StartEndAction extends ActionBase {
   }
 }
 
+export abstract class RadioDrivenAction extends StartEndAction {
+  public constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  public getEventId(): GlobalEventId {
+    return this.eventId;
+  }
+
+  public abstract getChannel(): ActionType;
+
+  public abstract getMessage(): string;
+
+  public abstract getEmitter(): string;
+
+  public abstract getRecipient(): number;
+}
+
 export class GetInformationAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
@@ -269,7 +310,11 @@ export class OnTheRoadAction extends StartEndAction {
   }
 }
 
-export class CasuMessageAction extends StartEndAction {
+export class CasuMessageAction extends RadioDrivenAction {
+  hospitalRequestPayload: HospitalRequestPayload | undefined;
+
+  hospitals: HospitalDefinition[] | undefined;
+
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -281,6 +326,13 @@ export class CasuMessageAction extends StartEndAction {
     private casuMessagePayload: CasuMessagePayload
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    if (this.casuMessagePayload.messageType === 'R') {
+      this.hospitalRequestPayload = this.casuMessagePayload;
+      // Hardcoded, hospital data should be retrieve from scenarist inputs
+      this.hospitals = hospitalInfo.filter(
+        h => this.hospitalRequestPayload!.proximity!.valueOf() >= h.proximity
+      );
+    }
   }
 
   private computeCasuMessage(message: MethaneMessagePayload): string {
@@ -339,42 +391,21 @@ export class CasuMessageAction extends StartEndAction {
     const now = state.getSimTime();
     // TODO filter when we get a full METHANE message
 
-    // Handle hospital information request
-    if (this.casuMessagePayload.messageType === 'R') {
-      // Hardcoded, hospital data should be retrieve from scenarist inputs
-      const hospitalRequestPayload = this.casuMessagePayload;
-      const hospitals = hospitalInfo.filter(
-        h => hospitalRequestPayload.proximity!.valueOf() >= h.proximity
-      );
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          'CASU',
-          this.formatHospitalReponse(hospitals),
-          ActionType.CASU_RADIO,
-          true,
-          true
-        )
-      );
-    } else {
-      const methaneMessagePayload = this.casuMessagePayload;
-      // Handle METHANE message
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          state.getActorById(this.ownerId)?.FullName || '',
-          this.computeCasuMessage(methaneMessagePayload),
-          ActionType.CASU_RADIO,
-          true,
-          true
-        )
-      );
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+    if (this.casuMessagePayload.messageType !== 'R') {
       // Handle METHANE resource request
-      if (methaneMessagePayload.resourceRequest) {
+      if (this.casuMessagePayload.resourceRequest) {
         const dispatchEvent = new ResourceRequestResolutionLocalEvent(
           this.eventId,
           now,
@@ -392,6 +423,27 @@ export class CasuMessageAction extends StartEndAction {
 
   public override getTitle(): string {
     return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+  }
+
+  public getChannel(): ActionType {
+    return ActionType.CASU_RADIO;
+  }
+
+  public getMessage(): string {
+    if (this.casuMessagePayload.messageType === 'R') {
+      return this.formatHospitalReponse(this.hospitals!);
+    } else {
+      return this.computeCasuMessage(this.casuMessagePayload);
+    }
+  }
+
+  public getEmitter(): string {
+    if (this.casuMessagePayload.messageType === 'R') return 'CASU';
+    else return getCurrentState().getActorById(this.ownerId)?.FullName || '';
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 
@@ -804,7 +856,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 }
 
-export class SendRadioMessageAction extends StartEndAction {
+export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -842,6 +894,26 @@ export class SendRadioMessageAction extends StartEndAction {
   // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
     return;
+  }
+
+  public getRadioMessagePayload(): RadioMessagePayload {
+    return this.radioMessagePayload;
+  }
+
+  public getChannel(): ActionType {
+    return this.radioMessagePayload.channel;
+  }
+
+  public getMessage(): string {
+    return this.radioMessagePayload.message;
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.radioMessagePayload.actorId)?.FullName || '';
+  }
+
+  public getRecipient(): number {
+    return this.radioMessagePayload.actorId;
   }
 }
 

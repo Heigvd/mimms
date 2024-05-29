@@ -29,6 +29,7 @@ import {
   AppointActorAction,
   SelectionPMAAction,
   SelectionParkAction,
+  RadioDrivenAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
@@ -48,6 +49,7 @@ import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessag
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getOngoingActions, getOngoingActionsForActor } from '../simulationState/actionStateAccess';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
@@ -208,6 +210,23 @@ export abstract class ActionTemplateBase<
       .actions.find(action => action.getTemplateId() === this.Uid);
     //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
+  }
+
+  public canConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).find(action => action.ownerId === actorUid) === undefined &&
+      this.customCanConcurrencyWiseBePlayed(state, actorUid)
+    );
+  }
+
+  public customCanConcurrencyWiseBePlayed(state: Readonly<MainSimulationState>, actorUid: ActorId) {
+    return (
+      getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
+    );
+    //Should be: return true;  // and overridden in subclasses as needed
   }
 
   /**
@@ -382,6 +401,19 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   public planActionEventOnFirstClick(): boolean {
     return false;
+  }
+
+  public customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof RadioDrivenAction &&
+          (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO
+      ).length === 0
+    );
   }
 }
 
@@ -776,6 +808,19 @@ export class SendRadioMessage extends StartEndTemplate {
 
   public planActionEventOnFirstClick(): boolean {
     return true;
+  }
+
+  public customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof RadioDrivenAction &&
+          (a as RadioDrivenAction).getChannel() === ActionType.ACTORS_RADIO
+      ).length === 0
+    );
   }
 }
 
