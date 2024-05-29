@@ -2,32 +2,70 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "JSON.stringify(Context.timeFrame);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "exposeAs" : "timeFrame",
-        "getItemsFn" : {
+        "alignSelf" : "flex-start",
+        "icon" : "save",
+        "label" : {
           "@class" : "Script",
-          "content" : "import { getTimeFramHistory } from \"./UIfacade/debugFacade\";\n  getTimeFramHistory();",
+          "content" : "\"<p>Store Current State<br></p>\"",
           "language" : "TypeScript"
         },
-        "itemKey" : "id",
-        "layout" : {
-          "flexDirection" : "column"
-        },
         "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugStoreCurrentState } from \"./UIfacade/debugFacade\";\ndebugStoreCurrentState()",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "store",
         "style" : { }
       },
-      "type" : "For each"
+      "type" : "Button"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Currently Stored State Id<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'debugStoredState')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Number"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-start",
+        "icon" : "arrow-left",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Restore Saved State<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugRestoreSavedState } from \"./UIfacade/debugFacade\";\n  debugRestoreSavedState();",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "restore",
+        "style" : { }
+      },
+      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"

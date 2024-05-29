@@ -30,17 +30,27 @@ export class MainSimulationState implements IClonable {
 
   public readonly stateCount;
 
-  public readonly baseEventId;
+  /**
+   * Id of the last FullEvent that was applied to get this state
+   */
+  private lastEventId;
+
+  public getLastEventId() {
+    return this.lastEventId;
+  }
+  public static resetStateCounter() {
+    MainSimulationState.stateCounter = 0;
+  }
 
   public constructor(
     state: MainStateObject,
     simTime: number,
-    baseEventId: number,
+    lastEventId: number,
     timeFrame: TimeFrame | undefined = undefined
   ) {
     this.internalState = state;
     this.simulationTimeSec = simTime;
-    this.baseEventId = baseEventId;
+    this.lastEventId = lastEventId;
     this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
     this.stateCount = MainSimulationState.stateCounter++;
   }
@@ -49,7 +59,7 @@ export class MainSimulationState implements IClonable {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
       this.simulationTimeSec,
-      this.baseEventId,
+      this.lastEventId,
       Helpers.cloneDeep(this.forwardTimeFrame)
     ) as this;
   }
@@ -60,8 +70,9 @@ export class MainSimulationState implements IClonable {
    * @param events events to be applied
    * @returns a new state
    */
-  public applyEvents(events: LocalEventBase[]): MainSimulationState {
+  public applyEvents(events: LocalEventBase[], lastEventId: number): MainSimulationState {
     const newState = this.clone();
+    newState.lastEventId = lastEventId;
 
     events.forEach(ev => {
       ev.applyStateUpdate(newState);

@@ -132,7 +132,7 @@
           'situation': SStringDescriptor;
 
           "events_vd1H1F": SListDescriptor;
-          "newEvents": SInboxDescriptor;
+          "newEvents": SEventInboxDescriptor;
           "events": SInboxDescriptor;
           "lastEventId": SNumberDescriptor;
 

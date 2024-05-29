@@ -19,33 +19,33 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
 
   switch (hw) {
     case 'motorway':
-      color = '#FFF2DA';
-      size = 5;
+      color = '#FFF';
+      size = 8;
       break;
     case 'trunk':
-      size = 5;
-      color = '#F6F7F9';
+      size = 8;
+      color = '#FFF';
       break;
     case 'primary':
-      size = 4;
-      color = '#F6F7F9';
+      size = 8;
+      color = '#FFF';
       break;
     case 'secondary':
-      color = '#F6F7F9';
-      size = 2.5;
+      color = '#FFF';
+      size = 8;
       break;
     case 'tertiary':
-      color = '#F6F7F9';
-      size = 5;
+      color = '#FFF';
+      size = 8;
       break;
     case 'unclassified':
-      color = '#F6F7F9';
-      size = 3;
+      color = '#FFF';
+      size = 8;
       break;
     case 'residential':
     case 'living':
-      color = '#F6F7F9';
-      size = 2.6;
+      color = '#FFF';
+      size = 8;
       break;
     case 'pedestrian':
     case 'footway':
@@ -65,7 +65,7 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
     case 'proposed':
     case 'construction':
       color = '#yellow';
-      size = 1.2;
+      size = 5;
       break;
     default:
       color = '#D9DDE1';
@@ -87,7 +87,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
         lineJoin: 'round',
         miterLimit: 10,
         width: size,
-        color: 'black',
+        color: '#fff',
       },
     },
     {
@@ -97,7 +97,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
         lineJoin: 'round',
         miterLimit: 10,
         width: size * 0.9,
-        color: color,
+        color: '#fff',
       },
     },
   ];
@@ -106,16 +106,17 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
     style.push({
       text: {
         type: 'TextStyle',
-        fill: { type: 'FillStyle', color: 'white' },
+        fill: { type: 'FillStyle', color: 'black' },
         stroke: {
           type: 'StrokeStyle',
           lineCap: 'round',
           lineJoin: 'round',
           miterLimit: 10,
-          width: 3,
+          width: 2,
+          color: '#FFF', //border for the road's name
         },
         text: name,
-        scale: 1.25,
+        scale: 1.6,
         placement: 'line',
         overflow: false,
       },

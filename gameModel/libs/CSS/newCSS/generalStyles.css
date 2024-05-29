@@ -22,6 +22,7 @@ As the interface got more complex, we relocated these line in separated files:
 /*********** COLORS ***********/
 
 :root {
+	
     --blue_0: #DBF5FE;
     --blue_100: #B7ECFD;
     --blue_200: #6FD9FB;
@@ -70,8 +71,7 @@ As the interface got more complex, we relocated these line in separated files:
     --gray_400: #B3BBC3;
     --gray_500: #808E9B;
     --gray_700: #485460;
-    --gray_BLACK: #1E272E;
-
+    --gray_BLACK: #1E272E; 
 }
 
 
@@ -81,6 +81,7 @@ As the interface got more complex, we relocated these line in separated files:
 
 
 html{
+	--XXS_borderRadius: 5px;
 	--XS_borderRadius: 10px;
 	--S_borderRadius: 15px;
 	--L_borderRadius: 50px;
@@ -141,13 +142,6 @@ button.wegas-btn > div > div > p:first-child:last-child {
 
 /**************************** OTHERS ************************/
 
-.interface-container{
-	pointer-events: none;
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
 
 .rootPage{
 	margin: auto;
