@@ -1178,6 +1178,113 @@
                         }, {
                           "props" : {
                             "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "h1title",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>En attente des autres joueurs<br></p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "name" : "role",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.actor.Role;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>: Status<br></p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "layout" : {
+                                      "alignItems" : "center",
+                                      "flexDirection" : "row"
+                                    },
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "exposeAs" : "actor",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "Uid",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “avancer le temps”</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "button-L",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>cancel</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : {
+                              "flexDirection" : "column"
+                            },
+                            "name" : "nextMinuteAwaiting",
+                            "onExitActions" : { },
+                            "style" : { }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
                             "attachedToId" : "",
                             "children" : [ {
                               "props" : {
@@ -1244,34 +1351,31 @@
                                                 "style" : { },
                                                 "text" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.patients.patientId",
+                                                  "content" : "Context.patient.patientId",
                                                   "language" : "TypeScript"
                                                 }
                                               },
                                               "type" : "Text"
                                             }, {
                                               "props" : {
+                                                "children" : [ ],
+                                                "layout" : { },
+                                                "layoutClassName" : "listTag-container",
                                                 "layoutStyle" : { },
-                                                "style" : {
-                                                  "color" : "hotpink"
-                                                },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "Context.patients.patientId",
-                                                  "language" : "TypeScript"
-                                                }
+                                                "style" : { }
                                               },
-                                              "type" : "Text"
+                                              "type" : "FlexList"
                                             } ],
                                             "className" : "patientLine",
                                             "layout" : {
+                                              "alignItems" : "center",
                                               "justifyContent" : "space-between"
                                             },
                                             "layoutStyle" : { },
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "\n\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patients.patientId\nContext.interfaceState.setState(newState);",
+                                                "content" : "let newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -1279,7 +1383,7 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "exposeAs" : "patients",
+                                        "exposeAs" : "patient",
                                         "getItemsFn" : {
                                           "@class" : "Script",
                                           "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
@@ -1318,7 +1422,30 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.interfaceState.state.selectedPatient",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
                                         "children" : [ {
+                                          "props" : {
+                                            "layoutStyle" : { },
+                                            "name" : "hack",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { keepStateAlive } from \"./UIfacade/patientFacade\";\nkeepStateAlive(Context.currentPatient);\n\"\";",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
@@ -1701,7 +1828,7 @@
                                                     "layoutStyle" : { },
                                                     "script" : {
                                                       "@class" : "Script",
-                                                      "content" : "\"/patient/pain/alert-highPain.png\"",
+                                                      "content" : "\"/patient/pain/alert-noPain.png\"",
                                                       "language" : "TypeScript"
                                                     },
                                                     "style" : {
