@@ -69,6 +69,20 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
+                                                "className" : "fixedEntityIcon",
+                                                "layoutStyle" : { },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  `/maps/mapIcons/${Context.overlayItem.icon}.png`",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "style" : {
+                                                  "width" : "1em"
+                                                }
+                                              },
+                                              "type" : "Image"
+                                            }, {
+                                              "props" : {
                                                 "className" : "mimms_h3title",
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
@@ -298,6 +312,15 @@
                                                 "style" : { }
                                               },
                                               "type" : "For each"
+                                            } ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Inside",
+                                              "className" : "closedFixedEntity",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "false",
+                                                "language" : "TypeScript"
+                                              }
                                             } ],
                                             "layout" : { },
                                             "layoutStyle" : { },
@@ -1182,7 +1205,9 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "h1title",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "margin" : "auto"
+                                },
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -1238,7 +1263,9 @@
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "margin" : "auto"
+                                },
                                 "style" : { }
                               },
                               "type" : "For each"
@@ -1255,7 +1282,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "button-L",
+                                "className" : "button-L button-secondaryColor",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>cancel</p>\"",
@@ -1325,127 +1352,104 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "layoutStyle" : { },
-                                        "onCancel" : { },
-                                        "onVariableChange" : { },
-                                        "placeholder" : {
-                                          "@class" : "Script",
-                                          "content" : "\"Rechercher\"",
-                                          "language" : "TypeScript"
-                                        },
-                                        "script" : {
-                                          "@class" : "Script",
-                                          "content" : "Variable.find(gameModel,'currentPatient')",
-                                          "language" : "TypeScript"
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "String input"
-                                    }, {
-                                      "props" : {
                                         "children" : [ {
+                                          "props" : {
+                                            "layoutStyle" : { },
+                                            "onCancel" : { },
+                                            "onVariableChange" : { },
+                                            "placeholder" : {
+                                              "@class" : "Script",
+                                              "content" : "\"Rechercher\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "script" : {
+                                              "@class" : "Script",
+                                              "content" : "Variable.find(gameModel,'currentPatient')",
+                                              "language" : "TypeScript"
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "String input"
+                                        }, {
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "layoutStyle" : { },
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.patient.patientId",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "layout" : { },
+                                                    "layoutClassName" : "listTag-container",
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "patientLine",
+                                                "layout" : {
+                                                  "alignItems" : "center",
+                                                  "justifyContent" : "space-between"
+                                                },
                                                 "layoutStyle" : { },
-                                                "style" : { },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "Context.patient.patientId",
-                                                  "language" : "TypeScript"
-                                                }
-                                              },
-                                              "type" : "Text"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ ],
-                                                "layout" : { },
-                                                "layoutClassName" : "listTag-container",
-                                                "layoutStyle" : { },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "import { getPatient } from './UIfacade/patientFacade';\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);\nContext.currentPatient.setState(getPatient(Context.patient.patientId));",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
                                                 "style" : { }
                                               },
                                               "type" : "FlexList"
                                             } ],
-                                            "className" : "patientLine",
+                                            "exposeAs" : "patient",
+                                            "getItemsFn" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
+                                              "language" : "TypeScript"
+                                            },
+                                            "itemKey" : "patientId",
                                             "layout" : {
-                                              "alignItems" : "center",
-                                              "justifyContent" : "space-between"
+                                              "flexDirection" : "column"
                                             },
-                                            "layoutStyle" : { },
-                                            "localScriptEval" : {
-                                              "script" : {
-                                                "@class" : "ClientScript",
-                                                "content" : "let newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);",
-                                                "language" : "TypeScript"
-                                              }
+                                            "layoutStyle" : {
+                                              "width" : "100%"
                                             },
-                                            "style" : { }
+                                            "style" : {
+                                              "overflow" : "auto",
+                                              "width" : "100%"
+                                            }
                                           },
-                                          "type" : "FlexList"
+                                          "type" : "For each"
                                         } ],
-                                        "exposeAs" : "patient",
-                                        "getItemsFn" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
-                                          "language" : "TypeScript"
-                                        },
-                                        "itemKey" : "patientId",
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
                                         "layoutStyle" : {
-                                          "width" : "100%"
+                                          "border" : "solid 2px green",
+                                          "height" : "auto",
+                                          "width" : "30%"
                                         },
+                                        "name" : "patientList",
                                         "style" : {
                                           "overflow" : "auto",
-                                          "width" : "100%"
+                                          "width" : "auto"
                                         }
                                       },
-                                      "type" : "For each"
-                                    } ],
-                                    "layout" : {
-                                      "flexDirection" : "column"
-                                    },
-                                    "layoutStyle" : {
-                                      "border" : "solid 2px green",
-                                      "height" : "auto",
-                                      "width" : "30%"
-                                    },
-                                    "name" : "patientList",
-                                    "style" : {
-                                      "overflow" : "auto",
-                                      "width" : "auto"
-                                    }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "layoutStyle" : { },
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.interfaceState.state.selectedPatient",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
+                                      "type" : "FlexList"
                                     }, {
                                       "props" : {
                                         "children" : [ {
-                                          "props" : {
-                                            "layoutStyle" : { },
-                                            "name" : "hack",
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { keepStateAlive } from \"./UIfacade/patientFacade\";\nkeepStateAlive(Context.currentPatient);\n\"\";",
-                                              "language" : "TypeScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        }, {
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
@@ -1826,20 +1830,6 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "layoutStyle" : { },
-                                                    "script" : {
-                                                      "@class" : "Script",
-                                                      "content" : "\"/patient/pain/alert-noPain.png\"",
-                                                      "language" : "TypeScript"
-                                                    },
-                                                    "style" : {
-                                                      "height" : "100px",
-                                                      "width" : "100px"
-                                                    }
-                                                  },
-                                                  "type" : "Image"
-                                                }, {
-                                                  "props" : {
-                                                    "layoutStyle" : { },
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
@@ -1903,32 +1893,30 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "exposeAs" : "currentPatient",
-                                        "initialState" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\ngetPatient(Context.interfaceState.state.selectedPatient)!",
-                                          "language" : "TypeScript"
+                                        "layout" : {
+                                          "flexDirection" : "column"
                                         },
                                         "layoutStyle" : {
-                                          "flexDirection" : "column"
+                                          "width" : "70%"
                                         },
-                                        "localState" : false,
-                                        "style" : {
-                                          "flexDirection" : "column"
-                                        }
+                                        "name" : "patientInfo",
+                                        "style" : { }
                                       },
-                                      "type" : "State"
+                                      "type" : "FlexList"
                                     } ],
-                                    "layout" : {
-                                      "flexDirection" : "column"
+                                    "exposeAs" : "currentPatient",
+                                    "initialState" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\ngetPatient(Context.interfaceState.state.selectedPatient)!",
+                                      "language" : "TypeScript"
                                     },
                                     "layoutStyle" : {
-                                      "width" : "70%"
+                                      "width" : "100%"
                                     },
-                                    "name" : "patientInfo",
+                                    "localState" : false,
                                     "style" : { }
                                   },
-                                  "type" : "FlexList"
+                                  "type" : "State"
                                 } ],
                                 "layout" : {
                                   "flexDirection" : "row"
@@ -1947,7 +1935,7 @@
                             "className" : "modalPMA",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "true;",
+                              "content" : "false;",
                               "language" : "typescript"
                             },
                             "layout" : {
