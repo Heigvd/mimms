@@ -1,4 +1,4 @@
-import { getCurrentPlayerActorIds } from '../../../multiplayer/multiplayerManager';
+import { getCurrentPlayerActorIds } from '../../../UIfacade/actorFacade';
 import { timeLogger } from '../../../tools/logger';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -30,7 +30,7 @@ export function buildNewTimeFrame(state: MainSimulationState): TimeFrame {
 export function isTimeForwardReady(state: MainSimulationState): boolean {
   const actors = state.getOnSiteActors();
   const timeFrame = state.getCurrentTimeFrame();
-  return actors.every(a => timeFrame.waitingTimeForward[a.Uid] > 0);
+  return actors.every(a => timeFrame.waitingTimeForward[a.Uid] || 0 > 0);
 }
 
 /**
@@ -39,7 +39,7 @@ export function isTimeForwardReady(state: MainSimulationState): boolean {
 export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>): boolean {
   const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
   const timeFrame = state.getCurrentTimeFrame();
-  return actorIds.every(a => timeFrame.waitingTimeForward[a] > 0);
+  return actorIds.every(a => timeFrame.waitingTimeForward[a] || 0 > 0);
 }
 
 /**

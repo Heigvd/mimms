@@ -4,7 +4,6 @@ import { localEventManager } from '../game/common/localEvents/localEventManager'
 import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getStateHistory } from '../game/mainSimulationLogic';
-import { InterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { debugFacadeLogger } from '../tools/logger';
 
 export function getCurrentState() {
@@ -82,23 +81,10 @@ export function getAllLocalEvents() {
   });
 }
 
-export function getTimeFramHistory() {
+export function getTimeFrameHistory() {
   const h = getStateHistory();
   let i = 0;
   return h.map(s => {
     return { id: i++, tf: s.getCurrentTimeFrame() };
   });
-}
-
-export function testSetStateOneLiner() {
-  const update: Partial<InterfaceState> = {
-    channel: 'G679',
-    moveActorChosenLocation: LOCATION_ENUM.PMA,
-  };
-  wlog(Context.interfaceState.state);
-  setInterfaceState2(update);
-  //const ctx = Context.interfaceState.state;
-  setTimeout(() => {
-    wlog(Context.interfaceState.state);
-  }, 1);
 }

@@ -185,11 +185,3 @@ export function checkAllPlayersReady(): boolean {
     .flatMap(p => p.ready)
     .every(r => r);
 }
-
-/**
- * Given a list of actors, filters those which are played by the current player
- */
-export function getCurrentPlayerActorIds(actors: Readonly<Actor[]>): ActorId[] {
-  const roles = getPlayerRolesSelf();
-  return actors.filter(a => roles[a.Role]).map(a => a.Uid);
-}

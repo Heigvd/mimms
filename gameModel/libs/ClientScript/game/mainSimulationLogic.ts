@@ -53,7 +53,7 @@ import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
-import { getCurrentPlayerActorIds } from '../multiplayer/multiplayerManager';
+import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
