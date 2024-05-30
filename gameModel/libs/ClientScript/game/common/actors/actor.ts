@@ -88,6 +88,13 @@ export class Actor {
   }
 
   /**
+   * Returns true if the actor has arrived on incident site
+   */
+  public isOnSite(): boolean {
+    return this.Location && this.Location !== LOCATION_ENUM.remote;
+  }
+
+  /**
    * Compute the available symbolic location of the actor
    * @param MainSimulationState
    */

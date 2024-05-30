@@ -449,6 +449,12 @@
         "id" : "46",
         "name" : "mutliplayerMatrix",
         "scenaristPage" : false,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "54",
+        "name" : "timeForwardWaiting",
+        "scenaristPage" : null,
         "trainerPage" : false
       } ],
       "name" : "mainSimulation pages"

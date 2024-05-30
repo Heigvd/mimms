@@ -33,9 +33,14 @@ import {
   TimeForwardEvent,
   TimedEventPayload,
   isLegacyGlobalEvent,
+  TimeForwardCancelEvent,
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
-import { CancelActionLocalEvent, TimeForwardLocalEvent } from './common/localEvents/localEventBase';
+import {
+  CancelActionLocalEvent,
+  TimeForwardCancelLocalEvent,
+  TimeForwardLocalEvent,
+} from './common/localEvents/localEventBase';
 import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
@@ -48,6 +53,7 @@ import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -552,7 +558,18 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         const timefwdEvent = new TimeForwardLocalEvent(
           event.id,
           event.payload.triggerTime,
+          event.payload.involvedActors,
           event.payload.timeJump
+        );
+        localEventManager.queueLocalEvent(timefwdEvent);
+      }
+      break;
+    case 'TimeForwardCancelEvent':
+      {
+        const timefwdEvent = new TimeForwardCancelLocalEvent(
+          event.id,
+          event.payload.triggerTime,
+          event.payload.involvedActors
         );
         localEventManager.queueLocalEvent(timefwdEvent);
       }
@@ -647,14 +664,32 @@ export async function buildAndLaunchActionCancellation(
  * @returns managed response
  */
 export async function triggerTimeForward(): Promise<IManagedResponse> {
+  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
+
   const tf: TimeForwardEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     timeJump: TimeSliceDuration,
+    involvedActors: actorIds,
     type: 'TimeForwardEvent',
   };
 
   return await sendEvent(tf);
+}
+
+/**
+ * Cancel a pending time forward
+ */
+export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
+  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
+  const tfc: TimeForwardCancelEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    involvedActors: actorIds,
+    type: 'TimeForwardCancelEvent',
+  };
+
+  return await sendEvent(tfc);
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {
@@ -681,6 +716,11 @@ export function recomputeState() {
 }
 
 /**** DEBUG TOOLS SECTION ***/
+
+export function getStateHistory() {
+  return stateHistory;
+}
+
 /*
  function that resets the game state to a previously stored one
  */

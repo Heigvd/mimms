@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716822653002,
+  "createdTime" : 1716909015676,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5345,6 +5345,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#105:6vmm4r",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/timeState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1037079:hWsFTK",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
