@@ -17,7 +17,6 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   changePatientLocation,
   PatientLocation,
-  PatientState,
 } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
@@ -39,6 +38,7 @@ import {
 } from '../simulationState/resourceStateAccess';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
+import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
 
@@ -146,36 +146,78 @@ export class CancelActionLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 /////////// TODO in own file
-// TODO dynamic time progression (continue advancing until something relevant happens)
-export class TimeForwardLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly timeJump: number) {
-    super(parentEventId, 'TimeForwardEvent', timeStamp);
+
+export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    type: string,
+    readonly actors: ActorId[],
+    timeStamp: SimTime
+  ) {
+    super(parentEventId, type, timeStamp);
+  }
+
+  protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
+    updateCurrentTimeFrame(state, this.actors, modifier, this.simTimeStamp);
+  }
+}
+
+/**
+ * When applied to state, bumps the readiness of the provided actors.
+ * If all actors are ready, time forwards
+ */
+export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
+  constructor(
+    readonly parentEventId: GlobalEventId,
+    readonly timeStamp: SimTime,
+    readonly actors: ActorId[],
+    readonly timeJump: number
+  ) {
+    super(parentEventId, 'TimeForwardEvent', actors, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.incrementSimulationTime(this.timeJump);
-    const so = state.getInternalStateObject();
+    this.updateCurrentTimeFrame(state, 1);
+    if (isTimeForwardReady(state)) {
+      // TODO dynamic time progression (continue advancing until something relevant happens)
+      state.incrementSimulationTime(this.timeJump);
 
-    // update patients
-    this.updatePatients(so.patients, this.timeJump);
+      // update patients
+      this.updatePatients(state, this.timeJump);
 
-    // update all actions =>
-    this.updateActions(state);
+      // update all actions
+      this.updateActions(state);
 
-    // update all tasks
-    this.updateTasks(state);
+      // update all tasks
+      this.updateTasks(state);
+    }
   }
 
-  updatePatients(patients: Readonly<PatientState[]>, timeJump: number) {
-    computeNewPatientsState(patients as PatientState[], timeJump, getEnv());
+  private updatePatients(state: MainSimulationState, timeJump: number) {
+    const patients = state.getInternalStateObject().patients;
+    computeNewPatientsState(patients, timeJump, getEnv());
   }
 
-  updateActions(state: MainSimulationState) {
+  private updateActions(state: MainSimulationState) {
     state.getInternalStateObject().actions.forEach(a => a.update(state));
   }
 
-  updateTasks(state: MainSimulationState) {
+  private updateTasks(state: MainSimulationState) {
     TaskState.getAllTasks(state).forEach(t => t.update(state, this.timeJump));
+  }
+}
+
+/**
+ * When applied, bumps down being readiness for a time forward for the provided actors
+ */
+export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly actors: ActorId[]) {
+    super(parentEventId, 'TimeForwardCancelEvent', actors, timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    // decrement timeforward 'readiness'
+    this.updateCurrentTimeFrame(state, -1);
   }
 }
 
@@ -439,7 +481,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
     super(parentId, 'ResourceMobilizationEvent', timeStamp);
   }
 
-  applyStateUpdate(state: MainSimulationState): void {
+  override applyStateUpdate(state: MainSimulationState): void {
     const containerDef = getContainerDef(this.containerDefId);
     // We assume that containers are well configured
     // and thus that there are no duplicates
@@ -502,7 +544,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
     super(parentId, 'ResourcesDepartureLocalEvent', timeStamp);
   }
 
-  applyStateUpdate(state: MainSimulationState): void {
+  override applyStateUpdate(state: MainSimulationState): void {
     const t = Math.round(this.travelTime / 60);
     const msg = this.buildRadioText(t);
     const evt = new AddRadioMessageLocalEvent(

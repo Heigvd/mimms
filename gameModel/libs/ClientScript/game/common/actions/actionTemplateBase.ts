@@ -202,12 +202,6 @@ export abstract class ActionTemplateBase<
     //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
   }
-
-  /**
-   * @return true if the action should be created in the timeline right away,
-   * false if some other interaction should take place in between
-   */
-  public abstract planActionEventOnFirstClick(): boolean;
 }
 
 export abstract class StartEndTemplate<
@@ -300,10 +294,6 @@ export class GetInformationTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class CasuMessageTemplate extends StartEndTemplate<
@@ -371,10 +361,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 
@@ -462,10 +448,6 @@ export class SelectionFixedMapEntityTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 
@@ -683,10 +665,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       event.payload.targetTaskId
     );
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class SendRadioMessage extends StartEndTemplate {
@@ -753,10 +731,6 @@ export class SendRadioMessage extends StartEndTemplate {
   public getTitle(): string {
     return 'SendRadioMessageTemplateTitle';
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class MoveActorActionTemplate extends StartEndTemplate {
@@ -821,10 +795,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class ArrivalAnnoucementTemplate extends StartEndTemplate {
@@ -884,10 +854,6 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 
@@ -974,10 +940,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 

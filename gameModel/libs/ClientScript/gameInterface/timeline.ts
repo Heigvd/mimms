@@ -1,8 +1,8 @@
 import { StartEndAction } from '../game/common/actions/actionBase';
-import { formatTime, getStartTime } from '../gameInterface/main';
+import { formatTime, getStartTime } from './main';
 import { getTranslation } from '../tools/translation';
 import { getAllActions } from '../UIfacade/actionFacade';
-import { getAllActors } from '../UIfacade/actorFacade';
+import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
 interface Action {
@@ -26,7 +26,7 @@ interface Timeline {
 export function buildTimelineObject(): Timeline[] {
   const timelines: any = [];
 
-  const actors = getAllActors().filter(actor => actor.Role != 'CASU');
+  const actors = getCurrentPlayerActors();
   const actions = getAllActions();
 
   for (const actor of actors) {

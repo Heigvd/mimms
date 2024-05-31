@@ -5,6 +5,7 @@ import {
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { mainSimLogger } from '../tools/logger';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
@@ -17,6 +18,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
@@ -77,6 +79,7 @@ export function getInitialInterfaceState(): InterfaceState {
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
@@ -123,16 +126,33 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
 }
 
 /**
- * Helper function, change only key-values give in update object
+ * @param update, an object that only contains the change set to be applied to the interface state
  */
-export function setInterfaceState(update: object): void {
+export function setInterfaceState(update: Partial<InterfaceState>): void {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
 
-  for (const key in update) {
-    if (newState.hasOwnProperty(key)) {
-      newState[key] = update[key as keyof typeof update];
+  function updateSubStateRecursive(
+    src: Record<string, any>,
+    target: Record<string, any>,
+    depth: number
+  ): void {
+    if (depth > 20) {
+      // safety break
+      mainSimLogger.warn(
+        'Stopping recursion on update of object, too much depth (circular reference ?)'
+      );
+      return;
+    }
+    for (const key in src) {
+      const t = target[key];
+      if (t && typeof t === 'object') {
+        updateSubStateRecursive(src[key], t, ++depth);
+      } else {
+        // either a primitive or target was null thus assigning src object is ok
+        target[key] = src[key];
+      }
     }
   }
-
+  updateSubStateRecursive(update, newState, 0);
   Context.interfaceState.setState(newState);
 }

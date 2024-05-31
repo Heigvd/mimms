@@ -292,9 +292,15 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "46",
+          "id" : "52",
           "name" : "mainSim_stateSave",
           "scenaristPage" : true,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "55",
+          "name" : "mainSim_multiTimeFwd",
+          "scenaristPage" : false,
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
@@ -450,6 +456,18 @@
         "name" : "moveActorAction",
         "scenaristPage" : false,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "46",
+        "name" : "mutliplayerMatrix",
+        "scenaristPage" : false,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "54",
+        "name" : "timeForwardWaiting",
+        "scenaristPage" : null,
+        "trainerPage" : false
       } ],
       "name" : "mainSimulation pages"
     } ],
