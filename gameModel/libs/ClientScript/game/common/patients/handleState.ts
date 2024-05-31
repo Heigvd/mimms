@@ -43,7 +43,7 @@ export function loadPatients(): PatientState[] {
       patientId: humanBody.id!,
       humanBody: humanBody,
       preTriageResult: undefined,
-      location: LOCATION_ENUM.chantier,
+      location: { kind: 'FixedMapEntity', locationId: LOCATION_ENUM.chantier },
     };
   });
 }

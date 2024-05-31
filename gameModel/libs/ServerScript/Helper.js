@@ -53,3 +53,43 @@ var MimmsHelper = (function () {
     getEndTimes: simRefs,
   };
 })();
+
+var MultiplayerHelper = (function () {
+  function getTeams() {
+    var teams = gameModel.getTeams();
+    return teams;
+  }
+
+  function getMultiplayerMatrix() {
+    var matrixByTeams = Variable.getInstancesByKeyId(Variable.find(gameModel, 'multiplayerMatrix'));
+    return matrixByTeams;
+  }
+
+  function registerSelf() {
+    const currentPlayerId = self.getId();
+    const playableRoles = {
+      AL: true,
+      ACS: true,
+      MCS: true,
+      EVASAN: true,
+      LEADPMA: true,
+    };
+
+    if (currentPlayerId) {
+      const playerMatrix = {
+        id: currentPlayerId,
+        ready: false,
+        roles: playableRoles,
+      };
+      Variable.find(gameModel, 'multiplayerMatrix')
+        .getInstance(self)
+        .setProperty(currentPlayerId.toString(), JSON.stringify(playerMatrix));
+    }
+  }
+
+  return {
+    registerSelf: registerSelf,
+    getMultiplayerMatrix: getMultiplayerMatrix,
+    getTeams: getTeams,
+  };
+})();

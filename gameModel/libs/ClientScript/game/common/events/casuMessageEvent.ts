@@ -1,6 +1,6 @@
 import { SimDuration } from '../baseTypes';
 import { ResourceContainerType } from '../resources/resourceContainer';
-import { HospitalProximity } from '../simulationState/locationState';
+import { HospitalProximity } from '../evacuation/hospitalType';
 import { ActionCreationEvent } from './eventTypes';
 
 export type CasuMessagePayload = MethaneMessagePayload | HospitalRequestPayload;

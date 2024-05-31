@@ -4017,7 +4017,18 @@
           "define-pma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"choose a position for the AMP\"},\"FR\":{\"status\":\"\",\"translation\":\"choisir l'emplacement du poste médical avancé (PMA)\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the AMP can now be prepared\"},\"FR\":{\"status\":\"\",\"translation\":\"le poste médical avancé (PMA) est prêt à être installé\",\"lang\":\"FR\"}},\"version\":0}",
           "define-pma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"positioning the advanced medical post location (AMP)\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le poste médical avancé (PMA)\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuate a patient to a hospital\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuer un patient vers un hôpital\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation is in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est en cours\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "get-hospital-information-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ask CASU for available hospital places\"},\"FR\":{\"status\":\"\",\"translation\":\"demander à la CASU les places hospitalières disponibles\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-green-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"green patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients verts\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-green-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"green patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients verts\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-red-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"red patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients rouges\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-red-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"red patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients rouges\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-yellow-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yellow patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients jaunes\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-pma-yellow-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yellow patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients jaunes\",\"lang\":\"FR\"}},\"version\":0}",
+          "healing-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you move to another location (to be chosen on the map)\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous déplacez à un autre endroit (à choisir sur la carte)\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you moved\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous êtes déplacé\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4029,7 +4040,10 @@
           "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you ask a passerby, who is visibly agitated, to tell you what happened.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous demandez à un passant, visiblement agité, de vous raconter ce qui s'est passé.\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the passer-by seems to be in a state of shock. He didn't see what happened.\"},\"FR\":{\"status\":\"\",\"translation\":\"le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request information from a passerby\"},\"FR\":{\"status\":\"\",\"translation\":\"demander des informations à un passant\",\"lang\":\"FR\"}},\"version\":0}",
+          "porters-task-chantier-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done from the incident\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage depuis le chantier terminé\",\"lang\":\"FR\"}},\"version\":0}",
           "porters-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage terminé\",\"lang\":\"FR\"}},\"version\":0}",
+          "porters-task-nid-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients evacuation done from the survivor receptor center\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage depuis le nid de blessés terminé\",\"lang\":\"FR\"}},\"version\":0}",
+          "porters-task-no-target-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"not possible to evacuate patients, we don't know where to take them\"},\"FR\":{\"status\":\"\",\"translation\":\"pas possible de brancarder, on ne sait pas où les amener\",\"lang\":\"FR\"}},\"version\":0}",
           "pre-tri-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pre-triage\"},\"FR\":{\"status\":\"\",\"translation\":\"pré-triage\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pre-triage done\"},\"FR\":{\"status\":\"\",\"translation\":\"pré-triage terminé\",\"lang\":\"FR\"}},\"version\":0}",
           "request-hospital-info" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request hospital information\"},\"FR\":{\"status\":\"\",\"translation\":\"demander informations sur hôpitaux\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4191,6 +4205,7 @@
           "summary-owner-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-owner-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"owner Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type du propriétaire\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-patient-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du patient\",\"lang\":\"FR\"}},\"version\":0}",
+          "summary-patient-unit" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient Unit\"},\"FR\":{\"status\":\"\",\"translation\":\"prise en charge\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-pretri-result" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"preTri Result\"},\"FR\":{\"status\":\"\",\"translation\":\"résultat du pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-activity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité de la resource\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD de la resource\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4811,6 +4826,136 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:183091:WiGV7x"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:183096:1uKy4p"
+        },
+        "description" : "",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:183097:KLF9Jd",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:183097:KLF9Jd::EN",
+              "status" : "",
+              "translation" : "multiplayerMatrix"
+            }
+          }
+        },
+        "name" : "multiplayerMatrix",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:183095:ZEWrRY",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:229060:x3YZb1"
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:229065:RN1v6E",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:229066:Zx2ZxH",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:229067:jlWp3f",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:229067:jlWp3f::EN",
+                "status" : "",
+                "translation" : "selectedTeam"
+              }
+            }
+          },
+          "maxSelectable" : 1,
+          "name" : "selectedTeam",
+          "refId" : "StringDescriptor:229064:Sk0Wg5",
+          "scopeType" : "TeamScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:229061:xPPXIo",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:229061:xPPXIo::EN",
+              "status" : "",
+              "translation" : "trainer"
+            }
+          }
+        },
+        "name" : "trainer_PX3n0s",
+        "refId" : "ListDescriptor:229059:mUDySZ",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:183092:QNT0fx",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:183092:QNT0fx::EN",
+            "status" : "",
+            "translation" : "multiplayer"
+          }
+        }
+      },
+      "name" : "multiplayer",
+      "refId" : "ListDescriptor:183090:bSD4tM",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4995,6 +5140,42 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/evacuation/evacuationLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#153:OQvCUH",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/evacuationSquadDef",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#154:tGXcnR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/hospitalController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#155:7oCnGl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/evacuation/hospitalType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#151:hT3bLq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/events/baseEvent",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5017,6 +5198,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#87:tLE73u",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/events/evacuationMessageEvent",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#157:VRQlPF",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5112,15 +5302,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/hospitalType",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:151865:25tgd8",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/resources/resource",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5175,6 +5356,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/hospitalState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#156:lOEPlr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/locationState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5220,10 +5410,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/tasks/resources",
+    "contentKey" : "game/common/simulationState/timeState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:123351:83HPpr",
+    "refId" : "GameModelContent:1037079:hWsFTK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/subTask",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#148:Ro2dyb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5233,6 +5432,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#75:6MFZQm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/taskBaseEvacuation",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#158:YzfbRb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5643,6 +5851,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "multiplayer/multiplayerManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:191567:isScC1",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/CustomForms",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5751,6 +5968,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/evacuationFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#158:XWcYDZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/flagsFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5772,16 +5998,7 @@
     "contentKey" : "UIfacade/patientFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:48271:U4h0FR",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/pretriFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:564371:lvNNkS",
+    "refId" : "GameModelContent:#159:XPXLzj",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5805,10 +6022,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/resourceTaskFacade",
+    "contentKey" : "UIfacade/taskFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#107:uYuioa",
+    "refId" : "GameModelContent:#149:04SgAV",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5953,6 +6170,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:48265:w51ymk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/patient",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:#150:4df5OW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6217,7 +6443,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS Main Sim",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

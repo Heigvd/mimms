@@ -1,13 +1,17 @@
 import { ActionType } from '../game/common/actionType';
-import { TaskId } from '../game/common/baseTypes';
+import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { mainSimLogger } from '../tools/logger';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { getAllPatients } from '../UIfacade/patientFacade';
 import { SelectedPanel } from './selectedPanel';
+import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
+import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 
 export interface InterfaceState {
   currentActorUid: number;
@@ -16,6 +20,7 @@ export interface InterfaceState {
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: string;
+  timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
@@ -25,7 +30,6 @@ export interface InterfaceState {
     actors: string;
     evasam: string;
   };
-  isReleaseResourceOpen: boolean;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -33,10 +37,15 @@ export interface InterfaceState {
       currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
-    } & Resources;
-    requestedResources: Partial<
-      Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
-    >;
+    } & Partial<Record<ResourceType, number>>;
+    requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  evacuation: {
+    patientId: PatientId | undefined;
+    hospitalId: HospitalId | undefined;
+    patientUnitAtHospital: PatientUnitTypology | undefined;
+    transportSquad: EvacuationSquadType | undefined;
+    doResourcesComeBack: boolean;
   };
 }
 
@@ -48,15 +57,6 @@ interface CasuMessage {
   hazards: string;
   access: string;
   victims: string;
-}
-
-interface Resources {
-  secouriste: number;
-  technicienAmbulancier: number;
-  ambulancier: number;
-  infirmier: number;
-  medecinJunior: number;
-  medecinSenior: number;
 }
 
 // used in page 43
@@ -74,25 +74,15 @@ export function getInitialInterfaceState(): InterfaceState {
       victims: '',
     },
     resources: {
-      allocateResources: {
-        currentLocation: undefined,
-        currentTaskId: undefined,
-        targetLocation: undefined,
-        targetTaskId: undefined,
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
+      allocateResources: getEmptyAllocateResources(),
       requestedResources: getEmptyResourceRequest(),
     },
+    evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: getAllPatients()[0].patientId,
+    timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
@@ -103,7 +93,20 @@ export function getInitialInterfaceState(): InterfaceState {
       actors: '',
       evasam: '',
     },
-    isReleaseResourceOpen: false,
+  };
+}
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+
+  return {
+    currentLocation: undefined,
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
   };
 }
 
@@ -115,17 +118,44 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
   return resourceRequest;
 }
 
+export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
+  return {
+    patientId: undefined,
+    hospitalId: undefined,
+    patientUnitAtHospital: undefined,
+    transportSquad: undefined,
+    doResourcesComeBack: false,
+  };
+}
+
 /**
- * Helper function, change only key-values give in update object
+ * @param update, an object that only contains the change set to be applied to the interface state
  */
-export function setInterfaceState(update: object): void {
+export function setInterfaceState(update: Partial<InterfaceState>): void {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
 
-  for (const key in update) {
-    if (newState.hasOwnProperty(key)) {
-      newState[key] = update[key as keyof typeof update];
+  function updateSubStateRecursive(
+    src: Record<string, any>,
+    target: Record<string, any>,
+    depth: number
+  ): void {
+    if (depth > 20) {
+      // safety break
+      mainSimLogger.warn(
+        'Stopping recursion on update of object, too much depth (circular reference ?)'
+      );
+      return;
+    }
+    for (const key in src) {
+      const t = target[key];
+      if (t && typeof t === 'object') {
+        updateSubStateRecursive(src[key], t, ++depth);
+      } else {
+        // either a primitive or target was null thus assigning src object is ok
+        target[key] = src[key];
+      }
     }
   }
-
+  updateSubStateRecursive(update, newState, 0);
   Context.interfaceState.setState(newState);
 }

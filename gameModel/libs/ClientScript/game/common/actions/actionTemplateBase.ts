@@ -29,25 +29,22 @@ import {
   AppointActorAction,
   SelectionPMAAction,
   SelectionParkAction,
+  EvacuationAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
   FixedMapEntity,
   createFixedMapEntityInstanceFromAnyObject,
-  BuildingStatus,
 } from '../events/defineMapObjectEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getTranslation } from '../../../tools/translation';
-import {
-  MaterialResourceType,
-  ResourceType,
-  ResourceTypeAndNumber,
-} from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
@@ -161,11 +158,7 @@ export abstract class ActionTemplateBase<
   }
 
   protected roleWiseAvailable(role: InterventionRole): boolean {
-    if (!this.availableToRoles || this.availableToRoles.length === 0) {
-      return true;
-    }
-
-    return this.availableToRoles.includes(role);
+    return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
 
   /**
@@ -209,12 +202,6 @@ export abstract class ActionTemplateBase<
     //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
   }
-
-  /**
-   * @return true if the action should be created in the timeline right away,
-   * false if some other interaction should take place in between
-   */
-  public abstract planActionEventOnFirstClick(): boolean;
 }
 
 export abstract class StartEndTemplate<
@@ -307,10 +294,6 @@ export class GetInformationTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class CasuMessageTemplate extends StartEndTemplate<
@@ -378,10 +361,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 
@@ -470,10 +449,6 @@ export class SelectionFixedMapEntityTemplate<
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -546,7 +521,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
     duration: SimDuration,
     message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
-    readonly materialResourceType: MaterialResourceType,
+    readonly vehicleType: VehicleType,
     replayable = false,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -584,7 +559,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.materialResourceType,
+      this.vehicleType,
       this.provideFlagsToState
     );
   }
@@ -651,19 +626,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
-  // available if more than a single symbolic position is available
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
-  ): boolean {
-    return (
-      state
-        .getInternalStateObject()
-        .mapLocations.filter(mapLocation => mapLocation.buildingStatus === BuildingStatus.ready)
-        .length > 1
-    );
-  }
-
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
@@ -702,10 +664,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       event.payload.sourceTaskId,
       event.payload.targetTaskId
     );
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
   }
 }
 
@@ -773,10 +731,6 @@ export class SendRadioMessage extends StartEndTemplate {
   public getTitle(): string {
     return 'SendRadioMessageTemplateTitle';
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class MoveActorActionTemplate extends StartEndTemplate {
@@ -841,10 +795,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export class ArrivalAnnoucementTemplate extends StartEndTemplate {
@@ -904,10 +854,6 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public planActionEventOnFirstClick(): boolean {
-    return false;
   }
 }
 
@@ -995,8 +941,92 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  Evacuation
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Action to evacuate a patient to a hospital
+ */
+export class EvacuationActionTemplate extends StartEndTemplate<
+  EvacuationAction,
+  EvacuationActionEvent,
+  EvacuationActionPayload
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.EVASAN_RADIO,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'EvacuationActionTemplate' + '_' + this.title;
+  }
+
+  public getTitle(): TranslationKey {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  public getDescription(): TranslationKey {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  protected createActionFromEvent(event: FullEvent<EvacuationActionEvent>): EvacuationAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new EvacuationAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      payload.evacuationActionPayload,
+      this.provideFlagsToState
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: SimTime,
+    initiator: Readonly<Actor>,
+    params: EvacuationActionPayload
+  ): EvacuationActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      evacuationActionPayload: params,
+    };
+  }
 
   public planActionEventOnFirstClick(): boolean {
-    return false;
+    return true;
   }
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------

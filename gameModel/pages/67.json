@@ -91,7 +91,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
+              "content" : "import { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\ngetSourceTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -214,7 +214,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getCountAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + getCountAvailableResourcesToAllocate(location, taskId, resourceType);",
+                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
                           "language" : "TypeScript"
                         }
                       },
@@ -253,7 +253,7 @@
             "exposeAs" : "resourceType",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+              "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
               "language" : "TypeScript"
             },
             "itemKey" : "enum",
@@ -351,7 +351,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableTasksByLocation } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasksByLocation(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation).map((task) => {return {label: getTranslation('mainSim-actions-tasks', task.title), value: \"\" + task.Uid}});",
+              "content" : "import { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",

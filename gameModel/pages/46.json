@@ -2,71 +2,450 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "alignSelf" : "flex-start",
-        "icon" : "save",
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Store Current State<br></p>\"",
-          "language" : "TypeScript"
+        "layoutStyle" : {
+          "display" : "none"
         },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { debugStoreCurrentState } from \"./UIfacade/debugFacade\";\ndebugStoreCurrentState()",
-            "language" : "TypeScript",
-            "returnType" : "Promise<unknown> | undefined"
-          }
-        },
-        "name" : "store",
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Currently Stored State Id<br></p>\"",
+          "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n  registerSelf();\n  \"<p>(Trigger event loop hack)</p>\"",
           "language" : "TypeScript"
         }
       },
       "type" : "Text"
     }, {
       "props" : {
-        "layoutStyle" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'debugStoredState')",
-          "language" : "TypeScript"
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Register</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n\nregisterSelf();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "register",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Unregister</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { unregisterSelf } from \"./multiplayer/multiplayerManager\";\n\nunregisterSelf()",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "unregister",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Clear</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { clearMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\nclearMultiplayerMatrix();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "clear",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "buttons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>PlayerId<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Name</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>AL<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>ACS<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>MCS<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>EVASAN</p><br>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>LEADPMA</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "matrixHeaderItem",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Ready</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : {
+                  "borderBottom" : "1px solid black"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "matrixRowItem",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  String(Context.player.id)",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixRowItem",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  Context.player.name",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'AL');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.AL",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'ACS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.ACS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'MCS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.MCS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'EVASAN');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.EVASAN",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'LEADPMA');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.LEADPMA",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateReady } from \"./multiplayer/multiplayerManager\";\n\nupdateReady(Context.player.id);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.ready",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "highlightSelf",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  if (getPlayersAndRoles().length > 1) {\n  return Context.player.id === self.getId();\n  }\n  false;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "player",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : {
+                  "gap" : "5px"
+                }
+              },
+              "type" : "For each"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "marginBottom" : "1em"
+            },
+            "name" : "playerMatrix",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { checkAllRolesPlayed } from \"./multiplayer/multiplayerManager\";\ncheckAllRolesPlayed();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "notAllRoles",
+            "style" : {
+              "color" : "red"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  \"A minimum of one player per role is required !<br>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { checkAllPlayersReady } from \"./multiplayer/multiplayerManager\";\ncheckAllPlayersReady();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "notAllReady",
+            "style" : {
+              "color" : "red"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"All players need to be marked as ready !<br>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "flexDirection" : "column"
         },
+        "layoutStyle" : { },
+        "name" : "multiplayerConfig",
         "style" : { }
       },
-      "type" : "Number"
-    }, {
-      "props" : {
-        "alignSelf" : "flex-start",
-        "icon" : "arrow-left",
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Restore Saved State<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "priority" : 0,
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { debugRestoreSavedState } from \"./UIfacade/debugFacade\";\n\ndebugRestoreSavedState();",
-            "language" : "TypeScript",
-            "returnType" : "Promise<unknown> | undefined"
-          }
-        },
-        "name" : "restore",
-        "style" : { }
-      },
-      "type" : "Button"
+      "type" : "FlexList"
     } ],
     "layout" : {
       "flexDirection" : "column"

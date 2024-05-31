@@ -174,6 +174,7 @@ export type EventPayload =
   | AgingEvent
   // NEW EVENTS
   | TimeForwardEvent
+  | TimeForwardCancelEvent
   | ActionCreationEvent
   | ActionCancellationEvent;
 
@@ -217,12 +218,29 @@ export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
   targetTaskId: TaskId;
 }
 
-export interface TimeForwardEvent extends BaseEvent, TimedPayload {
+interface TimeForwardEventBase extends BaseEvent, TimedPayload {
+  /**
+   * Actors played by the emitter of the event
+   */
+  involvedActors: ActorId[];
+}
+
+/**
+ * Emitted when a player is ready to forward time
+ */
+export interface TimeForwardEvent extends TimeForwardEventBase {
   type: 'TimeForwardEvent';
   /**
    * The time duration to jump forward
    */
   timeJump: SimDuration;
+}
+
+/**
+ * Emitted When a player cancels his request to forward time
+ */
+export interface TimeForwardCancelEvent extends TimeForwardEventBase {
+  type: 'TimeForwardCancelEvent';
 }
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
