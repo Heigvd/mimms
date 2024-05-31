@@ -1,0 +1,53 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTimeFrameHistory } from \"./UIfacade/debugFacade\";\n  wlog(getTimeFrameHistory())\n  'Time frames'",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.timeFrame)",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "exposeAs" : "timeFrame",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getTimeFrameHistory } from \"./UIfacade/debugFacade\";\n  getTimeFrameHistory()",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

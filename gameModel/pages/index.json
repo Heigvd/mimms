@@ -296,6 +296,12 @@
           "name" : "mainSim_stateSave",
           "scenaristPage" : true,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "55",
+          "name" : "mainSim_multiTimeFwd",
+          "scenaristPage" : false,
+          "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
       } ],

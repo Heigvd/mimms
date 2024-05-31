@@ -296,15 +296,6 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "currentPosition",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.isCurrentActorAtLocation === Context.actor.location;",
-                                            "language" : "typescript"
-                                          }
-                                        } ],
                                         "hideIf" : {
                                           "@class" : "Script",
                                           "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
