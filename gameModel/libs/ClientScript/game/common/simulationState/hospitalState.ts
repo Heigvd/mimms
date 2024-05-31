@@ -8,7 +8,7 @@ import { MainSimulationState } from './mainSimulationState';
 // -------------------------------------------------------------------------------------------------
 
 export interface HospitalState {
-  proximityWidestRequest?: HospitalProximity | null;
+  proximityWidestRequest?: HospitalProximity;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ export function updateHospitalProximityRequest(
   const internalState = state.getInternalStateObject();
   // we keep the widest proximity asked
   if (
-    internalState.hospital.proximityWidestRequest == null ||
+    internalState.hospital.proximityWidestRequest === undefined ||
     proximity.valueOf() > internalState.hospital.proximityWidestRequest.valueOf()
   ) {
     internalState.hospital.proximityWidestRequest = proximity;

@@ -36,5 +36,5 @@ export function isLocationAvailableForPatients(
 }
 
 function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
-  return fixedMapEntity.buildingStatus === BuildingStatus.ready && !!fixedMapEntity.isAccessible;
+  return fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.isAccessible;
 }

@@ -986,7 +986,7 @@ export class EvacuationAction extends StartEndAction {
 
     const travelTime = computeTravelTime(
       this.evacuationActionPayload.hospitalId,
-      involvedResources
+      this.evacuationActionPayload.transportSquad
     );
 
     const evacuationTask = getEvacuationTask(state);

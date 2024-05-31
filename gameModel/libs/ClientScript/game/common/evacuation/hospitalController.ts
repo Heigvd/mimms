@@ -3,8 +3,7 @@ import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { HospitalId } from '../baseTypes';
 import { OneMinuteDuration } from '../constants';
-import { Resource } from '../resources/resource';
-import { isVehicle } from '../resources/resourceType';
+import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 
 // -------------------------------------------------------------------------------------------------
 // hospital
@@ -34,29 +33,15 @@ export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>
 
 /**
  * @param hospitalId the hospital
- * @param resources what are the resources that go to the hospital
+ * @param squadType the squad that go to the hospital
  *
  * @return The number of time slices needed to go to the hospital
  */
-export function computeTravelTime(hospitalId: HospitalId, resources: Resource[]): number {
+export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
+  const squad = getSquadDef(squadType);
   const distance = getHospitalById(hospitalId).distance;
 
-  const vehicles = resources.filter((resource: Resource) => isVehicle(resource.type));
-
-  let speed: number = 2; /* km/h */
-  let loadingTime: number = 1; /* minutes */
-  let unloadingTime: number = 1; /* minutes */
-  if (vehicles.some(vehicle => vehicle.type === 'helicopter')) {
-    speed = 225;
-    loadingTime = 2;
-    unloadingTime = 2;
-  } else if (vehicles.some(vehicle => vehicle.type === 'ambulance')) {
-    speed = 80;
-    loadingTime = 2;
-    unloadingTime = 2;
-  }
-
-  return Math.ceil((loadingTime + (distance / speed) * 60 + unloadingTime) * OneMinuteDuration);
+  return Math.ceil((squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration);
 }
 
 // -------------------------------------------------------------------------------------------------

@@ -6,7 +6,6 @@ import * as ResourceState from './resourceStateAccess';
 import { LOCATION_ENUM } from './locationState';
 import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { PorterTask } from '../tasks/taskBasePorter';
-import { PorterSubTask } from '../tasks/subTask';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -56,8 +55,8 @@ export function isBrancardageTaskForTargetLocation(
 ): boolean {
   return Object.values(getAllTasks(state))
     .filter(ta => ta instanceof PorterTask)
-    .flatMap(ta => Object.values(ta.subTasks))
-    .some(st => (st as PorterSubTask).targetLocation === targetLocation);
+    .flatMap(ta => Object.values((ta as PorterTask).subTasks))
+    .some(st => st.targetLocation === targetLocation);
 }
 
 /**

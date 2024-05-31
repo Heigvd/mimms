@@ -25,7 +25,10 @@ export function getResourcesForEvacSquad(
 
   const result: Resource[] = [];
 
+  // For each needed resource
   for (const wantedResource of squadDef.neededResources) {
+    // we try to get one of the favorite type.
+    // If not available, we try to get a resource matching the second type, ... and so on
     for (const possibleType of wantedResource.qualifiedTypes) {
       const matchingResource = availableResourcesAtLocation.find(
         resource => resource.type === possibleType
