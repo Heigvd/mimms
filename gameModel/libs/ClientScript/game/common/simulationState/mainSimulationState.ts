@@ -13,6 +13,7 @@ import { ResourceContainerConfig, ResourceContainerType } from '../resources/res
 import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
+import { HospitalState } from './hospitalState';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -225,6 +226,7 @@ interface MainStateObject {
    */
   resourceContainers: ResourceContainerConfig[];
   flags: Partial<Record<SimFlag, boolean>>;
+  hospital: HospitalState;
 }
 
 // experimental to make an object immutable

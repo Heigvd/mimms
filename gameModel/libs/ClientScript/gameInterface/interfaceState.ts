@@ -1,13 +1,16 @@
 import { ActionType } from '../game/common/actionType';
-import { TaskId } from '../game/common/baseTypes';
+import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM, HospitalProximity } from '../game/common/simulationState/locationState';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
 import { getAllActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
+import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
+import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 
 export interface InterfaceState {
   currentActorUid: number;
@@ -25,20 +28,22 @@ export interface InterfaceState {
     actors: string;
     evasam: string;
   };
-  isReleaseResourceOpen: boolean;
   casuMessage: CasuMessage;
   resources: {
-    allocateResources?: Partial<
-      {
-        currentLocation: LOCATION_ENUM | undefined;
-        currentTaskId: TaskId | undefined;
-        targetLocation: LOCATION_ENUM | undefined;
-        targetTaskId: TaskId | undefined;
-      } & Resources
-    >;
-    requestedResources?: Partial<
-      Record<'ACS-MCS' | 'Ambulance' | 'SMUR' | 'PMA' | 'PICA' | 'PCS' | 'Helicopter', number>
-    >;
+    allocateResources: {
+      currentLocation: LOCATION_ENUM | undefined;
+      currentTaskId: TaskId | undefined;
+      targetLocation: LOCATION_ENUM | undefined;
+      targetTaskId: TaskId | undefined;
+    } & Partial<Record<ResourceType, number>>;
+    requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  evacuation: {
+    patientId: PatientId | undefined;
+    hospitalId: HospitalId | undefined;
+    patientUnitAtHospital: PatientUnitTypology | undefined;
+    transportSquad: EvacuationSquadType | undefined;
+    doResourcesComeBack: boolean;
   };
 }
 
@@ -50,15 +55,6 @@ interface CasuMessage {
   hazards: string;
   access: string;
   victims: string;
-}
-
-interface Resources {
-  secouriste: number;
-  technicienAmbulancier: number;
-  ambulancier: number;
-  infirmier: number;
-  medecinJunior: number;
-  medecinSenior: number;
 }
 
 // used in page 43
@@ -76,21 +72,10 @@ export function getInitialInterfaceState(): InterfaceState {
       victims: '',
     },
     resources: {
-      allocateResources: {
-        currentLocation: undefined,
-        currentTaskId: undefined,
-        targetLocation: undefined,
-        targetTaskId: undefined,
-        // the keywords must be those of HumanResourceTypeArray
-        secouriste: 0,
-        technicienAmbulancier: 0,
-        ambulancier: 0,
-        infirmier: 0,
-        medecinJunior: 0,
-        medecinSenior: 0,
-      },
+      allocateResources: getEmptyAllocateResources(),
       requestedResources: getEmptyResourceRequest(),
     },
+    evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
@@ -105,7 +90,20 @@ export function getInitialInterfaceState(): InterfaceState {
       actors: '',
       evasam: '',
     },
-    isReleaseResourceOpen: false,
+  };
+}
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+
+  return {
+    currentLocation: undefined,
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
   };
 }
 
@@ -115,6 +113,16 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
     resourceRequest[t] = 0;
   });
   return resourceRequest;
+}
+
+export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
+  return {
+    patientId: undefined,
+    hospitalId: undefined,
+    patientUnitAtHospital: undefined,
+    transportSquad: undefined,
+    doResourcesComeBack: false,
+  };
 }
 
 /**

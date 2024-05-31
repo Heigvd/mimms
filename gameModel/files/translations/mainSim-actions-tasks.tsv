@@ -43,15 +43,26 @@ brancardage-title	Brancardage	Brancardage
 request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
-porters-task-completed	Patients evacuation done	Brancardage terminé
-send-radio-title	Sends radio message	Envoie message radio
+porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener	
+porters-task-completed	Patients evacuation done	Brancardage terminé	 
+porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé	 
+porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage depuis le nid de blessés terminé	 
+healing-title	Patients care	Soins des patients	
+healing-desc	Patients care	Soins des patients	
+healing-pma-red-title	Red patients care	Soins des patients rouges	
+healing-pma-red-desc	Red patients care	Soins des patients rouges	
+healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes	
+healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes	
+healing-pma-green-title	Green patients care	Soins des patients verts	
+healing-pma-green-desc	Green patients care	Soins des patients verts	
+send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
 define-meetingPoint-title	Define meeting point	Placer le point de rassemblement	
 define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
 define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
 move-actor-title	Move to another location	Se déplacer	
-move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)
+move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)	
 move-actor-feedback	You moved	Vous vous êtes déplacé	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
@@ -67,4 +78,7 @@ move-res-task-title	Assign resource	Assigner ressource
 move-res-task-desc	Send resources	Envoyer des ressources	
 move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succés	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
-get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles
+get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
+evacuate-title	Evacuation	Evacuation	
+evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
+evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	

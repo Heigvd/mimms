@@ -3,11 +3,9 @@
  * which determine the ability of the resource to perform a task.
  */
 
-// TODO See which translations are OK
-
-export const MaterialResourceTypeArray = ['ambulance', 'helicopter', 'PMA'] as const;
-// type inference
-export type MaterialResourceType = typeof MaterialResourceTypeArray[number];
+// -------------------------------------------------------------------------------------------------
+// Humans
+// -------------------------------------------------------------------------------------------------
 
 export const HumanResourceTypeArray = [
   'secouriste',
@@ -17,11 +15,51 @@ export const HumanResourceTypeArray = [
   'medecinJunior',
   'medecinSenior',
 ] as const;
-
+// type inference
 export type HumanResourceType = typeof HumanResourceTypeArray[number];
 
-export type ResourceType = HumanResourceType | MaterialResourceType;
+// -------------------------------------------------------------------------------------------------
+// Vehicles
+// -------------------------------------------------------------------------------------------------
 
-export const ResourcesArray = [...MaterialResourceTypeArray, ...HumanResourceTypeArray] as const;
+const VehicleTypeArray = ['ambulance', 'helicopter'] as const;
+// type inference
+export type VehicleType = typeof VehicleTypeArray[number];
+
+// -------------------------------------------------------------------------------------------------
+// Infrastructures
+// -------------------------------------------------------------------------------------------------
+
+const InfrastructureTypeArray = ['PMA'] as const;
+// type inference
+export type InfrastructureType = typeof InfrastructureTypeArray[number];
+
+// -------------------------------------------------------------------------------------------------
+// All
+// -------------------------------------------------------------------------------------------------
+
+export type ResourceType = HumanResourceType | VehicleType | InfrastructureType;
+
+export const ResourcesArray = [
+  ...HumanResourceTypeArray,
+  ...VehicleTypeArray,
+  ...InfrastructureTypeArray,
+] as const;
 
 export type ResourceTypeAndNumber = Partial<Record<ResourceType, number>>;
+
+// -------------------------------------------------------------------------------------------------
+// Helpers
+// -------------------------------------------------------------------------------------------------
+
+export function isHuman(resourceType: ResourceType) {
+  return Object.values(HumanResourceTypeArray).some(type => type === resourceType);
+}
+
+export function isVehicle(resourceType: ResourceType) {
+  return Object.values(VehicleTypeArray).some(type => type === resourceType);
+}
+
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------

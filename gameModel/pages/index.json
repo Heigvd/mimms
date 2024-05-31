@@ -368,7 +368,7 @@
         "@class" : "Page",
         "id" : "57",
         "name" : "PatientSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -428,6 +428,12 @@
           "@class" : "Page",
           "id" : "62",
           "name" : "channel_ EVASAN_RADIO",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "evacuationForm",
+          "name" : "evacuation",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {

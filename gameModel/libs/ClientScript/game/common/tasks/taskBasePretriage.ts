@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import { taskLogger } from '../../../tools/logger';
-import { Actor, InterventionRole } from '../actors/actor';
+import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
@@ -19,9 +19,8 @@ import {
   getNonPreTriagedPatientsSize,
   getPreTriagedAmountByCategory,
 } from '../simulationState/patientState';
-import { DefaultTask } from './taskBase';
+import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -29,44 +28,38 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 /**
  * Default behaviour of a task
  */
-export class PreTriageTask extends DefaultTask {
-  public static ownerRole: InterventionRole = 'AL';
-
+export class PreTriageTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
+    readonly feedbackAtEnd: TranslationKey,
     nbMinResources: number,
     nbMaxResources: number,
-    readonly feedbackAtEnd: TranslationKey,
-    executionLocations: LOCATION_ENUM[]
+    ownerRole: InterventionRole,
+    availableToLocations: LOCATION_ENUM[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       title,
       description,
       nbMinResources,
       nbMaxResources,
-      PreTriageTask.ownerRole,
-      executionLocations
+      ownerRole,
+      availableToLocations,
+      availableToRoles
     );
   }
 
-  public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    //return state.areZonesAlreadyDefined();
-    return getNonPreTriagedPatientsSize(state) > 0;
-  }
-
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
-    // check if we have the capacity to do something
-    if (!TaskState.hasEnoughResources(state, this)) {
-      taskLogger.info('Not enough resources!');
-      return;
-    }
+  protected override dispatchInProgressEvents(
+    state: Readonly<MainSimulationState>,
+    timeJump: number
+  ): void {
     taskLogger.info(
       'Patients not pretriaged before action: ' + getNonPreTriagedPatientsSize(state)
     );
     const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-    ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
+    ResourceState.getResourcesForTask(state, this.Uid).map(resource => {
       if (
         (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY >=
         TIME_REQUIRED_FOR_PATIENT_PRETRI
