@@ -50,7 +50,7 @@
               "className" : "radio-message-last",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().filter(m => m.channel === ActionType.CASU_RADIO).slice(-1)[0].uid === Context.item.uid;",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().filter(m => m.channel === ActionType.CASU_RADIO).slice(-1)[0]?.uid === Context.item.uid;",
                 "language" : "typescript"
               }
             } ],

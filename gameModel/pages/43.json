@@ -335,7 +335,7 @@
                                           "className" : "currentPosition",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.interfaceState.state.isCurrentActorAtLocation === Context.actor.location;",
+                                            "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
                                             "language" : "typescript"
                                           }
                                         }, {
@@ -602,6 +602,11 @@
                                   "type" : "WegasMapVectorLayer"
                                 } ],
                                 "debug" : false,
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.mapState == undefined;",
+                                  "language" : "typescript"
+                                },
                                 "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : {
@@ -658,6 +663,11 @@
                           "type" : "State"
                         } ],
                         "className" : "noPadding noMargin",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState == undefined;",
+                          "language" : "typescript"
+                        },
                         "layout" : { },
                         "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {
@@ -1936,7 +1946,7 @@
                             "className" : "modalPMA",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "false;",
+                              "content" : "true;",
                               "language" : "typescript"
                             },
                             "layout" : {
@@ -1951,6 +1961,11 @@
                           "type" : "Modal"
                         } ],
                         "className" : "noPadding noMargin",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState == undefined;",
+                          "language" : "typescript"
+                        },
                         "layout" : { },
                         "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {

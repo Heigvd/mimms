@@ -132,7 +132,7 @@
                   "className" : "disabled",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
                     "language" : "typescript"
                   }
                 }, {
