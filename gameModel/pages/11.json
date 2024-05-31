@@ -219,7 +219,7 @@
         "id" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = '52'; break;\n\tdefault: page = '47';\n}\npage;",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = '47'; break;\n\tcase ActionType.ACTORS_RADIO: page = '50'; break;\n\tcase ActionType.RESOURCES_RADIO: page = '63'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'evacuationForm'; break;\n\tdefault: page = '47';\n}\npage;",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding noMargin",
