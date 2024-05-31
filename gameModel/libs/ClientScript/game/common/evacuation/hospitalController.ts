@@ -41,7 +41,9 @@ export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationS
   const squad = getSquadDef(squadType);
   const distance = getHospitalById(hospitalId).distance;
 
-  return Math.ceil((squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration);
+  return Math.ceil(
+    (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
+  );
 }
 
 // -------------------------------------------------------------------------------------------------
