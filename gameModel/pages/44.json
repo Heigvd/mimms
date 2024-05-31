@@ -15,14 +15,380 @@
       "type" : "Image"
     }, {
       "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : "46",
+        "layoutStyle" : { },
+        "name" : "multiplayerMatrixPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Register</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n\nregisterSelf();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "register",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Unregister</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { unregisterSelf } from \"./multiplayer/multiplayerManager\";\n\nunregisterSelf()",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "unregister",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Clear</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { clearMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\nclearMultiplayerMatrix();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "clear",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "buttons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>PlayerId<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>AL<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>ACS</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>MCS</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>EVASAN</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>LEADPMA</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Ready</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : {
+                  "borderBottom" : "1px solid black",
+                  "flex" : "1"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  String(Context.player.id)",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'AL');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.AL",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'ACS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.ACS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'MCS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.MCS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'EVASAN');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.EVASAN",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'LEADPMA');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.LEADPMA",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateReady } from \"./multiplayer/multiplayerManager\";\n\nupdateReady(Context.player.id);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.ready",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "highlightSelf",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  if (getPlayersAndRoles().length > 1) {\n  return Context.player.id === self.getId();\n  }\n  false;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutStyle" : { },
+                    "style" : {
+                      "gap" : "10px"
+                    }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "player",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : {
+                  "gap" : "5px"
+                }
+              },
+              "type" : "For each"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "name" : "playerMatrix",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "true;",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "alignItems" : "center",
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "multiplayerConfig",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
         "className" : "l_button pink",
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { checkAllPlayersReady, checkAllRolesPlayed } from \"./multiplayer/multiplayerManager\";\n  if (APP_CONTEXT === 'Editor') return false;\n!checkAllRolesPlayed() || !checkAllPlayersReady();",
+          "language" : "typescript"
+        },
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
             "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
             "language" : "javascript"
-          },
-          "priority" : 0
+          }
         },
         "label" : {
           "@class" : "Script",
@@ -30,6 +396,7 @@
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
+        "name" : "start",
         "style" : { }
       },
       "type" : "Button"

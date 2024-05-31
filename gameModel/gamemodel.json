@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716306780048,
+  "createdTime" : 1716909015676,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4811,6 +4811,136 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:183091:WiGV7x"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:183096:1uKy4p"
+        },
+        "description" : "",
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:183097:KLF9Jd",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:183097:KLF9Jd::EN",
+              "status" : "",
+              "translation" : "multiplayerMatrix"
+            }
+          }
+        },
+        "name" : "multiplayerMatrix",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:183095:ZEWrRY",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ListDescriptor",
+        "addShortcut" : "",
+        "allowedTypes" : [ ],
+        "broadcastScope" : "TeamScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ListInstance",
+          "refId" : "ListInstance:229060:x3YZb1"
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "items" : [ {
+          "@class" : "StringDescriptor",
+          "allowedValues" : [ ],
+          "broadcastScope" : "TeamScope",
+          "comments" : "",
+          "defaultInstance" : {
+            "@class" : "StringInstance",
+            "refId" : "StringInstance:229065:RN1v6E",
+            "trValue" : {
+              "@class" : "TranslatableContent",
+              "refId" : "TranslatableContent:229066:Zx2ZxH",
+              "translations" : { }
+            }
+          },
+          "editorTag" : "",
+          "isolation" : "OPEN",
+          "label" : {
+            "@class" : "TranslatableContent",
+            "refId" : "TranslatableContent:229067:jlWp3f",
+            "translations" : {
+              "EN" : {
+                "@class" : "Translation",
+                "lang" : "EN",
+                "refId" : "TranslatableContent:229067:jlWp3f::EN",
+                "status" : "",
+                "translation" : "selectedTeam"
+              }
+            }
+          },
+          "maxSelectable" : 1,
+          "name" : "selectedTeam",
+          "refId" : "StringDescriptor:229064:Sk0Wg5",
+          "scopeType" : "TeamScope",
+          "sortable" : false,
+          "validationPattern" : null,
+          "version" : null,
+          "visibility" : "PRIVATE"
+        } ],
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:229061:xPPXIo",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:229061:xPPXIo::EN",
+              "status" : "",
+              "translation" : "trainer"
+            }
+          }
+        },
+        "name" : "trainer_PX3n0s",
+        "refId" : "ListDescriptor:229059:mUDySZ",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:183092:QNT0fx",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:183092:QNT0fx::EN",
+            "status" : "",
+            "translation" : "multiplayer"
+          }
+        }
+      },
+      "name" : "multiplayer",
+      "refId" : "ListDescriptor:183090:bSD4tM",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -5215,6 +5345,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#105:6vmm4r",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/timeState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1037079:hWsFTK",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5638,6 +5777,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57478:23476j",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "multiplayer/multiplayerManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:191567:isScC1",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6199,7 +6347,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dom translations",
+  "name" : "MIMMS - Multiplayer POC Fix",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
