@@ -377,7 +377,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       0,
       'location-niddeblesses',
       LOCATION_ENUM.nidDeBlesses,
-      ['MCS'],
+      [],
       new PointGeometricalShape([
         [2500041.9170648125, 1118456.4054969894],
         [2500106.9001576486, 1118532.2446804282],
