@@ -468,6 +468,12 @@
         "name" : "timeForwardWaiting",
         "scenaristPage" : null,
         "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "pmaLocationPanel",
+        "name" : "pmaLocationPanel",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],

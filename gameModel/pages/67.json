@@ -429,6 +429,19 @@
         "style" : { }
       },
       "type" : "FlexList"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"pmaLocationPanel\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "locationPanelPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
     } ],
     "disableIf" : {
       "@class" : "Script",

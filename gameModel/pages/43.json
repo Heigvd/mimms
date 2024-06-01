@@ -1342,6 +1342,13 @@
                                   "props" : {
                                     "icon" : "window-close",
                                     "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
                                     "style" : { }
                                   },
                                   "type" : "Icon"
@@ -1946,7 +1953,7 @@
                             "className" : "modalPMA",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "true;",
+                              "content" : "!Context.interfaceState.state.showPatientModal;",
                               "language" : "typescript"
                             },
                             "layout" : {
@@ -1955,7 +1962,13 @@
                             "layoutClassName" : "modalPMA-container",
                             "layoutStyle" : { },
                             "name" : "PMA-view",
-                            "onExitActions" : { },
+                            "onExitActions" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
                             "style" : { }
                           },
                           "type" : "Modal"

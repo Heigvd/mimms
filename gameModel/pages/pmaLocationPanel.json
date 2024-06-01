@@ -1,0 +1,55 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>TODO show only when at PMA<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>TODO replace stupid button with patient list<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>show patients modal<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = !newState.showPatientModal;\nContext.interfaceState.setState(newState);",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "modaleToggle",
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
