@@ -1,0 +1,639 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "h1title",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'pma')}`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "icon" : "window-close",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Icon"
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "justifyContent" : "space-between"
+        },
+        "layoutStyle" : {
+          "width" : "100%"
+        },
+        "name" : "Header",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : { },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Rechercher\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Variable.find(gameModel,'currentPatient')",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.patient.patientId",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ ],
+                            "layout" : { },
+                            "layoutClassName" : "listTag-container",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "patientLine",
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { getPatient } from './UIfacade/patientFacade';\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);\nContext.currentPatient.setState(getPatient(Context.patient.patientId));",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "patient",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "patientId",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "style" : {
+                      "overflow" : "auto",
+                      "width" : "100%"
+                    }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "border" : "solid 2px green",
+                  "height" : "auto",
+                  "width" : "30%"
+                },
+                "name" : "patientList",
+                "style" : {
+                  "overflow" : "auto",
+                  "width" : "auto"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "ID",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "String((Context.currentPatient.state.patientId))",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "category",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "'tag'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "iD&tag",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "h2title  noPadding",
+                            "layoutClassName" : "noMargin ",
+                            "layoutStyle" : { },
+                            "name" : "name",
+                            "style" : {
+                              "margin" : "0px"
+                            },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : " (Context.currentPatient.state.humanBody.meta.sex) +', ' + (Context.currentPatient.state.humanBody.meta.age)",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "state",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  let fakevar= 666;\n\"Etat de santé\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "name&state",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "noPadding noMargin",
+                    "layout" : {
+                      "justifyContent" : "flex-start"
+                    },
+                    "layoutClassName" : "noPadding noMargin",
+                    "layoutStyle" : { },
+                    "name" : "headerPatient",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "constantTypeTitle",
+                            "layoutStyle" : { },
+                            "name" : "A",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  let fakevar= 666;\n  'A'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "EtCO2",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'EtCO2'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "EtCO2 - value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'N/A'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "A",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "constantTypeTitle",
+                            "layoutStyle" : { },
+                            "name" : "B",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  let fakevar= 666;\n  'B'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "SpO2",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>SpO2</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "SpCO2-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " (Context.currentPatient.state.humanBody.state.vitals.respiration.SpO2).toFixed(2)",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "SPO2",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "FrequResp",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'FR'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "FR-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " (Context.currentPatient.state.humanBody.state.vitals.respiration.rr).toFixed(2)",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "FR",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "constantTypeTitle",
+                            "layoutStyle" : { },
+                            "name" : "C",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  let fakevar= 666;\n  'C'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "FrequCard",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'FC'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "FreqCard-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "(Context.currentPatient.state.humanBody.state.vitals.cardio.hr).toFixed(2)",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "FrequCard",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Tension arté",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'Tension arté'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Tension arté-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\n  'N/A'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "FrequCard",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "constantTypeTitle",
+                            "layoutStyle" : { },
+                            "name" : "D",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  let fakevar= 666;\n  'D'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Glasgow",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  let fakevar= 666;\n  'Glasgow'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Glasgow-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.eye))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.motor))",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "Glasgow",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "min-width" : "33%"
+                        },
+                        "name" : "left(constants)",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "'henlo'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "alignItems" : "center",
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "min-width" : "33%"
+                        },
+                        "name" : "center (body)",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n  let fakevar = 666;\n\t`${getTranslation('mainSim-interface', 'actions')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Patient Infos<br></p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "min-width" : "33%"
+                        },
+                        "name" : "right (details)",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "allColumnsPatientInfos",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "width" : "70%"
+                },
+                "name" : "patientInfo",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "currentPatient",
+            "initialState" : {
+              "@class" : "Script",
+              "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\ngetPatient(Context.interfaceState.state.selectedPatient)!",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "localState" : false,
+            "style" : { }
+          },
+          "type" : "State"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : {
+          "height" : "90%",
+          "width" : "100%"
+        },
+        "name" : "Content",
+        "style" : {
+          "width" : "fit-content"
+        }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

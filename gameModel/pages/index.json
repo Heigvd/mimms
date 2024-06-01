@@ -474,6 +474,16 @@
         "name" : "pmaLocationPanel",
         "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "patientsListModale",
+          "name" : "patientsListModale",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "patient"
       } ],
       "name" : "mainSimulation pages"
     } ],
