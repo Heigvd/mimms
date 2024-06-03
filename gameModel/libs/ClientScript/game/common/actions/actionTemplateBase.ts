@@ -222,7 +222,7 @@ export abstract class ActionTemplateBase<
     );
   }
 
-  public customCanConcurrencyWiseBePlayed(state: Readonly<MainSimulationState>, actorUid: ActorId) {
+  protected customCanConcurrencyWiseBePlayed(state: Readonly<MainSimulationState>, actorUid: ActorId) {
     return (
       getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
     );
@@ -403,7 +403,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     return false;
   }
 
-  public customCanConcurrencyWiseBePlayed(
+  protected customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -810,7 +810,7 @@ export class SendRadioMessage extends StartEndTemplate {
     return true;
   }
 
-  public customCanConcurrencyWiseBePlayed(
+  protected customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
