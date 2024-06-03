@@ -56,6 +56,19 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "layoutStyle" : {
+                          "display" : "none"
+                        },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { triggerInterfaceStateUpdate } from \"./gameInterface/interfaceState\";\n  triggerInterfaceStateUpdate(Context.interfaceState.state);\n\"<p>Trigger interfaceState update<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
                             "children" : [ {
@@ -154,6 +167,11 @@
                                                   },
                                                   "type" : "Button"
                                                 } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\n!canViewRessources(Context.overlayItem.id);",
+                                                  "language" : "typescript"
+                                                },
                                                 "layout" : { },
                                                 "layoutStyle" : { },
                                                 "name" : "humanRsrcBtn",
@@ -191,7 +209,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.ambulances.length < 1;",
+                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\n  if (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewRessources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -231,7 +249,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.helicopters.length < 1;",
+                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewRessources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -279,7 +297,7 @@
                                                 "exposeAs" : "actor",
                                                 "getItemsFn" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.actors;",
+                                                  "content" : "import { actorViewFilter } from \"./gameMap/mapEntities\";\nactorViewFilter(Context.overlayItem.actors);",
                                                   "language" : "TypeScript"
                                                 },
                                                 "itemKey" : "Uid",
@@ -615,19 +633,6 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : {
-                              "display" : "none"
-                            },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { triggerInterfaceStateUpdate } from \"./gameInterface/interfaceState\";\n  triggerInterfaceStateUpdate()\n\"<p>Trigger interfaceState update<br></p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "children" : [ {
@@ -734,7 +739,7 @@
                             "className" : "noPadding noMargin",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceState\";\ngetInterfaceConfiguration().leftPanel.hidden;",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().leftPanel.hidden;",
                               "language" : "typescript"
                             },
                             "layout" : {
@@ -868,7 +873,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceState\";\n  getInterfaceConfiguration().leftPanel.hidden;",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().leftPanel.hidden;",
                               "language" : "typescript"
                             },
                             "layout" : {
@@ -885,6 +890,11 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "nextActionBtn",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeForward.hidden;",
+                                  "language" : "typescript"
+                                },
                                 "icon" : {
                                   "@class" : "Script",
                                   "content" : "'fast-forward';",
@@ -953,7 +963,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceState\";\nimport { getAllActors, getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeline.viewNonPlayerActors ? getAllActors().filter((actor) => actor.Role != 'CASU') : getCurrentPlayerActors()",
+                                      "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getAllActors, getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeline.viewNonPlayerActors ? getAllActors().filter((actor) => actor.Role != 'CASU') : getCurrentPlayerActors()",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",
@@ -1016,7 +1026,7 @@
                               "className" : "partialTimeline",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "Context.interfaceState.state.showLeftPanel === true;",
+                                "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\nContext.interfaceState.state.showLeftPanel === true && getCurrentPlayerActors().length > 0;",
                                 "language" : "typescript"
                               }
                             } ],
@@ -1163,7 +1173,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceState\";\n  getInterfaceConfiguration().notificationPanel.hidden;",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().notificationPanel.hidden;",
                               "language" : "typescript"
                             },
                             "layout" : { },

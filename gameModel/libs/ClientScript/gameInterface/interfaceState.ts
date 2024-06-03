@@ -13,7 +13,6 @@ import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuatio
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 
 export interface InterfaceState {
-  interfaceConfiguration: InterfaceConfiguration;
   currentActorUid: number | undefined;
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
@@ -58,62 +57,10 @@ interface CasuMessage {
   victims: string;
 }
 
-/**
- * Trainer configuration for interface visbility
- */
-interface InterfaceConfiguration {
-  timeline: {
-    hidden: boolean;
-    viewNonPlayerActors: boolean;
-  };
-  leftPanel: {
-    hidden: boolean;
-  };
-  notificationPanel: {
-    hidden: boolean;
-  };
-  fixedEntities: {
-    hidden: boolean;
-    viewNonPlayerActors: boolean;
-    viewOtherLocationActors: boolean;
-  };
-  timeForward: {
-    hidden: boolean;
-  };
-}
-
-function isGodView() {
-  return Variable.find(gameModel, 'godView').getInstance(self).getValue();
-}
-
-export function getInterfaceConfiguration(): InterfaceConfiguration {
-  return {
-    timeline: {
-      hidden: false,
-      viewNonPlayerActors: isGodView(),
-    },
-    leftPanel: {
-      hidden: getCurrentPlayerActors().length === 0,
-    },
-    notificationPanel: {
-      hidden: getCurrentPlayerActors().length === 0,
-    },
-    fixedEntities: {
-      hidden: getCurrentPlayerActors().length === 0,
-      viewNonPlayerActors: true,
-      viewOtherLocationActors: isGodView(),
-    },
-    timeForward: {
-      hidden: getCurrentPlayerActors().length === 0,
-    },
-  };
-}
-
 // used in page 43
 export function getInitialInterfaceState(): InterfaceState {
   return {
-    interfaceConfiguration: getInterfaceConfiguration(),
-    currentActorUid: getCurrentPlayerActors()[0].Uid,
+    currentActorUid: getCurrentPlayerActors()[0]?.Uid,
     currentActionUid: 0,
     casuMessage: {
       messageType: '',
@@ -178,15 +125,17 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
   };
 }
 
-export function triggerInterfaceStateUpdate() {
-  wlog('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
-  wlog(Context.intefaceState.state);
-  const newState: InterfaceState = Helpers.cloneDeep(Context.interfaceState.state);
+export function triggerInterfaceStateUpdate(state: InterfaceState) {
+  const newState: InterfaceState = Helpers.cloneDeep(state);
 
-  newState.currentActorUid =
-    getCurrentPlayerActors().length > 0 ? getCurrentPlayerActors()[0].Uid : undefined;
+  const currentActorUid = state.currentActorUid;
+  if (currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
+    newState.currentActorUid = getCurrentPlayerActors()[0].Uid;
+  }
 
-  // Context.interfaceState.setState(newState);
+  if (JSON.stringify(newState) !== JSON.stringify(state)) {
+    Context.interfaceState.setState(newState);
+  }
 }
 
 /**

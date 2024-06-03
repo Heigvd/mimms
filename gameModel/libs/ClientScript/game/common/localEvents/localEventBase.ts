@@ -14,10 +14,7 @@ import {
 } from '../baseTypes';
 import { computeNewPatientsState } from '../patients/handleState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import {
-  changePatientLocation,
-  PatientLocation,
-} from '../simulationState/patientState';
+import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
