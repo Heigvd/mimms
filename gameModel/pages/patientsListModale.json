@@ -14,20 +14,6 @@
             }
           },
           "type" : "Text"
-        }, {
-          "props" : {
-            "icon" : "window-close",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = false;\nContext.interfaceState.setState(newState);",
-                "language" : "TypeScript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Icon"
         } ],
         "layout" : {
           "alignItems" : "center",
@@ -544,7 +530,6 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "",
-                                        "conditionnalClassNames" : [ ],
                                         "layoutClassName" : "block afflictedBlock",
                                         "layoutStyle" : { },
                                         "style" : { },

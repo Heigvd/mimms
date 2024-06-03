@@ -331,14 +331,6 @@
                                         } ],
                                         "className" : "fixedEntities",
                                         "conditionnalClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : "currentPosition",
-                                          "condition" : {
-                                            "@class" : "Script",
-                                            "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
-                                            "language" : "typescript"
-                                          }
-                                        }, {
                                           "applyOn" : "Outside",
                                           "className" : "selectedFixedMapEntity",
                                           "condition" : {

@@ -31,6 +31,9 @@ height: 3rem;
  
 }
 
+.dropdownTitle{
+  font-size: var(--S_text);
+}
 /*** Vector ***/
 
 .selectableRow-container{

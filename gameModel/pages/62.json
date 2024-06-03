@@ -81,11 +81,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "mimms_h3title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>Title<br></p>\"",
+              "content" : "  let fakevar = 666; \n\"Evacuation\"",
               "language" : "TypeScript"
             }
           },
@@ -110,7 +111,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Patient<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"Patient\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -160,18 +161,52 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "dropdownTitle",
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>ID patient dropdown<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"ID patient dropdown\"",
                           "language" : "TypeScript"
                         }
                       },
                       "type" : "Text"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientsAvailableForEvacuation } from \"./UIfacade/patientFacade\";\ngetPatientsAvailableForEvacuation();",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.patientId = Context.evacuationPatientId;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"evacuationPatientId\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState.state.evacuation.patientId || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
                     } ],
                     "className" : "noMargin noPadding",
-                    "layout" : { },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutClassName" : "noMargin noPadding",
                     "layoutStyle" : {
                       "border" : "solid 3px yellow",
@@ -321,6 +356,36 @@
                       "type" : "Text"
                     }, {
                       "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacHospitalsChoices } from \"./UIfacade/evacuationFacade\";\ngetEvacHospitalsChoices();",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.hospitalId = Context.evacuationHospitalId;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"evacuationHospitalId\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState.state.evacuation.hospitalId || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
@@ -330,6 +395,36 @@
                         }
                       },
                       "type" : "Text"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(Context.interfaceState.state.evacuation.hospitalId);",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.patientUnitAtHospital = Context.patientUnitAtHospital;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"patientUnitAtHospital\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState.state.evacuation.patientUnitAtHospital || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
                     } ],
                     "className" : "noMargin noPadding",
                     "layout" : {
@@ -601,17 +696,29 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "children" : [ ],
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "border" : "solid 1px blue",
-                              "height" : "10px",
-                              "width" : "10px"
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.doResourcesComeBack = Context.doResourcesComeBack;\nContext.interfaceState.setState(newState);\n",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"doResourcesComeBack\"",
+                                "language" : "TypeScript"
+                              }
                             },
-                            "name" : "fakeTickCase",
-                            "style" : { }
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Context.interfaceState.state.evacuation.doResourcesComeBack;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
                           },
-                          "type" : "FlexList"
+                          "type" : "Boolean"
                         }, {
                           "props" : {
                             "layoutStyle" : { },
@@ -757,17 +864,29 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "children" : [ ],
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "border" : "1px solid blue",
-                              "height" : "10px",
-                              "width" : "10px"
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.doResourcesComeBack = Context.doResourcesComeBack;\nContext.interfaceState.setState(newState);\n",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"doResourcesComeBack\"",
+                                "language" : "TypeScript"
+                              }
                             },
-                            "name" : "fakeTickCase",
-                            "style" : { }
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Context.interfaceState.state.evacuation.doResourcesComeBack;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
                           },
-                          "type" : "FlexList"
+                          "type" : "Boolean"
                         }, {
                           "props" : {
                             "layoutStyle" : { },
