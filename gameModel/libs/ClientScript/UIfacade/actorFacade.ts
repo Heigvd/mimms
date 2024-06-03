@@ -1,4 +1,4 @@
-import { Actor } from '../game/common/actors/actor';
+import { Actor, InterventionRole } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
@@ -14,9 +14,9 @@ export function getAllActors(): Readonly<Actor[]> {
 export function getCurrentPlayerActors(): Readonly<Actor[]> {
   const actors = getCurrentState().getAllActors();
   const currentPlayerRoles = getPlayerRolesSelf();
-  // TODO Sort out warning, works but can be unsafe
+
   const currentPlayerRolesKeys = Object.keys(currentPlayerRoles).filter(
-    key => currentPlayerRoles[key]
+    key => currentPlayerRoles[key as InterventionRole]
   );
 
   return actors.filter(actor => currentPlayerRolesKeys.includes(actor.Role));

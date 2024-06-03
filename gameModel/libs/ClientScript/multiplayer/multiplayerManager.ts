@@ -1,5 +1,4 @@
-import { Actor, InterventionRole } from '../game/common/actors/actor';
-import { ActorId } from '../game/common/baseTypes';
+import { InterventionRole } from '../game/common/actors/actor';
 import { mainSimLogger } from '../tools/logger';
 
 interface MultiplayerMatrix extends Array<PlayerMatrix> {}

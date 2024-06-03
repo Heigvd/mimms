@@ -2,7 +2,7 @@ import { StartEndAction } from '../game/common/actions/actionBase';
 import { formatTime, getStartTime } from './main';
 import { getTranslation } from '../tools/translation';
 import { getAllActions } from '../UIfacade/actionFacade';
-import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
+import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
 interface Action {
@@ -26,7 +26,9 @@ interface Timeline {
 export function buildTimelineObject(): Timeline[] {
   const timelines: any = [];
 
-  const actors = getCurrentPlayerActors();
+  const actors = Variable.find(gameModel, 'godView').getInstance(self).getValue()
+    ? getAllActors().filter(a => a.Role !== 'CASU')
+    : getCurrentPlayerActors();
   const actions = getAllActions();
 
   for (const actor of actors) {
@@ -209,9 +211,11 @@ export function createGrid(currentTime: number): string {
   const totalColumns = maxTime / 60;
   const totalRows = timelines.length + 1;
 
+  const currentActorUid = Context.interfaceState?.state?.currentActorUid;
+
   let timelinesHTML = '';
   for (let i = 0; i < timelines.length; i++) {
-    const active = timelines[i]!.id === Context.interfaceState.state.currentActorUid;
+    const active = currentActorUid ? timelines[i]!.id === currentActorUid : false;
     timelinesHTML += createGridRow(i + 2, active, timelines[i]!.timeline);
   }
 

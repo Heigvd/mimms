@@ -5,7 +5,6 @@ import { Point } from '../map/point2D';
 const logger = Helpers.getLogger('mainSim.map');
 
 export const mapRef = Helpers.useRef<any>('map', null);
-export const buildingsRef = Helpers.useRef<any>('buildings', null);
 export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
 
 interface MapState {
@@ -36,7 +35,6 @@ export function clearMapState() {
   const newState = getInitialMapState();
   newState.overlayState = Context.mapState.state.overlayState;
   Context.mapState.setState(newState);
-  if (buildingsRef.current) buildingsRef.current.changed();
 }
 
 /**
