@@ -195,7 +195,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  let fakevar= 666;\n\"Etat de santé\"",
+                              "content" : "import { getHumanVisualInfos } from \"./UIfacade/patientFacade\";\ngetHumanVisualInfos(Context.currentPatient.state.patientId);",
                               "language" : "TypeScript"
                             }
                           },

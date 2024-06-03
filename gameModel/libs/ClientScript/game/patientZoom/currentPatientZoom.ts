@@ -33,6 +33,7 @@ import {
 } from '../legacy/the_world';
 import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
 import {
+  Categorization,
   categoryToHtml,
   doAutomaticTriage,
   getCategory,
@@ -1392,6 +1393,12 @@ function addBleedingDescription(output: string[], ho: HumanOverview): void {
 
 export function getHumanVisualInfos(): string {
   const human = getCurrentPatientBody();
+  return getHumanVisualInfosOfHuman(human);
+}
+
+export function getHumanVisualInfosOfHuman(
+  human: (HumanBody & { category: Categorization | undefined }) | undefined
+) {
   const output: string[] = [''];
   if (human != null) {
     const overview = getOverview(human);

@@ -1,11 +1,16 @@
 import { PatientState } from '../game/common/simulationState/patientState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { PreTriageResult } from '../game/pretri/triage';
+import { Categorization, PreTriageResult } from '../game/pretri/triage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
-import { getAfflictedBlocksOfHuman } from '../game/patientZoom/currentPatientZoom';
+import {
+  getAfflictedBlocksOfHuman,
+  getHumanVisualInfosOfHuman,
+} from '../game/patientZoom/currentPatientZoom';
 import { getLocalizedBlocks } from '../game/patientZoom/graphics';
+import { PatientId } from '../game/common/baseTypes';
+import { HumanBody } from '../HUMAn/human';
 
 /**
  * @returns All currently present patients
@@ -50,6 +55,19 @@ export function getLocalizedAffictedBlocks(id: string) {
   const afflictedBlocks = getAfflictedBlocks(id);
 
   return getLocalizedBlocks([...afflictedBlocks]).localized;
+}
+
+export function getHumanVisualInfos(id: string) {
+  const human = getHumanAndCategory(id);
+  return getHumanVisualInfosOfHuman(human);
+}
+
+function getHumanAndCategory(
+  id: PatientId
+): (HumanBody & { category: Categorization | undefined }) | undefined {
+  const patient = getPatient(id)!;
+  const human = patient.humanBody;
+  return { ...human, category: undefined /* TODO */ };
 }
 
 // -------------------------------------------------------------------------------------------------
