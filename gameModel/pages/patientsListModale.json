@@ -69,7 +69,18 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "children" : [ ],
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getCategoryColor } from \"./UIfacade/patientFacade\";\ngetCategoryColor(Context.patient.patientId);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
                             "layout" : { },
                             "layoutClassName" : "listTag-container",
                             "layoutStyle" : { },
@@ -156,7 +167,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "'tag'",
+                              "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
                               "language" : "TypeScript"
                             }
                           },

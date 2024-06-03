@@ -1,6 +1,10 @@
 import { PatientState } from '../game/common/simulationState/patientState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { Categorization, PreTriageResult } from '../game/pretri/triage';
+import {
+  Categorization,
+  getBackgroundColorByCategoryId,
+  PreTriageResult,
+} from '../game/pretri/triage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
@@ -8,7 +12,7 @@ import {
   getAfflictedBlocksOfHuman,
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
-import { getLocalizedBlocks } from '../game/patientZoom/graphics';
+import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
 import { PatientId } from '../game/common/baseTypes';
 import { HumanBody } from '../HUMAn/human';
 
@@ -60,6 +64,17 @@ export function getLocalizedAffictedBlocks(id: string) {
 export function getHumanVisualInfos(id: string) {
   const human = getHumanAndCategory(id);
   return getHumanVisualInfosOfHuman(human);
+}
+
+export function getCategoryColor(patientId: string): string {
+  const patient = getPatient(patientId)!;
+  const categoryId = patient.preTriageResult?.categoryId;
+  return categoryId != undefined ? getBackgroundColorByCategoryId(categoryId) : 'thistle';
+}
+
+export function getCategoryCardSvg(patientId: string) {
+  const bgColor = getCategoryColor(patientId);
+  return getFlatCategoryCardSvg(bgColor, 0, 0, 64);
 }
 
 function getHumanAndCategory(
