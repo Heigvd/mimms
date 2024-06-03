@@ -55,6 +55,12 @@
   border: solid 3px var(--primary_base);
 }
 
+/*WIP not working yet*/
+.closedFixedMapEntity{
+  border-radius: var(--XS_borderRadius);
+  border: solid 3px var(--primary_base);
+}
+
 .selectedFixedEntityHeader ~ mimms_h3title{
   color: var(--primary_base);
 }

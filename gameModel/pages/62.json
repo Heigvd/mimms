@@ -81,7 +81,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "mimms_h3title",
+            "className" : "h2title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -99,7 +99,18 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isPatientChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isPatientChoiceFilled()",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
                         "layoutStyle" : { },
                         "style" : { }
                       },
@@ -128,17 +139,26 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "className" : "",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Outside",
-                      "className" : ".closeIcon",
+                      "className" : "closeIcon",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "true;",
+                        "content" : "Context.interfaceState.state.evacuationForm.showPatientChoice;",
                         "language" : "typescript"
                       }
                     } ],
                     "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { openClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\nopenClosePatientChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -160,18 +180,6 @@
                 "children" : [ {
                   "props" : {
                     "children" : [ {
-                      "props" : {
-                        "className" : "dropdownTitle",
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"ID patient dropdown\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
@@ -203,13 +211,17 @@
                       },
                       "type" : "Select input"
                     } ],
-                    "className" : "noMargin noPadding",
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.interfaceState.state.evacuationForm.showPatientChoice;",
+                      "language" : "typescript"
+                    },
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noMargin noPadding",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : {
-                      "border" : "solid 3px yellow",
                       "width" : "100%"
                     },
                     "name" : "open",
@@ -224,7 +236,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>ID patient<br></p>\"",
+                          "content" : "Context.interfaceState.state.evacuation.patientId;",
                           "language" : "TypeScript"
                         }
                       },
@@ -239,14 +251,18 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "noMargin noPadding",
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isPatientChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\nisPatientChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
                     "layout" : {
                       "alignItems" : "center",
                       "justifyContent" : "space-between"
                     },
-                    "layoutClassName" : "noMargin noPadding",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : {
-                      "border" : "solid 3px green",
                       "width" : "100%"
                     },
                     "name" : "closedAfter",
@@ -257,9 +273,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : {
-                  "border" : "solid 3px pink"
-                },
+                "layoutStyle" : { },
                 "name" : "patientChoiceContent",
                 "style" : { }
               },
@@ -292,7 +306,18 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : " return\tContext.interfaceState.state.evacuationForm.showDestinationChoice",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
                         "layoutStyle" : { },
                         "style" : { }
                       },
@@ -321,8 +346,26 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.interfaceState.state.evacuationForm.showDestinationChoice;",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { openCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\nopenCloseDestinationChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -344,17 +387,6 @@
                 "children" : [ {
                   "props" : {
                     "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>dropdown lieu<br></p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
@@ -386,17 +418,6 @@
                       "type" : "Select input"
                     }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>dropdown typologie<br></p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
                         "choices" : {
                           "@class" : "Script",
                           "content" : "import { getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(Context.interfaceState.state.evacuation.hospitalId);",
@@ -426,13 +447,17 @@
                       },
                       "type" : "Select input"
                     } ],
-                    "className" : "noMargin noPadding",
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.interfaceState.state.evacuationForm.showDestinationChoice;",
+                      "language" : "typescript"
+                    },
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noMargin noPadding",
+                    "layoutClassName" : " noPadding",
                     "layoutStyle" : {
-                      "border" : "solid 3px yellow",
                       "width" : "100%"
                     },
                     "name" : "open",
@@ -447,7 +472,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Lieu<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"Lieu\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -458,29 +483,24 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Typologie<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"Typologie\"",
                           "language" : "TypeScript"
                         }
                       },
                       "type" : "Text"
-                    }, {
-                      "props" : {
-                        "children" : [ ],
-                        "layout" : { },
-                        "layoutClassName" : "listTag-container",
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
                     } ],
-                    "className" : "noMargin noPadding",
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isDestinationChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\nisDestinationChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
                     "layout" : {
                       "alignItems" : "center",
-                      "justifyContent" : "space-between"
+                      "justifyContent" : "space-evenly"
                     },
-                    "layoutClassName" : "noMargin noPadding",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : {
-                      "border" : "solid 3px green",
                       "width" : "100%"
                     },
                     "name" : "closedAfter",
@@ -491,9 +511,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : {
-                  "border" : "solid 3px darkgreen"
-                },
+                "layoutStyle" : { },
                 "name" : "destinationChoiceContent",
                 "style" : { }
               },
@@ -526,7 +544,18 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : " return\tContext.interfaceState.state.evacuationForm.showVectorChoice",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
                         "layoutStyle" : { },
                         "style" : { }
                       },
@@ -555,8 +584,26 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
+                    "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.interfaceState.state.evacuationForm.showVectorChoice;",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { openCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\nopenCloseVectorChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -583,20 +630,6 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "children" : [ ],
-                                "layout" : { },
-                                "layoutStyle" : {
-                                  "border" : "solid 1px blue",
-                                  "borderRadius" : "50px",
-                                  "height" : "10px",
-                                  "width" : "10px"
-                                },
-                                "name" : "fakeRound",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
                                 "icon" : "ambulance",
                                 "layoutStyle" : { },
                                 "onVariableChange" : { },
@@ -621,7 +654,7 @@
                                 "layoutStyle" : { },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'atmP_mmHg')",
+                                  "content" : "  let oneVar = 1\noneVar",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -654,7 +687,7 @@
                                 "layoutStyle" : { },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'stepDuration')",
+                                  "content" : "  let zeroVar = 0\nzeroVar",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -682,13 +715,278 @@
                           "type" : "FlexList"
                         } ],
                         "className" : "selectableRow",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "selectedVectorSquad",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('AmbulanceDriver');",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('AmbulanceDriver') && !isVectorOpen();",
+                          "language" : "typescript"
+                        },
                         "layout" : {
                           "alignItems" : "center",
                           "justifyContent" : "space-between"
                         },
                         "layoutClassName" : "selectableRow-container",
                         "layoutStyle" : { },
-                        "name" : "selectableRow",
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('AmbulanceDriver');",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "selectableRow_1driver",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "ambulance",
+                                "layoutStyle" : { },
+                                "onVariableChange" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "selection",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  let oneVar = 1\noneVar",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "driver",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  let oneVar = 1\noneVar",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "medics",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "selectableRow",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "selectedVectorSquad",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('AmbulanceDriverHealer');",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('AmbulanceDriverHealer') && !isVectorOpen();",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "selectableRow-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('AmbulanceDriverHealer');",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "selectableRow_1driver1medic",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "helicopter",
+                                "layoutStyle" : { },
+                                "onVariableChange" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "selection",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  let oneVar = 1\noneVar",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "driver",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  let twoVar = 2\ntwoVar",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "medics",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "selectableRow",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "selectedVectorSquad",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('Helicopter');",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('Helicopter') && !isVectorOpen();",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "selectableRow-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('Helicopter');",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "selectableRow_helicopter",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -742,186 +1040,20 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "noMargin noPadding",
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.interfaceState.state.evacuationForm.showVectorChoice;",
+                      "language" : "typescript"
+                    },
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noMargin noPadding",
+                    "layoutClassName" : " noPadding",
                     "layoutStyle" : {
-                      "border" : "solid 3px yellow",
                       "width" : "100%"
                     },
                     "name" : "open",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "ambulance",
-                                "layoutStyle" : {
-                                  "paddingLeft" : "0px"
-                                },
-                                "onVariableChange" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "selection",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'atmP_mmHg')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "driver",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'stepDuration')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "medics",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center",
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "selectedRow",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutClassName" : "",
-                            "layoutStyle" : { },
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.doResourcesComeBack = Context.doResourcesComeBack;\nContext.interfaceState.setState(newState);\n",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"doResourcesComeBack\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "Context.interfaceState.state.evacuation.doResourcesComeBack;",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  const fakevar = \"Le véhicule reviendra sur site\";\n  return fakevar",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "vectorComeback",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "className" : "noMargin noPadding",
-                    "layout" : {
-                      "alignItems" : "flex-start",
-                      "flexDirection" : "column",
-                      "justifyContent" : "space-between"
-                    },
-                    "layoutClassName" : "noMargin noPadding",
-                    "layoutStyle" : {
-                      "border" : "solid 3px green",
-                      "width" : "100%"
-                    },
-                    "name" : "closedAfter",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -929,9 +1061,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : {
-                  "border" : "solid 3px lightblue"
-                },
+                "layoutStyle" : { },
                 "name" : "vectorChoiceContent",
                 "style" : { }
               },
@@ -944,6 +1074,57 @@
             "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
             "layoutStyle" : { },
             "name" : "vectorChoice",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "pink l_button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO);\nactions.length > 0 && isPlannedAction(actions[0].Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n//const params = Context.interfaceState.state.evacuation;\n//return Object.values(params).includes(undefined);\n  false;",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0].Uid);",
+                  "language" : "typescript"
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO);\nrunActionButton(actions[0]);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "",
+            "layout" : {
+              "justifyContent" : "flex-end"
+            },
+            "layoutStyle" : { },
+            "name" : "button",
             "style" : { }
           },
           "type" : "FlexList"

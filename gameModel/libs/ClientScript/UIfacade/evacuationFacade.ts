@@ -9,6 +9,7 @@ import {
 } from '../game/common/evacuation/evacuationSquadDef';
 import { isEvacSquadAvailable } from '../game/common/evacuation/evacuationLogic';
 import { getCurrentState } from '../game/mainSimulationLogic';
+import { EvasanFormChoice } from '../gameInterface/interfaceState';
 
 // used in page 52
 export function getEvacHospitalsChoices(): { label: string; value: string }[] {
@@ -43,4 +44,61 @@ export function getEvacSquadDefinitions(): { label: string; value: string; disab
 // used in page 52
 export function isEvacSquadEnabled(type: EvacuationSquadType): boolean {
   return isEvacSquadAvailable(getCurrentState(), type);
+}
+
+// Evacuation form
+
+export function openClosePatientChoice() {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.evacuationForm.showPatientChoice =
+    !Context.interfaceState.state.evacuationForm.showPatientChoice;
+  Context.interfaceState.setState(newState);
+}
+
+export function openCloseDestinationChoice() {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.evacuationForm.showDestinationChoice =
+    !Context.interfaceState.state.evacuationForm.showDestinationChoice;
+  Context.interfaceState.setState(newState);
+}
+
+export function openCloseVectorChoice() {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.evacuationForm.showVectorChoice =
+    !Context.interfaceState.state.evacuationForm.showVectorChoice;
+  Context.interfaceState.setState(newState);
+}
+
+export function isPatientChoiceClosedAndFilled() {
+  return (
+    Context.interfaceState.state.evacuationForm.showPatientChoice ||
+    Context.interfaceState.state.evacuation.patientId === undefined
+  );
+}
+
+export function isDestinationChoiceClosedAndFilled() {
+  return (
+    Context.interfaceState.state.evacuationForm.showDestinationChoice ||
+    Context.interfaceState.state.evacuation.patientId === undefined
+  );
+}
+
+export function isVectorOpen(): boolean {
+  return Context.interfaceState.state.evacuationForm.showVectorChoice;
+}
+
+export function isPatientChoiceFilled() {
+  return Context.interfaceState.state.evacuation.patientId !== undefined;
+}
+
+//special vector
+
+export function selectVectorSquad(transportSquad: EvacuationSquadType) {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.evacuation.transportSquad = transportSquad;
+  Context.interfaceState.setState(newState);
+}
+
+export function isSelectedSquad(transportSquad: EvacuationSquadType): boolean {
+  return Context.interfaceState.state.evacuation.transportSquad === transportSquad;
 }

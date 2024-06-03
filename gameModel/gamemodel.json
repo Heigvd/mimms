@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1717407877865,
+  "createdTime" : 1717427635546,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5972,15 +5972,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:XWcYDZ",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/evasanFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:55602:tvz6Gc",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

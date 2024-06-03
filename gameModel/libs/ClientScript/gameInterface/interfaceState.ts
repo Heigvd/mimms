@@ -28,7 +28,6 @@ export interface InterfaceState {
   updatedChannelMessagesAt: number;
   channelText: {
     actors: string;
-    evasam: string;
   };
   casuMessage: CasuMessage;
   resources: {
@@ -46,6 +45,11 @@ export interface InterfaceState {
     patientUnitAtHospital: PatientUnitTypology | undefined;
     transportSquad: EvacuationSquadType | undefined;
     doResourcesComeBack: boolean;
+  };
+  evacuationForm: {
+    showPatientChoice: boolean;
+    showDestinationChoice: boolean;
+    showVectorChoice: boolean;
   };
 }
 
@@ -91,7 +95,11 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
-      evasam: '',
+    },
+    evacuationForm: {
+      showPatientChoice: false,
+      showDestinationChoice: false,
+      showVectorChoice: false,
     },
   };
 }

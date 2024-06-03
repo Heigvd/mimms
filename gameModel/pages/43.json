@@ -338,6 +338,14 @@
                                             "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
                                             "language" : "typescript"
                                           }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "closedFixedMapEntity",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                            "language" : "typescript"
+                                          }
                                         } ],
                                         "hideIf" : {
                                           "@class" : "Script",

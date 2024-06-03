@@ -1,10 +1,9 @@
 .modalPMA{
-  position: absolute;
-  left: 15rem;
-  top:5rem;
-  width: 70rem;
-  height: 40rem;
-  z-index: 30;
+  margin:  auto;
+  margin-top: 5rem;
+  width: 80rem;
+  height: 50rem;
+  z-index: 10;
   background-color: var(--grey-white);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }

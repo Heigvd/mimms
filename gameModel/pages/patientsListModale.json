@@ -15,10 +15,12 @@
           },
           "type" : "Text"
         } ],
+        "className" : "noPadding noMargin",
         "layout" : {
           "alignItems" : "center",
           "justifyContent" : "space-between"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
           "width" : "100%"
         },
@@ -112,17 +114,19 @@
                   },
                   "type" : "For each"
                 } ],
+                "className" : "noPadding noMargin",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding noMargin",
                 "layoutStyle" : {
-                  "border" : "solid 2px green",
-                  "height" : "auto",
+                  "height" : "42rem",
+                  "marginRight" : "2rem",
                   "width" : "30%"
                 },
                 "name" : "patientList",
                 "style" : {
-                  "overflow" : "auto",
+                  "overflow-y" : "auto",
                   "width" : "auto"
                 }
               },
@@ -495,9 +499,11 @@
                           },
                           "type" : "FlexList"
                         } ],
+                        "className" : "noPadding noMargin",
                         "layout" : {
                           "flexDirection" : "column"
                         },
+                        "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {
                           "min-width" : "33%"
                         },
@@ -577,10 +583,12 @@
                           },
                           "type" : "FlexList"
                         } ],
+                        "className" : "noPadding noMargin",
                         "layout" : {
                           "alignItems" : "center",
                           "flexDirection" : "column"
                         },
+                        "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {
                           "min-width" : "33%"
                         },
@@ -613,9 +621,11 @@
                           },
                           "type" : "Text"
                         } ],
+                        "className" : "noPadding noMargin",
                         "layout" : {
                           "flexDirection" : "column"
                         },
+                        "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {
                           "min-width" : "33%"
                         },
@@ -624,16 +634,25 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
+                    "className" : "noPadding noMargin",
+                    "layout" : {
+                      "alignContent" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding noMargin",
+                    "layoutStyle" : {
+                      "marginTop" : "3rem"
+                    },
                     "name" : "allColumnsPatientInfos",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
+                "className" : "noPadding noMargin",
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding noMargin",
                 "layoutStyle" : {
                   "width" : "70%"
                 },
@@ -656,9 +675,11 @@
           },
           "type" : "State"
         } ],
+        "className" : "noPadding noMargin",
         "layout" : {
           "flexDirection" : "row"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
           "height" : "90%",
           "width" : "100%"
@@ -670,14 +691,16 @@
       },
       "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
