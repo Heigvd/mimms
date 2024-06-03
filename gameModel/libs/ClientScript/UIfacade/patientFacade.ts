@@ -3,6 +3,9 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { PreTriageResult } from '../game/pretri/triage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
+import { HumanHealth } from '../game/legacy/the_world';
+import { getAfflictedBlocksOfHuman } from '../game/patientZoom/currentPatientZoom';
+import { getLocalizedBlocks } from '../game/patientZoom/graphics';
 
 /**
  * @returns All currently present patients
@@ -27,6 +30,27 @@ export function keepStateAlive({ state, setState }: FullState) {
 	}
 }
 */
+
+// -------------------------------------------------------------------------------------------------
+// human body
+// -------------------------------------------------------------------------------------------------
+
+function getAfflictedBlocks(id: string): string[] {
+  const human = getPatient(id)!.humanBody;
+  const health: HumanHealth = {
+    pathologies: human.revivedPathologies!,
+    effects: human.effects!,
+  };
+  const currentTime = getCurrentState().getSimTime();
+
+  return getAfflictedBlocksOfHuman(human, health, currentTime);
+}
+
+export function getLocalizedAffictedBlocks(id: string) {
+  const afflictedBlocks = getAfflictedBlocks(id);
+
+  return getLocalizedBlocks([...afflictedBlocks]).localized;
+}
 
 // -------------------------------------------------------------------------------------------------
 // evacuation

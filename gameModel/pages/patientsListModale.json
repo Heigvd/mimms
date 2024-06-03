@@ -523,15 +523,74 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : {
+                                      "margin" : "10px"
+                                    },
+                                    "name" : "human",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getShadowMan } from './game/patientZoom/graphics';\ngetShadowMan();",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "conditionnalClassNames" : [ ],
+                                        "layoutClassName" : "block afflictedBlock",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "`${Context.block.svg}`;",
+                                          "language" : "JavaScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "exposeAs" : "block",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocalizedAffictedBlocks } from \"./UIfacade/patientFacade\";\n  getLocalizedAffictedBlocks(Context.currentPatient.state.patientId);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "blockName",
+                                    "itemsOnly" : true,
+                                    "layout" : { },
+                                    "layoutClassName" : "observe",
+                                    "layoutStyle" : { },
+                                    "name" : "block to observe",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "layoutClassName" : "shadowMan",
+                                "layoutStyle" : {
+                                  "justifiyContent" : "center",
+                                  "width" : "200px"
+                                },
+                                "onAbsoluteClick" : { },
+                                "style" : { }
+                              },
+                              "type" : "AbsoluteLayout"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "body",
                             "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "'henlo'",
-                              "language" : "TypeScript"
+                            "name" : "body",
+                            "style" : {
+                              "justifyContent" : "center"
                             }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         } ],
                         "layout" : {
                           "alignItems" : "center",

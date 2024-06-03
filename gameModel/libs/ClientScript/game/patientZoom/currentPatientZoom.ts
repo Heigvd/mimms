@@ -28,6 +28,7 @@ import {
   getHumanConsole,
   getHumanSkillLevelForAction,
   getMyInventory,
+  HumanHealth,
   Inventory,
 } from '../legacy/the_world';
 import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
@@ -1416,6 +1417,15 @@ export function getAfflictedBlocks(fullDetails: boolean = false): string[] {
   const health = getHealth(id);
   const currentTime = getCurrentSimulationTime();
 
+  return getAfflictedBlocksOfHuman(human as HumanBody, health, currentTime, fullDetails);
+}
+
+export function getAfflictedBlocksOfHuman(
+  human: HumanBody,
+  health: HumanHealth,
+  currentTime: number,
+  fullDetails: boolean = false
+): string[] {
   const output: Record<string, true> = {};
 
   if (human != null) {
