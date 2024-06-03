@@ -77,6 +77,771 @@
         }
       },
       "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Title<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "icon" : "exclamation-circle",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Patient<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : ".closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "true;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "caret-square-down",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding noMargin   choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "patientChoiceHeader",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>ID patient dropdown<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : { },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px yellow",
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>ID patient<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ ],
+                        "layout" : { },
+                        "layoutClassName" : "listTag-container",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px green",
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "border" : "solid 3px pink"
+                },
+                "name" : "patientChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "false;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "name" : "patientChoice",
+            "style" : {
+              "width" : "100%"
+            }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "icon" : "exclamation-circle",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Destination<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "icon" : "caret-square-down",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding noMargin  choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "destinationChoiceHeader",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>dropdown lieu<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>dropdown typologie<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px yellow",
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Lieu<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Typologie<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ ],
+                        "layout" : { },
+                        "layoutClassName" : "listTag-container",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px green",
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "border" : "solid 3px darkgreen"
+                },
+                "name" : "destinationChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "false;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "name" : "destinationChoice",
+            "style" : {
+              "width" : "100%"
+            }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "icon" : "exclamation-circle",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Vector<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "icon" : "caret-square-down",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding noMargin choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "vectorChoiceHeader",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ ],
+                                "layout" : { },
+                                "layoutStyle" : {
+                                  "border" : "solid 1px blue",
+                                  "borderRadius" : "50px",
+                                  "height" : "10px",
+                                  "width" : "10px"
+                                },
+                                "name" : "fakeRound",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "icon" : "ambulance",
+                                "layoutStyle" : { },
+                                "onVariableChange" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "selection",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'atmP_mmHg')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "driver",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'stepDuration')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "medics",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "selectableRow",
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "selectableRow-container",
+                        "layoutStyle" : { },
+                        "name" : "selectableRow",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ ],
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "border" : "solid 1px blue",
+                              "height" : "10px",
+                              "width" : "10px"
+                            },
+                            "name" : "fakeTickCase",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  const fakevar = \"Revenir sur site après transport\"\n  return fakevar",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "vectorComeback",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px yellow",
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "ambulance",
+                                "layoutStyle" : {
+                                  "paddingLeft" : "0px"
+                                },
+                                "onVariableChange" : { },
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "selection",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'atmP_mmHg')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "driver",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'stepDuration')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "medics",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center",
+                          "justifyContent" : "space-between"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "selectedRow",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ ],
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "border" : "1px solid blue",
+                              "height" : "10px",
+                              "width" : "10px"
+                            },
+                            "name" : "fakeTickCase",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  const fakevar = \"Le véhicule reviendra sur site\";\n  return fakevar",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "vectorComeback",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "flex-start",
+                      "flexDirection" : "column",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : {
+                      "border" : "solid 3px green",
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "border" : "solid 3px lightblue"
+                },
+                "name" : "vectorChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : { },
+            "name" : "vectorChoice",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "noPadding noMargin",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
+        "name" : "EVASANform",
+        "style" : { }
+      },
+      "type" : "FlexList"
     } ],
     "className" : "noPadding noMargin",
     "layout" : {
