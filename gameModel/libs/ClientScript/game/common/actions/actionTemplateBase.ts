@@ -45,7 +45,7 @@ import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessag
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getOngoingActions, getOngoingActionsForActor } from '../simulationState/actionStateAccess';
+import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export enum SimFlag {
@@ -215,7 +215,10 @@ export abstract class ActionTemplateBase<
     );
   }
 
-  protected customCanConcurrencyWiseBePlayed(state: Readonly<MainSimulationState>, actorUid: ActorId) {
+  protected customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ) {
     return (
       getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
     );
@@ -227,7 +230,6 @@ export abstract class ActionTemplateBase<
    * false if some other interaction should take place in between
    */
   public abstract planActionEventOnFirstClick(): boolean;
-
 }
 
 export abstract class StartEndTemplate<
@@ -320,6 +322,10 @@ export class GetInformationTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
+
+  public planActionEventOnFirstClick(): boolean {
+    return true; // Correct ?
+  }
 }
 
 export class CasuMessageTemplate extends StartEndTemplate<
@@ -405,7 +411,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
       ).length === 0
     );
   }
-
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -792,7 +797,6 @@ export class SendRadioMessage extends StartEndTemplate {
       ).length === 0
     );
   }
-
 }
 
 export class MoveActorActionTemplate extends StartEndTemplate {
