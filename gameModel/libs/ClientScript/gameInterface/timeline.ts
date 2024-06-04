@@ -4,6 +4,7 @@ import { getTranslation } from '../tools/translation';
 import { getAllActions } from '../UIfacade/actionFacade';
 import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
+import { isGodView } from '../gameInterface/interfaceConfiguration';
 
 interface Action {
   startTime: number;
@@ -26,7 +27,7 @@ interface Timeline {
 export function buildTimelineObject(): Timeline[] {
   const timelines: any = [];
 
-  const actors = Variable.find(gameModel, 'godView').getInstance(self).getValue()
+  const actors = isGodView()
     ? getAllActors().filter(a => a.Role !== 'CASU')
     : getCurrentPlayerActors();
   const actions = getAllActions();

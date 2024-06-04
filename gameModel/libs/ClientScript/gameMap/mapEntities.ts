@@ -54,7 +54,7 @@ export function actorViewFilter(actors: Actor[]): Actor[] {
 
   if (!isGodView()) {
     // If the current actor is not at the location, we see nothing
-    return actors.find(a => a.Uid === currentActorUid) ? actors : [];
+    return actors.some(a => a.Uid === currentActorUid) ? actors : [];
   }
 
   return actors;

@@ -1,11 +1,9 @@
 import * as mainLogic from '../game/mainSimulationLogic';
 import * as eventUtils from '../game/common/events/eventUtils';
 import { localEventManager } from '../game/common/localEvents/localEventManager';
-import { buildingsRef } from '../gameMap/main';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getStateHistory } from '../game/mainSimulationLogic';
 import { debugFacadeLogger } from '../tools/logger';
-import { triggerInterfaceStateUpdate } from '../gameInterface/interfaceState';
 
 export function getCurrentState() {
   return mainLogic.getCurrentState();
