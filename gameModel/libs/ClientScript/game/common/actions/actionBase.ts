@@ -52,12 +52,12 @@ import { InterventionRole } from '../actors/actor';
 import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
-import { HospitalDefinition } from '../resources/hospitalType';
 import { getCurrentState } from '../../mainSimulationLogic';
 import { computeTravelTime, getHospitalsByProximity } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
 import { getResourcesForEvacSquad } from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
+import { HospitalDefinition } from '../evacuation/hospitalType';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -445,7 +445,7 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   public getMessage(): string {
     if (this.casuMessagePayload.messageType === 'R') {
-      return this.formatHospitalReponse(this.casuMessagePayload);
+      return this.formatHospitalResponse(this.casuMessagePayload);
     } else {
       return this.computeCasuMessage(this.casuMessagePayload);
     }
