@@ -402,7 +402,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
-        state.getSimTime(),
+        now,
         this.getRecipient(),
         this.getEmitter(),
         this.getMessage(),
@@ -415,7 +415,7 @@ export class CasuMessageAction extends RadioDrivenAction {
       localEventManager.queueLocalEvent(
         new HospitalRequestUpdateLocalEvent(
           this.eventId,
-          state.getSimTime(),
+          now,
           this.casuMessagePayload.proximity
         )
       );
