@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1716306780048,
+  "createdTime" : 1716996640435,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3913,6 +3913,7 @@
         },
         "name" : "mainSim-interface",
         "properties" : {
+          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
           "actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
           "actor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actor\"},\"FR\":{\"status\":\"\",\"translation\":\"acteur\",\"lang\":\"FR\"}},\"version\":0}",
           "admin-mode" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"admin mode\"},\"FR\":{\"status\":\"\",\"translation\":\"mode admin\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3922,10 +3923,12 @@
           "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent succeffully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-placeholder" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE message here\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message METHANE\",\"lang\":\"FR\"}},\"version\":0}",
+          "msg-now" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"now\"},\"FR\":{\"status\":\"\",\"translation\":\"maintenant\",\"lang\":\"FR\"}},\"version\":0}",
           "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
           "no-notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no notification\"},\"FR\":{\"status\":\"\",\"translation\":\"aucune notification\",\"lang\":\"FR\"}},\"version\":0}",
+          "notification-concurrent-stop" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your action is rejected as it conflicts with the action executed by another actor.\"},\"FR\":{\"status\":\"\",\"translation\":\"votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.\",\"lang\":\"FR\"}},\"version\":0}",
           "notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"notifications\"},\"FR\":{\"status\":\"\",\"translation\":\"notifications\",\"lang\":\"FR\"}},\"version\":0}",
-          "press-start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"press start to launch the game\"},\"FR\":{\"status\":\"\",\"translation\":\"apppuyez sur \\\"démarrer\\\" pour lancer la simulation\",\"lang\":\"FR\"}},\"version\":0}",
+          "press-start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"press start to launch the game\"},\"FR\":{\"status\":\"\",\"translation\":\"\\\"Apppuyez sur \\\"\\\"démarrer\\\"\\\" pour lancer la simulation\\\"\",\"lang\":\"FR\"}},\"version\":0}",
           "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio\"},\"FR\":{\"status\":\"\",\"translation\":\"radio\",\"lang\":\"FR\"}},\"version\":0}",
           "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5360,6 +5363,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#156:lOEPlr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/actionStateAccess",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:151778:6lD65U",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

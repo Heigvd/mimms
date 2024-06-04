@@ -38,6 +38,8 @@ import {
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
+  AddRadioMessageLocalEvent,
+  CancelActionLocalEvent,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
@@ -54,6 +56,7 @@ import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { getTranslation } from '../tools/translation';
 import { SubTask } from './common/tasks/subTask';
 import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
@@ -603,10 +606,32 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         if (!actionTemplate) {
           mainSimLogger.error('no template was found for ref ', event.payload.templateRef);
         } else {
-          const localEvent = actionTemplate.buildLocalEvent(
-            event as FullEvent<ActionCreationEvent>
-          );
-          localEventManager.queueLocalEvent(localEvent);
+          if (
+            actionTemplate.canConcurrencyWiseBePlayed(
+              getCurrentState(),
+              +event.payload.emitterCharacterId
+            )
+          ) {
+            const localEvent = actionTemplate.buildLocalEvent(
+              event as FullEvent<ActionCreationEvent>
+            );
+            localEventManager.queueLocalEvent(localEvent);
+          } else {
+            // notify!
+            const ownerId = event.payload.emitterCharacterId as ActorId;
+            localEventManager.queueLocalEvent(
+              new AddRadioMessageLocalEvent(
+                event.id,
+                getCurrentState().getSimTime(),
+                ownerId,
+                'SYSTEM',
+                getTranslation('mainSim-interface', 'notification-concurrent-stop'),
+                ActionType.ACTION,
+                false,
+                true
+              )
+            );
+          }
         }
       }
       break;
