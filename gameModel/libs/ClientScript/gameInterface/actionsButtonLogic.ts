@@ -9,15 +9,21 @@ import {
   isRadioActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
+  isEvacuationActionTemplate,
 } from '../UIfacade/actionFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { actionClickHandler, canPlanAction } from './main';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { getEmptyResourceRequest } from './interfaceState';
+import {
+  getEmptyAllocateResources,
+  getEmptyEvacuationInterfaceState,
+  getEmptyResourceRequest,
+} from './interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -50,6 +56,8 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
   } else if (isMoveActorActionTemplate(actionRefUid)) {
     params = fetchMoveActorLocation();
+  } else if (isEvacuationActionTemplate(actionRefUid)) {
+    params = fetchEvacuationActionValues();
   }
 
   actionClickHandler(Context.action.Uid, Context.action.category, params);
@@ -103,13 +111,7 @@ function fetchMoveResourcesAssignTaskValues() {
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.allocateResources.currentLocation = undefined;
-  newState.resources.allocateResources.currentTaskId = undefined;
-  newState.resources.allocateResources.targetLocation = undefined;
-  newState.resources.allocateResources.targetTaskId = undefined;
-  ResourcesArray.forEach(resourceType => {
-    newState.resources.allocateResources[resourceType] = 0;
-  });
+  newState.resources.allocateResources = getEmptyAllocateResources();
   Context.interfaceState.setState(newState);
   return payload;
 }
@@ -206,6 +208,17 @@ function fetchMoveActorLocation() {
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.moveActorChosenLocation = undefined;
+  Context.interfaceState.setState(newState);
+
+  return res;
+}
+
+function fetchEvacuationActionValues() {
+  const res: EvacuationActionPayload = { ...Context.interfaceState.state.evacuation };
+
+  // Reset interface state
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.evacuation = getEmptyEvacuationInterfaceState();
   Context.interfaceState.setState(newState);
 
   return res;

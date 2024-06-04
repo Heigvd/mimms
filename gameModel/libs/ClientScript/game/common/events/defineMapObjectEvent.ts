@@ -37,7 +37,7 @@ export abstract class FixedMapEntity {
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  isAccessible?: boolean;
+  isAccessible: boolean = true;
 
   abstract getGeometricalShape(): GeometricalShape;
 }

@@ -10,8 +10,10 @@ import { RadioMessage } from '../radioMessage';
 import { getAllContainerDefs } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';
+import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
+import { HospitalState } from './hospitalState';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -21,6 +23,11 @@ export class MainSimulationState implements IClonable {
    * Simulated time in seconds
    */
   private simulationTimeSec: number;
+
+  /**
+   * Handles time forward for multiplayer
+   */
+  private forwardTimeFrame: TimeFrame;
 
   public readonly stateCount;
 
@@ -36,10 +43,16 @@ export class MainSimulationState implements IClonable {
     MainSimulationState.stateCounter = 0;
   }
 
-  public constructor(state: MainStateObject, simTime: number, lastEventId: number) {
+  public constructor(
+    state: MainStateObject,
+    simTime: number,
+    lastEventId: number,
+    timeFrame: TimeFrame | undefined = undefined
+  ) {
     this.internalState = state;
     this.simulationTimeSec = simTime;
     this.lastEventId = lastEventId;
+    this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
     this.stateCount = MainSimulationState.stateCounter++;
   }
 
@@ -47,7 +60,8 @@ export class MainSimulationState implements IClonable {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
       this.simulationTimeSec,
-      this.lastEventId
+      this.lastEventId,
+      Helpers.cloneDeep(this.forwardTimeFrame)
     ) as this;
   }
 
@@ -111,6 +125,12 @@ export class MainSimulationState implements IClonable {
    */
   public incrementSimulationTime(jump: SimDuration): void {
     this.simulationTimeSec += jump;
+    // init a new time frame forward
+    this.forwardTimeFrame = buildNewTimeFrame(this);
+  }
+
+  public getCurrentTimeFrame(): TimeFrame {
+    return this.forwardTimeFrame;
   }
 
   /************ IMMUTABLE GETTERS ***************/
@@ -121,6 +141,10 @@ export class MainSimulationState implements IClonable {
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
     // don't do ===, typescript seems to play tricks between string and number with records
     return this.internalState.actors.find(a => a.Uid == actorId);
+  }
+
+  public getOnSiteActors(): Readonly<Actor[]> {
+    return this.getAllActors().filter(a => a.isOnSite());
   }
 
   public hasFlag(simFlag: SimFlag): boolean {
@@ -202,6 +226,7 @@ interface MainStateObject {
    */
   resourceContainers: ResourceContainerConfig[];
   flags: Partial<Record<SimFlag, boolean>>;
+  hospital: HospitalState;
 }
 
 // experimental to make an object immutable

@@ -4,17 +4,18 @@
 import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
-  GetInformationTemplate,
-  CasuMessageTemplate,
-  SendRadioMessage,
-  SelectionFixedMapEntityTemplate,
-  SimFlag,
-  MoveActorActionTemplate,
-  ArrivalAnnoucementTemplate,
   AppointActorActionTemplate,
+  ArrivalAnnoucementTemplate,
+  CasuMessageTemplate,
+  EvacuationActionTemplate,
+  GetInformationTemplate,
+  MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPMATemplate,
+  SendRadioMessage,
+  SimFlag,
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
@@ -30,14 +31,17 @@ import {
 import {
   ActionCancellationEvent,
   ActionCreationEvent,
-  TimeForwardEvent,
-  TimedEventPayload,
   isLegacyGlobalEvent,
+  TimedEventPayload,
+  TimeForwardCancelEvent,
+  TimeForwardEvent,
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
+  CancelActionLocalEvent,
+  TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { localEventManager } from './common/localEvents/localEventManager';
@@ -46,13 +50,16 @@ import { MainSimulationState } from './common/simulationState/mainSimulationStat
 import { Resource } from './common/resources/resource';
 import { resetSeedId } from './common/resources/resourceContainer';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
-import { TaskBase } from './common/tasks/taskBase';
+import { HealingTask, TaskBase } from './common/tasks/taskBase';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { ActionType } from './common/actionType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
 import { getTranslation } from '../tools/translation';
+import { SubTask } from './common/tasks/subTask';
+import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
+import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -74,7 +81,7 @@ Helpers.registerEffect(() => {
 });
 
 function initMainState(): MainSimulationState {
-  // TODO read all simulation parameters to build start state and initilize the whole simulation
+  // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
@@ -92,38 +99,95 @@ function initMainState(): MainSimulationState {
   const taskPretri = new PreTriageTask(
     'pre-tri-title',
     'pre-tri-desc',
+    'pretriage-task-completed',
     1,
     5,
-    'pretriage-task-completed',
-    [LOCATION_ENUM.chantier]
+    'AL',
+    [LOCATION_ENUM.chantier],
+    []
   );
-  const taskPorter = new PorterTask(
+
+  const taskBrancardageChantier = new PorterTask(
     'brancardage-title',
     'porter-desc',
-    2,
-    10,
-    'porters-task-completed',
-    [LOCATION_ENUM.chantier]
-  );
-  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, '', [
-    LOCATION_ENUM.PC,
-    LOCATION_ENUM.PMA,
+    'porters-task-chantier-completed',
+    'porters-task-no-target-location',
     LOCATION_ENUM.chantier,
-    LOCATION_ENUM.meetingPoint,
+    2,
+    100,
+    'AL',
+    []
+  );
+
+  const taskBrancardageNidDeBlesses = new PorterTask(
+    'brancardage-title',
+    'porter-desc',
+    'porters-task-nid-completed',
+    'porters-task-no-target-location',
     LOCATION_ENUM.nidDeBlesses,
-  ]);
+    2,
+    100,
+    'AL',
+    []
+  );
+
+  const taskHealing = new HealingTask(
+    'healing-title',
+    'healing-desc',
+    1,
+    100,
+    'AL',
+    [LOCATION_ENUM.nidDeBlesses, LOCATION_ENUM.chantier],
+    []
+  );
+
+  const taskHealingRed = new HealingTask(
+    'healing-pma-red-title',
+    'healing-pma-red-desc',
+    1,
+    100,
+    'LEADPMA',
+    [LOCATION_ENUM.PMA],
+    [],
+    1
+  );
+
+  const taskHealingYellow = new HealingTask(
+    'healing-pma-yellow-title',
+    'healing-pma-yellow-desc',
+    1,
+    100,
+    'LEADPMA',
+    [LOCATION_ENUM.PMA],
+    [],
+    2
+  );
+
+  const taskHealingGreen = new HealingTask(
+    'healing-pma-green-title',
+    'healing-pma-green-desc',
+    1,
+    100,
+    'LEADPMA',
+    [LOCATION_ENUM.PMA],
+    [],
+    3
+  );
+
+  const taskEvacuation = new EvacuationTask(
+    'evacuate-title',
+    'evacuate-desc',
+    1,
+    100000,
+    'EVASAN',
+    [LOCATION_ENUM.ambulancePark, LOCATION_ENUM.helicopterPark],
+    []
+  );
+
+  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
   const initialResources = [
     new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
-    /*new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('secouriste'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),
-    new Resource('medecinJunior'),*/
   ];
 
   MainSimulationState.resetStateCounter();
@@ -135,11 +199,22 @@ function initMainState(): MainSimulationState {
       actors: [testAL, testCASU],
       mapLocations: [mainAccident],
       patients: loadPatients(),
-      tasks: [taskWaiting, taskPretri, taskPorter],
+      tasks: [
+        taskWaiting,
+        taskPretri,
+        taskBrancardageChantier,
+        taskBrancardageNidDeBlesses,
+        taskHealing,
+        taskHealingRed,
+        taskHealingYellow,
+        taskHealingGreen,
+        taskEvacuation,
+      ],
       radioMessages: [],
       resources: initialResources,
       resourceContainers: loadEmergencyResourceContainers(),
       flags: {},
+      hospital: {},
     },
     0,
     0
@@ -376,7 +451,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       0,
       'location-niddeblesses',
       LOCATION_ENUM.nidDeBlesses,
-      ['MCS'],
+      [],
       new PointGeometricalShape([
         [2500041.9170648125, 1118456.4054969894],
         [2500106.9001576486, 1118532.2446804282],
@@ -444,6 +519,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true
   );
 
+  const evacuate = new EvacuationActionTemplate(
+    'evacuate-title',
+    'evacuate-desc',
+    TimeSliceDuration,
+    'evacuate-feedback',
+    true,
+    undefined,
+    undefined,
+    ['EVASAN']
+  );
+
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
   templates[moveActor.getTemplateRef()] = moveActor;
@@ -462,6 +548,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
+  templates[evacuate.getTemplateRef()] = evacuate;
 
   return templates;
 }
@@ -579,7 +666,18 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         const timefwdEvent = new TimeForwardLocalEvent(
           event.id,
           event.payload.triggerTime,
+          event.payload.involvedActors,
           event.payload.timeJump
+        );
+        localEventManager.queueLocalEvent(timefwdEvent);
+      }
+      break;
+    case 'TimeForwardCancelEvent':
+      {
+        const timefwdEvent = new TimeForwardCancelLocalEvent(
+          event.id,
+          event.payload.triggerTime,
+          event.payload.involvedActors
         );
         localEventManager.queueLocalEvent(timefwdEvent);
       }
@@ -674,14 +772,32 @@ export async function buildAndLaunchActionCancellation(
  * @returns managed response
  */
 export async function triggerTimeForward(): Promise<IManagedResponse> {
+  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
+
   const tf: TimeForwardEvent = {
     ...initBaseEvent(0),
     triggerTime: currentSimulationState.getSimTime(),
     timeJump: TimeSliceDuration,
+    involvedActors: actorIds,
     type: 'TimeForwardEvent',
   };
 
   return await sendEvent(tf);
+}
+
+/**
+ * Cancel a pending time forward
+ */
+export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
+  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
+  const tfc: TimeForwardCancelEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    involvedActors: actorIds,
+    type: 'TimeForwardCancelEvent',
+  };
+
+  return await sendEvent(tfc);
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {
@@ -695,6 +811,7 @@ export function recomputeState() {
   Actor.resetIdSeed();
   ActionTemplateBase.resetIdSeed();
   TaskBase.resetIdSeed();
+  SubTask.resetIdSeed();
   Resource.resetIdSeed();
   resetSeedId(); // ressource containers
 
@@ -708,6 +825,11 @@ export function recomputeState() {
 }
 
 /**** DEBUG TOOLS SECTION ***/
+
+export function getStateHistory() {
+  return stateHistory;
+}
+
 /*
  function that resets the game state to a previously stored one
  */

@@ -296,6 +296,12 @@
           "name" : "mainSim_stateSave",
           "scenaristPage" : true,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "55",
+          "name" : "mainSim_multiTimeFwd",
+          "scenaristPage" : false,
+          "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
       } ],
@@ -362,7 +368,7 @@
         "@class" : "Page",
         "id" : "57",
         "name" : "PatientSummaryPage",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -426,6 +432,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "evacuationForm",
+          "name" : "evacuation",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "63",
           "name" : "channel_ RESSOURCES_RADIO",
           "scenaristPage" : null,
@@ -449,6 +461,12 @@
         "id" : "46",
         "name" : "mutliplayerMatrix",
         "scenaristPage" : false,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "54",
+        "name" : "timeForwardWaiting",
+        "scenaristPage" : null,
         "trainerPage" : false
       } ],
       "name" : "mainSimulation pages"

@@ -2,7 +2,7 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
-import { HumanResourceTypeArray, ResourceType } from './resourceType';
+import { isHuman, ResourceType } from './resourceType';
 
 /**
  * Resolves which location new resources should be sent to
@@ -10,12 +10,12 @@ import { HumanResourceTypeArray, ResourceType } from './resourceType';
  * @returns location
  */
 export default function resourceArrivalResolution(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): LOCATION_ENUM {
   const so = state.getInternalStateObject();
 
-  if (Object.values(HumanResourceTypeArray).some(type => type === resourceType)) {
+  if (isHuman(resourceType)) {
     const acsArrived = so.flags.ACS_ARRIVED;
     const mcsArrived = so.flags.MCS_ARRIVED;
     const pcBuilt = so.flags.PC_BUILT;

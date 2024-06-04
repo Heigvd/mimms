@@ -2,6 +2,7 @@ import {
   ActionTemplateId,
   ActorId,
   GlobalEventId,
+  ResourceId,
   SimDuration,
   SimTime,
   TaskId,
@@ -20,6 +21,8 @@ import {
   AddActorLocalEvent,
   DeleteIdleResourceLocalEvent,
   MoveAllIdleResourcesToLocationLocalEvent,
+  HospitalRequestUpdateLocalEvent,
+  ResourceAllocationLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -27,8 +30,8 @@ import {
   ResourceTypeAndNumber,
   ResourcesArray,
   ResourceType,
-  MaterialResourceType,
   HumanResourceTypeArray,
+  VehicleType,
 } from '../resources/resourceType';
 import {
   CasuMessagePayload,
@@ -46,11 +49,15 @@ import {
   getResourcesAvailableByLocation,
 } from '../simulationState/resourceStateAccess';
 import { InterventionRole } from '../actors/actor';
-import { getIdleTaskUid } from '../tasks/taskLogic';
+import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { HospitalDefinition } from '../resources/hospitalType';
 import { getCurrentState } from '../../mainSimulationLogic';
+import { computeTravelTime, getHospitalsByProximity } from '../evacuation/hospitalController';
+import { Resource } from '../resources/resource';
+import { getResourcesForEvacSquad } from '../evacuation/evacuationLogic';
+import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -369,7 +376,9 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   // TODO Add translation handling and better perhaps better formatting
-  private formatHospitalReponse(hospitals: HospitalDefinition[]): string {
+  private formatHospitalResponse(message: HospitalRequestPayload): string {
+    const hospitals = getHospitalsByProximity(message.proximity);
+
     let casuMessage = '';
     for (const hospital of hospitals) {
       casuMessage += `${hospital.shortName}: \n`;
@@ -389,7 +398,6 @@ export class CasuMessageAction extends RadioDrivenAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event CasuMessageAction');
     const now = state.getSimTime();
-    // TODO filter when we get a full METHANE message
 
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -403,18 +411,24 @@ export class CasuMessageAction extends RadioDrivenAction {
         true
       )
     );
-    if (this.casuMessagePayload.messageType !== 'R') {
-      // Handle METHANE resource request
-      if (this.casuMessagePayload.resourceRequest) {
-        const dispatchEvent = new ResourceRequestResolutionLocalEvent(
+    if (this.casuMessagePayload.messageType === 'R') {
+      localEventManager.queueLocalEvent(
+        new HospitalRequestUpdateLocalEvent(
           this.eventId,
-          now,
-          state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
-          this.casuMessagePayload
-        );
-        localEventManager.queueLocalEvent(dispatchEvent);
-      }
+          state.getSimTime(),
+          this.casuMessagePayload.proximity
+        )
+      );
+    } else if (this.casuMessagePayload.resourceRequest) { // Handle METHANE resource request
+      const dispatchEvent = new ResourceRequestResolutionLocalEvent(
+        this.eventId,
+        now,
+        state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
+        this.casuMessagePayload
+      );
+      localEventManager.queueLocalEvent(dispatchEvent);
     }
+  
   }
 
   protected cancelInternal(state: MainSimulationState): void {
@@ -431,7 +445,7 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   public getMessage(): string {
     if (this.casuMessagePayload.messageType === 'R') {
-      return this.formatHospitalReponse(this.hospitals!);
+      return this.formatHospitalReponse(this.casuMessagePayload);
     } else {
       return this.computeCasuMessage(this.casuMessagePayload);
     }
@@ -569,7 +583,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
-    readonly materialResourceType: MaterialResourceType,
+    readonly vehicleType: VehicleType,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -592,7 +606,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       new MoveAllIdleResourcesToLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.materialResourceType,
+        this.vehicleType,
         this.fixedMapEntity.id
       )
     );
@@ -818,7 +832,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
               this.eventId,
               state.getSimTime() + timeDelay,
               +this.targetTaskId,
-              this.ownerId,
               this.targetLocation,
               res,
               nbRes
@@ -992,3 +1005,94 @@ export class ArrivalAnnoucementAction extends StartEndAction {
     return;
   }
 }
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  Evacuation
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Action to evacuate a patient to a hospital
+ */
+export class EvacuationAction extends StartEndAction {
+  public readonly evacuationActionPayload: EvacuationActionPayload;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    evacuationActionPayload: EvacuationActionPayload,
+    provideFlagsToState?: SimFlag[]
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+    this.evacuationActionPayload = evacuationActionPayload;
+  }
+
+  protected dispatchInitEvents(state: MainSimulationState): void {
+    this.logger.info('start event EvacuationAction');
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    this.logger.info('end event EvacuationAction');
+
+    const involvedResources: Resource[] = getResourcesForEvacSquad(
+      state,
+      this.evacuationActionPayload.transportSquad
+    );
+
+    const involvedResourceIds: ResourceId[] = involvedResources.map(resource => resource.Uid);
+
+    const travelTime = computeTravelTime(
+      this.evacuationActionPayload.hospitalId,
+      this.evacuationActionPayload.transportSquad
+    );
+
+    const evacuationTask = getEvacuationTask(state);
+
+    involvedResources.forEach(res => {
+      localEventManager.queueLocalEvent(
+        new ResourceAllocationLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          res.Uid,
+          evacuationTask.Uid
+        )
+      );
+    });
+
+    evacuationTask.createSubTask(
+      this.eventId,
+      involvedResourceIds,
+      this.evacuationActionPayload.patientId,
+      this.evacuationActionPayload.hospitalId,
+      this.evacuationActionPayload.patientUnitAtHospital,
+      !!this.evacuationActionPayload.doResourcesComeBack,
+      travelTime
+    );
+  }
+
+  protected cancelInternal(state: MainSimulationState): void {
+    // nothing done before the end of the action => nothing to cancel
+    return;
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------

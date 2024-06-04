@@ -8,6 +8,7 @@ import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
+  EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
@@ -92,7 +93,7 @@ export function getActionTemplate(
  * @param id Uid of given action
  */
 
-export function isFixedMapEntityTemplate(id: number) {
+export function isFixedMapEntityTemplate(id: number): boolean {
   const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
     t => t.Uid === id
   );
@@ -102,7 +103,7 @@ export function isFixedMapEntityTemplate(id: number) {
 /**
  * @param id Uid of given action
  */
-export function isCasuMessageActionTemplate(id: number) {
+export function isCasuMessageActionTemplate(id: number): boolean {
   const template = getAvailableActions(
     Context.interfaceState.state.currentActorUid,
     ActionType.CASU_RADIO
@@ -113,7 +114,7 @@ export function isCasuMessageActionTemplate(id: number) {
 /**
  * @param id Uid of given action
  */
-export function isRadioActionTemplate(id: number) {
+export function isRadioActionTemplate(id: number): boolean {
   const template = getAvailableActions(
     Context.interfaceState.state.currentActorUid,
     ActionType.ACTORS_RADIO
@@ -124,7 +125,7 @@ export function isRadioActionTemplate(id: number) {
 /**
  * @param id Uid of given action template
  */
-export function isMoveResourcesAssignTaskActionTemplate(id: number) {
+export function isMoveResourcesAssignTaskActionTemplate(id: number): boolean {
   const template = getAvailableActions(
     Context.interfaceState.state.currentActorUid,
     ActionType.ALLOCATE_RESOURCES
@@ -135,16 +136,24 @@ export function isMoveResourcesAssignTaskActionTemplate(id: number) {
 /**
  * @param id Uid of given action template
  */
-export function isMoveActorActionTemplate(id: number) {
+export function isMoveActorActionTemplate(id: number): boolean {
   const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
     t => t.Uid === id
   );
   return template instanceof MoveActorActionTemplate;
 }
 
+export function isEvacuationActionTemplate(id: number): boolean {
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.EVASAN_RADIO
+  ).find(t => t.Uid === id);
+  return template instanceof EvacuationActionTemplate;
+}
+
 /**
  * Check if meetingpoint is already built
  */
-export function isMeetingPointBuilt() {
+export function isMeetingPointBuilt(): boolean {
   return getCurrentState().isSimFlagEnabled(SimFlag.MEETINGPOINT_BUILT);
 }
