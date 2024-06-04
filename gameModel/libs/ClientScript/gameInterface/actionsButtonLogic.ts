@@ -214,7 +214,7 @@ function fetchMoveActorLocation() {
 }
 
 function fetchEvacuationActionValues() {
-  const res: EvacuationActionPayload = { ...Context.interfaceState.state.evacuation };
+  const res: EvacuationActionPayload = { ...Context.interfaceState.state.evacuation.data };
 
   // Reset interface state
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
