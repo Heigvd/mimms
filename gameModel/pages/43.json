@@ -274,7 +274,7 @@
                                                     } ],
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n    const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.includes(Context.actor);\n  }\n    false;",
+                                                      "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : {
@@ -945,7 +945,7 @@
                                         "confirm" : false,
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n    const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.includes(Context.actor);\n  }\n    false;",
+                                          "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
                                           "language" : "typescript"
                                         },
                                         "label" : {
