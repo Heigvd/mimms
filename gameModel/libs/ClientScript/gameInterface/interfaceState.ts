@@ -40,16 +40,18 @@ export interface InterfaceState {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   evacuation: {
-    patientId: PatientId | undefined;
-    hospitalId: HospitalId | undefined;
-    patientUnitAtHospital: PatientUnitTypology | undefined;
-    transportSquad: EvacuationSquadType | undefined;
-    doResourcesComeBack: boolean;
-  };
-  evacuationForm: {
-    showPatientChoice: boolean;
-    showDestinationChoice: boolean;
-    showVectorChoice: boolean;
+    data: {
+      patientId: PatientId | undefined;
+      hospitalId: HospitalId | undefined;
+      patientUnitAtHospital: PatientUnitTypology | undefined;
+      transportSquad: EvacuationSquadType | undefined;
+      doResourcesComeBack: boolean;
+    };
+    form: {
+      showPatientChoice: boolean;
+      showDestinationChoice: boolean;
+      showVectorChoice: boolean;
+    };
   };
 }
 
@@ -96,11 +98,6 @@ export function getInitialInterfaceState(): InterfaceState {
     channelText: {
       actors: '',
     },
-    evacuationForm: {
-      showPatientChoice: false,
-      showDestinationChoice: false,
-      showVectorChoice: false,
-    },
   };
 }
 export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
@@ -128,11 +125,18 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 
 export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
   return {
-    patientId: undefined,
-    hospitalId: undefined,
-    patientUnitAtHospital: undefined,
-    transportSquad: undefined,
-    doResourcesComeBack: false,
+    data: {
+      patientId: undefined,
+      hospitalId: undefined,
+      patientUnitAtHospital: undefined,
+      transportSquad: undefined,
+      doResourcesComeBack: true,
+    },
+    form: {
+      showPatientChoice: false,
+      showDestinationChoice: false,
+      showVectorChoice: false,
+    },
   };
 }
 

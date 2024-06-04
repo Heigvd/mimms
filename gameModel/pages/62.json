@@ -105,7 +105,7 @@
                           "className" : "filledChoiceIcon",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "import { isPatientChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isPatientChoiceFilled()",
+                            "content" : "import { isPatientChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isPatientChoiceFilled();",
                             "language" : "typescript"
                           }
                         } ],
@@ -145,7 +145,7 @@
                       "className" : "closeIcon",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "Context.interfaceState.state.evacuationForm.showPatientChoice;",
+                        "content" : "import { isPatientChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceOpen();",
                         "language" : "typescript"
                       }
                     } ],
@@ -155,7 +155,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { openClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\nopenClosePatientChoice();",
+                        "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
                         "language" : "TypeScript"
                       }
                     },
@@ -193,18 +193,18 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.patientId = Context.evacuationPatientId;\nContext.interfaceState.setState(newState);",
+                            "content" : "import { selectPatientId } from \"./UIfacade/evacuationFacade\";\n\nselectPatientId(Context.patientId);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
                             "@class" : "Script",
-                            "content" : "\"evacuationPatientId\"",
+                            "content" : "\"patientId\"",
                             "language" : "TypeScript"
                           }
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.evacuation.patientId || '';",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\ngetPatientId() || '';",
                           "language" : "TypeScript"
                         },
                         "style" : { }
@@ -214,7 +214,7 @@
                     "className" : "noPadding",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.interfaceState.state.evacuationForm.showPatientChoice;",
+                      "content" : "import { isPatientChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceOpen();",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -236,7 +236,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.evacuation.patientId;",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\ngetPatientId();",
                           "language" : "TypeScript"
                         }
                       },
@@ -254,7 +254,7 @@
                     "className" : "noPadding",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import { isPatientChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\nisPatientChoiceClosedAndFilled();",
+                      "content" : "import { isPatientChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceClosedAndFilled();",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -280,11 +280,6 @@
               "type" : "FlexList"
             } ],
             "className" : "noPadding noMargin evasanChoicesBox",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "false;",
-              "language" : "typescript"
-            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -312,7 +307,7 @@
                           "className" : "filledChoiceIcon",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : " return\tContext.interfaceState.state.evacuationForm.showDestinationChoice",
+                            "content" : "import { isDestinationChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isDestinationChoiceFilled();",
                             "language" : "typescript"
                           }
                         } ],
@@ -329,7 +324,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Destination<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"Destination\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -352,7 +347,7 @@
                       "className" : "closeIcon",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "!Context.interfaceState.state.evacuationForm.showDestinationChoice;",
+                        "content" : "import { isDestinationChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceOpen();",
                         "language" : "typescript"
                       }
                     } ],
@@ -362,7 +357,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { openCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\nopenCloseDestinationChoice();",
+                        "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
                         "language" : "TypeScript"
                       }
                     },
@@ -399,18 +394,18 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.hospitalId = Context.evacuationHospitalId;\nContext.interfaceState.setState(newState);",
+                            "content" : "import { selectHospitalId } from \"./UIfacade/evacuationFacade\";\n\nselectHospitalId(Context.hospitalId);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
                             "@class" : "Script",
-                            "content" : "\"evacuationHospitalId\"",
+                            "content" : "\"hospitalId\"",
                             "language" : "TypeScript"
                           }
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.evacuation.hospitalId || '';",
+                          "content" : "import { getHospitalId } from \"./UIfacade/evacuationFacade\";\ngetHospitalId() || '';",
                           "language" : "TypeScript"
                         },
                         "style" : { }
@@ -420,7 +415,7 @@
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
-                          "content" : "import { getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(Context.interfaceState.state.evacuation.hospitalId);",
+                          "content" : "import { getHospitalId, getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(getHospitalId());",
                           "language" : "typescript"
                         },
                         "className" : "evacuationInputField",
@@ -429,7 +424,7 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.patientUnitAtHospital = Context.patientUnitAtHospital;\nContext.interfaceState.setState(newState);",
+                            "content" : "import { selectPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\n\nselectPatientUnitAtHospital(Context.patientUnitAtHospital);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -440,7 +435,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.evacuation.patientUnitAtHospital || '';",
+                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital() || '';",
                           "language" : "TypeScript"
                         },
                         "style" : { }
@@ -450,7 +445,7 @@
                     "className" : " noPadding",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.interfaceState.state.evacuationForm.showDestinationChoice;",
+                      "content" : "import { isDestinationChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceOpen();",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -472,7 +467,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"Lieu\"",
+                          "content" : "import { getHospitalShortName } from \"./UIfacade/evacuationFacade\";\ngetHospitalShortName();",
                           "language" : "TypeScript"
                         }
                       },
@@ -483,7 +478,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"Typologie\"",
+                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital();",
                           "language" : "TypeScript"
                         }
                       },
@@ -492,7 +487,7 @@
                     "className" : "noPadding",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import { isDestinationChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\nisDestinationChoiceClosedAndFilled();",
+                      "content" : "import { isDestinationChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceClosedAndFilled();",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -518,11 +513,6 @@
               "type" : "FlexList"
             } ],
             "className" : "noPadding noMargin evasanChoicesBox",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "false;",
-              "language" : "typescript"
-            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -550,7 +540,7 @@
                           "className" : "filledChoiceIcon",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : " return\tContext.interfaceState.state.evacuationForm.showVectorChoice",
+                            "content" : "import { isVectorChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isVectorChoiceFilled();",
                             "language" : "typescript"
                           }
                         } ],
@@ -567,7 +557,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Vector<br></p>\"",
+                          "content" : "  let fakevar = 666;\n\"Vector\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -590,7 +580,7 @@
                       "className" : "closeIcon",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "!Context.interfaceState.state.evacuationForm.showVectorChoice;",
+                        "content" : "import { isVectorChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceOpen();",
                         "language" : "typescript"
                       }
                     } ],
@@ -600,7 +590,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { openCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\nopenCloseVectorChoice();",
+                        "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
                         "language" : "TypeScript"
                       }
                     },
@@ -630,376 +620,167 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "icon" : "ambulance",
-                                "layoutStyle" : { },
-                                "onVariableChange" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "selection",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let oneVar = 1\noneVar",
-                                  "language" : "TypeScript"
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "ambulance",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "helicopter",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "className" : "noPadding noMargin",
+                                "layout" : {
+                                  "alignItems" : "center"
                                 },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "selection",
                                 "style" : { }
                               },
-                              "type" : "Number"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "driver",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let zeroVar = 0\nzeroVar",
-                                  "language" : "TypeScript"
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbDrivers } from \"./UIfacade/evacuationFacade\";\ngetNbDrivers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
                                 },
+                                "layoutStyle" : { },
+                                "name" : "driver",
                                 "style" : { }
                               },
-                              "type" : "Number"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbHealers } from \"./UIfacade/evacuationFacade\";\ngetNbHealers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
                                 "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
+                                "name" : "healers",
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "selectableRow",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "selectedVectorSquad",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad(Context.evacSquadDef.uid);",
+                                "language" : "typescript"
+                              }
                             } ],
                             "layout" : {
-                              "alignItems" : "center"
+                              "alignItems" : "center",
+                              "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "selectableRow-container",
                             "layoutStyle" : { },
-                            "name" : "medics",
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { selectTransportSquad } from \"./UIfacade/evacuationFacade\";\n\nselectTransportSquad(Context.evacSquadDef.uid);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "selectableRow",
                             "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "selectableRow",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Outside",
-                          "className" : "selectedVectorSquad",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('AmbulanceDriver');",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "hideIf" : {
+                        "exposeAs" : "evacSquadDef",
+                        "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('AmbulanceDriver') && !isVectorOpen();",
-                          "language" : "typescript"
+                          "content" : "import { getEvacSquadDefinitions } from \"./UIfacade/evacuationFacade\";\ngetEvacSquadDefinitions();",
+                          "language" : "TypeScript"
                         },
+                        "itemKey" : "uid",
                         "layout" : {
-                          "alignItems" : "center",
-                          "justifyContent" : "space-between"
+                          "flexDirection" : "column"
                         },
-                        "layoutClassName" : "selectableRow-container",
                         "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('AmbulanceDriver');",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "selectableRow_1driver",
                         "style" : { }
                       },
-                      "type" : "FlexList"
+                      "type" : "For each"
                     }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "ambulance",
-                                "layoutStyle" : { },
-                                "onVariableChange" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "alignItems" : "center"
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : " ''",
+                              "language" : "TypeScript"
                             },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "selection",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let oneVar = 1\noneVar",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "driver",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let oneVar = 1\noneVar",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "medics",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "selectableRow",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Outside",
-                          "className" : "selectedVectorSquad",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('AmbulanceDriverHealer');",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('AmbulanceDriverHealer') && !isVectorOpen();",
-                          "language" : "typescript"
-                        },
-                        "layout" : {
-                          "alignItems" : "center",
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "selectableRow-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('AmbulanceDriverHealer');",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "selectableRow_1driver1medic",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "helicopter",
-                                "layoutStyle" : { },
-                                "onVariableChange" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "selection",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let oneVar = 1\noneVar",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"conducteur\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "driver",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  let twoVar = 2\ntwoVar",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "medics",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "selectableRow",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Outside",
-                          "className" : "selectedVectorSquad",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad('Helicopter');",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isSelectedSquad, isVectorOpen} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad('Helicopter') && !isVectorOpen();",
-                          "language" : "typescript"
-                        },
-                        "layout" : {
-                          "alignItems" : "center",
-                          "justifyContent" : "space-between"
-                        },
-                        "layoutClassName" : "selectableRow-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { selectVectorSquad } from \"./UIfacade/evacuationFacade\";\n\nselectVectorSquad('Helicopter');",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "selectableRow_helicopter",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
                             "layoutClassName" : "",
                             "layoutStyle" : { },
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.evacuation.doResourcesComeBack = Context.doResourcesComeBack;\nContext.interfaceState.setState(newState);\n",
+                                "content" : "import { selectDoResourcesComeBack } from \"./UIfacade/evacuationFacade\";\n\nselectDoResourcesComeBack(Context.doResourcesComeBack);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
@@ -1010,7 +791,7 @@
                             },
                             "script" : {
                               "@class" : "Script",
-                              "content" : "Context.interfaceState.state.evacuation.doResourcesComeBack;",
+                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
                               "language" : "TypeScript"
                             },
                             "style" : { },
@@ -1023,7 +804,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  const fakevar = \"Revenir sur site après transport\"\n  return fakevar",
+                              "content" : "  const fakevar = \"Revenir sur site après transport\"\n  return fakevar",
                               "language" : "TypeScript"
                             }
                           },
@@ -1043,7 +824,7 @@
                     "className" : " noPadding",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.interfaceState.state.evacuationForm.showVectorChoice;",
+                      "content" : "import { isVectorChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceOpen();",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -1054,6 +835,216 @@
                       "width" : "100%"
                     },
                     "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "ambulance",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "helicopter",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "className" : "noPadding noMargin",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "selection",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbDrivers } from \"./UIfacade/evacuationFacade\";\ngetNbDrivers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "driver",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbHealers } from \"./UIfacade/evacuationFacade\";\ngetNbHealers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "healers",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "selectableRow",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isSelectedSquad, isVectorChoiceClosedAndFilled} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad(Context.evacSquadDef.uid) || !isVectorChoiceClosedAndFilled();",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "alignItems" : "center",
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "selectableRow-container",
+                            "layoutStyle" : { },
+                            "name" : "selectableRow",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "evacSquadDef",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacSquadDefinitions } from \"./UIfacade/evacuationFacade\";\ngetEvacSquadDefinitions();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"doResourcesComeBack\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  const fakevar = \"Le véhicule reviendra sur site\"\n  return fakevar",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "vectorComeback",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isVectorChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : " noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -1081,7 +1072,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "pink l_button",
+                "className" : "button-S button-secondaryColor",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
                   "className" : "abort",
@@ -1093,7 +1084,7 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n//const params = Context.interfaceState.state.evacuation;\n//return Object.values(params).includes(undefined);\n  false;",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n\nconst params = Context.interfaceState.state.evacuation;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "hideIf" : {
