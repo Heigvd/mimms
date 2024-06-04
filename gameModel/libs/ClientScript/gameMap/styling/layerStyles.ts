@@ -69,7 +69,7 @@ function getPointStyle(feature: any): LayerStyleObject {
       textStyle.stroke = {
         type: 'StrokeStyle',
         width: 3,
-        color: '#575FCF',
+        color: '#3CA3CC',
         lineCap: 'round',
         lineJoin: 'round',
       };
@@ -126,7 +126,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#575FCF',
+    color: '#3CA3CC',
     width: 6,
     lineCap: 'round',
     lineJoin: 'round',
@@ -138,7 +138,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
     Context.mapState.state.mapSelect &&
     !duration
   ) {
-    strokeStyle.color = '#575FCF80';
+    strokeStyle.color = '#3CA3CC80';
   }
 
   return { stroke: strokeStyle };
@@ -156,12 +156,12 @@ function getPolygonStyle(feature: any): LayerStyleObject {
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: '#575FCF',
+    color: '#3CA3CC',
   };
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#575FCF',
+    color: '#3CA3CC',
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,
@@ -189,8 +189,8 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     !(name === Context.interfaceState.state.selectedMapObjectId) &&
     Context.mapState.state.mapSelect
   ) {
-    stroke.color = '#575FCF80';
-    fill.color = '#575FCF80';
+    stroke.color = '#3CA3CC80';
+    fill.color = '#3CA3CC80';
   }
 
   return { fill, stroke, text };
@@ -212,7 +212,7 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#575FCF',
+    color: '#3CA3CC',
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,

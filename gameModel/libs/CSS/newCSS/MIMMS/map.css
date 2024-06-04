@@ -13,26 +13,7 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
-/*** Fixed entities (unselected) ***/
-.fixedEntities-container{
-	background-color: var(--gray_WHITE);
-	border-radius: var(--XS_borderRadius);
-	border: solid 3px var(--grey_60);
-	margin: auto;
-	z-index: 1;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.fixedEntities-container .close-button {
-	background-color: transparent;
-	color: var(--gray_400);
-}
-
-.fixedEntities-container .close-button:hover {
-	background-color: transparent;
-	color: var(--gray_700);
-}
+/*** ARROWS ***/
 
 .fixedEntities-arrow{
  	width: 0; 
@@ -44,19 +25,16 @@
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
 }
 
-
-/*** selected fixed map entity ***/
 .fixedEntities-arrow.selectedFixedMapEntityArrow{
   border-top: 20px solid var(--primary_base);
 }
 
-.selectedFixedMapEntity{
-  border-radius: var(--XS_borderRadius);
-  border: solid 3px var(--primary_base);
-}
+/*** SELECTED ***/
 
-/*WIP not working yet*/
-.closedFixedMapEntity{
+/* selected fixed map entity - open */
+
+
+.fixedEntities-container.selectedFixedMapEntity{
   border-radius: var(--XS_borderRadius);
   border: solid 3px var(--primary_base);
 }
@@ -65,8 +43,53 @@
   color: var(--primary_base);
 }
 
-
-.selectedFixedEntityHeader {
+.selectedFixedEntityHeader{
   color: var(--primary_base);
 }
 
+/* selected fixed map entity - close */
+
+.closedFixedMapEntity.selectedFixedMapEntity{
+ /* border-radius: var(--XS_borderRadius);*/
+  border: solid 3px var(--primary_base);
+  background-color: var(--primary_base);
+}
+
+/*** UNSELECTED ***/
+
+/* unselected fixed map entities  - open */
+.fixedEntities-container{
+	background-color: var(--gray_WHITE);
+	border-radius: var(--XS_borderRadius);
+	border: solid 3px var(--grey_60);
+	margin: auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.fixedEntities-container .close-button {
+	background-color: transparent;
+	color: var(--gray_400);
+}
+
+.fixedEntities-container .close-button:hover {
+	background-color: transparent;
+	color: var(--gray_700);
+}
+
+/* unselected fixed map entity - closed */
+
+.closedFixedMapEntity{
+  border: solid 3px var(--grey_60);
+  background-color: var(--grey_60);
+  pointer-events: auto;
+}
+
+.closedFixedMapEntityTitle{
+  color: var(--grey-white);
+  font-weight: var(--boldWeight);
+  }
+/*
+.closedFixedMapEntityIcon{
+  filter: invert(100%);
+}*/

@@ -125,6 +125,18 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/Nest_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/Nest_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/PC.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -134,6 +146,18 @@
   "/maps/mapIcons/PC.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -149,9 +173,63 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/PMA_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance _blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/ambulance-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -161,9 +239,45 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/firetruck.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/firetruck_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/firetruck_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -176,6 +290,12 @@
   "/maps/mapIcons/mainAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -197,9 +317,33 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/meetingpoint_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
