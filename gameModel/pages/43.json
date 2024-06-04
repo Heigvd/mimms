@@ -321,7 +321,7 @@
                                         } ],
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
                                           "language" : "typescript"
                                         },
                                         "layout" : {
@@ -338,7 +338,7 @@
                                         "children" : [ ],
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
                                           "language" : "typescript"
                                         },
                                         "layout" : { },
@@ -368,7 +368,7 @@
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "!Context.mapState.state.selectionState",
+                                      "content" : "!Context.mapState?.state.selectionState",
                                       "language" : "typescript"
                                     },
                                     "layerId" : "selectionLayer",
