@@ -176,17 +176,19 @@
 	z-index: 4;
 	position: absolute;
 	top: -85px;
-	right: 0px;
-	overflow: visible;
+	right: 10px;
+  overflow: visible;
 }
 
-.nextActionBtn > * {
+.nextActionBtn { 
   margin: 0.5em;
+  
+  padding: 1.8em;
   height: 3.5em;
-  width: 8.5em;
+  max-width: 12.5em;
   border-radius: 25px;
   background: rgb(33,0,36);
-  background: linear-gradient(90deg, rgba(33,0,36,0.8178338229823179) 0%, rgba(62,9,121,1) 14%, rgba(0,212,255,1) 100%); 
+  background: linear-gradient(90deg, rgba(33,0,36,0.8178338229823179) 0%, rgba(62,9,121,1) 14%, rgba(0,212,255,1) 100%);
   /* align-content: flex-end; */
   font-weight: var(--boldWeight);
   color: var(--gray_WHITE);
@@ -194,12 +196,13 @@
 	filter: drop-shadow(10px 10px 3px rgb(5, 77, 101));
 }
 
-.nextActionBtn:hover > *{
+.nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
   background: rgb(131,58,180);
   background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
 	/*background: var(--secondary_40);*/
 	cursor: pointer;
 }
+
 .nextActionBtn > * > svg {
 	font-size: 1.6em;
 	margin: auto;

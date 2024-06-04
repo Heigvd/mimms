@@ -69,43 +69,77 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "className" : "fixedEntityIcon",
-                                                "layoutStyle" : { },
-                                                "script" : {
-                                                  "@class" : "Script",
-                                                  "content" : "  `/maps/mapIcons/${Context.overlayItem.icon}.png`",
-                                                  "language" : "TypeScript"
-                                                },
-                                                "style" : {
-                                                  "width" : "1em"
-                                                }
-                                              },
-                                              "type" : "Image"
-                                            }, {
-                                              "props" : {
-                                                "className" : "mimms_h3title",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "selectedFixedEntityHeader",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
-                                                    "language" : "typescript"
-                                                  }
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "fixedEntityIcon",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "closedFixedMapEntityIcon",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layoutStyle" : { },
+                                                    "script" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n}else if(!Context.mapState?.state.overlayState[Context.overlayItem.id] && isCurrentActorAtLocation(Context.overlayItem.id)){\n     return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n  }\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "style" : {
+                                                      "width" : "1.5em"
+                                                    }
+                                                  },
+                                                  "type" : "Image"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "mimms_h3title",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "selectedFixedEntityHeader",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "closedFixedMapEntityTitle",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layoutStyle" : { },
+                                                    "name" : "fixedEntitiesName",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
                                                 } ],
+                                                "className" : "noPadding noMargin",
+                                                "layout" : {
+                                                  "justifyContent" : "flex-start"
+                                                },
+                                                "layoutClassName" : "noPadding noMargin",
                                                 "layoutStyle" : { },
-                                                "name" : "fixedEntitiesName",
-                                                "style" : { },
-                                                "text" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
-                                                  "language" : "TypeScript"
-                                                }
+                                                "style" : { }
                                               },
-                                              "type" : "Text"
+                                              "type" : "FlexList"
                                             }, {
                                               "props" : {
                                                 "className" : "close-button",
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                  "language" : "typescript"
+                                                },
                                                 "label" : {
                                                   "@class" : "Script",
                                                   "content" : "\"<p>X</p>\"",
@@ -117,7 +151,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                                    "content" : "setTimeout(() => {\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n}, 10)",
                                                     "language" : "TypeScript"
                                                   }
                                                 },
@@ -136,6 +170,13 @@
                                               "justifyContent" : "space-between"
                                             },
                                             "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "if(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n\t}\n",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
                                             "name" : "fixedEntityHeader",
                                             "style" : { }
                                           },
@@ -322,6 +363,11 @@
                                                 "language" : "TypeScript"
                                               }
                                             } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : { },
                                             "layoutStyle" : { },
                                             "name" : "fixedEntityContent",
@@ -339,24 +385,26 @@
                                             "language" : "typescript"
                                           }
                                         }, {
-                                          "applyOn" : "Inside",
+                                          "applyOn" : "Outside",
                                           "className" : "closedFixedMapEntity",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                            "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
                                             "language" : "typescript"
                                           }
                                         } ],
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
-                                          "language" : "typescript"
-                                        },
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
                                         "layoutClassName" : "fixedEntities-container",
                                         "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "/*if(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n\t}*/\n",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
                                         "name" : "genericFixedEntity",
                                         "style" : { }
                                       },
@@ -372,15 +420,25 @@
                                             "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
                                             "language" : "typescript"
                                           }
+                                        }, {
+                                          "applyOn" : "Outside",
+                                          "className" : "closedFixedMapEntityArrow",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                            "language" : "typescript"
+                                          }
                                         } ],
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
-                                          "language" : "typescript"
-                                        },
                                         "layout" : { },
                                         "layoutClassName" : "fixedEntities-arrow",
                                         "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
                                         "name" : "genericFixedEntity-arrow",
                                         "style" : { }
                                       },
@@ -933,14 +991,9 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "nextActionBtn",
-                                "icon" : {
-                                  "@class" : "Script",
-                                  "content" : "'fast-forward';",
-                                  "language" : "typescript"
-                                },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"\"",
+                                  "content" : "  let fakevar = 666;\n\"Avancer le temps\"",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "next-container",
@@ -1095,16 +1148,17 @@
                                   "type" : "Text"
                                 }, {
                                   "props" : {
-                                    "className" : "",
+                                    "className" : "noPadding noMargin",
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
                                       "content" : "\"64\"",
                                       "language" : "typescript"
                                     },
-                                    "layoutClassName" : "notificationPageloader-container",
+                                    "layoutClassName" : "notificationPageloader-container noPadding noMargin",
                                     "layoutStyle" : {
-                                      "overflow" : "auto"
+                                      "overflow" : "auto",
+                                      "width" : "100%"
                                     },
                                     "name" : "notif",
                                     "style" : { }
@@ -1189,7 +1243,7 @@
                               },
                               "type" : "Button"
                             } ],
-                            "className" : "notificationPanel",
+                            "className" : "notificationPanel noPadding noMargin",
                             "conditionnalClassNames" : [ {
                               "applyOn" : "Outside",
                               "className" : "notificationPanel-container_Hidden",
@@ -1222,7 +1276,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>En attente des autres joueurs<br></p>\"",
+                                  "content" : "  let fakevar = 666;\n\"En attente des autres joueurs\"",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -1233,47 +1287,54 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
+                                        "className" : "simpleText",
                                         "layoutStyle" : { },
                                         "name" : "role",
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "Context.actor.Role;",
+                                          "content" : "Context.actor.actor.Role;",
                                           "language" : "TypeScript"
                                         }
                                       },
                                       "type" : "Text"
                                     }, {
                                       "props" : {
+                                        "className" : "simpleText",
                                         "layoutStyle" : { },
+                                        "name" : "status",
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "\"<p>: Status<br></p>\"",
+                                          "content" : "Context.actor.isReady;",
                                           "language" : "TypeScript"
                                         }
                                       },
                                       "type" : "Text"
                                     } ],
+                                    "className" : "noPadding noMargin",
                                     "layout" : {
                                       "alignItems" : "center",
                                       "flexDirection" : "row"
                                     },
+                                    "layoutClassName" : "noPadding noMargin",
                                     "layoutStyle" : { },
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
                                 } ],
+                                "className" : "",
                                 "exposeAs" : "actor",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                  "content" : "import { getActorsTimeForwardReadiness } from \"./UIfacade/timeFacade\";\ngetActorsTimeForwardReadiness();",
                                   "language" : "TypeScript"
                                 },
-                                "itemKey" : "Uid",
+                                "itemKey" : "id",
                                 "layout" : {
                                   "flexDirection" : "column"
                                 },
+                                "layoutClassName" : "",
                                 "layoutStyle" : {
                                   "margin" : "auto"
                                 },
@@ -1286,7 +1347,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “avancer le temps”</p>\"",
+                                  "content" : "  let fakevar = 666;\n\"Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “avancer le temps”\"",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -1300,13 +1361,23 @@
                                   "language" : "TypeScript"
                                 },
                                 "layoutStyle" : { },
-                                "style" : { }
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { cancelTimeForward } from \"./UIfacade/timeFacade\";\n\ncancelTimeForward()",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "style" : {
+                                  "margin" : "1rem auto "
+                                }
                               },
                               "type" : "Button"
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "true;",
+                              "content" : "import { showWaitingModal } from \"./UIfacade/timeFacade\";\n!showWaitingModal()",
                               "language" : "typescript"
                             },
                             "layout" : {
