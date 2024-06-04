@@ -38,7 +38,7 @@ export function getOverlayItems() {
 /**
  * Should ressource be visible to current actor at location
  */
-export function canViewRessources(location: LOCATION_ENUM): boolean {
+export function canViewResources(location: LOCATION_ENUM): boolean {
   if (!isGodView()) {
     return isCurrentActorAtLocation(location);
   }

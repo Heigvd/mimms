@@ -169,7 +169,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\n!canViewRessources(Context.overlayItem.id);",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n!canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -209,7 +209,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\n  if (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewRessources(Context.overlayItem.id);",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n  if (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -249,7 +249,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewRessources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewRessources(Context.overlayItem.id);",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -272,6 +272,11 @@
                                                         "language" : "typescript"
                                                       }
                                                     } ],
+                                                    "disableIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n    const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.includes(Context.actor);\n  }\n    false;",
+                                                      "language" : "typescript"
+                                                    },
                                                     "icon" : {
                                                       "@class" : "Script",
                                                       "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
@@ -940,7 +945,7 @@
                                         "confirm" : false,
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n    const currentPlayerActors = getCurrentPlayerActors()\n  if (Variable.find(gameModel, 'godView').getInstance(self).getValue()) {\n    return !currentPlayerActors.some(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
+                                          "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n    const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.includes(Context.actor);\n  }\n    false;",
                                           "language" : "typescript"
                                         },
                                         "label" : {
@@ -1032,7 +1037,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceState\";\ngetInterfaceConfiguration().timeline.hidden;",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeline.hidden;",
                               "language" : "typescript"
                             },
                             "layout" : {
