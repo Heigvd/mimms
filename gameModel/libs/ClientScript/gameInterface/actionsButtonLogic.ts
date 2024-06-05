@@ -18,12 +18,17 @@ import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import {
   getEmptyAllocateResources,
+  getEmptyAllocateResourcesRadio,
   getEmptyEvacuationInterfaceState,
   getEmptyResourceRequest,
+  setInterfaceState,
 } from './interfaceState';
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
+import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getSelectedActorLocation } from '../UIfacade/actorFacade';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -94,24 +99,40 @@ function fetchMoveResourcesAssignTaskValues() {
   // TODO Add Type
   const sentResources: ResourceTypeAndNumber = {};
 
+  let paramKey = '';
+  let getEmptyFunc = function () {};
+  let currentLoc: LOCATION_ENUM | undefined;
+  const panel = Context.interfaceState.state.selectedPanel;
+  if (panel === SelectedPanel.resources) {
+    paramKey = 'allocateResources';
+    getEmptyFunc = getEmptyAllocateResources;
+    currentLoc = getSelectedActorLocation();
+  } else if (panel === SelectedPanel.radios) {
+    paramKey = 'allocateResourcesRadio';
+    getEmptyFunc = getEmptyAllocateResourcesRadio;
+    currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
+  }
+
   ResourcesArray.forEach(resourceType => {
-    const amount = Context.interfaceState.state.resources.allocateResources[resourceType];
+    const amount = Context.interfaceState.state.resources[paramKey][resourceType];
     if (amount) {
       sentResources[resourceType] = amount;
     }
   });
 
   const payload = {
-    sourceLocation: Context.interfaceState.state.resources.allocateResources.currentLocation,
-    targetLocation: Context.interfaceState.state.resources.allocateResources.targetLocation,
+    // source fetched from drop down if radio, or actor location if location panel
+    sourceLocation: currentLoc,
+    targetLocation: Context.interfaceState.state.resources[paramKey]?.targetLocation,
     sentResources: sentResources,
-    sourceTaskId: Context.interfaceState.state.resources.allocateResources.currentTaskId,
-    targetTaskId: Context.interfaceState.state.resources.allocateResources.targetTaskId,
+    sourceTaskId: Context.interfaceState.state.resources[paramKey].currentTaskId,
+    targetTaskId: Context.interfaceState.state.resources[paramKey].targetTaskId,
   };
+  wlog('******************', payload);
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources.allocateResources = getEmptyAllocateResources();
+  newState.resources[paramKey] = getEmptyFunc();
   Context.interfaceState.setState(newState);
   return payload;
 }
@@ -203,14 +224,10 @@ function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayloa
  * @returns LOCATION_ENUM
  */
 function fetchMoveActorLocation() {
-  const res = Context.interfaceState.state.moveActorChosenLocation;
-
   // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.moveActorChosenLocation = undefined;
-  Context.interfaceState.setState(newState);
-
-  return res;
+  const location = Context.interfaceState.state.moveActorChosenLocation;
+  setInterfaceState({ moveActorChosenLocation: undefined });
+  return location;
 }
 
 function fetchEvacuationActionValues() {

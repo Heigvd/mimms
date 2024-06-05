@@ -32,6 +32,11 @@ export interface InterfaceState {
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
+      currentTaskId: TaskId | undefined;
+      targetLocation: LOCATION_ENUM | undefined;
+      targetTaskId: TaskId | undefined;
+    } & Partial<Record<ResourceType, number>>;
+    allocateResourcesRadio: {
       currentLocation: LOCATION_ENUM | undefined;
       currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
@@ -81,6 +86,7 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     resources: {
       allocateResources: getEmptyAllocateResources(),
+      allocateResourcesRadio: getEmptyAllocateResourcesRadio(),
       requestedResources: getEmptyResourceRequest(),
     },
     evacuation: getEmptyEvacuationInterfaceState(),
@@ -100,11 +106,8 @@ export function getInitialInterfaceState(): InterfaceState {
     },
   };
 }
-export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
-  const resources: Partial<Record<ResourceType, number>> = {};
-  ResourcesArray.forEach(t => {
-    resources[t] = 0;
-  });
+export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
+  const resources = getEmptyResources();
 
   return {
     currentLocation: undefined,
@@ -113,6 +116,25 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
     targetTaskId: undefined,
     ...resources,
   };
+}
+
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources = getEmptyResources();
+
+  return {
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
+  };
+}
+
+function getEmptyResources(): Partial<Record<ResourceType, number>> {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+  return resources;
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {

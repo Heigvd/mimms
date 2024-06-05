@@ -61,6 +61,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "messageArea-container",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -73,8 +74,7 @@
         },
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
-          "overflow-y" : "auto"
+          "height" : "23rem"
         }
       },
       "type" : "For each"
@@ -82,7 +82,20 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "pink l_button",
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"67\"",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "allocateLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
+            "className" : "",
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
@@ -97,7 +110,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nrunActionButton(action[0]);",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\nrunActionButton(action[0]);",
                 "language" : "TypeScript"
               }
             },
@@ -107,22 +120,22 @@
           "type" : "Button"
         } ],
         "layout" : {
+          "flexDirection" : "column",
           "justifyContent" : "flex-end"
         },
-        "layoutClassName" : "freeMessageInput-container",
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"
     } ],
-    "className" : "",
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
     "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
     "name" : "messagePanel",

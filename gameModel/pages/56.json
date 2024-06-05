@@ -1,0 +1,97 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "",
+        "layoutClassName" : "h2title",
+        "layoutStyle" : { },
+        "name" : "Panel title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'sourcelocation')}`",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"67\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "allocate ressources",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "button-S button-primaryColor",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+              "language" : "typescript"
+            },
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\nrunActionButton(actions[0]);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Send",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "",
+        "layout" : {
+          "justifyContent" : "flex-end"
+        },
+        "layoutStyle" : { },
+        "name" : "button",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"pmaLocationPanel\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "pmaLocationPanel",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
