@@ -6,14 +6,14 @@ import {
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
-import { getAllActors } from '../UIfacade/actorFacade';
+import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 
 export interface InterfaceState {
-  currentActorUid: number;
+  currentActorUid: number | undefined;
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -60,7 +60,7 @@ interface CasuMessage {
 // used in page 43
 export function getInitialInterfaceState(): InterfaceState {
   return {
-    currentActorUid: getAllActors()[0]!.Uid,
+    currentActorUid: getCurrentPlayerActors()[0]?.Uid,
     currentActionUid: 0,
     casuMessage: {
       messageType: '',
@@ -123,6 +123,12 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
     transportSquad: undefined,
     doResourcesComeBack: false,
   };
+}
+
+export function triggerInterfaceStateUpdate(state: InterfaceState) {
+  if (state.currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
+    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
+  }
 }
 
 /**

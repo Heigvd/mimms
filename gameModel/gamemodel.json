@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1717508988935,
+  "createdTime" : 1717499520003,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4960,6 +4960,66 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:243643:uVzXjp"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "Toggle between godView and roleView",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:243648:yuIwVm",
+          "value" : true
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:243649:3W4cyH",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:243649:3W4cyH::EN",
+              "status" : "",
+              "translation" : "godView"
+            }
+          }
+        },
+        "name" : "godView",
+        "refId" : "BooleanDescriptor:243647:JqP12B",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:243644:ddNuod",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:243644:ddNuod::EN",
+            "status" : "",
+            "translation" : "trainer"
+          }
+        }
+      },
+      "name" : "trainer_Zix3IY",
+      "refId" : "ListDescriptor:243642:ynaItH",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -5634,6 +5694,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:102553:VklJzk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/interfaceConfiguration",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:243772:Y0yzcW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6453,7 +6522,7 @@
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,

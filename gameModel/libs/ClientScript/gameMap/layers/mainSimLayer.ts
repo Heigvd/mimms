@@ -129,7 +129,7 @@ export function getUnavailableLayer() {
  * This layer displays the available selection when performing a SelectMapObjectAction
  */
 export function getSelectionLayer() {
-  const selection = Context.mapState.state.selectionState as FixedMapEntity;
+  const selection = Context.mapState?.state.selectionState as FixedMapEntity;
 
   let layer = getEmptyFeatureCollection();
   layer.name = 'SelectionLayer';

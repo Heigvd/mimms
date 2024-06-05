@@ -56,6 +56,19 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "layoutStyle" : {
+                          "display" : "none"
+                        },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { triggerInterfaceStateUpdate } from \"./gameInterface/interfaceState\";\n  triggerInterfaceStateUpdate(Context.interfaceState.state);\n\"<p>Trigger interfaceState update<br></p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
                             "children" : [ {
@@ -154,6 +167,11 @@
                                                   },
                                                   "type" : "Button"
                                                 } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n!canViewResources(Context.overlayItem.id);",
+                                                  "language" : "typescript"
+                                                },
                                                 "layout" : { },
                                                 "layoutStyle" : { },
                                                 "name" : "humanRsrcBtn",
@@ -191,7 +209,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.ambulances.length < 1;",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n  if (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -231,7 +249,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.helicopters.length < 1;",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -254,6 +272,11 @@
                                                         "language" : "typescript"
                                                       }
                                                     } ],
+                                                    "disableIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
+                                                      "language" : "typescript"
+                                                    },
                                                     "icon" : {
                                                       "@class" : "Script",
                                                       "content" : "if( Context.interfaceState.state.currentActorUid === Context.actor.Uid){return (\"user\")}\n\n'';",
@@ -279,7 +302,7 @@
                                                 "exposeAs" : "actor",
                                                 "getItemsFn" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.overlayItem.actors;",
+                                                  "content" : "import { actorViewFilter } from \"./gameMap/mapEntities\";\nactorViewFilter(Context.overlayItem.actors);",
                                                   "language" : "TypeScript"
                                                 },
                                                 "itemKey" : "Uid",
@@ -298,7 +321,7 @@
                                         } ],
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
                                           "language" : "typescript"
                                         },
                                         "layout" : {
@@ -315,7 +338,7 @@
                                         "children" : [ ],
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                          "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
                                           "language" : "typescript"
                                         },
                                         "layout" : { },
@@ -336,7 +359,7 @@
                                     },
                                     "itemKey" : "id",
                                     "layoutStyle" : {
-                                      "pointer-events" : "auto"
+                                      "pointerEvents" : "auto"
                                     },
                                     "style" : { }
                                   },
@@ -345,7 +368,7 @@
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "!Context.mapState.state.selectionState",
+                                      "content" : "!Context.mapState?.state.selectionState",
                                       "language" : "typescript"
                                     },
                                     "layerId" : "selectionLayer",
@@ -513,7 +536,11 @@
                                 }, {
                                   "props" : {
                                     "layerId" : "buildings",
-                                    "layerProps" : { },
+                                    "layerProps" : {
+                                      "@class" : "Script",
+                                      "content" : "({})",
+                                      "language" : "typescript"
+                                    },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
                                       "source" : {
@@ -532,11 +559,6 @@
                                     },
                                     "layoutStyle" : { },
                                     "name" : "buildings",
-                                    "onLayerReady" : {
-                                      "@class" : "ScriptCallback",
-                                      "args" : [ "layer", "map" ],
-                                      "content" : "import { buildingsRef, mapRef } from \"./gameMap/main\";\nmapRef.current = map;\nbuildingsRef.current = layer;\nreturn"
-                                    },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
@@ -548,7 +570,7 @@
                                   "backgroundColor" : "#E4E6E7",
                                   "height" : "100%",
                                   "padding" : "0px",
-                                  "pointer-events" : "auto",
+                                  "pointerEvents" : "auto",
                                   "width" : "100%"
                                 },
                                 "mapOptions" : {
@@ -585,7 +607,7 @@
                             "layoutStyle" : {
                               "height" : "100%",
                               "padding" : "0px",
-                              "pointer-events" : "auto",
+                              "pointerEvents" : "auto",
                               "width" : "100%"
                             },
                             "localState" : false,
@@ -603,7 +625,7 @@
                         "layoutStyle" : {
                           "height" : "100%",
                           "left" : "0",
-                          "pointer-events" : "auto",
+                          "pointerEvents" : "auto",
                           "position" : "absolute",
                           "top" : "0",
                           "width" : "100%"
@@ -720,6 +742,11 @@
                               "type" : "FlexList"
                             } ],
                             "className" : "noPadding noMargin",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().leftPanel.hidden;",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "flexDirection" : "column"
                             },
@@ -849,6 +876,11 @@
                                 "language" : "typescript"
                               }
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().leftPanel.hidden;",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "flexDirection" : "column"
                             },
@@ -863,6 +895,11 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "nextActionBtn",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeForward.hidden;",
+                                  "language" : "typescript"
+                                },
                                 "icon" : {
                                   "@class" : "Script",
                                   "content" : "'fast-forward';",
@@ -906,6 +943,11 @@
                                           }
                                         } ],
                                         "confirm" : false,
+                                        "disableIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
+                                          "language" : "typescript"
+                                        },
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "Context.actor.Role;",
@@ -926,7 +968,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getAllActors } from \"./UIfacade/actorFacade\";\ngetAllActors().filter((actor) => actor.Role != 'CASU');",
+                                      "content" : "import { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  getVisibleActorsInTimelineForCurrentPlayer();",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",
@@ -961,7 +1003,7 @@
                                 "children" : [ {
                                   "props" : {
                                     "layoutStyle" : {
-                                      "margin-left" : "8px"
+                                      "marginLeft" : "8px"
                                     },
                                     "style" : { },
                                     "text" : {
@@ -989,10 +1031,15 @@
                               "className" : "partialTimeline",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "Context.interfaceState.state.showLeftPanel === true;",
+                                "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\nContext.interfaceState.state.showLeftPanel === true && getCurrentPlayerActors().length > 0;",
                                 "language" : "typescript"
                               }
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeline.hidden;",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "flexDirection" : "row"
                             },
@@ -1129,6 +1176,11 @@
                                 "language" : "typescript"
                               }
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().notificationPanel.hidden;",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
                             "layoutClassName" : "notificationPanel-container",
                             "layoutStyle" : {
@@ -1163,7 +1215,7 @@
                     "layoutClassName" : "stateInterface-container noPadding noMargin",
                     "layoutStyle" : {
                       "height" : "100%",
-                      "pointer-events" : "none",
+                      "pointerEvents" : "none",
                       "width" : "100%"
                     },
                     "localState" : true,
