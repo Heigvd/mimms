@@ -19,7 +19,10 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import { ResourceContainerDefinitionId } from '../resources/resourceContainer';
+import {
+  ResourceContainerDefinitionId,
+  ResourceContainerType,
+} from '../resources/resourceContainer';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { localEventManager } from './localEventManager';
 import { entries } from '../../../tools/helper';
@@ -27,7 +30,10 @@ import { CasuMessagePayload } from '../events/casuMessageEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import resourceArrivalResolution from '../resources/resourceDispatchResolution';
+import {
+  resourceArrivalResolution,
+  resourceContainerCanArrive,
+} from '../resources/resourceDispatchResolution';
 import {
   deleteIdleResource,
   getUnoccupiedResources,
@@ -36,6 +42,8 @@ import {
 import { HospitalProximity } from '../evacuation/hospitalType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
+import { FailedRessourceArrivalDelay } from '../constants';
+import { resourceLogger } from '../../../tools/logger';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
 
@@ -376,6 +384,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       uid: AddRadioMessageLocalEvent.UidSeed++,
       isRadioMessage: this.isRadioMessage,
       channel: this.channel,
+      pending: false,
     });
   }
 }
@@ -478,7 +487,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
     super(parentId, 'ResourceMobilizationEvent', timeStamp);
   }
 
-  override applyStateUpdate(state: MainSimulationState): void {
+  override applyStateUpdate(_state: MainSimulationState): void {
     const containerDef = getContainerDef(this.containerDefId);
     // We assume that containers are well configured
     // and thus that there are no duplicates
@@ -518,7 +527,8 @@ export class ResourceMobilizationEvent extends LocalEventBase {
         this.parentEventId,
         this.departureTime + this.travelTime,
         this.containerDefId,
-        this.amount
+        this.amount,
+        this.configName
       );
       localEventManager.queueLocalEvent(evt);
     }
@@ -541,7 +551,7 @@ export class ResourcesDepartureLocalEvent extends LocalEventBase {
     super(parentId, 'ResourcesDepartureLocalEvent', timeStamp);
   }
 
-  override applyStateUpdate(state: MainSimulationState): void {
+  override applyStateUpdate(_state: MainSimulationState): void {
     const t = Math.round(this.travelTime / 60);
     const msg = this.buildRadioText(t);
     const evt = new AddRadioMessageLocalEvent(
@@ -580,29 +590,77 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     parentId: GlobalEventId,
     timeStamp: SimTime,
     public readonly containerDefId: ResourceContainerDefinitionId,
-    public readonly amount: number
+    public readonly amount: number,
+    public readonly squadName: string
   ) {
     super(parentId, 'RessourcesArrivalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const containerDef = getContainerDef(this.containerDefId);
-    // add flags to state if any
-    if (containerDef.flags) {
-      containerDef.flags.forEach(f => (state.getInternalStateObject().flags[f] = true));
-    }
 
-    entries(containerDef.resources)
-      .filter(([_, qt]) => qt && qt > 0)
-      .forEach(([rType, qty]) => {
-        const n = qty! * this.amount;
-        ResourceState.addIncomingResourcesToLocation(
-          state,
-          rType,
-          resourceArrivalResolution(state, rType),
-          n
-        );
-      });
+    if (resourceContainerCanArrive(state, containerDef.type)) {
+      // add flags to state if any
+      if (containerDef.flags) {
+        containerDef.flags.forEach(f => (state.getInternalStateObject().flags[f] = true));
+      }
+
+      entries(containerDef.resources)
+        .filter(([_, qt]) => qt && qt > 0)
+        .forEach(([rType, qty]) => {
+          const n = qty! * this.amount;
+          ResourceState.addIncomingResourcesToLocation(
+            state,
+            rType,
+            resourceArrivalResolution(state, rType),
+            n
+          );
+        });
+    } else {
+      // missing ambulance or helicopter park location
+      // radio message to the user
+      localEventManager.queueLocalEvent(
+        this.buildArrivalFailureRadioEvent(containerDef.type, state)
+      );
+      // TODO later : we might want to make the ressources arrive as soon as the park is defined
+      // TODO if more than one container of a given type fails, do we want to aggregate the warning messages?
+      // try again X minutes later
+      localEventManager.queueLocalEvent(
+        new ResourcesArrivalLocalEvent(
+          this.parentEventId,
+          this.simTimeStamp + FailedRessourceArrivalDelay,
+          this.containerDefId,
+          this.amount,
+          this.squadName
+        )
+      );
+    }
+  }
+
+  private buildArrivalFailureRadioEvent(
+    rtype: ResourceContainerType,
+    state: MainSimulationState
+  ): AddRadioMessageLocalEvent {
+    let parkKey = '';
+    if (rtype === 'Ambulance') parkKey = 'location-ambulance-park';
+    else if (rtype === 'Helicopter') parkKey = 'location-helicopter-park';
+    else
+      resourceLogger.warn('The ressources that are unable to arrive are ambulance and helicopter');
+    const park = getTranslation('mainSim-locations', parkKey, false);
+    const message = getTranslation('mainSim-locations', 'missingLocation', true, [
+      park,
+      this.squadName,
+    ]);
+    return new AddRadioMessageLocalEvent(
+      this.parentEventId,
+      state.getSimTime(),
+      0,
+      this.squadName,
+      message,
+      ActionType.CASU_RADIO,
+      true,
+      true
+    );
   }
 }
 

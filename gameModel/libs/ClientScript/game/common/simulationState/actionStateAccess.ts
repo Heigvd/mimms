@@ -5,8 +5,7 @@ export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
   actorUid: number
 ): ActionBase[] {
-  return getOngoingActions(state)
-    .filter((a: ActionBase) => a.ownerId === actorUid);
+  return getOngoingActions(state).filter((a: ActionBase) => a.ownerId === actorUid);
 }
 
 export function getOngoingActions(state: Readonly<MainSimulationState>): ActionBase[] {

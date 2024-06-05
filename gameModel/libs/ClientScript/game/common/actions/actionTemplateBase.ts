@@ -45,7 +45,7 @@ import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessag
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getOngoingActions, getOngoingActionsForActor } from '../simulationState/actionStateAccess';
+import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export enum SimFlag {
@@ -215,7 +215,10 @@ export abstract class ActionTemplateBase<
     );
   }
 
-  protected customCanConcurrencyWiseBePlayed(state: Readonly<MainSimulationState>, actorUid: ActorId) {
+  protected customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ) {
     return (
       getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
     );
@@ -223,11 +226,13 @@ export abstract class ActionTemplateBase<
   }
 
   /**
-   * @return true if the action should be created in the timeline right away,
+   * @return true if the action should be created in the timeline right away when the user clicks,
    * false if some other interaction should take place in between
+   * @deprecated was used for map entities positionning
    */
-  public abstract planActionEventOnFirstClick(): boolean;
-
+  public planActionEventOnFirstClick(): boolean{
+    return true;
+  }
 }
 
 export abstract class StartEndTemplate<
@@ -389,11 +394,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
-
-  protected customCanConcurrencyWiseBePlayed(
+  protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -405,7 +406,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
       ).length === 0
     );
   }
-
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -776,11 +776,7 @@ export class SendRadioMessage extends StartEndTemplate {
     return 'SendRadioMessageTemplateTitle';
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-  protected customCanConcurrencyWiseBePlayed(
+  protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -792,7 +788,6 @@ export class SendRadioMessage extends StartEndTemplate {
       ).length === 0
     );
   }
-
 }
 
 export class MoveActorActionTemplate extends StartEndTemplate {
@@ -1082,9 +1077,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     };
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
