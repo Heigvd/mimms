@@ -391,7 +391,16 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "button-S button-primaryColor",
+            "className" : "button-S button-secondaryColor",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "abort",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+                "language" : "typescript"
+              }
+            } ],
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
@@ -451,7 +460,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "/*leftPanel-container*/ mainSimLeftPanel-container leftSubPanel-container",
+    "layoutClassName" : "mainSimLeftPanel-container leftSubPanel-container",
     "layoutStyle" : { },
     "name" : "resources",
     "style" : {
