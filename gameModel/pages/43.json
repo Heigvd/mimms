@@ -314,7 +314,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
+                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.helicopters.length < 1) return true;\nContext.overlayItem.helicopters.length < 1 && !canViewResources(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
