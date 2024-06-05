@@ -69,24 +69,15 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getCategoryColor } from \"./UIfacade/patientFacade\";\ngetCategoryColor(Context.patient.patientId);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : { },
-                            "layoutClassName" : "listTag-container",
                             "layoutStyle" : { },
-                            "style" : { }
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getDivForCategory } from \"./UIfacade/patientFacade\";\n  getDivForCategory(Context.patient.patientId);",
+                              "language" : "TypeScript"
+                            }
                           },
-                          "type" : "FlexList"
+                          "type" : "Text"
                         } ],
                         "className" : "patientLine",
                         "layout" : {

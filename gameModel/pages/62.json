@@ -243,13 +243,15 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "children" : [ ],
-                        "layout" : { },
-                        "layoutClassName" : "listTag-container",
                         "layoutStyle" : { },
-                        "style" : { }
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\nimport { getDivForCategory } from \"./UIfacade/patientFacade\";\ngetDivForCategory(getPatientId()!);",
+                          "language" : "TypeScript"
+                        }
                       },
-                      "type" : "FlexList"
+                      "type" : "Text"
                     } ],
                     "className" : "noPadding",
                     "hideIf" : {

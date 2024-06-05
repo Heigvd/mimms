@@ -3,6 +3,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   Categorization,
   getBackgroundColorByCategoryId,
+  getCategoryById,
   PreTriageResult,
 } from '../game/pretri/triage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
@@ -64,6 +65,16 @@ export function getLocalizedAffictedBlocks(id: string) {
 export function getHumanVisualInfos(id: string) {
   const human = getHumanAndCategory(id);
   return getHumanVisualInfosOfHuman(human);
+}
+
+export function getDivForCategory(patientId: string): string {
+  const patient = getPatient(patientId)!;
+  const categoryId = patient.preTriageResult?.categoryId;
+  const category = categoryId != undefined ? getCategoryById(categoryId) : undefined;
+
+  return `<div class='listTag-container' style='color: ${
+    category ? category.color : 'black'
+  }; background-color: ${category ? category.bgColor : 'thistle'}'/>`;
 }
 
 export function getCategoryColor(patientId: string): string {
