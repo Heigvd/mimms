@@ -226,10 +226,13 @@ export abstract class ActionTemplateBase<
   }
 
   /**
-   * @return true if the action should be created in the timeline right away,
+   * @return true if the action should be created in the timeline right away when the user clicks,
    * false if some other interaction should take place in between
+   * @deprecated was used for map entities positionning
    */
-  public abstract planActionEventOnFirstClick(): boolean;
+  public planActionEventOnFirstClick(): boolean{
+    return true;
+  }
 }
 
 export abstract class StartEndTemplate<
@@ -322,10 +325,6 @@ export class GetInformationTemplate extends StartEndTemplate {
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
-
-  public planActionEventOnFirstClick(): boolean {
-    return true; // Correct ?
-  }
 }
 
 export class CasuMessageTemplate extends StartEndTemplate<
@@ -395,11 +394,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return false;
-  }
-
-  protected customCanConcurrencyWiseBePlayed(
+  protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -781,11 +776,7 @@ export class SendRadioMessage extends StartEndTemplate {
     return 'SendRadioMessageTemplateTitle';
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
-
-  protected customCanConcurrencyWiseBePlayed(
+  protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -1086,9 +1077,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     };
   }
 
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
