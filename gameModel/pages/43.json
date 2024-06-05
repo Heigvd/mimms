@@ -928,7 +928,12 @@
                                   }
                                 },
                                 "name" : "radio",
-                                "style" : { }
+                                "style" : { },
+                                "unreadCount" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
+                                  "language" : "TypeScript"
+                                }
                               },
                               "type" : "Icon"
                             }, {
