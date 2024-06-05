@@ -413,13 +413,10 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
     if (this.casuMessagePayload.messageType === 'R') {
       localEventManager.queueLocalEvent(
-        new HospitalRequestUpdateLocalEvent(
-          this.eventId,
-          now,
-          this.casuMessagePayload.proximity
-        )
+        new HospitalRequestUpdateLocalEvent(this.eventId, now, this.casuMessagePayload.proximity)
       );
-    } else if (this.casuMessagePayload.resourceRequest) { // Handle METHANE resource request
+    } else if (this.casuMessagePayload.resourceRequest) {
+      // Handle METHANE resource request
       const dispatchEvent = new ResourceRequestResolutionLocalEvent(
         this.eventId,
         now,
@@ -428,7 +425,6 @@ export class CasuMessageAction extends RadioDrivenAction {
       );
       localEventManager.queueLocalEvent(dispatchEvent);
     }
-  
   }
 
   protected cancelInternal(state: MainSimulationState): void {
@@ -958,11 +954,11 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event GetInformationAction');
+    this.logger.info('start event ArrivalAnnoucementAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event GetInformationAction');
+    this.logger.info('end event ArrivalAnnoucementAction');
     const so = state.getInternalStateObject();
 
     localEventManager.queueLocalEvent(
