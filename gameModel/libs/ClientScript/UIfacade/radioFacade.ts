@@ -1,8 +1,15 @@
+import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
 import { ActionType } from '../game/common/actionType';
 import { RadioMessage } from '../game/common/radioMessage';
+import {
+  getOngoingActions,
+  getOngoingActionsForActor,
+} from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { setInterfaceState } from '../gameInterface/interfaceState';
+import { canCancelOnGoingAction, canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { getAvailableActions } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
 /**
@@ -133,4 +140,59 @@ export function getUnreadNotificationsCount(): number {
     getNotifications(Context.interfaceState.state.currentActorUid).length -
     (+readMsgsProperties[actorChannelName] || 0)
   );
+}
+
+export function getOngoingRadioMessagesForActorOnChannel(
+  actorUid: number,
+  channel: ActionType
+): RadioDrivenAction[] {
+  const rm: ActionBase[] = getOngoingActionsForActor(getCurrentState(), actorUid).filter(
+    a => a instanceof RadioDrivenAction && (a as RadioDrivenAction).getChannel() === channel
+  );
+  return rm as RadioDrivenAction[];
+}
+
+export function getOngoingRadioMessagesOnChannel(channel: ActionType): RadioDrivenAction[] {
+  const rm: ActionBase[] = getOngoingActions(getCurrentState()).filter(
+    a => a instanceof RadioDrivenAction && (a as RadioDrivenAction).getChannel() === channel
+  );
+  return rm as RadioDrivenAction[];
+}
+
+export function getOngoingRadioMessagesOnChannelAsRadioMessages(
+  channel: ActionType
+): RadioMessage[] {
+  return getOngoingRadioMessagesOnChannel(channel).map(rm => ({
+    recipientId: rm.getRecipient(),
+    timeStamp: getCurrentState().getSimTime(),
+    emitter: rm.getEmitter(),
+    message: rm.getMessage(),
+    uid: rm.getEventId(),
+    channel: rm.getChannel(),
+    isRadioMessage: true,
+    pending: true,
+  }));
+}
+
+export function isChannelBusy(channel: ActionType): boolean {
+  if (
+    getOngoingRadioMessagesForActorOnChannel(Context.interfaceState.state.currentActorUid, channel)
+      .length > 0
+  ) {
+    return !canCancelOnGoingAction();
+  }
+  if (getOngoingRadioMessagesOnChannel(channel).length > 0) {
+    return true;
+  }
+  return false;
+}
+
+export function isChannelNewActivityDisabled(
+  currentActorUid: number,
+  channel: ActionType
+): boolean {
+  if (isChannelBusy(channel)) return true;
+  if (canPlanAction()) return false;
+  const action = getAvailableActions(currentActorUid, channel);
+  return !isPlannedAction(action[0].Uid);
 }

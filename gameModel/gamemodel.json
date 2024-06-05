@@ -3913,6 +3913,7 @@
         },
         "name" : "mainSim-interface",
         "properties" : {
+          "" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"},\"FR\":{\"status\":\"\",\"translation\":\"\",\"lang\":\"FR\"}},\"version\":0}",
           "actions" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actions\"},\"FR\":{\"status\":\"\",\"translation\":\"actions\",\"lang\":\"FR\"}},\"version\":0}",
           "actor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"actor\"},\"FR\":{\"status\":\"\",\"translation\":\"acteur\",\"lang\":\"FR\"}},\"version\":0}",
           "admin-mode" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"admin mode\"},\"FR\":{\"status\":\"\",\"translation\":\"mode admin\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3922,8 +3923,10 @@
           "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent succeffully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-placeholder" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE message here\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message METHANE\",\"lang\":\"FR\"}},\"version\":0}",
+          "msg-now" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"now\"},\"FR\":{\"status\":\"\",\"translation\":\"maintenant\",\"lang\":\"FR\"}},\"version\":0}",
           "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
           "no-notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no notification\"},\"FR\":{\"status\":\"\",\"translation\":\"aucune notification\",\"lang\":\"FR\"}},\"version\":0}",
+          "notification-concurrent-stop" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your action is rejected as it conflicts with the action executed by another actor.\"},\"FR\":{\"status\":\"\",\"translation\":\"votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.\",\"lang\":\"FR\"}},\"version\":0}",
           "notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"notifications\"},\"FR\":{\"status\":\"\",\"translation\":\"notifications\",\"lang\":\"FR\"}},\"version\":0}",
           "press-start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"press start to launch the game\"},\"FR\":{\"status\":\"\",\"translation\":\"apppuyez sur \\\"démarrer\\\" pour lancer la simulation\",\"lang\":\"FR\"}},\"version\":0}",
           "radio" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio\"},\"FR\":{\"status\":\"\",\"translation\":\"radio\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4256,6 +4259,7 @@
           "location-pma-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aMP\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
           "location-regress" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"regress\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "location-remote" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"remotely\"},\"FR\":{\"status\":\"\",\"translation\":\"à distance\",\"lang\":\"FR\"}},\"version\":0}",
+          "missinglocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"missing {0}, resource {1} has no valid destination\"},\"FR\":{\"status\":\"\",\"translation\":\"pas de {0}, la ressource {1} n'a pas de destination\",\"lang\":\"FR\"}},\"version\":0}",
           "sourcelocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"lieu\",\"lang\":\"FR\"}},\"version\":0}",
           "targetlocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"target Location\"},\"FR\":{\"status\":\"\",\"translation\":\"destination\",\"lang\":\"FR\"}},\"version\":0}"
         },
@@ -4956,6 +4960,66 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:243643:uVzXjp"
+      },
+      "editorTag" : "",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "TeamScope",
+        "comments" : "Toggle between godView and roleView",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:243648:yuIwVm",
+          "value" : true
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:243649:3W4cyH",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:243649:3W4cyH::EN",
+              "status" : "",
+              "translation" : "godView"
+            }
+          }
+        },
+        "name" : "godView",
+        "refId" : "BooleanDescriptor:243647:JqP12B",
+        "scopeType" : "TeamScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:243644:ddNuod",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:243644:ddNuod::EN",
+            "status" : "",
+            "translation" : "trainer"
+          }
+        }
+      },
+      "name" : "trainer_Zix3IY",
+      "refId" : "ListDescriptor:243642:ynaItH",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -5356,6 +5420,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/actionStateAccess",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:151778:6lD65U",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/hospitalState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5621,6 +5694,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:102553:VklJzk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameInterface/interfaceConfiguration",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:243772:Y0yzcW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6452,13 +6534,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_05-06-24_MIM_sprint12-UI-jess (readyToWork)",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,

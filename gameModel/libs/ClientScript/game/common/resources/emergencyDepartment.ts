@@ -196,7 +196,6 @@ export function resolveResourceRequest(
           n,
           c.name
         );
-        wlog('MOB EVENT *********** ', evt);
         localEventManager.queueLocalEvent(evt);
       }
     });

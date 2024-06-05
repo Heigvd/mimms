@@ -563,7 +563,7 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "min-width" : "0px",
+                          "minWidth" : "0px",
                           "width" : "30px"
                         }
                       },
@@ -572,8 +572,8 @@
                       "props" : {
                         "className" : "methane-input-label",
                         "layoutStyle" : {
-                          "padding-bottom" : "0px",
-                          "padding-top" : "0px",
+                          "paddingBottom" : "0px",
+                          "paddingTop" : "0px",
                           "width" : "84px"
                         },
                         "onCancel" : { },
@@ -592,7 +592,7 @@
                       "width" : "120px"
                     },
                     "style" : {
-                      "flex-direction" : "row"
+                      "flexDirection" : "row"
                     }
                   },
                   "type" : "FlexList"
@@ -606,11 +606,11 @@
                 "itemKey" : "type",
                 "layout" : { },
                 "layoutStyle" : {
-                  "margin-top" : "7px"
+                  "marginTop" : "7px"
                 },
                 "style" : {
-                  "flex-wrap" : "wrap",
-                  "max-width" : "700px"
+                  "flexWrap" : "wrap",
+                  "maxWidth" : "700px"
                 }
               },
               "type" : "For each"

@@ -185,7 +185,7 @@
 	height: auto;
 	background-color: /*var(--primary_10) hotpink;
 	border-radius: 15px;
-	
+
 }
 */
 .radio-message-others {
@@ -283,9 +283,8 @@
 }
 
 .pending.tri-left.right-top:after{
-	border-color: var(--grey_10) transparent transparent transparent;
+  border-color: var(--grey_10) transparent transparent transparent;
 }
-
 
 /* is it used???
 .chevron-icon {

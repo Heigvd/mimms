@@ -302,6 +302,12 @@
           "name" : "mainSim_multiTimeFwd",
           "scenaristPage" : false,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "56",
+          "name" : "mainSim_setup",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
       } ],

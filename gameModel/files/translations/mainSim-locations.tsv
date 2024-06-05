@@ -14,3 +14,4 @@ location-access	Access	Accès
 location-regress	Regress	Evacuation
 sourceLocation	Location	Lieu
 targetLocation	Target Location	Destination
+missingLocation	Missing {0}, resource {1} has no valid destination	Pas de {0}, la ressource {1} n'a pas de destination
