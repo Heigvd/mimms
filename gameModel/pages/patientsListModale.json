@@ -271,7 +271,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'N/A'",
+                                  "content" : "  (Context.currentPatient.state.humanBody.state.vitals.respiration.PaCO2).toFixed(2)",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -432,7 +432,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'Tension arté'",
+                                  "content" : "  let fakevar= 666;\n  'TA'",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -445,7 +445,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\n  'N/A'",
+                                  "content" : "(Context.currentPatient.state.humanBody.state.vitals.cardio.MAP).toFixed(2)",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -455,7 +455,7 @@
                               "justifyContent" : "space-between"
                             },
                             "layoutStyle" : { },
-                            "name" : "FrequCard",
+                            "name" : "TA",
                             "style" : { }
                           },
                           "type" : "FlexList"
