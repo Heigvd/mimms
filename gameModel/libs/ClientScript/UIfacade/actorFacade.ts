@@ -2,6 +2,7 @@ import { Actor, InterventionRole } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
+import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 
 /**
@@ -11,6 +12,9 @@ export function getAllActors(): Readonly<Actor[]> {
   return getCurrentState().getAllActors();
 }
 
+/**
+ * @returns All actors available to the current player
+ */
 export function getCurrentPlayerActors(): Readonly<Actor[]> {
   const actors = getCurrentState().getAllActors();
   const currentPlayerRoles = getPlayerRolesSelf();
@@ -20,6 +24,15 @@ export function getCurrentPlayerActors(): Readonly<Actor[]> {
   );
 
   return actors.filter(actor => currentPlayerRolesKeys.includes(actor.Role));
+}
+
+/**
+ * @returns All actors visible to the current player (in the timeline)
+ */
+export function getVisibleActorsInTimelineForCurrentPlayer() {
+  return getInterfaceConfiguration().timeline.viewNonPlayerActors
+    ? getAllActors().filter(actor => actor.Role != 'CASU')
+    : getCurrentPlayerActors();
 }
 
 /**

@@ -968,7 +968,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getAllActors, getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeline.viewNonPlayerActors ? getAllActors().filter((actor) => actor.Role != 'CASU') : getCurrentPlayerActors()",
+                                      "content" : "import { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  getVisibleActorsInTimelineForCurrentPlayer();",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",

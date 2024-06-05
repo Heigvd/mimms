@@ -126,15 +126,8 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
 }
 
 export function triggerInterfaceStateUpdate(state: InterfaceState) {
-  const newState: InterfaceState = Helpers.cloneDeep(state);
-
-  const currentActorUid = state.currentActorUid;
-  if (currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
-    newState.currentActorUid = getCurrentPlayerActors()[0].Uid;
-  }
-
-  if (JSON.stringify(newState) !== JSON.stringify(state)) {
-    Context.interfaceState.setState(newState);
+  if (state.currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
+    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
   }
 }
 
