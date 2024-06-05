@@ -10,6 +10,7 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
 import {
+  getAfflictedBlocksDetailsOfHuman,
   getAfflictedBlocksOfHuman,
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
@@ -44,6 +45,17 @@ export function keepStateAlive({ state, setState }: FullState) {
 // -------------------------------------------------------------------------------------------------
 // human body
 // -------------------------------------------------------------------------------------------------
+
+export function getAfflictedBlocksDetails(id: string): string[] {
+  const human = getPatient(id)!.humanBody;
+  const health: HumanHealth = {
+    pathologies: human.revivedPathologies!,
+    effects: human.effects!,
+  };
+  const currentTime = getCurrentState().getSimTime();
+
+  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, true);
+}
 
 function getAfflictedBlocks(id: string): string[] {
   const human = getPatient(id)!.humanBody;

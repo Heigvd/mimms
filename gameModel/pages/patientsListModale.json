@@ -606,22 +606,68 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n  let fakevar = 666;\n\t`${getTranslation('mainSim-interface', 'actions')}`",
+                              "content" : "\"<p>Patient Infos<br></p>\"",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.block.data;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "block-details",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "patientConsole",
+                                    "layoutStyle" : {
+                                      "border" : "1px solid grey"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "",
+                                "exposeAs" : "block",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getAfflictedBlocksDetails } from \"./UIfacade/patientFacade\";\ngetAfflictedBlocksDetails(Context.currentPatient.state.patientId).map((data, i) => ({\n\tid: i, \n\tdata: data\n}));",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "",
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Patient Infos<br></p>\"",
-                              "language" : "TypeScript"
+                            "name" : "block details",
+                            "style" : {
+                              "overflow" : "auto"
                             }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         } ],
                         "className" : "noPadding noMargin",
                         "layout" : {
