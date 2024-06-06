@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  }\n  '...';",
                   "language" : "TypeScript"
                 }
               },
