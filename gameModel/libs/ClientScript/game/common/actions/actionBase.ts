@@ -51,10 +51,13 @@ import {
 import { InterventionRole } from '../actors/actor';
 import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
+import { hospitalInfo } from '../../../gameInterface/mock_data';
+import { getCurrentState } from '../../mainSimulationLogic';
 import { computeTravelTime, getHospitalsByProximity } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
 import { getResourcesForEvacSquad } from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
+import { HospitalDefinition } from '../evacuation/hospitalType';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -200,6 +203,42 @@ export abstract class StartEndAction extends ActionBase {
   }
 }
 
+export abstract class RadioDrivenAction extends StartEndAction {
+  public constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  public getEventId(): GlobalEventId {
+    return this.eventId;
+  }
+
+  public abstract getChannel(): ActionType;
+
+  public abstract getMessage(): string;
+
+  public abstract getEmitter(): string;
+
+  public abstract getRecipient(): number;
+}
+
 export class GetInformationAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
@@ -278,7 +317,11 @@ export class OnTheRoadAction extends StartEndAction {
   }
 }
 
-export class CasuMessageAction extends StartEndAction {
+export class CasuMessageAction extends RadioDrivenAction {
+  hospitalRequestPayload: HospitalRequestPayload | undefined;
+
+  hospitals: HospitalDefinition[] | undefined;
+
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -290,6 +333,13 @@ export class CasuMessageAction extends StartEndAction {
     private casuMessagePayload: CasuMessagePayload
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    if (this.casuMessagePayload.messageType === 'R') {
+      this.hospitalRequestPayload = this.casuMessagePayload;
+      // Hardcoded, hospital data should be retrieve from scenarist inputs
+      this.hospitals = hospitalInfo.filter(
+        h => this.hospitalRequestPayload!.proximity!.valueOf() >= h.proximity
+      );
+    }
   }
 
   private computeCasuMessage(message: MethaneMessagePayload): string {
@@ -348,55 +398,32 @@ export class CasuMessageAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event CasuMessageAction');
     const now = state.getSimTime();
-    // TODO filter when we get a full METHANE message
 
-    // Handle hospital information request
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        now,
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
     if (this.casuMessagePayload.messageType === 'R') {
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          'CASU',
-          this.formatHospitalResponse(this.casuMessagePayload),
-          ActionType.CASU_RADIO,
-          true,
-          true
-        )
+        new HospitalRequestUpdateLocalEvent(this.eventId, now, this.casuMessagePayload.proximity)
       );
-
-      localEventManager.queueLocalEvent(
-        new HospitalRequestUpdateLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.casuMessagePayload.proximity
-        )
-      );
-    } else {
-      const methaneMessagePayload = this.casuMessagePayload;
-      // Handle METHANE message
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          state.getActorById(this.ownerId)?.FullName || '',
-          this.computeCasuMessage(methaneMessagePayload),
-          ActionType.CASU_RADIO,
-          true,
-          true
-        )
-      );
+    } else if (this.casuMessagePayload.resourceRequest) {
       // Handle METHANE resource request
-      if (methaneMessagePayload.resourceRequest) {
-        const dispatchEvent = new ResourceRequestResolutionLocalEvent(
-          this.eventId,
-          now,
-          state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
-          this.casuMessagePayload
-        );
-        localEventManager.queueLocalEvent(dispatchEvent);
-      }
+      const dispatchEvent = new ResourceRequestResolutionLocalEvent(
+        this.eventId,
+        now,
+        state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
+        this.casuMessagePayload
+      );
+      localEventManager.queueLocalEvent(dispatchEvent);
     }
   }
 
@@ -406,6 +433,27 @@ export class CasuMessageAction extends StartEndAction {
 
   public override getTitle(): string {
     return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+  }
+
+  public getChannel(): ActionType {
+    return ActionType.CASU_RADIO;
+  }
+
+  public getMessage(): string {
+    if (this.casuMessagePayload.messageType === 'R') {
+      return this.formatHospitalResponse(this.casuMessagePayload);
+    } else {
+      return this.computeCasuMessage(this.casuMessagePayload);
+    }
+  }
+
+  public getEmitter(): string {
+    if (this.casuMessagePayload.messageType === 'R') return 'CASU';
+    else return getCurrentState().getActorById(this.ownerId)?.FullName || '';
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 
@@ -817,7 +865,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 }
 
-export class SendRadioMessageAction extends StartEndAction {
+export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -856,6 +904,26 @@ export class SendRadioMessageAction extends StartEndAction {
   protected cancelInternal(state: MainSimulationState): void {
     return;
   }
+
+  public getRadioMessagePayload(): RadioMessagePayload {
+    return this.radioMessagePayload;
+  }
+
+  public getChannel(): ActionType {
+    return this.radioMessagePayload.channel;
+  }
+
+  public getMessage(): string {
+    return this.radioMessagePayload.message;
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.radioMessagePayload.actorId)?.FullName || '';
+  }
+
+  public getRecipient(): number {
+    return this.radioMessagePayload.actorId;
+  }
 }
 
 export class ArrivalAnnoucementAction extends StartEndAction {
@@ -886,11 +954,11 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event GetInformationAction');
+    this.logger.info('start event ArrivalAnnoucementAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event GetInformationAction');
+    this.logger.info('end event ArrivalAnnoucementAction');
     const so = state.getInternalStateObject();
 
     localEventManager.queueLocalEvent(

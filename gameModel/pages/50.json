@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n getNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  \"...\";",
                   "language" : "TypeScript"
                 }
               },
@@ -38,11 +38,19 @@
                 "language" : "typescript"
               }
             }, {
-              "applyOn" : "Inside",
+              "applyOn" : "Outside",
               "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending;",
                 "language" : "typescript"
               }
             } ],
@@ -64,7 +72,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages();",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.ACTORS_RADIO));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
@@ -144,6 +152,11 @@
                     "language" : "typescript"
                   }
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",

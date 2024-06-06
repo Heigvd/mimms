@@ -4,6 +4,8 @@ import {
   SelectionFixedMapEntityTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionType } from '../game/common/actionType';
+import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
+import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapSelect } from '../gameMap/main';
 import {
   cancelAction,
@@ -43,6 +45,24 @@ export function canPlanAction(): boolean {
   }
 
   return true;
+}
+
+/**
+ * Check if player is owner of the action and can thus cancel it
+ */
+export function canCancelOnGoingAction() {
+  const currentTime = getSimTime();
+  const actorUid = Context.interfaceState.state.currentActorUid;
+  const actions = getOngoingActionsForActor(getCurrentState(), actorUid);
+
+  for (const action of actions!) {
+    // Is a future action planned ?
+    if (action.startTime === currentTime) return true;
+    // Is a previous action finished ?
+    if (action.startTime + action.duration() > currentTime) return true;
+  }
+
+  return false;
 }
 
 /**

@@ -243,13 +243,15 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "children" : [ ],
-                        "layout" : { },
-                        "layoutClassName" : "listTag-container",
                         "layoutStyle" : { },
-                        "style" : { }
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\nimport { getDivForCategory } from \"./UIfacade/patientFacade\";\ngetDivForCategory(getPatientId()!);",
+                          "language" : "TypeScript"
+                        }
                       },
-                      "type" : "FlexList"
+                      "type" : "Text"
                     } ],
                     "className" : "noPadding",
                     "hideIf" : {
@@ -1078,7 +1080,7 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO);\nactions.length > 0 && isPlannedAction(actions[0].Uid);",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
                     "language" : "typescript"
                   }
                 } ],

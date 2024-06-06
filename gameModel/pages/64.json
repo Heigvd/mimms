@@ -74,7 +74,7 @@
                 },
                 "itemKey" : "uid",
                 "layout" : {
-                  "flexDirection" : "column"
+                  "flexDirection" : "column-reverse"
                 },
                 "layoutClassName" : "",
                 "layoutStyle" : {

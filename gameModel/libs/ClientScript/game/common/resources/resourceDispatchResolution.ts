@@ -3,13 +3,14 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
 import { isHuman, ResourceType } from './resourceType';
+import { ResourceContainerType } from './resourceContainer';
 
 /**
  * Resolves which location new resources should be sent to
  * @params state
  * @returns location
  */
-export default function resourceArrivalResolution(
+export function resourceArrivalResolution(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): LOCATION_ENUM {
@@ -34,6 +35,20 @@ export default function resourceArrivalResolution(
   }
 
   return LOCATION_ENUM.meetingPoint;
+}
+
+/**
+ * Determines if an ambulance or helicopter container can arrive on site
+ */
+export function resourceContainerCanArrive(
+  state: Readonly<MainSimulationState>,
+  resourceType: ResourceContainerType
+): boolean {
+  const so = state.getInternalStateObject();
+  if (resourceType === 'Ambulance') return so.flags.AMBULANCE_PARK_BUILT || false;
+  if (resourceType === 'Helicopter') return so.flags.HELICOPTER_PARK_BUILT || false;
+
+  return true; // all other resource container types can arrive
 }
 
 /**

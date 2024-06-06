@@ -3,12 +3,14 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   Categorization,
   getBackgroundColorByCategoryId,
+  getCategoryById,
   PreTriageResult,
 } from '../game/pretri/triage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
 import {
+  getAfflictedBlocksDetailsOfHuman,
   getAfflictedBlocksOfHuman,
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
@@ -44,6 +46,17 @@ export function keepStateAlive({ state, setState }: FullState) {
 // human body
 // -------------------------------------------------------------------------------------------------
 
+export function getAfflictedBlocksDetails(id: string): string[] {
+  const human = getPatient(id)!.humanBody;
+  const health: HumanHealth = {
+    pathologies: human.revivedPathologies!,
+    effects: human.effects!,
+  };
+  const currentTime = getCurrentState().getSimTime();
+
+  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, true);
+}
+
 function getAfflictedBlocks(id: string): string[] {
   const human = getPatient(id)!.humanBody;
   const health: HumanHealth = {
@@ -64,6 +77,16 @@ export function getLocalizedAffictedBlocks(id: string) {
 export function getHumanVisualInfos(id: string) {
   const human = getHumanAndCategory(id);
   return getHumanVisualInfosOfHuman(human);
+}
+
+export function getDivForCategory(patientId: string): string {
+  const patient = getPatient(patientId)!;
+  const categoryId = patient.preTriageResult?.categoryId;
+  const category = categoryId != undefined ? getCategoryById(categoryId) : undefined;
+
+  return `<div class='listTag-container' style='color: ${
+    category ? category.color : 'black'
+  }; background-color: ${category ? category.bgColor : 'thistle'}'/>`;
 }
 
 export function getCategoryColor(patientId: string): string {
