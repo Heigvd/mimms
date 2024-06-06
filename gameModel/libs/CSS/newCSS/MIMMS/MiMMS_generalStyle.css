@@ -40,7 +40,18 @@
   --secondary_100: #110F1E;
   
 /* color for hurt bodyParts*/
-  --orange_100: #FCD1BF;
+  --orange_100: #fee5be;
+
+/* yellows for notifications */
+  --yellow_10: #fee5be ;
+  --yellow_base: #FBB13C;
+  
+/*shadows on buttons */
+  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+  --buttonShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+/* used for modals and fixedMapEntities */
+  --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 

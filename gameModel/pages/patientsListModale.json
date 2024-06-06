@@ -36,6 +36,11 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -79,11 +84,12 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "patientLine",
+                        "className" : "",
                         "layout" : {
                           "alignItems" : "center",
                           "justifyContent" : "space-between"
                         },
+                        "layoutClassName" : "patientEvenOddList-container patientLine-container",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -141,12 +147,15 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "name" : "ID",
+                            "layoutStyle" : {
+                              "stroke" : "#43494C",
+                              "strokeWidth" : "1"
+                            },
+                            "name" : "category",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "String((Context.currentPatient.state.patientId))",
+                              "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
                               "language" : "TypeScript"
                             }
                           },
@@ -154,11 +163,11 @@
                         }, {
                           "props" : {
                             "layoutStyle" : { },
-                            "name" : "category",
+                            "name" : "ID",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
+                              "content" : "String((Context.currentPatient.state.patientId))",
                               "language" : "TypeScript"
                             }
                           },
@@ -601,17 +610,6 @@
                     }, {
                       "props" : {
                         "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Patient Infos<br></p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
