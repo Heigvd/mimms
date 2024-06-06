@@ -40,7 +40,6 @@ import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common
 import {
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
-  CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
@@ -526,10 +525,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'evacuate-feedback',
     'evacuate-task-started',
     'evacuate-task-abort',
-    true,
-    undefined,
-    undefined,
-    ['EVASAN']
+    true
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
