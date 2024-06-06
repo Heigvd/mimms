@@ -23,7 +23,7 @@
           "language" : "typescript"
         },
         "layoutStyle" : { },
-        "name" : "allocate ressources",
+        "name" : "resources management",
         "style" : { }
       },
       "type" : "PageLoader"

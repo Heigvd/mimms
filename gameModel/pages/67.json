@@ -39,7 +39,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const k = getStateKeyForResource();\nContext.interfaceState.state.resources[k].currentLocation || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentLocation || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -80,7 +80,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\ngetSourceTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation);",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\nconst key = getStateKeyForResource();\n\ngetSourceTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources[key].currentLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -179,7 +179,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const k = getStateKeyForResource();\nContext.interfaceState.state.resources[k][Context.resourceType.enum] || '';",
+                          "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const key = getStateKeyForResource();\nContext.interfaceState.state.resources[key][Context.resourceType.enum] || '';",
                           "language" : "TypeScript"
                         },
                         "style" : {
@@ -203,7 +203,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
+                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources[key].currentLocation;\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
                           "language" : "TypeScript"
                         }
                       },
@@ -306,7 +306,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const k = getStateKeyForResource();\nContext.interfaceState.state.resources[k].targetLocation || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].targetLocation || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -340,7 +340,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation);",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nimport { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\n  const key = getStateKeyForResource();\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources[key].targetLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -360,7 +360,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const k = getStateKeyForResource();\nContext.interfaceState.state.resources[k].targetTaskId || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].targetTaskId || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -386,13 +386,13 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n\nconst key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n  \n  const key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
               "language" : "typescript"
             },
             "hideIf" : {
