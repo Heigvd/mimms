@@ -3,6 +3,7 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getResourcesForLocationTaskAndType } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { getSelectedActorLocation } from '../UIfacade/actorFacade';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -30,10 +31,10 @@ export function countAvailableResourcesToAllocate(
 /**
  * Only use this method inside the resource allocation interface
  */
-export function updateResourceValues(interfaceKey: string, stateKey: string): void {
+export function updateResourceValues(stateKey: string, value: string): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources[paramKey][stateKey] = Context[interfaceKey];
+  newState.resources[paramKey][stateKey] = value;
   Context.interfaceState.setState(newState);
 }
 
@@ -59,4 +60,18 @@ export function getStateKeyForResource(): string {
     return 'allocateResourcesRadio';
   }
   return '';
+}
+
+/**
+ * Hack to get the actor current location when dealing with location panel else the selected location
+ */
+// TODO better ! Absolutely awful but working
+export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined {
+  const panel = Context.interfaceState.state.selectedPanel;
+  if (panel === SelectedPanel.resources) {
+    return getSelectedActorLocation() || LOCATION_ENUM.meetingPoint;
+  }
+
+  const paramKey = getStateKeyForResource();
+  return Context.interfaceState.state.resources[paramKey].currentLocation;
 }
