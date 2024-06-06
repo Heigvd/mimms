@@ -219,7 +219,7 @@
                                                       "content" : "\"<p>&nbsp;<br></p>\"",
                                                       "language" : "TypeScript"
                                                     },
-                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutClassName" : "mimms_s_squareButton ",
                                                     "layoutStyle" : { },
                                                     "localScriptEval" : {
                                                       "script" : {
@@ -266,7 +266,7 @@
                                                       "content" : "\"<p>&nbsp;<br></p>\"",
                                                       "language" : "TypeScript"
                                                     },
-                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutClassName" : "mimms_s_squareButton ",
                                                     "layoutStyle" : { },
                                                     "style" : { }
                                                   },
@@ -306,7 +306,7 @@
                                                       "content" : "\"<p>&nbsp;<br></p>\"",
                                                       "language" : "TypeScript"
                                                     },
-                                                    "layoutClassName" : " s_squareButton",
+                                                    "layoutClassName" : "mimms_s_squareButton ",
                                                     "layoutStyle" : { },
                                                     "style" : { }
                                                   },
@@ -942,7 +942,7 @@
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "icon" : "comment-medical",
+                                "icon" : "comment",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
                                   "pointerEvents" : "auto"
@@ -983,7 +983,7 @@
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "icon" : "map-marked",
+                                "icon" : "users",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
                                   "pointerEvents" : "auto"
