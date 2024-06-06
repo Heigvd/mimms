@@ -829,7 +829,7 @@
                                     },
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'location-base'; break;\n\tdefault: page = '45';\n}\npage;",
+                                      "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = '11'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = '45';\n}\npage;",
                                       "language" : "typescript"
                                     },
                                     "layoutClassName" : "interfaceMenuLoader-container",
