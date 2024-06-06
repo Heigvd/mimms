@@ -1,6 +1,8 @@
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { translationLogger } from './logger';
 
+export type knownLanguages = 'en' | 'fr';
+
 let cache: Record<string, SObjectDescriptor> = {};
 
 /**
@@ -192,4 +194,8 @@ export function updateFromAllTsv(dryrun: boolean): void {
     wlog('processing', v);
     updateCategoryFromTsv(v + '.tsv', v, dryrun);
   });
+}
+
+export function getCurrentLanguageCode(): string {
+  return I18n.currentLanguageCode;
 }

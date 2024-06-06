@@ -192,7 +192,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
           'resources',
           this.getFeedbackIfNoTargetLocation(),
           ActionType.RESOURCES_RADIO,
-          undefined,
+          true,
           true
         )
       );

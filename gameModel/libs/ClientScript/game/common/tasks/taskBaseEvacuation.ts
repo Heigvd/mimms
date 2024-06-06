@@ -14,7 +14,7 @@ import {
 import { PatientUnitTypology } from '../evacuation/hospitalType';
 import { getIdleTaskUid } from './taskLogic';
 import { Resource } from '../resources/resource';
-import resourceArrivalResolution from '../resources/resourceDispatchResolution';
+import { resourceArrivalResolution } from '../resources/resourceDispatchResolution';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------

@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n \tgetNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\n \t\tif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\n  \n  getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -45,6 +45,14 @@
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending;",
+                "language" : "typescript"
+              }
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -63,7 +71,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages();",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.EVASAN_RADIO));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
@@ -1080,7 +1088,7 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "\nimport { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
+                    "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n  const action = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\nisPlannedAction(action.Uid);",
                     "language" : "typescript"
                   }
                 } ],

@@ -524,6 +524,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
+    'evacuate-task-started',
+    'evacuate-task-abort',
     true,
     undefined,
     undefined,

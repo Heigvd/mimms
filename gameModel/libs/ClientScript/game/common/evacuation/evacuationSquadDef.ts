@@ -1,5 +1,6 @@
 import { ResourceType } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { TranslationKey } from '../baseTypes';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -67,6 +68,16 @@ export interface EvacuationSquadDefinition {
    * The number of healers needed
    */
   infoNbHealers: number;
+
+  /**
+   * Translation to designate the main vehicle
+   */
+  mainVehicleTranslation: TranslationKey;
+
+  /**
+   * Translation to indicate if there are healers
+   */
+  healerPresenceTranslation: TranslationKey;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -92,6 +103,8 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     vehicleIcon: 'ambulance',
     infoNbDrivers: 1,
     infoNbHealers: 0,
+    mainVehicleTranslation: 'by-ambulance',
+    healerPresenceTranslation: 'without-healer',
   },
 
   AmbulanceDriverHealer: {
@@ -111,6 +124,8 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     vehicleIcon: 'ambulance',
     infoNbDrivers: 1,
     infoNbHealers: 1,
+    mainVehicleTranslation: 'by-ambulance',
+    healerPresenceTranslation: 'with-healer',
   },
 
   Helicopter: {
@@ -130,6 +145,8 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     vehicleIcon: 'helicopter',
     infoNbDrivers: 1,
     infoNbHealers: 2,
+    mainVehicleTranslation: 'by-helicopter',
+    healerPresenceTranslation: 'with-healers',
   },
 };
 
