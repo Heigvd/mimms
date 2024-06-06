@@ -486,7 +486,7 @@
         "name" : "patient"
       }, {
         "@class" : "Page",
-        "id" : "56",
+        "id" : "location-base",
         "name" : "locationPage",
         "scenaristPage" : null,
         "trainerPage" : null
