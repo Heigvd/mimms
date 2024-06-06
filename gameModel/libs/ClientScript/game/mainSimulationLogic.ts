@@ -40,7 +40,6 @@ import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common
 import {
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
-  CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';

@@ -205,6 +205,9 @@ export abstract class ActionTemplateBase<
     return action == undefined || action.startTime === state.getSimTime();
   }
 
+  /**
+   * If concurrently playable by several actors returns true
+   */
   public canConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
@@ -217,7 +220,7 @@ export abstract class ActionTemplateBase<
 
   protected customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ) {
     return (
       getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
@@ -230,7 +233,7 @@ export abstract class ActionTemplateBase<
    * false if some other interaction should take place in between
    * @deprecated was used for map entities positionning
    */
-  public planActionEventOnFirstClick(): boolean{
+  public planActionEventOnFirstClick(): boolean {
     return true;
   }
 }
@@ -261,8 +264,8 @@ export abstract class StartEndTemplate<
 
   /** Default implementation : no custom conditions */
   protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
   ): boolean {
     return true;
   }
@@ -396,7 +399,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
@@ -492,6 +495,28 @@ export class SelectionFixedMapEntityTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  // Template is not available if it has already been played by another player
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return this.customCanConcurrencyWiseBePlayed(state, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof SelectionFixedMapEntityAction &&
+          a.getTemplateId() === this.Uid &&
+          a.ownerId !== actorUid
+      ).length === 0
+    );
   }
 }
 
@@ -778,7 +803,7 @@ export class SendRadioMessage extends StartEndTemplate {
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
@@ -982,7 +1007,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   // might change if multiple AL can be summoned
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
+    _actor: Readonly<Actor>
   ): boolean {
     return state.getAllActors().every(act => act.Role !== this.actorRole);
   }
@@ -1076,7 +1101,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       evacuationActionPayload: params,
     };
   }
-
 }
 
 // -------------------------------------------------------------------------------------------------
