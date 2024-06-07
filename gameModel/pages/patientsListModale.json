@@ -128,7 +128,7 @@
                 },
                 "name" : "patientList",
                 "style" : {
-                  "overflow-y" : "auto",
+                  "overflowY" : "auto",
                   "width" : "auto"
                 }
               },
@@ -592,7 +592,7 @@
                         },
                         "layoutClassName" : "noPadding noMargin",
                         "layoutStyle" : {
-                          "min-width" : "33%"
+                          "minWidth" : "33%"
                         },
                         "name" : "center (body)",
                         "style" : { }

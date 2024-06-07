@@ -73,8 +73,8 @@
         "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
-          "overflow-y" : "auto"
+          "maxHeight" : "350px",
+          "overflowY" : "auto"
         }
       },
       "type" : "For each"

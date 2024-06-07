@@ -98,7 +98,7 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding-right" : "5px"
+                          "paddingRight" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -151,7 +151,7 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding-right" : "5px"
+                          "paddingRight" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -204,7 +204,7 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding-right" : "5px"
+                          "paddingRight" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -257,7 +257,7 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding-right" : "5px"
+                          "paddingRight" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -310,7 +310,7 @@
                         },
                         "style" : {
                           "margin" : "0",
-                          "padding-right" : "5px"
+                          "paddingRight" : "5px"
                         },
                         "text" : {
                           "@class" : "Script",
