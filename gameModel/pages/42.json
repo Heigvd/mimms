@@ -114,7 +114,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding noMargin",
                 "layoutStyle" : {
-                  "maxWidth" : "25vw"
+                  "max-width" : "25vw"
                 },
                 "name" : "methaneButtons",
                 "style" : { }
@@ -150,7 +150,7 @@
             },
             "layoutClassName" : "noPadding noMargin",
             "layoutStyle" : {
-              "maxWidth" : "25vw"
+              "max-width" : "25vw"
             },
             "name" : "buttons",
             "style" : { }
@@ -700,6 +700,11 @@
                     "language" : "typescript"
                   }
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
