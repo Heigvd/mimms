@@ -4,7 +4,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "modalTitle",
+            "className" : "mimms_h2title",
             "layoutStyle" : { },
             "name" : "modalTitle",
             "style" : {
@@ -631,6 +631,7 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "mimms_h3title",
                 "layoutClassName" : "",
                 "layoutStyle" : { },
                 "name" : "letterR",
@@ -644,33 +645,41 @@
               "type" : "Text"
             }, {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(HospitalProximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: HospitalProximity[key],\n}));\nselection;",
-                  "language" : "typescript"
-                },
-                "id" : "",
-                "layoutStyle" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.getHospitalInfoChosenProximity;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
+                "children" : [ {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : " Context.hospitalProximityEntry.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
                   },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"getHospitalInfoChosenProximity\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "script" : {
+                  "type" : "Button"
+                } ],
+                "className" : "noPadding noMargin",
+                "exposeAs" : "hospitalProximityEntry",
+                "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.getHospitalInfoChosenProximity || '';",
+                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
                   "language" : "TypeScript"
                 },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
                 "style" : { }
               },
-              "type" : "Select input"
+              "type" : "For each"
             } ],
             "hideIf" : {
               "@class" : "Script",

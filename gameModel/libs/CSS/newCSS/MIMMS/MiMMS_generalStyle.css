@@ -104,3 +104,9 @@
   padding-left: 0px;
 }
 
+.mimms_h2title{
+  margin: 10px 0px 5px 0px;
+  font-weight: var(--boldWeight);
+  color: var(--grey_90);
+  font-family: var(--mainFont);
+}

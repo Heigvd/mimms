@@ -89,7 +89,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h2title",
+            "className" : "mimms_h2title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {

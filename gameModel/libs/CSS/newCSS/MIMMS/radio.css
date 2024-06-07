@@ -61,7 +61,8 @@
 .messageArea-container {
   border: 1px solid var(--grey_30);
   border-radius: 0px var(--XXS_borderRadius) var(--XXS_borderRadius) var(--XXS_borderRadius);
-  height: 12rem;
+  height: 12em;
+  min-height: 10em;
 
   background-color: white;
   overflow-y: auto;
