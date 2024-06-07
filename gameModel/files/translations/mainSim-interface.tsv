@@ -34,3 +34,4 @@ game-will-proceed	The game will proceed once all players are ready/have pressed 
 player-unready	Ready	Prêt
 player-ready	Unready	En jeu
 msg-now	Now	Maintenant
+notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.

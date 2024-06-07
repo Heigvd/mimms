@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1717765820471,
+  "createdTime" : 1717767734935,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3928,6 +3928,7 @@
           "msg-now" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"now\"},\"FR\":{\"status\":\"\",\"translation\":\"maintenant\",\"lang\":\"FR\"}},\"version\":0}",
           "next-phase" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"next phase\"},\"FR\":{\"status\":\"\",\"translation\":\"prochaine phase\",\"lang\":\"FR\"}},\"version\":0}",
           "no-notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"no notification\"},\"FR\":{\"status\":\"\",\"translation\":\"aucune notification\",\"lang\":\"FR\"}},\"version\":0}",
+          "notification-concurrent-stop" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your action is rejected as it conflicts with the action executed by another actor.\"},\"FR\":{\"status\":\"\",\"translation\":\"votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.\",\"lang\":\"FR\"}},\"version\":0}",
           "notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"notifications\"},\"FR\":{\"status\":\"\",\"translation\":\"notifications\",\"lang\":\"FR\"}},\"version\":0}",
           "patientdetails" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient's details\"},\"FR\":{\"status\":\"\",\"translation\":\"détails patient\",\"lang\":\"FR\"}},\"version\":0}",
           "player-ready" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"unready\"},\"FR\":{\"status\":\"\",\"translation\":\"en jeu\",\"lang\":\"FR\"}},\"version\":0}",
