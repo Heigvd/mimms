@@ -53,11 +53,12 @@ import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
-import { computeTravelTime, getHospitalsByProximity } from '../evacuation/hospitalController';
+import { computeTravelTime } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
 import { getResourcesForEvacSquad } from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
-import { HospitalDefinition } from '../evacuation/hospitalType';
+import { HospitalDefinition, HospitalProximity } from '../evacuation/hospitalType';
+import { getTranslation } from '../../../tools/translation';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -376,18 +377,12 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   // TODO Add translation handling and better perhaps better formatting
-  private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = getHospitalsByProximity(message.proximity);
-
-    let casuMessage = '';
-    for (const hospital of hospitals) {
-      casuMessage += `${hospital.shortName}: \n`;
-      for (const unit of hospital.units) {
-        casuMessage += `${unit.availableCapacity}: ${unit.placeType.typology} \n`;
-      }
-      casuMessage += '\n';
-    }
-    return casuMessage;
+  private formatHospitalRequest(message: HospitalRequestPayload): string {
+    return (
+      getTranslation('mainSim-actions-tasks', 'get-hospital-information-desc') +
+      ': ' +
+      HospitalProximity[message.proximity]
+    );
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
@@ -413,7 +408,12 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
     if (this.casuMessagePayload.messageType === 'R') {
       localEventManager.queueLocalEvent(
-        new HospitalRequestUpdateLocalEvent(this.eventId, now, this.casuMessagePayload.proximity)
+        new HospitalRequestUpdateLocalEvent(
+          this.eventId,
+          now,
+          this.getRecipient(),
+          this.casuMessagePayload
+        )
       );
     } else if (this.casuMessagePayload.resourceRequest) {
       // Handle METHANE resource request
@@ -441,7 +441,7 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   public getMessage(): string {
     if (this.casuMessagePayload.messageType === 'R') {
-      return this.formatHospitalResponse(this.casuMessagePayload);
+      return this.formatHospitalRequest(this.casuMessagePayload);
     } else {
       return this.computeCasuMessage(this.casuMessagePayload);
     }

@@ -26,7 +26,7 @@ import {
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { localEventManager } from './localEventManager';
 import { entries } from '../../../tools/helper';
-import { CasuMessagePayload } from '../events/casuMessageEvent';
+import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessageEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
@@ -39,11 +39,11 @@ import {
   getUnoccupiedResources,
   sendResourcesToLocation,
 } from '../simulationState/resourceStateAccess';
-import { HospitalProximity } from '../evacuation/hospitalType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { FailedRessourceArrivalDelay } from '../constants';
 import { resourceLogger } from '../../../tools/logger';
+import { getHospitalsByProximity } from '../evacuation/hospitalController';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
 
@@ -802,13 +802,39 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
     timeStamp: SimTime,
-    readonly proximity: HospitalProximity
+    private readonly senderId: ActorId,
+    private readonly hospitalRequestPayload: HospitalRequestPayload
   ) {
     super(parentEventId, 'HospitalRequestUpdateLocalEvent', timeStamp);
   }
 
+  private formatHospitalResponse(message: HospitalRequestPayload): string {
+    const hospitals = getHospitalsByProximity(message.proximity);
+
+    let casuMessage = '';
+    for (const hospital of hospitals) {
+      casuMessage += `${hospital.shortName}: \n`;
+      for (const unit of hospital.units) {
+        casuMessage += `${unit.availableCapacity}: ${unit.placeType.typology} \n`;
+      }
+      casuMessage += '\n';
+    }
+    return casuMessage;
+  }
+
   applyStateUpdate(state: MainSimulationState): void {
-    updateHospitalProximityRequest(state, this.proximity);
+    updateHospitalProximityRequest(state, this.hospitalRequestPayload.proximity);
+    const evt = new AddRadioMessageLocalEvent(
+      this.parentEventId,
+      this.simTimeStamp,
+      'CASU',
+      this.senderId,
+      this.formatHospitalResponse(this.hospitalRequestPayload),
+      ActionType.CASU_RADIO,
+      true,
+      true
+    );
+    localEventManager.queueLocalEvent(evt);
   }
 }
 
