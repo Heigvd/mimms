@@ -362,7 +362,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'FR'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'respiratoryRate')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -412,7 +412,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'FC'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cardiacRate')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -449,7 +449,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'TA'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'bloodPressure')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -627,6 +627,18 @@
                     }, {
                       "props" : {
                         "children" : [ {
+                          "props" : {
+                            "className" : "h2title",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {

@@ -80,9 +80,7 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "messageArea-container",
-        "layoutStyle" : {
-          "height" : "23rem"
-        },
+        "layoutStyle" : { },
         "name" : "output message",
         "style" : { }
       },
