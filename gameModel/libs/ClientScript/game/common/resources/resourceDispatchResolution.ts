@@ -69,8 +69,6 @@ export function doesOrderRespectHierarchy(
     .getAllActors()
     .filter(a => a.Location !== LOCATION_ENUM.remote)
     .map(a => a.Role);
-  wlog(state.getMapLocations());
-  wlog('---------------', sourceLocation);
   const locationLeaderRoles = state
     .getMapLocations()
     .find(l => l.id === sourceLocation)!.leaderRoles;
