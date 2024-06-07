@@ -224,15 +224,6 @@ export abstract class ActionTemplateBase<
     );
     //Should be: return true;  // and overridden in subclasses as needed
   }
-
-  /**
-   * @return true if the action should be created in the timeline right away when the user clicks,
-   * false if some other interaction should take place in between
-   * @deprecated was used for map entities positionning
-   */
-  public planActionEventOnFirstClick(): boolean {
-    return true;
-  }
 }
 
 export abstract class StartEndTemplate<
