@@ -744,6 +744,11 @@
                                 "language" : "typescript"
                               }
                             } ],
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isEvacSquadEnabled } from \"./UIfacade/evacuationFacade\";\nisEvacSquadEnabled(\"AmbulanceDriver\" || \"AmbulanceDriverHealer\" || \"Helicopter\") === false;",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "alignItems" : "center",
                               "justifyContent" : "space-between"

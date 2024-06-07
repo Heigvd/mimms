@@ -428,6 +428,7 @@
       },
       "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "disableIf" : {
       "@class" : "Script",
       "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
@@ -436,8 +437,11 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "mainSimLeftPanel-container leftSubPanel-container",
-    "layoutStyle" : { },
+    "layoutClassName" : "noPadding noMargin",
+    "layoutStyle" : {
+      "paddingTop" : "15px",
+      "width" : "100%"
+    },
     "name" : "resources",
     "style" : {
       "overflow" : "auto"

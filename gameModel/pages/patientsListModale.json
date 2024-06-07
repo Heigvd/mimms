@@ -30,6 +30,23 @@
       "type" : "FlexList"
     }, {
       "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length > 0;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "noPatientAtPMA",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patients-pma')",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -105,7 +122,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
+                      "content" : "import { LOCATION_ENUM } from './game/common/simulationState/locationState';\nimport { getPatientsForLocation } from './UIfacade/patientFacade';\n    getPatientsForLocation(LOCATION_ENUM.PMA)",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "patientId",
@@ -631,10 +648,8 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
-                                    "layoutClassName" : "patientConsole",
-                                    "layoutStyle" : {
-                                      "border" : "1px solid grey"
-                                    },
+                                    "layoutClassName" : "pmaPatientInfos-container",
+                                    "layoutStyle" : { },
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
@@ -703,7 +718,9 @@
                   "width" : "70%"
                 },
                 "name" : "patientInfo",
-                "style" : { }
+                "style" : {
+                  "border" : "solid 1px pink"
+                }
               },
               "type" : "FlexList"
             } ],
@@ -722,6 +739,11 @@
           "type" : "State"
         } ],
         "className" : "noPadding noMargin",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length === 0;",
+          "language" : "typescript"
+        },
         "layout" : {
           "flexDirection" : "row"
         },

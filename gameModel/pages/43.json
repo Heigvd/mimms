@@ -942,6 +942,11 @@
                                     "language" : "typescript"
                                   }
                                 } ],
+                                "disableIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "comment",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
@@ -983,6 +988,11 @@
                                     "language" : "typescript"
                                   }
                                 } ],
+                                "disableIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "users",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
@@ -1031,11 +1041,6 @@
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeForward.hidden;",
-                                  "language" : "typescript"
-                                },
-                                "icon" : {
-                                  "@class" : "Script",
-                                  "content" : "'fast-forward';",
                                   "language" : "typescript"
                                 },
                                 "label" : {

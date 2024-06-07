@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1717713173336,
+  "createdTime" : 1717755666436,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6543,7 +6543,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_mainSim",
+  "name" : "MIMMS_07-06-24_MIM_sprint12-UI-job(readyToWork)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

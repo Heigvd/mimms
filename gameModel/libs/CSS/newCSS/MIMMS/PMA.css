@@ -51,3 +51,8 @@ font-weight: var(--boldWeight);
   border-radius: var(--XXS_borderRadius);
   margin-right: 10px;
 }
+
+/*patient infos */
+.pmaPatientInfos-container{
+  margin-bottom: 15px;
+  }

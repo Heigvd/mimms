@@ -25,6 +25,10 @@ export function getAllPatients(): Readonly<PatientState[]> {
   return getCurrentState().getAllPatients();
 }
 
+export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<PatientState[]> {
+  return getPatientsByLocation(getCurrentState(), 'FixedMapEntity', location);
+}
+
 export function getPatient(id: string): Readonly<PatientState | undefined> {
   return getAllPatients().find(patient => patient.patientId === id);
 }
@@ -86,13 +90,13 @@ export function getDivForCategory(patientId: string): string {
 
   return `<div class='listTag-container' style='color: ${
     category ? category.color : 'black'
-  }; background-color: ${category ? category.bgColor : 'thistle'}'/>`;
+  }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }
 
 export function getCategoryColor(patientId: string): string {
   const patient = getPatient(patientId)!;
   const categoryId = patient.preTriageResult?.categoryId;
-  return categoryId != undefined ? getBackgroundColorByCategoryId(categoryId) : 'thistle';
+  return categoryId != undefined ? getBackgroundColorByCategoryId(categoryId) : '#f6f7f9ff';
 }
 
 export function getCategoryCardSvg(patientId: string) {
