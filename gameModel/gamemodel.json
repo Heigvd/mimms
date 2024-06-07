@@ -6556,7 +6556,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS_07-06-24_MIM_sprint12-UI-job(readyToWork)",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
