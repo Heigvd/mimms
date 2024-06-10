@@ -158,6 +158,23 @@
               "type" : "FlexList"
             }, {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : " Context.interfaceState.state.selectedPatient != undefined;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "noPatientSelected",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patient-selected')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "children" : [ {
@@ -722,6 +739,11 @@
                   "type" : "FlexList"
                 } ],
                 "className" : "noPadding noMargin",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.selectedPatient == undefined;",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -730,9 +752,7 @@
                   "width" : "70%"
                 },
                 "name" : "patientInfo",
-                "style" : {
-                  "border" : "solid 1px pink"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             } ],

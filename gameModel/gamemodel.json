@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1717767734935,
+  "createdTime" : 1718013880623,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4051,6 +4051,7 @@
           "move-res-task-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resources have been sucessfuly assigned\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources ont été assignés avec succés\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-refused" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resources have refused your orders\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources ont refusé votre ordre\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resource\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner ressource\",\"lang\":\"FR\"}},\"version\":0}",
+          "no-patient-selected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"select a patient to know more about him\"},\"FR\":{\"status\":\"\",\"translation\":\"sélectionner un patient pour en connaître plus sur lui\",\"lang\":\"FR\"}},\"version\":0}",
           "no-patients-pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there's no patients at AMP\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a aucun patient au PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "on-the-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"on the way\"},\"FR\":{\"status\":\"\",\"translation\":\"en route\",\"lang\":\"FR\"}},\"version\":0}",
           "other-basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you ask a passerby, who is visibly agitated, to tell you what happened.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous demandez à un passant, visiblement agité, de vous raconter ce qui s'est passé.\",\"lang\":\"FR\"}},\"version\":0}",

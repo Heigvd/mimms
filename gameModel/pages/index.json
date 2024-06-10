@@ -467,15 +467,11 @@
         } ],
         "name" : "location"
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "patientsListModale",
-          "name" : "patients list",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        } ],
-        "name" : "patient"
+        "@class" : "Page",
+        "id" : "patientsListModale",
+        "name" : "patients list",
+        "scenaristPage" : null,
+        "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "67",
