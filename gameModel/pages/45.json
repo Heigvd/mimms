@@ -166,7 +166,7 @@
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : {
-                      "alignSelf" : "flex-end",
+                      "align-self" : "flex-end",
                       "padding" : "15px 0px 10px 0px"
                     },
                     "localScriptEval" : {
