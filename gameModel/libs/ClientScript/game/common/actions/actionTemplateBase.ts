@@ -497,15 +497,8 @@ export class SelectionFixedMapEntityTemplate<
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  // Template is not available if it has already been played by another player
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
-  ): boolean {
-    return this.customCanConcurrencyWiseBePlayed(state, actor.Uid);
-  }
-
-  protected override customCanConcurrencyWiseBePlayed(
+  // Has the template already been played by another player ?
+  private hasBeenPlayedByOtherPlayer(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -517,6 +510,20 @@ export class SelectionFixedMapEntityTemplate<
           a.ownerId !== actorUid
       ).length === 0
     );
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return this.hasBeenPlayedByOtherPlayer(state, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return this.hasBeenPlayedByOtherPlayer(state, actorUid);
   }
 }
 
