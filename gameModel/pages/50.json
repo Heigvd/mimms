@@ -81,7 +81,7 @@
         },
         "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
-        "name" : "outuput message",
+        "name" : "output message",
         "style" : { }
       },
       "type" : "For each"
@@ -132,7 +132,24 @@
               "type" : "String input"
             }, {
               "props" : {
-                "className" : "pink l_button",
+                "className" : "button-S button-secondaryColor",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
                 "disableIf" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",

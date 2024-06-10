@@ -503,6 +503,14 @@ export function getPriorityByCategoryId(categoryId: string): number {
   return getTagSystemCategories().categories.find(category => category.id === categoryId)!.priority;
 }
 
+export function getBackgroundColorByCategoryId(categoryId: string): string {
+  return getTagSystemCategories().categories.find(category => category.id === categoryId)!.bgColor;
+}
+
+export function getCategoryById(categoryId: string): Category<string> | undefined {
+  return getTagSystemCategories().categories.find(category => category.id === categoryId);
+}
+
 type PreTriageAction = string;
 
 export interface PreTriageData {

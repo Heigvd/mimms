@@ -1,4 +1,5 @@
 import { HospitalId } from '../baseTypes';
+import { knownLanguages } from '../../../tools/translation';
 
 export enum HospitalProximity {
   Regional = 0,
@@ -22,6 +23,7 @@ export interface HospitalDefinition {
   hospitalId: HospitalId;
   fullName: string;
   shortName: string;
+  nameAsDestination: Record<knownLanguages, string>;
   description?: string;
   proximity: HospitalProximity;
   distance: number;

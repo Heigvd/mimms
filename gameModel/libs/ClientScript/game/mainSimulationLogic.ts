@@ -239,7 +239,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2500106.549931926, 1118489.103111192],
       ]),
       BuildingStatus.selection,
-      'meetingpoint_blue'
+      'meetingpoint' /*_blue*/
     ),
     false,
     [],
@@ -523,10 +523,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
-    true,
-    undefined,
-    undefined,
-    ['EVASAN']
+    'evacuate-task-started',
+    'evacuate-task-abort',
+    true
   );
 
   const templates: Record<string, ActionTemplateBase> = {};

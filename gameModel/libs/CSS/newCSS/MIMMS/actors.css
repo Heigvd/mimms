@@ -7,7 +7,6 @@
 
 .actor {
 	height: 2em;
-  /*min-width: 4em;*/
   background-color: var(--gray_150);
 	color: var(--primary_90);
   justify-content: center;
@@ -25,8 +24,6 @@
 }
 
 .actor.current {
-	/*background: var(--primary_10);
-	box-shadow: inset 0px 0px 0px 3px var(--primary_base);*/
 	background-color: var(--primary_base);
 	color: var(--gray_WHITE);
 	

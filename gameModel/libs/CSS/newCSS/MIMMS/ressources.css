@@ -6,21 +6,35 @@
 	overflow: auto;
 }
 
+/*
 .resourcesPanel {
 	gap: 10px;
-}
+}*/
 
+
+.resourcesDropdowns{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 /********************** resources list ***********************************************/
 
 .actionResources {
 	gap: 10px;
 }
-
+/*
 .resourceTypeList {
 	gap: 10px;
-}
+}*/
 
 /********************** one resource ***********************************************/
+
+/* make the total number of a type of ressources aligned with the number inpupt box*/
+.selectableRessources{
+  display: flex;
+  align-items: center;
+}
+
+/*** check what is needed */
 
 .oneResourceType {
 	width: 55px;
@@ -54,7 +68,7 @@
 
 .resourceCounter {
 	margin: auto;
-    font-size: var(--S_text);
+	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 }
 
@@ -65,28 +79,15 @@
 
 }
 
-.squareCounter{
-	color: var(--gray_700);
-
-}
-
-.squareCounter-container{
-	position: absolute;
-	top: -0.1em;
-	right: -.2em;
-	background-color: var(--gray_WHITE);
-	color: var(--gray_500);
-	border-color: var(--gray_700);
-	z-index: 2;
-}
 
 
+/*
 .resourceTypeName-container {
 	text-align: center;
-}
+}*/
 
 /********************** choices ***********************************************/
-
+/*
 .locationChoiceInAction {
 	flex-grow: 1;
 }
@@ -94,17 +95,20 @@
 .taskChoiceInAction {
 	flex-grow: 1;
 }
+*/
 
-.chosenNumber-container  input{
-	min-width: 10px;
-	max-width: 30px;
+.evenOddList-container:nth-of-type(even){
+  background-color: var(--primary_10);
+ }
+
+
+.resourceTypeChosenNumber-container{
+  width: 2rem;
+  /*margin: 0px;
+  padding: 0px;*/
+  height: 2rem;
 }
 
-.resourceTypeChosenNumber-container input{
-	min-width: 10px;
-	max-width: 30px;
-}
-    
 /****** ressources ******/
 
 .resourcesPanel-container{

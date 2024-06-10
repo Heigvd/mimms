@@ -10,19 +10,62 @@
 }
 
 .overlay-container {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: var(--overlaysShadows);
 }
 
+/*** ARROWS ***/
 
-/*** Fixed entities (unselected) ***/
+.fixedEntities-arrow{
+ 	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid var(--grey_60);
+	margin: auto;
+	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
+}
+
+.fixedEntities-arrow.selectedFixedMapEntityArrow{
+  border-top: 20px solid var(--primary_base);
+}
+
+/*** SELECTED ***/
+
+/* selected fixed map entity - open */
+
+
+.fixedEntities-container.selectedFixedMapEntity{
+  border-radius: var(--XS_borderRadius);
+  border: solid 3px var(--primary_base);
+}
+
+.selectedFixedEntityHeader ~ mimms_h3title{
+  color: var(--primary_base);
+}
+
+.selectedFixedEntityHeader{
+  color: var(--primary_base);
+}
+
+/* selected fixed map entity - close */
+
+.closedFixedMapEntity.selectedFixedMapEntity{
+ /* border-radius: var(--XS_borderRadius);*/
+  border: solid 3px var(--primary_base);
+  background-color: var(--primary_base);
+}
+
+/*** UNSELECTED ***/
+
+/* unselected fixed map entities  - open */
 .fixedEntities-container{
 	background-color: var(--gray_WHITE);
 	border-radius: var(--XS_borderRadius);
-	border: solid 1px var(--gray_150);
+	border: solid 3px var(--grey_60);
 	margin: auto;
-	z-index: 1;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	box-shadow:var(--overlaysShadows);
 }
+
 
 .fixedEntities-container .close-button {
 	background-color: transparent;
@@ -34,14 +77,19 @@
 	color: var(--gray_700);
 }
 
-.fixedEntities-arrow {
- 	width: 0; 
-	height: 0; 
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top: 20px solid var(--gray_200);
-	margin: auto;
-	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2));
+/* unselected fixed map entity - closed */
+
+.closedFixedMapEntity{
+  border: solid 3px var(--grey_60);
+  background-color: var(--grey_60);
+  pointer-events: auto;
 }
 
-/*** Fixed entities (unselected)  ***/
+.closedFixedMapEntityTitle{
+  color: var(--grey-white);
+  font-weight: var(--boldWeight);
+  }
+/*
+.closedFixedMapEntityIcon{
+  filter: invert(100%);
+}*/

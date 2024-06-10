@@ -28,10 +28,12 @@ import {
   getHumanConsole,
   getHumanSkillLevelForAction,
   getMyInventory,
+  HumanHealth,
   Inventory,
 } from '../legacy/the_world';
 import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
 import {
+  Categorization,
   categoryToHtml,
   doAutomaticTriage,
   getCategory,
@@ -875,10 +877,20 @@ function getBlockDetails(
 export function getBlockDetail(observedBlock: string, fullDetails: boolean = false) {
   const id = getCurrentPatientId();
 
-  const human = getHuman(id);
+  const human = getHuman(id)!;
   const health = getHealth(id);
   const currentTime = getCurrentSimulationTime();
 
+  return getBlockDetailOfHuman(human, health, currentTime, observedBlock, fullDetails);
+}
+
+export function getBlockDetailOfHuman(
+  human: HumanBody,
+  health: HumanHealth,
+  currentTime: number,
+  observedBlock: string,
+  fullDetails: boolean = false
+) {
   const output: string[] = [''];
 
   if (human != null && observedBlock) {
@@ -1391,6 +1403,12 @@ function addBleedingDescription(output: string[], ho: HumanOverview): void {
 
 export function getHumanVisualInfos(): string {
   const human = getCurrentPatientBody();
+  return getHumanVisualInfosOfHuman(human);
+}
+
+export function getHumanVisualInfosOfHuman(
+  human: (HumanBody & { category: Categorization | undefined }) | undefined
+) {
   const output: string[] = [''];
   if (human != null) {
     const overview = getOverview(human);
@@ -1416,6 +1434,15 @@ export function getAfflictedBlocks(fullDetails: boolean = false): string[] {
   const health = getHealth(id);
   const currentTime = getCurrentSimulationTime();
 
+  return getAfflictedBlocksOfHuman(human as HumanBody, health, currentTime, fullDetails);
+}
+
+export function getAfflictedBlocksOfHuman(
+  human: HumanBody,
+  health: HumanHealth,
+  currentTime: number,
+  fullDetails: boolean = false
+): string[] {
   const output: Record<string, true> = {};
 
   if (human != null) {
@@ -1441,6 +1468,20 @@ export function getAfflictedBlocks(fullDetails: boolean = false): string[] {
   }
 
   return Object.keys(output);
+}
+
+export function getAfflictedBlocksDetailsOfHuman(
+  human: HumanBody,
+  health: HumanHealth,
+  currentTime: number,
+  fullDetails: boolean = false
+): string[] {
+  const blocks = getAfflictedBlocksOfHuman(human, health, currentTime, fullDetails);
+
+  const result = blocks.map(block =>
+    getBlockDetailOfHuman(human, health, currentTime, block, fullDetails)
+  );
+  return result;
 }
 
 export function getAfflictedBlocksDetails() {

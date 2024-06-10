@@ -1,0 +1,58 @@
+.modalPMA{
+  margin:  auto;
+  margin-top: 5rem;
+  width: 80rem;
+  height: 50rem;
+  z-index: 10;
+  background-color: var(--grey-white);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.constantTitle{
+font-size: var(--SM_text);
+}
+
+.constantTitle > p{
+  padding: 0px;
+  margin: 0px;
+}
+
+.constantTypeTitle{
+font-size: var(--SM_text);
+font-weight: var(--boldWeight);
+}
+
+/*** Patient list on the left ***/
+
+.patientLine-container:hover{
+  background-color: var(--primary_40);
+  color: white;
+}
+
+/*doesn't work yet*/
+.patientLine-container:active{
+  background-color: var(--primary_base);
+  color: white;
+}
+
+.patientEvenOddList-container:nth-of-type(even){
+  background-color: var(--primary_10);
+ }
+
+ .patientEvenOddList-container:nth-of-type(even):hover{
+   background-color: var(--primary_base);
+ }
+
+/* patient tag in patient's list */
+.listTag-container{
+  height: 1em;
+  width: 3.5em;
+  border: solid 1px var(--grey_50);
+  border-radius: var(--XXS_borderRadius);
+  margin-right: 10px;
+}
+
+/*patient infos */
+.pmaPatientInfos-container{
+  margin-bottom: 15px;
+  }

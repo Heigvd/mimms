@@ -4,7 +4,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "modalTitle",
+            "className" : "mimms_h2title",
             "layoutStyle" : { },
             "name" : "modalTitle",
             "style" : {
@@ -113,7 +113,9 @@
                 "className" : "noPadding noMargin",
                 "layout" : { },
                 "layoutClassName" : "noPadding noMargin",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "max-width" : "25vw"
+                },
                 "name" : "methaneButtons",
                 "style" : { }
               },
@@ -141,12 +143,15 @@
               },
               "type" : "Button"
             } ],
+            "className" : "noPadding",
             "layout" : {
               "alignItems" : "flex-start",
               "flexDirection" : "column"
             },
             "layoutClassName" : "noPadding noMargin",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "max-width" : "25vw"
+            },
             "name" : "buttons",
             "style" : { }
           },
@@ -626,6 +631,7 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "mimms_h3title",
                 "layoutClassName" : "",
                 "layoutStyle" : { },
                 "name" : "letterR",
@@ -639,32 +645,41 @@
               "type" : "Text"
             }, {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n// Filter out corresponding numeric keys\nconst selection = Object.keys(HospitalProximity).filter(k => isNaN(parseInt(k))).map((key) => ({\n\tlabel: key,\n\tvalue: HospitalProximity[key],\n}));\nselection;",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.getHospitalInfoChosenProximity;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
+                "children" : [ {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : " Context.hospitalProximityEntry.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
                   },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"getHospitalInfoChosenProximity\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "script" : {
+                  "type" : "Button"
+                } ],
+                "className" : "noPadding noMargin",
+                "exposeAs" : "hospitalProximityEntry",
+                "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.getHospitalInfoChosenProximity || '';",
+                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
                   "language" : "TypeScript"
                 },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
                 "style" : { }
               },
-              "type" : "Select input"
+              "type" : "For each"
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -684,7 +699,16 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "button-primaryColor s_button",
+                "className" : "button-secondaryColor button-S",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
                 "disableIf" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
@@ -735,7 +759,7 @@
       },
       "type" : "FlexList"
     } ],
-    "className" : "",
+    "className" : "noPadding noMargin ",
     "layout" : {
       "flexDirection" : "column"
     },

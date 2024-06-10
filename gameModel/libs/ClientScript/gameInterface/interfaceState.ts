@@ -18,6 +18,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -26,11 +27,15 @@ export interface InterfaceState {
   updatedChannelMessagesAt: number;
   channelText: {
     actors: string;
-    evasam: string;
   };
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
+      currentTaskId: TaskId | undefined;
+      targetLocation: LOCATION_ENUM | undefined;
+      targetTaskId: TaskId | undefined;
+    } & Partial<Record<ResourceType, number>>;
+    allocateResourcesRadio: {
       currentLocation: LOCATION_ENUM | undefined;
       currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
@@ -39,11 +44,18 @@ export interface InterfaceState {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   evacuation: {
-    patientId: PatientId | undefined;
-    hospitalId: HospitalId | undefined;
-    patientUnitAtHospital: PatientUnitTypology | undefined;
-    transportSquad: EvacuationSquadType | undefined;
-    doResourcesComeBack: boolean;
+    data: {
+      patientId: PatientId | undefined;
+      hospitalId: HospitalId | undefined;
+      patientUnitAtHospital: PatientUnitTypology | undefined;
+      transportSquad: EvacuationSquadType | undefined;
+      doResourcesComeBack: boolean;
+    };
+    form: {
+      showPatientChoice: boolean;
+      showDestinationChoice: boolean;
+      showVectorChoice: boolean;
+    };
   };
 }
 
@@ -73,12 +85,14 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     resources: {
       allocateResources: getEmptyAllocateResources(),
+      allocateResourcesRadio: getEmptyAllocateResourcesRadio(),
       requestedResources: getEmptyResourceRequest(),
     },
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     selectedMapObjectId: '0',
@@ -88,15 +102,11 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
-      evasam: '',
     },
   };
 }
-export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
-  const resources: Partial<Record<ResourceType, number>> = {};
-  ResourcesArray.forEach(t => {
-    resources[t] = 0;
-  });
+export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
+  const resources = getEmptyResources();
 
   return {
     currentLocation: undefined,
@@ -105,6 +115,25 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
     targetTaskId: undefined,
     ...resources,
   };
+}
+
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources = getEmptyResources();
+
+  return {
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
+  };
+}
+
+function getEmptyResources(): Partial<Record<ResourceType, number>> {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+  return resources;
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {
@@ -117,11 +146,18 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
 
 export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
   return {
-    patientId: undefined,
-    hospitalId: undefined,
-    patientUnitAtHospital: undefined,
-    transportSquad: undefined,
-    doResourcesComeBack: false,
+    data: {
+      patientId: undefined,
+      hospitalId: undefined,
+      patientUnitAtHospital: undefined,
+      transportSquad: undefined,
+      doResourcesComeBack: true,
+    },
+    form: {
+      showPatientChoice: false,
+      showDestinationChoice: false,
+      showVectorChoice: false,
+    },
   };
 }
 
