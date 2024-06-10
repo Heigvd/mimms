@@ -495,7 +495,7 @@ export class SelectionFixedMapEntityTemplate<
   }
 
   // Has the template already been played by another player ?
-  private hasBeenPlayedByOtherPlayer(
+  private hasBeenPlayedByOtherActor(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
@@ -513,14 +513,14 @@ export class SelectionFixedMapEntityTemplate<
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>
   ): boolean {
-    return this.hasBeenPlayedByOtherPlayer(state, actor.Uid);
+    return this.hasBeenPlayedByOtherActor(state, actor.Uid);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
-    return this.hasBeenPlayedByOtherPlayer(state, actorUid);
+    return this.hasBeenPlayedByOtherActor(state, actorUid);
   }
 }
 
