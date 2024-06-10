@@ -37,7 +37,7 @@ export function getBuildingsLayer(feature: any, resolution: number) {
     if (
       mapState.selectionState.featureIds.includes(feature.get(mapState.selectionState.featureKey))
     ) {
-      buildingStyle.fill!.color = '#575FCF80';
+      buildingStyle.fill!.color = '#3CA3CC80';
       buildingStyle.text!.text = String(index);
     }
 
@@ -46,7 +46,7 @@ export function getBuildingsLayer(feature: any, resolution: number) {
       mapState.selectionState.featureIds[interfaceState.selectedMapObjectId] ===
       feature.get(mapState.selectionState.featureKey)
     ) {
-      buildingStyle.fill!.color = '#575FCF';
+      buildingStyle.fill!.color = '#3CA3CC';
       buildingStyle.text!.text = String(index);
     }
   }

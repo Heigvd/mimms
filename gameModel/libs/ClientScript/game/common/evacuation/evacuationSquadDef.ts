@@ -1,5 +1,6 @@
 import { ResourceType } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { TranslationKey } from '../baseTypes';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -52,6 +53,31 @@ export interface EvacuationSquadDefinition {
    * The average speed of the vehicle. Must be given in km/h.
    */
   speed: number;
+
+  /**
+   * The vehicle icon to display
+   */
+  vehicleIcon: string;
+
+  /**
+   * The number of drivers needed
+   */
+  infoNbDrivers: number;
+
+  /**
+   * The number of healers needed
+   */
+  infoNbHealers: number;
+
+  /**
+   * Translation to designate the main vehicle
+   */
+  mainVehicleTranslation: TranslationKey;
+
+  /**
+   * Translation to indicate if there are healers
+   */
+  healerPresenceTranslation: TranslationKey;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -74,6 +100,11 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     loadingTime: 2,
     unloadingTime: 2,
     speed: 80,
+    vehicleIcon: 'ambulance',
+    infoNbDrivers: 1,
+    infoNbHealers: 0,
+    mainVehicleTranslation: 'by-ambulance',
+    healerPresenceTranslation: 'without-healer',
   },
 
   AmbulanceDriverHealer: {
@@ -90,6 +121,11 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     loadingTime: 2,
     unloadingTime: 2,
     speed: 80,
+    vehicleIcon: 'ambulance',
+    infoNbDrivers: 1,
+    infoNbHealers: 1,
+    mainVehicleTranslation: 'by-ambulance',
+    healerPresenceTranslation: 'with-healer',
   },
 
   Helicopter: {
@@ -106,6 +142,11 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     loadingTime: 2,
     unloadingTime: 2,
     speed: 225,
+    vehicleIcon: 'helicopter',
+    infoNbDrivers: 1,
+    infoNbHealers: 2,
+    mainVehicleTranslation: 'by-helicopter',
+    healerPresenceTranslation: 'with-healers',
   },
 };
 

@@ -202,6 +202,13 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
+   * @returns an array of all patients
+   */
+  public getAllPatients(): Readonly<PatientState[]> {
+    return this.internalState.patients;
+  }
+
+  /**
    * @returns An array of all radio messages
    */
   public getRadioMessages(): RadioMessage[] {

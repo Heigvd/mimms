@@ -69,3 +69,8 @@ export function isCurrentActorAtLocation(location: LOCATION_ENUM): boolean {
   const currentActorUid = Context.interfaceState.state.currentActorUid;
   return getActorsByLocation(location).some(actor => actor.Uid === currentActorUid);
 }
+
+export function getSelectedActorLocation(): LOCATION_ENUM | undefined {
+  const currentActorUid = Context.interfaceState.state.currentActorUid;
+  return getActor(currentActorUid)?.Location;
+}

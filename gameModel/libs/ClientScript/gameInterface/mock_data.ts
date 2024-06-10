@@ -19,7 +19,11 @@ export const hospitalInfo: HospitalDefinition[] = [
   {
     hospitalId: 'CH-GE-HUG',
     fullName: 'Hôpitaux universitaires de Genève',
-    shortName: 'HUGs',
+    shortName: 'HUG',
+    nameAsDestination: {
+      en: 'to HUG',
+      fr: 'aux HUG',
+    },
     proximity: HospitalProximity.Regional,
     distance: 5,
     units: [
@@ -53,6 +57,10 @@ export const hospitalInfo: HospitalDefinition[] = [
     hospitalId: 'CH-VD-CHUV',
     fullName: 'Centre hospitalier universitaire vaudois',
     shortName: 'CHUV',
+    nameAsDestination: {
+      en: 'to CHUV',
+      fr: 'au CHUV',
+    },
     proximity: HospitalProximity.National,
     distance: 50,
     units: [
@@ -80,6 +88,10 @@ export const hospitalInfo: HospitalDefinition[] = [
     hospitalId: 'CH-GE-LA_TOUR',
     fullName: 'Hôpital de La Tour à Meyrin',
     shortName: 'La Tour',
+    nameAsDestination: {
+      en: 'to La Tour',
+      fr: 'à La Tour',
+    },
     proximity: HospitalProximity.Regional,
     distance: 7,
     units: [
@@ -107,6 +119,10 @@ export const hospitalInfo: HospitalDefinition[] = [
     hospitalId: 'FR-76-SAINT-JULIEN',
     fullName: 'Centre Hospitalier Intercommunal Sud-Léman Valserine',
     shortName: 'St Julien',
+    nameAsDestination: {
+      en: 'to Saint-Julien',
+      fr: 'à Saint-Julien',
+    },
     proximity: HospitalProximity.International,
     distance: 9,
     units: [

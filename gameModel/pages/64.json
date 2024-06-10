@@ -74,7 +74,7 @@
                 },
                 "itemKey" : "uid",
                 "layout" : {
-                  "flexDirection" : "column"
+                  "flexDirection" : "column-reverse"
                 },
                 "layoutClassName" : "",
                 "layoutStyle" : {
@@ -107,28 +107,32 @@
           },
           "type" : "PlayerElse"
         } ],
-        "className" : "noPadding noMargin",
+        "className" : "",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "",
         "layoutStyle" : {
-          "overflow" : "none"
+          "overflow" : "none",
+          "width" : "100%"
         },
         "style" : { }
       },
       "type" : "If Else"
     } ],
+    "className" : "",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

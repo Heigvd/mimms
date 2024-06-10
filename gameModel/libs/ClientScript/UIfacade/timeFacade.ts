@@ -5,6 +5,7 @@ import {
   triggerTimeForwardCancel,
 } from '../game/mainSimulationLogic';
 import { setInterfaceState } from '../gameInterface/interfaceState';
+import { getTranslation } from '../tools/translation';
 
 /**
  * Triggers time forward in simulation
@@ -48,10 +49,12 @@ export function getActorsTimeForwardReadiness() {
   const tf = state.getCurrentTimeFrame();
 
   return actors.map(a => {
+    const currentStatus = tf.waitingTimeForward[a.Uid] > 0 ? 'player-ready' : 'player-unready';
+
     return {
       id: a.Uid,
       actor: a,
-      isReady: tf.waitingTimeForward[a.Uid] > 0,
+      isReady: ': ' + getTranslation('mainSim-interface', currentStatus),
     };
   });
 }

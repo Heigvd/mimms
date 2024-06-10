@@ -224,15 +224,6 @@ export abstract class ActionTemplateBase<
     );
     //Should be: return true;  // and overridden in subclasses as needed
   }
-
-  /**
-   * @return true if the action should be created in the timeline right away when the user clicks,
-   * false if some other interaction should take place in between
-   * @deprecated was used for map entities positionning
-   */
-  public planActionEventOnFirstClick(): boolean{
-    return true;
-  }
 }
 
 export abstract class StartEndTemplate<
@@ -1019,6 +1010,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly feedbackWhenStarted: TranslationKey,
+    readonly msgEvacuationAbort: TranslationKey,
     replayable = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -1058,6 +1051,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       this.message,
+      this.feedbackWhenStarted,
+      this.msgEvacuationAbort,
       ownerId,
       this.Uid,
       payload.evacuationActionPayload,
@@ -1076,7 +1071,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       evacuationActionPayload: params,
     };
   }
-
 }
 
 // -------------------------------------------------------------------------------------------------

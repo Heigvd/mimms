@@ -53,12 +53,13 @@ import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
-import { computeTravelTime } from '../evacuation/hospitalController';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
-import { getResourcesForEvacSquad } from '../evacuation/evacuationLogic';
+import { getResourcesForEvacSquad, isEvacSquadAvailable } from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { HospitalDefinition, HospitalProximity } from '../evacuation/hospitalType';
-import { getTranslation } from '../../../tools/translation';
+import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
+import { getSquadDef } from '../evacuation/evacuationSquadDef';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -1011,7 +1012,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 /**
  * Action to evacuate a patient to a hospital
  */
-export class EvacuationAction extends StartEndAction {
+export class EvacuationAction extends RadioDrivenAction {
   public readonly evacuationActionPayload: EvacuationActionPayload;
 
   constructor(
@@ -1020,6 +1021,8 @@ export class EvacuationAction extends StartEndAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
+    readonly feedbackWhenStarted: TranslationKey,
+    readonly msgEvacuationAbort: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     evacuationActionPayload: EvacuationActionPayload,
@@ -1042,48 +1045,123 @@ export class EvacuationAction extends StartEndAction {
     this.logger.info('start event EvacuationAction');
   }
 
+  private formatStartFeedbackMessage(payload: EvacuationActionPayload) {
+    const currentLanguage = getCurrentLanguageCode().toLowerCase() as knownLanguages;
+
+    const patientId: string = payload.patientId;
+    const toHospital: string = getHospitalById(payload.hospitalId).nameAsDestination[
+      currentLanguage
+    ];
+    const squadDef = getSquadDef(payload.transportSquad);
+    const byVector: string = getTranslation(
+      'mainSim-actions-tasks',
+      squadDef.mainVehicleTranslation,
+      false
+    );
+    const healerPresence: string = getTranslation(
+      'mainSim-actions-tasks',
+      squadDef.healerPresenceTranslation,
+      false
+    );
+
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+      patientId,
+      toHospital,
+      byVector,
+      healerPresence,
+    ]);
+  }
+
   protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event EvacuationAction');
 
-    const involvedResources: Resource[] = getResourcesForEvacSquad(
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    const isEnoughResources = isEvacSquadAvailable(
       state,
       this.evacuationActionPayload.transportSquad
     );
 
-    const involvedResourceIds: ResourceId[] = involvedResources.map(resource => resource.Uid);
-
-    const travelTime = computeTravelTime(
-      this.evacuationActionPayload.hospitalId,
-      this.evacuationActionPayload.transportSquad
-    );
-
-    const evacuationTask = getEvacuationTask(state);
-
-    involvedResources.forEach(res => {
+    if (!isEnoughResources) {
       localEventManager.queueLocalEvent(
-        new ResourceAllocationLocalEvent(
+        new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          res.Uid,
-          evacuationTask.Uid
+          0,
+          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          this.msgEvacuationAbort,
+          this.getChannel(),
+          true
         )
       );
-    });
+    } else {
+      const involvedResources: Resource[] = getResourcesForEvacSquad(
+        state,
+        this.evacuationActionPayload.transportSquad
+      );
 
-    evacuationTask.createSubTask(
-      this.eventId,
-      involvedResourceIds,
-      this.evacuationActionPayload.patientId,
-      this.evacuationActionPayload.hospitalId,
-      this.evacuationActionPayload.patientUnitAtHospital,
-      !!this.evacuationActionPayload.doResourcesComeBack,
-      travelTime
-    );
+      const involvedResourceIds: ResourceId[] = involvedResources.map(resource => resource.Uid);
+
+      const travelTime = computeTravelTime(
+        this.evacuationActionPayload.hospitalId,
+        this.evacuationActionPayload.transportSquad
+      );
+
+      const evacuationTask = getEvacuationTask(state);
+
+      involvedResources.forEach(res => {
+        localEventManager.queueLocalEvent(
+          new ResourceAllocationLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            res.Uid,
+            evacuationTask.Uid
+          )
+        );
+      });
+
+      evacuationTask.createSubTask(
+        this.eventId,
+        involvedResourceIds,
+        this.evacuationActionPayload.patientId,
+        this.evacuationActionPayload.hospitalId,
+        this.evacuationActionPayload.patientUnitAtHospital,
+        !!this.evacuationActionPayload.doResourcesComeBack,
+        travelTime
+      );
+    }
   }
 
   protected cancelInternal(state: MainSimulationState): void {
     // nothing done before the end of the action => nothing to cancel
     return;
+  }
+
+  public getChannel(): ActionType {
+    return ActionType.EVASAN_RADIO;
+  }
+
+  public getMessage(): string {
+    return this.formatStartFeedbackMessage(this.evacuationActionPayload);
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)?.FullName || '';
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 

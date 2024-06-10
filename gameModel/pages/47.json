@@ -38,8 +38,8 @@
                 "language" : "typescript"
               }
             }, {
-              "applyOn" : "Inside",
-              "className" : "radio-message-myself /*radio-message-casu-myself*/ tri-right right-top",
+              "applyOn" : "Outside",
+              "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
@@ -86,13 +86,14 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "noPadding noMargin messageArea-container",
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "For each"
     }, {
       "props" : {
+        "className" : "noMargin noPadding",
         "disableIf" : {
           "@class" : "Script",
           "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\nisChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid,  ActionType.CASU_RADIO);",
@@ -104,13 +105,14 @@
           "content" : "\"42\"",
           "language" : "typescript"
         },
+        "layoutClassName" : "noMargin noPadding",
         "layoutStyle" : { },
         "name" : "casuPageLoader",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "noPadding noMargin ",
     "layout" : {
       "flexDirection" : "column"
     },
@@ -119,6 +121,7 @@
       "height" : "100%",
       "width" : "100%"
     },
+    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

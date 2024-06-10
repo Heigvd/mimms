@@ -55,12 +55,11 @@
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "style" : {
-              "max-height" : "300px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "className" : "messageArea",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
@@ -71,75 +70,41 @@
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
           "overflow-y" : "auto"
         }
       },
       "type" : "For each"
     }, {
       "props" : {
-        "disableIf" : {
-          "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
-          "language" : "typescript"
-        },
+        "className" : "noPadding noMargin",
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"56\"",
+          "content" : "\"67\"",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "pageLoaderRessources",
+        "name" : "resources management",
         "style" : { }
       },
       "type" : "PageLoader"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "className" : "pink l_button",
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
-              "language" : "typescript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.RESOURCES_RADIO);\nrunActionButton(action[0]);",
-                "language" : "TypeScript"
-              }
-            },
-            "name" : "send",
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "layout" : {
-          "justifyContent" : "flex-end"
-        },
-        "layoutStyle" : { },
-        "style" : { }
-      },
-      "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "name" : "messagePanel",
+    "style" : { }
   },
   "type" : "FlexList"
 }

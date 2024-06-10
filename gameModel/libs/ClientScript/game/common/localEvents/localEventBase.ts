@@ -593,7 +593,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     public readonly amount: number,
     public readonly squadName: string
   ) {
-    super(parentId, 'RessourcesArrivalEvent', timeStamp);
+    super(parentId, 'ResourcesArrivalLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {

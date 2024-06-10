@@ -9,7 +9,7 @@ import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 // hospital
 // -------------------------------------------------------------------------------------------------
 
-function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
+export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
   return hospitalInfo.find(hospital => hospital.hospitalId === hospitalId)!;
 }
 

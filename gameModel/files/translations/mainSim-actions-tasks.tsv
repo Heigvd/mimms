@@ -82,3 +82,16 @@ get-hospital-information-desc	Ask CASU for available hospital places 	Demander �
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
 evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
+evacuate-task-started	Evacuation of patient {0} {1} {2} {3}	Évacuation du patient {0} {1} {2} {3}	
+evacuate-task-abort	The evacuation is aborted because there are not enough resources	L'évacuation est annulée parce qu'il n'y a pas assez de ressources	
+by-ambulance	By ambulance	En ambulance	
+by-helicopter	By helicopter	En hélicoptère	
+with-healer	With healer	Avec soignant	
+with-healers	With healers	Avec soignants	
+without-healer	Without healer	Sans soignant	
+patient	Patient	Patient	
+patients	Patients	Patients	
+no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA	
+no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
+place	Place	Lieu	
+vector	Vector	Vecteur	

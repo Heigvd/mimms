@@ -364,7 +364,7 @@
             "exposeAs" : "pmaDetails",
             "initialState" : {
               "@class" : "Script",
-              "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId]);",
+              "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId]);",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
