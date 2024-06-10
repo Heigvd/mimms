@@ -6,7 +6,6 @@ import {
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
-import { getAllPatients } from '../UIfacade/patientFacade';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
@@ -19,7 +18,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
-  selectedPatient: string;
+  selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -93,7 +92,7 @@ export function getInitialInterfaceState(): InterfaceState {
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
-    selectedPatient: getAllPatients()[0].patientId,
+    selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     selectedMapObjectId: '0',

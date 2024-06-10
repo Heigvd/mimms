@@ -68,7 +68,7 @@
 
 .resourceCounter {
 	margin: auto;
-  font-size: var(--S_text);
+	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 }
 

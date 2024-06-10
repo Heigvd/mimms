@@ -104,12 +104,18 @@ export function getCategoryCardSvg(patientId: string) {
   return getFlatCategoryCardSvg(bgColor, 0, 0, 64);
 }
 
+/**
+ * Get a structure compatible with currentPatientZoom.ts.
+ * <p>
+ * For the moment, we do not have a use for the category, so we can leave it undefined.
+ */
 function getHumanAndCategory(
   id: PatientId
 ): (HumanBody & { category: Categorization | undefined }) | undefined {
   const patient = getPatient(id)!;
   const human = patient.humanBody;
-  return { ...human, category: undefined /* TODO */ };
+  //
+  return { ...human, category: undefined };
 }
 
 // -------------------------------------------------------------------------------------------------
