@@ -128,7 +128,6 @@ function fetchMoveResourcesAssignTaskValues() {
     sourceTaskId: Context.interfaceState.state.resources[paramKey].currentTaskId,
     targetTaskId: Context.interfaceState.state.resources[paramKey].targetTaskId,
   };
-  wlog('******************', payload);
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
