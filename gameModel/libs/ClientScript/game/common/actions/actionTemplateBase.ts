@@ -222,10 +222,7 @@ export abstract class ActionTemplateBase<
     state: Readonly<MainSimulationState>,
     _actorUid: ActorId
   ) {
-    return (
-      getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
-    );
-    //Should be: return true;  // and overridden in subclasses as needed
+    return true;
   }
 
   /**
