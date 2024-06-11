@@ -11,7 +11,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { buildingsRef, selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();\nbuildingsRef.current.changed();",
+            "content" : "import { selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
