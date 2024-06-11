@@ -63,6 +63,7 @@ import { getSquadDef } from '../evacuation/evacuationSquadDef';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
+const SEEDID = 3000;
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
@@ -75,6 +76,14 @@ export abstract class ActionBase {
 
   protected readonly templateId;
 
+  public readonly Uid: number;
+
+  private static actionIdSeed: number = 3000;
+
+  public static resetIdSeed() {
+    ActionBase.actionIdSeed = SEEDID;
+  }
+
   public constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
@@ -83,6 +92,7 @@ export abstract class ActionBase {
   ) {
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
+    this.Uid = ++ActionBase.actionIdSeed;
   }
 
   /**

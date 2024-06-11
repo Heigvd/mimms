@@ -59,6 +59,7 @@ import { getTranslation } from '../tools/translation';
 import { SubTask } from './common/tasks/subTask';
 import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
+import { ActionBase } from './common/actions/actionBase';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -808,6 +809,7 @@ export function recomputeState() {
 
   Actor.resetIdSeed();
   ActionTemplateBase.resetIdSeed();
+  ActionBase.resetIdSeed();
   TaskBase.resetIdSeed();
   SubTask.resetIdSeed();
   Resource.resetIdSeed();
