@@ -213,6 +213,15 @@
                                                   "type" : "Text"
                                                 }, {
                                                   "props" : {
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "currentResources",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interface.state.selectedPanel === SelectedPanel.resources;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
                                                     "icon" : "hospital-user",
                                                     "label" : {
                                                       "@class" : "Script",
@@ -987,10 +996,18 @@
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
                                     "language" : "typescript"
                                   }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "unauthorizedAction",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+                                    "language" : "typescript"
+                                  }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
+                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return false\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",

@@ -49,7 +49,7 @@ export function getActorsTimeForwardReadiness() {
   const tf = state.getCurrentTimeFrame();
 
   return actors.map(a => {
-    const currentStatus = tf.waitingTimeForward[a.Uid] > 0 ? 'player-ready' : 'player-unready';
+    const currentStatus = tf.waitingTimeForward[a.Uid] > 0 ? 'player-unready' : 'player-ready';
 
     return {
       id: a.Uid,

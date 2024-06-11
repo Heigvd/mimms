@@ -110,3 +110,8 @@
   color: var(--grey_90);
   font-family: var(--mainFont);
 }
+
+/*** Unclassables ***/
+.unauthorizedAction{
+  cursor: not-allowed;
+}

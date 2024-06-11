@@ -44,6 +44,20 @@
       "type" : "PageLoader"
     } ],
     "className" : "",
+    "conditionnalClassNames" : [ {
+      "applyOn" : "Outside",
+      "className" : "unauthorizedAction",
+      "condition" : {
+        "@class" : "Script",
+        "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+        "language" : "typescript"
+      }
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },
