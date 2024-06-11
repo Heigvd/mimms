@@ -25,6 +25,19 @@ export class Resource {
   /** Resource is cumulating time across timejumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
+  /** action id the has reserved this resource. 0 if the resource is not reserved */
+  public reservationActionId: number = 0;
+
+  public reserve(actionId: number) {
+    this.reservationActionId = actionId;
+  }
+  public isReserved(): boolean {
+    return this.reservationActionId > 0;
+  }
+  public unReserve(): void {
+    this.reservationActionId = 0;
+  }
+
   constructor(
     type: Resource['type'],
     currentLocation: LOCATION_ENUM,
