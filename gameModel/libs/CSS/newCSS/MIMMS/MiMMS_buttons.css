@@ -112,12 +112,14 @@
 	box-shadow: var(--buttonShadow);
 }
 /***** SQUARE *****/
+/* Probably unused 
 .button-square{
 	padding: 8px 15px;
 	justify-content: center;
 	align-items: center;
 	border-radius: var(--XXS_borderRadius);
 }
+*/
 
 /**** rectangles buttons ****/
 .rectangleButton{
@@ -130,9 +132,12 @@
 	margin: 0px;
 }
 
+/* probably unused 
 .rectangleButton-container{
 	margin: 0px;
 }
+*/
+/* buttons in METHANE and in welcome page */
 .rectangleButton:hover{
 	background-color: var(--primary_50);
 	border: solid 2px var(--primary_50);
@@ -166,10 +171,11 @@
 
 
 /***** ROUND *****/
+/* Probably unused 3
 .button-round{
 	width: 5rem;
 	height: 5rem;
-}
+}*/
 
 /*** Buttons for resources in fixed map entities ***/
 .mimms_s_squareButton > button {
@@ -215,9 +221,8 @@
 }
 
 /* counter for the rsrc square btn in fixed map entities */
-  .squareCounter{
+.squareCounter{
 	  color: var(--grey_60);
-
 }
 
 .squareCounter-container{

@@ -50,7 +50,6 @@
 /* selected fixed map entity - close */
 
 .closedFixedMapEntity.selectedFixedMapEntity{
- /* border-radius: var(--XS_borderRadius);*/
   border: solid 3px var(--primary_base);
   background-color: var(--primary_base);
 }
@@ -89,7 +88,3 @@
   color: var(--grey-white);
   font-weight: var(--boldWeight);
   }
-/*
-.closedFixedMapEntityIcon{
-  filter: invert(100%);
-}*/

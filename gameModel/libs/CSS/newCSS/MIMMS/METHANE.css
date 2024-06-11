@@ -1,14 +1,18 @@
 /****************************** METHANE ***************************/
+/* Probably unused -> old stuff
 .methaneInput-container{
 	background-color: var(--gray_200);
 }
 
+ Probably unused 
 .jodit{
 	color: VAR(--gray_500);
 }
 
+
 .methaneBtn-container{
-	margin-top: 1em;}
+	margin-top: 1em;
+}
 
 .cancelBtn{
 	color: var(--gray_700);
@@ -27,12 +31,12 @@
 .sysFail{
 	color: var(--orange);
 }
+*/
  /**************** CASU TRANSMISSION ***********************/
 
 .casuTransmission-container{
 	max-height: 15rem;
 	width: 100%;
-	/*overflow-y: scroll;*/
 } 
 
 .scrollableCasuTransmission{
@@ -44,25 +48,20 @@
 	max-height: 10rem;
 }
 
-
-
-
 .modalTitle{/*Is it used?*/
 	font-weight: var(--boldWeight);
 	font-size: var(--M_text);
 }
 
-
-
 .E-ressources-container{
 	flex-wrap: wrap;
 	flex-basis: 33%;
-	}
+}
 
 .methane-letter-container{
 	font-weight: var(--boldWeight);
 	color: var(--primary_base);
-	}
+}
 
 .methane-letter-container > .methane-letter > p {
 	padding-top: 0px;

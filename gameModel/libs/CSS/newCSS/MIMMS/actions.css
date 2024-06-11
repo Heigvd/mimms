@@ -42,33 +42,25 @@
 	background-color: var(--gray_200);
 	padding: 0px 10px;
 	font-size: var(--S_text);
-	
 }
 
 .actionInfo p{
 	margin: 5px 0px 0px 0px;
 	padding-bottom: 15px;
 	color: var(--gray_BLACK);
-	
 }
 
-/*
-.aDescriptionAction{
-	min-width: 20em;
-	max-width: 30em;
-}*/
 
 /** Play btn **/
 .playActionBtn > *{
-margin: .5em;
-padding: .5em;
-height: 2em;
-width: 2em;
-border-radius: 50%;
-/*align-content: flex-end; */
-font-weight: var(--boldWeight);
-color: var(--gray_WHITE);
-background: var(--secondary_50);
+  margin: .5em;
+  padding: .5em;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  font-weight: var(--boldWeight);
+  color: var(--gray_WHITE);
+  background: var(--secondary_50);
 }
 
 .playActionBtn:hover > *{

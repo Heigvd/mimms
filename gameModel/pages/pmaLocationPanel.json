@@ -2,12 +2,12 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "h2title",
+        "className" : "mimms_h2title",
         "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\n  let fakevar = 'ne pas oublier celui-ci';\ngetTranslation('mainSim-actions-tasks', 'patients')",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'patients')",
           "language" : "TypeScript"
         }
       },

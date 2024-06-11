@@ -54,7 +54,7 @@
   --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
+/*** GENERAL STYLING ***/
 .stateInterface-container{
   height: 100%;
   width: 100%;
@@ -68,11 +68,7 @@
   width: 100%;
   margin: 0px;
   padding: 0px;
-  /*border: solid 3px aquamarine;*/
 }
-
-
-
 
 .interface-container{
   height: 100%;
@@ -80,14 +76,12 @@
   margin: 0px;
   padding: 0px;
 	z-index: 1;
-	/*position: absolute;*/
 }
 
 /*Page loader in left panel, linked to the main menu*/
 .interfaceMenuLoader-container{
   overflow: auto;
   height: 100%;
-  /*max-width: 25vw;*/
 }
 
 .grid{
@@ -97,6 +91,14 @@
 }
 
 /*** TEXTS ***/
+.mimms_h1title{
+  font-size: var(--ML_text);
+  margin-bottom: 5px;
+  font-weight: var(--boldWeight);
+  color: var(--grey_90);
+  font-family: var(--mainFont);
+}
+
 .mimms_h3title{
   color: var(--grey_90);
   font-size: var(--SM_text);
