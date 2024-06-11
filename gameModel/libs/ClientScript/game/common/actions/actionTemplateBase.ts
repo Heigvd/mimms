@@ -224,7 +224,6 @@ export abstract class ActionTemplateBase<
   ) {
     return true;
   }
-
 }
 
 export abstract class StartEndTemplate<
