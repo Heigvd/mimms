@@ -6,9 +6,13 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 // used in page 67
 export function getSourceTaskChoices(
   actorId: ActorId,
-  location: LOCATION_ENUM
+  location: LOCATION_ENUM | undefined
 ): { label: string; value: string }[] {
   // FIXME Do we need to restrict the tasks to now available for the actor ?
+  if (location === undefined) {
+    return [];
+  }
+
   return TaskState.fetchAvailableStandardTasksForActorAndLocation(
     getCurrentState(),
     actorId,
@@ -21,9 +25,12 @@ export function getSourceTaskChoices(
 // used in page 67
 export function getTargetTaskChoices(
   actorId: ActorId,
-  location: LOCATION_ENUM
+  location: LOCATION_ENUM | undefined
 ): { label: string; value: string }[] {
   // FIXME Is it too restrictive to restrict the tasks to now available ?
+  if (location === undefined) {
+    return [];
+  }
   return TaskState.fetchAvailableStandardTasksForActorAndLocation(
     getCurrentState(),
     actorId,

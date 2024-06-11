@@ -523,10 +523,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
-    true,
-    undefined,
-    undefined,
-    ['EVASAN']
+    'evacuate-task-started',
+    'evacuate-task-abort',
+    true
   );
 
   const templates: Record<string, ActionTemplateBase> = {};

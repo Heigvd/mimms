@@ -28,11 +28,13 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "rectangleButton",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Register</p>\"",
+                  "content" : "\n\"Register\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "rectangleButton-container",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -47,11 +49,13 @@
               "type" : "Button"
             }, {
               "props" : {
+                "className" : "rectangleButton",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>Unregister</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "rectangleButton-container",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -66,12 +70,13 @@
               "type" : "Button"
             }, {
               "props" : {
+                "className" : "rectangleButton",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>Clear</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "rectangleButton-container",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {

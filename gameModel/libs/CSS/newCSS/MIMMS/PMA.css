@@ -24,23 +24,35 @@ font-weight: var(--boldWeight);
 
 /*** Patient list on the left ***/
 
-.patientLine:hover{
+.patientLine-container:hover{
   background-color: var(--primary_40);
   color: white;
 }
 
 /*doesn't work yet*/
-.patientLine:active{
+.patientLine-container:active{
   background-color: var(--primary_base);
   color: white;
 }
+
+.patientEvenOddList-container:nth-of-type(even){
+  background-color: var(--primary_10);
+ }
+
+ .patientEvenOddList-container:nth-of-type(even):hover{
+   background-color: var(--primary_base);
+ }
 
 /* patient tag in patient's list */
 .listTag-container{
   height: 1em;
   width: 3.5em;
   border: solid 1px var(--grey_50);
-  background-color: thistle;
   border-radius: var(--XXS_borderRadius);
   margin-right: 10px;
 }
+
+/*patient infos */
+.pmaPatientInfos-container{
+  margin-bottom: 15px;
+  }

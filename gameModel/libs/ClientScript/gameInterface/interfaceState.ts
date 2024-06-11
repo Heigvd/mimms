@@ -6,7 +6,6 @@ import {
 } from '../game/common/resources/resourceContainer';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
-import { getAllPatients } from '../UIfacade/patientFacade';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
@@ -19,7 +18,7 @@ export interface InterfaceState {
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
-  selectedPatient: string;
+  selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -32,6 +31,11 @@ export interface InterfaceState {
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
+      currentTaskId: TaskId | undefined;
+      targetLocation: LOCATION_ENUM | undefined;
+      targetTaskId: TaskId | undefined;
+    } & Partial<Record<ResourceType, number>>;
+    allocateResourcesRadio: {
       currentLocation: LOCATION_ENUM | undefined;
       currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
@@ -81,13 +85,14 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     resources: {
       allocateResources: getEmptyAllocateResources(),
+      allocateResourcesRadio: getEmptyAllocateResourcesRadio(),
       requestedResources: getEmptyResourceRequest(),
     },
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
-    selectedPatient: getAllPatients()[0].patientId,
+    selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     selectedMapObjectId: '0',
@@ -100,11 +105,8 @@ export function getInitialInterfaceState(): InterfaceState {
     },
   };
 }
-export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
-  const resources: Partial<Record<ResourceType, number>> = {};
-  ResourcesArray.forEach(t => {
-    resources[t] = 0;
-  });
+export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
+  const resources = getEmptyResources();
 
   return {
     currentLocation: undefined,
@@ -113,6 +115,25 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
     targetTaskId: undefined,
     ...resources,
   };
+}
+
+export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
+  const resources = getEmptyResources();
+
+  return {
+    currentTaskId: undefined,
+    targetLocation: undefined,
+    targetTaskId: undefined,
+    ...resources,
+  };
+}
+
+function getEmptyResources(): Partial<Record<ResourceType, number>> {
+  const resources: Partial<Record<ResourceType, number>> = {};
+  ResourcesArray.forEach(t => {
+    resources[t] = 0;
+  });
+  return resources;
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {

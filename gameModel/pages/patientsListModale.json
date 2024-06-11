@@ -30,12 +30,34 @@
       "type" : "FlexList"
     }, {
       "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length > 0;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "noPatientAtPMA",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patients-pma')",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutStyle" : { },
                     "onCancel" : { },
                     "onVariableChange" : { },
@@ -79,11 +101,12 @@
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "patientLine",
+                        "className" : "",
                         "layout" : {
                           "alignItems" : "center",
                           "justifyContent" : "space-between"
                         },
+                        "layoutClassName" : "patientEvenOddList-container patientLine-container",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -99,7 +122,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getAllPatients } from \"./UIfacade/patientFacade\";\n  getAllPatients()",
+                      "content" : "import { LOCATION_ENUM } from './game/common/simulationState/locationState';\nimport { getPatientsForLocation } from './UIfacade/patientFacade';\n    getPatientsForLocation(LOCATION_ENUM.PMA)",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "patientId",
@@ -135,18 +158,38 @@
               "type" : "FlexList"
             }, {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : " Context.interfaceState.state.selectedPatient != undefined;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "noPatientSelected",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patient-selected')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "children" : [ {
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "layoutStyle" : { },
-                            "name" : "ID",
+                            "layoutStyle" : {
+                              "stroke" : "#43494C",
+                              "strokeWidth" : "1"
+                            },
+                            "name" : "category",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "String((Context.currentPatient.state.patientId))",
+                              "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
                               "language" : "TypeScript"
                             }
                           },
@@ -154,11 +197,11 @@
                         }, {
                           "props" : {
                             "layoutStyle" : { },
-                            "name" : "category",
+                            "name" : "ID",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
+                              "content" : "String((Context.currentPatient.state.patientId))",
                               "language" : "TypeScript"
                             }
                           },
@@ -336,7 +379,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'FR'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'respiratoryRate')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -386,7 +429,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'FC'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cardiacRate')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -423,7 +466,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'TA'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'bloodPressure')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -602,11 +645,12 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "className" : "h2title",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "\"<p>Patient Infos<br></p>\"",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`",
                               "language" : "TypeScript"
                             }
                           },
@@ -633,10 +677,8 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
-                                    "layoutClassName" : "patientConsole",
-                                    "layoutStyle" : {
-                                      "border" : "1px solid grey"
-                                    },
+                                    "layoutClassName" : "pmaPatientInfos-container",
+                                    "layoutStyle" : { },
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
@@ -697,6 +739,11 @@
                   "type" : "FlexList"
                 } ],
                 "className" : "noPadding noMargin",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Context.interfaceState.state.selectedPatient == undefined;",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -724,6 +771,11 @@
           "type" : "State"
         } ],
         "className" : "noPadding noMargin",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length === 0;",
+          "language" : "typescript"
+        },
         "layout" : {
           "flexDirection" : "row"
         },

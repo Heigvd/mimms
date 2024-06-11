@@ -38,7 +38,7 @@
                 "language" : "typescript"
               }
             }, {
-              "applyOn" : "Inside",
+              "applyOn" : "Outside",
               "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",

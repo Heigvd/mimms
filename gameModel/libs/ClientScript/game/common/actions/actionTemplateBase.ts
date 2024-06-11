@@ -205,6 +205,9 @@ export abstract class ActionTemplateBase<
     return action == undefined || action.startTime === state.getSimTime();
   }
 
+  /**
+   * If concurrently playable by several actors returns true
+   */
   public canConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
@@ -217,22 +220,11 @@ export abstract class ActionTemplateBase<
 
   protected customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ) {
-    return (
-      getOngoingActions(state).find(action => action.getTemplateId() === this.Uid) === undefined
-    );
-    //Should be: return true;  // and overridden in subclasses as needed
-  }
-
-  /**
-   * @return true if the action should be created in the timeline right away when the user clicks,
-   * false if some other interaction should take place in between
-   * @deprecated was used for map entities positionning
-   */
-  public planActionEventOnFirstClick(): boolean {
     return true;
   }
+
 }
 
 export abstract class StartEndTemplate<
@@ -261,8 +253,8 @@ export abstract class StartEndTemplate<
 
   /** Default implementation : no custom conditions */
   protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
   ): boolean {
     return true;
   }
@@ -396,7 +388,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
@@ -492,6 +484,35 @@ export class SelectionFixedMapEntityTemplate<
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  // Has the template already been played by another player ?
+  private hasBeenPlayedByOtherActor(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof SelectionFixedMapEntityAction &&
+          a.getTemplateId() === this.Uid &&
+          a.ownerId !== actorUid
+      ).length === 0
+    );
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return this.hasBeenPlayedByOtherActor(state, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return this.hasBeenPlayedByOtherActor(state, actorUid);
   }
 }
 
@@ -778,7 +799,7 @@ export class SendRadioMessage extends StartEndTemplate {
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId
+    _actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
@@ -982,7 +1003,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   // might change if multiple AL can be summoned
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
+    _actor: Readonly<Actor>
   ): boolean {
     return state.getAllActors().every(act => act.Role !== this.actorRole);
   }
@@ -1019,6 +1040,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly feedbackWhenStarted: TranslationKey,
+    readonly msgEvacuationAbort: TranslationKey,
     replayable = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -1058,6 +1081,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       this.message,
+      this.feedbackWhenStarted,
+      this.msgEvacuationAbort,
       ownerId,
       this.Uid,
       payload.evacuationActionPayload,

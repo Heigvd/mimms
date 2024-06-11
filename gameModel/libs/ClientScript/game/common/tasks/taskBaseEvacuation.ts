@@ -14,7 +14,7 @@ import {
 import { PatientUnitTypology } from '../evacuation/hospitalType';
 import { getIdleTaskUid } from './taskLogic';
 import { Resource } from '../resources/resource';
-import resourceArrivalResolution from '../resources/resourceDispatchResolution';
+import { resourceArrivalResolution } from '../resources/resourceDispatchResolution';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------
@@ -73,8 +73,8 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
 
     taskLogger.debug('Sub tasks before changes : ', JSON.stringify(Object.values(this.subTasks)));
 
-    // 1. Cleanup sub-tasks according to new allocated resources information
-    this.cleanupSubTasksFromUnallocatedResources(state);
+    // no need to clean up sub-tasks from unallocated resources
+    // we cannot unallocate an evacuation resource
 
     Object.values(this.subTasks).forEach((subTask: EvacuationSubTask) => {
       subTask.cumulatedTime += timeJump;

@@ -68,7 +68,7 @@
 
 .resourceCounter {
 	margin: auto;
-  font-size: var(--S_text);
+	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
 }
 
@@ -79,20 +79,7 @@
 
 }
 
-.squareCounter{
-	color: var(--gray_700);
 
-}
-
-.squareCounter-container{
-	position: absolute;
-	top: -0.1em;
-	right: -.2em;
-	background-color: var(--gray_WHITE);
-	color: var(--gray_500);
-	border-color: var(--gray_700);
-	z-index: 2;
-}
 
 /*
 .resourceTypeName-container {
@@ -113,6 +100,7 @@
 .evenOddList-container:nth-of-type(even){
   background-color: var(--primary_10);
  }
+
 
 .resourceTypeChosenNumber-container{
   width: 2rem;

@@ -1,91 +1,85 @@
 /**** RADIO ****/
 .radio-container {
-	right: 0;
-	pointer-events: auto;
-	min-width: 17em;
-	max-width: 20%;
-	overflow: hidden;
+  right: 0;
+  pointer-events: auto;
+  min-width: 17em;
+  max-width: 20%;
+  overflow: hidden;
 }
 
 /****** TABS ******/
 /* default */
 
-.button-channel{
-	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+.button-channel {
+  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
   margin-bottom: 0px;
 }
 
-.button-channel-container{
+.button-channel-container {
   margin: 0px;
   padding: 0px 5px 0px;
 }
 
-.button-channel-container:first-child{
+.button-channel-container:first-child {
   padding-left: 0px;
 }
 
 /* selected */
-.button-channel_selected{
-	width: 68px;
-	height: 33px;
-	padding: 8px 15px 8px 15px;
-	background-color: var(--primary_base);
-	font-weight: var(--boldWeight);
+.button-channel_selected {
+  width: 68px;
+  height: 33px;
+  padding: 8px 15px 8px 15px;
+  background-color: var(--primary_base);
+  font-weight: var(--boldWeight);
 }
 
-.button-channel_selected:hover{
-	background-color: var(--primary_50);
+.button-channel_selected:hover {
+  background-color: var(--primary_50);
 }
 
 /* not active */
-.not-active-channel{
-	width: 68px;
-	height: 33px;
-	padding: 8px 15px 8px 15px;
-	border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
-	background-color: var(--grey_10);
-	color: var(--primary_90);
+.not-active-channel {
+  width: 68px;
+  height: 33px;
+  padding: 8px 15px 8px 15px;
+  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
+  background-color: var(--grey_10);
+  color: var(--primary_90);
 }
 
-.not-active-channel:hover{
-	background-color: var(--gray_200);
+.not-active-channel:hover {
+  background-color: var(--gray_200);
 }
 
-/* active*/ 
-.active-channel:hover{
-	background-color: var(--primary_40);
-		
+/* active*/
+.active-channel:hover {
+  background-color: var(--primary_40);
 }
-
-
 
 /*** text areas (input & output)***/
 
-.messageArea-container{
+.messageArea-container {
   border: 1px solid var(--grey_30);
-	border-radius: 0px var(--XXS_borderRadius) var(--XXS_borderRadius) var(--XXS_borderRadius);
-	height: 10rem;
-	background-color: white;
+  border-radius: 0px var(--XXS_borderRadius) var(--XXS_borderRadius) var(--XXS_borderRadius);
+  height: 12em;
+  min-height: 10em;
+
+  background-color: white;
   overflow-y: auto;
 }
 
 /* D418 */
-.freeMessageInput-container{
-	border: 1px solid var(--grey_30);
-	border-radius: var(--XXS_borderRadius);
-	height: 10rem;
-	background-color: white;
+.freeMessageInput-container {
+  border: 1px solid var(--grey_30);
+  border-radius: var(--XXS_borderRadius);
+  height: 10rem;
+  background-color: white;
   margin-top: 10px;
 }
-
-
-
-
 
 /**************************** RADIO CSS (upper-right) ************************************/
 
 /*** message (single) ***/
-
 
 /*.aMessage{
 	border-radius: var(--S_borderRadius);
@@ -103,7 +97,6 @@
 	animation: popping 1s linear;
 }
 */
-
 
 /*
 
@@ -135,7 +128,6 @@
 }
 */
 
-
 /**** COLOR MANAGEMENT MSG RADIO
  probably depreciated 
 
@@ -153,31 +145,30 @@
 
 */
 
-.noRadio{
-	margin:5px;
-	padding:5px;
+.noRadio {
+  margin: 5px;
+  padding: 5px;
 }
-
 
 /* message sent by oneself */
 .radio-message-myself {
-	margin: 15px;
-	/*left: 30%;*/
+  margin: 15px;
+  /*left: 30%;*/
   margin-left: auto;
   display: inline-block;
   position: relative;
-	max-width: 13rem;
+  max-width: 13rem;
   min-width: 10rem;
-	height: auto;
-	background-color: var(--primary_10);
-	border-radius: 15px;
+  height: auto;
+  background-color: var(--primary_10);
+  border-radius: 15px;
 }
 
 /* why not the same as the one for oneself?
 .radio-message-casu-myself{
 	margin: 10px;
 	/*left: 30%;*/
-  /*
+/*
   margin-left: calc(auto - 5px);
   display: inline-block;
   position: relative;
@@ -189,102 +180,99 @@
 }
 */
 .radio-message-others {
-	margin: 10px;
-	left: 5px;
+  margin: 10px;
+  left: 5px;
   display: inline-block;
   position: relative;
-	width: 200px;
-	height: auto;
-	background-color: var(--grey_10);
-	border-radius: 15px;
+  width: 200px;
+  height: auto;
+  background-color: var(--grey_10);
+  border-radius: 15px;
 }
 
 /* Right triangle placed top left flush. */
 .tri-right.border.left-top:before {
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
   left: -40px;
-	right: auto;
+  right: auto;
   top: -8px;
-	bottom: auto;
-	border: 32px solid;
+  bottom: auto;
+  border: 32px solid;
   border-color: #666 transparent transparent transparent;
 }
 
-.tri-right.left-top:after{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-	left: -20px;
-	right: auto;
+.tri-right.left-top:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -20px;
+  right: auto;
   top: 0px;
-	bottom: auto;
-	border: 22px solid;
-	border-color: var(--grey_10) transparent transparent transparent;
+  bottom: auto;
+  border: 22px solid;
+  border-color: var(--grey_10) transparent transparent transparent;
 }
 
-
-
-.tri-right.right-top:after{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
+.tri-right.right-top:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
   left: auto;
-	right: -20px;
+  right: -20px;
   top: 0px;
-	bottom: auto;
-	border: 20px solid;
-	border-color: var(--primary_10) transparent transparent transparent;
+  bottom: auto;
+  border: 20px solid;
+  border-color: var(--primary_10) transparent transparent transparent;
 }
 
 .emitter-text-header-layout {
-	font-family: var(--mainFont);
-	font-size: 14px;
-	font-weight: var(--boldWeight);
-	line-height: 17px;
-	letter-spacing: 0em;
-	text-align: left;
-	margin-left: 15px;
-	margin-top: 10px;
+  font-family: var(--mainFont);
+  font-size: 14px;
+  font-weight: var(--boldWeight);
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: 10px;
 }
 
 .emitter-text-body-layout {
-	font-family: var(--mainFont);
-	font-size: 12px;
-	line-height: 15px;
-	letter-spacing: 0em;
-	text-align: left;
-	margin-left: 15px;
+  font-family: var(--mainFont);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-left: 15px;
 }
 
-.emitter-text-body-layout>p{
-	margin-top: 0px;
+.emitter-text-body-layout > p {
+  margin-top: 0px;
   max-width: 10rem;
   word-wrap: break-word;
 }
 
-
 /*** pending message ***/
-.pending.radio-message-myself{
+.pending.radio-message-myself {
   background-color: var(--primary_10);
   border: dotted 3px var(--grey_50);
 }
 
-.pending.tri-right.right-top:after{
-	border-color: var(--primary_10) transparent transparent transparent;
+.pending.tri-right.right-top:after {
+  border-color: var(--primary_10) transparent transparent transparent;
   z-index: 1; /* useless for now */
 }
 
-.pending.radio-message-others{
+.pending.radio-message-others {
   background-color: var(--grey_10);
   border: dotted 3px var(--grey_50);
 }
 
-.pending.tri-left.right-top:after{
+.pending.tri-left.right-top:after {
   border-color: var(--grey_10) transparent transparent transparent;
   z-index: 1;
 }
@@ -300,10 +288,7 @@
   transform: rotate(180deg);
 }*/
 
-
 /*** Free message input for D418 chanel ***/
-
-
 
 /*
 .D424Chanel{
@@ -320,5 +305,3 @@ margin: 0px;
 padding:0px;
 }
 */
-
-

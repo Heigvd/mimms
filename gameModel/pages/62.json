@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n \tgetNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\n \t\tif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\n  \n  getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  }\n  '...';",
                   "language" : "TypeScript"
                 }
               },
@@ -45,6 +45,14 @@
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending;",
+                "language" : "typescript"
+              }
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -63,7 +71,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages();",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.EVASAN_RADIO));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
@@ -81,12 +89,12 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h2title",
+            "className" : "mimms_h2title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  let fakevar = 666; \n\"Evacuation\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'evacuate-title')}`",
               "language" : "TypeScript"
             }
           },
@@ -122,7 +130,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"Patient\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'patient')}`",
                           "language" : "TypeScript"
                         }
                       },
@@ -326,7 +334,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"Destination\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'targetLocation')}`",
                           "language" : "TypeScript"
                         }
                       },
@@ -559,7 +567,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  let fakevar = 666;\n\"Vector\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'vector')}`",
                           "language" : "TypeScript"
                         }
                       },
@@ -678,7 +686,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'driver')}`",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -711,7 +719,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'healer')}`",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -736,6 +744,11 @@
                                 "language" : "typescript"
                               }
                             } ],
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isEvacSquadEnabled } from \"./UIfacade/evacuationFacade\";\n!isEvacSquadEnabled(Context.evacSquadDef.uid);",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "alignItems" : "center",
                               "justifyContent" : "space-between"
@@ -806,7 +819,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  const fakevar = \"Revenir sur site après transport\"\n  return fakevar",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
                               "language" : "TypeScript"
                             }
                           },
@@ -904,7 +917,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "  const fakevar = \"conducteur\"\nfakevar",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'driver')}`",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -937,7 +950,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "  const fakevar = \"soignant(s)\"\nfakevar",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'healer')}`",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -952,7 +965,7 @@
                               },
                               "type" : "FlexList"
                             } ],
-                            "className" : "selectableRow",
+                            "className" : "noPadding noMargin",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "import { isSelectedSquad, isVectorChoiceClosedAndFilled} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad(Context.evacSquadDef.uid) || !isVectorChoiceClosedAndFilled();",
@@ -962,9 +975,9 @@
                               "alignItems" : "center",
                               "justifyContent" : "space-between"
                             },
-                            "layoutClassName" : "selectableRow-container",
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
-                            "name" : "selectableRow",
+                            "name" : "selectedRow",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -1016,7 +1029,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  const fakevar = \"Le véhicule reviendra sur site\"\n  return fakevar",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
                               "language" : "TypeScript"
                             }
                           },
@@ -1080,7 +1093,7 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n  const action = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\nisPlannedAction(action.Uid);",
                     "language" : "typescript"
                   }
                 } ],

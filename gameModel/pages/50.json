@@ -80,10 +80,8 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "messageArea-container",
-        "layoutStyle" : {
-          "height" : "23rem"
-        },
-        "name" : "outuput message",
+        "layoutStyle" : { },
+        "name" : "output message",
         "style" : { }
       },
       "type" : "For each"

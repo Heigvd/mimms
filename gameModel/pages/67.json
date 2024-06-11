@@ -2,20 +2,6 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "",
-        "layoutClassName" : "h2title",
-        "layoutStyle" : { },
-        "name" : "Panel title",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'sourcelocation')}`",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "className" : "mimms_h3title",
@@ -42,7 +28,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.currentLocation = Context.resourceAllocationCurrentLocation;\nContext.interfaceState.setState(newState);",
+                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('currentLocation', Context.resourceAllocationCurrentLocation);\n",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -53,7 +39,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.allocateResources.currentLocation || '';",
+              "content" : "import { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\ngetAllocateResourcesCurrentLocation() || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -61,13 +47,16 @@
           "type" : "Select input"
         } ],
         "className" : "",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+          "language" : "typescript"
+        },
         "layout" : {
           "flexDirection" : "column"
         },
         "layoutClassName" : "",
-        "layoutStyle" : {
-          "display" : "none"
-        },
+        "layoutStyle" : { },
         "name" : "current location",
         "style" : { }
       },
@@ -91,7 +80,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\ngetSourceTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.currentLocation);",
+              "content" : "import { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation());",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -100,7 +89,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.currentTaskId = Context.resourceAllocationCurrentTaskId;\nContext.interfaceState.setState(newState);",
+                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('currentTaskId', Context.resourceAllocationCurrentTaskId);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -111,7 +100,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.allocateResources.currentTaskId || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentTaskId || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -174,7 +163,7 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources[Context.resourceType.enum] = Context.resourceAllocationNbForType;\nContext.interfaceState.setState(newState);",
+                            "content" : "import { updateResourceTypesValues } from \"./UIfacade/resourceFacade\";\n\nupdateResourceTypesValues();",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -190,7 +179,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.resources.allocateResources[Context.resourceType.enum] || '';",
+                          "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const key = getStateKeyForResource();\nContext.interfaceState.state.resources[key][Context.resourceType.enum] || '';",
                           "language" : "TypeScript"
                         },
                         "style" : {
@@ -214,7 +203,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate } from \"./UIfacade/resourceFacade\";\nconst location : LOCATION_ENUM = Context.interfaceState.state.resources.allocateResources.currentLocation;\nconst taskId = +Context.interfaceState.state.resources.allocateResources.currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
+                          "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
                           "language" : "TypeScript"
                         }
                       },
@@ -306,18 +295,18 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.targetLocation = Context.resourceAllocatioTargetLocation;\nContext.interfaceState.setState(newState);",
+                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('targetLocation', Context.resourceAllocationTargetLocation);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
                 "@class" : "Script",
-                "content" : "\"resourceAllocatioTargetLocation\"",
+                "content" : "\"resourceAllocationTargetLocation\"",
                 "language" : "TypeScript"
               }
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.allocateResources.targetLocation || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].targetLocation || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -351,7 +340,7 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources.allocateResources.targetLocation);",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nimport { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\n  const key = getStateKeyForResource();\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources[key].targetLocation);",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -360,7 +349,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.allocateResources.targetTaskId = Context.resourceAllocationTargetTaskId;\nContext.interfaceState.setState(newState);",
+                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('targetTaskId', Context.resourceAllocationTargetTaskId);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -371,7 +360,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.allocateResources.targetTaskId || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].targetTaskId || '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -397,13 +386,13 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n\nconst key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (!canPlanAction()) {\n\treturn false\n}\nconst params = Context.interfaceState.state.resources.allocateResources;\nif (params.currentLocation === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n  \n  const key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
               "language" : "typescript"
             },
             "hideIf" : {
@@ -438,20 +427,8 @@
         "style" : { }
       },
       "type" : "FlexList"
-    }, {
-      "props" : {
-        "exposePageSizeAs" : "",
-        "initialSelectedPageId" : {
-          "@class" : "Script",
-          "content" : "\"pmaLocationPanel\"",
-          "language" : "typescript"
-        },
-        "layoutStyle" : { },
-        "name" : "locationPanelPageLoader",
-        "style" : { }
-      },
-      "type" : "PageLoader"
     } ],
+    "className" : "noPadding noMargin",
     "disableIf" : {
       "@class" : "Script",
       "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
@@ -460,8 +437,11 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "mainSimLeftPanel-container leftSubPanel-container",
-    "layoutStyle" : { },
+    "layoutClassName" : "noPadding noMargin",
+    "layoutStyle" : {
+      "paddingTop" : "15px",
+      "width" : "100%"
+    },
     "name" : "resources",
     "style" : {
       "overflow" : "auto"

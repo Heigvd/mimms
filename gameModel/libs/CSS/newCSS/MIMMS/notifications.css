@@ -49,7 +49,7 @@
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--buttonShadow);
 
 }
 
@@ -63,6 +63,7 @@
 	width: 4em;
 }
 
+/*is it a good styling design wise? it's not similar to other shadow's attitudes*/ 
 .notificationButton-container:hover{
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.65);
 }
@@ -74,7 +75,7 @@
 	justify-content: center;
 	align-items: center;
 	display: inline-flex;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25) inset;
+	box-shadow: var(--buttonInsetShadow);
 }
 
 
@@ -87,15 +88,15 @@
 }
 
 .notificationButton-container .newNotif{
-	background-color: /* var(--secondary_base) */ #FBB13C;
+	background-color: var(--yellow_base);
 }
 
 .counterCircle-container {
 	width: 1.8em;
 	height: 1.8em;
 	color: var(--grey_70);
-	background-color: /*var(--secondary_10)*/ #fee5be;
-	border: 1px #FBB13C solid;
+	background-color: var(--yellow_10);
+	border: 1px var(--yellow_base) solid;
 	position: absolute;
 	right: 2px;
 	top: 2px;
