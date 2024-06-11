@@ -77,7 +77,8 @@ export function handleMapClick(
   const mapEntities = features.find(f => f.layerId === 'available');
 
   if (mapEntities) {
-    toggleOverlayItem(mapEntities.feature['id'] as LOCATION_ENUM);
-    bringOverlayToFront(mapEntities.feature['id'] as LOCATION_ENUM);
+    const mapEntityId = mapEntities.feature['id'] as LOCATION_ENUM;
+    toggleOverlayItem(mapEntityId);
+    bringOverlayToFront(mapEntityId);
   }
 }
