@@ -35,3 +35,5 @@ player-unready	Ready	Prêt
 player-ready	Unready	En jeu
 msg-now	Now	Maintenant
 notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.
+youre-not-here	You haven't arrived on site yet	Vous n'êtes pas encore sur site
+when-youre-here	You may start playing when the role(s) you selected arrives on site	Vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.

@@ -155,6 +155,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/PC_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/PC_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -174,6 +180,12 @@
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/PMA_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA_choice.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
@@ -204,6 +216,12 @@
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/ambulance-park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_choice.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
@@ -275,6 +293,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/helicopter-park_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/helicopter-park_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -311,6 +335,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/meetingPoint_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/meetingpoint.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -336,6 +366,12 @@
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/meetingpoint_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/nest_choice.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",

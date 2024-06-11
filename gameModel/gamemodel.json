@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1718104750096,
+  "createdTime" : 1718116838266,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3947,8 +3947,10 @@
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
+          "when-youre-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you may start playing when the role(s) you selected arrives on site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.\",\"lang\":\"FR\"}},\"version\":0}",
           "your-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your message\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message\",\"lang\":\"FR\"}},\"version\":0}",
-          "your-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your text\"},\"FR\":{\"status\":\"\",\"translation\":\"votre texte\",\"lang\":\"FR\"}},\"version\":0}"
+          "your-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your text\"},\"FR\":{\"status\":\"\",\"translation\":\"votre texte\",\"lang\":\"FR\"}},\"version\":0}",
+          "youre-not-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you haven't arrived on site yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'êtes pas encore sur site\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:49462:KdFc2a",
         "scopeType" : "GameModelScope",

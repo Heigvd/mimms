@@ -1007,7 +1007,7 @@
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return false\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",
@@ -1353,7 +1353,73 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
-                                "className" : "h1title",
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "\"/MIMMS_logo.png\"",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "width" : "25rem"
+                                }
+                              },
+                              "type" : "Image"
+                            }, {
+                              "props" : {
+                                "className" : "mimms_h2title",
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "paddingTop" : "1rem"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'youre-not-here')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "maxWidth" : "25rem",
+                                  "paddingTop" : "1rem"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'when-youre-here')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "waitingToPlay",
+                            "onExitActions" : { },
+                            "style" : {
+                              "padding" : "3rem",
+                              "width" : "40rem"
+                            }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "mimms_h1title",
                                 "layoutStyle" : {
                                   "margin" : "auto"
                                 },
@@ -1441,7 +1507,7 @@
                                 "className" : "button-L button-secondaryColor",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>cancel</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
                                   "language" : "TypeScript"
                                 },
                                 "layoutStyle" : { },
