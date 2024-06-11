@@ -746,7 +746,7 @@
                             } ],
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "import { isEvacSquadEnabled } from \"./UIfacade/evacuationFacade\";\nisEvacSquadEnabled(\"AmbulanceDriver\" || \"AmbulanceDriverHealer\" || \"Helicopter\") === false;",
+                              "content" : "import { isEvacSquadEnabled } from \"./UIfacade/evacuationFacade\";\n!isEvacSquadEnabled(Context.evacSquadDef.uid);",
                               "language" : "typescript"
                             },
                             "layout" : {
