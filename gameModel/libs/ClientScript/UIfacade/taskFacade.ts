@@ -1,25 +1,36 @@
-import { ActorId } from '../game/common/baseTypes';
+import { ActorId, TaskId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
+import * as TaskLogic from '../game/common/tasks/taskLogic';
 import { getCurrentState } from '../game/mainSimulationLogic';
 
 // used in page 67
 export function getSourceTaskChoices(
   actorId: ActorId,
-  location: LOCATION_ENUM | undefined
+  location: LOCATION_ENUM | undefined,
+  radioComm: boolean
 ): { label: string; value: string }[] {
   // FIXME Do we need to restrict the tasks to now available for the actor ?
   if (location === undefined) {
     return [];
   }
 
-  return TaskState.fetchAvailableStandardTasksForActorAndLocation(
+  return TaskState.fetchTaskChoicesForActorAndLocation(
     getCurrentState(),
     actorId,
-    location
+    location,
+    radioComm
   ).map(task => {
     return { label: task.getTitle(), value: '' + task.Uid };
   });
+}
+
+export function getSourceTaskChoicesCount(
+  actorId: ActorId,
+  location: LOCATION_ENUM | undefined,
+  radioComm: boolean
+): number {
+  return getSourceTaskChoices(actorId, location, radioComm).length;
 }
 
 // used in page 67
@@ -38,4 +49,8 @@ export function getTargetTaskChoices(
   ).map(task => {
     return { label: task.getTitle(), value: '' + task.Uid };
   });
+}
+
+export function getIdleTaskUid(): TaskId {
+  return TaskLogic.getIdleTaskUid(getCurrentState());
 }

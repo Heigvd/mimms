@@ -11,6 +11,7 @@ import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
+import { getIdleTaskUid } from '../UIfacade/taskFacade';
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
@@ -31,13 +32,13 @@ export interface InterfaceState {
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
-      currentTaskId: TaskId | undefined;
+      currentTaskId: TaskId;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
     allocateResourcesRadio: {
       currentLocation: LOCATION_ENUM | undefined;
-      currentTaskId: TaskId | undefined;
+      currentTaskId: TaskId;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
@@ -105,12 +106,13 @@ export function getInitialInterfaceState(): InterfaceState {
     },
   };
 }
+
 export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
   const resources = getEmptyResources();
 
   return {
     currentLocation: undefined,
-    currentTaskId: undefined,
+    currentTaskId: getIdleTaskUid(),
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,
@@ -121,7 +123,7 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   const resources = getEmptyResources();
 
   return {
-    currentTaskId: undefined,
+    currentTaskId: getIdleTaskUid(),
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,

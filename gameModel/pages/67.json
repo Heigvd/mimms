@@ -80,7 +80,12 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation());",
+              "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n    const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio);",
+              "language" : "typescript"
+            },
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoicesCount } from \"./UIfacade/taskFacade\";\n  const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n  getSourceTaskChoicesCount(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio) < 2;",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -100,7 +105,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentTaskId || '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentTaskId + '';",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -295,7 +300,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('targetLocation', Context.resourceAllocationTargetLocation);",
+                "content" : "import { updateTargetDestination } from \"./UIfacade/resourceFacade\";\n\nupdateTargetDestination(Context.resourceAllocationTargetLocation);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -386,13 +391,13 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n\nconst key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+                "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n  \n  const key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+              "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
               "language" : "typescript"
             },
             "hideIf" : {
