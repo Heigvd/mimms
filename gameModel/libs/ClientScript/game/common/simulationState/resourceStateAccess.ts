@@ -40,6 +40,13 @@ export function getResourceById(
   return matchingResources[0]!;
 }
 
+// export function getResourcesById(
+//   state: Readonly<MainSimulationState>,
+//   resourcesId: ResourceId[]
+// ): Resource[] {
+//   return resourcesId.map((resourceId: ResourceId) => getResourceById(state, resourceId));
+// }
+
 export function getResourcesByTypeLocationAndTask(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType,
@@ -96,11 +103,34 @@ export function getFreeWaitingResourcesByTypeAndLocation(
 ): Resource[] {
   const internalState = state.getInternalStateObject();
   return internalState.resources.filter(
-    res =>
-      !res.isReserved() &&
-      res.type === resourceType &&
-      res.currentLocation === location &&
-      res.currentActivity == getIdleTaskUid(state)
+    (resource: Resource) =>
+      !resource.isReserved() &&
+      resource.type === resourceType &&
+      resource.currentLocation === location &&
+      resource.currentActivity == getIdleTaskUid(state)
+  );
+}
+
+export function getFreeWaitingHumanResources(state: Readonly<MainSimulationState>): Resource[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.resources.filter(
+    (resource: Resource) =>
+      !resource.isReserved() &&
+      isHuman(resource.type) &&
+      resource.currentActivity == getIdleTaskUid(state)
+  );
+}
+
+export function getFreeWaitingResourcesByType(
+  state: Readonly<MainSimulationState>,
+  resourceType: ResourceType
+): Resource[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.resources.filter(
+    (resource: Resource) =>
+      !resource.isReserved() &&
+      resource.type === resourceType &&
+      resource.currentActivity == getIdleTaskUid(state)
   );
 }
 
@@ -155,6 +185,12 @@ export function unReserveResources(state: MainSimulationState, resourcesId: Reso
   });
 }
 
+export function sendResourcesToLocation(resources: Resource[], targetLocation: LOCATION_ENUM) {
+  resources.forEach(resource => {
+    resource.currentLocation = targetLocation;
+  });
+}
+
 export function deleteResource(state: MainSimulationState, resourceId: ResourceId): void {
   const internalState = state.getInternalStateObject();
 
@@ -182,24 +218,6 @@ export function deleteResource(state: MainSimulationState, resourceId: ResourceI
 //
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * Retrieve the unoccupied resources.
- *
- * @param state The state
- * @param resourceType The type of the resources
- *
- * @returns The matching resources
- */
-export function getUnoccupiedResources(
-  state: Readonly<MainSimulationState>,
-  resourceType: ResourceType
-): Readonly<Resource>[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(
-    res => res.type === resourceType && res.currentActivity == getIdleTaskUid(state)
-  );
-}
 
 /**
  * @returns The number of resources that are currently without activity and of the given type in a specified location
@@ -251,12 +269,6 @@ export function transferResourcesFromToLocation(
     } else {
       resourceLogger.error(`trying to transfer ${nbResourcesToTransfer} resources `);
     }
-  });
-}
-
-export function sendResourcesToLocation(resources: Resource[], targetLocation: LOCATION_ENUM) {
-  resources.forEach(resource => {
-    resource.currentLocation = targetLocation;
   });
 }
 
@@ -325,44 +337,9 @@ export function getResourcesAllocatedToAnyTaskForActor(
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// change the world - old
+// old
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-export function getInStateCountResourcesByLocationAndTaskInProgressAndType(
-  state: Readonly<MainSimulationState>,
-  types: Readonly<ResourceType[]>,
-  location: LOCATION_ENUM,
-  taskId: TaskId
-): Partial<Record<ResourceType, number>> {
-  const resByType: Partial<Record<ResourceType, number>> = {};
-  state
-    .getInternalStateObject()
-    .resources.filter(
-      resource =>
-        types.some(type => type === resource.type) &&
-        resource.currentLocation === location &&
-        resource.currentActivity === taskId
-    )
-    .map(resource => {
-      if (resByType[resource.type]) resByType[resource.type] = resByType[resource.type]! + 1;
-      else resByType[resource.type] = 1;
-    });
-  return resByType;
-}
-
-export function getInStateCountInactiveResourcesByLocationAndType(
-  state: Readonly<MainSimulationState>,
-  types: Readonly<ResourceType[]>,
-  location: LOCATION_ENUM
-): Partial<Record<ResourceType, number>> {
-  return getInStateCountResourcesByLocationAndTaskInProgressAndType(
-    state,
-    types,
-    location,
-    getIdleTaskUid(state)
-  );
-}
 
 /**
  * Allocate resources to a task.

@@ -31,7 +31,8 @@ import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { resourceContainerCanArrive } from '../resources/resourceLogic';
 import {
-  getUnoccupiedResources,
+  getFreeWaitingHumanResources,
+  getFreeWaitingResourcesByType,
   sendResourcesToLocation,
 } from '../simulationState/resourceStateAccess';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
@@ -386,90 +387,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// tasks and resources
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-export class ReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesId: ResourceId[],
-    readonly actionId: ActionId
-  ) {
-    super(parentId, 'ReserveResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.reserveResources(state, this.resourcesId, this.actionId);
-  }
-}
-
-export class UnReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly resourcesId: ResourceId[]) {
-    super(parentId, 'UnReserveResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.unReserveResources(state, this.resourcesId);
-  }
-}
-
-// /**
-//  * Local event to transfer resources from a location to another
-//  */
-export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly sourceLocation: LOCATION_ENUM,
-    public readonly targetLocation: LOCATION_ENUM,
-    public readonly sentResources: ResourceTypeAndNumber,
-    public sourceTaskId: TaskId
-  ) {
-    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.transferResourcesFromToLocation(
-      state,
-      this.sourceLocation,
-      this.targetLocation,
-      this.sentResources,
-      this.sourceTaskId
-    );
-  }
-}
-
-export class MoveAllIdleResourcesToLocationLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourceType: ResourceType,
-    readonly targetLocation: LOCATION_ENUM
-  ) {
-    super(parentId, 'MoveAllResourcesToLocationLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const idleResources = getUnoccupiedResources(state, this.resourceType);
-    ResourceState.sendResourcesToLocation(idleResources, this.targetLocation);
-  }
-}
-
-export class DeleteResourceLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
-    super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.deleteResource(state, this.resourceId);
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// EMERGENCY DEPARTMENT
+// EMERGENCY DEPARTMENT - RESOURCE ARRIVAL
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -690,6 +608,106 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+// RESOURCES
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class ReserveResourcesLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesId: ResourceId[],
+    readonly actionId: ActionId
+  ) {
+    super(parentId, 'ReserveResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.reserveResources(state, this.resourcesId, this.actionId);
+  }
+}
+
+export class UnReserveResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly resourcesId: ResourceId[]) {
+    super(parentId, 'UnReserveResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.unReserveResources(state, this.resourcesId);
+  }
+}
+
+export class MoveFreeWaitingHumanResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly targetLocation: LOCATION_ENUM) {
+    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const resources = getFreeWaitingHumanResources(state);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class MoveFreeWaitingResourcesByTypeLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourceType: ResourceType,
+    readonly targetLocation: LOCATION_ENUM
+  ) {
+    super(parentId, 'MoveFreeWaitingResourcesByTypeLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const resources = getFreeWaitingResourcesByType(state, this.resourceType);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class DeleteResourceLocalEvent extends LocalEventBase {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
+    super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.deleteResource(state, this.resourceId);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// RESOURCE WIP
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+// /**
+//  * Local event to transfer resources from a location to another
+//  */
+export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    public readonly sourceLocation: LOCATION_ENUM,
+    public readonly targetLocation: LOCATION_ENUM,
+    public readonly sentResources: ResourceTypeAndNumber,
+    public sourceTaskId: TaskId
+  ) {
+    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.transferResourcesFromToLocation(
+      state,
+      this.sourceLocation,
+      this.targetLocation,
+      this.sentResources,
+      this.sourceTaskId
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // RESOURCE ASSIGNATION
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -782,7 +800,7 @@ export class MoveResourcesLocalEvent extends LocalEventBase {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//
+// PATIENT
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 

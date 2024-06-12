@@ -20,12 +20,13 @@ import {
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
-  MoveAllIdleResourcesToLocationLocalEvent,
   HospitalRequestUpdateLocalEvent,
   ResourceAllocationLocalEvent,
   ReserveResourcesLocalEvent,
   DeleteResourceLocalEvent,
   UnReserveResourcesLocalEvent,
+  MoveFreeWaitingHumanResourcesLocalEvent,
+  MoveFreeWaitingResourcesByTypeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -33,7 +34,6 @@ import {
   ResourceTypeAndNumber,
   ResourcesArray,
   ResourceType,
-  HumanResourceTypeArray,
   VehicleType,
 } from '../resources/resourceType';
 import {
@@ -48,7 +48,7 @@ import { SimFlag } from './actionTemplateBase';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { InterventionRole } from '../actors/actor';
-import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
+import { getEvacuationTask } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
@@ -610,7 +610,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     super.dispatchEndedEvents(state);
 
     localEventManager.queueLocalEvent(
-      new MoveAllIdleResourcesToLocationLocalEvent(
+      new MoveFreeWaitingResourcesByTypeLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.vehicleType,
@@ -982,7 +982,6 @@ export class ArrivalAnnouncementAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event ArrivalAnnouncementAction');
-    const so = state.getInternalStateObject();
 
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -997,30 +996,19 @@ export class ArrivalAnnouncementAction extends StartEndAction {
       )
     );
 
-    const ownerActor = so.actors.find(a => a.Uid === this.ownerId)!;
+    const ownerActor = state.getActorById(this.ownerId)!;
 
-    //transfer available human resources from each location to event owner location
-    for (const location of so.mapLocations) {
-      const availableResources = ResourceState.getInStateCountInactiveResourcesByLocationAndType(
-        state,
-        HumanResourceTypeArray,
-        location.id
-      );
-      localEventManager.queueLocalEvent(
-        new TransferResourcesToLocationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          location.id,
-          ownerActor.Location,
-          availableResources,
-          getIdleTaskUid(state)
-        )
-      );
-    }
+    localEventManager.queueLocalEvent(
+      new MoveFreeWaitingHumanResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        ownerActor.Location
+      )
+    );
   }
 
-  // TODO probably nothing
   protected cancelInternal(state: MainSimulationState): void {
+    // nothing to do
     return;
   }
 }
