@@ -27,6 +27,7 @@ export type ActionId = number;
 export type TaskId = number;
 export type SubTaskId = number;
 
+export type ResourceContainerDefinitionId = number;
 export type ResourceId = number;
 
 export type PatientId = string;

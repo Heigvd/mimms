@@ -47,7 +47,7 @@ import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { Resource } from './common/resources/resource';
-import { resetSeedId } from './common/resources/resourceContainer';
+import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { HealingTask, TaskBase } from './common/tasks/taskBase';
 import { PorterTask } from './common/tasks/taskBasePorter';
@@ -813,7 +813,7 @@ export function recomputeState() {
   TaskBase.resetIdSeed();
   SubTask.resetIdSeed();
   Resource.resetIdSeed();
-  resetSeedId(); // ressource containers
+  ResourceContainerResetIdSeed();
 
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];

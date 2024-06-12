@@ -5,6 +5,7 @@ import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActorId,
   GlobalEventId,
+  ResourceContainerDefinitionId,
   ResourceId,
   SimDuration,
   SimTime,
@@ -19,10 +20,7 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { TaskStatus } from '../tasks/taskBase';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import {
-  ResourceContainerDefinitionId,
-  ResourceContainerType,
-} from '../resources/resourceContainer';
+import { ResourceContainerType } from '../resources/resourceContainer';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { localEventManager } from './localEventManager';
 import { entries } from '../../../tools/helper';
@@ -356,7 +354,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 export class AddRadioMessageLocalEvent extends LocalEventBase {
-  private static UidSeed = 1;
+  private static RadioIdProvider = 1;
 
   constructor(
     parentId: GlobalEventId,
@@ -381,7 +379,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
       message: msg,
-      uid: AddRadioMessageLocalEvent.UidSeed++,
+      uid: AddRadioMessageLocalEvent.RadioIdProvider++,
       isRadioMessage: this.isRadioMessage,
       channel: this.channel,
       pending: false,

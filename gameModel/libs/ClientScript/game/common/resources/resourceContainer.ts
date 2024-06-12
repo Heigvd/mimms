@@ -1,9 +1,9 @@
 import { SimFlag } from '../actions/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
-import { SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import { ResourceContainerDefinitionId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { ResourceType } from './resourceType';
 
-export type ResourceContainerDefinitionId = number;
+const RESOURCE_CONTAINER_SEED_ID: ResourceContainerDefinitionId = 6000;
 
 // TODO might be configurable in a far future
 /**
@@ -57,10 +57,10 @@ export interface ResourceContainerDefinition {
   flags: SimFlag[];
 }
 
-let idProvider = 2000;
+let idProvider: ResourceContainerDefinitionId = RESOURCE_CONTAINER_SEED_ID;
 
-export function resetSeedId() {
-  idProvider = 2000;
+export function resetIdSeed() {
+  idProvider = RESOURCE_CONTAINER_SEED_ID;
 }
 
 export function buildContainerDefinition(
@@ -71,8 +71,8 @@ export function buildContainerDefinition(
   flags: SimFlag[] = []
 ): ResourceContainerDefinition {
   return {
+    uid: ++idProvider,
     type: rtype,
-    uid: idProvider++,
     roles: roles || [],
     name: name,
     resources: resources || {},

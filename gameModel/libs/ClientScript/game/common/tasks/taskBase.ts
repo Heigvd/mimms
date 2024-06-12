@@ -20,7 +20,7 @@ import { Category } from '../../pretri/triage';
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
 
-const baseSeed = 4000;
+const TASK_SEED_ID: TaskId = 4000;
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -32,7 +32,12 @@ const baseSeed = 4000;
  * Base class for a task
  */
 export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
-  private static IdSeed = baseSeed;
+  private static idProvider: TaskId = TASK_SEED_ID;
+
+  public static resetIdSeed() {
+    TaskBase.idProvider = TASK_SEED_ID;
+  }
+
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
@@ -52,13 +57,9 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly availableToRoles: InterventionRole[] = [],
     readonly isStandardAssignation: boolean = true
   ) {
-    this.Uid = TaskBase.IdSeed++;
+    this.Uid = ++TaskBase.idProvider;
     this.status = 'Uninitialized';
     this.subTasks = {};
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = baseSeed;
   }
 
   /** Its short name */

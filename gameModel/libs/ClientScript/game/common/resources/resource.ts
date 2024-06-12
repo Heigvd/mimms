@@ -2,7 +2,7 @@ import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';
 
-const RESOURCE_BASE_SEED_ID: ResourceId = 1000;
+const RESOURCE_SEED_ID: ResourceId = 7000;
 
 /**
  * A resource is someone / something at disposal of actors to perform tasks.
@@ -12,10 +12,10 @@ const RESOURCE_BASE_SEED_ID: ResourceId = 1000;
  * The kind allows to know which tasks the resource can perform and with which skill level.
  */
 export class Resource {
-  private static resourceIdSeed: number = RESOURCE_BASE_SEED_ID;
+  private static idProvider: ResourceId = RESOURCE_SEED_ID;
 
-  static resetIdSeed() {
-    Resource.resourceIdSeed = RESOURCE_BASE_SEED_ID;
+  public static resetIdSeed() {
+    Resource.idProvider = RESOURCE_SEED_ID;
   }
 
   public readonly Uid: ResourceId;
@@ -23,13 +23,13 @@ export class Resource {
   /** What is it for a resource (fixed through time) */
   public readonly type: ResourceType;
 
-  /** What the resource do currently */
-  public currentActivity: TaskId | null;
-
   /** Where is the resource currently */
   public currentLocation: LOCATION_ENUM;
 
-  /** Resource is cumulating time across timejumps to accomplish a task */
+  /** What the resource do currently */
+  public currentActivity: TaskId | null;
+
+  /** Resource is cumulating time across time-jumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
   /** action id the has reserved this resource. 0 if the resource is not reserved */
@@ -40,10 +40,10 @@ export class Resource {
     currentLocation: Resource['currentLocation'] = LOCATION_ENUM.remote,
     currentActivity: Resource['currentActivity'] = null
   ) {
-    this.Uid = Resource.resourceIdSeed++;
+    this.Uid = ++Resource.idProvider;
     this.type = type;
-    this.currentActivity = currentActivity;
     this.currentLocation = currentLocation;
+    this.currentActivity = currentActivity;
     this.cumulatedUnusedTime = 0;
   }
 

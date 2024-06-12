@@ -60,6 +60,8 @@ export enum SimFlag {
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
+const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
+
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
@@ -70,7 +72,11 @@ export abstract class ActionTemplateBase<
   EventT extends ActionCreationEvent = ActionCreationEvent,
   UserInput = unknown
 > {
-  private static IdSeed = 1000;
+  private static idProvider: ActionTemplateId = ACTION_TEMPLATE_SEED_ID;
+
+  public static resetIdSeed() {
+    ActionTemplateBase.idProvider = ACTION_TEMPLATE_SEED_ID;
+  }
 
   public readonly Uid: ActionTemplateId;
 
@@ -90,11 +96,7 @@ export abstract class ActionTemplateBase<
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
-    this.Uid = ActionTemplateBase.IdSeed++;
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = 1000;
+    this.Uid = ++ActionTemplateBase.idProvider;
   }
 
   /**

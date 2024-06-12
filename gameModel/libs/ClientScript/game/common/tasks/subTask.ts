@@ -2,10 +2,15 @@ import { GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId } from '../
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
 
-const baseSeed = 4200;
+const SUB_TASK_SEED_ID: SubTaskId = 5000;
 
 export class SubTask {
-  private static IdSeed = baseSeed;
+  private static idProvider: SubTaskId = SUB_TASK_SEED_ID;
+
+  public static resetIdSeed() {
+    SubTask.idProvider = SUB_TASK_SEED_ID;
+  }
+
   public readonly subTaskId: SubTaskId;
 
   /** The resources involved in the execution of the sub-task */
@@ -16,14 +21,10 @@ export class SubTask {
   public cumulatedTime: number;
 
   public constructor(resources: ResourceId[], patientId: PatientId) {
-    this.subTaskId = SubTask.IdSeed++;
+    this.subTaskId = ++SubTask.idProvider;
     this.resources = resources;
     this.patientId = patientId;
     this.cumulatedTime = 0;
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = baseSeed;
   }
 }
 
