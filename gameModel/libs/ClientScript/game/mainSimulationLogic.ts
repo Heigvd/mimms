@@ -5,7 +5,7 @@ import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
   AppointActorActionTemplate,
-  ArrivalAnnoucementTemplate,
+  ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
   EvacuationActionTemplate,
   GetInformationTemplate,
@@ -338,7 +338,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate(
+  const acsMcsArrivalAnnouncement = new ArrivalAnnouncementTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -544,7 +544,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
-  templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;

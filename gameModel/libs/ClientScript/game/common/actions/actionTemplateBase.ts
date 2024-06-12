@@ -24,7 +24,7 @@ import {
   SendRadioMessageAction,
   SelectionFixedMapEntityAction,
   MoveActorAction,
-  ArrivalAnnoucementAction,
+  ArrivalAnnouncementAction,
   MoveResourcesAssignTaskAction,
   AppointActorAction,
   SelectionPMAAction,
@@ -842,9 +842,9 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     return new MoveActorAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       [],
@@ -876,7 +876,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 }
 
-export class ArrivalAnnoucementTemplate extends StartEndTemplate {
+export class ArrivalAnnouncementTemplate extends StartEndTemplate {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -900,16 +900,18 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
     );
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
+  protected createActionFromEvent(
+    event: FullEvent<StandardActionEvent>
+  ): ArrivalAnnouncementAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new ArrivalAnnoucementAction(
+    return new ArrivalAnnouncementAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       this.provideFlagsToState
@@ -924,7 +926,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'ArrivalAnnoucementTemplate' + '_' + this.title;
+    return 'ArrivalAnnouncementTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -977,9 +979,9 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     return new AppointActorAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       [],

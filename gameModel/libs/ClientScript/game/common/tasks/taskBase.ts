@@ -227,7 +227,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
    * In that cas, the sub-task is stopped and everything goes as if nothing happened.
    */
   protected cleanupSubTasksFromUnallocatedResources(state: Readonly<MainSimulationState>) {
-    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesByTask(state, this.Uid);
 
     // FIXME see if no problem removing element from the list we browse
 
@@ -252,7 +252,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected getResourcesReadyForNewSubTask(state: Readonly<MainSimulationState>): Resource[] {
     const result: Resource[] = [];
 
-    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesByTask(state, this.Uid);
     allocatedToTaskResources.map(resource => {
       if (!this.isResourceInvolvedInASubTask(resource.Uid)) {
         result.push(resource);

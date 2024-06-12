@@ -32,7 +32,7 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "currentActivity",
+            "name" : "activity",
             "style" : { },
             "text" : {
               "@class" : "Script",
@@ -45,11 +45,24 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "currentLocation",
+            "name" : "location",
             "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-location');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "reservation",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-reserved-by');",
               "language" : "TypeScript"
             }
           },
@@ -86,7 +99,7 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "currentActivity",
+                    "name" : "activity",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
@@ -98,11 +111,23 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "currentLocation",
+                    "name" : "location",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
                       "content" : "String(Context.resourceDebug.currentLocation);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "reservation",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "String(Context.resourceDebug.reservedBy);",
                       "language" : "TypeScript"
                     }
                   },

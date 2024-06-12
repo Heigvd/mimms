@@ -50,23 +50,35 @@ export function recomputeLocalState() {
 export function getAllResources() {
   const tasks = getCurrentState().getInternalStateObject().tasks;
   const resources = getCurrentState().getInternalStateObject().resources;
+  const actions = getCurrentState().getInternalStateObject().actions;
 
   const response: {
     resourceId: number;
     resourceType: string;
     currentActivity: string;
     currentLocation: LOCATION_ENUM;
+    reservedBy: string;
   }[] = [];
 
   resources.forEach(resource => {
     const activityTitle = resource.currentActivity
       ? tasks.find(t => t.Uid == resource.currentActivity)?.title
       : resource.currentActivity;
+
+    let reservationActor = '';
+    if (resource.reservationActionId != undefined) {
+      const actionOwnerId = actions.find(a => a.Uid === resource.reservationActionId)?.ownerId;
+      if (actionOwnerId != undefined) {
+        reservationActor = getCurrentState().getActorById(actionOwnerId)?.ShortName || '';
+      }
+    }
+
     response.push({
       resourceId: resource.Uid,
       resourceType: resource.type,
       currentActivity: '' + (activityTitle || ''),
       currentLocation: resource.currentLocation,
+      reservedBy: reservationActor,
     });
   });
   return response;

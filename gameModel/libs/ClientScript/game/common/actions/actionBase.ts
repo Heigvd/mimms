@@ -20,10 +20,12 @@ import {
   MoveActorLocalEvent,
   TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
-  DeleteIdleResourceLocalEvent,
   MoveAllIdleResourcesToLocationLocalEvent,
   HospitalRequestUpdateLocalEvent,
   ResourceAllocationLocalEvent,
+  ReserveResourcesLocalEvent,
+  DeleteResourceLocalEvent,
+  UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -44,11 +46,7 @@ import { entries } from '../../../tools/helper';
 import { ActionType } from '../actionType';
 import { SimFlag } from './actionTemplateBase';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import {
-  enoughResourcesOfAllTypes,
-  getInStateCountInactiveResourcesByLocationAndType,
-  getResourcesAvailableByLocation,
-} from '../simulationState/resourceStateAccess';
+import * as ResourceState from '../simulationState/resourceStateAccess';
 import { InterventionRole } from '../actors/actor';
 import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
@@ -637,9 +635,9 @@ export class MoveActorAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
-    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -672,20 +670,19 @@ export class MoveActorAction extends StartEndAction {
 }
 
 export class AppointActorAction extends StartEndAction {
-  public readonly actorRole: InterventionRole;
-  private potentialActorCount: number = 0;
   private location: LOCATION_ENUM | undefined = undefined;
+  private involvedResourceId: ResourceId | undefined = undefined;
 
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
-    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
-    actorRole: InterventionRole,
+    readonly actorRole: InterventionRole,
     readonly requiredResourceType: ResourceType,
     readonly failureMessageKey: TranslationKey
   ) {
@@ -699,20 +696,29 @@ export class AppointActorAction extends StartEndAction {
       uuidTemplate,
       provideFlagsToState
     );
-    this.actorRole = actorRole;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-    this.location = state.getActorById(this.ownerId)?.Location;
-    if (this.location) {
-      this.potentialActorCount = getResourcesAvailableByLocation(
-        state,
-        this.location,
-        this.requiredResourceType
-      ).length;
-    }
-    if (this.potentialActorCount > 0) {
-      // TODO reserve resource mecanism
+    this.location = state.getActorById(this.ownerId)!.Location;
+
+    const matchingResources = ResourceState.getFreeWaitingResourcesByTypeAndLocation(
+      state,
+      this.requiredResourceType,
+      this.location
+    );
+
+    if (matchingResources.length > 0) {
+      this.involvedResourceId = matchingResources[0]!.Uid;
+
+      // we reserve the resources for this action so that they cannot be used by anything else
+      localEventManager.queueLocalEvent(
+        new ReserveResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          [this.involvedResourceId],
+          this.Uid
+        )
+      );
     } else {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -727,23 +733,27 @@ export class AppointActorAction extends StartEndAction {
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (this.potentialActorCount) {
+    if (this.involvedResourceId != undefined) {
       localEventManager.queueLocalEvent(
         new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
       );
+
+      // no need to free the resource as long as it will be deleted
+
       localEventManager.queueLocalEvent(
-        new DeleteIdleResourceLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.location!,
-          this.requiredResourceType
-        )
+        new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
       );
     }
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    return;
+    if (this.involvedResourceId != undefined) {
+      localEventManager.queueLocalEvent(
+        new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
+          this.involvedResourceId,
+        ])
+      );
+    }
   }
 }
 
@@ -808,7 +818,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
     if (
-      enoughResourcesOfAllTypes(
+      ResourceState.enoughResourcesOfAllTypes(
         state,
         this.sourceTaskId,
         this.sentResources,
@@ -939,13 +949,13 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   }
 }
 
-export class ArrivalAnnoucementAction extends StartEndAction {
+export class ArrivalAnnouncementAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
     eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[]
@@ -967,11 +977,11 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event ArrivalAnnoucementAction');
+    this.logger.info('start event ArrivalAnnouncementAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event ArrivalAnnoucementAction');
+    this.logger.info('end event ArrivalAnnouncementAction');
     const so = state.getInternalStateObject();
 
     localEventManager.queueLocalEvent(
@@ -991,7 +1001,7 @@ export class ArrivalAnnoucementAction extends StartEndAction {
 
     //transfer available human resources from each location to event owner location
     for (const location of so.mapLocations) {
-      const availableResources = getInStateCountInactiveResourcesByLocationAndType(
+      const availableResources = ResourceState.getInStateCountInactiveResourcesByLocationAndType(
         state,
         HumanResourceTypeArray,
         location.id
