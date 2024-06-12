@@ -1,4 +1,5 @@
 import {
+  ActionId,
   ActionTemplateId,
   ActorId,
   GlobalEventId,
@@ -63,26 +64,27 @@ import { getSquadDef } from '../evacuation/evacuationSquadDef';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
-const SEEDID = 3000;
+const ACTION_BASE_SEED_ID: ActionId = 3000;
+
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
 
+  private static actionIdSeed: ActionId = ACTION_BASE_SEED_ID;
+
+  public static resetIdSeed() {
+    ActionBase.actionIdSeed = ACTION_BASE_SEED_ID;
+  }
+
   protected readonly logger = ActionBase.slogger;
+
+  public readonly Uid: ActionId;
 
   protected status: ActionStatus;
 
   protected readonly templateId;
-
-  public readonly Uid: number;
-
-  private static actionIdSeed: number = 3000;
-
-  public static resetIdSeed() {
-    ActionBase.actionIdSeed = SEEDID;
-  }
 
   public constructor(
     readonly startTime: SimTime,

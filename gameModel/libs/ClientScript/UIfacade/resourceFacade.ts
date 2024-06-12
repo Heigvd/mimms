@@ -3,7 +3,7 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getResourcesForLocationTaskAndType } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getSelectedActorLocation } from './actorFacade';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
