@@ -584,8 +584,8 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     state: MainSimulationState
   ): AddRadioMessageLocalEvent {
     let parkKey = '';
-    if (rtype === 'Ambulance') parkKey = 'location-ambulance-park';
-    else if (rtype === 'Helicopter') parkKey = 'location-helicopter-park';
+    if (rtype === 'Ambulance') parkKey = 'location-ambulancePark';
+    else if (rtype === 'Helicopter') parkKey = 'location-helicopterPark';
     else
       resourceLogger.warn('The ressources that are unable to arrive are ambulance and helicopter');
     const park = getTranslation('mainSim-locations', parkKey, false);

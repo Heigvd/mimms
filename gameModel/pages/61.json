@@ -85,17 +85,53 @@
                   "type" : "Text"
                 }, {
                   "props" : {
-                    "className" : "answer",
-                    "layoutStyle" : { },
-                    "name" : "resourceType",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.resourceDebug.resourceType;",
-                      "language" : "TypeScript"
-                    }
+                    "children" : [ {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.resourceDebug.resourceType !== 'ambulance';",
+                          "language" : "typescript"
+                        },
+                        "icon" : "ambulance",
+                        "layoutStyle" : { },
+                        "name" : "category",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.resourceDebug.resourceType !== 'helicopter';",
+                          "language" : "typescript"
+                        },
+                        "icon" : "helicopter",
+                        "layoutStyle" : { },
+                        "name" : "category",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "answer",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.resourceDebug.resourceType === 'ambulance' || Context.resourceDebug.resourceType === 'helicopter'",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "resourceType",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceDebug.resourceType);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "layoutStyle" : { },
@@ -115,7 +151,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.currentLocation);",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', 'location-' + String(Context.resourceDebug.currentLocation));",
                       "language" : "TypeScript"
                     }
                   },
@@ -179,7 +215,7 @@
         "layout" : {
           "alignItems" : "center",
           "gridAutoRows" : "50px",
-          "justifyItems" : "center"
+          "justifyItems" : "start"
         },
         "layoutStyle" : { },
         "name" : "summary",

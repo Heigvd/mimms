@@ -61,9 +61,10 @@ export function getAllResources() {
   }[] = [];
 
   resources.forEach(resource => {
-    const activityTitle = resource.currentActivity
-      ? tasks.find(t => t.Uid == resource.currentActivity)?.title
-      : resource.currentActivity;
+    const activityTitle: string =
+      (resource.currentActivity != undefined
+        ? tasks.find(t => t.Uid == resource.currentActivity)?.getTitle()
+        : '') || '';
 
     let reservationActor = '';
     if (resource.reservationActionId != undefined) {
@@ -76,7 +77,7 @@ export function getAllResources() {
     response.push({
       resourceId: resource.Uid,
       resourceType: resource.type,
-      currentActivity: '' + (activityTitle || ''),
+      currentActivity: activityTitle,
       currentLocation: resource.currentLocation,
       reservedBy: reservationActor,
     });

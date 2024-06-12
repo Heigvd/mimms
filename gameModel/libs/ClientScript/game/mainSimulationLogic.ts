@@ -469,7 +469,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-ambulance-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-ambulance-park',
+      'location-ambulancePark',
       LOCATION_ENUM.ambulancePark,
       ['EVASAN'],
       new PointGeometricalShape([
@@ -493,7 +493,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-helicopter-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-helicopter-park',
+      'location-helicopterPark',
       LOCATION_ENUM.helicopterPark,
       ['EVASAN'],
       new PointGeometricalShape([

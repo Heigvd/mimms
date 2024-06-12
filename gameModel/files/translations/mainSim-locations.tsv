@@ -6,8 +6,8 @@ location-PMA	Advanced medical post	Poste médical avancé
 location-PMA-short	AMP	PMA
 location-PC	Command post	Poste de commandement
 location-PC-short	CP	PC
-location-ambulance-park	Ambulance park	Parc ambulance
-location-helicopter-park	Helicopter park	Parc hélicoptère
+location-ambulancePark	Ambulance park	Parc ambulance
+location-helicopterPark	Helicopter park	Parc hélicoptère
 location-meetingPoint	Meeting point	Point de rassemblement
 location-remote	Remotely	À distance
 location-access	Access	Accès
