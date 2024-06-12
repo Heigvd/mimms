@@ -54,8 +54,10 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
+    const location = ResourceState.getResourcesForTask(state, this.Uid)[0]!.currentLocation;
+
     taskLogger.info(
-      'Patients not pretriaged before action: ' + getNonPreTriagedPatientsSize(state)
+      'Patients not pretriaged before action: ' + getNonPreTriagedPatientsSize(state, location)
     );
     const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
@@ -67,7 +69,7 @@ export class PreTriageTask extends TaskBase {
         (resource as Resource).cumulatedUnusedTime =
           (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY -
           TIME_REQUIRED_FOR_PATIENT_PRETRI;
-        const nextPatient = getNextNonPreTriagedPatient(state);
+        const nextPatient = getNextNonPreTriagedPatient(state, location);
         if (nextPatient)
           nextPatient.preTriageResult = doPatientAutomaticTriage(
             nextPatient.humanBody,
@@ -78,9 +80,11 @@ export class PreTriageTask extends TaskBase {
       }
     });
 
-    taskLogger.info('Patients not pretriaged after action: ' + getNonPreTriagedPatientsSize(state));
+    taskLogger.info(
+      'Patients not pretriaged after action: ' + getNonPreTriagedPatientsSize(state, location)
+    );
 
-    if (getNonPreTriagedPatientsSize(state) === 0) {
+    if (getNonPreTriagedPatientsSize(state, location) === 0) {
       localEventManager.queueLocalEvent(
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
       );
@@ -90,7 +94,7 @@ export class PreTriageTask extends TaskBase {
 
       //get distinct pretriage categories with count
       let result = 'Result: ';
-      Object.entries(getPreTriagedAmountByCategory(state)).forEach(([key, value]) => {
+      Object.entries(getPreTriagedAmountByCategory(state, location)).forEach(([key, value]) => {
         result += key + ': ' + value + '\n';
       });
 
