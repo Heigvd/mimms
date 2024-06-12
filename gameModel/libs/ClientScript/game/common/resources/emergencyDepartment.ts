@@ -21,7 +21,7 @@ import { ResourceType } from './resourceType';
 
 const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
-export function getContainerDef(id: ResourceContainerDefinitionId) {
+export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return containerDefinitions[id]!;
 }
 
@@ -51,32 +51,51 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
 
   if (!tsv) return containerConfigs;
   if (!tsv.startsWith('<!DOCTYPE')) {
-    const emergencyAmbulance = addContainerDefinition('Ambulance', 'emergencyAmbulance', {
-      ambulance: 1,
-      ambulancier: 2,
-    });
+    const emergencyAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+      'Ambulance',
+      'emergencyAmbulance',
+      {
+        ambulance: 1,
+        ambulancier: 2,
+      }
+    );
 
-    const intermediateAmbulance = addContainerDefinition('Ambulance', 'intermediateAmbulance', {
-      technicienAmbulancier: 1,
+    const intermediateAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+      'Ambulance',
+      'intermediateAmbulance',
+      {
+        ambulance: 1,
+        technicienAmbulancier: 1,
+        ambulancier: 1,
+      }
+    );
+
+    const transfertAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+      'Ambulance',
+      'transferAmbulance',
+      {
+        ambulance: 1,
+        secouriste: 1,
+        technicienAmbulancier: 1,
+      }
+    );
+
+    const helicopter: ResourceContainerDefinitionId = addContainerDefinition(
+      'Helicopter',
+      'helicopter',
+      {
+        helicopter: 1,
+        ambulancier: 1,
+        medecinSenior: 1,
+      }
+    );
+
+    const smur: ResourceContainerDefinitionId = addContainerDefinition('SMUR', 'smur', {
       ambulancier: 1,
-      ambulance: 1,
+      medecinJunior: 1,
     });
 
-    const transfertAmbulance = addContainerDefinition('Ambulance', 'transferAmbulance', {
-      ambulance: 1,
-      technicienAmbulancier: 1,
-      secouriste: 1,
-    });
-
-    const helicopter = addContainerDefinition('Helicopter', 'helicopter', {
-      helicopter: 1,
-      ambulancier: 1,
-      medecinSenior: 1,
-    });
-
-    const smur = addContainerDefinition('SMUR', 'smur', { ambulancier: 1, medecinJunior: 1 });
-
-    const acsMcs = addContainerDefinition(
+    const acsMcs: ResourceContainerDefinitionId = addContainerDefinition(
       'ACS-MCS',
       'acs-mcs',
       {},
@@ -84,11 +103,22 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
       [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]
     );
 
-    const pma = addContainerDefinition('PMA', 'pma', { secouriste: 4 });
+    const pma: ResourceContainerDefinitionId = addContainerDefinition('PMA', 'pma', {
+      secouriste: 4,
+    });
 
-    const pica = addContainerDefinition('PICA', 'pica', { secouriste: 10 });
+    const pica: ResourceContainerDefinitionId = addContainerDefinition('PICA', 'pica', {
+      secouriste: 10,
+    });
 
-    const pcSanitaire = addContainerDefinition('PCS', 'pcs', {}, [], [SimFlag.PCS_ARRIVED]);
+    const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
+      'PCS',
+      'pcs',
+      {},
+      [],
+      [SimFlag.PCS_ARRIVED]
+    );
+
     tsv
       .split('\n')
       .slice(1)
@@ -99,7 +129,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
           return;
         }
         let definition = null;
-        switch (l[0]) {
+        switch (l[0]!) {
           case 'AMB-U':
             definition = emergencyAmbulance;
             break;
@@ -132,11 +162,11 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
             resourceLogger.warn('malformed resource container configuration', l);
         }
         containerConfigs.push({
-          amount: 1,
-          name: l[1] || 'UNAMED',
-          availabilityTime: +l[2] * 60 || 0,
           templateId: definition,
-          travelTime: +l[3] * 60 || 60,
+          name: l[1]! || 'UNNAMED',
+          availabilityTime: +l[2]! * 60 || 0,
+          travelTime: +l[3]! * 60 || 60,
+          amount: 1,
         });
       });
   }
@@ -161,32 +191,33 @@ function addContainerDefinition(
  * Resolve a resource request made by a player
  * fetch all the resources available and dispatch them
  * if the resource is not available right away it will be sent later but scheduled
- * @param the global event id that triggered this request
- * @param request the amount and type formulated in the request
- * @param author of the request
  * @param state the current state of the game
+ * @param globalEventId the global event id that triggered this request
+ * @param senderId the author of the request
+ * @param request the amount and type formulated in the request
  */
 export function resolveResourceRequest(
+  state: MainSimulationState,
   globalEventId: GlobalEventId,
-  request: Record<ResourceContainerType, number>,
   senderId: ActorId,
-  state: MainSimulationState
+  request: Record<ResourceContainerType, number>
 ) {
   const containers = state.getResourceContainersByType();
   const now = state.getSimTime();
   entries(request)
-    .filter(([_, a]) => a > 0)
+    .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
     .forEach(([typeId, requestedAmount]) => {
-      // order by time of availability
+      // fetch the containers that still have an amount
       const cs: ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
+      // ordered by time of availability
       cs.sort((a, b) => a.availabilityTime - b.availabilityTime);
-      let found = 0;
-      for (let i = 0; i < cs.length && found < requestedAmount; i++) {
-        const c = cs[i];
-        const n = Math.min(requestedAmount - found, c.amount);
+      let foundAmount = 0;
+      for (let i = 0; i < cs.length && foundAmount < requestedAmount; i++) {
+        const c = cs[i]!;
+        const n = Math.min(requestedAmount - foundAmount, c.amount);
         // n > 0 by construction
-        found += n;
-        c.amount -= n; // STATE CHANGE HERE
+        foundAmount += n;
+        c.amount -= n; // !!! STATE CHANGE HERE !!!
 
         const departureTime = Math.max(c.availabilityTime, now);
         const definition = getContainerDef(c.templateId);

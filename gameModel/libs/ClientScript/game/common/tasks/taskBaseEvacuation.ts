@@ -14,7 +14,7 @@ import {
 import { PatientUnitTypology } from '../evacuation/hospitalType';
 import { getIdleTaskUid } from './taskLogic';
 import { Resource } from '../resources/resource';
-import { resourceArrivalResolution } from '../resources/resourceLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
           subTask.parentEventId,
           state.getSimTime(),
           [resource.Uid],
-          resourceArrivalResolution(state, resource.type)
+          resourceArrivalLocationResolution(state, resource.type)
         )
       );
 

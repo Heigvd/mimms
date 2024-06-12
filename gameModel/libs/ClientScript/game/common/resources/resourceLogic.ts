@@ -7,10 +7,8 @@ import { ResourceContainerType } from './resourceContainer';
 
 /**
  * Resolves which location new resources should be sent to
- * @params state
- * @returns location
  */
-export function resourceArrivalResolution(
+export function resourceArrivalLocationResolution(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): LOCATION_ENUM {
@@ -21,7 +19,7 @@ export function resourceArrivalResolution(
     const mcsArrived = so.flags.MCS_ARRIVED;
     const pcBuilt = so.flags.PC_BUILT;
 
-    if (mcsArrived && acsArrived && pcBuilt) {
+    if (acsArrived && mcsArrived && pcBuilt) {
       return LOCATION_ENUM.PC;
     }
   }

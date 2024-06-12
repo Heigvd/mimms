@@ -7,6 +7,7 @@ import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import { getTaskResponsibleActorSymbolicLocation } from './taskStateAccess';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -86,6 +87,37 @@ export function getHumanResourcesForLocation(
     .resources.filter(resource => resource.currentLocation === location && isHuman(resource.type));
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// change the world
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export function addIncomingResources(
+  state: MainSimulationState,
+  resourceType: ResourceType,
+  amount: number
+): void {
+  const internalState = state.getInternalStateObject();
+
+  const location = resourceArrivalLocationResolution(state, resourceType);
+
+  for (let i = 0; i < amount; i++) {
+    const resource = new Resource(resourceType, location, getIdleTaskUid(state));
+    internalState.resources.push(resource);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 //
@@ -255,22 +287,6 @@ export function getResourcesAllocatedToAnyTaskForActor(
 // change the world - old
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * Add resources to a location.
- */
-export function addIncomingResourcesToLocation(
-  state: MainSimulationState,
-  resourceType: ResourceType,
-  resourceLocation: LOCATION_ENUM,
-  amount: number
-): void {
-  const internalState = state.getInternalStateObject();
-  for (let i = 0; i < amount; i++) {
-    const r = new Resource(resourceType, resourceLocation, getIdleTaskUid(state));
-    internalState.resources.push(r);
-  }
-}
 
 export function getInStateCountResourcesByLocationAndTaskInProgressAndType(
   state: Readonly<MainSimulationState>,

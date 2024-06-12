@@ -7,8 +7,7 @@ const RESOURCE_CONTAINER_SEED_ID: ResourceContainerDefinitionId = 6000;
 
 // TODO might be configurable in a far future
 /**
- * Corresponds to the type of containers that
- * a player can request
+ * Corresponds to the type of containers that a player can request
  */
 export const ResourceContainerTypeArray = [
   'ACS-MCS',
@@ -23,13 +22,18 @@ export const ResourceContainerTypeArray = [
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
 /**
- * Describes the content of one container that can be requested by an actor to the emergency departement
+ * Describes the content of one container that can be requested by an actor to the emergency department
  */
 export interface ResourceContainerDefinition {
   /**
    * Unique identifier
    */
   uid: ResourceContainerDefinitionId;
+
+  /**
+   * Associated resource type
+   */
+  type: ResourceContainerType;
 
   /**
    * Displayed name
@@ -47,11 +51,6 @@ export interface ResourceContainerDefinition {
   roles: InterventionRole[];
 
   /**
-   * Associated resource type
-   */
-  type: ResourceContainerType;
-
-  /**
    * Flags that are raised (added to the state) when an instance of this container arrives on site
    */
   flags: SimFlag[];
@@ -64,7 +63,7 @@ export function resetIdSeed() {
 }
 
 export function buildContainerDefinition(
-  rtype: ResourceContainerType,
+  type: ResourceContainerType,
   name: TranslationKey,
   resources: Partial<Record<ResourceType, number>>,
   roles: InterventionRole[] = [],
@@ -72,11 +71,11 @@ export function buildContainerDefinition(
 ): ResourceContainerDefinition {
   return {
     uid: ++idProvider,
-    type: rtype,
-    roles: roles || [],
+    type: type,
     name: name,
     resources: resources || {},
-    flags: flags || [],
+    roles: roles,
+    flags: flags,
   };
 }
 
@@ -85,6 +84,8 @@ export function buildContainerDefinition(
  */
 export interface ResourceContainerConfig {
   templateId: ResourceContainerDefinitionId;
+
+  name: string;
 
   // TODO might be a function (more flexibility)
   // or keep it a time value for easier configuration ?
@@ -103,6 +104,4 @@ export interface ResourceContainerConfig {
    * the number of available containers
    */
   amount: number;
-
-  name: string;
 }

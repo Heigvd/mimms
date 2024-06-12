@@ -28,7 +28,7 @@ import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessag
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import { resourceArrivalResolution, resourceContainerCanArrive } from '../resources/resourceLogic';
+import { resourceContainerCanArrive } from '../resources/resourceLogic';
 import {
   deleteIdleResource,
   getUnoccupiedResources,
@@ -456,10 +456,10 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
     // check that the payload subtypes to MethaneMessagePayload
     if (this.request.messageType !== 'R' && this.request.resourceRequest) {
       resolveResourceRequest(
+        state,
         this.parentEventId,
-        this.request.resourceRequest,
         this.actorUid,
-        state
+        this.request.resourceRequest
       );
     }
   }
@@ -517,7 +517,6 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       Object.keys(containerDef.flags).length > 0
     ) {
       // schedule resource arrival event
-      // TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
       const evt = new ResourcesArrivalLocalEvent(
         this.parentEventId,
         this.departureTime + this.travelTime,
@@ -601,14 +600,13 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       }
 
       entries(containerDef.resources)
-        .filter(([_, qt]) => qt && qt > 0)
-        .forEach(([rType, qty]) => {
-          const n = qty! * this.amount;
-          ResourceState.addIncomingResourcesToLocation(
+        .filter(([_resourceType, qty]) => qty && qty > 0)
+        .forEach(([resourceType, qty]) => {
+          const resourcesAmount = qty! * this.amount;
+          ResourceState.addIncomingResources(
             state,
-            rType,
-            resourceArrivalResolution(state, rType),
-            n
+            resourceType,
+            resourcesAmount
           );
         });
     } else {
