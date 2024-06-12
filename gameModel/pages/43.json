@@ -218,7 +218,7 @@
                                                       "className" : "currentResources",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interface.state.selectedPanel === SelectedPanel.resources;",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -1001,13 +1001,13 @@
                                   "className" : "unauthorizedAction",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
                                     "language" : "typescript"
                                   }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",
