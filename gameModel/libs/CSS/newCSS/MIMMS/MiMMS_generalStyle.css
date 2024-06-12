@@ -113,6 +113,10 @@
   font-family: var(--mainFont);
 }
 
+
+.warningText{
+  color: red;
+}
 /*** Unclassables ***/
 .unauthorizedAction{
   cursor: not-allowed;
