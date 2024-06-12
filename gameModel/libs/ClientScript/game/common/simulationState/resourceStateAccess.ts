@@ -55,6 +55,23 @@ export function getResourcesByTypeLocationAndTask(
     );
 }
 
+export function getFreeResourcesByTypeLocationAndTask(
+  state: Readonly<MainSimulationState>,
+  resourceType: ResourceType,
+  location: LOCATION_ENUM,
+  taskId: TaskId
+): Resource[] {
+  return state
+    .getInternalStateObject()
+    .resources.filter(
+      resource =>
+        !resource.isReserved() &&
+        resource.type === resourceType &&
+        resource.currentLocation === location &&
+        resource.currentActivity === taskId
+    );
+}
+
 export function getResourcesByTypeAndLocation(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType,
@@ -86,6 +103,18 @@ export function getHumanResourcesByLocation(
   return state
     .getInternalStateObject()
     .resources.filter(resource => isHuman(resource.type) && resource.currentLocation === location);
+}
+
+export function getFreeHumanResourcesByLocation(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): Resource[] {
+  return state
+    .getInternalStateObject()
+    .resources.filter(
+      resource =>
+        !resource.isReserved() && isHuman(resource.type) && resource.currentLocation === location
+    );
 }
 
 export function getFreeWaitingResourcesByLocation(

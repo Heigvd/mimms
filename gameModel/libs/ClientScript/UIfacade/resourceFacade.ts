@@ -1,6 +1,6 @@
 import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
+import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getSelectedActorLocation } from './actorFacade';
@@ -19,7 +19,7 @@ export function countAvailableResourcesToAllocate(
   if (location == undefined || taskId == undefined) {
     return '0';
   } else {
-    return getResourcesByTypeLocationAndTask(
+    return getFreeResourcesByTypeLocationAndTask(
       getCurrentState(),
       resourceType,
       location,
