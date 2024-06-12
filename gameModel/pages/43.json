@@ -475,6 +475,11 @@
                                       "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
                                     },
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.mapState.state.mapSelect;",
+                                      "language" : "typescript"
+                                    },
                                     "itemKey" : "id",
                                     "layoutStyle" : {
                                       "pointerEvents" : "auto"

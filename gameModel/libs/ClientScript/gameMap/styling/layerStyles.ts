@@ -79,7 +79,7 @@ function getPointStyle(feature: any): LayerStyleObject {
         !(name === Context.interfaceState.state.selectedMapObjectId) &&
         Context.mapState.state.mapSelect
       ) {
-        iconStyle.opacity = 0.5;
+        iconStyle.opacity = 0;
         textStyle.text = '';
       }
     }
@@ -138,7 +138,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
     Context.mapState.state.mapSelect &&
     !duration
   ) {
-    strokeStyle.color = '#3CA3CC80';
+    strokeStyle.color = '#3CA3CC00';
   }
 
   return { stroke: strokeStyle };
