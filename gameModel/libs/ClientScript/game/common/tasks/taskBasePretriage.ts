@@ -7,7 +7,7 @@ import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
-  AllResourcesReleaseLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
@@ -85,7 +85,7 @@ export class PreTriageTask extends TaskBase {
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
       );
       localEventManager.queueLocalEvent(
-        new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+        new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
       );
 
       //get distinct pretriage categories with count

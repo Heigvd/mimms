@@ -11,7 +11,7 @@ import * as TaskState from '../simulationState/taskStateAccess';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
   AddRadioMessageLocalEvent,
-  AllResourcesReleaseLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { ActionType } from '../actionType';
@@ -291,7 +291,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     );
 
     localEventManager.queueLocalEvent(
-      new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+      new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
     );
 
     // We broadcast a message when the task is completed

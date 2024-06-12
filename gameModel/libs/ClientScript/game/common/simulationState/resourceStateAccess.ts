@@ -6,7 +6,6 @@ import { isHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resou
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
-import { getTaskResponsibleActorSymbolicLocation } from './taskStateAccess';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 
 // -------------------------------------------------------------------------------------------------
@@ -39,13 +38,6 @@ export function getResourceById(
 
   return matchingResources[0]!;
 }
-
-// export function getResourcesById(
-//   state: Readonly<MainSimulationState>,
-//   resourcesId: ResourceId[]
-// ): Resource[] {
-//   return resourcesId.map((resourceId: ResourceId) => getResourceById(state, resourceId));
-// }
 
 export function getResourcesByTypeLocationAndTask(
   state: Readonly<MainSimulationState>,
@@ -217,6 +209,15 @@ export function assignResourcesToTask(
   });
 }
 
+export function assignResourcesToWaitingTask(
+  state: MainSimulationState,
+  resourcesId: ResourceId[]
+): void {
+  resourcesId.forEach((resourceId: ResourceId) => {
+    getResourceById(state, resourceId).currentActivity = getIdleTaskUid(state);
+  });
+}
+
 export function deleteResource(state: MainSimulationState, resourceId: ResourceId): void {
   const internalState = state.getInternalStateObject();
 
@@ -330,12 +331,6 @@ export function getResourcesAllocatedToTask(
   return internalState.resources.filter(res => res.currentActivity === taskId);
 }
 
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// old
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
 /**
  * Allocate resources to a task.
  */
@@ -362,43 +357,5 @@ export function allocateResourcesToTask(
 
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
-  }
-}
-
-/**
- * Release (deallocate) all resources from a task.
- */
-export function releaseAllResourcesFromTask(state: MainSimulationState, taskId: TaskId): void {
-  const atDisposal = getResourcesAllocatedToTask(state, taskId);
-
-  for (const resource of atDisposal) {
-    resource.currentActivity = getIdleTaskUid(state);
-    //get task responsible actor symbolic location
-    resource.currentLocation = getTaskResponsibleActorSymbolicLocation(state, taskId);
-  }
-}
-
-/**
- * Delete one idle resource
- */
-export function deleteIdleResource(
-  state: MainSimulationState,
-  location: LOCATION_ENUM,
-  resourceType: ResourceType
-): void {
-  const atDisposal: Resource[] = getWaitingResourcesByTypeAndLocation(
-    state,
-    resourceType,
-    location
-  );
-  const internalState = state.getInternalStateObject();
-
-  const theWinner = atDisposal[0];
-  if (theWinner == undefined) {
-    resourceLogger.error(
-      `No idle resource found to delete for location ${location} and resourceType ${resourceType}`
-    );
-  } else {
-    internalState.resources.splice(internalState.resources.indexOf(theWinner), 1);
   }
 }
