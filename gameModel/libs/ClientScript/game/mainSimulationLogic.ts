@@ -83,7 +83,9 @@ Helpers.registerEffect(() => {
 function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
-  const testAL = new Actor('AL', LOCATION_ENUM.chantier);
+  const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+  // AL's default location (symbolicLocation) doesn't exist yet
+  testAL.Location = LOCATION_ENUM.chantier;
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(
