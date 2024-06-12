@@ -3,6 +3,8 @@ import {
   ActionTemplateId,
   ActorId,
   GlobalEventId,
+  HospitalId,
+  PatientId,
   ResourceId,
   SimDuration,
   SimTime,
@@ -21,7 +23,7 @@ import {
   TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
   HospitalRequestUpdateLocalEvent,
-  ResourceAllocationLocalEvent,
+  AssignResourcesToTaskLocalEvent,
   ReserveResourcesLocalEvent,
   DeleteResourceLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -54,11 +56,15 @@ import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
-import { getResourcesForEvacSquad, isEvacSquadAvailable } from '../evacuation/evacuationLogic';
+import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
-import { HospitalDefinition, HospitalProximity } from '../evacuation/hospitalType';
+import {
+  HospitalDefinition,
+  HospitalProximity,
+  PatientUnitTypology,
+} from '../evacuation/hospitalType';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
-import { getSquadDef } from '../evacuation/evacuationSquadDef';
+import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -622,7 +628,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//  Move actor
+// Move actor
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -747,6 +753,7 @@ export class AppointActorAction extends StartEndAction {
   }
 
   protected cancelInternal(state: MainSimulationState): void {
+    // we free the resources so that they are available for other actions
     if (this.involvedResourceId != undefined) {
       localEventManager.queueLocalEvent(
         new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
@@ -1015,7 +1022,7 @@ export class ArrivalAnnouncementAction extends StartEndAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//  Evacuation
+// Evacuation
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -1023,7 +1030,14 @@ export class ArrivalAnnouncementAction extends StartEndAction {
  * Action to evacuate a patient to a hospital
  */
 export class EvacuationAction extends RadioDrivenAction {
-  public readonly evacuationActionPayload: EvacuationActionPayload;
+  private readonly patientId: PatientId;
+  private readonly hospitalId: HospitalId;
+  private readonly patientUnitAtHospital: PatientUnitTypology;
+  private readonly transportSquad: EvacuationSquadType;
+  private readonly doResourcesComeBack: boolean;
+
+  private isEnoughResources: boolean;
+  private involvedResourcesId: ResourceId[];
 
   constructor(
     startTimeSec: SimTime,
@@ -1035,7 +1049,7 @@ export class EvacuationAction extends RadioDrivenAction {
     readonly msgEvacuationAbort: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    evacuationActionPayload: EvacuationActionPayload,
+    readonly evacuationActionPayload: EvacuationActionPayload,
     provideFlagsToState?: SimFlag[]
   ) {
     super(
@@ -1048,11 +1062,105 @@ export class EvacuationAction extends RadioDrivenAction {
       uuidTemplate,
       provideFlagsToState
     );
-    this.evacuationActionPayload = evacuationActionPayload;
+    this.patientId = evacuationActionPayload.patientId;
+    this.hospitalId = evacuationActionPayload.hospitalId;
+    this.patientUnitAtHospital = evacuationActionPayload.patientUnitAtHospital;
+    this.transportSquad = evacuationActionPayload.transportSquad;
+    this.doResourcesComeBack = !!evacuationActionPayload.doResourcesComeBack;
+
+    this.isEnoughResources = false;
+    this.involvedResourcesId = [];
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     this.logger.info('start event EvacuationAction');
+
+    this.isEnoughResources = EvacuationLogic.isEvacSquadAvailable(state, this.transportSquad);
+
+    if (this.isEnoughResources) {
+      this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
+        state,
+        this.transportSquad
+      ).map((resource: Resource) => resource.Uid);
+
+      // we reserve the resources for this action so that they cannot be used by anything else
+      localEventManager.queueLocalEvent(
+        new ReserveResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.involvedResourcesId,
+          this.Uid
+        )
+      );
+    } else {
+      this.involvedResourcesId = [];
+    }
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    this.logger.info('end event EvacuationAction');
+
+    // we free the resources so that they are available again
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    if (!this.isEnoughResources) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0,
+          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          this.msgEvacuationAbort,
+          this.getChannel(),
+          true
+        )
+      );
+    } else {
+      const travelTime = computeTravelTime(this.hospitalId, this.transportSquad);
+
+      const evacuationTask = getEvacuationTask(state);
+
+      localEventManager.queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.involvedResourcesId,
+          evacuationTask.Uid
+        )
+      );
+
+      evacuationTask.createSubTask(
+        this.eventId,
+        this.involvedResourcesId,
+        this.patientId,
+        this.hospitalId,
+        this.patientUnitAtHospital,
+        this.doResourcesComeBack,
+        travelTime
+      );
+    }
+  }
+
+  protected cancelInternal(state: MainSimulationState): void {
+    // we free the resources so that they are available for other actions
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
   }
 
   private formatStartFeedbackMessage(payload: EvacuationActionPayload) {
@@ -1080,82 +1188,6 @@ export class EvacuationAction extends RadioDrivenAction {
       byVector,
       healerPresence,
     ]);
-  }
-
-  protected dispatchEndedEvents(state: MainSimulationState): void {
-    this.logger.info('end event EvacuationAction');
-
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getRecipient(),
-        this.getEmitter(),
-        this.getMessage(),
-        this.getChannel(),
-        true,
-        true
-      )
-    );
-
-    const isEnoughResources = isEvacSquadAvailable(
-      state,
-      this.evacuationActionPayload.transportSquad
-    );
-
-    if (!isEnoughResources) {
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          0,
-          getCurrentState().getActorById(this.ownerId)?.FullName || '',
-          this.msgEvacuationAbort,
-          this.getChannel(),
-          true
-        )
-      );
-    } else {
-      const involvedResources: Resource[] = getResourcesForEvacSquad(
-        state,
-        this.evacuationActionPayload.transportSquad
-      );
-
-      const involvedResourceIds: ResourceId[] = involvedResources.map(resource => resource.Uid);
-
-      const travelTime = computeTravelTime(
-        this.evacuationActionPayload.hospitalId,
-        this.evacuationActionPayload.transportSquad
-      );
-
-      const evacuationTask = getEvacuationTask(state);
-
-      involvedResources.forEach(res => {
-        localEventManager.queueLocalEvent(
-          new ResourceAllocationLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            res.Uid,
-            evacuationTask.Uid
-          )
-        );
-      });
-
-      evacuationTask.createSubTask(
-        this.eventId,
-        involvedResourceIds,
-        this.evacuationActionPayload.patientId,
-        this.evacuationActionPayload.hospitalId,
-        this.evacuationActionPayload.patientUnitAtHospital,
-        !!this.evacuationActionPayload.doResourcesComeBack,
-        travelTime
-      );
-    }
-  }
-
-  protected cancelInternal(state: MainSimulationState): void {
-    // nothing done before the end of the action => nothing to cancel
-    return;
   }
 
   public getChannel(): ActionType {

@@ -1,6 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { mainSimStateLogger, resourceLogger } from '../../../tools/logger';
-import { ActionId, ActorId, ResourceId, TaskId } from '../baseTypes';
+import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
 import { isHuman, ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
@@ -96,6 +96,19 @@ export function getHumanResourcesByLocation(
     .resources.filter(resource => isHuman(resource.type) && resource.currentLocation === location);
 }
 
+export function getFreeWaitingResourcesByLocation(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): Resource[] {
+  const internalState = state.getInternalStateObject();
+  return internalState.resources.filter(
+    (resource: Resource) =>
+      !resource.isReserved() &&
+      resource.currentLocation === location &&
+      resource.currentActivity == getIdleTaskUid(state)
+  );
+}
+
 export function getFreeWaitingResourcesByTypeAndLocation(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType,
@@ -174,20 +187,33 @@ export function reserveResources(
   resourcesId: ResourceId[],
   actionId: ActionId // The action that reserve the resources for its execution
 ): void {
-  resourcesId.forEach(resourceId => {
+  resourcesId.forEach((resourceId: ResourceId) => {
     getResourceById(state, resourceId).reserve(actionId);
   });
 }
 
 export function unReserveResources(state: MainSimulationState, resourcesId: ResourceId[]): void {
-  resourcesId.forEach(resourceId => {
+  resourcesId.forEach((resourceId: ResourceId) => {
     getResourceById(state, resourceId).unReserve();
   });
 }
 
-export function sendResourcesToLocation(resources: Resource[], targetLocation: LOCATION_ENUM) {
-  resources.forEach(resource => {
+export function sendResourcesToLocation(
+  resources: Resource[],
+  targetLocation: LOCATION_ENUM
+): void {
+  resources.forEach((resource: Resource) => {
     resource.currentLocation = targetLocation;
+  });
+}
+
+export function assignResourcesToTask(
+  state: MainSimulationState,
+  resourcesId: ResourceId[],
+  taskId: TaskId
+): void {
+  resourcesId.forEach((resourceId: ResourceId) => {
+    getResourceById(state, resourceId).currentActivity = taskId;
   });
 }
 
@@ -216,26 +242,6 @@ export function deleteResource(state: MainSimulationState, resourceId: ResourceI
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 //
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/**
- * @returns The number of resources that are currently without activity and of the given type in a specified location
- *
- */
-export function getIdleResourcesForLocation(
-  state: Readonly<MainSimulationState>,
-  location: LOCATION_ENUM
-): Resource[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(
-    res => res.currentLocation === location && res.currentActivity == getIdleTaskUid(state)
-  );
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// change the world
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -324,17 +330,6 @@ export function getResourcesAllocatedToTask(
   return internalState.resources.filter(res => res.currentActivity === taskId);
 }
 
-/**
- * @returns The resources owned by the given actor and allocated to any task
- */
-export function getResourcesAllocatedToAnyTaskForActor(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId
-): Resource[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(res => res.currentActivity !== getIdleTaskUid(state));
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // old
@@ -368,15 +363,6 @@ export function allocateResourcesToTask(
   for (let i = 0; i < nb && i < available.length; i++) {
     available[i]!.currentActivity = taskId;
   }
-}
-
-export function allocateResourceToTask(
-  state: MainSimulationState,
-  resourceId: ResourceId,
-  taskId: TaskId
-): void {
-  const resource = getResourceById(state, resourceId);
-  resource.currentActivity = taskId;
 }
 
 /**

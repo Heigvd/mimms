@@ -1,7 +1,7 @@
 import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
-import { getIdleResourcesForLocation } from '../simulationState/resourceStateAccess';
+import * as ResourceState from '../simulationState/resourceStateAccess';
 
 export function isEvacSquadAvailable(
   state: Readonly<MainSimulationState>,
@@ -21,7 +21,10 @@ export function getResourcesForEvacSquad(
   const squadDef = getSquadDef(type);
   const location = squadDef.location;
 
-  const availableResourcesAtLocation = getIdleResourcesForLocation(state, location);
+  const availableResourcesAtLocation = ResourceState.getFreeWaitingResourcesByLocation(
+    state,
+    location
+  );
 
   const result: Resource[] = [];
 

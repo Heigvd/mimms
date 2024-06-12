@@ -29,7 +29,10 @@ import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessag
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import { resourceContainerCanArrive } from '../resources/resourceLogic';
+import {
+  resourceArrivalLocationResolution,
+  resourceContainerCanArrive,
+} from '../resources/resourceLogic';
 import {
   getFreeWaitingHumanResources,
   getFreeWaitingResourcesByType,
@@ -40,6 +43,7 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { FailedRessourceArrivalDelay } from '../constants';
 import { resourceLogger } from '../../../tools/logger';
 import { getHospitalsByProximity } from '../evacuation/hospitalController';
+import { getIdleTaskUid } from '../tasks/taskLogic';
 
 export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
 
@@ -664,6 +668,58 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends LocalEventBase {
   }
 }
 
+export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesIds: ResourceId[]
+  ) {
+    super(parentEventId, 'MoveResourcesAtArrivalLocationPlaceLocalEvent', timeStamp);
+  }
+
+  override applyStateUpdate(state: MainSimulationState) {
+    this.resourcesIds.forEach(resourceId => {
+      const resource = state.getInternalStateObject().resources.find(res => res.Uid === resourceId);
+
+      if (resource != undefined) {
+        const location = resourceArrivalLocationResolution(state, resource.type);
+
+        sendResourcesToLocation([resource], location);
+      }
+    });
+  }
+}
+
+export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesId: ResourceId[],
+    readonly taskId: TaskId
+  ) {
+    super(parentEventId, 'AssignResourcesToTaskLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.assignResourcesToTask(state, this.resourcesId, this.taskId);
+  }
+}
+
+export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesId: ResourceId[]
+  ) {
+    super(parentEventId, 'AssignResourcesToTaskLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const taskId = getIdleTaskUid(state);
+    ResourceState.assignResourcesToTask(state, this.resourcesId, taskId);
+  }
+}
+
 export class DeleteResourceLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
     super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
@@ -735,21 +791,6 @@ export class ResourcesAllocationLocalEvent extends LocalEventBase {
       this.resourceType,
       this.nb
     );
-  }
-}
-
-export class ResourceAllocationLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourceId: ResourceId,
-    readonly taskId: TaskId
-  ) {
-    super(parentEventId, 'ResourceAllocationLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourceToTask(state, this.resourceId, this.taskId);
   }
 }
 

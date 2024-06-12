@@ -38,17 +38,6 @@ export function fetchAvailableStandardTasksForActorAndLocation(
   }
 }
 
-export function fetchTasksWithResources(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId
-): Readonly<TaskBase>[] {
-  const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
-  const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-  return Object.values(getAllTasks(state)).filter(ta =>
-    tasksIdWhereResources.find(taskId => taskId == ta.Uid)
-  );
-}
-
 export function isBrancardageTaskForTargetLocation(
   state: Readonly<MainSimulationState>,
   targetLocation: LOCATION_ENUM
