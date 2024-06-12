@@ -28,10 +28,7 @@ import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessag
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionType } from '../actionType';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import {
-  resourceArrivalResolution,
-  resourceContainerCanArrive,
-} from '../resources/resourceDispatchResolution';
+import { resourceArrivalResolution, resourceContainerCanArrive } from '../resources/resourceLogic';
 import {
   deleteIdleResource,
   getUnoccupiedResources,

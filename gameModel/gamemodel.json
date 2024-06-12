@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1718013880623,
+  "createdTime" : 1718189403479,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5408,19 +5408,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourceDispatchResolution",
+    "contentKey" : "game/common/resources/resourceLogic",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#152:AyvFLj",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/resources/resourceFunction",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:542535:9AEN2O",
+    "refId" : "GameModelContent:#163:CsQ6lw",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

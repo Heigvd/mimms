@@ -6,10 +6,6 @@ const RESOURCE_SEED_ID: ResourceId = 7000;
 
 /**
  * A resource is someone / something at disposal of actors to perform tasks.
- * <p>
- * A resource is owned by an actor and can be assigned to an activity by this actor.
- * <p>
- * The kind allows to know which tasks the resource can perform and with which skill level.
  */
 export class Resource {
   private static idProvider: ResourceId = RESOURCE_SEED_ID;
@@ -32,7 +28,7 @@ export class Resource {
   /** Resource is cumulating time across time-jumps to accomplish a task */
   public cumulatedUnusedTime: number;
 
-  /** action id the has reserved this resource. 0 if the resource is not reserved */
+  /** Action that has reserved this resource */
   public reservationActionId: ActionId | undefined;
 
   constructor(

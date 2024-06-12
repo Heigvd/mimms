@@ -51,7 +51,7 @@ import {
 } from '../simulationState/resourceStateAccess';
 import { InterventionRole } from '../actors/actor';
 import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
-import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
+import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
