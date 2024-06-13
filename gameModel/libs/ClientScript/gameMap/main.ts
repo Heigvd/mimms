@@ -1,5 +1,6 @@
 import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { bringOverlayToFront, toggleOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../map/point2D';
 
 const logger = Helpers.getLogger('mainSim.map');
@@ -7,10 +8,10 @@ const logger = Helpers.getLogger('mainSim.map');
 export const mapRef = Helpers.useRef<any>('map', null);
 export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
 
-interface MapState {
+export interface MapState {
   mapSelect: boolean;
   selectionState: FixedMapEntity | undefined;
-  overlayState: Partial<Record<LOCATION_ENUM, boolean>>;
+  overlayState: LOCATION_ENUM[];
 }
 
 /**
@@ -22,9 +23,7 @@ export function getInitialMapState(): MapState {
   return {
     mapSelect: false,
     selectionState: undefined,
-    overlayState: {
-      chantier: false,
-    },
+    overlayState: [LOCATION_ENUM.chantier],
   };
 }
 
@@ -69,7 +68,7 @@ export function startMapSelect() {
  * @param features
  */
 export function handleMapClick(
-  point: Point,
+  _point: Point,
   features: {
     feature: Record<string, unknown>;
     layerId?: string;
@@ -78,9 +77,8 @@ export function handleMapClick(
   const mapEntities = features.find(f => f.layerId === 'available');
 
   if (mapEntities) {
-    const newState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState[mapEntities.feature['id'] as string] =
-      !newState.overlayState[mapEntities.feature['id'] as string];
-    Context.mapState.setState(newState);
+    const mapEntityId = mapEntities.feature['id'] as LOCATION_ENUM;
+    toggleOverlayItem(mapEntityId);
+    bringOverlayToFront(mapEntityId);
   }
 }

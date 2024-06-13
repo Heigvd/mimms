@@ -29,6 +29,10 @@
   border-top: 20px solid var(--primary_base);
 }
 
+.fixedEntities-mapSelect {
+  opacity: .1;
+}
+
 /*** SELECTED ***/
 
 /* selected fixed map entity - open */

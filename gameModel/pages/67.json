@@ -147,8 +147,8 @@
                     "layoutStyle" : { },
                     "name" : "resource type name",
                     "style" : {
-                      "align-content" : "center",
-                      "font-size" : "12px"
+                      "alignContent" : "center",
+                      "fontSize" : "12px"
                     },
                     "text" : {
                       "@class" : "Script",
@@ -188,9 +188,9 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "font-size" : "10px",
+                          "fontSize" : "10px",
                           "height" : "10px",
-                          "line-height" : "10px"
+                          "lineHeight" : "10px"
                         }
                       },
                       "type" : "Number input"
@@ -203,8 +203,8 @@
                         },
                         "name" : "availableResourcesByType",
                         "style" : {
-                          "align-items" : "center",
-                          "font-size" : "12px"
+                          "alignItems" : "center",
+                          "fontSize" : "12px"
                         },
                         "text" : {
                           "@class" : "Script",

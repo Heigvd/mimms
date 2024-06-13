@@ -265,7 +265,7 @@ export class GetInformationAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event GetInformationAction');
   }
@@ -284,7 +284,7 @@ export class GetInformationAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
@@ -302,7 +302,7 @@ export class OnTheRoadAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event OnTheRoadAction');
   }
@@ -325,7 +325,7 @@ export class OnTheRoadAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
@@ -397,7 +397,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(_state: MainSimulationState): void {
     //likely nothing to do
     this.logger.info('start event CasuMessageAction');
   }
@@ -439,7 +439,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 
@@ -536,6 +536,60 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   protected cancelInternal(state: MainSimulationState): void {
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place meetingPoint
+// -------------------------------------------------------------------------------------------------
+
+export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState
+    );
+  }
+
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+    localEventManager.queueLocalEvent(
+      new MoveActorLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        LOCATION_ENUM.meetingPoint
+      )
+    );
+    // First and only resource on scene
+    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
+    localEventManager.queueLocalEvent(
+      new MoveFreeWaitingHumanResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        LOCATION_ENUM.meetingPoint
+      )
+    );
+    localEventManager.queueLocalEvent(
+      new AssignResourcesToWaitingTaskLocalEvent(this.eventId, state.getSimTime(), [resourceUid])
     );
   }
 }
@@ -657,7 +711,7 @@ export class MoveActorAction extends StartEndAction {
     this.location = location;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {}
+  protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     localEventManager.queueLocalEvent(
@@ -665,7 +719,7 @@ export class MoveActorAction extends StartEndAction {
     );
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
@@ -976,7 +1030,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event SendRadioMessageAction');
   }
@@ -998,7 +1052,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 
@@ -1049,7 +1103,7 @@ export class ArrivalAnnouncementAction extends StartEndAction {
     );
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event ArrivalAnnouncementAction');
   }
@@ -1081,7 +1135,7 @@ export class ArrivalAnnouncementAction extends StartEndAction {
     );
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     // nothing to do
     return;
   }
