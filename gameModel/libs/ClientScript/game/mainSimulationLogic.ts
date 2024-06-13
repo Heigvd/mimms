@@ -98,14 +98,36 @@ function initMainState(): MainSimulationState {
     'mainAccident'
   );
 
-  const taskPretri = new PreTriageTask(
+  const taskPretriChantier = new PreTriageTask(
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
     1,
     5,
     'AL',
-    [LOCATION_ENUM.chantier],
+    LOCATION_ENUM.chantier,
+    []
+  );
+
+  const taskPretriPMA = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.PMA,
+    []
+  );
+
+  const taskPretriNidDeBlesses = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.PMA,
     []
   );
 
@@ -201,7 +223,9 @@ function initMainState(): MainSimulationState {
       patients: loadPatients(),
       tasks: [
         taskWaiting,
-        taskPretri,
+        taskPretriChantier,
+        taskPretriPMA,
+        taskPretriNidDeBlesses,
         taskBrancardageChantier,
         taskBrancardageNidDeBlesses,
         taskHealing,
