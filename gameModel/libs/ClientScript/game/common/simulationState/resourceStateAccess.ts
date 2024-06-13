@@ -51,6 +51,15 @@ export function getResourcesByTypeAndLocation(
     );
 }
 
+export function getResourcesByTask(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId
+): Resource[] {
+  return state
+    .getInternalStateObject()
+    .resources.filter((resource: Resource) => resource.currentActivity === taskId);
+}
+
 export function getHumanResourcesByLocation(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
