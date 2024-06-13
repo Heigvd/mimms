@@ -6,6 +6,7 @@ import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
+import { getIdleTask } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -20,6 +21,24 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
   const internalState = state.getInternalStateObject();
 
   return internalState.tasks;
+}
+
+/**
+ * Temporary filtering implementation of local communication restrictions on incident site
+ */
+const restrictedDirectCommAreas: Partial<Record<LOCATION_ENUM, boolean>> = { chantier: true };
+
+export function fetchTaskChoicesForActorAndLocation(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+  location: LOCATION_ENUM,
+  radioComm: boolean
+): Readonly<TaskBase>[] {
+  if (!radioComm && restrictedDirectCommAreas[location]) {
+    return [getIdleTask(state)];
+  } else {
+    return fetchAvailableStandardTasksForActorAndLocation(state, actorId, location);
+  }
 }
 
 export function fetchAvailableStandardTasksForActorAndLocation(
