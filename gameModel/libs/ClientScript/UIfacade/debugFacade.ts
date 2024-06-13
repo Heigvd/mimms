@@ -77,9 +77,9 @@ export function getAllResources() {
     response.push({
       resourceId: resource.Uid,
       resourceType: resource.type,
-      currentActivity: activityTitle,
+      currentActivity: activityTitle + ' (' + JSON.stringify(resource.currentActivity) + ')',
       currentLocation: resource.currentLocation,
-      reservedBy: reservationActor,
+      reservedBy: reservationActor + ' (' + JSON.stringify(resource.reservationActionId) + ')',
     });
   });
   return response;

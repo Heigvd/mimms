@@ -18,9 +18,7 @@ import {
   RemoveFixedEntityLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
   ResourceRequestResolutionLocalEvent,
-  ResourcesAllocationLocalEvent,
   MoveActorLocalEvent,
-  TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
   HospitalRequestUpdateLocalEvent,
   AssignResourcesToTaskLocalEvent,
@@ -29,15 +27,12 @@ import {
   UnReserveResourcesLocalEvent,
   MoveFreeWaitingHumanResourcesLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
+  AssignResourcesToWaitingTaskLocalEvent,
+  MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import {
-  ResourceTypeAndNumber,
-  ResourcesArray,
-  ResourceType,
-  VehicleType,
-} from '../resources/resourceType';
+import { ResourceTypeAndNumber, ResourceType, VehicleType } from '../resources/resourceType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -769,13 +764,19 @@ export class AppointActorAction extends StartEndAction {
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
+
   public readonly failMessageKey: TranslationKey;
+
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
+
   private compliantWithHierarchy: boolean;
+  private isSameLocation: boolean;
+  private timeDelay: number;
+  private involvedResourcesId: ResourceId[];
 
   constructor(
     startTimeSec: SimTime,
@@ -808,63 +809,91 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     this.sourceTaskId = sourceTaskId;
     this.targetTaskId = targetTaskId;
     this.compliantWithHierarchy = false;
+    this.isSameLocation = false;
+    this.timeDelay = 0;
+    this.involvedResourcesId = [];
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event MoveResourcesAssignTaskAction');
+
     this.compliantWithHierarchy = doesOrderRespectHierarchy(
+      state,
       this.ownerId,
+      this.sourceLocation
+    );
+
+    this.isSameLocation = this.sourceLocation === this.targetLocation;
+
+    if (!this.isSameLocation) {
+      this.timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+    } else {
+      this.timeDelay = 0;
+    }
+
+    this.involvedResourcesId = ResourceState.getFreeResourcesByNumberTypeLocationAndTask(
+      state,
+      this.sentResources,
       this.sourceLocation,
-      state
+      this.sourceTaskId
+    ).map(resource => resource.Uid);
+
+    // we reserve the resources for this action so that they cannot be used by anything else
+    localEventManager.queueLocalEvent(
+      new ReserveResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.involvedResourcesId,
+        this.Uid
+      )
     );
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
+    // we free the resources so that they are available again
+    // ! but we free them only when everything is done !
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime() + this.timeDelay,
+        this.involvedResourcesId
+      )
+    );
+
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
-    if (
-      ResourceState.enoughResourcesOfAllTypes(
-        state,
-        this.sourceTaskId,
-        this.sentResources,
-        this.sourceLocation
-      ) &&
-      this.compliantWithHierarchy
-    ) {
-      const sameLocation = this.sourceLocation === this.targetLocation;
-      let timeDelay = 0;
-      //if source != target => emit a transfer event and delay resource allocation on task event
-      if (!sameLocation) {
+    if (this.compliantWithHierarchy) {
+      if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
-          new TransferResourcesToLocationLocalEvent(
+          new MoveResourcesLocalEvent(
             this.eventId,
             state.getSimTime(),
-            this.sourceLocation,
-            this.targetLocation,
-            this.sentResources,
-            this.sourceTaskId
+            this.involvedResourcesId,
+            this.targetLocation
           )
         );
-        timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+
+        // during the travel set the resources as waiting
+        localEventManager.queueLocalEvent(
+          new AssignResourcesToWaitingTaskLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.involvedResourcesId
+          )
+        );
       }
 
-      ResourcesArray.forEach(res => {
-        const nbRes = this.sentResources[res] || 0;
-        if (nbRes > 0) {
-          localEventManager.queueLocalEvent(
-            new ResourcesAllocationLocalEvent(
-              this.eventId,
-              state.getSimTime() + timeDelay,
-              +this.targetTaskId,
-              this.targetLocation,
-              res,
-              nbRes
-            )
-          );
-        }
-      });
+      // during the travel set the resources as waiting
+      localEventManager.queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent(
+          this.eventId,
+          state.getSimTime() + this.timeDelay,
+          this.involvedResourcesId,
+          this.targetTaskId
+        )
+      );
 
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       localEventManager.queueLocalEvent(
@@ -876,7 +905,42 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           this.messageKey
         )
       );
+
+      let nbResourcesNeeded: number = 0;
+      // Note : please change code to be more straight forward
+      entries(this.sentResources).forEach(([_resourceType, nbResources]) => {
+        nbResourcesNeeded += nbResources || 0;
+      });
+
+      const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
+
+      if (this.involvedResourcesId.length === 0) {
+        // TODO accurate message no matching resources
+        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            this.failMessageKey
+          )
+        );
+      } else if (!isEnoughResources) {
+        // TODO accurate message not enough resources
+        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            this.failMessageKey
+          )
+        );
+      }
     } else {
+      // TODO accurate message (un-compliant with hierarchy)
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -891,7 +955,10 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    return;
+    // we free the resources so that they are available for other actions
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
   }
 }
 
