@@ -12,6 +12,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
+  SelectionMeetingPointTemplate,
   SelectionParkTemplate,
   SelectionPMATemplate,
   SendRadioMessage,
@@ -83,6 +84,8 @@ function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+  // AL's default location (symbolicLocation) doesn't exist yet
+  testAL.Location = LOCATION_ENUM.chantier;
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(
@@ -185,9 +188,7 @@ function initMainState(): MainSimulationState {
 
   const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
-  const initialResources = [
-    new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
-  ];
+  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, taskWaiting.Uid)];
 
   MainSimulationState.resetStateCounter();
 
@@ -223,7 +224,7 @@ function initMainState(): MainSimulationState {
 function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const placeMeetingPoint = new SelectionFixedMapEntityTemplate(
+  const placeMeetingPoint = new SelectionMeetingPointTemplate(
     'define-meetingPoint-title',
     'define-meetingPoint-desc',
     TimeSliceDuration,

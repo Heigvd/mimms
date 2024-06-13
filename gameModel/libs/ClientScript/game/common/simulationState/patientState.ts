@@ -80,26 +80,40 @@ export function comparePatientByPreTriageResult(a: PatientState, b: PatientState
 // -------------------------------------------------------------------------------------------------
 
 export function getNextNonPreTriagedPatient(
-  state: Readonly<MainSimulationState>
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
 ): PatientState | undefined {
-  return state
-    .getInternalStateObject()
-    .patients.find(patient => patient.preTriageResult === undefined);
+  const patients = state.getInternalStateObject().patients;
+
+  return patients.find(
+    patient =>
+      patient.preTriageResult === undefined &&
+      (location === undefined || patient.location.locationId === location)
+  );
 }
 
-export function getNonPreTriagedPatientsSize(state: Readonly<MainSimulationState>): number {
-  return state
-    .getInternalStateObject()
-    .patients.filter(patient => patient.preTriageResult === undefined).length;
+export function getNonPreTriagedPatientsSize(
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
+): number {
+  const patients = state.getInternalStateObject().patients;
+
+  return patients.filter(
+    patient =>
+      patient.preTriageResult === undefined &&
+      (location === undefined || patient.location.locationId === location)
+  ).length;
 }
 
 export function getPreTriagedAmountByCategory(
-  state: Readonly<MainSimulationState>
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
 ): Record<string, number> {
   const internalState = state.getInternalStateObject();
   const amountsByCategory: Record<string, number> = {};
 
   internalState.patients
+    .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
     .filter(categoryId => categoryId != null)
     .forEach(category => {

@@ -31,6 +31,7 @@ import {
   SelectionParkAction,
   RadioDrivenAction,
   EvacuationAction,
+  SelectionMeetingPointAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
@@ -219,7 +220,7 @@ export abstract class ActionTemplateBase<
   }
 
   protected customCanConcurrencyWiseBePlayed(
-    state: Readonly<MainSimulationState>,
+    _state: Readonly<MainSimulationState>,
     _actorUid: ActorId
   ) {
     return true;
@@ -512,6 +513,62 @@ export class SelectionFixedMapEntityTemplate<
     actorUid: ActorId
   ): boolean {
     return this.hasBeenPlayedByOtherActor(state, actorUid);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place meetingPoint
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of the PMA
+ */
+export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    fixedMapEntity: FixedMapEntity,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      fixedMapEntity,
+      replayable,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public override getTemplateRef(): string {
+    return 'SelectionPMATemplate' + '_' + this.title;
+  }
+
+  protected override createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>
+  ): SelectionMeetingPointAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SelectionMeetingPointAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.provideFlagsToState
+    );
   }
 }
 

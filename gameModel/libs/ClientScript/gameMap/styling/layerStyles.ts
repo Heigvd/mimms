@@ -79,7 +79,7 @@ function getPointStyle(feature: any): LayerStyleObject {
         !(name === Context.interfaceState.state.selectedMapObjectId) &&
         Context.mapState.state.mapSelect
       ) {
-        iconStyle.opacity = 0.5;
+        iconStyle.opacity = 0;
         textStyle.text = '';
       }
     }
@@ -94,7 +94,7 @@ function getPointStyle(feature: any): LayerStyleObject {
       // Is this feature currently selected ?
       const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
       // Define textStyle for Icons
-      textStyle.text = String(index);
+      textStyle.text = (index + 9).toString(36).toUpperCase();
       textStyle.offsetX = 0.5;
       textStyle.offsetY = -18;
       textStyle.scale = 1.6;
@@ -138,7 +138,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
     Context.mapState.state.mapSelect &&
     !duration
   ) {
-    strokeStyle.color = '#3CA3CC80';
+    strokeStyle.color = '#3CA3CC00';
   }
 
   return { stroke: strokeStyle };
@@ -174,7 +174,7 @@ function getPolygonStyle(feature: any): LayerStyleObject {
 
   const text: TextStyleObject = {
     type: 'TextStyle',
-    text: String(index) || 'No name',
+    text: (index + 9).toString(36).toUpperCase() || 'No name',
     font: 'bold 10px sans-serif',
     textAlign: 'center',
     scale: 1.6,
