@@ -5,6 +5,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getIdleTaskUid } from '../UIfacade/taskFacade';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -36,6 +37,14 @@ export function updateResourceValues(stateKey: string, value: string): void {
   Context.interfaceState.setState(newState);
 }
 
+export function updateCurrentLocation(value: string): void {
+  const paramKey = getStateKeyForResource();
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resources[paramKey]['currentLocation'] = value;
+  newState.resources[paramKey]['currentTaskId'] = getIdleTaskUid();
+  Context.interfaceState.setState(newState);
+}
+
 export function updateTargetDestination(value: string): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -63,7 +72,8 @@ export function getStateKeyForResource(): string {
   } else if (panel === SelectedPanel.radios) {
     return 'allocateResourcesRadio';
   }
-  return '';
+  // code is sometimes called when in 'action' panel
+  return 'allocateResourcesRadio';
 }
 
 /**

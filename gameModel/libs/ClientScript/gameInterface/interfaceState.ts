@@ -38,7 +38,7 @@ export interface InterfaceState {
     } & Partial<Record<ResourceType, number>>;
     allocateResourcesRadio: {
       currentLocation: LOCATION_ENUM | undefined;
-      currentTaskId: TaskId;
+      currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
@@ -112,7 +112,7 @@ export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['a
 
   return {
     currentLocation: undefined,
-    currentTaskId: getIdleTaskUid(),
+    currentTaskId: undefined,
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,

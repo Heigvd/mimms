@@ -28,7 +28,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('currentLocation', Context.resourceAllocationCurrentLocation);\n",
+                "content" : "import { updateCurrentLocation } from \"./UIfacade/resourceFacade\";\n\nupdateCurrentLocation(Context.resourceAllocationCurrentLocation);\n",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -105,7 +105,7 @@
             },
             "script" : {
               "@class" : "Script",
-              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentTaskId + '';",
+              "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nContext.interfaceState.state.resources[key].currentTaskId || '';",
               "language" : "TypeScript"
             },
             "style" : { }
