@@ -85,7 +85,7 @@ function initMainState(): MainSimulationState {
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
   // AL's default location (symbolicLocation) doesn't exist yet
-  testAL.Location = LOCATION_ENUM.chantier;
+  testAL.setLocation(LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(

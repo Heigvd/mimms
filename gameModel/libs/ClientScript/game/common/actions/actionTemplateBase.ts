@@ -521,9 +521,9 @@ export class SelectionFixedMapEntityTemplate<
 // -------------------------------------------------------------------------------------------------
 
 /**
- * Template of an action to select the place of the PMA
+ * Template of an action to select the place of the Meeting Point
  */
-export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
+export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTemplate<SelectionMeetingPointAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -549,7 +549,7 @@ export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTempla
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionPMATemplate' + '_' + this.title;
+    return 'SelectionMeetingPointTemplate' + '_' + this.title;
   }
 
   protected override createActionFromEvent(
