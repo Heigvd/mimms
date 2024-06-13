@@ -2,8 +2,10 @@ import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/r
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getResourcesForLocationTaskAndType } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
+import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getIdleTaskUid } from '../UIfacade/taskFacade';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -28,9 +30,6 @@ export function countAvailableResourcesToAllocate(
   }
 }
 
-/**
- * Only use this method inside the resource allocation interface
- */
 export function updateResourceValues(stateKey: string, value: string): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -38,9 +37,22 @@ export function updateResourceValues(stateKey: string, value: string): void {
   Context.interfaceState.setState(newState);
 }
 
-/**
- * Only use this method inside the resource allocation interface
- */
+export function updateCurrentLocation(value: string): void {
+  const paramKey = getStateKeyForResource();
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resources[paramKey]['currentLocation'] = value;
+  newState.resources[paramKey]['currentTaskId'] = getIdleTaskUid();
+  Context.interfaceState.setState(newState);
+}
+
+export function updateTargetDestination(value: string): void {
+  const paramKey = getStateKeyForResource();
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resources[paramKey]['targetLocation'] = value;
+  newState.resources[paramKey]['targetTaskId'] = undefined; // reset task
+  Context.interfaceState.setState(newState);
+}
+
 export function updateResourceTypesValues(): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -51,6 +63,7 @@ export function updateResourceTypesValues(): void {
 /**
  * returns the key to store the state of a resource request
  * depending on the interface state
+ * TODO improvement: return the subreference directly (return Context.....[paramKey]), change in pages too
  */
 export function getStateKeyForResource(): string {
   const panel = Context.interfaceState.state.selectedPanel;
@@ -59,7 +72,8 @@ export function getStateKeyForResource(): string {
   } else if (panel === SelectedPanel.radios) {
     return 'allocateResourcesRadio';
   }
-  return '';
+  // code is sometimes called when in 'action' panel
+  return 'allocateResourcesRadio';
 }
 
 /**
@@ -74,4 +88,20 @@ export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined
 
   const paramKey = getStateKeyForResource();
   return Context.interfaceState.state.resources[paramKey].currentLocation;
+}
+
+export function isOrderValidationDisabled(): boolean {
+  if (!canPlanAction()) {
+    return false;
+  }
+
+  const key = getStateKeyForResource();
+  const params = Context.interfaceState.state.resources[key];
+  if (
+    getAllocateResourcesCurrentLocation() === params.targetLocation &&
+    params.currentTaskId === params.targetTaskId
+  ) {
+    return true;
+  }
+  return Object.values(params).some(p => p === undefined || p === '');
 }

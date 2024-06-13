@@ -44,6 +44,13 @@ export function getCurrentPlayerActorIds(actors: Readonly<Actor[]>): ActorId[] {
 }
 
 /**
+ * Returns the number of actors playable by the current player
+ */
+export function getCurrentPlayerOnsiteActorCount(): number {
+  return getCurrentPlayerActors().filter(a => a.isOnSite()).length;
+}
+
+/**
  * @returns Actor with given id or undefined
  */
 // used in page 66

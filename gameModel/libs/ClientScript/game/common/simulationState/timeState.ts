@@ -38,8 +38,12 @@ export function isTimeForwardReady(state: MainSimulationState): boolean {
  */
 export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>): boolean {
   const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
+  if (actorIds?.length < 1) {
+    // the player has no active actor to play, thus not waiting
+    return false;
+  }
   const timeFrame = state.getCurrentTimeFrame();
-  return actorIds.every(a => timeFrame.waitingTimeForward[a] || 0 > 0);
+  return actorIds.every(a => (timeFrame.waitingTimeForward[a] || 0) > 0);
 }
 
 /**

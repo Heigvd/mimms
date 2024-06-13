@@ -8,7 +8,7 @@ import { setInterfaceState } from '../gameInterface/interfaceState';
 import { getTranslation } from '../tools/translation';
 
 /**
- * Triggers time forward in simulation
+ * Triggers the confirmation interface for time forward
  */
 export function timeForwardAskConfirmation(): void {
   setInterfaceState({ timeForwardAwaitingConfirmation: true });
@@ -19,6 +19,9 @@ export async function timeForward(): Promise<IManagedResponse> {
   return await triggerTimeForward();
 }
 
+/**
+ * Unsets the player's readiness to forward time
+ */
 export async function cancelTimeForward(): Promise<IManagedResponse> {
   setInterfaceState({ timeForwardAwaitingConfirmation: false }); // just to make sure
   return await triggerTimeForwardCancel();
