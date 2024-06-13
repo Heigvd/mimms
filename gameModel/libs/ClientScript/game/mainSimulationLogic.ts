@@ -127,7 +127,7 @@ function initMainState(): MainSimulationState {
     1,
     5,
     'AL',
-    LOCATION_ENUM.PMA,
+    LOCATION_ENUM.nidDeBlesses,
     []
   );
 
