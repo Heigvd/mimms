@@ -7,7 +7,7 @@
 }
 
 .active-selected-item {
-	font-weight: var(--boldWeight);
+	/*font-weight: var(--boldWeight);*/
 	color:var(--primary_base);
 	background-color:  var(--grey_0);
   border-right: solid 2px var(--primary_base);
@@ -46,3 +46,36 @@
   left: 0;
 }
 
+
+
+.walkieTalkie{
+  filter: invert(26%) 
+          sepia(11%) 
+          saturate(321%) 
+          hue-rotate(155deg) 
+          brightness(97%) 
+          contrast(90%);
+ padding: 5px;
+}
+
+.walkieTalkie-selected > img{
+  width: 50px;
+  height: 50px;
+ 
+}
+.walkieTalkie > img{
+  width: 50px;
+  height: 50px;
+}
+
+.walkieTalkie-selected{
+  filter: invert(43%) 
+          sepia(94%) 
+          saturate(464%) 
+          hue-rotate(152deg) 
+          brightness(93%) 
+          contrast(90%);
+ /* width: 50px;
+  height: 50px;*/
+  padding: 5px;
+}

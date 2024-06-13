@@ -14,7 +14,7 @@
 }
 
 .highlightSelf {
-  background-color: yellow;
+  background-color: var(--yellow_base);
 }
 
 .highlightSelf::after {
@@ -27,7 +27,7 @@
 /** header matrix **/
 /* ID header */
 .matrixHeaderItem {
-  width: 5em;
+  width: 6em;
   text-align: left;
 }
 /* Roles header */
@@ -51,6 +51,6 @@
 }
 
 .playerIdentity{
-  width: 5em;
+  width: 6em;
   text-align: left;
 }

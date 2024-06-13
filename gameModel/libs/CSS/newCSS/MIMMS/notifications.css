@@ -21,6 +21,7 @@
 	height: auto;
 	max-height: 80vh;
 	margin-left: 5px;
+  margin-bottom: 15px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
@@ -117,6 +118,11 @@
   100% {background-color: #FBB13C;}
 }
 */
+
+
+
+
+
 .counterCircle {
 	margin: auto;
 	font-size: var(--SM_text);
@@ -137,7 +143,24 @@
 	background-color: var(--grey_10);
 	border-radius: var(--XS_borderRadius);
   margin-bottom: 10px;
-	/*margin: 0px;*/
+}
+
+@keyframes notifHighlight {
+ 	0% {
+	background-color: var(--grey_10);
+	}
+  	50% {
+	background-color: var(--primary_30);
+	}
+
+	100% {
+	background-color: var(--grey_10);
+	}
+}
+
+.aMessage-animation{
+  animation-name: notifHighlight;
+  animation-duration: 2s;
 }
 
 .notificationTime{

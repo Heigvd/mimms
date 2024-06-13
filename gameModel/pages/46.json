@@ -200,17 +200,26 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "matrixHeaderItem",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "name" : "readyness",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-ready');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "readyness",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-ready');",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "ready?",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 } ],
                 "className" : "matrixHeader",
                 "layout" : {
@@ -256,6 +265,7 @@
                         "layout" : { },
                         "layoutClassName" : "",
                         "layoutStyle" : {
+                          "paddingLeft" : "0px",
                           "width" : "15rem"
                         },
                         "name" : "playerIdentity",
@@ -380,7 +390,10 @@
                               "content" : "  Context.player.ready",
                               "language" : "TypeScript"
                             },
-                            "style" : { },
+                            "style" : {
+                              "justifyContent" : "right",
+                              "width" : "5rem"
+                            },
                             "type" : "toggler"
                           },
                           "type" : "Boolean"

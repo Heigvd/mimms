@@ -189,23 +189,24 @@
   }
 
 
+/* no hover or active for unclickable buttons but we have to bypass wegas theme */
   .mimms_s_squareButton > button:hover {
-    color: var(--gray_WHITE);
-    background-color: var(--grey_60);
+    color: var(--grey_60);
+    background-color: transparent;
     border-color: var(--grey_60);
-    box-shadow: var(--buttonShadow);
+    box-shadow: none;
   }
 
   .mimms_s_squareButton > button:active {
-    color: var(--gray_WHITE);
-    background-color: var(--primary_base);
-    border-color: var(--primary_base);
-    box-shadow: var(--buttonInsetShadow);
+    color: var(--grey_60);
+    background-color:var(--grey_0);
+    border-color: var(--grey_60);
+    box-shadow: none;
   }
 
   .mimms_s_squareButton > button:active:hover {
-    background-color: var(--primary_base);
-    border-color: var(--primary_base);
+    background-color:var(--grey_0);
+    border-color: var(--grey_60);
   }
 
   .mimms_s_squareButton > button:disabled {
@@ -216,23 +217,48 @@
   }
 
 
-.mimms_s_squareButton.currentResources{
-  background-color: brown;
+/* current resources */
+
+.mimms_s_squareButton.currentResources > button{
+  background-color: var(--primary_base);
+  border-color: var(--primary_base);
+  color: var(--grey_0);
 }
+
+.mimms_s_squareButton.currentResources > button:hover{
+  border-color: var(--primary_base);
+  color: var(--grey_0);
+}
+
+
+.mimms_s_squareButton.currentResources > button:active{
+  background-color: var(--primary_base);
+  border-color: var(--primary_base);
+  box-shadow: var(--buttonInsetShadow);
+  color: var(--grey_0);
+}
+
+
 
 /* counter for the rsrc square btn in fixed map entities */
 .squareCounter{
-	  color: var(--grey_60);
+	color: var(--grey_60);
 }
 
 .squareCounter-container{
 	position: absolute;
 	top: -0.1em;
 	right: -.2em;
-	background-color: var(--gray_WHITE);
+	background-color: var(--grey_0);
 	color: var(--grey_60);
 	border: solid 1.5px var(--grey_60);
 	z-index: 2;
+}
+
+/* counter for resources at current actor's location */
+.squareCounter-container.currentResourcesCounter{
+  background-color: var(--primary_10);
+  border: solid 1.5px var(--primary_base);
 }
 /*********************** NEXT BUTTON ***********************/
 .next-container{

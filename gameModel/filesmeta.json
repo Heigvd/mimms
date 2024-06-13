@@ -814,5 +814,11 @@
     "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
+  },
+  "/walkie-talkie-solid.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
   }
 }

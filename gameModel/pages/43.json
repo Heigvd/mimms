@@ -201,6 +201,15 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "resourceCounter squareCounter",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "currentResourcesCounter",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
                                                     "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
                                                     "layoutStyle" : { },
                                                     "style" : { },
@@ -214,7 +223,7 @@
                                                 }, {
                                                   "props" : {
                                                     "conditionnalClassNames" : [ {
-                                                      "applyOn" : "Inside",
+                                                      "applyOn" : "Outside",
                                                       "className" : "currentResources",
                                                       "condition" : {
                                                         "@class" : "Script",
@@ -936,7 +945,7 @@
                                 "className" : "menuItem",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Outside",
-                                  "className" : "active-selected-item",
+                                  "className" : "active-selected-item ",
                                   "condition" : {
                                     "@class" : "Script",
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
@@ -950,16 +959,31 @@
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
                                     "language" : "typescript"
                                   }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "walkieTalkie-selected",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "walkieTalkie",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
                                   "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
                                   "language" : "typescript"
                                 },
-                                "icon" : "comment",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
-                                  "pointerEvents" : "auto"
+                                  "width" : "100%"
                                 },
                                 "localScriptEval" : {
                                   "script" : {
@@ -968,15 +992,16 @@
                                     "language" : "TypeScript"
                                   }
                                 },
-                                "name" : "radio",
-                                "style" : { },
-                                "unreadCount" : {
+                                "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
+                                  "content" : "\"/walkie-talkie-solid.svg\"",
                                   "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "width" : "100%"
                                 }
                               },
-                              "type" : "Icon"
+                              "type" : "Image"
                             }, {
                               "props" : {
                                 "className" : "menuItem",

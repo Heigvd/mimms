@@ -121,3 +121,7 @@
 	border-color: var(--gray_300);
 	
 }
+
+.presentResources{
+  font-weight: var(--boldWeight);
+}
