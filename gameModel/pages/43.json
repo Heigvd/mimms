@@ -1452,7 +1452,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "true;",
+                              "content" : "import { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerOnsiteActorCount() > 0;",
                               "language" : "typescript"
                             },
                             "layout" : {
