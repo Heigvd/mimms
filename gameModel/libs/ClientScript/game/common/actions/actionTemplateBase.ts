@@ -700,6 +700,7 @@ export type MoveResourcesAssignTaskActionInput = {
   sentResources: ResourceTypeAndNumber;
   sourceTaskId: TaskId;
   targetTaskId: TaskId;
+  isCommunicationByRadio: boolean;
 };
 
 /**
@@ -710,14 +711,11 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   MoveResourcesAssignTaskEvent,
   MoveResourcesAssignTaskActionInput
 > {
-  public readonly failMessage: TranslationKey;
-
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    failMessage: TranslationKey,
     replayable = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -734,7 +732,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       provideFlagsToState,
       availableToRoles
     );
-    this.failMessage = failMessage;
   }
 
   public getTemplateRef(): TemplateRef {
@@ -757,12 +754,12 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      failMessage: this.failMessage,
       sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
       sourceTaskId: params.sourceTaskId,
       targetTaskId: params.targetTaskId,
+      isCommunicationByRadio: params.isCommunicationByRadio,
     };
   }
 
@@ -776,7 +773,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       payload.triggerTime,
       this.duration,
       this.message,
-      this.failMessage,
       this.title,
       event.id,
       ownerId,
@@ -785,7 +781,8 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       event.payload.targetLocation,
       event.payload.sentResources,
       event.payload.sourceTaskId,
-      event.payload.targetTaskId
+      event.payload.targetTaskId,
+      event.payload.isCommunicationByRadio
     );
   }
 }

@@ -102,15 +102,18 @@ function fetchMoveResourcesAssignTaskValues() {
   let paramKey = '';
   let getEmptyFunc = function () {};
   let currentLoc: LOCATION_ENUM | undefined;
+  let isCommunicationByRadio: boolean = true;
   const panel = Context.interfaceState.state.selectedPanel;
   if (panel === SelectedPanel.resources) {
     paramKey = 'allocateResources';
     getEmptyFunc = getEmptyAllocateResources;
     currentLoc = getSelectedActorLocation();
+    isCommunicationByRadio = false;
   } else if (panel === SelectedPanel.radios) {
     paramKey = 'allocateResourcesRadio';
     getEmptyFunc = getEmptyAllocateResourcesRadio;
     currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
+    isCommunicationByRadio = true;
   }
 
   ResourcesArray.forEach(resourceType => {
@@ -127,6 +130,7 @@ function fetchMoveResourcesAssignTaskValues() {
     sentResources: sentResources,
     sourceTaskId: +Context.interfaceState.state.resources[paramKey].currentTaskId,
     targetTaskId: +Context.interfaceState.state.resources[paramKey].targetTaskId,
+    isCommunicationByRadio: isCommunicationByRadio,
   };
 
   // Reset interfaceState

@@ -516,7 +516,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'move-res-task-desc',
     TimeSliceDuration,
     'move-res-task-feedback',
-    'move-res-task-refused',
     true
   );
 
