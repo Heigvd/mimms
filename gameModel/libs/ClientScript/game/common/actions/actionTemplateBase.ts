@@ -24,13 +24,14 @@ import {
   SendRadioMessageAction,
   SelectionFixedMapEntityAction,
   MoveActorAction,
-  ArrivalAnnoucementAction,
+  ArrivalAnnouncementAction,
   MoveResourcesAssignTaskAction,
   AppointActorAction,
   SelectionPMAAction,
   SelectionParkAction,
   RadioDrivenAction,
   EvacuationAction,
+  SelectionMeetingPointAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
@@ -60,6 +61,8 @@ export enum SimFlag {
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
+const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
+
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
@@ -70,7 +73,11 @@ export abstract class ActionTemplateBase<
   EventT extends ActionCreationEvent = ActionCreationEvent,
   UserInput = unknown
 > {
-  private static IdSeed = 1000;
+  private static idProvider: ActionTemplateId = ACTION_TEMPLATE_SEED_ID;
+
+  public static resetIdSeed() {
+    ActionTemplateBase.idProvider = ACTION_TEMPLATE_SEED_ID;
+  }
 
   public readonly Uid: ActionTemplateId;
 
@@ -90,11 +97,7 @@ export abstract class ActionTemplateBase<
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
-    this.Uid = ActionTemplateBase.IdSeed++;
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = 1000;
+    this.Uid = ++ActionTemplateBase.idProvider;
   }
 
   /**
@@ -219,7 +222,7 @@ export abstract class ActionTemplateBase<
   }
 
   protected customCanConcurrencyWiseBePlayed(
-    state: Readonly<MainSimulationState>,
+    _state: Readonly<MainSimulationState>,
     _actorUid: ActorId
   ) {
     return true;
@@ -512,6 +515,62 @@ export class SelectionFixedMapEntityTemplate<
     actorUid: ActorId
   ): boolean {
     return this.hasBeenPlayedByOtherActor(state, actorUid);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place meetingPoint
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of the Meeting Point
+ */
+export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTemplate<SelectionMeetingPointAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    fixedMapEntity: FixedMapEntity,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      fixedMapEntity,
+      replayable,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public override getTemplateRef(): string {
+    return 'SelectionMeetingPointTemplate' + '_' + this.title;
+  }
+
+  protected override createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>
+  ): SelectionMeetingPointAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SelectionMeetingPointAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.provideFlagsToState
+    );
   }
 }
 
@@ -840,9 +899,9 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     return new MoveActorAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       [],
@@ -874,7 +933,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 }
 
-export class ArrivalAnnoucementTemplate extends StartEndTemplate {
+export class ArrivalAnnouncementTemplate extends StartEndTemplate {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -898,16 +957,18 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
     );
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): ArrivalAnnoucementAction {
+  protected createActionFromEvent(
+    event: FullEvent<StandardActionEvent>
+  ): ArrivalAnnouncementAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new ArrivalAnnoucementAction(
+    return new ArrivalAnnouncementAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       this.provideFlagsToState
@@ -922,7 +983,7 @@ export class ArrivalAnnoucementTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'ArrivalAnnoucementTemplate' + '_' + this.title;
+    return 'ArrivalAnnouncementTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -975,9 +1036,9 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     return new AppointActorAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       [],

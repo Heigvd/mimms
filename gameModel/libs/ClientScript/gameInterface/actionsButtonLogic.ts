@@ -125,8 +125,8 @@ function fetchMoveResourcesAssignTaskValues() {
     sourceLocation: currentLoc,
     targetLocation: Context.interfaceState.state.resources[paramKey]?.targetLocation,
     sentResources: sentResources,
-    sourceTaskId: Context.interfaceState.state.resources[paramKey].currentTaskId,
-    targetTaskId: Context.interfaceState.state.resources[paramKey].targetTaskId,
+    sourceTaskId: +Context.interfaceState.state.resources[paramKey].currentTaskId,
+    targetTaskId: +Context.interfaceState.state.resources[paramKey].targetTaskId,
   };
 
   // Reset interfaceState

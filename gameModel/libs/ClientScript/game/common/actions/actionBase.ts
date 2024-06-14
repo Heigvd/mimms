@@ -1,7 +1,10 @@
 import {
+  ActionId,
   ActionTemplateId,
   ActorId,
   GlobalEventId,
+  HospitalId,
+  PatientId,
   ResourceId,
   SimDuration,
   SimTime,
@@ -15,24 +18,21 @@ import {
   RemoveFixedEntityLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
   ResourceRequestResolutionLocalEvent,
-  ResourcesAllocationLocalEvent,
   MoveActorLocalEvent,
-  TransferResourcesToLocationLocalEvent,
   AddActorLocalEvent,
-  DeleteIdleResourceLocalEvent,
-  MoveAllIdleResourcesToLocationLocalEvent,
   HospitalRequestUpdateLocalEvent,
-  ResourceAllocationLocalEvent,
+  AssignResourcesToTaskLocalEvent,
+  ReserveResourcesLocalEvent,
+  DeleteResourceLocalEvent,
+  UnReserveResourcesLocalEvent,
+  MoveFreeWaitingHumanResourcesLocalEvent,
+  MoveFreeWaitingResourcesByTypeLocalEvent,
+  AssignResourcesToWaitingTaskLocalEvent,
+  MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import {
-  ResourceTypeAndNumber,
-  ResourcesArray,
-  ResourceType,
-  HumanResourceTypeArray,
-  VehicleType,
-} from '../resources/resourceType';
+import { ResourceTypeAndNumber, ResourceType, VehicleType } from '../resources/resourceType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -43,25 +43,27 @@ import { entries } from '../../../tools/helper';
 import { ActionType } from '../actionType';
 import { SimFlag } from './actionTemplateBase';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import {
-  enoughResourcesOfAllTypes,
-  getInStateCountInactiveResourcesByLocationAndType,
-  getResourcesAvailableByLocation,
-} from '../simulationState/resourceStateAccess';
+import * as ResourceState from '../simulationState/resourceStateAccess';
 import { InterventionRole } from '../actors/actor';
-import { getEvacuationTask, getIdleTaskUid } from '../tasks/taskLogic';
-import { doesOrderRespectHierarchy } from '../resources/resourceDispatchResolution';
+import { getEvacuationTask } from '../tasks/taskLogic';
+import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { getCurrentState } from '../../mainSimulationLogic';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import { Resource } from '../resources/resource';
-import { getResourcesForEvacSquad, isEvacSquadAvailable } from '../evacuation/evacuationLogic';
+import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
-import { HospitalDefinition, HospitalProximity } from '../evacuation/hospitalType';
+import {
+  HospitalDefinition,
+  HospitalProximity,
+  PatientUnitTypology,
+} from '../evacuation/hospitalType';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
-import { getSquadDef } from '../evacuation/evacuationSquadDef';
+import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
+
+const ACTION_SEED_ID: ActionId = 3000;
 
 /**
  * Instanciated action that lives in the state of the game and will generate local events that will change the game state
@@ -69,7 +71,15 @@ export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Complete
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
 
+  private static idProvider: ActionId = ACTION_SEED_ID;
+
+  public static resetIdSeed() {
+    ActionBase.idProvider = ACTION_SEED_ID;
+  }
+
   protected readonly logger = ActionBase.slogger;
+
+  public readonly Uid: ActionId;
 
   protected status: ActionStatus;
 
@@ -81,6 +91,7 @@ export abstract class ActionBase {
     public readonly ownerId: ActorId,
     protected readonly uuidTemplate: ActionTemplateId = -1
   ) {
+    this.Uid = ++ActionBase.idProvider;
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }
@@ -254,7 +265,7 @@ export class GetInformationAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event GetInformationAction');
   }
@@ -273,7 +284,7 @@ export class GetInformationAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
@@ -291,7 +302,7 @@ export class OnTheRoadAction extends StartEndAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event OnTheRoadAction');
   }
@@ -314,7 +325,7 @@ export class OnTheRoadAction extends StartEndAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
@@ -386,7 +397,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(_state: MainSimulationState): void {
     //likely nothing to do
     this.logger.info('start event CasuMessageAction');
   }
@@ -428,7 +439,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 
@@ -530,6 +541,60 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 }
 
 // -------------------------------------------------------------------------------------------------
+// place meetingPoint
+// -------------------------------------------------------------------------------------------------
+
+export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState
+    );
+  }
+
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+    localEventManager.queueLocalEvent(
+      new MoveActorLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        LOCATION_ENUM.meetingPoint
+      )
+    );
+    // First and only resource on scene
+    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
+    localEventManager.queueLocalEvent(
+      new MoveFreeWaitingHumanResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        LOCATION_ENUM.meetingPoint
+      )
+    );
+    localEventManager.queueLocalEvent(
+      new AssignResourcesToWaitingTaskLocalEvent(this.eventId, state.getSimTime(), [resourceUid])
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
 // place PMA
 // -------------------------------------------------------------------------------------------------
 
@@ -600,7 +665,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     super.dispatchEndedEvents(state);
 
     localEventManager.queueLocalEvent(
-      new MoveAllIdleResourcesToLocationLocalEvent(
+      new MoveFreeWaitingResourcesByTypeLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.vehicleType,
@@ -612,7 +677,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//  Move actor
+// Move actor
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -625,9 +690,9 @@ export class MoveActorAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
-    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -646,7 +711,7 @@ export class MoveActorAction extends StartEndAction {
     this.location = location;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {}
+  protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     localEventManager.queueLocalEvent(
@@ -654,26 +719,25 @@ export class MoveActorAction extends StartEndAction {
     );
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 }
 
 export class AppointActorAction extends StartEndAction {
-  public readonly actorRole: InterventionRole;
-  private potentialActorCount: number = 0;
   private location: LOCATION_ENUM | undefined = undefined;
+  private involvedResourceId: ResourceId | undefined = undefined;
 
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
+    eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
-    eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
-    actorRole: InterventionRole,
+    readonly actorRole: InterventionRole,
     readonly requiredResourceType: ResourceType,
     readonly failureMessageKey: TranslationKey
   ) {
@@ -687,20 +751,29 @@ export class AppointActorAction extends StartEndAction {
       uuidTemplate,
       provideFlagsToState
     );
-    this.actorRole = actorRole;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
-    this.location = state.getActorById(this.ownerId)?.Location;
-    if (this.location) {
-      this.potentialActorCount = getResourcesAvailableByLocation(
-        state,
-        this.location,
-        this.requiredResourceType
-      ).length;
-    }
-    if (this.potentialActorCount > 0) {
-      // TODO reserve resource mecanism
+    this.location = state.getActorById(this.ownerId)!.Location;
+
+    const matchingResources = ResourceState.getFreeWaitingResourcesByTypeAndLocation(
+      state,
+      this.requiredResourceType,
+      this.location
+    );
+
+    if (matchingResources.length > 0) {
+      this.involvedResourceId = matchingResources[0]!.Uid;
+
+      // we reserve the resources for this action so that they cannot be used by anything else
+      localEventManager.queueLocalEvent(
+        new ReserveResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          [this.involvedResourceId],
+          this.Uid
+        )
+      );
     } else {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -715,23 +788,28 @@ export class AppointActorAction extends StartEndAction {
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (this.potentialActorCount) {
+    if (this.involvedResourceId != undefined) {
       localEventManager.queueLocalEvent(
         new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
       );
+
+      // no need to free the resource as long as it will be deleted
+
       localEventManager.queueLocalEvent(
-        new DeleteIdleResourceLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.location!,
-          this.requiredResourceType
-        )
+        new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
       );
     }
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    return;
+    // we free the resources so that they are available for other actions
+    if (this.involvedResourceId != undefined) {
+      localEventManager.queueLocalEvent(
+        new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
+          this.involvedResourceId,
+        ])
+      );
+    }
   }
 }
 
@@ -740,13 +818,19 @@ export class AppointActorAction extends StartEndAction {
  */
 export class MoveResourcesAssignTaskAction extends StartEndAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
+
   public readonly failMessageKey: TranslationKey;
+
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
   public readonly sourceTaskId: TaskId;
   public readonly targetTaskId: TaskId;
+
   private compliantWithHierarchy: boolean;
+  private isSameLocation: boolean;
+  private timeDelay: number;
+  private involvedResourcesId: ResourceId[];
 
   constructor(
     startTimeSec: SimTime,
@@ -779,63 +863,91 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     this.sourceTaskId = sourceTaskId;
     this.targetTaskId = targetTaskId;
     this.compliantWithHierarchy = false;
+    this.isSameLocation = false;
+    this.timeDelay = 0;
+    this.involvedResourcesId = [];
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event MoveResourcesAssignTaskAction');
+
     this.compliantWithHierarchy = doesOrderRespectHierarchy(
+      state,
       this.ownerId,
+      this.sourceLocation
+    );
+
+    this.isSameLocation = this.sourceLocation === this.targetLocation;
+
+    if (!this.isSameLocation) {
+      this.timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+    } else {
+      this.timeDelay = 0;
+    }
+
+    this.involvedResourcesId = ResourceState.getFreeResourcesByNumberTypeLocationAndTask(
+      state,
+      this.sentResources,
       this.sourceLocation,
-      state
+      this.sourceTaskId
+    ).map(resource => resource.Uid);
+
+    // we reserve the resources for this action so that they cannot be used by anything else
+    localEventManager.queueLocalEvent(
+      new ReserveResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.involvedResourcesId,
+        this.Uid
+      )
     );
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
+    // we free the resources so that they are available again
+    // ! but we free them only when everything is done !
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime() + this.timeDelay,
+        this.involvedResourcesId
+      )
+    );
+
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
-    if (
-      enoughResourcesOfAllTypes(
-        state,
-        this.sourceTaskId,
-        this.sentResources,
-        this.sourceLocation
-      ) &&
-      this.compliantWithHierarchy
-    ) {
-      const sameLocation = this.sourceLocation === this.targetLocation;
-      let timeDelay = 0;
-      //if source != target => emit a transfer event and delay resource allocation on task event
-      if (!sameLocation) {
+    if (this.compliantWithHierarchy) {
+      if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
-          new TransferResourcesToLocationLocalEvent(
+          new MoveResourcesLocalEvent(
             this.eventId,
             state.getSimTime(),
-            this.sourceLocation,
-            this.targetLocation,
-            this.sentResources,
-            this.sourceTaskId
+            this.involvedResourcesId,
+            this.targetLocation
           )
         );
-        timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
+
+        // during the travel set the resources as waiting
+        localEventManager.queueLocalEvent(
+          new AssignResourcesToWaitingTaskLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.involvedResourcesId
+          )
+        );
       }
 
-      ResourcesArray.forEach(res => {
-        const nbRes = this.sentResources[res] || 0;
-        if (nbRes > 0) {
-          localEventManager.queueLocalEvent(
-            new ResourcesAllocationLocalEvent(
-              this.eventId,
-              state.getSimTime() + timeDelay,
-              +this.targetTaskId,
-              this.targetLocation,
-              res,
-              nbRes
-            )
-          );
-        }
-      });
+      // during the travel set the resources as waiting
+      localEventManager.queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent(
+          this.eventId,
+          state.getSimTime() + this.timeDelay,
+          this.involvedResourcesId,
+          this.targetTaskId
+        )
+      );
 
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       localEventManager.queueLocalEvent(
@@ -847,7 +959,42 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           this.messageKey
         )
       );
+
+      let nbResourcesNeeded: number = 0;
+      // Note : please change code to be more straight forward
+      entries(this.sentResources).forEach(([_resourceType, nbResources]) => {
+        nbResourcesNeeded += nbResources || 0;
+      });
+
+      const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
+
+      if (this.involvedResourcesId.length === 0) {
+        // TODO accurate message no matching resources
+        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            this.failMessageKey
+          )
+        );
+      } else if (!isEnoughResources) {
+        // TODO accurate message not enough resources
+        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            this.failMessageKey
+          )
+        );
+      }
     } else {
+      // TODO accurate message (un-compliant with hierarchy)
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -862,7 +1009,10 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    return;
+    // we free the resources so that they are available for other actions
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
   }
 }
 
@@ -880,7 +1030,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
     this.logger.info('start event SendRadioMessageAction');
   }
@@ -902,7 +1052,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   }
 
   // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
     return;
   }
 
@@ -927,13 +1077,13 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   }
 }
 
-export class ArrivalAnnoucementAction extends StartEndAction {
+export class ArrivalAnnouncementAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
     eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[]
@@ -953,14 +1103,13 @@ export class ArrivalAnnoucementAction extends StartEndAction {
     );
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event ArrivalAnnoucementAction');
+    this.logger.info('start event ArrivalAnnouncementAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event ArrivalAnnoucementAction');
-    const so = state.getInternalStateObject();
+    this.logger.info('end event ArrivalAnnouncementAction');
 
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -975,37 +1124,26 @@ export class ArrivalAnnoucementAction extends StartEndAction {
       )
     );
 
-    const ownerActor = so.actors.find(a => a.Uid === this.ownerId)!;
+    const ownerActor = state.getActorById(this.ownerId)!;
 
-    //transfer available human resources from each location to event owner location
-    for (const location of so.mapLocations) {
-      const availableResources = getInStateCountInactiveResourcesByLocationAndType(
-        state,
-        HumanResourceTypeArray,
-        location.id
-      );
-      localEventManager.queueLocalEvent(
-        new TransferResourcesToLocationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          location.id,
-          ownerActor.Location,
-          availableResources,
-          getIdleTaskUid(state)
-        )
-      );
-    }
+    localEventManager.queueLocalEvent(
+      new MoveFreeWaitingHumanResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        ownerActor.Location
+      )
+    );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
     return;
   }
 }
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//  Evacuation
+// Evacuation
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -1013,7 +1151,14 @@ export class ArrivalAnnoucementAction extends StartEndAction {
  * Action to evacuate a patient to a hospital
  */
 export class EvacuationAction extends RadioDrivenAction {
-  public readonly evacuationActionPayload: EvacuationActionPayload;
+  private readonly patientId: PatientId;
+  private readonly hospitalId: HospitalId;
+  private readonly patientUnitAtHospital: PatientUnitTypology;
+  private readonly transportSquad: EvacuationSquadType;
+  private readonly doResourcesComeBack: boolean;
+
+  private isEnoughResources: boolean;
+  private involvedResourcesId: ResourceId[];
 
   constructor(
     startTimeSec: SimTime,
@@ -1025,7 +1170,7 @@ export class EvacuationAction extends RadioDrivenAction {
     readonly msgEvacuationAbort: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    evacuationActionPayload: EvacuationActionPayload,
+    readonly evacuationActionPayload: EvacuationActionPayload,
     provideFlagsToState?: SimFlag[]
   ) {
     super(
@@ -1038,11 +1183,105 @@ export class EvacuationAction extends RadioDrivenAction {
       uuidTemplate,
       provideFlagsToState
     );
-    this.evacuationActionPayload = evacuationActionPayload;
+    this.patientId = evacuationActionPayload.patientId;
+    this.hospitalId = evacuationActionPayload.hospitalId;
+    this.patientUnitAtHospital = evacuationActionPayload.patientUnitAtHospital;
+    this.transportSquad = evacuationActionPayload.transportSquad;
+    this.doResourcesComeBack = !!evacuationActionPayload.doResourcesComeBack;
+
+    this.isEnoughResources = false;
+    this.involvedResourcesId = [];
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     this.logger.info('start event EvacuationAction');
+
+    this.isEnoughResources = EvacuationLogic.isEvacSquadAvailable(state, this.transportSquad);
+
+    if (this.isEnoughResources) {
+      this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
+        state,
+        this.transportSquad
+      ).map((resource: Resource) => resource.Uid);
+
+      // we reserve the resources for this action so that they cannot be used by anything else
+      localEventManager.queueLocalEvent(
+        new ReserveResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.involvedResourcesId,
+          this.Uid
+        )
+      );
+    } else {
+      this.involvedResourcesId = [];
+    }
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    this.logger.info('end event EvacuationAction');
+
+    // we free the resources so that they are available again
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    if (!this.isEnoughResources) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0,
+          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          this.msgEvacuationAbort,
+          this.getChannel(),
+          true
+        )
+      );
+    } else {
+      const travelTime = computeTravelTime(this.hospitalId, this.transportSquad);
+
+      const evacuationTask = getEvacuationTask(state);
+
+      localEventManager.queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.involvedResourcesId,
+          evacuationTask.Uid
+        )
+      );
+
+      evacuationTask.createSubTask(
+        this.eventId,
+        this.involvedResourcesId,
+        this.patientId,
+        this.hospitalId,
+        this.patientUnitAtHospital,
+        this.doResourcesComeBack,
+        travelTime
+      );
+    }
+  }
+
+  protected cancelInternal(state: MainSimulationState): void {
+    // we free the resources so that they are available for other actions
+    localEventManager.queueLocalEvent(
+      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+    );
   }
 
   private formatStartFeedbackMessage(payload: EvacuationActionPayload) {
@@ -1070,82 +1309,6 @@ export class EvacuationAction extends RadioDrivenAction {
       byVector,
       healerPresence,
     ]);
-  }
-
-  protected dispatchEndedEvents(state: MainSimulationState): void {
-    this.logger.info('end event EvacuationAction');
-
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getRecipient(),
-        this.getEmitter(),
-        this.getMessage(),
-        this.getChannel(),
-        true,
-        true
-      )
-    );
-
-    const isEnoughResources = isEvacSquadAvailable(
-      state,
-      this.evacuationActionPayload.transportSquad
-    );
-
-    if (!isEnoughResources) {
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          0,
-          getCurrentState().getActorById(this.ownerId)?.FullName || '',
-          this.msgEvacuationAbort,
-          this.getChannel(),
-          true
-        )
-      );
-    } else {
-      const involvedResources: Resource[] = getResourcesForEvacSquad(
-        state,
-        this.evacuationActionPayload.transportSquad
-      );
-
-      const involvedResourceIds: ResourceId[] = involvedResources.map(resource => resource.Uid);
-
-      const travelTime = computeTravelTime(
-        this.evacuationActionPayload.hospitalId,
-        this.evacuationActionPayload.transportSquad
-      );
-
-      const evacuationTask = getEvacuationTask(state);
-
-      involvedResources.forEach(res => {
-        localEventManager.queueLocalEvent(
-          new ResourceAllocationLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            res.Uid,
-            evacuationTask.Uid
-          )
-        );
-      });
-
-      evacuationTask.createSubTask(
-        this.eventId,
-        involvedResourceIds,
-        this.evacuationActionPayload.patientId,
-        this.evacuationActionPayload.hospitalId,
-        this.evacuationActionPayload.patientUnitAtHospital,
-        !!this.evacuationActionPayload.doResourcesComeBack,
-        travelTime
-      );
-    }
-  }
-
-  protected cancelInternal(state: MainSimulationState): void {
-    // nothing done before the end of the action => nothing to cancel
-    return;
   }
 
   public getChannel(): ActionType {

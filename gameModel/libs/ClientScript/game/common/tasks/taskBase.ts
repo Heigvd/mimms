@@ -11,7 +11,7 @@ import * as TaskState from '../simulationState/taskStateAccess';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
   AddRadioMessageLocalEvent,
-  AllResourcesReleaseLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { ActionType } from '../actionType';
@@ -20,7 +20,7 @@ import { Category } from '../../pretri/triage';
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
 
-const baseSeed = 4000;
+const TASK_SEED_ID: TaskId = 4000;
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -32,7 +32,12 @@ const baseSeed = 4000;
  * Base class for a task
  */
 export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
-  private static IdSeed = baseSeed;
+  private static idProvider: TaskId = TASK_SEED_ID;
+
+  public static resetIdSeed() {
+    TaskBase.idProvider = TASK_SEED_ID;
+  }
+
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
@@ -52,13 +57,9 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly availableToRoles: InterventionRole[] = [],
     readonly isStandardAssignation: boolean = true
   ) {
-    this.Uid = TaskBase.IdSeed++;
+    this.Uid = ++TaskBase.idProvider;
     this.status = 'Uninitialized';
     this.subTasks = {};
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = baseSeed;
   }
 
   /** Its short name */
@@ -226,7 +227,10 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
    * In that cas, the sub-task is stopped and everything goes as if nothing happened.
    */
   protected cleanupSubTasksFromUnallocatedResources(state: Readonly<MainSimulationState>) {
-    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
+      state,
+      this.Uid
+    );
 
     // FIXME see if no problem removing element from the list we browse
 
@@ -251,7 +255,10 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected getResourcesReadyForNewSubTask(state: Readonly<MainSimulationState>): Resource[] {
     const result: Resource[] = [];
 
-    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesForTask(state, this.Uid);
+    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
+      state,
+      this.Uid
+    );
     allocatedToTaskResources.map(resource => {
       if (!this.isResourceInvolvedInASubTask(resource.Uid)) {
         result.push(resource);
@@ -290,7 +297,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     );
 
     localEventManager.queueLocalEvent(
-      new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+      new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
     );
 
     // We broadcast a message when the task is completed

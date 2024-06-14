@@ -5,8 +5,13 @@ import { TaskBase } from './taskBase';
 import { TaskId } from '../baseTypes';
 
 export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
-  return state.getInternalStateObject().tasks.find((task: TaskBase) => task instanceof WaitingTask)!
-    .Uid;
+  return getIdleTask(state).Uid;
+}
+
+export function getIdleTask(state: Readonly<MainSimulationState>): TaskBase {
+  return state
+    .getInternalStateObject()
+    .tasks.find((task: TaskBase) => task instanceof WaitingTask)!;
 }
 
 export function getEvacuationTask(state: MainSimulationState): EvacuationTask {

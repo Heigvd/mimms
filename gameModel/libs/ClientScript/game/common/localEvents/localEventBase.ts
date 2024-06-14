@@ -1,10 +1,15 @@
-import { getTranslation } from '../../../tools/translation';
 import { getEnv } from '../../../tools/WegasHelper';
+import { entries } from '../../../tools/helper';
+import { resourceLogger } from '../../../tools/logger';
+import { getTranslation } from '../../../tools/translation';
+import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
+  ActionId,
   ActorId,
   GlobalEventId,
+  ResourceContainerDefinitionId,
   ResourceId,
   SimDuration,
   SimTime,
@@ -12,40 +17,29 @@ import {
   TemplateId,
   TranslationKey,
 } from '../baseTypes';
+import { FailedRessourceArrivalDelay } from '../constants';
+import { getHospitalsByProximity } from '../evacuation/hospitalController';
+import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessageEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
+import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
+import { Resource } from '../resources/resource';
+import { ResourceContainerType } from '../resources/resourceContainer';
+import {
+  resourceArrivalLocationResolution,
+  resourceContainerCanArrive,
+} from '../resources/resourceLogic';
+import { ResourceType } from '../resources/resourceType';
+import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
+import { PatientLocation, changePatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
-import { TaskStatus } from '../tasks/taskBase';
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
-import {
-  ResourceContainerDefinitionId,
-  ResourceContainerType,
-} from '../resources/resourceContainer';
-import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
-import { localEventManager } from './localEventManager';
-import { entries } from '../../../tools/helper';
-import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessageEvent';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { ActionType } from '../actionType';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import {
-  resourceArrivalResolution,
-  resourceContainerCanArrive,
-} from '../resources/resourceDispatchResolution';
-import {
-  deleteIdleResource,
-  getUnoccupiedResources,
-  sendResourcesToLocation,
-} from '../simulationState/resourceStateAccess';
-import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
-import { FailedRessourceArrivalDelay } from '../constants';
-import { resourceLogger } from '../../../tools/logger';
-import { getHospitalsByProximity } from '../evacuation/hospitalController';
-
-export type EventStatus = 'Pending' | 'Processed' | 'Cancelled' | 'Erroneous';
+import { TaskStatus } from '../tasks/taskBase';
+import { getIdleTaskUid } from '../tasks/taskLogic';
+import { localEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
@@ -281,7 +275,7 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
     const so = state.getInternalStateObject();
     so.mapLocations
       .filter(mapEntity => mapEntity.id === this.fixedMapEntity.id)
-      .map(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
+      .forEach(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
   }
 }
 
@@ -345,7 +339,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.actors.filter(a => a.Uid === this.actorUid).map(a => (a.Location = this.location));
+    so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
   }
 }
 
@@ -356,7 +350,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 export class AddRadioMessageLocalEvent extends LocalEventBase {
-  private static UidSeed = 1;
+  private static RadioIdProvider = 1;
 
   constructor(
     parentId: GlobalEventId,
@@ -381,7 +375,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
       timeStamp: this.simTimeStamp,
       emitter: this.emitter,
       message: msg,
-      uid: AddRadioMessageLocalEvent.UidSeed++,
+      uid: AddRadioMessageLocalEvent.RadioIdProvider++,
       isRadioMessage: this.isRadioMessage,
       channel: this.channel,
       pending: false,
@@ -391,55 +385,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// tasks and resources
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-// /**
-//  * Local event to transfer resources from a location to another
-//  */
-export class TransferResourcesToLocationLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly sourceLocation: LOCATION_ENUM,
-    public readonly targetLocation: LOCATION_ENUM,
-    public readonly sentResources: ResourceTypeAndNumber,
-    public sourceTaskId: TaskId
-  ) {
-    super(parentId, 'TransferResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.transferResourcesFromToLocation(
-      state,
-      this.sourceLocation,
-      this.targetLocation,
-      this.sentResources,
-      this.sourceTaskId
-    );
-  }
-}
-
-export class MoveAllIdleResourcesToLocationLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourceType: ResourceType,
-    readonly targetLocation: LOCATION_ENUM
-  ) {
-    super(parentId, 'MoveAllResourcesToLocationLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const idleResources = getUnoccupiedResources(state, this.resourceType);
-    ResourceState.sendResourcesToLocation(idleResources, this.targetLocation);
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// EMERGENCY DEPARTMENT
+// EMERGENCY DEPARTMENT - RESOURCE ARRIVAL
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -461,10 +407,10 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
     // check that the payload subtypes to MethaneMessagePayload
     if (this.request.messageType !== 'R' && this.request.resourceRequest) {
       resolveResourceRequest(
+        state,
         this.parentEventId,
-        this.request.resourceRequest,
         this.actorUid,
-        state
+        this.request.resourceRequest
       );
     }
   }
@@ -522,7 +468,6 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       Object.keys(containerDef.flags).length > 0
     ) {
       // schedule resource arrival event
-      // TODO forced actor binding if any ?? (typically if PMA leader comes with other guys ?)
       const evt = new ResourcesArrivalLocalEvent(
         this.parentEventId,
         this.departureTime + this.travelTime,
@@ -606,15 +551,10 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       }
 
       entries(containerDef.resources)
-        .filter(([_, qt]) => qt && qt > 0)
-        .forEach(([rType, qty]) => {
-          const n = qty! * this.amount;
-          ResourceState.addIncomingResourcesToLocation(
-            state,
-            rType,
-            resourceArrivalResolution(state, rType),
-            n
-          );
+        .filter(([_resourceType, qty]) => qty && qty > 0)
+        .forEach(([resourceType, qty]) => {
+          const resourcesAmount = qty! * this.amount;
+          ResourceState.addIncomingResources(state, resourceType, resourcesAmount);
         });
     } else {
       // missing ambulance or helicopter park location
@@ -642,8 +582,8 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     state: MainSimulationState
   ): AddRadioMessageLocalEvent {
     let parkKey = '';
-    if (rtype === 'Ambulance') parkKey = 'location-ambulance-park';
-    else if (rtype === 'Helicopter') parkKey = 'location-helicopter-park';
+    if (rtype === 'Ambulance') parkKey = 'location-ambulancePark';
+    else if (rtype === 'Helicopter') parkKey = 'location-helicopterPark';
     else
       resourceLogger.warn('The ressources that are unable to arrive are ambulance and helicopter');
     const park = getTranslation('mainSim-locations', parkKey, false);
@@ -666,60 +606,160 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// RESOURCE ASSIGNATION
+// RESOURCES
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-/**
- * Local event to allocate resources to a task.
- */
-export class ResourcesAllocationLocalEvent extends LocalEventBase {
+export class ReserveResourcesLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
+    parentId: GlobalEventId,
     timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly sourceLocation: LOCATION_ENUM,
-    readonly resourceType: ResourceType,
-    readonly nb: number
+    readonly resourcesId: ResourceId[],
+    readonly actionId: ActionId
   ) {
-    super(parentEventId, 'ResourcesAllocationLocalEvent', timeStamp);
+    super(parentId, 'ReserveResourcesLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourcesToTask(
-      state,
-      this.taskId,
-      this.sourceLocation,
-      this.resourceType,
-      this.nb
-    );
+    ResourceState.reserveResources(state, this.resourcesId, this.actionId);
   }
 }
 
-export class ResourceAllocationLocalEvent extends LocalEventBase {
+export class UnReserveResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly resourcesId: ResourceId[]) {
+    super(parentId, 'UnReserveResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.unReserveResources(state, this.resourcesId);
+  }
+}
+
+export class MoveResourcesLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
     timeStamp: SimTime,
-    readonly resourceId: ResourceId,
+    readonly resourcesId: ResourceId[],
+    readonly location: LOCATION_ENUM
+  ) {
+    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp);
+  }
+
+  override applyStateUpdate(state: MainSimulationState) {
+    const resources = this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
+    ResourceState.sendResourcesToLocation(resources, this.location);
+  }
+}
+
+export class MoveFreeWaitingHumanResourcesLocalEvent extends LocalEventBase {
+  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly targetLocation: LOCATION_ENUM) {
+    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const resources = ResourceState.getFreeWaitingHumanResources(state);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class MoveFreeWaitingResourcesByTypeLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourceType: ResourceType,
+    readonly targetLocation: LOCATION_ENUM
+  ) {
+    super(parentId, 'MoveFreeWaitingResourcesByTypeLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const resources = ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesIds: ResourceId[]
+  ) {
+    super(parentEventId, 'MoveResourcesAtArrivalLocationLocalEvent', timeStamp);
+  }
+
+  override applyStateUpdate(state: MainSimulationState) {
+    this.resourcesIds.forEach(resourceId => {
+      const resource: Resource = ResourceState.getResourceById(state, resourceId);
+      const location = resourceArrivalLocationResolution(state, resource.type);
+      ResourceState.sendResourcesToLocation([resource], location);
+    });
+  }
+}
+
+export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesId: ResourceId[],
     readonly taskId: TaskId
   ) {
-    super(parentEventId, 'ResourceAllocationLocalEvent', timeStamp);
+    super(parentEventId, 'AssignResourcesToTaskLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.allocateResourceToTask(state, this.resourceId, this.taskId);
+    ResourceState.assignResourcesToTask(state, this.resourcesId, this.taskId);
   }
 }
 
-export class AllResourcesReleaseLocalEvent extends LocalEventBase {
+export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly resourcesId: ResourceId[]
+  ) {
+    super(parentEventId, 'AssignResourcesToWaitingTaskLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.assignResourcesToTask(state, this.resourcesId, getIdleTaskUid(state));
+  }
+}
+
+export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
-    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
+    super(parentEventId, 'ReleaseResourcesFromTaskLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.releaseAllResourcesFromTask(state, this.taskId);
+    const involvedResources: Resource[] = ResourceState.getFreeResourcesByTask(state, this.taskId);
+    const involvedResourcesId: ResourceId[] = involvedResources.map(
+      (resource: Resource) => resource.Uid
+    );
+    const location: LOCATION_ENUM = TaskState.getTaskResponsibleActorSymbolicLocation(
+      state,
+      this.taskId
+    );
+
+    ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));
+    ResourceState.sendResourcesToLocation(involvedResources, location);
   }
 }
+
+export class DeleteResourceLocalEvent extends LocalEventBase {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
+    super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    ResourceState.deleteResource(state, this.resourceId);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// TASKS
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 export class TaskStatusChangeLocalEvent extends LocalEventBase {
   constructor(
@@ -736,29 +776,9 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
   }
 }
 
-export class MoveResourcesLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesUids: ResourceId[],
-    readonly location: LOCATION_ENUM
-  ) {
-    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp);
-  }
-
-  override applyStateUpdate(state: MainSimulationState) {
-    this.resourcesUids.forEach(resourceId => {
-      const resource = state.getInternalStateObject().resources.find(res => res.Uid === resourceId);
-      if (resource != undefined) {
-        sendResourcesToLocation([resource], this.location);
-      }
-    });
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-//
+// PATIENT
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -774,21 +794,6 @@ export class MovePatientLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     changePatientLocation(state, this.patientId, this.location);
-  }
-}
-
-export class DeleteIdleResourceLocalEvent extends LocalEventBase {
-  constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly location: LOCATION_ENUM,
-    readonly resourceType: ResourceType
-  ) {
-    super(parentEventId, 'AllResourcesReleaseLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    deleteIdleResource(state, this.location, this.resourceType);
   }
 }
 

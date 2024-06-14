@@ -4,14 +4,14 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { FixedMapEntity } from \"./game/common/events/defineMapObjectEvent\";\nconst choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState && Context.mapState.state.selectionState instanceof FixedMapEntity) {\n\tconst selection = Context.mapState.state.selectionState.getGeometricalShape().availablePositions;\n\n\tif (selection) {\n\t\tselection.forEach((f: string, i: number) => {\n\t\t\tchoices.push({ label: String(i + 1), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
+          "content" : "import { FixedMapEntity } from \"./game/common/events/defineMapObjectEvent\";\nconst choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState && Context.mapState.state.selectionState instanceof FixedMapEntity) {\n\tconst selection = Context.mapState.state.selectionState.getGeometricalShape().availablePositions;\n\n\tif (selection) {\n\t\tselection.forEach((_f: string, i: number) => {\n\t\t\tchoices.push({ label: (i + 10).toString(36).toUpperCase(), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
           "language" : "typescript"
         },
         "layoutStyle" : { },
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { buildingsRef, selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();\nbuildingsRef.current.changed();",
+            "content" : "import { selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {

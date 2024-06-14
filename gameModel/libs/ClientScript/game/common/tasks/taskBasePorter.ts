@@ -135,7 +135,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
           localEventManager.queueLocalEvent(
             new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
               kind: 'FixedMapEntity',
-              locationId: LOCATION_ENUM.PMA,
+              locationId: subTask.targetLocation,
             })
           );
 

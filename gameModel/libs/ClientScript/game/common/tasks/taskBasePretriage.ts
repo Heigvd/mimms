@@ -7,7 +7,7 @@ import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
-  AllResourcesReleaseLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
@@ -36,7 +36,7 @@ export class PreTriageTask extends TaskBase {
     nbMinResources: number,
     nbMaxResources: number,
     ownerRole: InterventionRole,
-    availableToLocations: LOCATION_ENUM[],
+    readonly locationSource: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -45,7 +45,7 @@ export class PreTriageTask extends TaskBase {
       nbMinResources,
       nbMaxResources,
       ownerRole,
-      availableToLocations,
+      [locationSource],
       availableToRoles
     );
   }
@@ -54,12 +54,14 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
+
     taskLogger.info(
-      'Patients not pretriaged before action: ' + getNonPreTriagedPatientsSize(state)
+      'Patients not pretriaged before action: ' +
+        getNonPreTriagedPatientsSize(state, this.locationSource)
     );
     const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-    ResourceState.getResourcesForTask(state, this.Uid).map(resource => {
+    ResourceState.getFreeResourcesByTask(state, this.Uid).map(resource => {
       if (
         (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY >=
         TIME_REQUIRED_FOR_PATIENT_PRETRI
@@ -67,7 +69,7 @@ export class PreTriageTask extends TaskBase {
         (resource as Resource).cumulatedUnusedTime =
           (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY -
           TIME_REQUIRED_FOR_PATIENT_PRETRI;
-        const nextPatient = getNextNonPreTriagedPatient(state);
+        const nextPatient = getNextNonPreTriagedPatient(state, this.locationSource);
         if (nextPatient)
           nextPatient.preTriageResult = doPatientAutomaticTriage(
             nextPatient.humanBody,
@@ -78,21 +80,26 @@ export class PreTriageTask extends TaskBase {
       }
     });
 
-    taskLogger.info('Patients not pretriaged after action: ' + getNonPreTriagedPatientsSize(state));
+    taskLogger.info(
+      'Patients not pretriaged after action: ' +
+        getNonPreTriagedPatientsSize(state, this.locationSource)
+    );
 
-    if (getNonPreTriagedPatientsSize(state) === 0) {
+    if (getNonPreTriagedPatientsSize(state, this.locationSource) === 0) {
       localEventManager.queueLocalEvent(
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
       );
       localEventManager.queueLocalEvent(
-        new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+        new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
       );
 
       //get distinct pretriage categories with count
       let result = 'Result: ';
-      Object.entries(getPreTriagedAmountByCategory(state)).forEach(([key, value]) => {
-        result += key + ': ' + value + '\n';
-      });
+      Object.entries(getPreTriagedAmountByCategory(state, this.locationSource)).forEach(
+        ([key, value]) => {
+          result += key + ': ' + value + '\n';
+        }
+      );
 
       // We broadcast a message that task is completed (recipient = 0)
       localEventManager.queueLocalEvent(

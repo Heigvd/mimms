@@ -5,13 +5,14 @@ import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
   AppointActorActionTemplate,
-  ArrivalAnnoucementTemplate,
+  ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
   EvacuationActionTemplate,
   GetInformationTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
+  SelectionMeetingPointTemplate,
   SelectionParkTemplate,
   SelectionPMATemplate,
   SendRadioMessage,
@@ -47,7 +48,7 @@ import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { Resource } from './common/resources/resource';
-import { resetSeedId } from './common/resources/resourceContainer';
+import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { HealingTask, TaskBase } from './common/tasks/taskBase';
 import { PorterTask } from './common/tasks/taskBasePorter';
@@ -59,6 +60,7 @@ import { getTranslation } from '../tools/translation';
 import { SubTask } from './common/tasks/subTask';
 import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
+import { ActionBase } from './common/actions/actionBase';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -83,6 +85,8 @@ function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+  // AL's default location (symbolicLocation) doesn't exist yet
+  testAL.setLocation(LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(
@@ -95,14 +99,36 @@ function initMainState(): MainSimulationState {
     'mainAccident'
   );
 
-  const taskPretri = new PreTriageTask(
+  const taskPretriChantier = new PreTriageTask(
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
     1,
     5,
     'AL',
-    [LOCATION_ENUM.chantier],
+    LOCATION_ENUM.chantier,
+    []
+  );
+
+  const taskPretriPMA = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.PMA,
+    []
+  );
+
+  const taskPretriNidDeBlesses = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.nidDeBlesses,
     []
   );
 
@@ -185,9 +211,7 @@ function initMainState(): MainSimulationState {
 
   const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
 
-  const initialResources = [
-    new Resource('ambulancier', LOCATION_ENUM.meetingPoint, taskWaiting.Uid),
-  ];
+  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, taskWaiting.Uid)];
 
   MainSimulationState.resetStateCounter();
 
@@ -200,7 +224,9 @@ function initMainState(): MainSimulationState {
       patients: loadPatients(),
       tasks: [
         taskWaiting,
-        taskPretri,
+        taskPretriChantier,
+        taskPretriPMA,
+        taskPretriNidDeBlesses,
         taskBrancardageChantier,
         taskBrancardageNidDeBlesses,
         taskHealing,
@@ -223,7 +249,7 @@ function initMainState(): MainSimulationState {
 function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const placeMeetingPoint = new SelectionFixedMapEntityTemplate(
+  const placeMeetingPoint = new SelectionMeetingPointTemplate(
     'define-meetingPoint-title',
     'define-meetingPoint-desc',
     TimeSliceDuration,
@@ -337,7 +363,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate(
+  const acsMcsArrivalAnnouncement = new ArrivalAnnouncementTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -468,7 +494,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-ambulance-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-ambulance-park',
+      'location-ambulancePark',
       LOCATION_ENUM.ambulancePark,
       ['EVASAN'],
       new PointGeometricalShape([
@@ -492,7 +518,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-helicopter-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-helicopter-park',
+      'location-helicopterPark',
       LOCATION_ENUM.helicopterPark,
       ['EVASAN'],
       new PointGeometricalShape([
@@ -543,7 +569,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
-  templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
@@ -808,10 +834,11 @@ export function recomputeState() {
 
   Actor.resetIdSeed();
   ActionTemplateBase.resetIdSeed();
+  ActionBase.resetIdSeed();
   TaskBase.resetIdSeed();
   SubTask.resetIdSeed();
   Resource.resetIdSeed();
-  resetSeedId(); // ressource containers
+  ResourceContainerResetIdSeed();
 
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];

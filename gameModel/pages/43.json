@@ -90,14 +90,14 @@
                                                       "className" : "closedFixedMapEntityIcon",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                        "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id)",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
                                                     "layoutStyle" : { },
                                                     "script" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n}else if(!Context.mapState?.state.overlayState[Context.overlayItem.id] && isCurrentActorAtLocation(Context.overlayItem.id)){\n     return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n  }\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
+                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(!Context.mapState?.state.overlayState.includes(Context.overlayItem.id)){\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n}else if(Context.mapState?.state.overlayState.includes(Context.overlayItem.id) && isCurrentActorAtLocation(Context.overlayItem.id)){\n     return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n  }\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
                                                       "language" : "TypeScript"
                                                     },
                                                     "style" : {
@@ -121,7 +121,7 @@
                                                       "className" : "closedFixedMapEntityTitle",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                        "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -150,7 +150,7 @@
                                                 "className" : "close-button",
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                                  "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "label" : {
@@ -164,7 +164,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "setTimeout(() => {\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n}, 10)",
+                                                    "content" : "import { toggleOverlayItem } from \"./gameMap/mapEntities\"\n\nsetTimeout(() => {\n  toggleOverlayItem(Context.overlayItem.id)\n}, 10)",
                                                     "language" : "TypeScript"
                                                   }
                                                 },
@@ -186,7 +186,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "if(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n\t}\n",
+                                                "content" : "import { toggleOverlayItem } from \"./gameMap/mapEntities\";\n\nif (!Context.mapState.state.overlayState.includes(Context.overlayItem.id)) {\n  toggleOverlayItem(Context.overlayItem.id);\n}",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -430,7 +430,7 @@
                                             } ],
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                              "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
                                               "language" : "typescript"
                                             },
                                             "layout" : { },
@@ -454,7 +454,7 @@
                                           "className" : "closedFixedMapEntity",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.mapState?.state.overlayState[Context.overlayItem.id]",
+                                            "content" : "  !Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -466,7 +466,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "/*if(Context.mapState?.state.overlayState[Context.overlayItem.id]){\n  const newState = Helpers.cloneDeep(Context.mapState.state);\n  newState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\n  Context.mapState.setState(newState);\n\t}*/\n",
+                                            "content" : "import { bringOverlayToFront } from \"./gameMap/mapEntities\";\n\nif(Context.mapState.state.overlayState.includes(Context.overlayItem.id)) {\n  bringOverlayToFront(Context.overlayItem.id);\n}",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -490,7 +490,7 @@
                                           "className" : "closedFixedMapEntityArrow",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.mapState.state.overlayState[Context.overlayItem.id]",
+                                            "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id)",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -500,7 +500,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "const newState = Helpers.cloneDeep(Context.mapState.state);\nnewState.overlayState[Context.overlayItem.id] = !newState.overlayState[Context.overlayItem.id];\nContext.mapState.setState(newState);",
+                                            "content" : "import { toggleOverlayItem } from \"./gameMap/mapEntities\";\n\ntoggleOverlayItem(Context.overlayItem.id);",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -516,6 +516,11 @@
                                       "@class" : "Script",
                                       "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
+                                    },
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.mapState.state.mapSelect;",
+                                      "language" : "typescript"
                                     },
                                     "itemKey" : "id",
                                     "layoutStyle" : {
@@ -956,7 +961,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  newState.currentActionUid = 0;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -1012,7 +1017,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nnewState.casuMessage.messageType = '';\nContext.interfaceState.setState(newState);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -1067,7 +1072,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
                                     "language" : "TypeScript"
                                   }
                                 },

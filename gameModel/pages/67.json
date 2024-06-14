@@ -28,7 +28,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('currentLocation', Context.resourceAllocationCurrentLocation);\n",
+                "content" : "import { updateCurrentLocation } from \"./UIfacade/resourceFacade\";\n\nupdateCurrentLocation(Context.resourceAllocationCurrentLocation);\n",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -80,7 +80,12 @@
           "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation());",
+              "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n    const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio);",
+              "language" : "typescript"
+            },
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoicesCount } from \"./UIfacade/taskFacade\";\n  const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n  getSourceTaskChoicesCount(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio) < 2;",
               "language" : "typescript"
             },
             "layoutClassName" : "resourcesDropdowns",
@@ -151,8 +156,8 @@
                     "layoutStyle" : { },
                     "name" : "resource type name",
                     "style" : {
-                      "align-content" : "center",
-                      "font-size" : "12px"
+                      "alignContent" : "center",
+                      "fontSize" : "12px"
                     },
                     "text" : {
                       "@class" : "Script",
@@ -192,9 +197,9 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "font-size" : "10px",
+                          "fontSize" : "10px",
                           "height" : "10px",
-                          "line-height" : "10px"
+                          "lineHeight" : "10px"
                         }
                       },
                       "type" : "Number input"
@@ -216,8 +221,8 @@
                         },
                         "name" : "availableResourcesByType",
                         "style" : {
-                          "align-items" : "center",
-                          "font-size" : "12px"
+                          "alignItems" : "center",
+                          "fontSize" : "12px"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -313,7 +318,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { updateResourceValues } from \"./UIfacade/resourceFacade\";\nupdateResourceValues('targetLocation', Context.resourceAllocationTargetLocation);",
+                "content" : "import { updateTargetDestination } from \"./UIfacade/resourceFacade\";\n\nupdateTargetDestination(Context.resourceAllocationTargetLocation);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -404,13 +409,13 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n\nconst key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+                "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nif (!canPlanAction()) {\n\treturn false\n}\n  \n  const key = getStateKeyForResource();\nconst params = Context.interfaceState.state.resources[key];\nif (getAllocateResourcesCurrentLocation() === params.targetLocation && params.currentTaskId === params.targetTaskId) {\n\treturn true\n}\nObject.values(params).includes(undefined);",
+              "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
               "language" : "typescript"
             },
             "hideIf" : {
