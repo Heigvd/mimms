@@ -949,17 +949,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
         )
       );
 
-      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          this.messageKey
-        )
-      );
-
       let nbResourcesNeeded: number = 0;
       // Note : please change code to be more straight forward
       entries(this.sentResources).forEach(([_resourceType, nbResources]) => {
@@ -969,7 +958,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
 
       if (this.involvedResourcesId.length === 0) {
-        // TODO accurate message no matching resources
         // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
         localEventManager.queueLocalEvent(
           new AddRadioMessageLocalEvent(
@@ -977,11 +965,10 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
             state.getSimTime(),
             this.ownerId,
             actionOwnerActor.Role as unknown as TranslationKey,
-            this.failMessageKey
+            'move-res-task-no-resource'
           )
         );
       } else if (!isEnoughResources) {
-        // TODO accurate message not enough resources
         // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
         localEventManager.queueLocalEvent(
           new AddRadioMessageLocalEvent(
@@ -989,12 +976,22 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
             state.getSimTime(),
             this.ownerId,
             actionOwnerActor.Role as unknown as TranslationKey,
-            this.failMessageKey
+            'move-res-task-not-enough-resources'
+          )
+        );
+      } else {
+        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            this.messageKey
           )
         );
       }
     } else {
-      // TODO accurate message (un-compliant with hierarchy)
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -1002,7 +999,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           state.getSimTime(),
           this.ownerId,
           actionOwnerActor.Role as unknown as TranslationKey,
-          this.failMessageKey
+          'move-res-task-refused'
         )
       );
     }
