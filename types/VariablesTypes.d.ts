@@ -170,11 +170,21 @@
 
           "debug": SListDescriptor;
           "debug_LMEBup": SNumberDescriptor;
+          "debugStoredState": SNumberDescriptor;
+          "debugIgnoredEvents":SObjectDescriptor;
 
           "mainGame": SListDescriptor;
 
           "interface": SListDescriptor;
           "gameState": SStringDescriptor;
+
+          "multiplayer": SListDescriptor;
+          "multiplayerMatrix": SObjectDescriptor;
+          "trainer_PX3n0s": SListDescriptor;
+          "selectedTeam": SStringDescriptor;
+
+          "trainer_Zix3IY": SListDescriptor;
+          "godView": SBooleanDescriptor;
 
           "startTime": SListDescriptor;
           "startMinutes": SNumberDescriptor;

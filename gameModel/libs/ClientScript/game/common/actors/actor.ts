@@ -44,8 +44,16 @@ export function sortByHierarchyLevel(actors: Readonly<Actor[]>) {
     .filter(actor => actor.Role != 'CASU');
 }
 
+const ACTOR_SEED_ID: ActorId = 1000;
+
 export class Actor {
-  private static IdSeed = 1000;
+  private static idProvider: ActorId = ACTOR_SEED_ID;
+
+  public static resetIdSeed() {
+    Actor.idProvider = ACTOR_SEED_ID;
+  }
+
+  public readonly Uid: ActorId;
 
   public readonly FullName;
   public readonly ShortName;
@@ -57,14 +65,13 @@ export class Actor {
   //responsible for this location
   private symbolicLocation: LOCATION_ENUM;
 
-  public readonly Uid: ActorId;
-
   private readonly translationVar: keyof VariableClasses = 'mainSim-actors';
 
   constructor(
     role: InterventionRole,
     symbolicLocation: LOCATION_ENUM = symbolicLocationMatrix[role]
   ) {
+    this.Uid = ++Actor.idProvider;
     this.Role = role;
     const tkey: TranslationKey = `actor-${role.toLowerCase()}`;
     this.ShortName = getTranslation(this.translationVar, tkey);
@@ -72,11 +79,6 @@ export class Actor {
     this.symbolicLocation = symbolicLocation;
     //current actor location is the sysmbolic location at the beginning
     this.Location = symbolicLocation;
-    this.Uid = Actor.IdSeed++;
-  }
-
-  static resetIdSeed() {
-    this.IdSeed = 1000;
   }
 
   /**

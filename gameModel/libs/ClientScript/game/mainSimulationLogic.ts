@@ -5,7 +5,7 @@ import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
   AppointActorActionTemplate,
-  ArrivalAnnoucementTemplate,
+  ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
   EvacuationActionTemplate,
   GetInformationTemplate,
@@ -48,7 +48,7 @@ import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { Resource } from './common/resources/resource';
-import { resetSeedId } from './common/resources/resourceContainer';
+import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { HealingTask, TaskBase } from './common/tasks/taskBase';
 import { PorterTask } from './common/tasks/taskBasePorter';
@@ -60,6 +60,7 @@ import { getTranslation } from '../tools/translation';
 import { SubTask } from './common/tasks/subTask';
 import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
+import { ActionBase } from './common/actions/actionBase';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -362,7 +363,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnoucement = new ArrivalAnnoucementTemplate(
+  const acsMcsArrivalAnnouncement = new ArrivalAnnouncementTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -493,7 +494,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-ambulance-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-ambulance-park',
+      'location-ambulancePark',
       LOCATION_ENUM.ambulancePark,
       ['EVASAN'],
       new PointGeometricalShape([
@@ -517,7 +518,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'define-helicopter-park-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-helicopter-park',
+      'location-helicopterPark',
       LOCATION_ENUM.helicopterPark,
       ['EVASAN'],
       new PointGeometricalShape([
@@ -568,7 +569,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
-  templates[acsMcsArrivalAnnoucement.getTemplateRef()] = acsMcsArrivalAnnoucement;
+  templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
@@ -833,10 +834,11 @@ export function recomputeState() {
 
   Actor.resetIdSeed();
   ActionTemplateBase.resetIdSeed();
+  ActionBase.resetIdSeed();
   TaskBase.resetIdSeed();
   SubTask.resetIdSeed();
   Resource.resetIdSeed();
-  resetSeedId(); // ressource containers
+  ResourceContainerResetIdSeed();
 
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];

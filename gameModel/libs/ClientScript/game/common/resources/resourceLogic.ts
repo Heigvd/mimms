@@ -1,16 +1,14 @@
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
-import { isHuman, ResourceType } from './resourceType';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ResourceContainerType } from './resourceContainer';
+import { ResourceType, isHuman } from './resourceType';
 
 /**
  * Resolves which location new resources should be sent to
- * @params state
- * @returns location
  */
-export function resourceArrivalResolution(
+export function resourceArrivalLocationResolution(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): LOCATION_ENUM {
@@ -21,7 +19,7 @@ export function resourceArrivalResolution(
     const mcsArrived = so.flags.MCS_ARRIVED;
     const pcBuilt = so.flags.PC_BUILT;
 
-    if (mcsArrived && acsArrived && pcBuilt) {
+    if (acsArrived && mcsArrived && pcBuilt) {
       return LOCATION_ENUM.PC;
     }
   }
@@ -59,9 +57,9 @@ export function resourceContainerCanArrive(
  * @returns boolean
  */
 export function doesOrderRespectHierarchy(
+  state: Readonly<MainSimulationState>,
   actorUid: ActorId,
-  sourceLocation: LOCATION_ENUM,
-  state: Readonly<MainSimulationState>
+  sourceLocation: LOCATION_ENUM
 ): boolean {
   const actor = state.getActorById(actorUid)!;
   // Actors whose location is remote are irrelevant

@@ -7,7 +7,7 @@ import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
-  AllResourcesReleaseLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
@@ -54,13 +54,14 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
+
     taskLogger.info(
       'Patients not pretriaged before action: ' +
         getNonPreTriagedPatientsSize(state, this.locationSource)
     );
     const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-    ResourceState.getResourcesForTask(state, this.Uid).map(resource => {
+    ResourceState.getFreeResourcesByTask(state, this.Uid).map(resource => {
       if (
         (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY >=
         TIME_REQUIRED_FOR_PATIENT_PRETRI
@@ -89,7 +90,7 @@ export class PreTriageTask extends TaskBase {
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
       );
       localEventManager.queueLocalEvent(
-        new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid)
+        new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
       );
 
       //get distinct pretriage categories with count

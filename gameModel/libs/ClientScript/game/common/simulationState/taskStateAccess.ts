@@ -1,11 +1,11 @@
 import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { ActorId, TaskId } from '../baseTypes';
 import { TaskBase, TaskStatus } from '../tasks/taskBase';
+import { PorterTask } from '../tasks/taskBasePorter';
+import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
-import { LOCATION_ENUM } from './locationState';
-import { getStateActorSymbolicLocation } from '../actors/actorLogic';
-import { PorterTask } from '../tasks/taskBasePorter';
 import { getIdleTask } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
@@ -57,17 +57,6 @@ export function fetchAvailableStandardTasksForActorAndLocation(
   }
 }
 
-export function fetchTasksWithResources(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId
-): Readonly<TaskBase>[] {
-  const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
-  const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-  return Object.values(getAllTasks(state)).filter(ta =>
-    tasksIdWhereResources.find(taskId => taskId == ta.Uid)
-  );
-}
-
 export function isBrancardageTaskForTargetLocation(
   state: Readonly<MainSimulationState>,
   targetLocation: LOCATION_ENUM
@@ -95,8 +84,7 @@ export function isAtLeastOneResource(
   state: Readonly<MainSimulationState>,
   task: TaskBase
 ): boolean {
-  // TODO for each type
-  return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length > 0;
+  return ResourceState.getFreeResourcesByTask(state, task.Uid).length > 0;
 }
 
 /**

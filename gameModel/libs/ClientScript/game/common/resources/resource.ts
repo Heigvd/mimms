@@ -1,43 +1,57 @@
-import { ResourceId, TaskId } from '../baseTypes';
+import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';
 
+const RESOURCE_SEED_ID: ResourceId = 7000;
+
 /**
  * A resource is someone / something at disposal of actors to perform tasks.
- * <p>
- * A resource is owned by an actor and can be assigned to an activity by this actor.
- * <p>
- * The kind allows to know which tasks the resource can perform and with which skill level.
  */
 export class Resource {
-  private static IdSeed = 1000;
+  private static idProvider: ResourceId = RESOURCE_SEED_ID;
+
+  public static resetIdSeed() {
+    Resource.idProvider = RESOURCE_SEED_ID;
+  }
+
   public readonly Uid: ResourceId;
 
   /** What is it for a resource (fixed through time) */
   public readonly type: ResourceType;
 
-  /** What the resource do currently */
-  public currentActivity: TaskId | null;
-
   /** Where is the resource currently */
   public currentLocation: LOCATION_ENUM;
 
-  /** Resource is cumulating time across timejumps to accomplish a task */
+  /** What the resource do currently */
+  public currentActivity: TaskId | null;
+
+  /** Resource is cumulating time across time-jumps to accomplish a task */
   public cumulatedUnusedTime: number;
+
+  /** Action that has reserved this resource */
+  public reservationActionId: ActionId | undefined;
 
   constructor(
     type: Resource['type'],
-    currentLocation: LOCATION_ENUM,
+    currentLocation: Resource['currentLocation'] = LOCATION_ENUM.remote,
     currentActivity: Resource['currentActivity'] = null
   ) {
+    this.Uid = ++Resource.idProvider;
     this.type = type;
-    this.currentActivity = currentActivity;
-    this.Uid = Resource.IdSeed++;
-    this.cumulatedUnusedTime = 0;
     this.currentLocation = currentLocation;
+    this.currentActivity = currentActivity;
+    this.cumulatedUnusedTime = 0;
   }
 
-  static resetIdSeed() {
-    this.IdSeed = 1000;
+  public reserve(actionId: ActionId) {
+    this.reservationActionId = actionId;
+  }
+
+  public isReserved(): boolean {
+    return this.reservationActionId != undefined;
+  }
+
+  public unReserve(): void {
+    this.reservationActionId = undefined;
   }
 }

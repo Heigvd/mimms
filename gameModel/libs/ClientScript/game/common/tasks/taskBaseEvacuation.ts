@@ -7,15 +7,12 @@ import { TaskBase } from './taskBase';
 import { EvacuationSubTask } from './subTask';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
+  AssignResourcesToWaitingTaskLocalEvent,
   MovePatientLocalEvent,
+  MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
-  ResourceAllocationLocalEvent,
 } from '../localEvents/localEventBase';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
-import { getIdleTaskUid } from './taskLogic';
-import { Resource } from '../resources/resource';
-import { resourceArrivalResolution } from '../resources/resourceDispatchResolution';
-import * as ResourceState from '../simulationState/resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task
@@ -152,26 +149,20 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     state: Readonly<MainSimulationState>,
     subTask: EvacuationSubTask
   ) {
-    subTask.resources.forEach((resourceId: ResourceId) => {
-      const resource: Resource = ResourceState.getResourceById(state, resourceId);
+    localEventManager.queueLocalEvent(
+      new MoveResourcesAtArrivalLocationLocalEvent(
+        subTask.parentEventId,
+        state.getSimTime(),
+        subTask.resources
+      )
+    );
 
-      localEventManager.queueLocalEvent(
-        new MoveResourcesLocalEvent(
-          subTask.parentEventId,
-          state.getSimTime(),
-          [resource.Uid],
-          resourceArrivalResolution(state, resource.type)
-        )
-      );
-
-      localEventManager.queueLocalEvent(
-        new ResourceAllocationLocalEvent(
-          subTask.parentEventId,
-          state.getSimTime(),
-          resource.Uid,
-          getIdleTaskUid(state)
-        )
-      );
-    });
+    localEventManager.queueLocalEvent(
+      new AssignResourcesToWaitingTaskLocalEvent(
+        subTask.parentEventId,
+        state.getSimTime(),
+        subTask.resources
+      )
+    );
   }
 }
