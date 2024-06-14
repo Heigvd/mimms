@@ -58,7 +58,7 @@
               "className" : "radio-message-last",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().filter(m => m.channel === ActionType.EVASAN_RADIO).slice(-1)[0]?.uid === Context.item.uid;",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.EVASAN_RADIO, Context.item.uid);",
                 "language" : "typescript"
               }
             } ],

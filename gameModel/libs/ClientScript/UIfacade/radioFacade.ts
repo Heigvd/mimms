@@ -34,6 +34,13 @@ export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioM
 }
 
 /**
+ * Is the given messageUid the most recent for given channel
+ */
+export function isLastRadioMessageForChannel(channel: ActionType, messageUid: number): boolean {
+  return getAvailableRadioMessagesForChannel(channel).slice(-1)[0]?.uid === messageUid;
+}
+
+/**
  * Set the channel type to know which is the current
  */
 export function setChannelType(channel: ActionType) {
