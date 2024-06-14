@@ -201,6 +201,31 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "resourceCounter squareCounter",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "currentResourcesCounter",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "counter-resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "counterText-resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
                                                     "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
                                                     "layoutStyle" : { },
                                                     "style" : { },
@@ -213,6 +238,23 @@
                                                   "type" : "Text"
                                                 }, {
                                                   "props" : {
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "currentResources",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
                                                     "icon" : "hospital-user",
                                                     "label" : {
                                                       "@class" : "Script",
@@ -929,10 +971,10 @@
                               "type" : "Icon"
                             }, {
                               "props" : {
-                                "className" : "menuItem",
+                                "className" : "",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Outside",
-                                  "className" : "active-selected-item",
+                                  "className" : "active-selected-item ",
                                   "condition" : {
                                     "@class" : "Script",
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
@@ -946,16 +988,31 @@
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
                                     "language" : "typescript"
                                   }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "walkieTalkie-selected",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "walkieTalkie",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+                                    "language" : "typescript"
+                                  }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
                                   "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
                                   "language" : "typescript"
                                 },
-                                "icon" : "comment",
                                 "layoutClassName" : "menuItem-container",
                                 "layoutStyle" : {
-                                  "pointerEvents" : "auto"
+                                  "width" : "100%"
                                 },
                                 "localScriptEval" : {
                                   "script" : {
@@ -964,15 +1021,16 @@
                                     "language" : "TypeScript"
                                   }
                                 },
-                                "name" : "radio",
-                                "style" : { },
-                                "unreadCount" : {
+                                "script" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
+                                  "content" : "\"/walkie-talkie-solid.svg\"",
                                   "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "width" : "100%"
                                 }
                               },
-                              "type" : "Icon"
+                              "type" : "Image"
                             }, {
                               "props" : {
                                 "className" : "menuItem",
@@ -992,10 +1050,18 @@
                                     "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
                                     "language" : "typescript"
                                   }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "unauthorizedAction",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                    "language" : "typescript"
+                                  }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
+                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",
@@ -1341,7 +1407,73 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
-                                "className" : "h1title",
+                                "layoutStyle" : { },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "\"/MIMMS_logo.png\"",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "width" : "25rem"
+                                }
+                              },
+                              "type" : "Image"
+                            }, {
+                              "props" : {
+                                "className" : "mimms_h2title",
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "paddingTop" : "1rem"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'youre-not-here')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "maxWidth" : "25rem",
+                                  "paddingTop" : "1rem"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'when-youre-here')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "waitingToPlay",
+                            "onExitActions" : { },
+                            "style" : {
+                              "padding" : "3rem",
+                              "width" : "40rem"
+                            }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "mimms_h1title",
                                 "layoutStyle" : {
                                   "margin" : "auto"
                                 },
@@ -1429,7 +1561,7 @@
                                 "className" : "button-L button-secondaryColor",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>cancel</p>\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
                                   "language" : "TypeScript"
                                 },
                                 "layoutStyle" : { },

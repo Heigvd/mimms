@@ -143,6 +143,15 @@
                 "children" : [ {
                   "props" : {
                     "className" : "noPadding noMargin",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "presentResources",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "layoutClassName" : "noPadding noMargin",
                     "layoutStyle" : { },
                     "name" : "resource type name",
@@ -197,6 +206,15 @@
                     }, {
                       "props" : {
                         "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "presentResources",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "layoutClassName" : "selectableRessources ",
                         "layoutStyle" : {
                           "paddingTop" : "0px"
@@ -402,7 +420,7 @@
             },
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
               "language" : "typescript"
             },
             "label" : {
@@ -434,9 +452,18 @@
       "type" : "FlexList"
     } ],
     "className" : "noPadding noMargin",
+    "conditionnalClassNames" : [ {
+      "applyOn" : "Inside",
+      "className" : "unauthorizedAction",
+      "condition" : {
+        "@class" : "Script",
+        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction())return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+        "language" : "typescript"
+      }
+    } ],
     "disableIf" : {
       "@class" : "Script",
-      "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0].Uid);",
+      "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
       "language" : "typescript"
     },
     "layout" : {
@@ -444,7 +471,6 @@
     },
     "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
-      "paddingTop" : "15px",
       "width" : "100%"
     },
     "name" : "resources",

@@ -2,8 +2,8 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "",
-        "layoutClassName" : "h2title",
+        "className" : "mimms_h2title",
+        "layoutClassName" : "",
         "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
@@ -44,6 +44,7 @@
       "type" : "PageLoader"
     } ],
     "className" : "",
+    "conditionnalClassNames" : [ ],
     "layout" : {
       "flexDirection" : "column"
     },

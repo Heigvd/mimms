@@ -14,18 +14,43 @@
 }
 
 .highlightSelf {
-  background-color: yellow;
+  background-color: var(--yellow_base);
 }
 
 .highlightSelf::after {
   content: "self"
 }
 
+/*** EVERYTHING BELOW WIP ***/
+/*write better code */
+
+/** header matrix **/
+/* ID header */
 .matrixHeaderItem {
+  width: 6em;
+  text-align: left;
+}
+/* Roles header */
+.matrixHeaderRole{
   width: 5em;
   text-align: center;
 }
 
+.matrixHeader > *{
+  font-weight: var(--boldWeight);
+}
+
+/** rows **/
 .matrixRowItem {
   width: 5em;
+}
+
+.HeaderItem {
+  width: 5em;
+  text-align: left;
+}
+
+.playerIdentity{
+  width: 6em;
+  text-align: left;
 }
