@@ -11,7 +11,7 @@ time-forward	advance time	avancer le temps
 time-rewind	rewind time	reculer le temps
 available	available	disponible
 cancel	cancel	annuler
-send	send	envoyer
+send	Confirm	Valider
 casu-transmission	CASU transmission	Transmission CASU
 error	You can't do that yet	Vous ne pouvez pas faire ça actuellement
 press-start	Press start to launch the game	Appuyez sur "démarrer" pour lancer la simulation

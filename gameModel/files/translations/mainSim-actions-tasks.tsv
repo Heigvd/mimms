@@ -33,7 +33,7 @@ casu-message-title	Send message to CASU	Envoyer un message à CASU
 casu-message-title-MET	Send MET	Envoi du MET	
 casu-message-title-HANE	Send HANE	Envoi du HANE	
 casu-message-title-E	Send E	Envoi du E	
-casu-message-title-METHANE	Send METHANE	Envoie du METHANE	
+casu-message-title-METHANE	Send METHANE	Envoi METHANE	
 casu-message-title-R	Request for hospital information	Demande d'informations sur hôpitaux	
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
@@ -62,7 +62,7 @@ define-meetingPoint-title	Define meeting point	Placer le point de rassemblement
 define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
 define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
 move-actor-title	Move to another location	Se déplacer	
-move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)	
+move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
 move-actor-feedback	Moving	En déplacement	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
