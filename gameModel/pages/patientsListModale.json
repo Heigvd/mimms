@@ -277,7 +277,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  let fakevar= 666;\n  'A'",
+                              "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('A');",
                               "language" : "TypeScript"
                             }
                           },
@@ -292,7 +292,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'EtCO2'",
+                                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('EtCO2');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -327,7 +327,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  let fakevar= 666;\n  'B'",
+                              "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('B');",
                               "language" : "TypeScript"
                             }
                           },
@@ -414,7 +414,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  let fakevar= 666;\n  'C'",
+                              "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('C');",
                               "language" : "TypeScript"
                             }
                           },
@@ -501,7 +501,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  let fakevar= 666;\n  'D'",
+                              "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('D');",
                               "language" : "TypeScript"
                             }
                           },
@@ -516,7 +516,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  let fakevar= 666;\n  'Glasgow'",
+                                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('A');",
                                   "language" : "TypeScript"
                                 }
                               },

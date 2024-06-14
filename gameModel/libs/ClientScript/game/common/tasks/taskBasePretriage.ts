@@ -54,7 +54,6 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
-
     taskLogger.info(
       'Patients not pretriaged before action: ' +
         getNonPreTriagedPatientsSize(state, this.locationSource)
