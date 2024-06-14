@@ -85,7 +85,7 @@ function initMainState(): MainSimulationState {
 
   const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
   // AL's default location (symbolicLocation) doesn't exist yet
-  testAL.Location = LOCATION_ENUM.chantier;
+  testAL.setLocation(LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(
@@ -98,14 +98,36 @@ function initMainState(): MainSimulationState {
     'mainAccident'
   );
 
-  const taskPretri = new PreTriageTask(
+  const taskPretriChantier = new PreTriageTask(
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
     1,
     5,
     'AL',
-    [LOCATION_ENUM.chantier],
+    LOCATION_ENUM.chantier,
+    []
+  );
+
+  const taskPretriPMA = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.PMA,
+    []
+  );
+
+  const taskPretriNidDeBlesses = new PreTriageTask(
+    'pre-tri-title',
+    'pre-tri-desc',
+    'pretriage-task-completed',
+    1,
+    5,
+    'AL',
+    LOCATION_ENUM.nidDeBlesses,
     []
   );
 
@@ -201,7 +223,9 @@ function initMainState(): MainSimulationState {
       patients: loadPatients(),
       tasks: [
         taskWaiting,
-        taskPretri,
+        taskPretriChantier,
+        taskPretriPMA,
+        taskPretriNidDeBlesses,
         taskBrancardageChantier,
         taskBrancardageNidDeBlesses,
         taskHealing,

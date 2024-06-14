@@ -579,14 +579,6 @@ export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
         LOCATION_ENUM.meetingPoint
       )
     );
-    localEventManager.queueLocalEvent(
-      new ResourceAllocationLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        resourceUid,
-        getIdleTaskUid(state)
-      )
-    );
   }
 }
 
